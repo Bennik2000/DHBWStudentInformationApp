@@ -10,8 +10,8 @@ class ScheduleWidget extends StatelessWidget {
   final Schedule schedule;
   final DateTime displayStart;
   final DateTime displayEnd;
-  final int displayStartHour = 9;
-  final int displayEndHour = 21;
+  final int displayStartHour = 7;
+  final int displayEndHour = 19;
 
   const ScheduleWidget({
     Key key,
@@ -64,7 +64,6 @@ class ScheduleWidget extends StatelessWidget {
     for (var i = displayStartHour; i < displayEndHour; i++) {
       var hourLabelText = i.toString() + ":00";
 
-      print(i);
       labelWidgets.add(Positioned(
         top: hourHeight * (i - displayStartHour),
         left: 0,

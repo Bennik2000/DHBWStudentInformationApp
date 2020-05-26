@@ -1,5 +1,6 @@
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
+import 'package:dhbwstuttgart/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_entry_widget.dart';
 import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,16 +32,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  Schedule schedule;
+  int days = 0;
 
-  void _incrementCounter() {
+  Future<void> _fetchNextDay() async {
+    var s = await RaplaScheduleSource(
+            "https://rapla.dhbw-stuttgart.de/rapla?key=txB1FOi5xd1wUJBWuX8lJhGDUgtMSFmnKLgAG_NVMhCn4AzVqTBQM-yMcTKkIDCa")
+        .querySchedule(DateTime(2020, 05, 26).add(Duration(days: days)),
+            DateTime(2020, 05, 27).add(Duration(days: days)));
+    days++;
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      schedule = s;
     });
   }
 
@@ -57,26 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: ScheduleWidget(
-        schedule: Schedule(<ScheduleEntry>[
-          ScheduleEntry(
-            DateTime(2020, 05, 26, 10, 00),
-            DateTime(2020, 05, 26, 11, 20),
-            "Informatik",
-            "-",
-          ),
-          ScheduleEntry(
-            DateTime(2020, 05, 26, 11, 20),
-            DateTime(2020, 05, 26, 13, 00),
-            "Mathe",
-            "-",
-          ),
-          ScheduleEntry(
-            DateTime(2020, 05, 26, 13, 15),
-            DateTime(2020, 05, 26, 15, 45),
-            "Physik",
-            "-",
-          ),
-        ]),
+        schedule: schedule,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _fetchNextDay,
+        tooltip: 'Increment',
+        child: new Icon(Icons.add),
       ),
     );
   }
