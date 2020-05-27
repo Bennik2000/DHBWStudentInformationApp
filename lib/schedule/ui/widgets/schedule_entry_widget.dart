@@ -19,26 +19,29 @@ class ScheduleEntryWidget extends StatelessWidget {
     return Card(
       color: Colors.redAccent,
       elevation: 8,
-      margin: EdgeInsets.fromLTRB(0, 2, 0, 2),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              time,
-              style: TextStyle(fontSize: 15),
-            ),
-            Text(
-              scheduleEntry.title,
-              style: TextStyle(fontSize: 25),
-            ),
-            Flexible(
-              child: Container(),
-            ),
-            Text(scheduleEntry.details),
-          ],
+      margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+      child: InkWell(
+        onTap: () {},
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: <Widget>[
+              Text(
+                time,
+                style: TextStyle(fontSize: 15),
+              ),
+              Text(
+                scheduleEntry.title,
+                style: TextStyle(fontSize: 25),
+              ),
+              Flexible(
+                child: Container(),
+              ),
+              Text(scheduleEntry.details),
+            ],
+          ),
         ),
       ),
     );

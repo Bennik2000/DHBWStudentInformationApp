@@ -38,7 +38,8 @@ class ScheduleWidget extends StatelessWidget {
     var hourHeight = height / (displayEndHour - displayStartHour);
     var minuteHeight = hourHeight / 60;
 
-    List<Widget> entryWidgets = buildEntryWidgets(hourHeight, minuteHeight);
+    List<Widget> entryWidgets =
+        buildEntryWidgets(hourHeight, minuteHeight, width - 50 - 20);
     List<Widget> labelWidgets = buildTimeLabelWidgets(hourHeight);
 
     return Stack(
@@ -76,26 +77,56 @@ class ScheduleWidget extends StatelessWidget {
     return labelWidgets;
   }
 
-  List<Widget> buildEntryWidgets(double hourHeight, double minuteHeight) {
+  List<Widget> buildEntryWidgets(
+      double hourHeight, double minuteHeight, double width) {
     var entryWidgets = List<Widget>();
 
-    for (ScheduleEntry value in schedule?.entries ?? []) {
+    var entries = schedule?.entries ?? <ScheduleEntry>[];
+    entries.sort((ScheduleEntry a1, ScheduleEntry a2) {
+      return a1.start.compareTo(a2.start);
+    });
+
+    for (ScheduleEntry value in entries) {
+      var interferingEntries = getInterferingEntries(entries, value);
+
+      var index = interferingEntries.indexOf(value);
+
       var yStart = hourHeight * (value.start.hour - displayStartHour) +
           minuteHeight * value.start.minute;
 
       var yEnd = hourHeight * (value.end.hour - displayStartHour) +
           minuteHeight * value.end.minute;
 
+      var entryLeft = (width / interferingEntries.length) * index;
+      var entryWidth = width / interferingEntries.length;
+
       var widget = Positioned(
         top: yStart,
-        left: 0,
+        left: entryLeft,
         height: yEnd - yStart,
-        right: 0,
+        width: entryWidth,
         child: ScheduleEntryWidget(scheduleEntry: value),
       );
 
       entryWidgets.add(widget);
     }
     return entryWidgets;
+  }
+
+  List<ScheduleEntry> getInterferingEntries(
+      List<ScheduleEntry> entries, ScheduleEntry entry) {
+    var interferences = <ScheduleEntry>[];
+
+    for (var possibleInterference in entries) {
+      if (possibleInterference == entry) {
+        interferences.add(entry);
+        continue;
+      }
+      if (possibleInterference.start.isBefore(entry.end) &&
+          possibleInterference.end.isAfter(entry.start))
+        interferences.add(possibleInterference);
+    }
+
+    return interferences;
   }
 }
