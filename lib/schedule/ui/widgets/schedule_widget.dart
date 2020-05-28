@@ -12,25 +12,24 @@ class ScheduleWidget extends StatelessWidget {
   final DateTime displayEnd;
   final int displayStartHour = 7;
   final int displayEndHour = 19;
+  final bool hideTimeLabels;
 
   const ScheduleWidget({
     Key key,
     this.schedule,
     this.displayStart,
     this.displayEnd,
+    this.hideTimeLabels,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        height: 1000,
-        child: LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-          return buildWithSize(
-              context, constraints.biggest.width, constraints.biggest.height);
-        }),
-      ),
+    return Container(
+      child: LayoutBuilder(
+          builder: (BuildContext context, BoxConstraints constraints) {
+        return buildWithSize(
+            context, constraints.biggest.width, constraints.biggest.height);
+      }),
     );
   }
 
@@ -38,23 +37,25 @@ class ScheduleWidget extends StatelessWidget {
     var hourHeight = height / (displayEndHour - displayStartHour);
     var minuteHeight = hourHeight / 60;
 
-    List<Widget> entryWidgets =
-        buildEntryWidgets(hourHeight, minuteHeight, width - 50 - 20);
+    List<Widget> entryWidgets = buildEntryWidgets(
+        hourHeight, minuteHeight, width - (hideTimeLabels ? 0 : 50) - 20);
     List<Widget> labelWidgets = buildTimeLabelWidgets(hourHeight);
 
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        ScheduleGrid(displayStartHour, displayEndHour, 50),
+        ScheduleGrid(displayStartHour, displayEndHour, hideTimeLabels ? 0 : 50),
         Padding(
-          padding: EdgeInsets.fromLTRB(50, 0, 20, 0),
+          padding: EdgeInsets.fromLTRB(hideTimeLabels ? 0 : 50, 0, 20, 0),
           child: Stack(
             children: entryWidgets,
           ),
         ),
-        Stack(
-          children: labelWidgets,
-        )
+        hideTimeLabels
+            ? Container()
+            : Stack(
+                children: labelWidgets,
+              )
       ],
     );
   }

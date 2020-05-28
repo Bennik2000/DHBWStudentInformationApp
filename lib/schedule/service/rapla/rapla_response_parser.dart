@@ -36,8 +36,12 @@ class RaplaResponseParser {
         professor = properties[PROFESSOR_NAME_LABEL];
       }
 
-      var scheduleEntry =
-          new ScheduleEntry(start, end, title, details, professor);
+      var scheduleEntry = new ScheduleEntry(
+          start: start,
+          end: end,
+          title: title,
+          details: details,
+          professor: professor);
 
       schedule.addEntry(scheduleEntry);
     }

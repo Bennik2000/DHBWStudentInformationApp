@@ -1,6 +1,8 @@
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:dhbwstuttgart/schedule/service/rapla/rapla_schedule_source.dart';
+import 'package:dhbwstuttgart/schedule/ui/viewmodels/schedule_view_model.dart';
+import 'package:dhbwstuttgart/schedule/ui/weekly_schedule_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_entry_widget.dart';
 import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -32,35 +34,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Schedule schedule;
-  int days = 0;
-
   Future<void> _fetchNextDay() async {
-    var s = await RaplaScheduleSource(
-            "https://rapla.dhbw-stuttgart.de/rapla?key=txB1FOi5xd1wUJBWuX8lJhGDUgtMSFmnKLgAG_NVMhCn4AzVqTBQM-yMcTKkIDCa")
-        .querySchedule(DateTime(2020, 05, 26).add(Duration(days: days)),
-            DateTime(2020, 05, 27).add(Duration(days: days)));
-    days++;
-    setState(() {
-      schedule = s;
-    });
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: ScheduleWidget(
-        schedule: schedule,
-      ),
+      body: WeeklySchedulePage(),
       floatingActionButton: FloatingActionButton(
         onPressed: _fetchNextDay,
         tooltip: 'Increment',
