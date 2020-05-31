@@ -123,6 +123,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.1"
+  http_client_helper:
+    dependency: "direct main"
+    description:
+      name: http_client_helper
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   http_multi_server:
     dependency: transitive
     description:
@@ -200,6 +207,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4"
   node_interop:
     dependency: transitive
     description:
@@ -298,6 +312,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.4.0"
+  property_change_notifier:
+    dependency: "direct main"
+    description:
+      name: property_change_notifier
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.0"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.5+1"
   pub_semver:
     dependency: transitive
     description:

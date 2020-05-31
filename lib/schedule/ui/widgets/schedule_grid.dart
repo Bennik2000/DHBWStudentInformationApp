@@ -22,13 +22,22 @@ class ScheduleGridCustomPaint extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
+      ..color = Colors.black26
+      ..strokeWidth = 1;
+
+    final secondaryPaint = Paint()
       ..color = Colors.black12
       ..strokeWidth = 1;
 
-    for (var i = fromHour; i < toHour; i++) {
-      var y = (size.height / (toHour - fromHour)) * ((i - fromHour) + 1);
+    var lines = toHour - fromHour;
 
-      canvas.drawLine(Offset(0, y), Offset(size.width, y), paint);
+    lines *= 2;
+
+    for (var i = 0; i < lines; i++) {
+      var y = (size.height / lines) * i;
+
+      canvas.drawLine(Offset(0, y), Offset(size.width, y),
+          i % 2 == 0 ? paint : secondaryPaint);
     }
 
     canvas.drawLine(Offset(timeLabelsWidth, 0),
@@ -37,7 +46,6 @@ class ScheduleGridCustomPaint extends CustomPainter {
 
   @override
   bool shouldRepaint(CustomPainter oldDelegate) {
-    // TODO: implement shouldRepaint
-    return true;
+    return false;
   }
 }

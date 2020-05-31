@@ -28,6 +28,9 @@ dependencies:
   http: ^0.12.1
   sqflite: ^1.3.0+2
   path_provider: ^1.6.9
+  provider: any
+  property_change_notifier: ^0.2.0
+  http_client_helper: ^0.2.1
 
 
 dev_dependencies:

@@ -12,34 +12,46 @@ class ScheduleEntryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var formatter = new DateFormat('HH:mm');
-    var time = formatter.format(scheduleEntry.start) +
-        " - " +
-        formatter.format(scheduleEntry.end);
+    var timeStart = formatter.format(scheduleEntry.start);
+    var timeEnd = formatter.format(scheduleEntry.end);
 
     return Card(
       color: Colors.redAccent,
       elevation: 8,
-      margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+      margin: EdgeInsets.fromLTRB(1, 0, 1, 0),
       child: InkWell(
         onTap: () {},
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(4.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                time,
-                style: TextStyle(fontSize: 15),
-              ),
-              Text(
-                scheduleEntry.title,
-                style: TextStyle(fontSize: 25),
+                timeStart,
+                style: TextStyle(fontSize: 14),
               ),
               Flexible(
+                fit: FlexFit.tight,
+                flex: 1,
+                child: Text(
+                  scheduleEntry.title,
+                  softWrap: true,
+                  overflow: TextOverflow.clip,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Flexible(
+                fit: FlexFit.loose,
+                flex: 0,
                 child: Container(),
               ),
-              Text(scheduleEntry.details),
+              //Text(scheduleEntry.details),
+              Text(
+                timeEnd,
+                style: TextStyle(fontSize: 14),
+              ),
             ],
           ),
         ),

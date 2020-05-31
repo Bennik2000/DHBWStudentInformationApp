@@ -38,11 +38,11 @@ class ScheduleEntryEntity extends DatabaseEntity {
   Map<String, dynamic> toMap() {
     return {
       "id": _scheduleEntry.id,
-      "start": _scheduleEntry.start?.millisecondsSinceEpoch,
-      "end": _scheduleEntry.end?.millisecondsSinceEpoch,
-      "details": _scheduleEntry.details,
-      "professor": _scheduleEntry.professor,
-      "title": _scheduleEntry.title,
+      "start": _scheduleEntry.start?.millisecondsSinceEpoch ?? 0,
+      "end": _scheduleEntry.end?.millisecondsSinceEpoch ?? 0,
+      "details": _scheduleEntry.details ?? "",
+      "professor": _scheduleEntry.professor ?? "",
+      "title": _scheduleEntry.title ?? "",
     };
   }
 

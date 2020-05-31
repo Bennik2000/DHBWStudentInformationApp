@@ -68,6 +68,11 @@ class DatabaseAccess {
       int limit,
       int offset}) async {
     Database db = await _database;
+
+    for (int i = 0; i < whereArgs.length; i++) {
+      whereArgs[i] = whereArgs[i] ?? "";
+    }
+
     return await db.query(
       table,
       distinct: distinct,

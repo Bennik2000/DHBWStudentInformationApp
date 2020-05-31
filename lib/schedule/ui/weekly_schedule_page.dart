@@ -1,7 +1,9 @@
+import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/ui/viewmodels/schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:property_change_notifier/property_change_notifier.dart';
 
 class WeeklySchedulePage extends StatefulWidget {
   @override
@@ -10,6 +12,7 @@ class WeeklySchedulePage extends StatefulWidget {
 
 class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   WeeklyScheduleViewModel viewModel;
+  Schedule schedule;
 
   _WeeklySchedulePageState() {
     viewModel = WeeklyScheduleViewModel();
@@ -19,37 +22,90 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   void initState() {
     super.initState();
 
-    viewModel.refresh();
+    viewModel.updateSchedule();
+  }
+
+  void _previousWeek() async {
+    await viewModel.previousWeek();
+  }
+
+  void _nextWeek() async {
+    await viewModel.nextWeek();
+  }
+
+  void _goToToday() async {
+    await viewModel.goToToday();
+  }
+
+  void _refresh() async {
+    await viewModel.updateSchedule();
   }
 
   @override
   Widget build(BuildContext context) {
-    var dailyWidgets = <Widget>[];
-
-    var startDate = viewModel.currentDateStart;
-    var endDate = startDate.add(Duration(days: 1));
-
-    bool isFirst = true;
-
-    while (startDate.isBefore(viewModel.currentDateEnd)) {
-      dailyWidgets.add(Expanded(
-        child: ScheduleWidget(
-          schedule: viewModel.weekSchedule?.trim(startDate, endDate),
-          displayStart: startDate,
-          displayEnd: endDate,
-          hideTimeLabels: !isFirst,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Rapla"),
+      ),
+      body: PropertyChangeProvider(
+        value: viewModel,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            PropertyChangeConsumer(
+              properties: ["isUpdating"],
+              builder: (BuildContext context, WeeklyScheduleViewModel model,
+                  Set properties) {
+                return Visibility(
+                  child: LinearProgressIndicator(),
+                  visible: viewModel.isUpdating,
+                  maintainSize: true,
+                );
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                FlatButton(
+                  child: Icon(Icons.chevron_left),
+                  onPressed: _previousWeek,
+                ),
+                FlatButton(
+                  child: Icon(Icons.today),
+                  onPressed: _goToToday,
+                ),
+                FlatButton(
+                  child: Icon(Icons.chevron_right),
+                  onPressed: _nextWeek,
+                ),
+              ],
+            ),
+            Expanded(
+              child: PropertyChangeConsumer(
+                properties: [
+                  "weekSchedule",
+                  "currentDateStart",
+                  "currentDateEnd",
+                ],
+                builder: (BuildContext context, WeeklyScheduleViewModel model,
+                    Set properties) {
+                  return ScheduleWidget(
+                    schedule: model.weekSchedule,
+                    displayStart: model.currentDateStart,
+                    displayEnd: model.currentDateEnd,
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-      ));
-
-      isFirst = false;
-      startDate = endDate;
-      endDate = endDate.add(Duration(days: 1));
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: dailyWidgets.sublist(0, 3),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _refresh,
+        tooltip: 'Refresh',
+        child: new Icon(Icons.refresh),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_entry_widget.dart';
@@ -12,14 +13,12 @@ class ScheduleWidget extends StatelessWidget {
   final DateTime displayEnd;
   final int displayStartHour = 7;
   final int displayEndHour = 19;
-  final bool hideTimeLabels;
 
   const ScheduleWidget({
     Key key,
     this.schedule,
     this.displayStart,
     this.displayEnd,
-    this.hideTimeLabels,
   }) : super(key: key);
 
   @override
@@ -37,25 +36,24 @@ class ScheduleWidget extends StatelessWidget {
     var hourHeight = height / (displayEndHour - displayStartHour);
     var minuteHeight = hourHeight / 60;
 
-    List<Widget> entryWidgets = buildEntryWidgets(
-        hourHeight, minuteHeight, width - (hideTimeLabels ? 0 : 50) - 20);
+    List<Widget> entryWidgets =
+        buildEntryWidgets(hourHeight, minuteHeight, width - 50 - 20);
+
     List<Widget> labelWidgets = buildTimeLabelWidgets(hourHeight);
 
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        ScheduleGrid(displayStartHour, displayEndHour, hideTimeLabels ? 0 : 50),
+        ScheduleGrid(displayStartHour, displayEndHour, 50),
         Padding(
-          padding: EdgeInsets.fromLTRB(hideTimeLabels ? 0 : 50, 0, 20, 0),
+          padding: EdgeInsets.fromLTRB(50, 0, 20, 0),
           child: Stack(
             children: entryWidgets,
           ),
         ),
-        hideTimeLabels
-            ? Container()
-            : Stack(
-                children: labelWidgets,
-              )
+        Stack(
+          children: labelWidgets,
+        )
       ],
     );
   }
@@ -80,16 +78,57 @@ class ScheduleWidget extends StatelessWidget {
 
   List<Widget> buildEntryWidgets(
       double hourHeight, double minuteHeight, double width) {
-    var entryWidgets = List<Widget>();
-
-    var entries = schedule?.entries ?? <ScheduleEntry>[];
+    /*var entries = schedule?.entries ?? <ScheduleEntry>[];
     entries.sort((ScheduleEntry a1, ScheduleEntry a2) {
       return a1.start.compareTo(a2.start);
-    });
+    });*/
+    if (schedule == null) return <Widget>[];
+    if (schedule.entries.length == 0) return <Widget>[];
+
+    var entryWidgets = List<Widget>();
+
+    var difference = schedule.getEndDate()?.difference(schedule.getStartDate());
+
+    var hours = (difference?.inHours ?? 0) / 24.0;
+    var days = hours.ceil();
+
+    var columnWidth = width / days;
+
+    DateTime columnStartDate = toStartOfDay(schedule.getStartDate());
+    DateTime columnEndDate = tomorrow(columnStartDate);
+
+    for (int i = 0; i < days; i++) {
+      var xPosition = columnWidth * i;
+      var maxWidth = columnWidth;
+
+      var columnSchedule = schedule.trim(columnStartDate, columnEndDate);
+
+      entryWidgets.addAll(buildEntryWidgetsForColumn(
+        maxWidth,
+        hourHeight,
+        minuteHeight,
+        xPosition,
+        columnSchedule.entries,
+      ));
+
+      columnStartDate = columnEndDate;
+      columnEndDate = tomorrow(columnEndDate);
+    }
+
+    return entryWidgets;
+  }
+
+  List<Widget> buildEntryWidgetsForColumn(
+    double maxWidth,
+    double hourHeight,
+    double minuteHeight,
+    double xPosition,
+    List<ScheduleEntry> entries,
+  ) {
+    var entryWidgets = <Widget>[];
 
     for (ScheduleEntry value in entries) {
       var interferingEntries = getInterferingEntries(entries, value);
-
       var index = interferingEntries.indexOf(value);
 
       var yStart = hourHeight * (value.start.hour - displayStartHour) +
@@ -98,12 +137,12 @@ class ScheduleWidget extends StatelessWidget {
       var yEnd = hourHeight * (value.end.hour - displayStartHour) +
           minuteHeight * value.end.minute;
 
-      var entryLeft = (width / interferingEntries.length) * index;
-      var entryWidth = width / interferingEntries.length;
+      var entryLeft = (maxWidth / interferingEntries.length) * index;
+      var entryWidth = maxWidth / interferingEntries.length;
 
       var widget = Positioned(
         top: yStart,
-        left: entryLeft,
+        left: entryLeft + xPosition,
         height: yEnd - yStart,
         width: entryWidth,
         child: ScheduleEntryWidget(scheduleEntry: value),
@@ -111,6 +150,7 @@ class ScheduleWidget extends StatelessWidget {
 
       entryWidgets.add(widget);
     }
+
     return entryWidgets;
   }
 

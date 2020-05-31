@@ -1,5 +1,4 @@
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
-import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_widget.dart';
 
 class Schedule {
   final List<ScheduleEntry> entries;
@@ -12,7 +11,8 @@ class Schedule {
   }
 
   void merge(Schedule schedule) {
-    entries.addAll(schedule.entries);
+    entries.addAll(schedule
+        .entries); // TODO: Return new schedule instead of adding it to the list
   }
 
   Schedule trim(DateTime startDate, DateTime endDate) {
@@ -25,5 +25,25 @@ class Schedule {
     }
 
     return Schedule.fromList(newList);
+  }
+
+  DateTime getStartDate() {
+    if (entries.length == 0) return null;
+
+    var date = entries?.reduce((ScheduleEntry a, ScheduleEntry b) {
+      return a.start.isBefore(b.start) ? a : b;
+    })?.start;
+
+    return date;
+  }
+
+  DateTime getEndDate() {
+    if (entries.length == 0) return null;
+
+    var date = entries?.reduce((ScheduleEntry a, ScheduleEntry b) {
+      return a.end.isAfter(b.end) ? a : b;
+    })?.end;
+
+    return date;
   }
 }
