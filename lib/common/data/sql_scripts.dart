@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS ScheduleEntries
   end INTEGER,
   title TEXT,
   details TEXT,
-  professor TEXT
+  professor TEXT,
+  type INTEGER
 );
 ''',
     ],

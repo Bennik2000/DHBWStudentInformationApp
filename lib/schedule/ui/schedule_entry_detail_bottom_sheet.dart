@@ -88,14 +88,16 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
               ),
             ),
             Text(scheduleEntry.professor ?? ""),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-              child: Container(
-                color: Colors.black12,
-                height: 1,
-              ),
-            ),
-            Text("Details... lorem ipsum dolor sit amet"),
+            scheduleEntry.details?.isEmpty ?? true
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    child: Container(
+                      color: Colors.black12,
+                      height: 1,
+                    ),
+                  ),
+            Text(scheduleEntry.details ?? ""),
           ],
         ),
       ),

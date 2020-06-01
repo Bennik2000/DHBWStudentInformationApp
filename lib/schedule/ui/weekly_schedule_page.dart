@@ -67,15 +67,6 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            PropertyChangeConsumer(
-              properties: ["isUpdating"],
-              builder: (BuildContext context, WeeklyScheduleViewModel model,
-                  Set properties) {
-                return model.isUpdating
-                    ? LinearProgressIndicator()
-                    : Container();
-              },
-            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -94,23 +85,38 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
               ],
             ),
             Expanded(
-              child: PropertyChangeConsumer(
-                properties: [
-                  "weekSchedule",
-                  "currentDateStart",
-                  "currentDateEnd",
-                ],
-                builder: (BuildContext context, WeeklyScheduleViewModel model,
-                    Set properties) {
-                  return ScheduleWidget(
-                    schedule: model.weekSchedule,
-                    displayStart: model.currentDateStart,
-                    displayEnd: model.currentDateEnd,
-                    onScheduleEntryTap: (entry) {
-                      _onScheduleEntryTap(context, entry);
+              child: Stack(
+                children: <Widget>[
+                  PropertyChangeConsumer(
+                    properties: [
+                      "weekSchedule",
+                      "currentDateStart",
+                      "currentDateEnd",
+                    ],
+                    builder: (BuildContext context,
+                        WeeklyScheduleViewModel model, Set properties) {
+                      return ScheduleWidget(
+                        schedule: model.weekSchedule,
+                        displayStart:
+                            model.clippedDateStart ?? model.currentDateStart,
+                        displayEnd:
+                            model.clippedDateEnd ?? model.currentDateEnd,
+                        onScheduleEntryTap: (entry) {
+                          _onScheduleEntryTap(context, entry);
+                        },
+                      );
                     },
-                  );
-                },
+                  ),
+                  PropertyChangeConsumer(
+                    properties: ["isUpdating"],
+                    builder: (BuildContext context,
+                        WeeklyScheduleViewModel model, Set properties) {
+                      return model.isUpdating
+                          ? LinearProgressIndicator()
+                          : Container();
+                    },
+                  ),
+                ],
               ),
             ),
           ],

@@ -1,4 +1,5 @@
 import 'package:dhbwstuttgart/common/util/cancellation_token.dart';
+import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/service/rapla/rapla_response_parser.dart';
 import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
@@ -20,16 +21,21 @@ class RaplaScheduleSource extends ScheduleSource {
 
     var schedule = Schedule();
 
-    while (current.isBefore(to) && !cancellationToken.isCancelled()) {
+    while (to.isAfter(current) && !cancellationToken.isCancelled()) {
       try {
         var weekSchedule = await _fetchRaplaSource(current, cancellationToken);
         if (weekSchedule != null) schedule.merge(weekSchedule);
-      } catch (Exception) {}
+      } on OperationCancelledException {
+        rethrow;
+      } catch (e) {
+        print("Failed to fetch from rapla: ");
+        print(e.toString());
+      }
 
-      current = current.add(Duration(days: 7));
+      current = toNextWeek(current);
     }
 
-    if (cancellationToken.isCancelled()) return null;
+    if (cancellationToken.isCancelled()) throw OperationCancelledException();
 
     return schedule.trim(from, to);
   }
@@ -62,7 +68,6 @@ class RaplaScheduleSource extends ScheduleSource {
     var requestCancellationToken = http.CancellationToken();
 
     try {
-      await Future.delayed(Duration(milliseconds: 500));
       cancellationToken.setCancellationCallback(() {
         print("Cancelling request!");
         requestCancellationToken.cancel();

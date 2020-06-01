@@ -12,6 +12,14 @@ class RaplaResponseParser {
   static const String VALUE_CLASS = "value";
   static const String CLASS_NAME_LABEL = "Veranstaltungsname:";
   static const String PROFESSOR_NAME_LABEL = "Personen:";
+  static const String TYPE_TAG_NAME = "strong";
+
+  static const Map<String, ScheduleEntryType> entryTypeMapping = {
+    "Feiertag": ScheduleEntryType.PublicHoliday,
+    "Online-Format (ohne Raumbelegung)": ScheduleEntryType.Online,
+    "Vorlesung / Lehrbetrieb": ScheduleEntryType.Class,
+    "Klausur / Prüfung": ScheduleEntryType.Exam
+  };
 
   Schedule parseSchedule(String responseBody) {
     var schedule = Schedule();
@@ -29,6 +37,8 @@ class RaplaResponseParser {
       var details = "";
       var professor = "";
 
+      ScheduleEntryType type = _extractEntryType(tooltip);
+
       var infotable = tooltip[0].getElementsByClassName(INFOTABLE_CLASS);
       if (infotable.length == 1) {
         Map<String, String> properties = _parsePropertiesTable(infotable[0]);
@@ -37,16 +47,31 @@ class RaplaResponseParser {
       }
 
       var scheduleEntry = new ScheduleEntry(
-          start: start,
-          end: end,
-          title: title,
-          details: details,
-          professor: professor);
+        start: start,
+        end: end,
+        title: title,
+        details: details,
+        professor: professor,
+        type: type,
+      );
 
       schedule.addEntry(scheduleEntry);
     }
 
     return schedule;
+  }
+
+  ScheduleEntryType _extractEntryType(List<Element> tooltip) {
+    var type = ScheduleEntryType.Unknown;
+    var strongTag = tooltip[0].getElementsByTagName(TYPE_TAG_NAME);
+    if (strongTag.length == 1) {
+      var typeString = strongTag[0].innerHtml;
+
+      if (entryTypeMapping.containsKey(typeString)) {
+        type = entryTypeMapping[typeString];
+      }
+    }
+    return type;
   }
 
   Map<String, String> _parsePropertiesTable(Element infotable) {

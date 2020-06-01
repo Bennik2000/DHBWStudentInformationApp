@@ -25,13 +25,13 @@ class ScheduleEntryEntity extends DatabaseEntity {
     }
 
     _scheduleEntry = new ScheduleEntry(
-      id: map["id"],
-      start: startDate,
-      end: endDate,
-      details: map["details"],
-      professor: map["professor"],
-      title: map["title"],
-    );
+        id: map["id"],
+        start: startDate,
+        end: endDate,
+        details: map["details"],
+        professor: map["professor"],
+        title: map["title"],
+        type: ScheduleEntryType.values[map["type"]]);
   }
 
   @override
@@ -43,6 +43,7 @@ class ScheduleEntryEntity extends DatabaseEntity {
       "details": _scheduleEntry.details ?? "",
       "professor": _scheduleEntry.professor ?? "",
       "title": _scheduleEntry.title ?? "",
+      "type": _scheduleEntry.type?.index
     };
   }
 

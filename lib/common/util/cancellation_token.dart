@@ -25,4 +25,6 @@ class CancellationToken {
   }
 }
 
-mixin TokenCancelledException implements Exception {}
+class TokenCancelledException implements Exception {}
+
+class OperationCancelledException implements Exception {}

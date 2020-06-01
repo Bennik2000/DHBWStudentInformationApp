@@ -1,3 +1,11 @@
+enum ScheduleEntryType {
+  Unknown,
+  Class,
+  Online,
+  PublicHoliday,
+  Exam,
+}
+
 class ScheduleEntry {
   int id;
   final DateTime start;
@@ -5,6 +13,7 @@ class ScheduleEntry {
   final String title;
   final String details;
   final String professor;
+  final ScheduleEntryType type;
 
   ScheduleEntry({
     this.id,
@@ -13,5 +22,6 @@ class ScheduleEntry {
     this.title,
     this.details,
     this.professor,
+    this.type,
   });
 }

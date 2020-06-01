@@ -21,7 +21,10 @@ class ScheduleProvider {
   }
 
   Future<Schedule> getUpdatedSchedule(
-      DateTime start, DateTime end, CancellationToken cancellationToken) async {
+    DateTime start,
+    DateTime end,
+    CancellationToken cancellationToken,
+  ) async {
     print("Fetching data from schedule source");
 
     var updatedSchedule =

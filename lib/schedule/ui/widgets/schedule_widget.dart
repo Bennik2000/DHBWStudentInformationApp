@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
@@ -38,19 +40,20 @@ class ScheduleWidget extends StatelessWidget {
     var hourHeight = height / (displayEndHour - displayStartHour);
     var minuteHeight = hourHeight / 60;
 
-    var difference = schedule.getEndDate()?.difference(schedule.getStartDate());
+    var difference = displayEnd?.difference(displayStart);
+    var days = max(5, ((difference?.inHours ?? 0) / 24.0).ceil());
 
-    var hours = (difference?.inHours ?? 0) / 24.0;
-    var days = hours.ceil();
+    var labelWidgets = buildLabelWidgets(hourHeight, days);
+    var entryWidgets = <Widget>[];
 
-    List<Widget> entryWidgets = buildEntryWidgets(
-      hourHeight,
-      minuteHeight,
-      width - 50,
-      days,
-    );
-
-    List<Widget> labelWidgets = buildTimeLabelWidgets(hourHeight);
+    if (schedule != null) {
+      entryWidgets = buildEntryWidgets(
+        hourHeight,
+        minuteHeight,
+        width - 50,
+        days,
+      );
+    }
 
     return Stack(
       fit: StackFit.expand,
@@ -69,21 +72,24 @@ class ScheduleWidget extends StatelessWidget {
     );
   }
 
-  List<Widget> buildTimeLabelWidgets(double hourHeight) {
+  List<Widget> buildLabelWidgets(double hourHeight, int days) {
     var labelWidgets = List<Widget>();
 
     for (var i = displayStartHour; i < displayEndHour; i++) {
       var hourLabelText = i.toString() + ":00";
 
-      labelWidgets.add(Positioned(
-        top: hourHeight * (i - displayStartHour),
-        left: 0,
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
-          child: Text(hourLabelText),
+      labelWidgets.add(
+        Positioned(
+          top: hourHeight * (i - displayStartHour),
+          left: 0,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
+            child: Text(hourLabelText),
+          ),
         ),
-      ));
+      );
     }
+
     return labelWidgets;
   }
 
