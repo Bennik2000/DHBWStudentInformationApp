@@ -4,10 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+typedef ScheduleEntryTapCallback = Function(ScheduleEntry entry);
+
 class ScheduleEntryWidget extends StatelessWidget {
   final ScheduleEntry scheduleEntry;
+  final ScheduleEntryTapCallback onScheduleEntryTap;
 
-  const ScheduleEntryWidget({Key key, this.scheduleEntry}) : super(key: key);
+  const ScheduleEntryWidget({
+    Key key,
+    this.scheduleEntry,
+    this.onScheduleEntryTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +23,23 @@ class ScheduleEntryWidget extends StatelessWidget {
     var timeEnd = formatter.format(scheduleEntry.end);
 
     return Card(
-      color: Colors.redAccent,
-      elevation: 8,
-      margin: EdgeInsets.fromLTRB(1, 0, 1, 0),
+      color: Colors.red,
+      elevation: 5,
+      margin: EdgeInsets.fromLTRB(2, 0, 2, 0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          if (onScheduleEntryTap != null) onScheduleEntryTap(scheduleEntry);
+        },
         child: Padding(
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
+              /*Text(
                 timeStart,
-                style: TextStyle(fontSize: 14),
-              ),
+                style: TextStyle(fontSize: 13),
+              )*/
               Flexible(
                 fit: FlexFit.tight,
                 flex: 1,
@@ -39,7 +48,7 @@ class ScheduleEntryWidget extends StatelessWidget {
                   softWrap: true,
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
                 ),
               ),
               Flexible(
@@ -48,10 +57,10 @@ class ScheduleEntryWidget extends StatelessWidget {
                 child: Container(),
               ),
               //Text(scheduleEntry.details),
-              Text(
+              /*Text(
                 timeEnd,
                 style: TextStyle(fontSize: 14),
-              ),
+              )*/
             ],
           ),
         ),

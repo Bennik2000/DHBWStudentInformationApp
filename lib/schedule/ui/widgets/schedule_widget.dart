@@ -13,12 +13,14 @@ class ScheduleWidget extends StatelessWidget {
   final DateTime displayEnd;
   final int displayStartHour = 7;
   final int displayEndHour = 19;
+  final ScheduleEntryTapCallback onScheduleEntryTap;
 
   const ScheduleWidget({
     Key key,
     this.schedule,
     this.displayStart,
     this.displayEnd,
+    this.onScheduleEntryTap,
   }) : super(key: key);
 
   @override
@@ -36,17 +38,26 @@ class ScheduleWidget extends StatelessWidget {
     var hourHeight = height / (displayEndHour - displayStartHour);
     var minuteHeight = hourHeight / 60;
 
-    List<Widget> entryWidgets =
-        buildEntryWidgets(hourHeight, minuteHeight, width - 50 - 20);
+    var difference = schedule.getEndDate()?.difference(schedule.getStartDate());
+
+    var hours = (difference?.inHours ?? 0) / 24.0;
+    var days = hours.ceil();
+
+    List<Widget> entryWidgets = buildEntryWidgets(
+      hourHeight,
+      minuteHeight,
+      width - 50,
+      days,
+    );
 
     List<Widget> labelWidgets = buildTimeLabelWidgets(hourHeight);
 
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        ScheduleGrid(displayStartHour, displayEndHour, 50),
+        ScheduleGrid(displayStartHour, displayEndHour, 50, days),
         Padding(
-          padding: EdgeInsets.fromLTRB(50, 0, 20, 0),
+          padding: EdgeInsets.fromLTRB(50, 0, 0, 0),
           child: Stack(
             children: entryWidgets,
           ),
@@ -77,27 +88,18 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   List<Widget> buildEntryWidgets(
-      double hourHeight, double minuteHeight, double width) {
-    /*var entries = schedule?.entries ?? <ScheduleEntry>[];
-    entries.sort((ScheduleEntry a1, ScheduleEntry a2) {
-      return a1.start.compareTo(a2.start);
-    });*/
+      double hourHeight, double minuteHeight, double width, int columns) {
     if (schedule == null) return <Widget>[];
     if (schedule.entries.length == 0) return <Widget>[];
 
     var entryWidgets = List<Widget>();
 
-    var difference = schedule.getEndDate()?.difference(schedule.getStartDate());
-
-    var hours = (difference?.inHours ?? 0) / 24.0;
-    var days = hours.ceil();
-
-    var columnWidth = width / days;
+    var columnWidth = width / columns;
 
     DateTime columnStartDate = toStartOfDay(schedule.getStartDate());
     DateTime columnEndDate = tomorrow(columnStartDate);
 
-    for (int i = 0; i < days; i++) {
+    for (int i = 0; i < columns; i++) {
       var xPosition = columnWidth * i;
       var maxWidth = columnWidth;
 
@@ -145,7 +147,10 @@ class ScheduleWidget extends StatelessWidget {
         left: entryLeft + xPosition,
         height: yEnd - yStart,
         width: entryWidth,
-        child: ScheduleEntryWidget(scheduleEntry: value),
+        child: ScheduleEntryWidget(
+          scheduleEntry: value,
+          onScheduleEntryTap: onScheduleEntryTap,
+        ),
       );
 
       entryWidgets.add(widget);

@@ -1,4 +1,6 @@
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
+import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
+import 'package:dhbwstuttgart/schedule/ui/schedule_entry_detail_bottom_sheet.dart';
 import 'package:dhbwstuttgart/schedule/ui/viewmodels/schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,11 +43,23 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
     await viewModel.updateSchedule();
   }
 
+  void _onScheduleEntryTap(BuildContext context, ScheduleEntry entry) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => ScheduleEntryDetailBottomSheet(
+        scheduleEntry: entry,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Rapla"),
+        title: Text("Vorlesungsplan"),
       ),
       body: PropertyChangeProvider(
         value: viewModel,
@@ -57,11 +71,9 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
               properties: ["isUpdating"],
               builder: (BuildContext context, WeeklyScheduleViewModel model,
                   Set properties) {
-                return Visibility(
-                  child: LinearProgressIndicator(),
-                  visible: viewModel.isUpdating,
-                  maintainSize: true,
-                );
+                return model.isUpdating
+                    ? LinearProgressIndicator()
+                    : Container();
               },
             ),
             Row(
@@ -94,6 +106,9 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                     schedule: model.weekSchedule,
                     displayStart: model.currentDateStart,
                     displayEnd: model.currentDateEnd,
+                    onScheduleEntryTap: (entry) {
+                      _onScheduleEntryTap(context, entry);
+                    },
                   );
                 },
               ),

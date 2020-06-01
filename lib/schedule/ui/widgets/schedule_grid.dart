@@ -5,43 +5,53 @@ class ScheduleGrid extends CustomPaint {
   final int fromHour;
   final int toHour;
   final double timeLabelsWidth;
+  final int verticalLines;
 
-  ScheduleGrid(this.fromHour, this.toHour, this.timeLabelsWidth)
+  ScheduleGrid(
+      this.fromHour, this.toHour, this.timeLabelsWidth, this.verticalLines)
       : super(
-            painter:
-                ScheduleGridCustomPaint(fromHour, toHour, timeLabelsWidth));
+            painter: ScheduleGridCustomPaint(
+          fromHour,
+          toHour,
+          timeLabelsWidth,
+          verticalLines,
+        ));
 }
 
 class ScheduleGridCustomPaint extends CustomPainter {
   final int fromHour;
   final int toHour;
   final double timeLabelsWidth;
+  final int verticalLines;
 
-  ScheduleGridCustomPaint(this.fromHour, this.toHour, this.timeLabelsWidth);
+  ScheduleGridCustomPaint(
+    this.fromHour,
+    this.toHour,
+    this.timeLabelsWidth,
+    this.verticalLines,
+  );
 
   @override
   void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black26
-      ..strokeWidth = 1;
-
     final secondaryPaint = Paint()
       ..color = Colors.black12
       ..strokeWidth = 1;
 
     var lines = toHour - fromHour;
 
-    lines *= 2;
-
     for (var i = 0; i < lines; i++) {
       var y = (size.height / lines) * i;
 
       canvas.drawLine(Offset(0, y), Offset(size.width, y),
-          i % 2 == 0 ? paint : secondaryPaint);
+          i % 1 != 0 ? paint : secondaryPaint);
     }
 
-    canvas.drawLine(Offset(timeLabelsWidth, 0),
-        Offset(timeLabelsWidth, size.height), paint);
+    for (var i = 0; i < verticalLines; i++) {
+      var x = ((size.width - timeLabelsWidth) / verticalLines) * i +
+          timeLabelsWidth;
+
+      canvas.drawLine(Offset(x, 0), Offset(x, size.height), secondaryPaint);
+    }
   }
 
   @override
