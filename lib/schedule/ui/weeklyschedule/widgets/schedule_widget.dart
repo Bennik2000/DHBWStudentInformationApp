@@ -1,10 +1,9 @@
 import 'dart:math';
-
 import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
-import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_entry_widget.dart';
-import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_grid.dart';
+import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/widgets/schedule_entry_widget.dart';
+import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/widgets/schedule_grid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

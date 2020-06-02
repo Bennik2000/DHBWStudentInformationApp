@@ -11,7 +11,7 @@ import 'package:intl/intl.dart';
 class WeeklyScheduleViewModel extends BaseViewModel {
   static const Duration weekDuration = Duration(days: 7);
 
-  ScheduleProvider _scheduleProvider;
+  ScheduleProvider scheduleProvider;
 
   DateTime currentDateStart;
   DateTime currentDateEnd;
@@ -20,18 +20,11 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   DateTime clippedDateEnd;
 
   bool isUpdating = false;
-  bool isFetching = false;
   Schedule weekSchedule;
 
   CancellationToken _updateScheduleCancellationToken;
 
-  WeeklyScheduleViewModel() {
-    _scheduleProvider = new ScheduleProvider(
-      new RaplaScheduleSource(
-          "https://rapla.dhbw-stuttgart.de/rapla?key=txB1FOi5xd1wUJBWuX8lJhGDUgtMSFmnKLgAG_NVMhCn4AzVqTBQM-yMcTKkIDCa"),
-      new ScheduleEntryRepository(new DatabaseAccess()),
-    );
-
+  WeeklyScheduleViewModel(this.scheduleProvider) {
     goToToday();
   }
 
@@ -94,7 +87,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
   Future _updateScheduleFromCache() async {
     setSchedule(
-      await _scheduleProvider.getCachedSchedule(
+      await scheduleProvider.getCachedSchedule(
         currentDateStart,
         currentDateEnd,
       ),
@@ -103,7 +96,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
   Future _updateScheduleFromService() async {
     try {
-      var updatedSchedule = await _scheduleProvider.getUpdatedSchedule(
+      var updatedSchedule = await scheduleProvider.getUpdatedSchedule(
         currentDateStart,
         currentDateEnd,
         _updateScheduleCancellationToken,

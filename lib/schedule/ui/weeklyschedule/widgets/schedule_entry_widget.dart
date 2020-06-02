@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/ui/schedule_entry_type_mappings.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,25 +18,7 @@ class ScheduleEntryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color;
-
-    switch (scheduleEntry.type) {
-      case ScheduleEntryType.PublicHoliday:
-        color = Colors.blueGrey;
-        break;
-      case ScheduleEntryType.Class:
-        color = Colors.green;
-        break;
-      case ScheduleEntryType.Exam:
-        color = Colors.red;
-        break;
-      case ScheduleEntryType.Unknown:
-        color = Colors.grey;
-        break;
-      case ScheduleEntryType.Online:
-        color = Colors.lime;
-        break;
-    }
+    Color color = scheduleEntryTypeToColor(scheduleEntry.type);
 
     return Card(
       color: color,

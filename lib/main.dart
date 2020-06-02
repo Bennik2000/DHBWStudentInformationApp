@@ -1,4 +1,4 @@
-import 'package:dhbwstuttgart/schedule/ui/weekly_schedule_page.dart';
+import 'package:dhbwstuttgart/schedule/ui/main_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -32,6 +32,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    return WeeklySchedulePage();
+    return MainPage();
   }
 }

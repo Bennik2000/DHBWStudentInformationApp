@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/ui/schedule_entry_type_mappings.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,25 +16,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
     var timeStart = formatter.format(scheduleEntry.start);
     var timeEnd = formatter.format(scheduleEntry.end);
 
-    var typeString;
-
-    switch (scheduleEntry.type) {
-      case ScheduleEntryType.Unknown:
-        typeString = "";
-        break;
-      case ScheduleEntryType.Class:
-        typeString = "Vorlesung";
-        break;
-      case ScheduleEntryType.Online:
-        typeString = "Online Vorlesung";
-        break;
-      case ScheduleEntryType.PublicHoliday:
-        typeString = "Feiertag";
-        break;
-      case ScheduleEntryType.Exam:
-        typeString = "Klausur / Prüfung";
-        break;
-    }
+    var typeString = scheduleEntryTypeToReadableString(scheduleEntry.type);
 
     return Container(
       height: 200,
