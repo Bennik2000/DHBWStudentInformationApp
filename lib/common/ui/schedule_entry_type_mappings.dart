@@ -2,11 +2,11 @@ import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:flutter/material.dart';
 
 final Map<ScheduleEntryType, Color> scheduleEntryTypeColorMapping = {
-  ScheduleEntryType.PublicHoliday: Colors.blueGrey,
-  ScheduleEntryType.Class: Colors.green,
-  ScheduleEntryType.Exam: Colors.red,
-  ScheduleEntryType.Online: Colors.lime,
-  ScheduleEntryType.Unknown: Colors.grey,
+  ScheduleEntryType.PublicHoliday: Color(0xffcbcbcb),
+  ScheduleEntryType.Class: Color(0xffe6041a),
+  ScheduleEntryType.Exam: Color(0xffe6d704),
+  ScheduleEntryType.Online: Color(0xffe6041a),
+  ScheduleEntryType.Unknown: Color(0xfff6f6f6),
 };
 
 final Map<ScheduleEntryType, String> scheduleEntryTypeTextMapping = {

@@ -52,10 +52,20 @@ class _MainPageState extends State<MainPage> {
       appBar: AppBar(
         title: Text(pages[_currentPageIndex].title),
       ),
-      body: ChangeNotifierProvider.value(
-        key: pages[_currentPageIndex].key,
-        value: pages[_currentPageIndex].viewModel,
-        child: pages[_currentPageIndex].widget,
+      body: AnimatedSwitcher(
+        child: Column(
+          key: pages[_currentPageIndex].key,
+          children: <Widget>[
+            Expanded(
+              child: ChangeNotifierProvider.value(
+                key: pages[_currentPageIndex].key,
+                value: pages[_currentPageIndex].viewModel,
+                child: pages[_currentPageIndex].widget,
+              ),
+            ),
+          ],
+        ),
+        duration: Duration(milliseconds: 200),
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,

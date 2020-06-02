@@ -15,7 +15,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.red,
+        primarySwatch: MaterialColor(0xff990411, const <int, Color>{
+          050: const Color(0xFFff838e),
+          100: const Color(0xFFff6a77),
+          200: const Color(0xFFff5160),
+          300: const Color(0xFFff3849),
+          400: const Color(0xFFff1f33),
+          500: const Color(0xffff061c),
+          600: const Color(0xFFe60519),
+          700: const Color(0xFFcc0516),
+          800: const Color(0xFFb30414),
+          900: const Color(0xFF990411),
+        }),
       ),
       home: MyHomePage(),
     );
