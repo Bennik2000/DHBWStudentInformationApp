@@ -15,7 +15,28 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
     var timeStart = formatter.format(scheduleEntry.start);
     var timeEnd = formatter.format(scheduleEntry.end);
 
+    var typeString;
+
+    switch (scheduleEntry.type) {
+      case ScheduleEntryType.Unknown:
+        typeString = "";
+        break;
+      case ScheduleEntryType.Class:
+        typeString = "Vorlesung";
+        break;
+      case ScheduleEntryType.Online:
+        typeString = "Online Vorlesung";
+        break;
+      case ScheduleEntryType.PublicHoliday:
+        typeString = "Feiertag";
+        break;
+      case ScheduleEntryType.Exam:
+        typeString = "Klausur / Prüfung";
+        break;
+    }
+
     return Container(
+      height: 200,
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
@@ -87,17 +108,35 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            Text(scheduleEntry.professor ?? ""),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    scheduleEntry.professor ?? "",
+                  ),
+                  Text(
+                    typeString,
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ),
             scheduleEntry.details?.isEmpty ?? true
                 ? Container()
                 : Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
+                    padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                     child: Container(
-                      color: Colors.black12,
+                      color: Colors.grey,
                       height: 1,
                     ),
                   ),
-            Text(scheduleEntry.details ?? ""),
+            scheduleEntry.details?.isEmpty ?? true
+                ? Container()
+                : Text(scheduleEntry.details),
           ],
         ),
       ),

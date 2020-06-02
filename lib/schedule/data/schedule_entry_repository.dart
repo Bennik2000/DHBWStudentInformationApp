@@ -79,4 +79,15 @@ class ScheduleEntryRepository {
   Future deleteScheduleEntry(ScheduleEntry entry) async {
     await _database.delete(ScheduleEntryEntity.tableName(), entry.id);
   }
+
+  Future deleteScheduleEntriesBetween(DateTime start, DateTime end) async {
+    await _database.deleteWhere(
+      ScheduleEntryEntity.tableName(),
+      where: "start>=? AND end<=?",
+      whereArgs: [
+        start.millisecondsSinceEpoch,
+        end.millisecondsSinceEpoch,
+      ],
+    );
+  }
 }

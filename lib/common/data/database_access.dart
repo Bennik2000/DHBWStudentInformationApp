@@ -104,4 +104,17 @@ class DatabaseAccess {
     Database db = await _database;
     return await db.delete(table, where: '$idColumnName = ?', whereArgs: [id]);
   }
+
+  Future<int> deleteWhere(
+    String table, {
+    String where,
+    List<dynamic> whereArgs,
+  }) async {
+    Database db = await _database;
+    return await db.delete(
+      table,
+      where: where,
+      whereArgs: whereArgs,
+    );
+  }
 }

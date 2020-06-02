@@ -47,27 +47,12 @@ class ScheduleEntryWidget extends StatelessWidget {
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Flexible(
-                fit: FlexFit.tight,
-                flex: 1,
-                child: Text(
-                  scheduleEntry.title,
-                  softWrap: true,
-                  overflow: TextOverflow.clip,
-                  textAlign: TextAlign.left,
-                  style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
-                ),
-              ),
-              Flexible(
-                fit: FlexFit.loose,
-                flex: 0,
-                child: Container(),
-              ),
-            ],
+          child: Text(
+            scheduleEntry.title,
+            softWrap: true,
+            overflow: TextOverflow.clip,
+            textAlign: TextAlign.left,
+            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
           ),
         ),
       ),

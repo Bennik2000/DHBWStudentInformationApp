@@ -39,6 +39,7 @@ class ScheduleProvider {
 
       // TODO: Calculate diff
 
+      await _scheduleEntryRepository.deleteScheduleEntriesBetween(start, end);
       await _scheduleEntryRepository.saveSchedule(updatedSchedule);
     }
 

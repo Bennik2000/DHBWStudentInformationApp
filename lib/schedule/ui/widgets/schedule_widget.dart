@@ -8,6 +8,7 @@ import 'package:dhbwstuttgart/schedule/ui/widgets/schedule_grid.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class ScheduleWidget extends StatelessWidget {
   final Schedule schedule;
@@ -37,13 +38,18 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   Widget buildWithSize(BuildContext context, double width, double height) {
-    var hourHeight = height / (displayEndHour - displayStartHour);
+    var dayLabelsHeight = 40.0;
+    var timeLabelsWidth = 50.0;
+
+    var hourHeight =
+        (height - dayLabelsHeight) / (displayEndHour - displayStartHour);
     var minuteHeight = hourHeight / 60;
 
     var difference = displayEnd?.difference(displayStart);
     var days = max(5, ((difference?.inHours ?? 0) / 24.0).ceil());
 
-    var labelWidgets = buildLabelWidgets(hourHeight, days);
+    var labelWidgets = buildLabelWidgets(hourHeight,
+        (width - timeLabelsWidth) / days, dayLabelsHeight, timeLabelsWidth);
     var entryWidgets = <Widget>[];
 
     if (schedule != null) {
@@ -58,9 +64,10 @@ class ScheduleWidget extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        ScheduleGrid(displayStartHour, displayEndHour, 50, days),
+        ScheduleGrid(displayStartHour, displayEndHour, timeLabelsWidth,
+            dayLabelsHeight, days),
         Padding(
-          padding: EdgeInsets.fromLTRB(50, 0, 0, 0),
+          padding: EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
           child: Stack(
             children: entryWidgets,
           ),
@@ -72,7 +79,8 @@ class ScheduleWidget extends StatelessWidget {
     );
   }
 
-  List<Widget> buildLabelWidgets(double hourHeight, int days) {
+  List<Widget> buildLabelWidgets(double rowHeight, double columnWidth,
+      double dayLabelHeight, double timeLabelWidth) {
     var labelWidgets = List<Widget>();
 
     for (var i = displayStartHour; i < displayEndHour; i++) {
@@ -80,7 +88,7 @@ class ScheduleWidget extends StatelessWidget {
 
       labelWidgets.add(
         Positioned(
-          top: hourHeight * (i - displayStartHour),
+          top: rowHeight * (i - displayStartHour) + dayLabelHeight,
           left: 0,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
@@ -88,6 +96,40 @@ class ScheduleWidget extends StatelessWidget {
           ),
         ),
       );
+    }
+
+    var i = 0;
+
+    var dayFormatter = DateFormat("E");
+    var dateFormatter = DateFormat("d. MMM");
+
+    for (var columnDate = displayStart;
+        columnDate.isBefore(displayEnd);
+        columnDate = tomorrow(columnDate)) {
+      labelWidgets.add(
+        Positioned(
+          top: 0,
+          left: columnWidth * i + timeLabelWidth,
+          width: columnWidth,
+          height: dayLabelHeight,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(4, 0, 4, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  dayFormatter.format(columnDate),
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Text(dateFormatter.format(columnDate)),
+              ],
+            ),
+          ),
+        ),
+      );
+
+      i++;
     }
 
     return labelWidgets;

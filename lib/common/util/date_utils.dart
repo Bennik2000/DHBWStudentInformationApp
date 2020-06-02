@@ -5,7 +5,16 @@ DateTime toStartOfDay(DateTime dateTime) {
 }
 
 DateTime tomorrow(DateTime dateTime) {
-  return dateTime == null ? null : dateTime.add(Duration(days: 1));
+  return dateTime == null
+      ? null
+      : DateTime(
+          dateTime.year,
+          dateTime.month,
+          dateTime.day + 1,
+          dateTime.hour,
+          dateTime.minute,
+          dateTime.second,
+        );
 }
 
 DateTime toMonday(DateTime dateTime) {

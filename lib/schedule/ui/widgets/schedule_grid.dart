@@ -5,16 +5,18 @@ class ScheduleGrid extends CustomPaint {
   final int fromHour;
   final int toHour;
   final double timeLabelsWidth;
-  final int verticalLines;
+  final double dateLabelsHeight;
+  final int columns;
 
-  ScheduleGrid(
-      this.fromHour, this.toHour, this.timeLabelsWidth, this.verticalLines)
+  ScheduleGrid(this.fromHour, this.toHour, this.timeLabelsWidth,
+      this.dateLabelsHeight, this.columns)
       : super(
             painter: ScheduleGridCustomPaint(
           fromHour,
           toHour,
           timeLabelsWidth,
-          verticalLines,
+          dateLabelsHeight,
+          columns,
         ));
 }
 
@@ -22,13 +24,15 @@ class ScheduleGridCustomPaint extends CustomPainter {
   final int fromHour;
   final int toHour;
   final double timeLabelsWidth;
-  final int verticalLines;
+  final double dateLabelsHeight;
+  final int columns;
 
   ScheduleGridCustomPaint(
     this.fromHour,
     this.toHour,
     this.timeLabelsWidth,
-    this.verticalLines,
+    this.dateLabelsHeight,
+    this.columns,
   );
 
   @override
@@ -39,16 +43,24 @@ class ScheduleGridCustomPaint extends CustomPainter {
 
     var lines = toHour - fromHour;
 
+    drawHorizontalLines(lines, size, canvas, secondaryPaint);
+    drawVerticalLines(size, canvas, secondaryPaint);
+  }
+
+  void drawHorizontalLines(
+      int lines, Size size, Canvas canvas, Paint secondaryPaint) {
+    //canvas.drawLine(Offset(0, 0), Offset(size.width, 0), secondaryPaint);
+
     for (var i = 0; i < lines; i++) {
-      var y = (size.height / lines) * i;
+      var y = ((size.height - dateLabelsHeight) / lines) * i + dateLabelsHeight;
 
-      canvas.drawLine(Offset(0, y), Offset(size.width, y),
-          i % 1 != 0 ? paint : secondaryPaint);
+      canvas.drawLine(Offset(0, y), Offset(size.width, y), secondaryPaint);
     }
+  }
 
-    for (var i = 0; i < verticalLines; i++) {
-      var x = ((size.width - timeLabelsWidth) / verticalLines) * i +
-          timeLabelsWidth;
+  void drawVerticalLines(Size size, Canvas canvas, Paint secondaryPaint) {
+    for (var i = 0; i < columns; i++) {
+      var x = ((size.width - timeLabelsWidth) / columns) * i + timeLabelsWidth;
 
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), secondaryPaint);
     }
