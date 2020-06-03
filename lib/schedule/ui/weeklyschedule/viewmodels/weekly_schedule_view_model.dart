@@ -6,6 +6,7 @@ import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';
 import 'package:dhbwstuttgart/schedule/data/schedule_entry_repository.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/service/rapla/rapla_schedule_source.dart';
+import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
 import 'package:intl/intl.dart';
 
 class WeeklyScheduleViewModel extends BaseViewModel {
@@ -103,12 +104,6 @@ class WeeklyScheduleViewModel extends BaseViewModel {
       );
 
       setSchedule(updatedSchedule);
-
-      print(
-          "_scheduleProvider.getUpdatedSchedule was not cancelled and returned an object: " +
-              ((updatedSchedule != null) ? "true" : "false"));
-    } on OperationCancelledException catch (e) {
-      print("Caught cancelled exception");
-    }
+    } on OperationCancelledException catch (e) {} on ScheduleQueryFailedException catch (e) {}
   }
 }

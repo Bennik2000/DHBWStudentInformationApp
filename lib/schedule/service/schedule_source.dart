@@ -12,3 +12,14 @@ abstract class ScheduleSource {
   Future<Schedule> querySchedule(DateTime from, DateTime to,
       [CancellationToken cancellationToken]);
 }
+
+class ScheduleQueryFailedException implements Exception {
+  final dynamic innerException;
+
+  ScheduleQueryFailedException(this.innerException);
+
+  @override
+  String toString() {
+    return innerException?.toString();
+  }
+}

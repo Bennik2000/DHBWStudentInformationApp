@@ -28,8 +28,7 @@ class RaplaScheduleSource extends ScheduleSource {
       } on OperationCancelledException {
         rethrow;
       } catch (e) {
-        print("Failed to fetch from rapla: ");
-        print(e.toString());
+        throw ScheduleQueryFailedException(e);
       }
 
       current = toNextWeek(current);
@@ -69,22 +68,20 @@ class RaplaScheduleSource extends ScheduleSource {
 
     try {
       cancellationToken.setCancellationCallback(() {
-        print("Cancelling request!");
         requestCancellationToken.cancel();
       });
 
       var response = await http.HttpClientHelper.get(uri,
           cancelToken: requestCancellationToken);
 
+      if (response == null)
+        throw ScheduleQueryFailedException("Http request failed!");
+
       return response;
     } on http.OperationCanceledError catch (_) {
-      print("Cancelled request!");
-      return null;
+      rethrow;
     } catch (ex) {
-      print("Failed to make Rapla request: ");
-      print(ex.toString());
-
-      return null;
+      rethrow;
     } finally {
       cancellationToken.setCancellationCallback(null);
     }
