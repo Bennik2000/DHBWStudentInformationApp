@@ -1,11 +1,10 @@
-import 'package:dhbwstuttgart/common/data/database_access.dart';
+import 'dart:async';
+
 import 'package:dhbwstuttgart/common/ui/base_view_model.dart';
 import 'package:dhbwstuttgart/common/util/cancellation_token.dart';
 import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';
-import 'package:dhbwstuttgart/schedule/data/schedule_entry_repository.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
-import 'package:dhbwstuttgart/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
 import 'package:intl/intl.dart';
 
@@ -20,8 +19,12 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   DateTime clippedDateStart;
   DateTime clippedDateEnd;
 
+  bool updateFailed = false;
+
   bool isUpdating = false;
   Schedule weekSchedule;
+
+  Timer _errorResetTimer = null;
 
   CancellationToken _updateScheduleCancellationToken;
 
@@ -103,7 +106,28 @@ class WeeklyScheduleViewModel extends BaseViewModel {
         _updateScheduleCancellationToken,
       );
 
+      updateFailed = false;
+      notifyListeners("updateFailed");
+
       setSchedule(updatedSchedule);
-    } on OperationCancelledException catch (e) {} on ScheduleQueryFailedException catch (e) {}
+    } on OperationCancelledException catch (e) {} on ScheduleQueryFailedException catch (e) {
+      updateFailed = true;
+      notifyListeners("updateFailed");
+      cancelErrorInFuture();
+    }
+  }
+
+  void cancelErrorInFuture() async {
+    if (_errorResetTimer != null) {
+      _errorResetTimer.cancel();
+    }
+
+    _errorResetTimer = Timer(
+      Duration(seconds: 5),
+      () {
+        updateFailed = false;
+        notifyListeners("updateFailed");
+      },
+    );
   }
 }

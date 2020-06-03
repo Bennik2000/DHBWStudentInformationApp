@@ -59,61 +59,108 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
 
     return PropertyChangeProvider(
       value: viewModel,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Stack(
+        fit: StackFit.passthrough,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
-              FlatButton(
-                child: Icon(Icons.chevron_left),
-                onPressed: _previousWeek,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  FlatButton(
+                    child: Icon(Icons.chevron_left),
+                    onPressed: _previousWeek,
+                  ),
+                  FlatButton(
+                    child: Icon(Icons.today),
+                    onPressed: _goToToday,
+                  ),
+                  FlatButton(
+                    child: Icon(Icons.chevron_right),
+                    onPressed: _nextWeek,
+                  ),
+                ],
               ),
-              FlatButton(
-                child: Icon(Icons.today),
-                onPressed: _goToToday,
-              ),
-              FlatButton(
-                child: Icon(Icons.chevron_right),
-                onPressed: _nextWeek,
+              Expanded(
+                child: Stack(
+                  children: <Widget>[
+                    PropertyChangeConsumer(
+                      properties: [
+                        "weekSchedule",
+                      ],
+                      builder: (BuildContext context,
+                          WeeklyScheduleViewModel model, Set properties) {
+                        return ScheduleWidget(
+                          schedule: model.weekSchedule,
+                          displayStart:
+                              model.clippedDateStart ?? model.currentDateStart,
+                          displayEnd:
+                              model.clippedDateEnd ?? model.currentDateEnd,
+                          onScheduleEntryTap: (entry) {
+                            _onScheduleEntryTap(context, entry);
+                          },
+                        );
+                      },
+                    ),
+                    PropertyChangeConsumer(
+                      properties: ["isUpdating"],
+                      builder: (BuildContext context,
+                          WeeklyScheduleViewModel model, Set properties) {
+                        return model.isUpdating
+                            ? LinearProgressIndicator()
+                            : Container();
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                PropertyChangeConsumer(
-                  properties: [
-                    "weekSchedule",
-                  ],
-                  builder: (BuildContext context, WeeklyScheduleViewModel model,
-                      Set properties) {
-                    return ScheduleWidget(
-                      schedule: model.weekSchedule,
-                      displayStart:
-                          model.clippedDateStart ?? model.currentDateStart,
-                      displayEnd: model.clippedDateEnd ?? model.currentDateEnd,
-                      onScheduleEntryTap: (entry) {
-                        _onScheduleEntryTap(context, entry);
-                      },
-                    );
-                  },
-                ),
-                PropertyChangeConsumer(
-                  properties: ["isUpdating"],
-                  builder: (BuildContext context, WeeklyScheduleViewModel model,
-                      Set properties) {
-                    return model.isUpdating
-                        ? LinearProgressIndicator()
-                        : Container();
-                  },
-                ),
-              ],
-            ),
-          ),
+          buildErrorDisplay(context)
         ],
       ),
+    );
+  }
+
+  Widget buildErrorDisplay(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        PropertyChangeConsumer(
+          properties: [
+            "updateFailed",
+          ],
+          builder: (BuildContext context, WeeklyScheduleViewModel model,
+                  Set properties) =>
+              AnimatedSwitcher(
+            child: model.updateFailed
+                ? Padding(
+                    padding: const EdgeInsets.all(0),
+                    child: Container(
+                      width: double.infinity,
+                      color: Colors.black87,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(24, 4, 24, 4),
+                        child: Text(
+                          "Keine Verbindung!",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              letterSpacing: -0.12,
+                              fontSize: 13),
+                        ),
+                      ),
+                    ),
+                  )
+                : Container(
+                    width: double.infinity,
+                  ),
+            duration: Duration(milliseconds: 300),
+          ),
+        ),
+      ],
     );
   }
 }
