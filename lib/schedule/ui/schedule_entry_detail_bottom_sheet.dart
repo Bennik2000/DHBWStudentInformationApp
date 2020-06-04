@@ -1,4 +1,6 @@
+import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/schedule_entry_type_mappings.dart';
+import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +18,8 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
     var timeStart = formatter.format(scheduleEntry.start);
     var timeEnd = formatter.format(scheduleEntry.end);
 
-    var typeString = scheduleEntryTypeToReadableString(scheduleEntry.type);
+    var typeString =
+        scheduleEntryTypeToReadableString(context, scheduleEntry.type);
 
     return Container(
       height: 200,
@@ -40,17 +43,13 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             "Von: ",
-                            style: TextStyle(
-                              color: Colors.black38,
-                              fontSize: 14,
-                            ),
+                            style: textStyleScheduleEntryBottomPageTimeFromTo(
+                                context),
                           ),
                           Text(
                             timeStart,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                            style:
+                                textStyleScheduleEntryBottomPageTime(context),
                           ),
                         ],
                       ),
@@ -60,17 +59,14 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             "Bis: ",
-                            style: TextStyle(
-                              color: Colors.black38,
-                              fontSize: 14,
+                            style: textStyleScheduleEntryBottomPageTimeFromTo(
+                              context,
                             ),
                           ),
                           Text(
                             timeEnd,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20,
-                            ),
+                            style:
+                                textStyleScheduleEntryBottomPageTime(context),
                           ),
                         ],
                       ),
@@ -82,9 +78,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                       child: Text(
                         scheduleEntry.title ?? "",
                         softWrap: true,
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
+                        style: textStyleScheduleEntryBottomPageTitle(context),
                       ),
                     ),
                   ),
@@ -101,9 +95,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                   ),
                   Text(
                     typeString,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: textStyleScheduleEntryBottomPageType(context),
                   ),
                 ],
               ),
@@ -113,7 +105,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 : Padding(
                     padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                     child: Container(
-                      color: Colors.grey,
+                      color: colorSeparator(),
                       height: 1,
                     ),
                   ),

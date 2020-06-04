@@ -1,4 +1,6 @@
+import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/schedule_entry_type_mappings.dart';
+import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -34,28 +36,20 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     startTime,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: textStyleDailyScheduleEntryWidgetTimeStart(context),
                   ),
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.all(4),
                       child: Container(
                         width: 1,
-                        color: Colors.grey,
+                        color: colorDailyScheduleTimeVerticalConnector(),
                       ),
                     ),
                   ),
                   Text(
                     endTime,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontWeight: FontWeight.normal,
-                    ),
+                    style: textStyleDailyScheduleEntryWidgetTimeEnd(context),
                   ),
                 ],
               ),
@@ -66,7 +60,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
             child: Card(
               margin: EdgeInsets.all(0),
               elevation: 8,
-              color: scheduleEntryTypeToColor(scheduleEntry.type),
+              color: scheduleEntryTypeToColor(context, scheduleEntry.type),
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Column(
@@ -77,25 +71,18 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                       child: Text(
                         scheduleEntry.title,
-                        style: TextStyle(
-                          fontSize: 24,
-                        ),
+                        style: textStyleDailyScheduleEntryWidgetTitle(context),
                       ),
                     ),
                     Text(
                       scheduleEntry.professor,
-                      style: TextStyle(
-                        fontSize: 16,
-                        letterSpacing: 0.15,
-                      ),
+                      style:
+                          textStyleDailyScheduleEntryWidgetProfessor(context),
                     ),
                     Text(
-                      scheduleEntryTypeToReadableString(scheduleEntry.type),
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w300,
-                        letterSpacing: 0.15,
-                      ),
+                      scheduleEntryTypeToReadableString(
+                          context, scheduleEntry.type),
+                      style: textStyleDailyScheduleEntryWidgetType(context),
                     ),
                   ],
                 ),

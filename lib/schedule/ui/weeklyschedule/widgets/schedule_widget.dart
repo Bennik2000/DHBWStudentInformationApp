@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:dhbwstuttgart/common/ui/colors.dart';
+import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
@@ -47,7 +49,7 @@ class ScheduleWidget extends StatelessWidget {
     var difference = displayEnd?.difference(displayStart);
     var days = max(5, ((difference?.inHours ?? 0) / 24.0).ceil());
 
-    var labelWidgets = buildLabelWidgets(hourHeight,
+    var labelWidgets = buildLabelWidgets(context, hourHeight,
         (width - timeLabelsWidth) / days, dayLabelsHeight, timeLabelsWidth);
     var entryWidgets = <Widget>[];
 
@@ -63,8 +65,14 @@ class ScheduleWidget extends StatelessWidget {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        ScheduleGrid(displayStartHour, displayEndHour, timeLabelsWidth,
-            dayLabelsHeight, days),
+        ScheduleGrid(
+          displayStartHour,
+          displayEndHour,
+          timeLabelsWidth,
+          dayLabelsHeight,
+          days,
+          colorScheduleGridGridLines(context),
+        ),
         Padding(
           padding: EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
           child: Stack(
@@ -78,8 +86,8 @@ class ScheduleWidget extends StatelessWidget {
     );
   }
 
-  List<Widget> buildLabelWidgets(double rowHeight, double columnWidth,
-      double dayLabelHeight, double timeLabelWidth) {
+  List<Widget> buildLabelWidgets(BuildContext context, double rowHeight,
+      double columnWidth, double dayLabelHeight, double timeLabelWidth) {
     var labelWidgets = List<Widget>();
 
     for (var i = displayStartHour; i < displayEndHour; i++) {
@@ -90,7 +98,7 @@ class ScheduleWidget extends StatelessWidget {
           top: rowHeight * (i - displayStartHour) + dayLabelHeight,
           left: 0,
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(4, 8, 4, 8),
+            padding: const EdgeInsets.fromLTRB(4, 4, 4, 8),
             child: Text(hourLabelText),
           ),
         ),
@@ -119,7 +127,7 @@ class ScheduleWidget extends StatelessWidget {
               children: <Widget>[
                 Text(
                   dayFormatter.format(columnDate),
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  style: textStyleScheduleWidgetColumnTitleDay(context),
                 ),
                 Text(dateFormatter.format(columnDate)),
               ],

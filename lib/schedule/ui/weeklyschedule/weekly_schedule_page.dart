@@ -1,4 +1,6 @@
 import 'package:dhbwstuttgart/common/ui/base_view_model.dart';
+import 'package:dhbwstuttgart/common/ui/colors.dart';
+import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:dhbwstuttgart/schedule/ui/schedule_entry_detail_bottom_sheet.dart';
@@ -18,7 +20,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   WeeklyScheduleViewModel viewModel;
   Schedule schedule;
 
-  _WeeklySchedulePageState() {}
+  _WeeklySchedulePageState();
 
   @override
   void initState() {
@@ -35,10 +37,6 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
 
   void _goToToday() async {
     await viewModel?.goToToday();
-  }
-
-  void _refresh() async {
-    await viewModel?.updateSchedule();
   }
 
   void _onScheduleEntryTap(BuildContext context, ScheduleEntry entry) {
@@ -69,6 +67,12 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Diese Woche"),
+                    ),
+                  ),
                   FlatButton(
                     child: Icon(Icons.chevron_left),
                     onPressed: _previousWeek,
@@ -140,16 +144,13 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                     padding: const EdgeInsets.all(0),
                     child: Container(
                       width: double.infinity,
-                      color: Colors.black87,
+                      color: colorNoConnectionBackground(),
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(24, 4, 24, 4),
                         child: Text(
                           "Keine Verbindung!",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                              color: Colors.white,
-                              letterSpacing: -0.12,
-                              fontSize: 13),
+                          style: textStyleUpdateNoConnection(context),
                         ),
                       ),
                     ),

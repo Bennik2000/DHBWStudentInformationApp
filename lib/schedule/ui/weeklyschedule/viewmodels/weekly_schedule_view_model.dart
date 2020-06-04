@@ -24,7 +24,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   bool isUpdating = false;
   Schedule weekSchedule;
 
-  Timer _errorResetTimer = null;
+  Timer _errorResetTimer;
 
   CancellationToken _updateScheduleCancellationToken;
 
@@ -110,7 +110,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
       notifyListeners("updateFailed");
 
       setSchedule(updatedSchedule);
-    } on OperationCancelledException catch (e) {} on ScheduleQueryFailedException catch (e) {
+    } on OperationCancelledException {} on ScheduleQueryFailedException {
       updateFailed = true;
       notifyListeners("updateFailed");
       cancelErrorInFuture();

@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -7,9 +8,10 @@ class ScheduleGrid extends CustomPaint {
   final double timeLabelsWidth;
   final double dateLabelsHeight;
   final int columns;
+  final Color gridLinesColor;
 
   ScheduleGrid(this.fromHour, this.toHour, this.timeLabelsWidth,
-      this.dateLabelsHeight, this.columns)
+      this.dateLabelsHeight, this.columns, this.gridLinesColor)
       : super(
             painter: ScheduleGridCustomPaint(
           fromHour,
@@ -17,6 +19,7 @@ class ScheduleGrid extends CustomPaint {
           timeLabelsWidth,
           dateLabelsHeight,
           columns,
+          gridLinesColor,
         ));
 }
 
@@ -26,6 +29,7 @@ class ScheduleGridCustomPaint extends CustomPainter {
   final double timeLabelsWidth;
   final double dateLabelsHeight;
   final int columns;
+  final Color gridLineColor;
 
   ScheduleGridCustomPaint(
     this.fromHour,
@@ -33,12 +37,13 @@ class ScheduleGridCustomPaint extends CustomPainter {
     this.timeLabelsWidth,
     this.dateLabelsHeight,
     this.columns,
+    this.gridLineColor,
   );
 
   @override
   void paint(Canvas canvas, Size size) {
     final secondaryPaint = Paint()
-      ..color = Colors.black12
+      ..color = gridLineColor
       ..strokeWidth = 1;
 
     var lines = toHour - fromHour;

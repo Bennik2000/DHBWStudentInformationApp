@@ -1,4 +1,5 @@
 import 'package:dhbwstuttgart/common/ui/base_view_model.dart';
+import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/widgets/current_time_indicator_widget.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/widgets/daily_schedule_entry_widget.dart';
@@ -61,10 +62,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
 
                     return Text(
                       dateFormat.format(model.currentDate),
-                      style: TextStyle(
-                        fontSize: 34,
-                        fontWeight: FontWeight.normal,
-                      ),
+                      style: textStyleDailyScheduleCurrentDate(context),
                     );
                   },
                 ),

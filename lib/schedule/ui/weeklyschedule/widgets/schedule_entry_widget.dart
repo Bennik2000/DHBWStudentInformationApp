@@ -1,4 +1,5 @@
 import 'package:dhbwstuttgart/common/ui/schedule_entry_type_mappings.dart';
+import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class ScheduleEntryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = scheduleEntryTypeToColor(scheduleEntry.type);
+    Color color = scheduleEntryTypeToColor(context, scheduleEntry.type);
 
     return Card(
       color: color,
@@ -35,7 +36,7 @@ class ScheduleEntryWidget extends StatelessWidget {
             softWrap: true,
             overflow: TextOverflow.clip,
             textAlign: TextAlign.left,
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold),
+            style: textStyleScheduleEntryWidgetTitle(context),
           ),
         ),
       ),

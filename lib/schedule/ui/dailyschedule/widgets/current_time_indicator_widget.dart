@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -9,13 +10,15 @@ class CurrentTimeIndicatorWidget extends StatelessWidget {
         Container(
           height: 10,
           width: 10,
-          decoration:
-              BoxDecoration(color: Colors.orange, shape: BoxShape.circle),
+          decoration: BoxDecoration(
+            color: colorCurrentTimeIndicator(context),
+            shape: BoxShape.circle,
+          ),
         ),
         Expanded(
           child: Container(
             height: 1,
-            color: Colors.orange,
+            color: colorCurrentTimeIndicator(context),
           ),
         )
       ],
