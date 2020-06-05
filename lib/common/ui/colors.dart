@@ -10,8 +10,8 @@ Color colorScheduleEntryClass(BuildContext context) =>
         : const Color(0xffa52632);
 Color colorScheduleEntryExam(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
-        ? const Color(0xffffe000)
-        : const Color(0xffb39d00);
+        ? const Color(0xfffdb531)
+        : const Color(0xffb17f22);
 Color colorScheduleEntryOnline(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffff2137)
@@ -35,6 +35,8 @@ Color colorDailyScheduleTimeVerticalConnector() => Colors.grey;
 Color colorSeparator() => Colors.grey;
 
 Color colorNoConnectionBackground() => Colors.black87;
+
+Color colorNoConnectionForeground() => Colors.white;
 
 class ColorPalettes {
   ColorPalettes._();
