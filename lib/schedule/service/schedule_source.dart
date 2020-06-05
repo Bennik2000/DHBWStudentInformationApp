@@ -11,6 +11,8 @@ abstract class ScheduleSource {
   ///
   Future<Schedule> querySchedule(DateTime from, DateTime to,
       [CancellationToken cancellationToken]);
+
+  void setEndpointUrl(String url);
 }
 
 class ScheduleQueryFailedException implements Exception {

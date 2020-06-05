@@ -1,8 +1,8 @@
-import 'package:dhbwstuttgart/common/data/preferences/preferences_access.dart';
-import 'package:dhbwstuttgart/common/data/preferences/preferences_provider.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/main_page.dart';
+import 'package:dhbwstuttgart/service_injector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -10,30 +10,14 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 void main() async {
-  Intl.defaultLocale = "de";
-  await initializeDateFormatting();
+  await setupLocale();
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  var rootViewModel = RootViewModel(PreferencesProvider(PreferencesAccess()));
-  await rootViewModel.loadFromPreferences();
+  injectServices();
 
-  runApp(MyApp(
-    rootViewModel: rootViewModel,
-  ));
-}
-
-class MyApp extends StatelessWidget {
-  final RootViewModel rootViewModel;
-
-  const MyApp({
-    Key key,
-    this.rootViewModel,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return PropertyChangeProvider(
+  runApp(
+    PropertyChangeProvider(
       child: PropertyChangeConsumer(
         properties: [
           "isDarkMode",
@@ -48,7 +32,21 @@ class MyApp extends StatelessWidget {
           home: MainPage(),
         ),
       ),
-      value: rootViewModel,
-    );
-  }
+      value: await setupRootViewModel(),
+    ),
+  );
+}
+
+Future<RootViewModel> setupRootViewModel() async {
+  var rootViewModel = RootViewModel(
+    kiwi.Container().resolve(),
+  );
+
+  await rootViewModel.loadFromPreferences();
+  return rootViewModel;
+}
+
+Future setupLocale() async {
+  Intl.defaultLocale = "de";
+  await initializeDateFormatting();
 }

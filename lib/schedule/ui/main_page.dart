@@ -1,8 +1,6 @@
-import 'package:dhbwstuttgart/common/data/database_access.dart';
 import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';
-import 'package:dhbwstuttgart/schedule/data/schedule_entry_repository.dart';
-import 'package:dhbwstuttgart/schedule/service/rapla/rapla_schedule_source.dart';
+import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/daily_schedule_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/settings/settings_page.dart';
@@ -11,6 +9,7 @@ import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/weekly_schedule_page.da
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:kiwi/kiwi.dart' as kiwi;
 
 class MainPage extends StatefulWidget {
   @override
@@ -20,23 +19,17 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _currentPageIndex = 0;
 
-  static final ScheduleProvider scheduleProvider = new ScheduleProvider(
-    new RaplaScheduleSource(
-        "https://rapla.dhbw-stuttgart.de/rapla?key=txB1FOi5xd1wUJBWuX8lJhGDUgtMSFmnKLgAG_NVMhCn4AzVqTBQM-yMcTKkIDCa"),
-    new ScheduleEntryRepository(new DatabaseAccess()),
-  );
-
   final List<Page> pages = <Page>[
     Page(
       widget: WeeklySchedulePage(),
       title: "Wochenübersicht",
-      viewModel: WeeklyScheduleViewModel(scheduleProvider),
+      viewModel: WeeklyScheduleViewModel(kiwi.Container().resolve()),
       key: Key("Weekly"),
     ),
     Page(
       widget: DailySchedulePage(),
       title: "Tagesübersicht",
-      viewModel: DailyScheduleViewModel(scheduleProvider),
+      viewModel: DailyScheduleViewModel(kiwi.Container().resolve()),
       key: Key("Daily"),
     ),
   ];
@@ -45,6 +38,15 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _currentPageIndex = index;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    ScheduleSource source = kiwi.Container().resolve();
+    source.setEndpointUrl(
+        "https://rapla.dhbw-stuttgart.de/rapla?key=txB1FOi5xd1wUJBWuX8lJhGDUgtMSFmnKLgAG_NVMhCn4AzVqTBQM-yMcTKkIDCa");
   }
 
   @override

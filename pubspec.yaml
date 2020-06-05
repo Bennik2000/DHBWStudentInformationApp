@@ -33,6 +33,7 @@ dependencies:
   http_client_helper: ^0.2.1
   shared_preferences: ^0.5.7+3
   url_launcher: ^5.4.10
+  kiwi: ^0.2.0
 
 dev_dependencies:
   flutter_test:

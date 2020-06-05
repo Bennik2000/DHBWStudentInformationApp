@@ -7,10 +7,15 @@ import 'package:http/http.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
 
 class RaplaScheduleSource extends ScheduleSource {
-  final String raplaUrl;
   final RaplaResponseParser responseParser = new RaplaResponseParser();
 
-  RaplaScheduleSource(this.raplaUrl);
+  String raplaUrl;
+
+  RaplaScheduleSource({this.raplaUrl});
+
+  void setEndpointUrl(String url) {
+    raplaUrl = url;
+  }
 
   @override
   Future<Schedule> querySchedule(DateTime from, DateTime to,
@@ -74,7 +79,7 @@ class RaplaScheduleSource extends ScheduleSource {
       var response = await http.HttpClientHelper.get(uri,
           cancelToken: requestCancellationToken);
 
-      if (response == null)
+      if (response == null && !requestCancellationToken.isCanceled)
         throw ScheduleQueryFailedException("Http request failed!");
 
       return response;
