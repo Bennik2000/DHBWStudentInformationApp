@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dhbwstuttgart/common/ui/base_view_model.dart';
+import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstuttgart/common/util/cancellation_token.dart';
 import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';

@@ -1,4 +1,4 @@
-import 'package:dhbwstuttgart/common/ui/base_view_model.dart';
+import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/widgets/current_time_indicator_widget.dart';

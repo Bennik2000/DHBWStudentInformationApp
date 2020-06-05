@@ -1,10 +1,11 @@
 import 'package:dhbwstuttgart/common/data/database_access.dart';
-import 'package:dhbwstuttgart/common/ui/base_view_model.dart';
+import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';
 import 'package:dhbwstuttgart/schedule/data/schedule_entry_repository.dart';
 import 'package:dhbwstuttgart/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/daily_schedule_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
+import 'package:dhbwstuttgart/schedule/ui/settings/settings_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,15 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(pages[_currentPageIndex].title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => SettingsPage()));
+            },
+          )
+        ],
       ),
       body: AnimatedSwitcher(
         child: Column(
