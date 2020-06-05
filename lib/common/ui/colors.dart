@@ -26,12 +26,18 @@ Color colorScheduleGridGridLines(BuildContext context) =>
         ? const Color(0xffe0e0e0)
         : const Color(0xff515151);
 
+Color colorScheduleInPastOverlay(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.light
+        ? const Color(0x1F000000)
+        : const Color(0x3F000000);
+
 Color colorCurrentTimeIndicator(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffffa500)
         : const Color(0xffb37300);
 
 Color colorDailyScheduleTimeVerticalConnector() => Colors.grey;
+
 Color colorSeparator() => Colors.grey;
 
 Color colorNoConnectionBackground() => Colors.black87;

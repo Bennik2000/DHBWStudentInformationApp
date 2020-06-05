@@ -24,11 +24,16 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   bool isUpdating = false;
   Schedule weekSchedule;
 
+  DateTime now;
+
   Timer _errorResetTimer;
+  Timer _updateNowTimer;
 
   CancellationToken _updateScheduleCancellationToken;
 
   WeeklyScheduleViewModel(this.scheduleProvider) {
+    now = DateTime.now();
+    _startUpdateNowTimer();
     goToToday();
   }
 
@@ -129,5 +134,23 @@ class WeeklyScheduleViewModel extends BaseViewModel {
         notifyListeners("updateFailed");
       },
     );
+  }
+
+  void _startUpdateNowTimer() {
+    if (_updateNowTimer == null) {
+      _updateNowTimer = Timer.periodic(Duration(minutes: 2), (_) {
+        now = DateTime.now();
+        notifyListeners("now");
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _updateNowTimer?.cancel();
+    _updateNowTimer = null;
+
+    _errorResetTimer?.cancel();
+    _errorResetTimer = null;
   }
 }

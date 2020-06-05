@@ -4,8 +4,10 @@ import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
+import 'package:dhbwstuttgart/schedule/ui/dailyschedule/widgets/current_time_indicator_widget.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/widgets/schedule_entry_widget.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/widgets/schedule_grid.dart';
+import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/widgets/schedule_past_overlay.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +17,7 @@ class ScheduleWidget extends StatelessWidget {
   final Schedule schedule;
   final DateTime displayStart;
   final DateTime displayEnd;
+  final DateTime now;
   final int displayStartHour = 7;
   final int displayEndHour = 19;
   final ScheduleEntryTapCallback onScheduleEntryTap;
@@ -25,6 +28,7 @@ class ScheduleWidget extends StatelessWidget {
     this.displayStart,
     this.displayEnd,
     this.onScheduleEntryTap,
+    this.now,
   }) : super(key: key);
 
   @override
@@ -49,8 +53,16 @@ class ScheduleWidget extends StatelessWidget {
     var difference = displayEnd?.difference(displayStart);
     var days = max(5, ((difference?.inHours ?? 0) / 24.0).ceil());
 
-    var labelWidgets = buildLabelWidgets(context, hourHeight,
-        (width - timeLabelsWidth) / days, dayLabelsHeight, timeLabelsWidth);
+    var labelWidgets = buildLabelWidgets(
+      context,
+      hourHeight,
+      (width - timeLabelsWidth) / days,
+      dayLabelsHeight,
+      timeLabelsWidth,
+      hourHeight,
+      minuteHeight,
+    );
+
     var entryWidgets = <Widget>[];
 
     if (schedule != null) {
@@ -81,13 +93,32 @@ class ScheduleWidget extends StatelessWidget {
         ),
         Stack(
           children: labelWidgets,
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
+          child: SchedulePastOverlay(
+            displayStartHour,
+            displayEndHour,
+            colorScheduleInPastOverlay(context),
+            displayStart,
+            displayEnd,
+            now,
+            days,
+          ),
         )
       ],
     );
   }
 
-  List<Widget> buildLabelWidgets(BuildContext context, double rowHeight,
-      double columnWidth, double dayLabelHeight, double timeLabelWidth) {
+  List<Widget> buildLabelWidgets(
+    BuildContext context,
+    double rowHeight,
+    double columnWidth,
+    double dayLabelHeight,
+    double timeLabelWidth,
+    double hourHeight,
+    double minuteHeight,
+  ) {
     var labelWidgets = List<Widget>();
 
     for (var i = displayStartHour; i < displayEndHour; i++) {

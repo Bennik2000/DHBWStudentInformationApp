@@ -1,4 +1,3 @@
-import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

@@ -67,12 +67,6 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("Diese Woche"),
-                    ),
-                  ),
                   FlatButton(
                     child: Icon(Icons.chevron_left),
                     onPressed: _previousWeek,
@@ -91,9 +85,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                 child: Stack(
                   children: <Widget>[
                     PropertyChangeConsumer(
-                      properties: [
-                        "weekSchedule",
-                      ],
+                      properties: ["weekSchedule", "now"],
                       builder: (BuildContext context,
                           WeeklyScheduleViewModel model, Set properties) {
                         return ScheduleWidget(
@@ -105,6 +97,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                           onScheduleEntryTap: (entry) {
                             _onScheduleEntryTap(context, entry);
                           },
+                          now: model.now,
                         );
                       },
                     ),
