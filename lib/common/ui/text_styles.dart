@@ -27,7 +27,11 @@ TextStyle textStyleDailyScheduleEntryWidgetTimeEnd(BuildContext context) =>
     Theme.of(context).textTheme.subtitle;
 
 TextStyle textStyleDailyScheduleCurrentDate(BuildContext context) =>
-    Theme.of(context).textTheme.display2;
+    Theme.of(context).textTheme.display2.copyWith(
+          color: Theme.of(context).textTheme.headline.color,
+        );
+TextStyle textStyleDailyScheduleNoEntries(BuildContext context) =>
+    Theme.of(context).textTheme.headline;
 
 TextStyle textStyleScheduleEntryWidgetTitle(BuildContext context) =>
     Theme.of(context).textTheme.body2.copyWith(
