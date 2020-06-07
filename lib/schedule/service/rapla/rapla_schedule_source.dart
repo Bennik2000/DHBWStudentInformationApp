@@ -91,4 +91,22 @@ class RaplaScheduleSource extends ScheduleSource {
       cancellationToken.setCancellationCallback(null);
     }
   }
+
+  @override
+  void validateEndpointUrl(String url) {
+    Uri uri;
+
+    try {
+      uri = Uri.parse(url);
+    } catch (e) {
+      throw EndpointUrlInvalid();
+    }
+
+    if (uri != null) {
+      if (!uri.queryParameters.containsKey("key"))
+        throw EndpointUrlMissingKey();
+    }
+  }
 }
+
+class EndpointUrlMissingKey implements EndpointUrlInvalid {}

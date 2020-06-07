@@ -13,6 +13,8 @@ abstract class ScheduleSource {
       [CancellationToken cancellationToken]);
 
   void setEndpointUrl(String url);
+
+  void validateEndpointUrl(String url);
 }
 
 class ScheduleQueryFailedException implements Exception {
@@ -25,3 +27,5 @@ class ScheduleQueryFailedException implements Exception {
     return innerException?.toString();
   }
 }
+
+class EndpointUrlInvalid implements Exception {}

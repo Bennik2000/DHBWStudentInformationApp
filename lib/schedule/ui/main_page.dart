@@ -1,8 +1,9 @@
 import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';
+import 'package:dhbwstuttgart/schedule/business/schedule_source_setup.dart';
 import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/daily_schedule_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
+import 'package:dhbwstuttgart/schedule/ui/onboarding/onboarding_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/settings/settings_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
@@ -43,10 +44,7 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-
-    ScheduleSource source = kiwi.Container().resolve();
-    source.setEndpointUrl(
-        "https://rapla.dhbw-stuttgart.de/rapla?key=txB1FOi5xd1wUJBWuX8lJhGDUgtMSFmnKLgAG_NVMhCn4AzVqTBQM-yMcTKkIDCa");
+    ScheduleSourceSetup().setupScheduleSource();
   }
 
   @override
@@ -61,7 +59,7 @@ class _MainPageState extends State<MainPage> {
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (BuildContext context) => SettingsPage()));
             },
-          )
+          ),
         ],
       ),
       body: AnimatedSwitcher(

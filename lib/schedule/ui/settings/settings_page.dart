@@ -1,5 +1,6 @@
 import 'package:dhbwstuttgart/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstuttgart/common/ui/widgets/title_list_tile.dart';
+import 'package:dhbwstuttgart/schedule/ui/onboarding/onboarding_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
@@ -17,7 +18,10 @@ class SettingsPage extends StatelessWidget {
           TitleListTile(title: "Vorlesungsplan"),
           ListTile(
             title: Text("Rapla URL festlegen"),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (BuildContext context) => OnboardingPage()));
+            },
           ),
           Divider(),
           TitleListTile(title: "Aussehen"),

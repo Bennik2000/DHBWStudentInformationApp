@@ -1,3 +1,5 @@
+import 'package:dhbwstuttgart/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstuttgart/schedule/ui/onboarding/onboarding_page.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/viewmodels/root_view_model.dart';
@@ -16,6 +18,8 @@ void main() async {
 
   injectServices();
 
+  bool firstStart = await isFirstStart();
+
   runApp(
     PropertyChangeProvider(
       child: PropertyChangeConsumer(
@@ -29,12 +33,18 @@ void main() async {
             accentColor: ColorPalettes.main[500],
             primarySwatch: ColorPalettes.main,
           ),
-          home: MainPage(),
+          home: firstStart ? OnboardingPage() : MainPage(),
         ),
       ),
       value: await setupRootViewModel(),
     ),
   );
+}
+
+Future<bool> isFirstStart() async {
+  PreferencesProvider preferencesProvider = kiwi.Container().resolve();
+  bool firstStart = await preferencesProvider.isFirstStart();
+  return firstStart;
 }
 
 Future<RootViewModel> setupRootViewModel() async {
