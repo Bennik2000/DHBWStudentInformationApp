@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstuttgart/common/util/cancellation_token.dart';
@@ -19,6 +20,9 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   DateTime clippedDateStart;
   DateTime clippedDateEnd;
 
+  int displayStartHour;
+  int displayEndHour;
+
   bool updateFailed = false;
 
   bool isUpdating = false;
@@ -37,11 +41,17 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     goToToday();
   }
 
-  Future setSchedule(Schedule schedule) async {
+  Future _setSchedule(Schedule schedule) async {
     weekSchedule = schedule;
 
     clippedDateStart = weekSchedule?.getStartDate();
     clippedDateEnd = weekSchedule?.getEndDate();
+
+    displayStartHour = weekSchedule?.getStartTime()?.hour ?? 23;
+    displayStartHour = min(7, displayStartHour);
+
+    displayEndHour = weekSchedule?.getEndTime()?.hour ?? 0;
+    displayEndHour = max(displayEndHour + 1, 17);
 
     notifyListeners("weekSchedule");
   }
@@ -57,9 +67,6 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     currentDateStart = toPreviousWeek(currentDateStart);
     currentDateEnd = toPreviousWeek(currentDateEnd);
 
-    if (currentDateStart.hour == 23)
-      print("Is hour 23: " + DateFormat.yMd().format(currentDateStart));
-
     await updateSchedule();
   }
 
@@ -74,7 +81,6 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Future updateSchedule() async {
     if (_updateScheduleCancellationToken != null) {
       _updateScheduleCancellationToken.cancel();
-      print("Initiated cancel!");
     }
 
     _updateScheduleCancellationToken = new CancellationToken();
@@ -95,7 +101,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   }
 
   Future _updateScheduleFromCache() async {
-    setSchedule(
+    _setSchedule(
       await scheduleProvider.getCachedSchedule(
         currentDateStart,
         currentDateEnd,
@@ -114,15 +120,15 @@ class WeeklyScheduleViewModel extends BaseViewModel {
       updateFailed = false;
       notifyListeners("updateFailed");
 
-      setSchedule(updatedSchedule);
+      _setSchedule(updatedSchedule);
     } on OperationCancelledException {} on ScheduleQueryFailedException {
       updateFailed = true;
       notifyListeners("updateFailed");
-      cancelErrorInFuture();
+      _cancelErrorInFuture();
     }
   }
 
-  void cancelErrorInFuture() async {
+  void _cancelErrorInFuture() async {
     if (_errorResetTimer != null) {
       _errorResetTimer.cancel();
     }
@@ -147,6 +153,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
   @override
   void dispose() {
+    super.dispose();
+
     _updateNowTimer?.cancel();
     _updateNowTimer = null;
 

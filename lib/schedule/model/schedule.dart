@@ -46,4 +46,50 @@ class Schedule {
 
     return date;
   }
+
+  DateTime getStartTime() {
+    DateTime earliestTime;
+
+    for (var entry in entries) {
+      var entryTime = DateTime(
+        0,
+        1,
+        1,
+        entry.start.hour,
+        entry.start.minute,
+        entry.start.second,
+        entry.start.millisecond,
+        entry.start.microsecond,
+      );
+
+      if (earliestTime == null || entryTime.isBefore(earliestTime)) {
+        earliestTime = entryTime;
+      }
+    }
+
+    return earliestTime;
+  }
+
+  DateTime getEndTime() {
+    DateTime latestTime;
+
+    for (var entry in entries) {
+      var entryTime = DateTime(
+        0,
+        1,
+        1,
+        entry.end.hour,
+        entry.end.minute,
+        entry.end.second,
+        entry.end.millisecond,
+        entry.end.microsecond,
+      );
+
+      if (latestTime == null || entryTime.isAfter(latestTime)) {
+        latestTime = entryTime;
+      }
+    }
+
+    return latestTime;
+  }
 }

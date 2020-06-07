@@ -98,6 +98,8 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                             _onScheduleEntryTap(context, entry);
                           },
                           now: model.now,
+                          displayEndHour: model.displayEndHour,
+                          displayStartHour: model.displayStartHour,
                         );
                       },
                     ),

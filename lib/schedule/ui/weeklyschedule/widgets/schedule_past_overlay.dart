@@ -96,15 +96,17 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
     var displayedMinutes = (toHour - fromHour) * 60;
     var leftoverHeight = leftoverMinutes * (size.height / displayedMinutes);
 
-    canvas.drawRect(
-      Rect.fromLTWH(
-        dayWidth * differenceInDays,
-        0,
-        dayWidth,
-        leftoverHeight,
-      ),
-      overlayPaint,
-    );
+    if (leftoverHeight > 0) {
+      canvas.drawRect(
+        Rect.fromLTWH(
+          dayWidth * differenceInDays,
+          0,
+          dayWidth,
+          leftoverHeight,
+        ),
+        overlayPaint,
+      );
+    }
   }
 
   @override

@@ -18,8 +18,8 @@ class ScheduleWidget extends StatelessWidget {
   final DateTime displayStart;
   final DateTime displayEnd;
   final DateTime now;
-  final int displayStartHour = 7;
-  final int displayEndHour = 19;
+  final int displayStartHour;
+  final int displayEndHour;
   final ScheduleEntryTapCallback onScheduleEntryTap;
 
   const ScheduleWidget({
@@ -29,6 +29,8 @@ class ScheduleWidget extends StatelessWidget {
     this.displayEnd,
     this.onScheduleEntryTap,
     this.now,
+    this.displayStartHour,
+    this.displayEndHour,
   }) : super(key: key);
 
   @override
