@@ -84,9 +84,9 @@ class RaplaScheduleSource extends ScheduleSource {
 
       return response;
     } on http.OperationCanceledError catch (_) {
-      rethrow;
+      throw OperationCancelledException();
     } catch (ex) {
-      rethrow;
+      if (!requestCancellationToken.isCanceled) rethrow;
     } finally {
       cancellationToken.setCancellationCallback(null);
     }
