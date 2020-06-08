@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS ScheduleEntries
   title TEXT,
   details TEXT,
   professor TEXT,
+  room TEXT,
   type INTEGER
 );
 ''',

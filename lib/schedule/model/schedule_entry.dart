@@ -13,6 +13,7 @@ class ScheduleEntry {
   final String title;
   final String details;
   final String professor;
+  final String room;
   final ScheduleEntryType type;
 
   ScheduleEntry({
@@ -22,6 +23,7 @@ class ScheduleEntry {
     this.title,
     this.details,
     this.professor,
+    this.room,
     this.type,
   });
 }

@@ -5,12 +5,16 @@ DateTime toStartOfDay(DateTime dateTime) {
 }
 
 DateTime tomorrow(DateTime dateTime) {
+  return addDays(dateTime, 1);
+}
+
+DateTime addDays(DateTime dateTime, int days) {
   return dateTime == null
       ? null
       : DateTime(
           dateTime.year,
           dateTime.month,
-          dateTime.day + 1,
+          dateTime.day + days,
           dateTime.hour,
           dateTime.minute,
           dateTime.second,
@@ -53,4 +57,11 @@ bool isAtSameDay(DateTime date1, DateTime date2) {
   return date1.year == date2.year &&
       date1.month == date2.month &&
       date1.day == date2.day;
+}
+
+DateTime toDayOfWeek(DateTime dateTime, int weekday) {
+  if (dateTime == null) return null;
+
+  var startOfWeek = addDays(dateTime, -dateTime.weekday);
+  return addDays(startOfWeek, weekday);
 }

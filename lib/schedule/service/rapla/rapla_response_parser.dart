@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/util/string_utils.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:html/dom.dart';
@@ -8,10 +9,12 @@ class RaplaResponseParser {
   static const String WEEK_BLOCK_CLASS = "week_block";
   static const String TOOLTIP_CLASS = "tooltip";
   static const String INFOTABLE_CLASS = "infotable";
+  static const String RESOURCE_CLASS = "resource";
   static const String LABEL_CLASS = "label";
   static const String VALUE_CLASS = "value";
   static const String CLASS_NAME_LABEL = "Veranstaltungsname:";
   static const String PROFESSOR_NAME_LABEL = "Personen:";
+  static const String DETAILS_LABEL = "Bemerkung:";
   static const String TYPE_TAG_NAME = "strong";
 
   static const Map<String, ScheduleEntryType> entryTypeMapping = {
@@ -44,7 +47,10 @@ class RaplaResponseParser {
         Map<String, String> properties = _parsePropertiesTable(infotable[0]);
         title = properties[CLASS_NAME_LABEL];
         professor = properties[PROFESSOR_NAME_LABEL];
+        details = properties[DETAILS_LABEL];
       }
+
+      var resource = _extractResources(value);
 
       var scheduleEntry = new ScheduleEntry(
         start: start,
@@ -53,6 +59,7 @@ class RaplaResponseParser {
         details: details,
         professor: professor,
         type: type,
+        room: concatStringList(resource, ", "),
       );
 
       schedule.addEntry(scheduleEntry);
@@ -103,5 +110,16 @@ class RaplaResponseParser {
     var date = DateFormat("dd.MM.yy").parse(dateString.substring(3, 11));
 
     return DateTime(date.year + 2000, date.month, date.day);
+  }
+
+  List<String> _extractResources(Element value) {
+    var resources = value.getElementsByClassName(RESOURCE_CLASS);
+
+    var resourcesList = <String>[];
+    for (var resource in resources) {
+      resourcesList.add(resource.innerHtml);
+    }
+
+    return resourcesList;
   }
 }

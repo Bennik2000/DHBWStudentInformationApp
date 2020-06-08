@@ -4,7 +4,7 @@ import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
-import 'package:dhbwstuttgart/schedule/ui/schedule_entry_detail_bottom_sheet.dart';
+import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/schedule_entry_detail_bottom_sheet.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/widgets/schedule_widget.dart';
 import 'package:flutter/cupertino.dart';

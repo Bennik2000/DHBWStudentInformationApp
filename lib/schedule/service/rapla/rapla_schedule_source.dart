@@ -56,14 +56,28 @@ class RaplaScheduleSource extends ScheduleSource {
 
   Uri _buildRequestUri(DateTime date) {
     var uri = Uri.parse(raplaUrl);
-    var keyParameter = uri.queryParameters["key"];
 
-    var requestUri = Uri.https(uri.authority, uri.path, {
-      "key": keyParameter,
-      "day": date.day.toString(),
-      "month": date.month.toString(),
-      "year": date.year.toString()
-    });
+    bool hasKeyParameter = uri.queryParameters.containsKey("key");
+    bool hasUserParameter = uri.queryParameters.containsKey("user");
+    bool hasFileParameter = uri.queryParameters.containsKey("file");
+    bool hasPageParameter = uri.queryParameters.containsKey("page");
+
+    Map<String, String> parameters = {};
+
+    if (hasKeyParameter) {
+      parameters["key"] = uri.queryParameters["key"];
+    } else {
+      if (hasUserParameter) parameters["user"] = uri.queryParameters["user"];
+      if (hasFileParameter) parameters["file"] = uri.queryParameters["file"];
+      if (hasPageParameter) parameters["page"] = uri.queryParameters["page"];
+    }
+
+    parameters["day"] = date.day.toString();
+    parameters["month"] = date.month.toString();
+    parameters["year"] = date.year.toString();
+
+    var requestUri = Uri.https(uri.authority, uri.path, parameters);
+
     return requestUri;
   }
 
@@ -103,10 +117,20 @@ class RaplaScheduleSource extends ScheduleSource {
     }
 
     if (uri != null) {
-      if (!uri.queryParameters.containsKey("key"))
-        throw EndpointUrlMissingKey();
+      bool hasKeyParameter = uri.queryParameters.containsKey("key");
+      bool hasUserParameter = uri.queryParameters.containsKey("user");
+      bool hasFileParameter = uri.queryParameters.containsKey("file");
+      bool hasPageParameter = uri.queryParameters.containsKey("page");
+
+      if (hasUserParameter && hasFileParameter && hasPageParameter) {
+        return;
+      }
+
+      if (hasKeyParameter) {
+        return;
+      }
+
+      throw EndpointUrlInvalid();
     }
   }
 }
-
-class EndpointUrlMissingKey implements EndpointUrlInvalid {}

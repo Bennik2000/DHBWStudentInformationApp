@@ -44,14 +44,28 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Future _setSchedule(Schedule schedule) async {
     weekSchedule = schedule;
 
-    clippedDateStart = weekSchedule?.getStartDate();
-    clippedDateEnd = weekSchedule?.getEndDate();
+    if (weekSchedule != null) {
+      var scheduleStart = weekSchedule.getStartDate();
+      clippedDateStart = toDayOfWeek(scheduleStart, DateTime.monday);
 
-    displayStartHour = weekSchedule?.getStartTime()?.hour ?? 23;
-    displayStartHour = min(7, displayStartHour);
+      if (scheduleStart?.isBefore(clippedDateStart) ?? false)
+        clippedDateStart = scheduleStart;
 
-    displayEndHour = weekSchedule?.getEndTime()?.hour ?? 0;
-    displayEndHour = max(displayEndHour + 1, 17);
+      var scheduleEnd = weekSchedule.getEndDate();
+      clippedDateEnd = toDayOfWeek(scheduleEnd, DateTime.friday);
+
+      if (scheduleEnd?.isAfter(clippedDateEnd) ?? false)
+        clippedDateEnd = scheduleEnd;
+
+      displayStartHour = weekSchedule?.getStartTime()?.hour ?? 23;
+      displayStartHour = min(7, displayStartHour);
+
+      displayEndHour = weekSchedule?.getEndTime()?.hour ?? 0;
+      displayEndHour = max(displayEndHour + 1, 17);
+    } else {
+      clippedDateStart = currentDateStart;
+      clippedDateEnd = currentDateEnd;
+    }
 
     notifyListeners("weekSchedule");
   }

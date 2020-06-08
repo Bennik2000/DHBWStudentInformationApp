@@ -23,13 +23,27 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
         scheduleEntryTypeToReadableString(context, scheduleEntry.type);
 
     return Container(
-      height: 200,
+      height: 400,
       child: Padding(
-        padding: const EdgeInsets.all(24.0),
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+              child: Center(
+                child: Container(
+                  height: 8,
+                  width: 30,
+                  decoration: new BoxDecoration(
+                      color: colorSeparator(),
+                      borderRadius:
+                          new BorderRadius.all(const Radius.circular(4))),
+                  child: null,
+                ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
               child: Row(
@@ -101,6 +115,12 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
+            scheduleEntry.room?.isEmpty ?? true
+                ? Container()
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                    child: Text(scheduleEntry.room),
+                  ),
             scheduleEntry.details?.isEmpty ?? true
                 ? Container()
                 : Padding(
