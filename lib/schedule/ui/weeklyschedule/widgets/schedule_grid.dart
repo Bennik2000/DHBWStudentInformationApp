@@ -52,9 +52,11 @@ class ScheduleGridCustomPaint extends CustomPainter {
   }
 
   void drawHorizontalLines(
-      int lines, Size size, Canvas canvas, Paint secondaryPaint) {
-    //canvas.drawLine(Offset(0, 0), Offset(size.width, 0), secondaryPaint);
-
+    int lines,
+    Size size,
+    Canvas canvas,
+    Paint secondaryPaint,
+  ) {
     for (var i = 0; i < lines; i++) {
       var y = ((size.height - dateLabelsHeight) / lines) * i + dateLabelsHeight;
 

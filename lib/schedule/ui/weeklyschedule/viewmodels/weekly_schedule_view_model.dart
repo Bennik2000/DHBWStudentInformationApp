@@ -20,8 +20,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   DateTime clippedDateStart;
   DateTime clippedDateEnd;
 
-  int displayStartHour;
-  int displayEndHour;
+  int displayStartHour = 7;
+  int displayEndHour = 17;
 
   bool updateFailed = false;
 

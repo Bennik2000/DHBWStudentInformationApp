@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
@@ -37,8 +38,8 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                 child: PropertyChangeConsumer(
                   builder: (BuildContext context, DailyScheduleViewModel model,
                       Set properties) {
-                    var dateFormat = DateFormat("EEEE, d.M.yyyy");
-
+                    var dateFormat = DateFormat.yMMMMEEEEd(
+                        L.of(context).locale.languageCode);
                     return Text(
                       dateFormat.format(model.currentDate),
                       style: textStyleDailyScheduleCurrentDate(context),
@@ -57,7 +58,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                           Expanded(
                             flex: 8,
                             child: Text(
-                              "Keine Vorlesungen für heute",
+                              L.of(context).dailyScheduleNoEntriesToday,
                               softWrap: true,
                               textAlign: TextAlign.center,
                               style: textStyleDailyScheduleNoEntries(context),

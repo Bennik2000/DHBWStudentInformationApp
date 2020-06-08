@@ -1,5 +1,7 @@
 import 'package:dhbwstuttgart/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/schedule/ui/onboarding/onboarding_page.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/viewmodels/root_view_model.dart';
@@ -7,13 +9,9 @@ import 'package:dhbwstuttgart/schedule/ui/main_page.dart';
 import 'package:dhbwstuttgart/service_injector.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 void main() async {
-  await setupLocale();
-
   WidgetsFlutterBinding.ensureInitialized();
 
   injectServices();
@@ -34,6 +32,15 @@ void main() async {
             primarySwatch: ColorPalettes.main,
           ),
           home: firstStart ? OnboardingPage() : MainPage(),
+          localizationsDelegates: [
+            const LocalizationDelegate(),
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+          ],
+          supportedLocales: [
+            const Locale('en'),
+            const Locale('de'),
+          ],
         ),
       ),
       value: await setupRootViewModel(),
@@ -54,9 +61,4 @@ Future<RootViewModel> setupRootViewModel() async {
 
   await rootViewModel.loadFromPreferences();
   return rootViewModel;
-}
-
-Future setupLocale() async {
-  Intl.defaultLocale = "de";
-  await initializeDateFormatting();
 }

@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/text_styles.dart';
@@ -143,7 +144,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(24, 4, 24, 4),
                         child: Text(
-                          "Keine Verbindung!",
+                          L.of(context).noConnectionMessage,
                           textAlign: TextAlign.center,
                           style: textStyleUpdateNoConnection(context),
                         ),

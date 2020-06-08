@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/schedule_entry_type_mappings.dart';
 import 'package:dhbwstuttgart/common/ui/text_styles.dart';
@@ -16,7 +17,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     if (scheduleEntry == null) return Container();
 
-    var timeFormatter = DateFormat("HH:mm");
+    var timeFormatter = DateFormat.Hm(L.of(context).locale.languageCode);
 
     var startTime = timeFormatter.format(scheduleEntry.start);
     var endTime = timeFormatter.format(scheduleEntry.end);

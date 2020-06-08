@@ -1,3 +1,5 @@
+import 'package:dhbwstuttgart/common/application_constants.dart';
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstuttgart/common/ui/widgets/title_list_tile.dart';
 import 'package:dhbwstuttgart/schedule/ui/onboarding/onboarding_page.dart';
@@ -11,20 +13,23 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Settings"),
+        title: Text(L.of(context).settingsPageTitle),
       ),
       body: ListView(
         children: <Widget>[
-          TitleListTile(title: "Vorlesungsplan"),
+          TitleListTile(title: L.of(context).settingsScheduleSourceTitle),
           ListTile(
-            title: Text("Rapla URL festlegen"),
+            title: Text(L.of(context).settingsScheduleSourceUrl),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => OnboardingPage()));
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => OnboardingPage(),
+                ),
+              );
             },
           ),
           Divider(),
-          TitleListTile(title: "Aussehen"),
+          TitleListTile(title: L.of(context).settingsDesign),
           PropertyChangeConsumer(
             properties: [
               "isDarkMode",
@@ -32,30 +37,30 @@ class SettingsPage extends StatelessWidget {
             builder:
                 (BuildContext context, RootViewModel model, Set properties) {
               return SwitchListTile(
-                title: Text("Dark mode"),
+                title: Text(L.of(context).settingsDarkMode),
                 onChanged: model.setIsDarkMode,
                 value: model.isDarkMode,
               );
             },
           ),
           Divider(),
-          TitleListTile(title: "Über"),
+          TitleListTile(title: L.of(context).settingsAboutTitle),
           ListTile(
-            title: Text("Über die DHBW App"),
+            title: Text(L.of(context).settingsAbout),
             onTap: () {
               showAboutDialog(
                 context: context,
                 applicationIcon: Icon(Icons.security),
-                applicationLegalese: "Designed and developed by Benedikt Kolb",
-                applicationName: "DHBW Student App",
-                applicationVersion: "v0.0.1",
+                applicationLegalese: L.of(context).applicationLegalese,
+                applicationName: L.of(context).applicationName,
+                applicationVersion: ApplicationVersion,
               );
             },
           ),
           ListTile(
-            title: Text("Source code auf GitHub ansehen"),
+            title: Text(L.of(context).settingsViewSourceCode),
             onTap: () {
-              launch("https://github.com/Bennik2000/DHBWStudentInformationApp");
+              launch(ApplicationSourceCodeUrl);
             },
           ),
           Divider()

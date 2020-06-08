@@ -1,9 +1,8 @@
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_source_setup.dart';
-import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/daily_schedule_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
-import 'package:dhbwstuttgart/schedule/ui/onboarding/onboarding_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/settings/settings_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
@@ -23,13 +22,13 @@ class _MainPageState extends State<MainPage> {
   final List<Page> pages = <Page>[
     Page(
       widget: WeeklySchedulePage(),
-      title: "Wochenübersicht",
+      title: (BuildContext context) => L.of(context).pageWeekOverviewTitle,
       viewModel: WeeklyScheduleViewModel(kiwi.Container().resolve()),
       key: Key("Weekly"),
     ),
     Page(
       widget: DailySchedulePage(),
-      title: "Tagesübersicht",
+      title: (BuildContext context) => L.of(context).pageDayOverviewTitle,
       viewModel: DailyScheduleViewModel(kiwi.Container().resolve()),
       key: Key("Daily"),
     ),
@@ -51,7 +50,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(pages[_currentPageIndex].title),
+        title: Text(pages[_currentPageIndex].title(context)),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),
@@ -83,11 +82,11 @@ class _MainPageState extends State<MainPage> {
         items: <BottomNavigationBarItem>[
           new BottomNavigationBarItem(
             icon: Icon(Icons.view_week),
-            title: Text('Wochenübersicht'),
+            title: Text(L.of(context).pageWeekOverviewTitle),
           ),
           new BottomNavigationBarItem(
             icon: Icon(Icons.calendar_view_day),
-            title: Text('Tagesübersicht'),
+            title: Text(L.of(context).pageDayOverviewTitle),
           )
         ],
       ),
@@ -98,7 +97,7 @@ class _MainPageState extends State<MainPage> {
 class Page {
   final Widget widget;
   final Color color;
-  final String title;
+  final String Function(BuildContext context) title;
   final BaseViewModel viewModel;
   final Key key;
 

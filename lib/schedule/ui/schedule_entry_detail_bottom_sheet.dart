@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/schedule_entry_type_mappings.dart';
 import 'package:dhbwstuttgart/common/ui/text_styles.dart';
@@ -14,7 +15,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var formatter = new DateFormat('HH:mm');
+    var formatter = DateFormat.Hm(L.of(context).locale.languageCode);
     var timeStart = formatter.format(scheduleEntry.start);
     var timeEnd = formatter.format(scheduleEntry.end);
 
@@ -42,7 +43,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                         textBaseline: TextBaseline.alphabetic,
                         children: <Widget>[
                           Text(
-                            "Von: ",
+                            L.of(context).scheduleEntryDetailFrom,
                             style: textStyleScheduleEntryBottomPageTimeFromTo(
                                 context),
                           ),
@@ -58,7 +59,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                         textBaseline: TextBaseline.alphabetic,
                         children: <Widget>[
                           Text(
-                            "Bis: ",
+                            L.of(context).scheduleEntryDetailTo,
                             style: textStyleScheduleEntryBottomPageTimeFromTo(
                               context,
                             ),

@@ -1,10 +1,10 @@
 import 'dart:math';
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/common/ui/text_styles.dart';
 import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
-import 'package:dhbwstuttgart/schedule/ui/dailyschedule/widgets/current_time_indicator_widget.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/widgets/schedule_entry_widget.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/widgets/schedule_grid.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/widgets/schedule_past_overlay.dart';
@@ -140,8 +140,8 @@ class ScheduleWidget extends StatelessWidget {
 
     var i = 0;
 
-    var dayFormatter = DateFormat("E");
-    var dateFormatter = DateFormat("d. MMM");
+    var dayFormatter = DateFormat("E", L.of(context).locale.languageCode);
+    var dateFormatter = DateFormat("d. MMM", L.of(context).locale.languageCode);
 
     for (var columnDate = displayStart;
         columnDate.isBefore(displayEnd);

@@ -1,3 +1,4 @@
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/common/ui/colors.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
 import 'package:flutter/material.dart';
@@ -14,11 +15,12 @@ final Map<ScheduleEntryType, ColorDelegate> scheduleEntryTypeColorMapping = {
 };
 
 final Map<ScheduleEntryType, TextDelegate> scheduleEntryTypeTextMapping = {
-  ScheduleEntryType.PublicHoliday: (c) => "Feiertag",
-  ScheduleEntryType.Class: (c) => "Vorlesung",
-  ScheduleEntryType.Exam: (c) => "Klausur / Prüfung",
-  ScheduleEntryType.Online: (c) => "Online Vorlesung",
-  ScheduleEntryType.Unknown: (c) => "",
+  ScheduleEntryType.PublicHoliday: (c) =>
+      L.of(c).scheduleEntryTypePublicHoliday,
+  ScheduleEntryType.Class: (c) => L.of(c).scheduleEntryTypeClass,
+  ScheduleEntryType.Exam: (c) => L.of(c).scheduleEntryTypeExam,
+  ScheduleEntryType.Online: (c) => L.of(c).scheduleEntryTypeOnline,
+  ScheduleEntryType.Unknown: (c) => L.of(c).scheduleEntryTypeUnknown,
 };
 
 Color scheduleEntryTypeToColor(
