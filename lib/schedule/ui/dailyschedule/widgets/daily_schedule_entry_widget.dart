@@ -75,15 +75,34 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                         style: textStyleDailyScheduleEntryWidgetTitle(context),
                       ),
                     ),
-                    Text(
-                      scheduleEntry.professor,
-                      style:
-                          textStyleDailyScheduleEntryWidgetProfessor(context),
-                    ),
-                    Text(
-                      scheduleEntryTypeToReadableString(
-                          context, scheduleEntry.type),
-                      style: textStyleDailyScheduleEntryWidgetType(context),
+                    Row(
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            Text(
+                              scheduleEntry.professor,
+                              style: textStyleDailyScheduleEntryWidgetProfessor(
+                                  context),
+                            ),
+                            Text(
+                              scheduleEntryTypeToReadableString(
+                                  context, scheduleEntry.type),
+                              style: textStyleDailyScheduleEntryWidgetType(
+                                  context),
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(32, 0, 0, 0),
+                            child: Text(
+                              scheduleEntry.room ?? "",
+                              softWrap: true,
+                              textAlign: TextAlign.end,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
