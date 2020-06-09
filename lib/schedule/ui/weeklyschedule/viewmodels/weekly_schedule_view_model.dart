@@ -7,7 +7,6 @@ import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';
 import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
-import 'package:intl/intl.dart';
 
 class WeeklyScheduleViewModel extends BaseViewModel {
   static const Duration weekDuration = Duration(days: 7);

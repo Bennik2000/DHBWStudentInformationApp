@@ -4,9 +4,17 @@ import 'package:dhbwstuttgart/schedule/model/schedule.dart';
 import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
 import 'package:intl/intl.dart';
 
+typedef ScheduleUpdatedCallback = Future<void> Function(
+  Schedule schedule,
+  DateTime start,
+  DateTime end,
+);
+
 class ScheduleProvider {
   final ScheduleSource _scheduleSource;
   final ScheduleEntryRepository _scheduleEntryRepository;
+  final List<ScheduleUpdatedCallback> _scheduleUpdatedCallbacks =
+      <ScheduleUpdatedCallback>[];
 
   ScheduleProvider(this._scheduleSource, this._scheduleEntryRepository);
 
@@ -45,11 +53,24 @@ class ScheduleProvider {
         await _scheduleEntryRepository.saveSchedule(updatedSchedule);
       }
 
+      for (var c in _scheduleUpdatedCallbacks) {
+        await c(updatedSchedule, start, end);
+      }
+
       return updatedSchedule;
     } on ScheduleQueryFailedException catch (e) {
       print("Failed to fetch schedule!");
       print(e.innerException.toString());
       rethrow;
     }
+  }
+
+  void registerScheduleUpdatedCallback(ScheduleUpdatedCallback callback) {
+    _scheduleUpdatedCallbacks.add(callback);
+  }
+
+  void unregisterScheduleUpdatedCallback(ScheduleUpdatedCallback callback) {
+    if (_scheduleUpdatedCallbacks.contains(callback))
+      _scheduleUpdatedCallbacks.remove(callback);
   }
 }

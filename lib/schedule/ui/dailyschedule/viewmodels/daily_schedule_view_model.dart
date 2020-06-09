@@ -13,6 +13,8 @@ class DailyScheduleViewModel extends BaseViewModel {
   Schedule daySchedule;
 
   DailyScheduleViewModel(this.scheduleProvider) {
+    scheduleProvider.registerScheduleUpdatedCallback(_scheduleUpdatedCallback);
+
     loadScheduleForToday();
   }
 
@@ -38,6 +40,34 @@ class DailyScheduleViewModel extends BaseViewModel {
         currentDate,
         tomorrow(currentDate),
       ),
+    );
+  }
+
+  Future<void> _scheduleUpdatedCallback(
+    Schedule schedule,
+    DateTime start,
+    DateTime end,
+  ) async {
+    if (schedule == null) return;
+
+    start = toStartOfDay(start);
+    end = toStartOfDay(tomorrow(end));
+
+    if (!(start.isAfter(currentDate) || end.isBefore(currentDate))) {
+      setSchedule(
+        schedule.trim(
+          toStartOfDay(currentDate),
+          toStartOfDay(tomorrow(currentDate)),
+        ),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    scheduleProvider.unregisterScheduleUpdatedCallback(
+      _scheduleUpdatedCallback,
     );
   }
 }
