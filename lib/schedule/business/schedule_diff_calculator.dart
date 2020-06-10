@@ -39,10 +39,10 @@ class ScheduleDiffCalculator {
     return entry1.start.isAtSameMomentAs(entry2.start) &&
         entry1.end.isAtSameMomentAs(entry2.end) &&
         entry1.type == entry2.type &&
-        entry1.room == entry2.room &&
-        entry1.details == entry2.details &&
-        entry1.title == entry2.title &&
-        entry1.professor == entry2.professor;
+        (entry1.room ?? "") == (entry2.room ?? "") &&
+        (entry1.details ?? "") == (entry2.details ?? "") &&
+        (entry1.title ?? "") == (entry2.title ?? "") &&
+        (entry1.professor ?? "") == (entry2.professor ?? "");
   }
 
   ScheduleDiff _tryConnectNewAndOldEntries(
@@ -94,7 +94,13 @@ class ScheduleDiffCalculator {
       }
 
       if (oldElementsWithName.length > 1 && newElementsWithName.length > 1) {
-        // TODO: Try to match the scenario where several entries changed (several new and several old entries with same name)
+        _matchMNChangedElements(
+          oldElementsWithName,
+          newElementsWithName,
+          updatedEntries,
+          oldEntries,
+          newEntries,
+        );
         continue;
       }
     }
@@ -104,6 +110,54 @@ class ScheduleDiffCalculator {
       removedEntries: oldEntries,
       addedEntries: newEntries,
     );
+  }
+
+  void _matchMNChangedElements(
+      List<ScheduleEntry> oldElementsWithName,
+      List<ScheduleEntry> newElementsWithName,
+      List<UpdatedEntry> updatedEntries,
+      List<ScheduleEntry> oldEntries,
+      List<ScheduleEntry> newEntries) {
+    if (oldElementsWithName.length == newElementsWithName.length) {
+      for (var oldElement in oldElementsWithName) {
+        ScheduleEntry nearestElement =
+            _findNearestElementByStart(newElementsWithName, oldElement);
+
+        newElementsWithName.remove(nearestElement);
+
+        updatedEntries.add(
+          UpdatedEntry(
+            nearestElement,
+            nearestElement.getDifferentProperties(oldElement),
+          ),
+        );
+      }
+    } else {
+      for (var oldElement in oldElementsWithName) {
+        oldEntries.add(oldElement);
+      }
+
+      for (var newElement in newElementsWithName) {
+        newEntries.add(newElement);
+      }
+    }
+  }
+
+  ScheduleEntry _findNearestElementByStart(
+      List<ScheduleEntry> elements, ScheduleEntry reference) {
+    ScheduleEntry nearestElement = elements[0];
+    Duration minimalDifference =
+        reference.start.difference(nearestElement.start).abs();
+
+    for (var newElement in elements) {
+      var difference = reference.start.difference(newElement.start).abs();
+
+      if (difference < minimalDifference) {
+        nearestElement = newElement;
+        minimalDifference = difference;
+      }
+    }
+    return nearestElement;
   }
 }
 

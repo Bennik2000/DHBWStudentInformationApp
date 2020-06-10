@@ -30,7 +30,7 @@ class ScheduleEntry {
   List<String> getDifferentProperties(ScheduleEntry entry) {
     var changedProperties = <String>[];
 
-    if (title != entry.title) {
+    if ((title ?? "") != (entry.title ?? "")) {
       changedProperties.add("title");
     }
     if (start != entry.start) {
@@ -39,13 +39,13 @@ class ScheduleEntry {
     if (end != entry.end) {
       changedProperties.add("end");
     }
-    if (details != entry.details) {
+    if ((details ?? "") != (entry.details ?? "")) {
       changedProperties.add("details");
     }
-    if (professor != entry.professor) {
+    if ((professor ?? "") != (entry.professor ?? "")) {
       changedProperties.add("professor");
     }
-    if (room != entry.room) {
+    if ((room ?? "") != (entry.room ?? "")) {
       changedProperties.add("room");
     }
     if (type != entry.type) {

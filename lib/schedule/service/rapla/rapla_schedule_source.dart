@@ -5,6 +5,7 @@ import 'package:dhbwstuttgart/schedule/service/rapla/rapla_response_parser.dart'
 import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
 import 'package:http/http.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
+import 'package:intl/intl.dart';
 
 class RaplaScheduleSource extends ScheduleSource {
   final RaplaResponseParser responseParser = new RaplaResponseParser();
@@ -20,7 +21,7 @@ class RaplaScheduleSource extends ScheduleSource {
   @override
   Future<Schedule> querySchedule(DateTime from, DateTime to,
       [CancellationToken cancellationToken]) async {
-    DateTime current = from;
+    DateTime current = toDayOfWeek(from, DateTime.monday);
 
     if (cancellationToken == null) cancellationToken = CancellationToken();
 
@@ -32,7 +33,9 @@ class RaplaScheduleSource extends ScheduleSource {
         if (weekSchedule != null) schedule.merge(weekSchedule);
       } on OperationCancelledException {
         rethrow;
-      } catch (e) {
+      } catch (e, trace) {
+        print(trace);
+        print(e);
         throw ScheduleQueryFailedException(e);
       }
 

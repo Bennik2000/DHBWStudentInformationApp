@@ -36,6 +36,8 @@ dependencies:
   shared_preferences: ^0.5.7+3
   url_launcher: ^5.4.10
   kiwi: ^0.2.0
+  flutter_local_notifications: ^1.4.4+1
+  background_fetch: ^0.5.6
 
 dev_dependencies:
   flutter_test:

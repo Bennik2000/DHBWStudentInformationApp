@@ -7,7 +7,11 @@ import 'package:dhbwstuttgart/schedule/service/rapla/rapla_schedule_source.dart'
 import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
 import 'package:kiwi/kiwi.dart';
 
+bool _isInjected = false;
+
 void injectServices() {
+  if (_isInjected) return;
+
   Container c = Container();
   c.registerInstance(PreferencesProvider(PreferencesAccess()));
   c.registerInstance<ScheduleSource, RaplaScheduleSource>(
@@ -21,4 +25,6 @@ void injectServices() {
     c.resolve(),
     c.resolve(),
   ));
+
+  _isInjected = true;
 }

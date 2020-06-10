@@ -13,7 +13,7 @@ class DailyScheduleViewModel extends BaseViewModel {
   Schedule daySchedule;
 
   DailyScheduleViewModel(this.scheduleProvider) {
-    scheduleProvider.registerScheduleUpdatedCallback(_scheduleUpdatedCallback);
+    scheduleProvider.addScheduleUpdatedCallback(_scheduleUpdatedCallback);
 
     loadScheduleForToday();
   }
@@ -66,7 +66,7 @@ class DailyScheduleViewModel extends BaseViewModel {
   @override
   void dispose() {
     super.dispose();
-    scheduleProvider.unregisterScheduleUpdatedCallback(
+    scheduleProvider.removeScheduleUpdatedCallback(
       _scheduleUpdatedCallback,
     );
   }
