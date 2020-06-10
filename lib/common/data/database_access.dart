@@ -93,6 +93,11 @@ class DatabaseAccess {
         await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }
 
+  Future<int> queryAggregator(String query, List<dynamic> arguments) async {
+    Database db = await _database;
+    return Sqflite.firstIntValue(await db.rawQuery(query, arguments));
+  }
+
   Future<int> update(String table, Map<String, dynamic> row) async {
     Database db = await _database;
     int id = row[idColumnName];

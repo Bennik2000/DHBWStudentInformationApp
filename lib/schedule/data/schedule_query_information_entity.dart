@@ -1,0 +1,51 @@
+import 'package:dhbwstuttgart/common/data/database_entity.dart';
+import 'package:dhbwstuttgart/schedule/model/schedule_query_information.dart';
+
+class ScheduleQueryInformationEntity extends DatabaseEntity {
+  ScheduleQueryInformation _scheduleQueryInformation;
+
+  ScheduleQueryInformationEntity.fromModel(
+    ScheduleQueryInformation scheduleQueryInformation,
+  ) {
+    _scheduleQueryInformation = scheduleQueryInformation;
+  }
+
+  ScheduleQueryInformationEntity.fromMap(Map<String, dynamic> map) {
+    fromMap(map);
+  }
+
+  @override
+  void fromMap(Map<String, dynamic> map) {
+    var startDate;
+    if (map["start"] != null) {
+      startDate = DateTime.fromMillisecondsSinceEpoch(map["start"]);
+    }
+
+    var endDate;
+    if (map["end"] != null) {
+      endDate = DateTime.fromMillisecondsSinceEpoch(map["end"]);
+    }
+
+    var queryTimeDate;
+    if (map["end"] != null) {
+      queryTimeDate = DateTime.fromMillisecondsSinceEpoch(map["queryTime"]);
+    }
+
+    _scheduleQueryInformation =
+        new ScheduleQueryInformation(startDate, endDate, queryTimeDate);
+  }
+
+  @override
+  Map<String, dynamic> toMap() {
+    return {
+      "start": _scheduleQueryInformation.start?.millisecondsSinceEpoch ?? 0,
+      "end": _scheduleQueryInformation.end?.millisecondsSinceEpoch ?? 0,
+      "queryTime": _scheduleQueryInformation.queryTime?.millisecondsSinceEpoch,
+    };
+  }
+
+  ScheduleQueryInformation asScheduleQueryInformation() =>
+      _scheduleQueryInformation;
+
+  static String tableName() => "ScheduleQueryInformation";
+}

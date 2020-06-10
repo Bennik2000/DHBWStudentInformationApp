@@ -16,7 +16,17 @@ CREATE TABLE IF NOT EXISTS ScheduleEntries
   room TEXT,
   type INTEGER
 );
+
 ''',
+      '''      
+CREATE TABLE IF NOT EXISTS ScheduleQueryInformation
+(
+  start INTEGER,
+  end INTEGER,
+  queryTime INTEGER,
+  PRIMARY KEY (start, end)
+);
+'''
     ],
   ];
 }
