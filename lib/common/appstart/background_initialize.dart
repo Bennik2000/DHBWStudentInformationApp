@@ -1,90 +1,37 @@
-import 'package:background_fetch/background_fetch.dart';
-import 'package:dhbwstuttgart/common/appstart/notification_schedule_changed_initialize.dart';
-import 'package:dhbwstuttgart/common/appstart/notifications_initialize.dart';
-import 'package:dhbwstuttgart/common/appstart/service_injector.dart';
+import 'package:dhbwstuttgart/common/background/background_work_scheduler.dart';
+import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/background/background_schedule_update.dart';
-import 'package:dhbwstuttgart/schedule/business/schedule_source_setup.dart';
+import 'package:dhbwstuttgart/schedule/background/next_day_information_notification.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
-void backgroundFetchHeadlessTask(taskId) async {
-  try {
-    print("Headless background task started");
-    injectServices();
-    await NotificationsInitialize().setupNotifications();
-    await ScheduleSourceSetup().setupScheduleSource();
-    NotificationScheduleChangedInitialize().setupNotification();
-
-    await backgroundTaskMain();
-  } catch (e, trace) {
-    print("Headless background task failed:");
-    print(e);
-    print(trace);
-  } finally {
-    print("Headless background task finished");
-    BackgroundFetch.finish(taskId);
-  }
-}
-
-Future<void> backgroundTaskMain() async {
-  await BackgroundScheduleUpdate(
-    kiwi.Container().resolve(),
-    kiwi.Container().resolve(),
-  ).updateSchedule();
-}
-
 class BackgroundInitialize {
-  DateTime initializationTime = DateTime.now();
+  Future<void> setupBackgroundScheduling([bool isHeadless = false]) async {
+    var scheduler = BackgroundWorkScheduler();
 
-  Future<void> setupBackgroundScheduling() async {
-    _setupHeadless();
-    await _configureBackgroundFetch();
-  }
+    if (!isHeadless) scheduler.setupBackgroundScheduling();
 
-  void _setupHeadless() {
-    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
-  }
+    scheduler.registerTaskCallback(
+      "BackgroundScheduleUpdate",
+      BackgroundScheduleUpdate(
+        kiwi.Container().resolve(),
+        kiwi.Container().resolve(),
+      ),
+    );
+    scheduler.schedulePeriodic(Duration(hours: 2), "BackgroundScheduleUpdate");
 
-  Future<void> _configureBackgroundFetch() async {
-    try {
-      print("Configuring background fetch");
-      initializationTime = DateTime.now();
+    // TODO: Verify if background task is still executed
+    // TODO: Register handlers in headless mode
 
-      var status = await BackgroundFetch.configure(
-          BackgroundFetchConfig(
-            minimumFetchInterval: 120,
-            enableHeadless: true,
-            stopOnTerminate: false,
-            startOnBoot: true,
-            requiredNetworkType: NetworkType.ANY,
-          ),
-          _backgroundFetchTask);
+    scheduler.registerTaskCallback(
+      "NextDayInformationNotification",
+      NextDayInformationNotification(
+          kiwi.Container().resolve(), kiwi.Container().resolve(), scheduler),
+    );
+    scheduler.scheduleOneShotTaskAt(
+      toTimeOfDayInFuture(DateTime.now(), 20, 0),
+      "NextDayInformationNotification",
+    );
 
-      if (status != BackgroundFetch.STATUS_AVAILABLE) {
-        print("Background fetch is not available!");
-        return;
-      }
-    } catch (e) {
-      print("Failed to initialize background fetch: $e");
-    }
-  }
-
-  void _backgroundFetchTask(taskId) async {
-    try {
-      print("Background task started");
-
-      if (DateTime.now().difference(initializationTime).inSeconds < 10) {
-        print(
-            "Abort background fetch because it was fired right after initialization");
-      } else {
-        await backgroundTaskMain();
-      }
-    } catch (e, trace) {
-      print("Background task failed:");
-      print(e);
-      print(trace);
-    } finally {
-      print("Background task finished");
-      BackgroundFetch.finish(taskId);
-    }
+    kiwi.Container().registerInstance(scheduler);
   }
 }

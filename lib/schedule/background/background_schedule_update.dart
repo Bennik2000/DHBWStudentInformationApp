@@ -1,9 +1,10 @@
+import 'package:dhbwstuttgart/common/background/background_work_scheduler.dart';
 import 'package:dhbwstuttgart/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstuttgart/common/util/cancellation_token.dart';
 import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';
 
-class BackgroundScheduleUpdate {
+class BackgroundScheduleUpdate extends TaskCallback {
   final ScheduleProvider scheduleProvider;
   final PreferencesProvider preferencesProvider;
 
@@ -25,5 +26,10 @@ class BackgroundScheduleUpdate {
     );
 
     print("Finished updating schedule");
+  }
+
+  @override
+  Future<void> run() {
+    updateSchedule();
   }
 }

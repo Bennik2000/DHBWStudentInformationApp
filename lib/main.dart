@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:dhbwstuttgart/common/appstart/background_initialize.dart';
+import 'package:dhbwstuttgart/common/appstart/localization_initialize.dart';
 import 'package:dhbwstuttgart/common/appstart/notification_schedule_changed_initialize.dart';
 import 'package:dhbwstuttgart/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstuttgart/common/data/preferences/preferences_provider.dart';
@@ -18,6 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   injectServices();
+  LocalizationInitialize().setupLocalizations(Platform.localeName);
   await NotificationsInitialize().setupNotifications();
   await BackgroundInitialize().setupBackgroundScheduling();
   NotificationScheduleChangedInitialize().setupNotification();

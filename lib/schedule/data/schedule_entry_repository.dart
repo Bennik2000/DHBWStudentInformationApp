@@ -52,6 +52,24 @@ class ScheduleEntryRepository {
     return new ScheduleEntryEntity.fromMap(rows[0]).asScheduleEntry();
   }
 
+  Future<ScheduleEntry> queryNextScheduleEntry(DateTime dateTime) async {
+    var nextScheduleEntry = await _database.queryRows(
+      ScheduleEntryEntity.tableName(),
+      where: "start>?",
+      whereArgs: [dateTime.millisecondsSinceEpoch],
+      limit: 1,
+      orderBy: "start ASC",
+    );
+
+    var entriesList = nextScheduleEntry.toList();
+
+    if (entriesList.length == 1) {
+      return ScheduleEntryEntity.fromMap(entriesList[0]).asScheduleEntry();
+    }
+
+    return null;
+  }
+
   Future saveScheduleEntry(ScheduleEntry entry) async {
     var row = ScheduleEntryEntity.fromModel(entry).toMap();
 

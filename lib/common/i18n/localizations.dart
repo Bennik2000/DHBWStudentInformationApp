@@ -43,6 +43,14 @@ class L {
   String get scheduleEntryTypeExam => _getValue("scheduleEntryTypeExam");
   String get scheduleEntryTypeOnline => _getValue("scheduleEntryTypeOnline");
   String get scheduleEntryTypeUnknown => _getValue("scheduleEntryTypeUnknown");
+  String get notificationNextClassNoNextClassMessage =>
+      _getValue("notificationNextClassNoNextClassMessage");
+  String get notificationNextClassNextClassAtMessage =>
+      _getValue("notificationNextClassNextClassAtMessage");
+  String get notificationNextClassTomorrow =>
+      _getValue("notificationNextClassTomorrow");
+  String get notificationNextClassTitle =>
+      _getValue("notificationNextClassTitle");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);

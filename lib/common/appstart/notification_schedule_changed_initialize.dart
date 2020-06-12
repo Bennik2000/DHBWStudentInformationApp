@@ -5,9 +5,6 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 
 class NotificationScheduleChangedInitialize {
   void setupNotification() {
-    print(
-        "setupNotification of notification_schedule_changed_initialize.dart called");
-
     var provider = kiwi.Container().resolve<ScheduleProvider>();
 
     provider.addScheduleEntryChangedCallback(_scheduleChangedCallback);

@@ -11,3 +11,12 @@ String concatStringList(List<String> list, String separator) {
 
   return result;
 }
+
+String interpolate(String string, List<String> params) {
+  String result = string;
+  for (int i = 1; i < params.length + 1; i++) {
+    result = result.replaceAll('%$i\$', params[i - 1]);
+  }
+
+  return result;
+}

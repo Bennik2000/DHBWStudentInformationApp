@@ -26,6 +26,12 @@ final de = {
   "scheduleEntryTypeExam": "Klausur / Prüfung",
   "scheduleEntryTypeOnline": "Online Vorlesung",
   "scheduleEntryTypeUnknown": "",
+  "notificationNextClassNoNextClassMessage":
+      "Es sind keine weiteren Vorlesungen in Sicht!",
+  "notificationNextClassNextClassAtMessage":
+      "Die nächste Vorlesung ist %0 um %1!",
+  "notificationNextClassTomorrow": "Morgen geht's los mit %0 um %1!",
+  "notificationNextClassTitle": "Nächste Vorlesung",
 };
 
 final en = {
@@ -56,4 +62,8 @@ final en = {
   "scheduleEntryTypeExam": "Exam",
   "scheduleEntryTypeOnline": "Online class",
   "scheduleEntryTypeUnknown": "",
+  "notificationNextClassNoNextClassMessage": "There are no further classes!",
+  "notificationNextClassNextClassAtMessage": "The next class is %0 at %1!",
+  "notificationNextClassTomorrow": "Tomorrow starts with %0 at %1!",
+  "notificationNextClassTitle": "Next class",
 };

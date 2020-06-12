@@ -53,6 +53,33 @@ DateTime toNextWeek(DateTime dateTime) {
         );
 }
 
+DateTime toTimeOfDay(DateTime dateTime, int hour, int minute) {
+  if (dateTime == null) return null;
+  return DateTime(
+    dateTime.year,
+    dateTime.month,
+    dateTime.day,
+    hour,
+    minute,
+  );
+}
+
+DateTime toTimeOfDayInFuture(DateTime dateTime, int hour, int minute) {
+  if (dateTime == null) return null;
+
+  var newDateTime = DateTime(
+    dateTime.year,
+    dateTime.month,
+    dateTime.day,
+    hour,
+    minute,
+  );
+
+  if (dateTime.isAfter(newDateTime)) newDateTime = tomorrow(newDateTime);
+
+  return newDateTime;
+}
+
 bool isAtSameDay(DateTime date1, DateTime date2) {
   return date1.year == date2.year &&
       date1.month == date2.month &&
