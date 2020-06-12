@@ -50,6 +50,10 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        brightness: Brightness.light,
+        textTheme: Theme.of(context).textTheme,
+        elevation: 0,
         title: Text(pages[_currentPageIndex].title(context)),
         actions: <Widget>[
           IconButton(

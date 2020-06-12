@@ -50,21 +50,33 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
               (viewModel.daySchedule?.entries?.length ?? 0) == 0
                   ? Padding(
                       padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Column(
                         children: <Widget>[
-                          Expanded(flex: 1, child: Container()),
-                          Expanded(
-                            flex: 8,
-                            child: Text(
-                              L.of(context).dailyScheduleNoEntriesToday,
-                              softWrap: true,
-                              textAlign: TextAlign.center,
-                              style: textStyleDailyScheduleNoEntries(context),
-                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(flex: 1, child: Container()),
+                              Expanded(
+                                flex: 8,
+                                child: Text(
+                                  L.of(context).dailyScheduleNoEntriesToday,
+                                  softWrap: true,
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      textStyleDailyScheduleNoEntries(context),
+                                ),
+                              ),
+                              Expanded(flex: 1, child: Container()),
+                            ],
                           ),
-                          Expanded(flex: 1, child: Container()),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(32, 64, 32, 32),
+                            child: Opacity(
+                              child: Image.asset("assets/empty_state.png"),
+                              opacity: 0.8,
+                            ),
+                          )
                         ],
                       ),
                     )
