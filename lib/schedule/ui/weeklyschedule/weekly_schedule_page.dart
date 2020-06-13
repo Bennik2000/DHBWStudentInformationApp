@@ -66,7 +66,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
                   FlatButton(
                     child: Icon(Icons.chevron_left),

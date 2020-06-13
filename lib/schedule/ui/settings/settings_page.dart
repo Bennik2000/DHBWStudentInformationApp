@@ -13,6 +13,12 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        textTheme: Theme.of(context).textTheme,
+        actionsIconTheme: Theme.of(context).iconTheme,
+        elevation: 0,
+        brightness: Theme.of(context).brightness,
+        iconTheme: Theme.of(context).iconTheme,
         title: Text(L.of(context).settingsPageTitle),
       ),
       body: ListView(
@@ -63,7 +69,14 @@ class SettingsPage extends StatelessWidget {
               launch(ApplicationSourceCodeUrl);
             },
           ),
-          Divider()
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.all(32),
+            child: Text(
+              "Dies ist keine offizielle App der DHBW. Es besteht keine Garantie für Korrektheit und Vollständigkeit der angezeigten Daten!",
+              style: Theme.of(context).textTheme.overline,
+            ),
+          )
         ],
       ),
     );
