@@ -32,6 +32,8 @@ final de = {
       "Die nächste Vorlesung ist %0 um %1!",
   "notificationNextClassTomorrow": "Morgen geht's los mit %0 um %1!",
   "notificationNextClassTitle": "Nächste Vorlesung",
+  "disclaimer":
+      "Dies ist keine offizielle App der DHBW. Es besteht keine Garantie für Korrektheit und Vollständigkeit der angezeigten Daten!"
 };
 
 final en = {
@@ -66,4 +68,6 @@ final en = {
   "notificationNextClassNextClassAtMessage": "The next class is %0 at %1!",
   "notificationNextClassTomorrow": "Tomorrow starts with %0 at %1!",
   "notificationNextClassTitle": "Next class",
+  "disclaimer":
+      "This is not an official DHBW app. There is no warranty for the correctness and completeness of the displayed data!"
 };

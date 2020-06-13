@@ -73,7 +73,7 @@ class SettingsPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(32),
             child: Text(
-              "Dies ist keine offizielle App der DHBW. Es besteht keine Garantie für Korrektheit und Vollständigkeit der angezeigten Daten!",
+              L.of(context).disclaimer,
               style: Theme.of(context).textTheme.overline,
             ),
           )

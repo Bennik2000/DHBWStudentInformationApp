@@ -52,6 +52,8 @@ class L {
   String get notificationNextClassTitle =>
       _getValue("notificationNextClassTitle");
 
+  String get disclaimer => _getValue("disclaimer");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }
