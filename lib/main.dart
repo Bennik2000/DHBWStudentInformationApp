@@ -7,6 +7,7 @@ import 'package:dhbwstuttgart/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstuttgart/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/schedule/ui/onboarding/onboarding_page.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:dhbwstuttgart/common/ui/colors.dart';
@@ -19,6 +20,8 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   injectServices();
   LocalizationInitialize().setupLocalizations(Platform.localeName);
