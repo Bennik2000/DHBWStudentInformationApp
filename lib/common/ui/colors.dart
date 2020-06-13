@@ -6,7 +6,7 @@ Color colorScheduleEntryPublicHoliday(BuildContext context) =>
         : const Color(0xff515151);
 Color colorScheduleEntryClass(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
-        ? const Color(0xffff2137)
+        ? const Color(0xffe63f3b)
         : const Color(0xffa52632);
 Color colorScheduleEntryExam(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
@@ -14,7 +14,7 @@ Color colorScheduleEntryExam(BuildContext context) =>
         : const Color(0xffb17f22);
 Color colorScheduleEntryOnline(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
-        ? const Color(0xffff2137)
+        ? const Color(0xffe63f3b)
         : const Color(0xffa52632);
 Color colorScheduleEntryUnknown(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light

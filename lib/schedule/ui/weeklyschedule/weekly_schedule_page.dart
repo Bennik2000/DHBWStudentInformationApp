@@ -85,24 +85,27 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
               Expanded(
                 child: Stack(
                   children: <Widget>[
-                    PropertyChangeConsumer(
-                      properties: ["weekSchedule", "now"],
-                      builder: (BuildContext context,
-                          WeeklyScheduleViewModel model, Set properties) {
-                        return ScheduleWidget(
-                          schedule: model.weekSchedule,
-                          displayStart:
-                              model.clippedDateStart ?? model.currentDateStart,
-                          displayEnd:
-                              model.clippedDateEnd ?? model.currentDateEnd,
-                          onScheduleEntryTap: (entry) {
-                            _onScheduleEntryTap(context, entry);
-                          },
-                          now: model.now,
-                          displayEndHour: model.displayEndHour,
-                          displayStartHour: model.displayStartHour,
-                        );
-                      },
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: PropertyChangeConsumer(
+                        properties: ["weekSchedule", "now"],
+                        builder: (BuildContext context,
+                            WeeklyScheduleViewModel model, Set properties) {
+                          return ScheduleWidget(
+                            schedule: model.weekSchedule,
+                            displayStart: model.clippedDateStart ??
+                                model.currentDateStart,
+                            displayEnd:
+                                model.clippedDateEnd ?? model.currentDateEnd,
+                            onScheduleEntryTap: (entry) {
+                              _onScheduleEntryTap(context, entry);
+                            },
+                            now: model.now,
+                            displayEndHour: model.displayEndHour,
+                            displayStartHour: model.displayStartHour,
+                          );
+                        },
+                      ),
                     ),
                     PropertyChangeConsumer(
                       properties: ["isUpdating"],
