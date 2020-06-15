@@ -33,7 +33,13 @@ final de = {
   "notificationNextClassTomorrow": "Morgen geht's los mit %0 um %1!",
   "notificationNextClassTitle": "Nächste Vorlesung",
   "disclaimer":
-      "Dies ist keine offizielle App der DHBW. Es besteht keine Garantie für Korrektheit und Vollständigkeit der angezeigten Daten!"
+      "Dies ist keine offizielle App der DHBW. Es besteht keine Garantie für Korrektheit und Vollständigkeit der angezeigten Daten!",
+  "notificationScheduleChangedNewClass": "Weitere Vorlesung: %0 am %1 um %2",
+  "notificationScheduleChangedNewClassTitle": "Weitere Vorlesung",
+  "notificationScheduleChangedRemovedClass": "%0 am %1 um %2 entfällt",
+  "notificationScheduleChangedRemovedClassTitle": "Vorlesung entfällt",
+  "notificationScheduleChangedClass": "%0 (%1) hat sich geändert.",
+  "notificationScheduleChangedClassTitle": "Vorlesung geändert",
 };
 
 final en = {
@@ -69,5 +75,12 @@ final en = {
   "notificationNextClassTomorrow": "Tomorrow starts with %0 at %1!",
   "notificationNextClassTitle": "Next class",
   "disclaimer":
-      "This is not an official DHBW app. There is no warranty for the correctness and completeness of the displayed data!"
+      "This is not an official DHBW app. There is no warranty for the correctness and completeness of the displayed data!",
+  "notificationScheduleChangedNewClass": "New class: %0 on %1 at %2",
+  "notificationScheduleChangedNewClassTitle": "New class",
+  "notificationScheduleChangedRemovedClass":
+      "%0 on %1 at %2 does not take place",
+  "notificationScheduleChangedRemovedClassTitle": "Class does not take place",
+  "notificationScheduleChangedClass": "%0 (%1) changed",
+  "notificationScheduleChangedClassTitle": "Class changed",
 };

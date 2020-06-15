@@ -11,12 +11,13 @@ class NextDayInformationNotification extends TaskCallback {
   final NotificationApi _notificationApi;
   final ScheduleEntryRepository _scheduleEntryRepository;
   final BackgroundWorkScheduler _scheduler;
-  L _localization = kiwi.Container().resolve();
+  final L _localization;
 
   NextDayInformationNotification(
     this._notificationApi,
     this._scheduleEntryRepository,
     this._scheduler,
+    this._localization,
   );
 
   @override

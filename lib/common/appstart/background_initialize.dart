@@ -25,7 +25,11 @@ class BackgroundInitialize {
     scheduler.registerTaskCallback(
       "NextDayInformationNotification",
       NextDayInformationNotification(
-          kiwi.Container().resolve(), kiwi.Container().resolve(), scheduler),
+        kiwi.Container().resolve(),
+        kiwi.Container().resolve(),
+        scheduler,
+        kiwi.Container().resolve(),
+      ),
     );
     scheduler.scheduleOneShotTaskAt(
       toTimeOfDayInFuture(DateTime.now(), 20, 0),

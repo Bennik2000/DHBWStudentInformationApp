@@ -58,8 +58,19 @@ class L {
       _getValue("notificationNextClassTomorrow");
   String get notificationNextClassTitle =>
       _getValue("notificationNextClassTitle");
-
   String get disclaimer => _getValue("disclaimer");
+  String get notificationScheduleChangedNewClass =>
+      _getValue("notificationScheduleChangedNewClass");
+  String get notificationScheduleChangedNewClassTitle =>
+      _getValue("notificationScheduleChangedNewClassTitle");
+  String get notificationScheduleChangedRemovedClass =>
+      _getValue("notificationScheduleChangedRemovedClass");
+  String get notificationScheduleChangedRemovedClassTitle =>
+      _getValue("notificationScheduleChangedRemovedClassTitle");
+  String get notificationScheduleChangedClass =>
+      _getValue("notificationScheduleChangedClass");
+  String get notificationScheduleChangedClassTitle =>
+      _getValue("notificationScheduleChangedClassTitle");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);

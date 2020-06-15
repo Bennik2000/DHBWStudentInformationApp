@@ -1,34 +1,71 @@
+import 'package:dhbwstuttgart/common/i18n/localizations.dart';
 import 'package:dhbwstuttgart/common/ui/notification_api.dart';
+import 'package:dhbwstuttgart/common/util/string_utils.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_diff_calculator.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleChangedNotification {
   final NotificationApi notificationApi;
+  final L _localization;
 
-  ScheduleChangedNotification(this.notificationApi);
+  ScheduleChangedNotification(this.notificationApi, this._localization);
 
   void showNotification(ScheduleDiff scheduleDiff) {
-    for (var entry in scheduleDiff.addedEntries) {
-      var message =
-          "Weitere Vorlesung: ${entry.title} am ${DateFormat.yMd().format(entry.start)}" +
-              " um ${DateFormat.Hm().format(entry.start)}";
+    showEntriesAddedNotifications(scheduleDiff);
+    showEntriesRemovedNotifications(scheduleDiff);
+    showEntriesChangedNotifications(scheduleDiff);
+  }
 
-      notificationApi.showNotification("Weitere Vorlesung", message);
-    }
-
-    for (var entry in scheduleDiff.removedEntries) {
-      var message =
-          "${entry.title} am ${DateFormat.yMd().format(entry.start)}" +
-              " um ${DateFormat.Hm().format(entry.start)} entfällt";
-
-      notificationApi.showNotification("Vorlesung entfällt", message);
-    }
-
+  void showEntriesChangedNotifications(ScheduleDiff scheduleDiff) {
     for (var entry in scheduleDiff.updatedEntries) {
-      var message =
-          "${entry.entry.title} (${DateFormat.yMd().format(entry.entry.start)}) hat sich geändert.";
+      var message = interpolate(
+        _localization.notificationScheduleChangedClass,
+        [
+          entry.entry.title,
+          DateFormat.yMd().format(entry.entry.start),
+        ],
+      );
 
-      notificationApi.showNotification("Vorlesung geändert", message);
+      notificationApi.showNotification(
+        _localization.notificationScheduleChangedClassTitle,
+        message,
+      );
+    }
+  }
+
+  void showEntriesRemovedNotifications(ScheduleDiff scheduleDiff) {
+    for (var entry in scheduleDiff.removedEntries) {
+      var message = interpolate(
+        _localization.notificationScheduleChangedRemovedClass,
+        [
+          entry.title,
+          DateFormat.yMd().format(entry.start),
+          DateFormat.Hm().format(entry.start)
+        ],
+      );
+
+      notificationApi.showNotification(
+        _localization.notificationScheduleChangedRemovedClassTitle,
+        message,
+      );
+    }
+  }
+
+  void showEntriesAddedNotifications(ScheduleDiff scheduleDiff) {
+    for (var entry in scheduleDiff.addedEntries) {
+      var message = interpolate(
+        _localization.notificationScheduleChangedNewClass,
+        [
+          entry.title,
+          DateFormat.yMd().format(entry.start),
+          DateFormat.Hm().format(entry.start)
+        ],
+      );
+
+      notificationApi.showNotification(
+        _localization.notificationScheduleChangedNewClassTitle,
+        message,
+      );
     }
   }
 }

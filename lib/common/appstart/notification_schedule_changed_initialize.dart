@@ -11,7 +11,10 @@ class NotificationScheduleChangedInitialize {
   }
 
   Future<void> _scheduleChangedCallback(ScheduleDiff scheduleDiff) {
-    var notification = ScheduleChangedNotification(kiwi.Container().resolve());
+    var notification = ScheduleChangedNotification(
+      kiwi.Container().resolve(),
+      kiwi.Container().resolve(),
+    );
     notification.showNotification(scheduleDiff);
 
     return Future.value();
