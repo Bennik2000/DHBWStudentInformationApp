@@ -8,8 +8,15 @@ import 'localization_strings.dart';
 
 class L {
   final Locale locale;
+  String _language;
 
-  L(this.locale);
+  L(this.locale) {
+    _language = locale?.languageCode?.substring(0, 2);
+
+    if (!_localizedValues.containsKey(_language)) {
+      _language = "en";
+    }
+  }
 
   String get scheduleEntryDetailFrom => _getValue("scheduleEntryDetailFrom");
   String get scheduleEntryDetailTo => _getValue("scheduleEntryDetailTo");
@@ -63,7 +70,9 @@ class L {
     "en": en
   };
 
-  _getValue(String key) => _localizedValues[locale.languageCode][key] ?? "";
+  _getValue(String key) {
+    return _localizedValues[_language][key] ?? "";
+  }
 
   String getValue(String key) => _getValue(key);
 }

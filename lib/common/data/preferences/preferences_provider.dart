@@ -4,6 +4,7 @@ class PreferencesProvider {
   static const String IsDarkModeKey = "IsDarkMode";
   static const String RaplaUrlKey = "RaplaUrl";
   static const String IsFirstStartKey = "IsFirstStart";
+  static const String LastUsedLanguageCode = "LastUsedLanguageCode";
   final PreferencesAccess _preferencesAccess;
 
   PreferencesProvider(this._preferencesAccess);
@@ -30,5 +31,13 @@ class PreferencesProvider {
 
   Future<void> setIsFirstStart(bool isFirstStart) async {
     await _preferencesAccess.set(IsFirstStartKey, isFirstStart);
+  }
+
+  Future<String> getLastUsedLanguageCode() async {
+    return await _preferencesAccess.get<String>(LastUsedLanguageCode);
+  }
+
+  Future<void> setLastUsedLanguageCode(String languageCode) async {
+    await _preferencesAccess.set(LastUsedLanguageCode, languageCode);
   }
 }

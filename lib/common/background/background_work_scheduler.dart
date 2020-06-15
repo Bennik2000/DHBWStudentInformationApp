@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:background_fetch/background_fetch.dart';
 import 'package:dhbwstuttgart/common/appstart/background_initialize.dart';
 import 'package:dhbwstuttgart/common/appstart/localization_initialize.dart';
@@ -7,13 +5,17 @@ import 'package:dhbwstuttgart/common/appstart/notification_schedule_changed_init
 import 'package:dhbwstuttgart/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstuttgart/common/appstart/service_injector.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_source_setup.dart';
+import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
-void backgroundFetchHeadlessTask(taskId) async {
+void backgroundFetchHeadlessMain(taskId) async {
   try {
     print("Headless background task started");
+    WidgetsFlutterBinding.ensureInitialized();
+
     injectServices();
-    LocalizationInitialize().setupLocalizations(Platform.localeName);
+    await LocalizationInitialize.fromPreferences(kiwi.Container().resolve())
+        .setupLocalizations();
     await NotificationsInitialize().setupNotifications();
     await ScheduleSourceSetup().setupScheduleSource();
     BackgroundInitialize().setupBackgroundScheduling(true);
@@ -94,7 +96,7 @@ class BackgroundWorkScheduler {
   }
 
   void _setupHeadless() {
-    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessTask);
+    BackgroundFetch.registerHeadlessTask(backgroundFetchHeadlessMain);
   }
 
   Future<void> _configureBackgroundFetch() async {

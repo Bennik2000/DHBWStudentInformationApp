@@ -24,10 +24,15 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   injectServices();
-  LocalizationInitialize().setupLocalizations(Platform.localeName);
+
+  await LocalizationInitialize.fromLanguageCode(Platform.localeName)
+      .setupLocalizations();
+
   await NotificationsInitialize().setupNotifications();
   await BackgroundInitialize().setupBackgroundScheduling();
   NotificationScheduleChangedInitialize().setupNotification();
+
+  await saveLastStartLanguage();
 
   bool firstStart = await isFirstStart();
 
@@ -59,6 +64,11 @@ void main() async {
       value: await setupRootViewModel(),
     ),
   );
+}
+
+Future<void> saveLastStartLanguage() async {
+  PreferencesProvider preferencesProvider = kiwi.Container().resolve();
+  await preferencesProvider.setLastUsedLanguageCode(Platform.localeName);
 }
 
 Future<bool> isFirstStart() async {

@@ -14,8 +14,8 @@ String concatStringList(List<String> list, String separator) {
 
 String interpolate(String string, List<String> params) {
   String result = string;
-  for (int i = 1; i < params.length + 1; i++) {
-    result = result.replaceAll('%$i\$', params[i - 1]);
+  for (int i = 0; i < params.length; i++) {
+    result = result.replaceAll('%$i', params[i]);
   }
 
   return result;
