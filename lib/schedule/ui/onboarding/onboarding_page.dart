@@ -20,6 +20,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   void initState() {
+    super.initState();
+
     viewModel = new OnboardingViewModel(kiwi.Container().resolve());
   }
 

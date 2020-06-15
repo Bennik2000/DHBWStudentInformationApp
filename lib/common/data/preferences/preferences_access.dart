@@ -29,16 +29,16 @@ class PreferencesAccess {
 
     switch (T) {
       case bool:
-        value = await prefs.getBool(key) as T;
+        value = prefs.getBool(key) as T;
         break;
       case String:
-        value = await prefs.getString(key) as T;
+        value = prefs.getString(key) as T;
         break;
       case double:
-        value = await prefs.getDouble(key) as T;
+        value = prefs.getDouble(key) as T;
         break;
       case int:
-        value = await prefs.getInt(key) as T;
+        value = prefs.getInt(key) as T;
         break;
     }
 

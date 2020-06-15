@@ -5,7 +5,6 @@ import 'package:dhbwstuttgart/schedule/service/rapla/rapla_response_parser.dart'
 import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
 import 'package:http/http.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
-import 'package:intl/intl.dart';
 
 class RaplaScheduleSource extends ScheduleSource {
   final RaplaResponseParser responseParser = new RaplaResponseParser();
@@ -107,6 +106,8 @@ class RaplaScheduleSource extends ScheduleSource {
     } finally {
       cancellationToken.setCancellationCallback(null);
     }
+
+    return null;
   }
 
   @override

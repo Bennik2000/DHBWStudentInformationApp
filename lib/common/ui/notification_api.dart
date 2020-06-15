@@ -60,7 +60,8 @@ class NotificationApi {
   }
 
   Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) {}
+          int id, String title, String body, String payload) =>
+      Future.value();
 
-  Future selectNotification(String payload) {}
+  Future selectNotification(String payload) => Future.value();
 }

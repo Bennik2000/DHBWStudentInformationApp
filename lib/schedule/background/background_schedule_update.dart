@@ -29,7 +29,7 @@ class BackgroundScheduleUpdate extends TaskCallback {
   }
 
   @override
-  Future<void> run() {
-    updateSchedule();
+  Future<void> run() async {
+    await updateSchedule();
   }
 }

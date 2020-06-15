@@ -5,7 +5,6 @@ import 'package:dhbwstuttgart/common/util/date_utils.dart';
 import 'package:dhbwstuttgart/common/util/string_utils.dart';
 import 'package:dhbwstuttgart/schedule/data/schedule_entry_repository.dart';
 import 'package:intl/intl.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
 
 class NextDayInformationNotification extends TaskCallback {
   final NotificationApi _notificationApi;
