@@ -33,7 +33,7 @@ final de = {
   "notificationNextClassTomorrow": "Morgen geht's los mit %0 um %1!",
   "notificationNextClassTitle": "Nächste Vorlesung",
   "disclaimer":
-      "Dies ist keine offizielle App der DHBW. Es besteht keine Garantie für Korrektheit und Vollständigkeit der angezeigten Daten!",
+      "Dies ist keine offizielle App der DHBW Stuttgart. Es besteht keine Garantie für Korrektheit und Vollständigkeit der angezeigten Daten!",
   "notificationScheduleChangedNewClass": "Weitere Vorlesung: %0 am %1 um %2",
   "notificationScheduleChangedNewClassTitle": "Weitere Vorlesung",
   "notificationScheduleChangedRemovedClass": "%0 am %1 um %2 entfällt",
@@ -75,7 +75,7 @@ final en = {
   "notificationNextClassTomorrow": "Tomorrow starts with %0 at %1!",
   "notificationNextClassTitle": "Next class",
   "disclaimer":
-      "This is not an official DHBW app. There is no warranty for the correctness and completeness of the displayed data!",
+      "This is not an official DHBW Stuttgart app. There is no warranty for the correctness and completeness of the displayed data!",
   "notificationScheduleChangedNewClass": "New class: %0 on %1 at %2",
   "notificationScheduleChangedNewClassTitle": "New class",
   "notificationScheduleChangedRemovedClass":

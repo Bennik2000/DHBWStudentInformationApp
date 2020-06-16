@@ -124,6 +124,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   ),
                 ),
               ],
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
+              child: Text(
+                L.of(context).disclaimer,
+                style: Theme.of(context).textTheme.overline,
+              ),
             )
           ],
         ),
