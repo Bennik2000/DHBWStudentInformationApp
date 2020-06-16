@@ -36,13 +36,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.4.0"
-  background_fetch:
-    dependency: "direct main"
-    description:
-      name: background_fetch
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.6"
   boolean_selector:
     dependency: transitive
     description:
@@ -600,6 +593,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  workmanager:
+    dependency: "direct main"
+    description:
+      name: workmanager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.2"
   xml:
     dependency: transitive
     description:

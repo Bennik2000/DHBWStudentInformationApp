@@ -74,7 +74,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                             padding: const EdgeInsets.fromLTRB(32, 64, 32, 32),
                             child: Opacity(
                               child: Image.asset("assets/empty_state.png"),
-                              opacity: 0.8,
+                              opacity: 0.3,
                             ),
                           )
                         ],

@@ -10,7 +10,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
+bool isInitialized = false;
+
 Future<void> initializeApp() async {
+  if (isInitialized) return;
+
   WidgetsFlutterBinding.ensureInitialized();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -23,9 +27,13 @@ Future<void> initializeApp() async {
   await NotificationsInitialize().setupNotifications();
   await BackgroundInitialize().setupBackgroundScheduling();
   NotificationScheduleChangedInitialize().setupNotification();
+
+  isInitialized = true;
 }
 
 Future<void> initializeAppBackground() async {
+  if (isInitialized) return;
+
   WidgetsFlutterBinding.ensureInitialized();
 
   injectServices();
@@ -37,4 +45,6 @@ Future<void> initializeAppBackground() async {
   await ScheduleSourceSetup().setupScheduleSource();
   BackgroundInitialize().setupBackgroundScheduling(true);
   NotificationScheduleChangedInitialize().setupNotification();
+
+  isInitialized = true;
 }

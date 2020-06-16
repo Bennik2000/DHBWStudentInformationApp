@@ -8,8 +8,6 @@ class BackgroundInitialize {
   Future<void> setupBackgroundScheduling([bool isHeadless = false]) async {
     var scheduler = BackgroundWorkScheduler();
 
-    if (!isHeadless) scheduler.setupBackgroundScheduling();
-
     scheduler.registerTaskCallback(
       "BackgroundScheduleUpdate",
       BackgroundScheduleUpdate(
@@ -17,11 +15,6 @@ class BackgroundInitialize {
         kiwi.Container().resolve(),
       ),
     );
-    scheduler.schedulePeriodic(Duration(hours: 2), "BackgroundScheduleUpdate");
-
-    // TODO: Verify if background task is still executed
-    // TODO: Register handlers in headless mode
-
     scheduler.registerTaskCallback(
       "NextDayInformationNotification",
       NextDayInformationNotification(
@@ -31,6 +24,16 @@ class BackgroundInitialize {
         kiwi.Container().resolve(),
       ),
     );
+
+    if (isHeadless) return;
+
+    scheduler.setupBackgroundScheduling();
+    scheduler.schedulePeriodic(
+        Duration(minutes: 30), "BackgroundScheduleUpdate");
+
+    // TODO: Verify if background task is still executed
+    // TODO: Register handlers in headless mode
+
     scheduler.scheduleOneShotTaskAt(
       toTimeOfDayInFuture(DateTime.now(), 20, 0),
       "NextDayInformationNotification",
