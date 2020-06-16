@@ -22,8 +22,10 @@ class NextDayInformationNotification extends TaskCallback {
 
   @override
   Future<void> run() async {
-    _scheduler.scheduleOneShotTaskAt(
-      toTimeOfDay(tomorrow(DateTime.now()), 20, 0),
+    var nextSchedule = toTimeOfDay(tomorrow(DateTime.now()), 20, 00);
+    await _scheduler.scheduleOneShotTaskAt(
+      nextSchedule,
+      "NextDayInformationNotification" + DateFormat.yMd().format(nextSchedule),
       "NextDayInformationNotification",
     );
 

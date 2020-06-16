@@ -11,28 +11,32 @@ class BackgroundWorkScheduler {
 
     await Workmanager.initialize(
       callbackDispatcher,
-      isInDebugMode: true,
+      isInDebugMode: false,
     );
   }
 
-  Future<void> scheduleOneShotTaskIn(Duration delay, String id) async {
+  Future<void> scheduleOneShotTaskIn(
+      Duration delay, String id, String name) async {
     print(
       "Scheduling one shot task: $id. With a delay of ${delay.inMinutes} minutes.",
     );
 
     await Workmanager.registerOneOffTask(
       id,
-      id,
-      existingWorkPolicy: ExistingWorkPolicy.keep,
+      name,
+      existingWorkPolicy: ExistingWorkPolicy.replace,
       initialDelay: delay,
     );
+
+    print("Scheduled one shot task");
   }
 
   Future<void> scheduleOneShotTaskAt(
     DateTime date,
     String id,
+    String name,
   ) async {
-    await scheduleOneShotTaskIn(date.difference(DateTime.now()), id);
+    await scheduleOneShotTaskIn(date.difference(DateTime.now()), id, name);
   }
 
   Future<void> schedulePeriodic(
@@ -65,10 +69,6 @@ class BackgroundWorkScheduler {
     await _taskCallbacks[id]?.run();
   }
 
-  static void callbackDispatcher() {
-    Workmanager.executeTask(backgroundTaskMain);
-  }
-
   static Future<bool> backgroundTaskMain(taskId, inputData) async {
     try {
       print("Background task started: $taskId with data: $inputData");
@@ -83,10 +83,14 @@ class BackgroundWorkScheduler {
       print(e);
       print(trace);
       return false;
-    } finally {
-      print("Background task finished");
     }
+
+    print("Background task finished successfully");
 
     return true;
   }
+}
+
+void callbackDispatcher() {
+  Workmanager.executeTask(BackgroundWorkScheduler.backgroundTaskMain);
 }

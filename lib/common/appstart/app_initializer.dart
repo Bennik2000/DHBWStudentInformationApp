@@ -13,7 +13,12 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 bool isInitialized = false;
 
 Future<void> initializeApp() async {
-  if (isInitialized) return;
+  print("Initialize requested");
+
+  if (isInitialized) {
+    print("Already initialized. Abort.");
+    return;
+  }
 
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -29,10 +34,16 @@ Future<void> initializeApp() async {
   NotificationScheduleChangedInitialize().setupNotification();
 
   isInitialized = true;
+  print("Initialization finished");
 }
 
 Future<void> initializeAppBackground() async {
-  if (isInitialized) return;
+  print("Initialize for Background requested");
+
+  if (isInitialized) {
+    print("Already initialized. Abort.");
+    return;
+  }
 
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -47,4 +58,6 @@ Future<void> initializeAppBackground() async {
   NotificationScheduleChangedInitialize().setupNotification();
 
   isInitialized = true;
+
+  print("Initialization finished");
 }
