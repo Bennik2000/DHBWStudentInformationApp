@@ -29,7 +29,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
               child: Column(
@@ -57,7 +57,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 7,
             child: Card(
               margin: EdgeInsets.all(0),
               elevation: 8,
@@ -78,6 +78,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                     Row(
                       children: <Widget>[
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
                               scheduleEntry.professor,
