@@ -31,11 +31,7 @@ class BackgroundInitialize {
     if (isHeadless) return;
 
     scheduler.setupBackgroundScheduling();
-    scheduler.schedulePeriodic(
-        Duration(hours: 4), "BackgroundScheduleUpdate");
-
-    // TODO: Verify if background task is still executed
-    // TODO: Register handlers in headless mode
+    scheduler.schedulePeriodic(Duration(hours: 4), "BackgroundScheduleUpdate");
 
     var nextSchedule = toTimeOfDay(tomorrow(DateTime.now()), 20, 00);
     await scheduler.scheduleOneShotTaskAt(

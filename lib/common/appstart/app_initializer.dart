@@ -12,6 +12,10 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 
 bool isInitialized = false;
 
+///
+/// Initializes the app for foreground use. After this call everything will be
+/// loaded
+///
 Future<void> initializeApp() async {
   print("Initialize requested");
 
@@ -37,7 +41,11 @@ Future<void> initializeApp() async {
   print("Initialization finished");
 }
 
-Future<void> initializeAppBackground() async {
+///
+/// Initialize the app for background use. Call this function when inside a
+/// headless task. After this call everything will be loaded for background use.
+///
+Future<void> initializeAppForBackground() async {
   print("Initialize for Background requested");
 
   if (isInitialized) {

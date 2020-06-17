@@ -8,7 +8,14 @@ class LocalizationInitialize {
   PreferencesProvider _preferencesProvider;
   String _languageCode;
 
+  ///
+  /// Initialize the localization using the provided language code
+  ///
   LocalizationInitialize.fromLanguageCode(this._languageCode);
+
+  ///
+  /// Initialize the localization using the locale from the preferences provider
+  ///
   LocalizationInitialize.fromPreferences(this._preferencesProvider);
 
   Future<void> setupLocalizations() async {

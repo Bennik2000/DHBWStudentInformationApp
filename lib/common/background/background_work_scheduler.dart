@@ -73,7 +73,7 @@ class BackgroundWorkScheduler {
     try {
       print("Background task started: $taskId with data: $inputData");
 
-      await initializeAppBackground();
+      await initializeAppForBackground();
 
       BackgroundWorkScheduler scheduler = kiwi.Container().resolve();
 
