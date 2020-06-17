@@ -1,18 +1,42 @@
-![](https://raw.githubusercontent.com/Bennik2000/DHBWStudentInformationApp/master/icons/ic_launcher.svg?token=AB5K4A5CEJNSNREPY7P73MC64FKK6)
+<p align="center">
+<img src="https://raw.githubusercontent.com/Bennik2000/DHBWStudentInformationApp/master/icons/ic_launcher.svg" width="200">
+</p>
 
 
 
-# Student App for the DHBW Stuttgart
+# DHBW Vorlesungsplan
 
-This app provides useful information for students at the DHBW Stuttgat.
+Diese App zeigt deinen Vorlesungsplan der DHBW. 
 
-Right now Rapla is supported as schedule source.
+Bisher verfügbare Funktionen:
+
+- Vorlesungsplan aus Rapla anzeigen
+- Komplette Übersicht über deine Woche
+- Simple Tagesübersicht
+- Offline modus. Du kannst auf deinen Vorlesungsplan zugreifen, auch wenn du keine Internetverbindung hast
+- Benachrichtigung am Vorabend zum nächsten Tag
+- Benachrichtigung, wenn sich etwas im Plan geändert hat
+- Helles und dunkles Design 👻
+
+
+
+Fehlt Dir eine Funktion oder hast Du einen Fehler gefunden? Dann trage ein [Issue](https://github.com/Bennik2000/DHBWStudentInformationApp/issues) dazu ein
 
 
 
 ## Screenshots
 
-Here are some early screenshots: 
+Hier gibt es ein paar Screenshots aus der App: 
 
-<img src="https://raw.githubusercontent.com/Bennik2000/DHBWStudentInformationApp/master/screenshots/device-2020-06-07-192554.png?token=AB5K4AYNUKDS4AYLQKTDZES64FKPG" style="zoom: 25%;" />
+<p align="center">
+<img src="https://raw.githubusercontent.com/Bennik2000/DHBWStudentInformationApp/master/screenshots/screenshot_weekly.png" alt="screenshot_weekly" width="300" />
+<img src="https://raw.githubusercontent.com/Bennik2000/DHBWStudentInformationApp/master/screenshots/screenshot_weekly_dark.png" alt="screenshot_weekly" width="300" /> 
+<img src="https://raw.githubusercontent.com/Bennik2000/DHBWStudentInformationApp/master/screenshots/screenshot_daily.png" alt="screenshot_weekly" width="300" /> 
+<img src="https://raw.githubusercontent.com/Bennik2000/DHBWStudentInformationApp/master/screenshots/screenshot_daily_dark.png" alt="screenshot_weekly" width="300" /> 
+</p>
 
+
+
+# Contributing
+
+If you want to help developing this App, feel free to open a pull request.

@@ -3,6 +3,7 @@ import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstuttgart/schedule/business/schedule_source_setup.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/daily_schedule_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
+import 'package:dhbwstuttgart/schedule/ui/navigation_drawer.dart';
 import 'package:dhbwstuttgart/schedule/ui/settings/settings_page.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstuttgart/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
@@ -96,6 +97,7 @@ class _MainPageState extends State<MainPage> {
           )
         ],
       ),
+      drawer: NavigationDrawer(),
     );
   }
 }

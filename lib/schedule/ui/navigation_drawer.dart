@@ -10,73 +10,83 @@ class NavigationDrawer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          _createHeader(),
+          _createHeader(context),
           _createDrawerItem(
+            context,
             icon: Icons.calendar_today,
             text: "Vorlesungsplan",
+            isSelected: true,
           ),
           _createDrawerItem(
-            icon: Icons.dashboard,
-            text: "Raumplan",
+            context,
+            icon: Icons.info_outline,
+            text: "Nützliche Infos",
           ),
           _createDrawerItem(
+            context,
+            icon: Icons.data_usage,
+            text: "Dualis",
+          ),
+          _createDrawerItem(
+            context,
+            icon: Icons.business,
+            text: "Bibliothek",
+          ),
+          _createDrawerItem(
+            context,
             icon: Icons.settings,
             text: "Einstellungen",
-          ),
-          Expanded(
-            child: Container(),
-          ),
-          ListTile(
-            title: Text(
-              '0.0.1',
-              style: Theme.of(context).textTheme.overline,
-            ),
-            onTap: () {},
-          ),
+          )
         ],
       ),
     );
   }
 
-  Widget _createHeader() {
+  Widget _createHeader(BuildContext context) {
     return DrawerHeader(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
-      decoration: BoxDecoration(
-        color: Colors.red,
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            bottom: 12.0,
-            left: 16.0,
-            child: Text(
-              "DHBW Stuttgart",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "DHBW Studenten App",
+              style: Theme.of(context).textTheme.headline,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _createDrawerItem({
-    IconData icon,
-    String text,
-    GestureTapCallback onTap,
-  }) {
+  Widget _createDrawerItem(BuildContext context,
+      {IconData icon, String text, GestureTapCallback onTap, bool isSelected}) {
     return ListTile(
-      title: Row(
-        children: <Widget>[
-          Icon(icon),
-          Padding(
-            padding: EdgeInsets.only(left: 8.0),
-            child: Text(text),
-          )
-        ],
+      contentPadding: EdgeInsets.fromLTRB(8, 8, 8, 0),
+      title: Container(
+        height: 48,
+        decoration: BoxDecoration(
+          color: isSelected ?? false
+              ? Theme.of(context).focusColor
+              : Colors.transparent,
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Icon(icon),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                child: Text(text),
+              ),
+            ],
+          ),
+        ),
       ),
       onTap: onTap ?? () {},
     );
