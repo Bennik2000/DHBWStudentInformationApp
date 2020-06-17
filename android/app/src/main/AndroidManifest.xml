@@ -10,7 +10,7 @@
     <application
         tools:replace="android:label"
         android:name="io.flutter.app.FlutterApplication"
-        android:label="dhbwstudentapp"
+        android:label="DHBW Studenten App"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

@@ -3,9 +3,10 @@ final de = {
   "pageWeekOverviewTitle": "Wochenübersicht",
   "noConnectionMessage": "Keine Verbindung!",
   "settingsViewSourceCode": "Source code auf GitHub ansehen",
-  "applicationName": "DHBW Student App",
-  "applicationLegalese": "Designed and developed by Benedikt Kolb",
-  "settingsAbout": "Über die DHBW App",
+  "applicationName": "DHBW Studenten App",
+  "applicationLegalese":
+      "Entwickelt von Benedikt Kolb. Dies ist keine offizielle App der DHBW Stuttgart und wird in Eigeninitiative entwickelt.",
+  "settingsAbout": "Über die DHBW Studenten App",
   "settingsAboutTitle": "Über",
   "settingsDarkMode": "Dark mode",
   "settingsDesign": "Aussehen",
@@ -14,7 +15,7 @@ final de = {
   "settingsPageTitle": "Settings",
   "onboardingTitle": "Gleich gehts los!",
   "onboardingSourceUrlInput":
-      "Zuerst musst Du den Link zum Vorlesungsplan eingeben.",
+      "Zuerst musst Du den Link zum Vorlesungsplan eingeben. Diesen bekommst Du üblicherweise am Anfang des Semesters aus dem Sekretariat.",
   "onboardingSourceUrlInvalid": "Die eingegebene URL ist ungültig",
   "onboardingSourceUrlHint":
       "https://rapla.dhbw-stuttgart.de/rapla?key=7tfKQX7jOZcKnAU",
@@ -48,7 +49,8 @@ final en = {
   "noConnectionMessage": "No connection!",
   "settingsViewSourceCode": "View the source code on GitHub",
   "applicationName": "DHBW Student App",
-  "applicationLegalese": "Designed and developed by Benedikt Kolb",
+  "applicationLegalese":
+      "Developed by Benedikt Kolb. This is not an official app of the DHBW Stuttgart.",
   "settingsAbout": "About this app",
   "settingsAboutTitle": "About",
   "settingsDarkMode": "Dark mode",
@@ -58,7 +60,7 @@ final en = {
   "settingsPageTitle": "Settings",
   "onboardingTitle": "We are about to start!",
   "onboardingSourceUrlInput":
-      "First you have to enter the URL to the schedule.",
+      "First you have to enter the URL to the schedule. Normally you get this link from the secretariat at the beginning of the semester.",
   "onboardingSourceUrlInvalid": "This URL is not valid",
   "onboardingSourceUrlHint":
       "https://rapla.dhbw-stuttgart.de/rapla?key=7tfKQX7jOZcKnAU",
