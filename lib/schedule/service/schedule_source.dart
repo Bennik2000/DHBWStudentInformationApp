@@ -1,5 +1,5 @@
-import 'package:dhbwstuttgart/common/util/cancellation_token.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule.dart';
+import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 
 abstract class ScheduleSource {
   ///

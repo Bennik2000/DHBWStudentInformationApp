@@ -1,5 +1,5 @@
-import 'package:dhbwstuttgart/common/data/database_entity.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
+import 'package:dhbwstudentapp/common/data/database_entity.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
 class ScheduleEntryEntity extends DatabaseEntity {
   ScheduleEntry _scheduleEntry;

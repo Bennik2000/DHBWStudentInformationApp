@@ -1,7 +1,7 @@
-import 'package:dhbwstuttgart/common/i18n/localizations.dart';
-import 'package:dhbwstuttgart/common/math/math.dart';
-import 'package:dhbwstuttgart/schedule/ui/main_page.dart';
-import 'package:dhbwstuttgart/schedule/ui/onboarding/viewmodels/onboarding_view_model.dart';
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/math/math.dart';
+import 'package:dhbwstudentapp/schedule/ui/main_page.dart';
+import 'package:dhbwstudentapp/schedule/ui/onboarding/viewmodels/onboarding_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

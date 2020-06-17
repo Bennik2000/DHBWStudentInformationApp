@@ -1,7 +1,7 @@
-import 'package:dhbwstuttgart/common/background/background_work_scheduler.dart';
-import 'package:dhbwstuttgart/common/util/date_utils.dart';
-import 'package:dhbwstuttgart/schedule/background/background_schedule_update.dart';
-import 'package:dhbwstuttgart/schedule/ui/notification/next_day_information_notification.dart';
+import 'package:dhbwstudentapp/common/background/background_work_scheduler.dart';
+import 'package:dhbwstudentapp/common/util/date_utils.dart';
+import 'package:dhbwstudentapp/schedule/background/background_schedule_update.dart';
+import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:intl/intl.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 

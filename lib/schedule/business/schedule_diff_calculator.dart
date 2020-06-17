@@ -1,5 +1,5 @@
-import 'package:dhbwstuttgart/schedule/model/schedule.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
 class ScheduleDiffCalculator {
   ScheduleDiff calculateDiff(

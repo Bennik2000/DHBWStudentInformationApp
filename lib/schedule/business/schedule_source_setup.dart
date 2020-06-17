@@ -1,5 +1,5 @@
-import 'package:dhbwstuttgart/common/data/preferences/preferences_provider.dart';
-import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
 class ScheduleSourceSetup {

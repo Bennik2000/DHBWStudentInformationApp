@@ -1,6 +1,6 @@
-import 'package:dhbwstuttgart/common/i18n/localizations.dart';
-import 'package:dhbwstuttgart/common/ui/colors.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:flutter/material.dart';
 
 typedef ColorDelegate = Color Function(BuildContext context);

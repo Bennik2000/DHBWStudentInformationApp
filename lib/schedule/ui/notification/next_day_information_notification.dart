@@ -1,10 +1,10 @@
-import 'package:dhbwstuttgart/common/background/background_work_scheduler.dart';
-import 'package:dhbwstuttgart/common/background/task_callback.dart';
-import 'package:dhbwstuttgart/common/i18n/localizations.dart';
-import 'package:dhbwstuttgart/common/ui/notification_api.dart';
-import 'package:dhbwstuttgart/common/util/date_utils.dart';
-import 'package:dhbwstuttgart/common/util/string_utils.dart';
-import 'package:dhbwstuttgart/schedule/data/schedule_entry_repository.dart';
+import 'package:dhbwstudentapp/common/background/background_work_scheduler.dart';
+import 'package:dhbwstudentapp/common/background/task_callback.dart';
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/notification_api.dart';
+import 'package:dhbwstudentapp/common/util/date_utils.dart';
+import 'package:dhbwstudentapp/common/util/string_utils.dart';
+import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
 import 'package:intl/intl.dart';
 
 class NextDayInformationNotification extends TaskCallback {

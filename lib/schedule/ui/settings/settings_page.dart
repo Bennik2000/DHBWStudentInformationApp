@@ -1,8 +1,8 @@
-import 'package:dhbwstuttgart/common/application_constants.dart';
-import 'package:dhbwstuttgart/common/i18n/localizations.dart';
-import 'package:dhbwstuttgart/common/ui/viewmodels/root_view_model.dart';
-import 'package:dhbwstuttgart/common/ui/widgets/title_list_tile.dart';
-import 'package:dhbwstuttgart/schedule/ui/onboarding/onboarding_page.dart';
+import 'package:dhbwstudentapp/common/application_constants.dart';
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
+import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
+import 'package:dhbwstudentapp/schedule/ui/onboarding/onboarding_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';

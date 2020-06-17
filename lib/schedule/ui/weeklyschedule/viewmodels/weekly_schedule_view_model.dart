@@ -1,12 +1,12 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstuttgart/common/util/cancellation_token.dart';
-import 'package:dhbwstuttgart/common/util/date_utils.dart';
-import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule.dart';
-import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
+import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/common/util/date_utils.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule.dart';
+import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 
 class WeeklyScheduleViewModel extends BaseViewModel {
   static const Duration weekDuration = Duration(days: 7);

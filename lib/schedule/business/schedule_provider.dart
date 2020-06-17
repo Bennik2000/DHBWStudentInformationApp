@@ -1,11 +1,11 @@
-import 'package:dhbwstuttgart/common/util/cancellation_token.dart';
-import 'package:dhbwstuttgart/schedule/business/schedule_diff_calculator.dart';
-import 'package:dhbwstuttgart/schedule/data/schedule_entry_repository.dart';
-import 'package:dhbwstuttgart/schedule/data/schedule_query_information_repository.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule_query_information.dart';
-import 'package:dhbwstuttgart/schedule/service/schedule_source.dart';
+import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_diff_calculator.dart';
+import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
+import 'package:dhbwstudentapp/schedule/data/schedule_query_information_repository.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_query_information.dart';
+import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:intl/intl.dart';
 
 typedef ScheduleUpdatedCallback = Future<void> Function(

@@ -1,4 +1,4 @@
-import 'package:dhbwstuttgart/common/util/date_utils.dart';
+import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
