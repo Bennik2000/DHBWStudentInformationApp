@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -102,7 +104,7 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
           dayWidth * differenceInDays,
           0,
           dayWidth,
-          leftoverHeight,
+          min(size.height, leftoverHeight),
         ),
         overlayPaint,
       );
