@@ -1,7 +1,8 @@
 <p align="center">
 <img src="https://raw.githubusercontent.com/Bennik2000/DHBWStudentInformationApp/master/icons/ic_launcher.svg" width="200">
+<br />
+<a href="https://play.google.com/store/apps/details?id=de.bennik2000.dhbwstudentapp"><img src="https://raw.githubusercontent.com/Bennik2000/DHBWStudentInformationApp/master/icons/play_store_get.svg" width="200"/></a>
 </p>
-
 
 
 # DHBW Studenten App
