@@ -1,4 +1,4 @@
-import 'package:dhbwstuttgart/common/ui/notification_api.dart';
+import 'package:dhbwstudentapp/common/ui/notification_api.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
 class NotificationsInitialize {

@@ -1,7 +1,7 @@
-import 'package:dhbwstuttgart/common/i18n/localizations.dart';
-import 'package:dhbwstuttgart/common/ui/notification_api.dart';
-import 'package:dhbwstuttgart/common/util/string_utils.dart';
-import 'package:dhbwstuttgart/schedule/business/schedule_diff_calculator.dart';
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/notification_api.dart';
+import 'package:dhbwstudentapp/common/util/string_utils.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_diff_calculator.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleChangedNotification {

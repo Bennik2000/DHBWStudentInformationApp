@@ -1,4 +1,4 @@
-import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
 class Schedule {
   final List<ScheduleEntry> entries;

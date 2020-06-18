@@ -1,6 +1,6 @@
-import 'package:dhbwstuttgart/common/data/database_access.dart';
-import 'package:dhbwstuttgart/schedule/data/schedule_query_information_entity.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule_query_information.dart';
+import 'package:dhbwstudentapp/common/data/database_access.dart';
+import 'package:dhbwstudentapp/schedule/data/schedule_query_information_entity.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_query_information.dart';
 
 class ScheduleQueryInformationRepository {
   final DatabaseAccess _database;

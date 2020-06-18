@@ -1,4 +1,4 @@
-package de.bennik2000.dhbwstuttgart
+package de.bennik2000.dhbwstudentapp
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity

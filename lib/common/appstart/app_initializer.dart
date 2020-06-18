@@ -1,17 +1,21 @@
 import 'dart:io';
 
-import 'package:dhbwstuttgart/common/appstart/background_initialize.dart';
-import 'package:dhbwstuttgart/common/appstart/localization_initialize.dart';
-import 'package:dhbwstuttgart/common/appstart/notification_schedule_changed_initialize.dart';
-import 'package:dhbwstuttgart/common/appstart/notifications_initialize.dart';
-import 'package:dhbwstuttgart/common/appstart/service_injector.dart';
-import 'package:dhbwstuttgart/schedule/business/schedule_source_setup.dart';
+import 'package:dhbwstudentapp/common/appstart/background_initialize.dart';
+import 'package:dhbwstudentapp/common/appstart/localization_initialize.dart';
+import 'package:dhbwstudentapp/common/appstart/notification_schedule_changed_initialize.dart';
+import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
+import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
 bool isInitialized = false;
 
+///
+/// Initializes the app for foreground use. After this call everything will be
+/// loaded
+///
 Future<void> initializeApp() async {
   print("Initialize requested");
 
@@ -37,7 +41,11 @@ Future<void> initializeApp() async {
   print("Initialization finished");
 }
 
-Future<void> initializeAppBackground() async {
+///
+/// Initialize the app for background use. Call this function when inside a
+/// headless task. After this call everything will be loaded for background use.
+///
+Future<void> initializeAppForBackground() async {
   print("Initialize for Background requested");
 
   if (isInitialized) {

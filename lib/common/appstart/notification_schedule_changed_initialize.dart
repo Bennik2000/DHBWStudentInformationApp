@@ -1,6 +1,6 @@
-import 'package:dhbwstuttgart/schedule/business/schedule_diff_calculator.dart';
-import 'package:dhbwstuttgart/schedule/business/schedule_provider.dart';
-import 'package:dhbwstuttgart/schedule/ui/notification/schedule_changed_notification.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_diff_calculator.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
+import 'package:dhbwstudentapp/schedule/ui/notification/schedule_changed_notification.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
 class NotificationScheduleChangedInitialize {

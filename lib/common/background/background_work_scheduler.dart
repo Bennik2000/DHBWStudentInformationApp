@@ -1,5 +1,5 @@
-import 'package:dhbwstuttgart/common/appstart/app_initializer.dart';
-import 'package:dhbwstuttgart/common/background/task_callback.dart';
+import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
+import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:workmanager/workmanager.dart';
 
@@ -73,7 +73,7 @@ class BackgroundWorkScheduler {
     try {
       print("Background task started: $taskId with data: $inputData");
 
-      await initializeAppBackground();
+      await initializeAppForBackground();
 
       BackgroundWorkScheduler scheduler = kiwi.Container().resolve();
 

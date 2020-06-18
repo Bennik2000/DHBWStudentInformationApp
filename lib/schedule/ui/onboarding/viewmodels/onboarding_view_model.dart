@@ -1,6 +1,6 @@
-import 'package:dhbwstuttgart/common/data/preferences/preferences_provider.dart';
-import 'package:dhbwstuttgart/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstuttgart/schedule/service/rapla/rapla_schedule_source.dart';
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
 
 class OnboardingViewModel extends BaseViewModel {
   final PreferencesProvider preferencesProvider;

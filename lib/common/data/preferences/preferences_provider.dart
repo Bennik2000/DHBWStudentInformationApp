@@ -1,4 +1,4 @@
-import 'package:dhbwstuttgart/common/data/preferences/preferences_access.dart';
+import 'package:dhbwstudentapp/common/data/preferences/preferences_access.dart';
 
 class PreferencesProvider {
   static const String IsDarkModeKey = "IsDarkMode";

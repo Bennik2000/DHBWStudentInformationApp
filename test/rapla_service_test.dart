@@ -1,4 +1,4 @@
-import 'package:dhbwstuttgart/schedule/service/rapla/rapla_schedule_source.dart';
+import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:test/test.dart';
 
 void main() {

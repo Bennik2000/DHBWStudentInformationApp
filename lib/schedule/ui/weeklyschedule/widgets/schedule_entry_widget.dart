@@ -1,6 +1,6 @@
-import 'package:dhbwstuttgart/common/ui/schedule_entry_type_mappings.dart';
-import 'package:dhbwstuttgart/common/ui/text_styles.dart';
-import 'package:dhbwstuttgart/schedule/model/schedule_entry.dart';
+import 'package:dhbwstudentapp/common/ui/schedule_entry_type_mappings.dart';
+import 'package:dhbwstudentapp/common/ui/text_styles.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
