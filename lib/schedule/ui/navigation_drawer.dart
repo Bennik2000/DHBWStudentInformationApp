@@ -1,43 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+typedef NavigationItemOnTap = Function(int index);
+
 class NavigationDrawer extends StatelessWidget {
+  final int selectedIndex;
+  final NavigationItemOnTap onTap;
+  final List<DrawerNavigationEntry> entries;
+
+  const NavigationDrawer(
+      {Key key, this.selectedIndex, this.onTap, this.entries})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    var widgets = <Widget>[];
+    widgets.add(_createHeader(context));
+
+    int i = 0;
+    for (var entry in entries) {
+      widgets.add(_createDrawerItem(context,
+          icon: entry.icon,
+          text: entry.title,
+          index: i,
+          isSelected: i == selectedIndex));
+
+      i++;
+    }
+
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          _createHeader(context),
-          _createDrawerItem(
-            context,
-            icon: Icons.calendar_today,
-            text: "Vorlesungsplan",
-            isSelected: true,
-          ),
-          _createDrawerItem(
-            context,
-            icon: Icons.info_outline,
-            text: "Nützliche Infos",
-          ),
-          _createDrawerItem(
-            context,
-            icon: Icons.data_usage,
-            text: "Dualis",
-          ),
-          _createDrawerItem(
-            context,
-            icon: Icons.business,
-            text: "Bibliothek",
-          ),
-          _createDrawerItem(
-            context,
-            icon: Icons.settings,
-            text: "Einstellungen",
-          )
-        ],
+        children: widgets,
       ),
     );
   }
@@ -62,33 +57,51 @@ class NavigationDrawer extends StatelessWidget {
     );
   }
 
-  Widget _createDrawerItem(BuildContext context,
-      {IconData icon, String text, GestureTapCallback onTap, bool isSelected}) {
-    return ListTile(
-      contentPadding: EdgeInsets.fromLTRB(8, 8, 8, 0),
-      title: Container(
-        height: 48,
-        decoration: BoxDecoration(
-          color: isSelected ?? false
-              ? Theme.of(context).focusColor
-              : Colors.transparent,
-          borderRadius: BorderRadius.all(Radius.circular(8)),
+  Widget _createDrawerItem(
+    BuildContext context, {
+    Widget icon,
+    String text,
+    bool isSelected,
+    int index,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+      child: Card(
+        color: isSelected ? Theme.of(context).focusColor : Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
         ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Icon(icon),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                child: Text(text),
+        child: InkWell(
+          child: Container(
+            height: 48,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  icon,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                    child: Text(text),
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
+          onTap: () {
+            onTap(index);
+            Navigator.of(context).pop();
+          },
         ),
       ),
-      onTap: onTap ?? () {},
     );
   }
+}
+
+class DrawerNavigationEntry {
+  final Widget icon;
+  final String title;
+
+  DrawerNavigationEntry(this.icon, this.title);
 }

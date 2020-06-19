@@ -1,8 +1,12 @@
+import 'dart:ffi';
+
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/information/ui/usefulinformation/useful_information_page.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/daily_schedule_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
+import 'package:dhbwstudentapp/schedule/ui/navigation_drawer.dart';
 import 'package:dhbwstudentapp/schedule/ui/settings/settings_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
@@ -17,26 +21,49 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _currentPageIndex = 0;
+  int _currentEntryIndex = 0;
 
-  final List<Page> pages = <Page>[
-    Page(
-      widget: WeeklySchedulePage(),
-      title: (BuildContext context) => L.of(context).pageWeekOverviewTitle,
-      viewModel: WeeklyScheduleViewModel(kiwi.Container().resolve()),
-      key: Key("Weekly"),
+  final List<NavigationEntry> navigationEntries = [
+    NavigationEntry.pages(
+      <Page>[
+        Page(
+          widget: WeeklySchedulePage(),
+          title: (BuildContext context) => L.of(context).pageWeekOverviewTitle,
+          viewModel: WeeklyScheduleViewModel(kiwi.Container().resolve()),
+          key: Key("Weekly"),
+        ),
+        Page(
+          widget: DailySchedulePage(),
+          title: (BuildContext context) => L.of(context).pageDayOverviewTitle,
+          viewModel: DailyScheduleViewModel(kiwi.Container().resolve()),
+          key: Key("Daily"),
+        ),
+      ],
+      Icon(Icons.calendar_today),
+      (_) => "Vorlesungsplan",
+      null,
     ),
-    Page(
-      widget: DailySchedulePage(),
-      title: (BuildContext context) => L.of(context).pageDayOverviewTitle,
-      viewModel: DailyScheduleViewModel(kiwi.Container().resolve()),
-      key: Key("Daily"),
+    NavigationEntry.body(
+      UsefulInformationPage(),
+      Icon(Icons.info_outline),
+      (_) => "Nützliche Links",
+      null,
     ),
   ];
 
   void onTabTapped(int index) {
     setState(() {
-      _currentPageIndex = index;
+      var entry = navigationEntries[_currentEntryIndex];
+
+      if (entry.hasPages) {
+        entry.currentPageIndex = index;
+      }
+    });
+  }
+
+  void onNavigationTapped(int index) {
+    setState(() {
+      _currentEntryIndex = index;
     });
   }
 
@@ -48,6 +75,29 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    var body;
+    var bodyKey;
+    BaseViewModel viewModel;
+
+    var currentEntry = navigationEntries[_currentEntryIndex];
+
+    if (currentEntry.hasPages) {
+      body = currentEntry.currentPage.widget;
+      bodyKey = currentEntry.currentPage.key;
+      viewModel = currentEntry.currentPage.viewModel;
+    } else {
+      body = currentEntry.body;
+      bodyKey = currentEntry.key;
+      viewModel = currentEntry.viewModel;
+    }
+
+    var drawerEntries = <DrawerNavigationEntry>[];
+
+    for (var entry in navigationEntries) {
+      drawerEntries
+          .add(DrawerNavigationEntry(entry.icon, entry.title(context)));
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -56,7 +106,7 @@ class _MainPageState extends State<MainPage> {
         elevation: 0,
         brightness: Theme.of(context).brightness,
         iconTheme: Theme.of(context).iconTheme,
-        title: Text(pages[_currentPageIndex].title(context)),
+        title: Text(navigationEntries[_currentEntryIndex].title(context)),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.settings),
@@ -69,34 +119,40 @@ class _MainPageState extends State<MainPage> {
       ),
       body: AnimatedSwitcher(
         child: Column(
-          key: pages[_currentPageIndex].key,
+          key: bodyKey,
           children: <Widget>[
             Expanded(
               child: ChangeNotifierProvider.value(
-                key: pages[_currentPageIndex].key,
-                value: pages[_currentPageIndex].viewModel,
-                child: pages[_currentPageIndex].widget,
+                key: bodyKey,
+                value: viewModel,
+                child: body,
               ),
             ),
           ],
         ),
         duration: Duration(milliseconds: 200),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: onTabTapped,
-        currentIndex: _currentPageIndex,
-        items: <BottomNavigationBarItem>[
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.view_week),
-            title: Text(L.of(context).pageWeekOverviewTitle),
-          ),
-          new BottomNavigationBarItem(
-            icon: Icon(Icons.calendar_view_day),
-            title: Text(L.of(context).pageDayOverviewTitle),
-          )
-        ],
+      bottomNavigationBar: currentEntry.hasPages
+          ? BottomNavigationBar(
+              onTap: onTabTapped,
+              currentIndex: currentEntry.currentPageIndex,
+              items: <BottomNavigationBarItem>[
+                new BottomNavigationBarItem(
+                  icon: Icon(Icons.view_week),
+                  title: Text(L.of(context).pageWeekOverviewTitle),
+                ),
+                new BottomNavigationBarItem(
+                  icon: Icon(Icons.calendar_view_day),
+                  title: Text(L.of(context).pageDayOverviewTitle),
+                )
+              ],
+            )
+          : null,
+      drawer: NavigationDrawer(
+        selectedIndex: _currentEntryIndex,
+        onTap: onNavigationTapped,
+        entries: drawerEntries,
       ),
-      drawer: NavigationDrawer(),
     );
   }
 }
@@ -109,4 +165,27 @@ class Page {
   final Key key;
 
   Page({this.widget, this.color, this.title, this.viewModel, this.key});
+}
+
+class NavigationEntry {
+  List<Page> _pages;
+  List<Page> get pages => _pages;
+
+  Widget _body;
+  Widget get body => _body;
+
+  final Widget icon;
+  final String Function(BuildContext context) title;
+  final BaseViewModel viewModel;
+
+  bool get hasPages => _pages != null && _pages.length > 0;
+
+  int currentPageIndex = 0;
+  Page get currentPage => pages[currentPageIndex];
+
+  Key get key => ValueKey(title);
+
+  NavigationEntry.pages(this._pages, this.icon, this.title, this.viewModel);
+
+  NavigationEntry.body(this._body, this.icon, this.title, this.viewModel);
 }
