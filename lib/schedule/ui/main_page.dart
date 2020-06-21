@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/information/ui/usefulinformation/useful_information_page.dart';
@@ -43,6 +41,24 @@ class _MainPageState extends State<MainPage> {
       (_) => "Vorlesungsplan",
       null,
     ),
+    /*NavigationEntry.body(
+      Placeholder(),
+      Icon(Icons.fastfood),
+      (_) => "Mensaplan",
+      null,
+    ),
+    NavigationEntry.body(
+      Placeholder(),
+      Icon(Icons.data_usage),
+      (_) => "Dualis",
+      null,
+    ),
+    NavigationEntry.body(
+      Placeholder(),
+      Icon(Icons.business),
+      (_) => "Bibliothek",
+      null,
+    ),*/
     NavigationEntry.body(
       UsefulInformationPage(),
       Icon(Icons.info_outline),
@@ -168,24 +184,22 @@ class Page {
 }
 
 class NavigationEntry {
-  List<Page> _pages;
-  List<Page> get pages => _pages;
-
-  Widget _body;
-  Widget get body => _body;
-
   final Widget icon;
   final String Function(BuildContext context) title;
   final BaseViewModel viewModel;
 
-  bool get hasPages => _pages != null && _pages.length > 0;
+  List<Page> _pages;
+  List<Page> get pages => _pages;
 
   int currentPageIndex = 0;
   Page get currentPage => pages[currentPageIndex];
 
+  Widget _body;
+  Widget get body => _body;
+
+  bool get hasPages => _pages != null && _pages.length > 0;
   Key get key => ValueKey(title);
 
   NavigationEntry.pages(this._pages, this.icon, this.title, this.viewModel);
-
   NavigationEntry.body(this._body, this.icon, this.title, this.viewModel);
 }

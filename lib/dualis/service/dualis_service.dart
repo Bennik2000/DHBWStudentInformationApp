@@ -62,7 +62,7 @@ class DualisService {
 
     var mainPage = parseMainPage(mainPageResponse.body);
 
-    var result = await session.get(mainPage.courseResultUrl);
+    var semesters = await loadSemesters(mainPage, session);
 
     return true;
   }
@@ -113,6 +113,44 @@ class DualisService {
       studentResultsUrl,
     );
   }
+
+  Future<List<Semester>> loadSemesters(
+    DualisMainPage mainPage,
+    Session session,
+  ) async {
+    var courseResult = await session.get(mainPage.courseResultUrl);
+
+    var page = parse(courseResult.body);
+
+    var semesterSelector = page.getElementById("semester");
+
+    var onChange = semesterSelector.attributes["onchange"];
+
+    var regExp = RegExp("'([A-z0-9]*)'");
+
+    var matches = regExp.allMatches(onChange).toList();
+
+    if (matches.length != 4) return null;
+
+    var applicationName = matches[0].group(1);
+    var programName = matches[1].group(1);
+    var sessionNo = matches[2].group(1);
+    var menuId = matches[3].group(1);
+
+    var url =
+        "https://dualis.dhbw.de/scripts/mgrqispi.dll?APPNAME=$applicationName&PRGNAME=$programName&ARGUMENTS=-N$sessionNo,-N$menuId,-N";
+
+    var semesters = <Semester>[];
+
+    for (var option in semesterSelector.getElementsByTagName("option")) {
+      var id = option.attributes["value"];
+      var name = option.innerHtml;
+
+      semesters.add(Semester(name, url + id, []));
+    }
+
+    return semesters;
+  }
 }
 
 class DualisMainPage {
@@ -120,4 +158,22 @@ class DualisMainPage {
   final String studentResultsUrl;
 
   DualisMainPage(this.courseResultUrl, this.studentResultsUrl);
+}
+
+class Semester {
+  final String semesterName;
+  final String semesterCourseResultsUrl;
+  final List<Course> courses;
+
+  Semester(this.semesterName, this.semesterCourseResultsUrl, this.courses);
+}
+
+class Course {
+  final String id;
+  final String name;
+  final String finalGrade;
+  final String credits;
+  final String status;
+
+  Course(this.id, this.name, this.finalGrade, this.credits, this.status);
 }
