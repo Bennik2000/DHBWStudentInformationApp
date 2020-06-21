@@ -72,6 +72,17 @@ class L {
   String get notificationScheduleChangedClassTitle =>
       _getValue("notificationScheduleChangedClassTitle");
 
+  String get informationPageDHBWHomepage =>
+      _getValue("informationPageDHBWHomepage");
+  String get informationPageDualis => _getValue("informationPageDualis");
+  String get informationPageRoundcube => _getValue("informationPageRoundcube");
+  String get informationPageMoodle => _getValue("informationPageMoodle");
+  String get informationPageLocation => _getValue("informationPageLocation");
+  String get informationPageEduroam => _getValue("informationPageEduroam");
+  String get informationPageStuV => _getValue("informationPageStuV");
+  String get informationPageDHBWSports =>
+      _getValue("informationPageDHBWSports");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

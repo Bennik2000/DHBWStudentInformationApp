@@ -41,6 +41,14 @@ final de = {
   "notificationScheduleChangedRemovedClassTitle": "Vorlesung entfällt",
   "notificationScheduleChangedClass": "%0 (%1) hat sich geändert.",
   "notificationScheduleChangedClassTitle": "Vorlesung geändert",
+  "informationPageDHBWHomepage": "Homepage der DHBW",
+  "informationPageDualis": "Dualis",
+  "informationPageRoundcube": "Roundcube Web Email",
+  "informationPageMoodle": "Moodle",
+  "informationPageLocation": "Lage der Standorte",
+  "informationPageEduroam": "eduroam",
+  "informationPageStuV": "StuV",
+  "informationPageDHBWSports": "Hochschulsport",
 };
 
 final en = {
@@ -85,4 +93,12 @@ final en = {
   "notificationScheduleChangedRemovedClassTitle": "Class does not take place",
   "notificationScheduleChangedClass": "%0 (%1) changed",
   "notificationScheduleChangedClassTitle": "Class changed",
+  "informationPageDHBWHomepage": "DHBW Homepage",
+  "informationPageDualis": "Dualis",
+  "informationPageRoundcube": "Roundcube Web Email",
+  "informationPageMoodle": "Moodle",
+  "informationPageLocation": "DHBW Locations",
+  "informationPageEduroam": "eduroam",
+  "informationPageStuV": "StuV",
+  "informationPageDHBWSports": "University sports",
 };
