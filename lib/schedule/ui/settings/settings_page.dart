@@ -12,7 +12,12 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
+  @override
+  _SettingsPageState createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   final SettingsViewModel settingsViewModel = SettingsViewModel(
     kiwi.Container().resolve(),
     kiwi.Container().resolve<TaskCallback>(NextDayInformationNotification.name),
@@ -113,9 +118,7 @@ class SettingsPage extends StatelessWidget {
             (BuildContext context, SettingsViewModel model, Set properties) {
           return SwitchListTile(
             title: Text(L.of(context).settingsNotificationsNextDay),
-            onChanged: (value) async {
-              await model.setNotifyAboutNextDay(value);
-            },
+            onChanged: model.setNotifyAboutNextDay,
             value: model.notifyAboutNextDay,
           );
         },
@@ -128,9 +131,7 @@ class SettingsPage extends StatelessWidget {
             (BuildContext context, SettingsViewModel model, Set properties) {
           return SwitchListTile(
             title: Text(L.of(context).settingsNotificationsScheduleChange),
-            onChanged: (value) async {
-              await model.setNotifyAboutScheduleChanges(value);
-            },
+            onChanged: model.setNotifyAboutScheduleChanges,
             value: model.notifyAboutScheduleChanges,
           );
         },
