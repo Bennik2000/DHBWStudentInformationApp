@@ -83,6 +83,13 @@ class L {
   String get informationPageDHBWSports =>
       _getValue("informationPageDHBWSports");
 
+  String get settingsNotificationsTitle =>
+      _getValue("settingsNotificationsTitle");
+  String get settingsNotificationsNextDay =>
+      _getValue("settingsNotificationsNextDay");
+  String get settingsNotificationsScheduleChange =>
+      _getValue("settingsNotificationsScheduleChange");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

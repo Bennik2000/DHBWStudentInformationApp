@@ -5,6 +5,9 @@ class PreferencesProvider {
   static const String RaplaUrlKey = "RaplaUrl";
   static const String IsFirstStartKey = "IsFirstStart";
   static const String LastUsedLanguageCode = "LastUsedLanguageCode";
+  static const String NotifyAboutNextDay = "NotifyAboutNextDay";
+  static const String NotifyAboutScheduleChanges = "NotifyAboutScheduleChanges";
+
   final PreferencesAccess _preferencesAccess;
 
   PreferencesProvider(this._preferencesAccess);
@@ -39,5 +42,22 @@ class PreferencesProvider {
 
   Future<void> setLastUsedLanguageCode(String languageCode) async {
     await _preferencesAccess.set(LastUsedLanguageCode, languageCode);
+  }
+
+  Future<bool> getNotifyAboutNextDay() async {
+    return await _preferencesAccess.get<bool>(NotifyAboutNextDay) ?? true;
+  }
+
+  Future<void> setNotifyAboutNextDay(bool value) async {
+    await _preferencesAccess.set(NotifyAboutNextDay, value);
+  }
+
+  Future<bool> getNotifyAboutScheduleChanges() async {
+    return await _preferencesAccess.get<bool>(NotifyAboutScheduleChanges) ??
+        true;
+  }
+
+  Future<void> setNotifyAboutScheduleChanges(bool value) async {
+    await _preferencesAccess.set(NotifyAboutScheduleChanges, value);
   }
 }

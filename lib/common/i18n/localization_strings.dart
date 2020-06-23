@@ -49,6 +49,10 @@ final de = {
   "informationPageEduroam": "eduroam",
   "informationPageStuV": "StuV",
   "informationPageDHBWSports": "Hochschulsport",
+  "settingsNotificationsTitle": "Benachrichtigungen",
+  "settingsNotificationsNextDay": "Benachrichtigung am Abend",
+  "settingsNotificationsScheduleChange":
+      "Benachrichtigung bei einer Planänderung",
 };
 
 final en = {
@@ -101,4 +105,7 @@ final en = {
   "informationPageEduroam": "eduroam",
   "informationPageStuV": "StuV",
   "informationPageDHBWSports": "University sports",
+  "settingsNotificationsTitle": "Notifications",
+  "settingsNotificationsNextDay": "Notify in the evening",
+  "settingsNotificationsScheduleChange": "Notify when the schedule changed",
 };

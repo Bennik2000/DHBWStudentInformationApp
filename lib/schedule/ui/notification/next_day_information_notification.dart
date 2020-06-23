@@ -22,12 +22,7 @@ class NextDayInformationNotification extends TaskCallback {
 
   @override
   Future<void> run() async {
-    var nextSchedule = toTimeOfDay(tomorrow(DateTime.now()), 20, 00);
-    await _scheduler.scheduleOneShotTaskAt(
-      nextSchedule,
-      "NextDayInformationNotification" + DateFormat.yMd().format(nextSchedule),
-      "NextDayInformationNotification",
-    );
+    await schedule();
 
     var now = DateTime.now();
 
@@ -68,4 +63,29 @@ class NextDayInformationNotification extends TaskCallback {
     await _notificationApi.showNotification(
         _localization.notificationNextClassTitle, message);
   }
+
+  @override
+  Future<void> schedule() async {
+    var nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
+    await _scheduler.scheduleOneShotTaskAt(
+      nextSchedule,
+      "NextDayInformationNotification" + DateFormat.yMd().format(nextSchedule),
+      "NextDayInformationNotification",
+    );
+  }
+
+  @override
+  Future<void> cancel() async {
+    var nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
+    await _scheduler.cancelTask(
+      "NextDayInformationNotification" + DateFormat.yMd().format(nextSchedule),
+    );
+  }
+
+  @override
+  String getName() {
+    return name;
+  }
+
+  static String get name => "NextDayInformationNotification";
 }

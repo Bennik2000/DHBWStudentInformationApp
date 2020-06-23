@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/information/ui/usefulinformation/useful_information_page.dart';

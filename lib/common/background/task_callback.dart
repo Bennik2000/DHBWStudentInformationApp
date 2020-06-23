@@ -3,4 +3,10 @@
 ///
 abstract class TaskCallback {
   Future<void> run();
+
+  Future<void> schedule();
+
+  Future<void> cancel();
+
+  String getName();
 }

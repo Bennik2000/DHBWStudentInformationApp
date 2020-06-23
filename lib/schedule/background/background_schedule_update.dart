@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/background/background_work_scheduler.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
@@ -7,10 +8,12 @@ import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 class BackgroundScheduleUpdate extends TaskCallback {
   final ScheduleProvider scheduleProvider;
   final PreferencesProvider preferencesProvider;
+  final BackgroundWorkScheduler scheduler;
 
   BackgroundScheduleUpdate(
     this.scheduleProvider,
     this.preferencesProvider,
+    this.scheduler,
   );
 
   Future updateSchedule() async {
@@ -31,5 +34,23 @@ class BackgroundScheduleUpdate extends TaskCallback {
   @override
   Future<void> run() async {
     await updateSchedule();
+  }
+
+  @override
+  Future<void> cancel() async {
+    await scheduler.cancelTask(getName());
+  }
+
+  @override
+  Future<void> schedule() async {
+    await scheduler.schedulePeriodic(
+      Duration(hours: 4),
+      getName(),
+    );
+  }
+
+  @override
+  String getName() {
+    return "BackgroundScheduleUpdate";
   }
 }

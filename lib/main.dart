@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 void main() async {
-  await initializeApp();
+  await initializeApp(false);
 
   await saveLastStartLanguage();
   bool firstStart = await isFirstStart();
