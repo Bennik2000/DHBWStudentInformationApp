@@ -6,13 +6,8 @@ import 'package:workmanager/workmanager.dart';
 class BackgroundWorkScheduler {
   Map<String, TaskCallback> _taskCallbacks = {};
 
-  Future<void> setupBackgroundScheduling() async {
-    print("Initialize background scheduling");
-
-    await Workmanager.initialize(
-      callbackDispatcher,
-      isInDebugMode: false,
-    );
+  BackgroundWorkScheduler() {
+    _setupBackgroundScheduling();
   }
 
   Future<void> scheduleOneShotTaskIn(
@@ -27,8 +22,6 @@ class BackgroundWorkScheduler {
       existingWorkPolicy: ExistingWorkPolicy.replace,
       initialDelay: delay,
     );
-
-    print("Scheduled one shot task");
   }
 
   Future<void> scheduleOneShotTaskAt(
@@ -37,6 +30,11 @@ class BackgroundWorkScheduler {
     String name,
   ) async {
     await scheduleOneShotTaskIn(date.difference(DateTime.now()), id, name);
+  }
+
+  Future<void> cancelTask(String id) async {
+    await Workmanager.cancelByUniqueName(id);
+    print("Cancelled task $id");
   }
 
   Future<void> schedulePeriodic(
@@ -61,8 +59,8 @@ class BackgroundWorkScheduler {
     );
   }
 
-  void registerTaskCallback(String id, TaskCallback callback) {
-    _taskCallbacks[id] = callback;
+  void registerTask(TaskCallback task) {
+    _taskCallbacks[task.getName()] = task;
   }
 
   Future<void> executeTask(String id) async {
@@ -73,7 +71,7 @@ class BackgroundWorkScheduler {
     try {
       print("Background task started: $taskId with data: $inputData");
 
-      await initializeAppForBackground();
+      await initializeApp(true);
 
       BackgroundWorkScheduler scheduler = kiwi.Container().resolve();
 
@@ -88,6 +86,15 @@ class BackgroundWorkScheduler {
     print("Background task finished successfully");
 
     return true;
+  }
+
+  Future<void> _setupBackgroundScheduling() async {
+    print("Initialize background scheduling");
+
+    await Workmanager.initialize(
+      callbackDispatcher,
+      isInDebugMode: false,
+    );
   }
 }
 

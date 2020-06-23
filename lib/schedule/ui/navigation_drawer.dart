@@ -1,84 +1,107 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+typedef NavigationItemOnTap = Function(int index);
+
 class NavigationDrawer extends StatelessWidget {
+  final int selectedIndex;
+  final NavigationItemOnTap onTap;
+  final List<DrawerNavigationEntry> entries;
+
+  const NavigationDrawer(
+      {Key key, this.selectedIndex, this.onTap, this.entries})
+      : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    var widgets = <Widget>[];
+    widgets.add(_createHeader(context));
+
+    int i = 0;
+    for (var entry in entries) {
+      widgets.add(_createDrawerItem(context,
+          icon: entry.icon,
+          text: entry.title,
+          index: i,
+          isSelected: i == selectedIndex));
+
+      i++;
+    }
+
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          _createHeader(),
-          _createDrawerItem(
-            icon: Icons.calendar_today,
-            text: "Vorlesungsplan",
-          ),
-          _createDrawerItem(
-            icon: Icons.dashboard,
-            text: "Raumplan",
-          ),
-          _createDrawerItem(
-            icon: Icons.settings,
-            text: "Einstellungen",
-          ),
-          Expanded(
-            child: Container(),
-          ),
-          ListTile(
-            title: Text(
-              '0.0.1',
-              style: Theme.of(context).textTheme.overline,
-            ),
-            onTap: () {},
-          ),
-        ],
+        children: widgets,
       ),
     );
   }
 
-  Widget _createHeader() {
+  Widget _createHeader(BuildContext context) {
     return DrawerHeader(
       margin: EdgeInsets.zero,
       padding: EdgeInsets.zero,
-      decoration: BoxDecoration(
-        color: Colors.red,
-      ),
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-            bottom: 12.0,
-            left: 16.0,
-            child: Text(
-              "DHBW Stuttgart",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 24, 16, 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              "DHBW Studenten App",
+              style: Theme.of(context).textTheme.headline,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget _createDrawerItem({
-    IconData icon,
+  Widget _createDrawerItem(
+    BuildContext context, {
+    Widget icon,
     String text,
-    GestureTapCallback onTap,
+    bool isSelected,
+    int index,
   }) {
-    return ListTile(
-      title: Row(
-        children: <Widget>[
-          Icon(icon),
-          Padding(
-            padding: EdgeInsets.only(left: 8.0),
-            child: Text(text),
-          )
-        ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
+      child: Card(
+        color: isSelected ? Theme.of(context).focusColor : Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: InkWell(
+          child: Container(
+            height: 48,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  icon,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                    child: Text(text),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          onTap: () {
+            onTap(index);
+            Navigator.of(context).pop();
+          },
+        ),
       ),
-      onTap: onTap ?? () {},
     );
   }
+}
+
+class DrawerNavigationEntry {
+  final Widget icon;
+  final String title;
+
+  DrawerNavigationEntry(this.icon, this.title);
 }

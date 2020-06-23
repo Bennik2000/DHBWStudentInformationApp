@@ -72,6 +72,27 @@ class L {
   String get notificationScheduleChangedClassTitle =>
       _getValue("notificationScheduleChangedClassTitle");
 
+  String get informationPageDHBWHomepage =>
+      _getValue("informationPageDHBWHomepage");
+  String get informationPageDualis => _getValue("informationPageDualis");
+  String get informationPageRoundcube => _getValue("informationPageRoundcube");
+  String get informationPageMoodle => _getValue("informationPageMoodle");
+  String get informationPageLocation => _getValue("informationPageLocation");
+  String get informationPageEduroam => _getValue("informationPageEduroam");
+  String get informationPageStuV => _getValue("informationPageStuV");
+  String get informationPageDHBWSports =>
+      _getValue("informationPageDHBWSports");
+
+  String get settingsNotificationsTitle =>
+      _getValue("settingsNotificationsTitle");
+  String get settingsNotificationsNextDay =>
+      _getValue("settingsNotificationsNextDay");
+  String get settingsNotificationsScheduleChange =>
+      _getValue("settingsNotificationsScheduleChange");
+
+  String get screenScheduleTitle => _getValue("screenScheduleTitle");
+  String get screenUsefulLinks => _getValue("screenUsefulLinks");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }
