@@ -33,7 +33,5 @@ class BackgroundInitialize {
 
       await task.schedule();
     }
-
-    scheduler.setupBackgroundScheduling();
   }
 }

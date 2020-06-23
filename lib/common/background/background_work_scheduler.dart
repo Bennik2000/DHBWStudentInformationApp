@@ -6,13 +6,8 @@ import 'package:workmanager/workmanager.dart';
 class BackgroundWorkScheduler {
   Map<String, TaskCallback> _taskCallbacks = {};
 
-  Future<void> setupBackgroundScheduling() async {
-    print("Initialize background scheduling");
-
-    await Workmanager.initialize(
-      callbackDispatcher,
-      isInDebugMode: false,
-    );
+  BackgroundWorkScheduler() {
+    _setupBackgroundScheduling();
   }
 
   Future<void> scheduleOneShotTaskIn(
@@ -91,6 +86,15 @@ class BackgroundWorkScheduler {
     print("Background task finished successfully");
 
     return true;
+  }
+
+  Future<void> _setupBackgroundScheduling() async {
+    print("Initialize background scheduling");
+
+    await Workmanager.initialize(
+      callbackDispatcher,
+      isInDebugMode: false,
+    );
   }
 }
 
