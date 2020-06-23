@@ -90,6 +90,9 @@ class L {
   String get settingsNotificationsScheduleChange =>
       _getValue("settingsNotificationsScheduleChange");
 
+  String get screenScheduleTitle => _getValue("screenScheduleTitle");
+  String get screenUsefulLinks => _getValue("screenUsefulLinks");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

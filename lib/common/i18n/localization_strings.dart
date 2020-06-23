@@ -53,6 +53,8 @@ final de = {
   "settingsNotificationsNextDay": "Benachrichtigung am Abend",
   "settingsNotificationsScheduleChange":
       "Benachrichtigung bei einer Planänderung",
+  "screenScheduleTitle": "Vorlesungsplan",
+  "screenUsefulLinks": "Nützliche Links",
 };
 
 final en = {
@@ -108,4 +110,6 @@ final en = {
   "settingsNotificationsTitle": "Notifications",
   "settingsNotificationsNextDay": "Notify in the evening",
   "settingsNotificationsScheduleChange": "Notify when the schedule changed",
+  "screenScheduleTitle": "Schedule",
+  "screenUsefulLinks": "Useful links",
 };
