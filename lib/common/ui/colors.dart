@@ -47,6 +47,16 @@ Color colorNoConnectionForeground() => Colors.white;
 class ColorPalettes {
   ColorPalettes._();
 
+  static ThemeData buildTheme(bool isDark) {
+    return ThemeData(
+      brightness: isDark ? Brightness.dark : Brightness.light,
+      accentColor: ColorPalettes.main[500],
+      primarySwatch: ColorPalettes.main,
+      toggleableActiveColor:
+          isDark ? ColorPalettes.main[700] : ColorPalettes.main[600],
+    );
+  }
+
   static const MaterialColor main = MaterialColor(0xffff061c, <int, Color>{
     050: const Color(0xFFff838e),
     100: const Color(0xFFff6a77),

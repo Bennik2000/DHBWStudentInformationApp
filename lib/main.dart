@@ -28,11 +28,7 @@ void main() async {
         ],
         builder: (BuildContext context, RootViewModel model, Set properties) =>
             MaterialApp(
-          theme: ThemeData(
-            brightness: model.isDarkMode ? Brightness.dark : Brightness.light,
-            accentColor: ColorPalettes.main[500],
-            primarySwatch: ColorPalettes.main,
-          ),
+          theme: ColorPalettes.buildTheme(model.isDarkMode),
           home: firstStart ? OnboardingPage() : MainPage(),
           localizationsDelegates: [
             const LocalizationDelegate(),
