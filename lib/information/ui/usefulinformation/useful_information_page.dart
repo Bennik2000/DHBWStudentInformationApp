@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,35 +10,35 @@ class UsefulInformationPage extends StatelessWidget {
       children: <Widget>[
         ListTile(
           leading: Icon(Icons.language),
-          title: Text("Homepage der DHBW"),
+          title: Text(L.of(context).informationPageDHBWHomepage),
           onTap: () {
             openLink("https://www.dhbw-stuttgart.de/home/");
           },
         ),
         ListTile(
           leading: Icon(Icons.data_usage),
-          title: Text("Dualis"),
+          title: Text(L.of(context).informationPageDualis),
           onTap: () {
             openLink("https://dualis.dhbw.de/");
           },
         ),
         ListTile(
           leading: Icon(Icons.email),
-          title: Text("Roundcube Web Email"),
+          title: Text(L.of(context).informationPageRoundcube),
           onTap: () {
             openLink("https://lehre-webmail.dhbw-stuttgart.de/roundcubemail/");
           },
         ),
         ListTile(
           leading: Icon(Icons.room_service),
-          title: Text("Moodle"),
+          title: Text(L.of(context).informationPageMoodle),
           onTap: () {
             openLink("http://elearning.dhbw-stuttgart.de/");
           },
         ),
         ListTile(
           leading: Icon(Icons.location_on),
-          title: Text("Lage der Standorte"),
+          title: Text(L.of(context).informationPageLocation),
           onTap: () {
             openLink(
                 "https://www.dhbw-stuttgart.de/themen/hochschule/standorte/");
@@ -45,7 +46,7 @@ class UsefulInformationPage extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.wifi),
-          title: Text("eduroam"),
+          title: Text(L.of(context).informationPageEduroam),
           onTap: () {
             openLink(
                 "https://www.dhbw-stuttgart.de/themen/einrichtungen/itservice-center/informationen-fuer-studierende/wlan-vpn-zugang/");
@@ -53,14 +54,14 @@ class UsefulInformationPage extends StatelessWidget {
         ),
         ListTile(
           leading: Icon(Icons.person_outline),
-          title: Text("StuV"),
+          title: Text(L.of(context).informationPageStuV),
           onTap: () {
             openLink("https://stuv-stuttgart.de/");
           },
         ),
         ListTile(
           leading: Icon(Icons.pool),
-          title: Text("Hochschulsport"),
+          title: Text(L.of(context).informationPageDHBWSports),
           onTap: () {
             openLink(
                 "https://www.dhbw-stuttgart.de/themen/einrichtungen/hochschulsport/");

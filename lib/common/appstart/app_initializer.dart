@@ -13,11 +13,11 @@ import 'package:kiwi/kiwi.dart' as kiwi;
 bool isInitialized = false;
 
 ///
-/// Initializes the app for foreground use. After this call everything will be
-/// loaded
+/// Initializes the app for foreground or background use. After this call
+/// everything will be loaded
 ///
-Future<void> initializeApp() async {
-  print("Initialize requested");
+Future<void> initializeApp(bool isBackground) async {
+  print("Initialize requested. Is background: $isBackground");
 
   if (isInitialized) {
     print("Already initialized. Abort.");
@@ -26,46 +26,28 @@ Future<void> initializeApp() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  if (!isBackground) {
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
 
   injectServices();
 
-  await LocalizationInitialize.fromLanguageCode(Platform.localeName)
-      .setupLocalizations();
+  if (isBackground) {
+    await LocalizationInitialize.fromPreferences(kiwi.Container().resolve())
+        .setupLocalizations();
+  } else {
+    await LocalizationInitialize.fromLanguageCode(Platform.localeName)
+        .setupLocalizations();
+  }
 
   await NotificationsInitialize().setupNotifications();
   await BackgroundInitialize().setupBackgroundScheduling();
   NotificationScheduleChangedInitialize().setupNotification();
 
-  isInitialized = true;
-  print("Initialization finished");
-}
-
-///
-/// Initialize the app for background use. Call this function when inside a
-/// headless task. After this call everything will be loaded for background use.
-///
-Future<void> initializeAppForBackground() async {
-  print("Initialize for Background requested");
-
-  if (isInitialized) {
-    print("Already initialized. Abort.");
-    return;
+  if (isBackground) {
+    await ScheduleSourceSetup().setupScheduleSource();
   }
 
-  WidgetsFlutterBinding.ensureInitialized();
-
-  injectServices();
-
-  await LocalizationInitialize.fromPreferences(kiwi.Container().resolve())
-      .setupLocalizations();
-
-  await NotificationsInitialize().setupNotifications();
-  await ScheduleSourceSetup().setupScheduleSource();
-  BackgroundInitialize().setupBackgroundScheduling(true);
-  NotificationScheduleChangedInitialize().setupNotification();
-
   isInitialized = true;
-
   print("Initialization finished");
 }

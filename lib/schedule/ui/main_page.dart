@@ -29,16 +29,18 @@ class _MainPageState extends State<MainPage> {
           title: (BuildContext context) => L.of(context).pageWeekOverviewTitle,
           viewModel: WeeklyScheduleViewModel(kiwi.Container().resolve()),
           key: Key("Weekly"),
+          icon: Icons.view_week,
         ),
         Page(
           widget: DailySchedulePage(),
           title: (BuildContext context) => L.of(context).pageDayOverviewTitle,
           viewModel: DailyScheduleViewModel(kiwi.Container().resolve()),
           key: Key("Daily"),
+          icon: Icons.calendar_view_day,
         ),
       ],
       Icon(Icons.calendar_today),
-      (_) => "Vorlesungsplan",
+      (BuildContext context) => L.of(context).screenScheduleTitle,
       null,
     ),
     /*NavigationEntry.body(
@@ -62,7 +64,7 @@ class _MainPageState extends State<MainPage> {
     NavigationEntry.body(
       UsefulInformationPage(),
       Icon(Icons.info_outline),
-      (_) => "Nützliche Links",
+      (BuildContext context) => L.of(context).screenUsefulLinks,
       null,
     ),
   ];
@@ -114,6 +116,17 @@ class _MainPageState extends State<MainPage> {
           .add(DrawerNavigationEntry(entry.icon, entry.title(context)));
     }
 
+    var bottomNavigationItems = <BottomNavigationBarItem>[];
+
+    for (Page page in currentEntry.pages ?? []) {
+      bottomNavigationItems.add(
+        new BottomNavigationBarItem(
+          icon: Icon(page.icon),
+          title: Text(page.title(context)),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -152,17 +165,7 @@ class _MainPageState extends State<MainPage> {
           ? BottomNavigationBar(
               onTap: onTabTapped,
               currentIndex: currentEntry.currentPageIndex,
-              items: <BottomNavigationBarItem>[
-                new BottomNavigationBarItem(
-                  icon: Icon(Icons.view_week),
-                  title: Text(L.of(context).pageWeekOverviewTitle),
-                ),
-                new BottomNavigationBarItem(
-                  icon: Icon(Icons.calendar_view_day),
-                  title: Text(L.of(context).pageDayOverviewTitle),
-                )
-              ],
-            )
+              items: bottomNavigationItems)
           : null,
       drawer: NavigationDrawer(
         selectedIndex: _currentEntryIndex,
@@ -177,10 +180,18 @@ class Page {
   final Widget widget;
   final Color color;
   final String Function(BuildContext context) title;
+  final IconData icon;
   final BaseViewModel viewModel;
   final Key key;
 
-  Page({this.widget, this.color, this.title, this.viewModel, this.key});
+  Page({
+    this.widget,
+    this.color,
+    this.title,
+    this.viewModel,
+    this.key,
+    this.icon,
+  });
 }
 
 class NavigationEntry {

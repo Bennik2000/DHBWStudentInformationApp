@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_diff_calculator.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/schedule_changed_notification.dart';
@@ -10,7 +11,12 @@ class NotificationScheduleChangedInitialize {
     provider.addScheduleEntryChangedCallback(_scheduleChangedCallback);
   }
 
-  Future<void> _scheduleChangedCallback(ScheduleDiff scheduleDiff) {
+  Future<void> _scheduleChangedCallback(ScheduleDiff scheduleDiff) async {
+    PreferencesProvider preferences = kiwi.Container().resolve();
+    var doNotify = await preferences.getNotifyAboutScheduleChanges();
+
+    if (!doNotify) return;
+
     var notification = ScheduleChangedNotification(
       kiwi.Container().resolve(),
       kiwi.Container().resolve(),
