@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -33,6 +31,7 @@ class _LoginFormState extends State<LoginForm> {
   final String loginFailedText;
 
   bool _loginFailed = false;
+  bool _isLoading = false;
 
   String _username;
   String _password;
@@ -70,6 +69,7 @@ class _LoginFormState extends State<LoginForm> {
         TextField(
           controller: _usernameEditingController,
           decoration: InputDecoration(
+            enabled: !_isLoading,
             hintText: "Benutzername",
             icon: Icon(Icons.alternate_email),
           ),
@@ -78,33 +78,48 @@ class _LoginFormState extends State<LoginForm> {
           controller: _passwordEditingController,
           obscureText: true,
           decoration: InputDecoration(
+            enabled: !_isLoading,
             hintText: "Passwort",
             icon: Icon(Icons.lock_outline),
             errorText: _loginFailed ? loginFailedText : null,
           ),
         ),
-        Align(
-          alignment: Alignment.topRight,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-            child: FlatButton.icon(
-              textColor: Theme.of(context).accentColor,
-              onPressed: () async {
-                bool loginFailed = await _onLogin(
-                  _usernameEditingController.text,
-                  _passwordEditingController.text,
-                );
-
-                setState(() {
-                  _loginFailed = loginFailed;
-                });
-              },
-              icon: Icon(Icons.chevron_right),
-              label: Text("Login".toUpperCase()),
+        Container(
+          height: 80,
+          child: Align(
+            alignment: Alignment.topRight,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+              child: _isLoading
+                  ? CircularProgressIndicator()
+                  : FlatButton.icon(
+                      textColor: Theme.of(context).accentColor,
+                      onPressed: () async {
+                        await loginButtonPressed();
+                      },
+                      icon: Icon(Icons.chevron_right),
+                      label: Text("Login".toUpperCase()),
+                    ),
             ),
           ),
         ),
       ],
     );
+  }
+
+  Future loginButtonPressed() async {
+    setState(() {
+      _isLoading = true;
+    });
+
+    bool loginSuccess = await _onLogin(
+      _usernameEditingController.text,
+      _passwordEditingController.text,
+    );
+
+    setState(() {
+      _isLoading = false;
+      _loginFailed = !loginSuccess;
+    });
   }
 }

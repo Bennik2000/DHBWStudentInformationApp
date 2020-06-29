@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('String interpolation', () async {
-    var service = DualisService();
+    var service = DualisScraper();
 
     var result = await service.makeRequest();
   });

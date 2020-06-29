@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:dhbwstudentapp/dualis/model/exam.dart';
+import 'package:dhbwstudentapp/dualis/model/module.dart';
+import 'package:dhbwstudentapp/dualis/model/semester.dart';
+import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
 
@@ -28,7 +32,7 @@ class Session {
   }
 }
 
-class DualisService {
+class DualisScraper {
   Future<bool> makeRequest() async {
     var user = "";
     var password = "";
@@ -63,6 +67,16 @@ class DualisService {
     var mainPage = parseMainPage(mainPageResponse.body);
 
     var semesters = await loadSemesters(mainPage, session);
+
+    print("Loaded semesters: ");
+
+    for (var semester in semesters) {
+      print("${semester.semesterName}:");
+
+      for (var course in semester.courses) {
+        print("  ${course.id} ${course.name} ${course.finalGrade}");
+      }
+    }
 
     return true;
   }
@@ -114,7 +128,7 @@ class DualisService {
     );
   }
 
-  Future<List<Semester>> loadSemesters(
+  Future<List<DualisSemester>> loadSemesters(
     DualisMainPage mainPage,
     Session session,
   ) async {
@@ -140,16 +154,41 @@ class DualisService {
     var url =
         "https://dualis.dhbw.de/scripts/mgrqispi.dll?APPNAME=$applicationName&PRGNAME=$programName&ARGUMENTS=-N$sessionNo,-N$menuId,-N";
 
-    var semesters = <Semester>[];
+    var semesters = <DualisSemester>[];
 
     for (var option in semesterSelector.getElementsByTagName("option")) {
       var id = option.attributes["value"];
       var name = option.innerHtml;
 
-      semesters.add(Semester(name, url + id, []));
+      semesters.add(DualisSemester(name, url + id, []));
+    }
+
+    for (var semester in semesters) {
+      await loadSemester(semester, session);
     }
 
     return semesters;
+  }
+
+  Future<void> loadSemester(DualisSemester semester, Session session) async {
+    var coursePage = await session.get(semester.semesterCourseResultsUrl);
+
+    var document = parse(coursePage.body);
+
+    var tableBodies = document.getElementsByTagName("tbody");
+
+    for (var row in tableBodies[0].getElementsByTagName("tr")) {
+      if (row.children[0].localName != "td") continue;
+
+      var id = row.children[0].innerHtml.trim();
+      var name = row.children[1].innerHtml.trim();
+      var grade = row.children[2].innerHtml.trim();
+      var credits = row.children[3].innerHtml.trim();
+      var status = row.children[4].innerHtml.trim();
+      var detailsButton = row.children[0];
+
+      semester.courses.add(DualisCourse(id, name, grade, credits, status, ""));
+    }
   }
 }
 
@@ -157,23 +196,174 @@ class DualisMainPage {
   final String courseResultUrl;
   final String studentResultsUrl;
 
-  DualisMainPage(this.courseResultUrl, this.studentResultsUrl);
+  DualisMainPage(
+    this.courseResultUrl,
+    this.studentResultsUrl,
+  );
 }
 
-class Semester {
+class DualisSemester {
   final String semesterName;
   final String semesterCourseResultsUrl;
-  final List<Course> courses;
+  final List<DualisCourse> courses;
 
-  Semester(this.semesterName, this.semesterCourseResultsUrl, this.courses);
+  DualisSemester(
+    this.semesterName,
+    this.semesterCourseResultsUrl,
+    this.courses,
+  );
 }
 
-class Course {
+class DualisCourse {
   final String id;
   final String name;
   final String finalGrade;
   final String credits;
   final String status;
+  final String detailsUrl;
 
-  Course(this.id, this.name, this.finalGrade, this.credits, this.status);
+  DualisCourse(
+    this.id,
+    this.name,
+    this.finalGrade,
+    this.credits,
+    this.status,
+    this.detailsUrl,
+  );
 }
+
+class DualisService {
+  Future<bool> login(String username, String password) async {
+    await Future.delayed(Duration(seconds: 2));
+
+    return username == "user" && password == "123456";
+  }
+
+  Future<StudyGrades> queryStudyGrades() async {
+    return StudyGrades(
+      <Semester>[
+        Semester(
+          "WiSe 2020",
+          <Module>[
+            Module(<Exam>[
+              Exam(
+                "T2022",
+                "Klausur",
+                1.4,
+                ExamState.Passed,
+              ),
+            ], "T2022", "Mathematik I", "8", ""),
+            Module(
+              <Exam>[
+                Exam(
+                  "T2023",
+                  "Klausur",
+                  2.0,
+                  ExamState.Passed,
+                ),
+              ],
+              "T2023",
+              "Theoretische Informatik I",
+              "8",
+              "2.0",
+            ),
+            Module(
+              <Exam>[
+                Exam(
+                  "T2024",
+                  "Klausur",
+                  1.7,
+                  ExamState.Pending,
+                ),
+              ],
+              "T2024",
+              "Technische Informatik I",
+              "8",
+              "2.0",
+            ),
+            Module(
+              <Exam>[
+                Exam(
+                  "T2025",
+                  "Klausur",
+                  1.0,
+                  ExamState.Failed,
+                ),
+              ],
+              "T2025",
+              "Elektrotechnik",
+              "8",
+              "2.0",
+            ),
+          ],
+        ),
+        Semester("SoSe 2020", <Module>[]),
+        Semester("WiSe 2020", <Module>[]),
+      ],
+      <Module>[
+        Module(
+          <Exam>[
+            Exam(
+              "T2022",
+              "Klausur",
+              1.4,
+              ExamState.Pending,
+            ),
+          ],
+          "T2022",
+          "Mathematik I",
+          "8",
+          "2.0",
+        ),
+        Module(
+          <Exam>[
+            Exam(
+              "T2023",
+              "Klausur",
+              2.0,
+              ExamState.Passed,
+            ),
+          ],
+          "T2023",
+          "Theoretische Informatik I",
+          "8",
+          "2.0",
+        ),
+        Module(
+          <Exam>[
+            Exam(
+              "T2024",
+              "Klausur",
+              1.7,
+              ExamState.Passed,
+            ),
+          ],
+          "T2024",
+          "Technische Informatik I",
+          "8",
+          "2.0",
+        ),
+        Module(
+          <Exam>[
+            Exam(
+              "T2025",
+              "Klausur",
+              1.0,
+              ExamState.Passed,
+            ),
+          ],
+          "T2025",
+          "Elektrotechnik",
+          "8",
+          "2.0",
+        ),
+      ],
+      1.4,
+      1.5,
+      209,
+      9,
+    );
+  }
+}
+
+class AuthenticationFailedException implements Exception {}

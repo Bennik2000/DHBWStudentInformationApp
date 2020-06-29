@@ -1,5 +1,8 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/dualis/ui/exam_results_page/exam_results_page.dart';
+import 'package:dhbwstudentapp/dualis/ui/study_overview/study_overview_page.dart';
+import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:dhbwstudentapp/information/ui/usefulinformation/useful_information_page.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/daily_schedule_page.dart';
@@ -43,18 +46,34 @@ class _MainPageState extends State<MainPage> {
       (BuildContext context) => L.of(context).screenScheduleTitle,
       null,
     ),
+    NavigationEntry.pages(
+      <Page>[
+        Page(
+          widget: StudyOverviewPage(),
+          title: (BuildContext context) => "Notenübersicht",
+          viewModel: null,
+          key: Key("StudyOverview"),
+          icon: Icons.dashboard,
+        ),
+        Page(
+          widget: ExamResultsPage(),
+          title: (BuildContext context) => "Prüfungen",
+          viewModel: null,
+          key: Key("Exams"),
+          icon: Icons.book,
+        ),
+      ],
+      Icon(Icons.data_usage),
+      (BuildContext context) => "Dualis",
+      StudyGradesViewModel(),
+    ),
     /*NavigationEntry.body(
       Placeholder(),
       Icon(Icons.fastfood),
       (_) => "Mensaplan",
       null,
     ),
-    NavigationEntry.body(
-      Placeholder(),
-      Icon(Icons.data_usage),
-      (_) => "Dualis",
-      null,
-    ),
+
     NavigationEntry.body(
       Placeholder(),
       Icon(Icons.business),
@@ -96,6 +115,7 @@ class _MainPageState extends State<MainPage> {
     var body;
     var bodyKey;
     BaseViewModel viewModel;
+    BaseViewModel baseViewModel;
 
     var currentEntry = navigationEntries[_currentEntryIndex];
 
@@ -103,6 +123,7 @@ class _MainPageState extends State<MainPage> {
       body = currentEntry.currentPage.widget;
       bodyKey = currentEntry.currentPage.key;
       viewModel = currentEntry.currentPage.viewModel;
+      baseViewModel = currentEntry.viewModel;
     } else {
       body = currentEntry.body;
       bodyKey = currentEntry.key;
@@ -124,6 +145,22 @@ class _MainPageState extends State<MainPage> {
           icon: Icon(page.icon),
           title: Text(page.title(context)),
         ),
+      );
+    }
+
+    if (viewModel != null) {
+      body = ChangeNotifierProvider.value(
+        key: bodyKey,
+        value: viewModel,
+        child: body,
+      );
+    }
+
+    if (baseViewModel != null) {
+      body = ChangeNotifierProvider.value(
+        key: bodyKey,
+        value: baseViewModel,
+        child: body,
       );
     }
 
@@ -151,11 +188,7 @@ class _MainPageState extends State<MainPage> {
           key: bodyKey,
           children: <Widget>[
             Expanded(
-              child: ChangeNotifierProvider.value(
-                key: bodyKey,
-                value: viewModel,
-                child: body,
-              ),
+              child: body,
             ),
           ],
         ),
