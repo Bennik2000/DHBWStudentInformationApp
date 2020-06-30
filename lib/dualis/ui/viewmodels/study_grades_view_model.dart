@@ -6,23 +6,31 @@ import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 
 class StudyGradesViewModel extends BaseViewModel {
+  final DualisService _dualisService = DualisServiceImpl();
+
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
 
   bool _loginFailed = false;
   bool get loginFailed => _loginFailed;
 
-  DualisService dualisService;
-
   StudyGrades _studyGrades;
   StudyGrades get studyGrades => _studyGrades;
 
-  StudyGradesViewModel() {
-    dualisService = DualisServiceImpl();
-  }
+  List<Module> _allModules;
+  List<Module> get allModules => _allModules;
+
+  List<String> _semesterNames;
+  List<String> get allSemesterNames => _semesterNames;
+
+  Semester _currentSemester;
+  Semester get currentSemester => _currentSemester;
+
+  String _currentSemesterName;
+  String get currentSemesterName => _currentSemesterName;
 
   Future<bool> login(String username, String password) async {
-    bool success = await dualisService.login(username, password);
+    bool success = await _dualisService.login(username, password);
 
     if (success) {
       _loginFailed = false;
@@ -32,19 +40,47 @@ class StudyGradesViewModel extends BaseViewModel {
       _isLoggedIn = false;
     }
 
-    _studyGrades = await dualisService.queryStudyGrades();
-
-    for (var s in _studyGrades.semesters) {
-      print("Semester ${s.name}");
-
-      for (var m in s.modules) {
-        print("Module ${m.name} grade: ${m.grade}");
-      }
-    }
-
     notifyListeners("loginFailed");
     notifyListeners("isLoggedIn");
 
+    loadStudyGrades();
+    loadSemesterNames();
+    loadAllModules();
+
     return success;
+  }
+
+  Future<void> loadStudyGrades() async {
+    if (_studyGrades != null) return Future.value();
+
+    _studyGrades = await _dualisService.queryStudyGrades();
+    notifyListeners("studyGrades");
+  }
+
+  Future<void> loadAllModules() async {
+    if (_allModules != null) return Future.value();
+
+    _allModules = await _dualisService.queryAllModules();
+    notifyListeners("allModules");
+  }
+
+  Future<void> loadSemester(String semesterName) async {
+    if (_currentSemester != null && _currentSemesterName == semesterName)
+      return Future.value();
+
+    _currentSemesterName = semesterName;
+    _currentSemester = null;
+    notifyListeners("currentSemesterName");
+    notifyListeners("currentSemester");
+
+    _currentSemester = await _dualisService.querySemester(semesterName);
+    notifyListeners("currentSemester");
+  }
+
+  Future<void> loadSemesterNames() async {
+    if (_semesterNames != null) return Future.value();
+
+    _semesterNames = await _dualisService.querySemesterNames();
+    notifyListeners("semesterNames");
   }
 }

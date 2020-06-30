@@ -36,7 +36,7 @@ class DualisResponseParser {
     return getUrlFromHeader(redirectContent);
   }
 
-  DualisMainPage parseMainPage(String body) {
+  DualisUrls parseMainPage(String body) {
     var document = parse(body);
 
     var courseResultsElement = document.getElementsByClassName("link000307");
@@ -48,7 +48,7 @@ class DualisResponseParser {
     var studentResultsUrl =
         endpointUrl + studentResultsElement[0].attributes['href'];
 
-    return DualisMainPage(
+    return DualisUrls(
       courseResultsUrl,
       studentResultsUrl,
     );
@@ -120,7 +120,6 @@ class DualisResponseParser {
           credits,
           status,
           url,
-          <DualisExam>[],
         ),
       );
     }
@@ -155,6 +154,7 @@ class DualisResponseParser {
 
       var tbdata = row.getElementsByClassName("tbdata");
       if (tbdata.length > 0) {
+        var semester = tbdata[0].innerHtml.trim();
         var name = tbdata[1].innerHtml.trim();
         var grade = tbdata[3].innerHtml.trim();
 
@@ -163,6 +163,7 @@ class DualisResponseParser {
           currentModule,
           grade,
           currentTry,
+          semester,
         ));
 
         continue;

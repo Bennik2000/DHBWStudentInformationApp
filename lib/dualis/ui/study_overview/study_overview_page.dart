@@ -22,7 +22,7 @@ class StudyOverviewPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                buildGpaCredits(context, viewModel),
+                buildGpaCredits(context),
                 buildModulesDataTable(context, viewModel),
               ],
             ),
@@ -34,69 +34,109 @@ class StudyOverviewPage extends StatelessWidget {
 
   Widget buildGpaCredits(
     BuildContext context,
-    StudyGradesViewModel model,
   ) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Text(
             "Übersicht",
             style: Theme.of(context).textTheme.title,
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-            child: Row(
-              textBaseline: TextBaseline.alphabetic,
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              children: <Widget>[
-                Text(
-                  model.studyGrades.gpaTotal.toString(),
-                  style: Theme.of(context).textTheme.display2,
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                  child: Text("GPA gesamt"),
-                ),
-              ],
-            ),
+          PropertyChangeConsumer(
+            properties: ["studyGrades"],
+            builder: (
+              BuildContext context,
+              StudyGradesViewModel model,
+              Set properties,
+            ) =>
+                model.studyGrades != null
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                            child: Row(
+                              textBaseline: TextBaseline.alphabetic,
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              children: <Widget>[
+                                Text(
+                                  model.studyGrades.gpaTotal.toString(),
+                                  style: Theme.of(context).textTheme.display2,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                                  child: Text("GPA gesamt"),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            textBaseline: TextBaseline.alphabetic,
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            children: <Widget>[
+                              Text(
+                                model.studyGrades.gpaMainModules.toString(),
+                                style: Theme.of(context).textTheme.display2,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                                child: Text(
+                                  "GPA Hauptfächer",
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                            child: Row(
+                              textBaseline: TextBaseline.alphabetic,
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              children: <Widget>[
+                                Text(
+                                  "${model.studyGrades.creditsGained} / ${model.studyGrades.creditsTotal}",
+                                  style: Theme.of(context).textTheme.display2,
+                                ),
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                                  child: Text(
+                                    "Credits",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      )
+                    : CircularProgressIndicator(),
           ),
-          Row(
-            textBaseline: TextBaseline.alphabetic,
-            crossAxisAlignment: CrossAxisAlignment.baseline,
-            children: <Widget>[
-              Text(
-                model.studyGrades.gpaMainModules.toString(),
-                style: Theme.of(context).textTheme.display2,
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                child: Text(
-                  "GPA Hauptfächer",
-                ),
-              ),
-            ],
+        ],
+      ),
+    );
+  }
+
+  Widget buildModules(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Übersicht",
+            style: Theme.of(context).textTheme.title,
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-            child: Row(
-              textBaseline: TextBaseline.alphabetic,
-              crossAxisAlignment: CrossAxisAlignment.baseline,
-              children: <Widget>[
-                Text(
-                  "${model.studyGrades.creditsGained} / ${model.studyGrades.creditsTotal}",
-                  style: Theme.of(context).textTheme.display2,
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                  child: Text(
-                    "Credits",
-                  ),
-                ),
-              ],
-            ),
+          PropertyChangeConsumer(
+            properties: ["allModules"],
+            builder: (
+              BuildContext context,
+              StudyGradesViewModel model,
+              Set properties,
+            ) =>
+                model.studyGrades != null
+                    ? buildModulesDataTable(context, model)
+                    : CircularProgressIndicator(),
           ),
         ],
       ),
@@ -109,14 +149,14 @@ class StudyOverviewPage extends StatelessWidget {
   ) {
     var dataRows = <DataRow>[];
 
-    for (var module in model.studyGrades.modules) {
+    for (var module in model.allModules) {
       dataRows.add(
         DataRow(
           cells: <DataCell>[
             DataCell(Text(module.name)),
             DataCell(Text(module.credits)),
             DataCell(Text(module.grade)),
-            DataCell(Icon(Icons.check, color: Colors.green)),
+            DataCell(Icon(Icons.check, color: Colors.blue)),
           ],
         ),
       );

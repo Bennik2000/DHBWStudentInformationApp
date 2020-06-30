@@ -1,8 +1,9 @@
-class DualisMainPage {
+class DualisUrls {
   final String courseResultUrl;
   final String studentResultsUrl;
+  final Map<String, String> semesterCourseResultUrls = {};
 
-  DualisMainPage(
+  DualisUrls(
     this.courseResultUrl,
     this.studentResultsUrl,
   );
@@ -27,7 +28,6 @@ class DualisModule {
   final String credits;
   final String status;
   final String detailsUrl;
-  final List<DualisExam> exams;
 
   DualisModule(
     this.id,
@@ -36,7 +36,6 @@ class DualisModule {
     this.credits,
     this.status,
     this.detailsUrl,
-    this.exams,
   );
 }
 
@@ -45,11 +44,13 @@ class DualisExam {
   final String moduleName;
   final String name;
   final String grade;
+  final String semester;
 
   DualisExam(
     this.name,
     this.moduleName,
     this.grade,
     this.tryNr,
+    this.semester,
   );
 }

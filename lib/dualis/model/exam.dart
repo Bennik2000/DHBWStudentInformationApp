@@ -5,13 +5,11 @@ enum ExamState {
 }
 
 class Exam {
-  final String id;
   final String name;
-  final double grade;
+  final String grade;
   final ExamState state;
 
   Exam(
-    this.id,
     this.name,
     this.grade,
     this.state,

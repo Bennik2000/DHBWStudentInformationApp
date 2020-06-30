@@ -7,35 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
 
-class ExamResultsPage extends StatefulWidget {
-  @override
-  _ExamResultsPageState createState() => _ExamResultsPageState();
-}
-
-class _ExamResultsPageState extends State<ExamResultsPage> {
-  int currentSemester = 0;
-
-  void semesterDrowDownChanged(int index) {
-    setState(() {
-      currentSemester = index;
-    });
-  }
-
+class ExamResultsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     StudyGradesViewModel viewModel = Provider.of<BaseViewModel>(context);
-
-    var semestersDropDownMenuItems = <DropdownMenuItem>[];
-
-    int i = 0;
-    for (var semester in viewModel.studyGrades.semesters) {
-      semestersDropDownMenuItems.add(
-        DropdownMenuItem(
-          child: Text(semester.name),
-          value: i++,
-        ),
-      );
-    }
 
     return PropertyChangeProvider(
       value: viewModel,
@@ -63,10 +38,28 @@ class _ExamResultsPageState extends State<ExamResultsPage> {
                       Text("Semester"),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                        child: DropdownButton(
-                          onChanged: (value) => semesterDrowDownChanged(value),
-                          value: currentSemester,
-                          items: semestersDropDownMenuItems,
+                        child: PropertyChangeConsumer(
+                          properties: [
+                            "currentSemesterName",
+                            "allSemesterNames",
+                          ],
+                          builder: (
+                            BuildContext context,
+                            StudyGradesViewModel model,
+                            Set properties,
+                          ) =>
+                              DropdownButton(
+                            onChanged: (value) => model.loadSemester(value),
+                            value: model.currentSemesterName,
+                            items: model.allSemesterNames
+                                .map(
+                                  (n) => DropdownMenuItem(
+                                    child: Text(n),
+                                    value: n,
+                                  ),
+                                )
+                                .toList(),
+                          ),
                         ),
                       )
                     ],
@@ -74,7 +67,17 @@ class _ExamResultsPageState extends State<ExamResultsPage> {
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                  child: buildDataTable(viewModel),
+                  child: PropertyChangeConsumer(
+                    properties: ["currentSemester"],
+                    builder: (
+                      BuildContext context,
+                      StudyGradesViewModel model,
+                      Set properties,
+                    ) =>
+                        model.currentSemester != null
+                            ? buildDataTable(context, model)
+                            : Center(child: CircularProgressIndicator()),
+                  ),
                 )
               ],
             ),
@@ -84,7 +87,7 @@ class _ExamResultsPageState extends State<ExamResultsPage> {
     );
   }
 
-  Widget buildDataTable(StudyGradesViewModel viewModel) {
+  Widget buildDataTable(BuildContext context, StudyGradesViewModel viewModel) {
     return AnimatedSwitcher(
       layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
         List<Widget> children = previousChildren;
@@ -96,21 +99,22 @@ class _ExamResultsPageState extends State<ExamResultsPage> {
         );
       },
       child: DataTable(
-        key: ValueKey("semester_$currentSemester"),
+        key: ValueKey("semester_${viewModel.currentSemester?.name}"),
         columnSpacing: 10,
+        dataRowHeight: 60,
         headingRowHeight: 50,
-        rows: buildGradesDataRows(viewModel),
+        rows: buildGradesDataRows(context, viewModel),
         columns: buildDataTableColumns(),
       ),
       duration: Duration(milliseconds: 200),
     );
   }
 
-  List<DataRow> buildGradesDataRows(StudyGradesViewModel viewModel) {
+  List<DataRow> buildGradesDataRows(
+      BuildContext context, StudyGradesViewModel viewModel) {
     var dataRows = <DataRow>[];
 
-    for (var module
-        in viewModel.studyGrades.semesters[currentSemester].modules) {
+    for (var module in viewModel.currentSemester.modules) {
       for (var exam in module.exams) {
         DataCell iconCell;
 
@@ -129,7 +133,17 @@ class _ExamResultsPageState extends State<ExamResultsPage> {
         dataRows.add(
           DataRow(
             cells: <DataCell>[
-              DataCell(Text("${module.name} - ${exam.name}")),
+              DataCell(Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    module.name,
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  Text(exam.name),
+                ],
+              )),
               DataCell(Text(module.credits)),
               DataCell(Text(exam.grade.toString())),
               iconCell,

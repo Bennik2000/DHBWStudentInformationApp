@@ -1,4 +1,3 @@
-import 'package:dhbwstudentapp/dualis/model/semester.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_response_parser.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_session.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
@@ -56,15 +55,34 @@ class DualisScraper {
     return loginResponse;
   }
 
-  Future<DualisMainPage> requestMainPage(DualisSession session) async {
+  Future<DualisUrls> requestMainPage(DualisSession session) async {
     var mainPageResponse = await session.get(session.mainPageUrl);
 
     return responseParser.parseMainPage(mainPageResponse.body);
   }
 
-  Future<List<DualisSemester>> loadAllSemesters(
+  Future<List<DualisSemester>> loadAllModules(
     DualisSession session,
-    DualisMainPage mainPage,
+    DualisUrls mainPage,
+  ) {
+    return null; // TODO: parse mainPage.studentResultsUrl
+  }
+
+  Future<List<DualisExam>> loadModuleExams(
+    String moduleDetailsUrl,
+    DualisSession session,
+  ) async {
+    var detailsResponse = await session.get(moduleDetailsUrl);
+
+    var exams =
+        responseParser.extractExamsFromCoarsesDetails(detailsResponse.body);
+
+    return exams;
+  }
+
+  Future<List<DualisSemester>> loadSemesters(
+    DualisSession session,
+    DualisUrls mainPage,
   ) async {
     var courseResultsResponse = await session.get(mainPage.courseResultUrl);
 
@@ -72,40 +90,18 @@ class DualisScraper {
       courseResultsResponse.body,
     );
 
-    for (var semester in semesters) {
-      var coursePage = await session.get(semester.semesterCourseResultsUrl);
-
-      var courses =
-          responseParser.extractModulesFromCourseResultPage(coursePage.body);
-
-      for (var course in courses) {
-        await loadCoarsesDetails(course, session);
-      }
-
-      semester.modules.clear();
-      semester.modules.addAll(courses);
-    }
-
     return semesters;
   }
 
-  Future<List<DualisSemester>> loadAllModules(
+  Future<List<DualisModule>> loadSemesterModules(
     DualisSession session,
-    DualisMainPage mainPage,
-  ) {
-    return null; // TODO: parse mainPage.studentResultsUrl
-  }
-
-  Future<void> loadCoarsesDetails(
-    DualisModule course,
-    DualisSession session,
+    String semesterCourseResultsUrl,
   ) async {
-    var detailsResponse = await session.get(course.detailsUrl);
+    var coursePage = await session.get(semesterCourseResultsUrl);
 
-    var exams =
-        responseParser.extractExamsFromCoarsesDetails(detailsResponse.body);
+    var courses =
+        responseParser.extractModulesFromCourseResultPage(coursePage.body);
 
-    course.exams.clear();
-    course.exams.addAll(exams);
+    return courses;
   }
 }
