@@ -18,7 +18,7 @@ class StudyGradesViewModel extends BaseViewModel {
   StudyGrades get studyGrades => _studyGrades;
 
   StudyGradesViewModel() {
-    dualisService = DualisService();
+    dualisService = DualisServiceImpl();
   }
 
   Future<bool> login(String username, String password) async {
@@ -33,6 +33,14 @@ class StudyGradesViewModel extends BaseViewModel {
     }
 
     _studyGrades = await dualisService.queryStudyGrades();
+
+    for (var s in _studyGrades.semesters) {
+      print("Semester ${s.name}");
+
+      for (var m in s.modules) {
+        print("Module ${m.name} grade: ${m.grade}");
+      }
+    }
 
     notifyListeners("loginFailed");
     notifyListeners("isLoggedIn");
