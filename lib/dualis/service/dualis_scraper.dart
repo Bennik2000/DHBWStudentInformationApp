@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_response_parser.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_session.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
@@ -105,5 +106,16 @@ class DualisScraper {
         responseParser.extractModulesFromCourseResultPage(coursePage.body);
 
     return courses;
+  }
+
+  Future<StudyGrades> loadStudyGrades(
+    DualisSession session,
+    String studentResultsUrl,
+  ) async {
+    var studentsResultsPage = await session.get(studentResultsUrl);
+
+    return responseParser.extractStudyGradesFromStudentsResultsPage(
+      studentsResultsPage.body,
+    );
   }
 }

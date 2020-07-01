@@ -4,8 +4,8 @@ import 'package:dhbwstudentapp/dualis/model/semester.dart';
 class StudyGrades {
   final double gpaTotal;
   final double gpaMainModules;
-  final int creditsTotal;
-  final int creditsGained;
+  final double creditsTotal;
+  final double creditsGained;
 
   StudyGrades(
     this.gpaTotal,

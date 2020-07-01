@@ -33,10 +33,12 @@ class DualisServiceImpl extends DualisService {
 
   @override
   Future<StudyGrades> queryStudyGrades() async {
-    // TODO:
+    var studyGrades = await _dualisScraper.loadStudyGrades(
+      _session,
+      _dualisUrls.studentResultsUrl,
+    );
 
-    await Future.delayed(Duration(seconds: 1));
-    return StudyGrades(0.0, 0.0, 0, 0);
+    return studyGrades;
   }
 
   @override

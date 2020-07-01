@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 import 'package:html/parser.dart';
 
@@ -210,5 +211,43 @@ class DualisResponseParser {
     }
 
     return dualisModules;
+  }
+
+  StudyGrades extractStudyGradesFromStudentsResultsPage(String body) {
+    var document = parse(body);
+
+    var tables = document.getElementsByTagName("tbody");
+    var rows = tables[0].getElementsByTagName("tr");
+
+    var neededCreditsRow = rows[rows.length - 1];
+    var tds = neededCreditsRow.getElementsByTagName("td");
+
+    var neededCredits = tds[0].innerHtml.split(":")[1].trim();
+
+    var gainedCreditsRow = rows[rows.length - 2];
+
+    tds = gainedCreditsRow.getElementsByTagName("td");
+
+    var gainedCredits = tds[2].innerHtml.trim();
+
+    rows = tables[1].getElementsByTagName("tr");
+
+    var totalGpaRowCells = rows[0].getElementsByTagName("th");
+    var mainCoursesGpaRowCells = rows[1].getElementsByTagName("th");
+
+    var totalGpa = totalGpaRowCells[1].innerHtml.trim();
+    var mainCoursesGpa = mainCoursesGpaRowCells[1].innerHtml.trim();
+
+    totalGpa = totalGpa.replaceAll(",", ".");
+    mainCoursesGpa = mainCoursesGpa.replaceAll(",", ".");
+    neededCredits = neededCredits.replaceAll(",", ".");
+    gainedCredits = gainedCredits.replaceAll(",", ".");
+
+    return StudyGrades(
+      double.tryParse(totalGpa),
+      double.tryParse(mainCoursesGpa),
+      double.tryParse(neededCredits),
+      double.tryParse(gainedCredits),
+    );
   }
 }
