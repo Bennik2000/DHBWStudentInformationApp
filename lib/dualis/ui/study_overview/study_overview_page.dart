@@ -23,7 +23,7 @@ class StudyOverviewPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 buildGpaCredits(context),
-                buildModulesDataTable(context, viewModel),
+                buildModules(context),
               ],
             ),
           ),
@@ -38,6 +38,7 @@ class StudyOverviewPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             "Übersicht",
@@ -120,12 +121,16 @@ class StudyOverviewPage extends StatelessWidget {
 
   Widget buildModules(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+      padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            "Übersicht",
-            style: Theme.of(context).textTheme.title,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
+            child: Text(
+              "Modulnoten",
+              style: Theme.of(context).textTheme.title,
+            ),
           ),
           PropertyChangeConsumer(
             properties: ["allModules"],
@@ -134,7 +139,7 @@ class StudyOverviewPage extends StatelessWidget {
               StudyGradesViewModel model,
               Set properties,
             ) =>
-                model.studyGrades != null
+                model.allModules != null
                     ? buildModulesDataTable(context, model)
                     : CircularProgressIndicator(),
           ),
@@ -162,23 +167,11 @@ class StudyOverviewPage extends StatelessWidget {
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-          child: Text(
-            "Modulnoten",
-            style: Theme.of(context).textTheme.title,
-          ),
-        ),
-        DataTable(
-          columnSpacing: 10,
-          headingRowHeight: 50,
-          rows: dataRows,
-          columns: buildDataTableColumns(),
-        ),
-      ],
+    return DataTable(
+      columnSpacing: 10,
+      headingRowHeight: 50,
+      rows: dataRows,
+      columns: buildDataTableColumns(),
     );
   }
 

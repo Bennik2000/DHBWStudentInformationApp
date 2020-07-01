@@ -59,9 +59,25 @@ class DualisServiceImpl extends DualisService {
   }
 
   @override
-  Future<List<Module>> queryAllModules() {
-    // TODO:
-    return Future.value([]);
+  Future<List<Module>> queryAllModules() async {
+    var dualisModules = await _dualisScraper.loadAllModules(
+      _session,
+      _dualisUrls.studentResultsUrl,
+    );
+
+    var modules = <Module>[];
+
+    for (var module in dualisModules) {
+      modules.add(Module(
+        <Exam>[],
+        module.id,
+        module.name,
+        module.credits,
+        module.finalGrade,
+      ));
+    }
+
+    return modules;
   }
 
   @override

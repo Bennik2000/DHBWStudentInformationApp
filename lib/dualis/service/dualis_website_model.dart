@@ -26,15 +26,15 @@ class DualisModule {
   final String name;
   final String finalGrade;
   final String credits;
-  final String status;
   final String detailsUrl;
+  final String state;
 
   DualisModule(
     this.id,
     this.name,
     this.finalGrade,
     this.credits,
-    this.status,
+    this.state,
     this.detailsUrl,
   );
 }

@@ -7,10 +7,7 @@ class DualisResponseParser {
   DualisResponseParser(this.endpointUrl);
 
   String getUrlFromHeader(String refreshHeader) {
-    print(refreshHeader);
-
     var refreshHeaderUrlIndex = refreshHeader.indexOf("URL=") + "URL=".length;
-
     return endpointUrl + refreshHeader.substring(refreshHeaderUrlIndex);
   }
 
@@ -171,5 +168,47 @@ class DualisResponseParser {
     }
 
     return exams;
+  }
+
+  List<DualisModule> extractAllModules(String body) {
+    var document = parse(body);
+
+    var content = document.getElementById("pageContent");
+
+    var table = content.getElementsByTagName("tbody")[0];
+    var rows = table.getElementsByTagName("tr");
+
+    var dualisModules = <DualisModule>[];
+
+    for (var row in rows) {
+      if (row.classes.contains("subhead")) continue;
+
+      var tbData = row.getElementsByClassName("tbdata");
+
+      if (tbData.length != 6) continue;
+
+      var name = tbData[1].innerHtml.trim();
+
+      var nameHyperlink = tbData[1].getElementsByTagName("a");
+
+      if (nameHyperlink.length != 0) {
+        name = nameHyperlink[0].innerHtml;
+      }
+
+      var id = tbData[0].innerHtml.trim();
+      var credits = tbData[3].innerHtml.trim();
+      var grade = tbData[4].innerHtml.trim();
+
+      dualisModules.add(DualisModule(
+        id,
+        name,
+        grade,
+        credits,
+        null,
+        "",
+      ));
+    }
+
+    return dualisModules;
   }
 }

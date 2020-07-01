@@ -61,11 +61,13 @@ class DualisScraper {
     return responseParser.parseMainPage(mainPageResponse.body);
   }
 
-  Future<List<DualisSemester>> loadAllModules(
+  Future<List<DualisModule>> loadAllModules(
     DualisSession session,
-    DualisUrls mainPage,
-  ) {
-    return null; // TODO: parse mainPage.studentResultsUrl
+    String studentResultsUrl,
+  ) async {
+    var allModulesPageResponse = await session.get(studentResultsUrl);
+
+    return responseParser.extractAllModules(allModulesPageResponse.body);
   }
 
   Future<List<DualisExam>> loadModuleExams(

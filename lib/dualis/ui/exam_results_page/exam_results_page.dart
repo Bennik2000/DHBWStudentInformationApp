@@ -139,9 +139,11 @@ class ExamResultsPage extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     module.name,
+                  ),
+                  Text(
+                    exam.name,
                     style: Theme.of(context).textTheme.caption,
                   ),
-                  Text(exam.name),
                 ],
               )),
               DataCell(Text(module.credits)),

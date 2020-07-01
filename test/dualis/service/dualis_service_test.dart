@@ -7,6 +7,8 @@ void main() {
 
     var success = await service.login("", "");
 
-    var grade = await service.queryStudyGrades();
+    var modules = await service.queryAllModules();
+
+    print(modules);
   });
 }
