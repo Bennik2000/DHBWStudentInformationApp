@@ -1,14 +1,17 @@
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
-import 'package:dhbwstudentapp/dualis/service/dualis_response_parser.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_session.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/all_modules_extract.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/exams_from_module_details_extract.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/login_redirect_url_extract.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/modules_from_course_result_page_extract.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/semesters_from_course_result_page_extract.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/study_grades_from_student_results_page_extract.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/urls_from_main_page_extract.dart';
 import 'package:http/http.dart';
 
 class DualisScraper {
   static final String dualisEndpoint = "https://dualis.dhbw.de";
-
-  final DualisResponseParser responseParser =
-      DualisResponseParser(dualisEndpoint);
 
   Future<DualisSession> login(String user, String password) async {
     var session = DualisSession();
@@ -16,22 +19,24 @@ class DualisScraper {
     var loginResponse = await _makeLoginRequest(user, password, session);
     if (loginResponse.statusCode != 200) return null;
 
-    session.mainPageUrl = await _followLoginRedirect(loginResponse, session);
-
-    return session;
-  }
-
-  Future<String> _followLoginRedirect(
-    Response loginResponse,
-    DualisSession session,
-  ) async {
     var refreshHeader = loginResponse.headers['refresh'];
-    var refreshUrl = responseParser.getUrlFromHeader(refreshHeader);
+    var refreshUrl = LoginRedirectUrlExtract().getUrlFromHeader(
+      refreshHeader,
+      dualisEndpoint,
+    );
+
+    if (refreshUrl == null) return null;
 
     var redirectResponse = await session.get(refreshUrl);
+    var redirectUrl = LoginRedirectUrlExtract().readRedirectUrl(
+      redirectResponse.body,
+      dualisEndpoint,
+    );
 
-    var redirectUrl = responseParser.readRedirectUrl(redirectResponse.body);
-    return redirectUrl;
+    if (redirectUrl == null) return null;
+
+    session.mainPageUrl = redirectUrl;
+    return session;
   }
 
   Future<Response> _makeLoginRequest(
@@ -59,7 +64,10 @@ class DualisScraper {
   Future<DualisUrls> requestMainPage(DualisSession session) async {
     var mainPageResponse = await session.get(session.mainPageUrl);
 
-    return responseParser.parseMainPage(mainPageResponse.body);
+    return UrlsFromMainPageExtract().parseMainPage(
+      mainPageResponse.body,
+      dualisEndpoint,
+    );
   }
 
   Future<List<DualisModule>> loadAllModules(
@@ -68,7 +76,7 @@ class DualisScraper {
   ) async {
     var allModulesPageResponse = await session.get(studentResultsUrl);
 
-    return responseParser.extractAllModules(allModulesPageResponse.body);
+    return AllModulesExtract().extractAllModules(allModulesPageResponse.body);
   }
 
   Future<List<DualisExam>> loadModuleExams(
@@ -77,10 +85,9 @@ class DualisScraper {
   ) async {
     var detailsResponse = await session.get(moduleDetailsUrl);
 
-    var exams =
-        responseParser.extractExamsFromCoarsesDetails(detailsResponse.body);
-
-    return exams;
+    return ExamsFromModuleDetailsExtract().extractExamsFromModuleDetails(
+      detailsResponse.body,
+    );
   }
 
   Future<List<DualisSemester>> loadSemesters(
@@ -89,11 +96,11 @@ class DualisScraper {
   ) async {
     var courseResultsResponse = await session.get(mainPage.courseResultUrl);
 
-    var semesters = responseParser.extractSemestersFromCourseResults(
+    return SemestersFromCourseResultPageExtract()
+        .extractSemestersFromCourseResults(
       courseResultsResponse.body,
+      dualisEndpoint,
     );
-
-    return semesters;
   }
 
   Future<List<DualisModule>> loadSemesterModules(
@@ -102,10 +109,8 @@ class DualisScraper {
   ) async {
     var coursePage = await session.get(semesterCourseResultsUrl);
 
-    var courses =
-        responseParser.extractModulesFromCourseResultPage(coursePage.body);
-
-    return courses;
+    return ModulesFromCourseResultPageExtract()
+        .extractModulesFromCourseResultPage(coursePage.body, dualisEndpoint);
   }
 
   Future<StudyGrades> loadStudyGrades(
@@ -114,8 +119,7 @@ class DualisScraper {
   ) async {
     var studentsResultsPage = await session.get(studentResultsUrl);
 
-    return responseParser.extractStudyGradesFromStudentsResultsPage(
-      studentsResultsPage.body,
-    );
+    return StudyGradesFromStudentResultsPageExtract()
+        .extractStudyGradesFromStudentsResultsPage(studentsResultsPage.body);
   }
 }
