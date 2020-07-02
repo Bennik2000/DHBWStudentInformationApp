@@ -1,13 +1,22 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
-class DualisSession extends Session{
+class DualisSession extends Session {
   String mainPageUrl;
 }
 
 class Session {
   Map<String, String> headers = {};
 
-  Future<http.Response> get(String url) async {
+  Future<String> get(String url) async {
+    var response = await rawGet(url);
+    String body = utf8.decode(response.bodyBytes);
+
+    return body;
+  }
+
+  Future<http.Response> rawGet(String url) async {
     http.Response response = await http.get(url, headers: headers);
     _updateCookie(response);
     return response;

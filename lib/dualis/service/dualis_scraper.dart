@@ -29,7 +29,7 @@ class DualisScraper {
 
     var redirectResponse = await session.get(refreshUrl);
     var redirectUrl = LoginRedirectUrlExtract().readRedirectUrl(
-      redirectResponse.body,
+      redirectResponse,
       dualisEndpoint,
     );
 
@@ -65,7 +65,7 @@ class DualisScraper {
     var mainPageResponse = await session.get(session.mainPageUrl);
 
     return UrlsFromMainPageExtract().parseMainPage(
-      mainPageResponse.body,
+      mainPageResponse,
       dualisEndpoint,
     );
   }
@@ -76,7 +76,7 @@ class DualisScraper {
   ) async {
     var allModulesPageResponse = await session.get(studentResultsUrl);
 
-    return AllModulesExtract().extractAllModules(allModulesPageResponse.body);
+    return AllModulesExtract().extractAllModules(allModulesPageResponse);
   }
 
   Future<List<DualisExam>> loadModuleExams(
@@ -86,7 +86,7 @@ class DualisScraper {
     var detailsResponse = await session.get(moduleDetailsUrl);
 
     return ExamsFromModuleDetailsExtract().extractExamsFromModuleDetails(
-      detailsResponse.body,
+      detailsResponse,
     );
   }
 
@@ -98,7 +98,7 @@ class DualisScraper {
 
     return SemestersFromCourseResultPageExtract()
         .extractSemestersFromCourseResults(
-      courseResultsResponse.body,
+      courseResultsResponse,
       dualisEndpoint,
     );
   }
@@ -110,7 +110,7 @@ class DualisScraper {
     var coursePage = await session.get(semesterCourseResultsUrl);
 
     return ModulesFromCourseResultPageExtract()
-        .extractModulesFromCourseResultPage(coursePage.body, dualisEndpoint);
+        .extractModulesFromCourseResultPage(coursePage, dualisEndpoint);
   }
 
   Future<StudyGrades> loadStudyGrades(
@@ -120,6 +120,6 @@ class DualisScraper {
     var studentsResultsPage = await session.get(studentResultsUrl);
 
     return StudyGradesFromStudentResultsPageExtract()
-        .extractStudyGradesFromStudentsResultsPage(studentsResultsPage.body);
+        .extractStudyGradesFromStudentsResultsPage(studentsResultsPage);
   }
 }
