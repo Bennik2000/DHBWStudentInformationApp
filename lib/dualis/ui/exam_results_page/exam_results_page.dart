@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/model/exam.dart';
 import 'package:dhbwstudentapp/dualis/ui/login/dualis_login_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
+import 'package:dhbwstudentapp/dualis/ui/widgets/grade_state_icon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
@@ -116,20 +117,6 @@ class ExamResultsPage extends StatelessWidget {
 
     for (var module in viewModel.currentSemester.modules) {
       for (var exam in module.exams) {
-        DataCell iconCell;
-
-        switch (exam.state) {
-          case ExamState.Passed:
-            iconCell = DataCell(Icon(Icons.check, color: Colors.green));
-            break;
-          case ExamState.Failed:
-            iconCell = DataCell(Icon(Icons.close, color: Colors.red));
-            break;
-          case ExamState.Pending:
-            iconCell = DataCell.empty;
-            break;
-        }
-
         dataRows.add(
           DataRow(
             cells: <DataCell>[
@@ -148,7 +135,7 @@ class ExamResultsPage extends StatelessWidget {
               )),
               DataCell(Text(module.credits)),
               DataCell(Text(exam.grade.toString())),
-              iconCell,
+              DataCell(GradeStateIcon(state: exam.state)),
             ],
           ),
         );

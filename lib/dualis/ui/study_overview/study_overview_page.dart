@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/ui/login/dualis_login_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
+import 'package:dhbwstudentapp/dualis/ui/widgets/grade_state_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
@@ -112,7 +113,7 @@ class StudyOverviewPage extends StatelessWidget {
                           ),
                         ],
                       )
-                    : CircularProgressIndicator(),
+                    : buildProgressIndicator(),
           ),
         ],
       ),
@@ -141,10 +142,17 @@ class StudyOverviewPage extends StatelessWidget {
             ) =>
                 model.allModules != null
                     ? buildModulesDataTable(context, model)
-                    : CircularProgressIndicator(),
+                    : buildProgressIndicator(),
           ),
         ],
       ),
+    );
+  }
+
+  Padding buildProgressIndicator() {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Center(child: CircularProgressIndicator()),
     );
   }
 
@@ -161,7 +169,6 @@ class StudyOverviewPage extends StatelessWidget {
             DataCell(Text(module.name)),
             DataCell(Text(module.credits)),
             DataCell(Text(module.grade)),
-            DataCell(Icon(Icons.check, color: Colors.blue)),
           ],
         ),
       );
@@ -188,11 +195,6 @@ class StudyOverviewPage extends StatelessWidget {
       DataColumn(
         label: Text("Note"),
         numeric: true,
-      ),
-      DataColumn(
-        label: Text(""),
-        numeric: true,
-        tooltip: "Bestanden",
       ),
     ];
   }

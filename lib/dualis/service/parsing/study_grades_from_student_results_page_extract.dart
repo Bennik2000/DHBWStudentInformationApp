@@ -27,10 +27,12 @@ class StudyGradesFromStudentResultsPageExtract {
     var neededCredits = neededCreditsRow.children[0].innerHtml;
 
     // Only take the number after the colon
-    neededCredits = neededCredits.split(":")[1];
+    neededCredits = trimAndEscapeString(neededCredits.split(":")[1]);
 
     var gainedCreditsRow = rows[rows.length - 2];
-    var gainedCredits = gainedCreditsRow.children[2].innerHtml;
+    var gainedCredits = trimAndEscapeString(
+      gainedCreditsRow.children[2].innerHtml,
+    );
 
     neededCredits = neededCredits.replaceAll(",", ".");
     gainedCredits = gainedCredits.replaceAll(",", ".");

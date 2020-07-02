@@ -6,6 +6,7 @@ class Module {
   final String name;
   final String credits;
   final String grade;
+  final ExamState state;
 
   Module(
     this.exams,
@@ -13,5 +14,6 @@ class Module {
     this.name,
     this.credits,
     this.grade,
+    this.state,
   );
 }

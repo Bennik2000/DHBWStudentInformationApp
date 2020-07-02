@@ -76,6 +76,7 @@ class DualisServiceImpl extends DualisService {
         module.name,
         module.credits,
         module.finalGrade,
+        module.state,
       ));
     }
 
@@ -115,6 +116,7 @@ class DualisServiceImpl extends DualisService {
         dualisModule.name,
         dualisModule.credits,
         dualisModule.finalGrade,
+        dualisModule.state,
       );
 
       modules.add(module);

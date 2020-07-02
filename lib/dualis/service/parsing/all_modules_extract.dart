@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/dualis/model/exam.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:html/dom.dart';
@@ -39,14 +40,24 @@ class AllModulesExtract {
     var id = cells[0].innerHtml;
     var credits = cells[3].innerHtml;
     var grade = cells[4].innerHtml;
+    var state = cells[5].children[0].attributes["alt"];
+
+    var stateEnum;
+
+    if (state == "Bestanden") {
+      stateEnum = ExamState.Passed;
+    }
+    if (state == "") {
+      stateEnum = ExamState.Pending;
+    }
 
     var module = DualisModule(
       trimAndEscapeString(id),
       trimAndEscapeString(name),
       trimAndEscapeString(grade),
       trimAndEscapeString(credits),
+      stateEnum,
       null,
-      "",
     );
 
     return module;

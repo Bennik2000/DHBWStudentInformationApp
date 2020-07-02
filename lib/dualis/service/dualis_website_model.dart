@@ -1,3 +1,5 @@
+import 'package:dhbwstudentapp/dualis/model/exam.dart';
+
 class DualisUrls {
   final String courseResultUrl;
   final String studentResultsUrl;
@@ -27,7 +29,7 @@ class DualisModule {
   final String finalGrade;
   final String credits;
   final String detailsUrl;
-  final String state;
+  final ExamState state;
 
   DualisModule(
     this.id,

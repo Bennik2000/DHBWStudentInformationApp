@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/dualis/model/exam.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:html/dom.dart';
@@ -39,12 +40,26 @@ class ModulesFromCourseResultPageExtract {
     var detailsButton = row.children[5];
     var url = _extractDetailsUrlFromButton(detailsButton, endpointUrl);
 
+    status = trimAndEscapeString(status);
+
+    var statusEnum;
+
+    if (status == "bestanden") {
+      statusEnum = ExamState.Passed;
+    } else if (status == "") {
+      statusEnum = ExamState.Pending;
+    }
+
+    if (grade == "noch nicht gesetzt") {
+      grade = "";
+    }
+
     var module = DualisModule(
       trimAndEscapeString(id),
       trimAndEscapeString(name),
       trimAndEscapeString(grade),
       trimAndEscapeString(credits),
-      trimAndEscapeString(status),
+      statusEnum,
       url,
     );
     return module;

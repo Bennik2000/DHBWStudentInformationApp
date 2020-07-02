@@ -36,12 +36,16 @@ class ExamsFromModuleDetailsExtract {
 
       var semester = tbdata[0].innerHtml;
       var name = tbdata[1].innerHtml;
-      var grade = tbdata[3].innerHtml;
+      var grade = trimAndEscapeString(tbdata[3].innerHtml);
+
+      if (grade == "noch nicht gesetzt") {
+        grade = "";
+      }
 
       exams.add(DualisExam(
         trimAndEscapeString(name),
         trimAndEscapeString(currentModule),
-        trimAndEscapeString(grade),
+        grade,
         trimAndEscapeString(currentTry),
         trimAndEscapeString(semester),
       ));
