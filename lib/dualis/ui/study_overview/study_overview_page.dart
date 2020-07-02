@@ -1,5 +1,5 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/ui/login/dualis_login_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/widgets/grade_state_icon.dart';
@@ -42,7 +42,7 @@ class StudyOverviewPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            "Übersicht",
+            L.of(context).dualisOverviewModuleGrades,
             style: Theme.of(context).textTheme.title,
           ),
           PropertyChangeConsumer(
@@ -70,7 +70,9 @@ class StudyOverviewPage extends StatelessWidget {
                                 Padding(
                                   padding:
                                       const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                                  child: Text("GPA gesamt"),
+                                  child: Text(
+                                    L.of(context).dualisOverviewGpaTotalModules,
+                                  ),
                                 ),
                               ],
                             ),
@@ -86,7 +88,7 @@ class StudyOverviewPage extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                                 child: Text(
-                                  "GPA Hauptfächer",
+                                  L.of(context).dualisOverviewGpaMainModules,
                                 ),
                               ),
                             ],
@@ -105,7 +107,7 @@ class StudyOverviewPage extends StatelessWidget {
                                   padding:
                                       const EdgeInsets.fromLTRB(16, 0, 0, 0),
                                   child: Text(
-                                    "Credits",
+                                    L.of(context).dualisOverviewCredits,
                                   ),
                                 ),
                               ],
@@ -129,7 +131,7 @@ class StudyOverviewPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
             child: Text(
-              "Modulnoten",
+              L.of(context).dualisOverviewModuleGrades,
               style: Theme.of(context).textTheme.title,
             ),
           ),
@@ -169,6 +171,7 @@ class StudyOverviewPage extends StatelessWidget {
             DataCell(Text(module.name)),
             DataCell(Text(module.credits)),
             DataCell(Text(module.grade)),
+            DataCell(GradeStateIcon(state: module.state)),
           ],
         ),
       );
@@ -178,23 +181,28 @@ class StudyOverviewPage extends StatelessWidget {
       columnSpacing: 10,
       headingRowHeight: 50,
       rows: dataRows,
-      columns: buildDataTableColumns(),
+      columns: buildDataTableColumns(context),
     );
   }
 
-  List<DataColumn> buildDataTableColumns() {
+  List<DataColumn> buildDataTableColumns(BuildContext context) {
     return <DataColumn>[
       DataColumn(
-        label: Text("Modul"),
+        label: Text(L.of(context).dualisOverviewModuleColumnHeader),
         numeric: false,
       ),
       DataColumn(
-        label: Text("Credits"),
+        label: Text(L.of(context).dualisOverviewCreditsColumnHeader),
         numeric: true,
       ),
       DataColumn(
-        label: Text("Note"),
+        label: Text(L.of(context).dualisOverviewGradeColumnHeader),
         numeric: true,
+      ),
+      DataColumn(
+        label: Text(""),
+        numeric: true,
+        tooltip: L.of(context).dualisOverviewPassedColumnHeader,
       ),
     ];
   }

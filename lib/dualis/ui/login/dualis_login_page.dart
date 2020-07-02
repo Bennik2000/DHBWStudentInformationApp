@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/widgets/login_form_widget.dart';
@@ -29,9 +30,9 @@ class DualisLoginPage extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(32),
           child: LoginForm(
-            loginFailedText: "Anmelden fehlgeschlagen",
+            loginFailedText: L.of(context).dualisLoginFailed,
             title: Text(
-              "Bei Dualis anmelden",
+              L.of(context).dualisLogin,
               style: Theme.of(context).textTheme.title,
             ),
             onLogin: model.login,

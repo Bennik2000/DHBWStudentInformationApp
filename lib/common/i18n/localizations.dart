@@ -93,6 +93,41 @@ class L {
   String get screenScheduleTitle => _getValue("screenScheduleTitle");
   String get screenUsefulLinks => _getValue("screenUsefulLinks");
 
+  String get dualisExamResultsExamColumnHeader =>
+      _getValue("dualisExamResultsExamColumnHeader");
+  String get dualisExamResultsCreditsColumnHeader =>
+      _getValue("dualisExamResultsCreditsColumnHeader");
+  String get dualisExamResultsGradeColumnHeader =>
+      _getValue("dualisExamResultsGradeColumnHeader");
+  String get dualisOverviewPassedColumnHeader =>
+      _getValue("dualisOverviewPassedColumnHeader");
+  String get dualisExamResultsSemesterSelect =>
+      _getValue("dualisExamResultsSemesterSelect");
+  String get dualisExamResultsTitle => _getValue("dualisExamResultsTitle");
+  String get dualisOverviewGradeColumnHeader =>
+      _getValue("dualisOverviewGradeColumnHeader");
+  String get dualisOverviewCreditsColumnHeader =>
+      _getValue("dualisOverviewCreditsColumnHeader");
+  String get dualisOverviewModuleColumnHeader =>
+      _getValue("dualisOverviewModuleColumnHeader");
+  String get dualisOverviewModuleGrades =>
+      _getValue("dualisOverviewModuleGrades");
+  String get dualisOverviewCredits => _getValue("dualisOverviewCredits");
+  String get dualisOverviewGpaMainModules =>
+      _getValue("dualisOverviewGpaMainModules");
+  String get dualisOverviewGpaTotalModules =>
+      _getValue("dualisOverviewGpaTotalModules");
+
+  String get screenDualisTitle => _getValue("screenDualisTitle");
+  String get pageDualisExams => _getValue("pageDualisExams");
+  String get pageDualisOverview => _getValue("pageDualisOverview");
+
+  String get dualisLoginFailed => _getValue("dualisLoginFailed");
+  String get dualisLogin => _getValue("dualisLogin");
+  String get loginUsername => _getValue("loginUsername");
+  String get loginPassword => _getValue("loginPassword");
+  String get loginButton => _getValue("loginButton");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

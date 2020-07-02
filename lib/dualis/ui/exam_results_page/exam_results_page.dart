@@ -1,5 +1,5 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/dualis/model/exam.dart';
 import 'package:dhbwstudentapp/dualis/ui/login/dualis_login_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/widgets/grade_state_icon.dart';
@@ -27,7 +27,7 @@ class ExamResultsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
                   child: Text(
-                    "Prüfungsergebnisse",
+                    L.of(context).dualisExamResultsTitle,
                     style: Theme.of(context).textTheme.title,
                   ),
                 ),
@@ -36,7 +36,7 @@ class ExamResultsPage extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text("Semester"),
+                      Text(L.of(context).dualisExamResultsSemesterSelect),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                         child: PropertyChangeConsumer(
@@ -52,7 +52,7 @@ class ExamResultsPage extends StatelessWidget {
                               DropdownButton(
                             onChanged: (value) => model.loadSemester(value),
                             value: model.currentSemesterName,
-                            items: model.allSemesterNames
+                            items: (model.allSemesterNames ?? [])
                                 .map(
                                   (n) => DropdownMenuItem(
                                     child: Text(n),
@@ -105,7 +105,7 @@ class ExamResultsPage extends StatelessWidget {
         dataRowHeight: 60,
         headingRowHeight: 50,
         rows: buildGradesDataRows(context, viewModel),
-        columns: buildDataTableColumns(),
+        columns: buildDataTableColumns(context),
       ),
       duration: Duration(milliseconds: 200),
     );
@@ -135,7 +135,6 @@ class ExamResultsPage extends StatelessWidget {
               )),
               DataCell(Text(module.credits)),
               DataCell(Text(exam.grade.toString())),
-              DataCell(GradeStateIcon(state: exam.state)),
             ],
           ),
         );
@@ -144,24 +143,19 @@ class ExamResultsPage extends StatelessWidget {
     return dataRows;
   }
 
-  List<DataColumn> buildDataTableColumns() {
+  List<DataColumn> buildDataTableColumns(BuildContext context) {
     return <DataColumn>[
       DataColumn(
-        label: Text("Klausur"),
+        label: Text(L.of(context).dualisExamResultsExamColumnHeader),
         numeric: false,
       ),
       DataColumn(
-        label: Text("Credits"),
+        label: Text(L.of(context).dualisExamResultsCreditsColumnHeader),
         numeric: true,
       ),
       DataColumn(
-        label: Text("Note"),
+        label: Text(L.of(context).dualisExamResultsGradeColumnHeader),
         numeric: true,
-      ),
-      DataColumn(
-        label: Container(),
-        numeric: true,
-        tooltip: "Bestanden",
       ),
     ];
   }

@@ -17,7 +17,9 @@ class DualisScraper {
     var session = DualisSession();
 
     var loginResponse = await _makeLoginRequest(user, password, session);
+
     if (loginResponse.statusCode != 200) return null;
+    if (!loginResponse.headers.containsKey("refresh")) return null;
 
     var refreshHeader = loginResponse.headers['refresh'];
     var refreshUrl = LoginRedirectUrlExtract().getUrlFromHeader(

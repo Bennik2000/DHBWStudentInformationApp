@@ -50,36 +50,23 @@ class _MainPageState extends State<MainPage> {
       <Page>[
         Page(
           widget: StudyOverviewPage(),
-          title: (BuildContext context) => "Notenübersicht",
+          title: (BuildContext context) => L.of(context).pageDualisOverview,
           viewModel: null,
           key: Key("StudyOverview"),
           icon: Icons.dashboard,
         ),
         Page(
           widget: ExamResultsPage(),
-          title: (BuildContext context) => "Prüfungen",
+          title: (BuildContext context) => L.of(context).pageDualisExams,
           viewModel: null,
           key: Key("Exams"),
           icon: Icons.book,
         ),
       ],
       Icon(Icons.data_usage),
-      (BuildContext context) => "Dualis",
+      (BuildContext context) => L.of(context).screenDualisTitle,
       StudyGradesViewModel(),
     ),
-    /*NavigationEntry.body(
-      Placeholder(),
-      Icon(Icons.fastfood),
-      (_) => "Mensaplan",
-      null,
-    ),
-
-    NavigationEntry.body(
-      Placeholder(),
-      Icon(Icons.business),
-      (_) => "Bibliothek",
-      null,
-    ),*/
     NavigationEntry.body(
       UsefulInformationPage(),
       Icon(Icons.info_outline),

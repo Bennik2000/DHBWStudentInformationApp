@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class LoginForm extends StatefulWidget {
         "",
         onLogin,
         title,
-        "Login failed",
+        loginFailedText,
       );
 }
 
@@ -70,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
           controller: _usernameEditingController,
           decoration: InputDecoration(
             enabled: !_isLoading,
-            hintText: "Benutzername",
+            hintText: L.of(context).loginUsername,
             icon: Icon(Icons.alternate_email),
           ),
         ),
@@ -79,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
           obscureText: true,
           decoration: InputDecoration(
             enabled: !_isLoading,
-            hintText: "Passwort",
+            hintText: L.of(context).loginPassword,
             icon: Icon(Icons.lock_outline),
             errorText: _loginFailed ? loginFailedText : null,
           ),
@@ -98,7 +99,7 @@ class _LoginFormState extends State<LoginForm> {
                         await loginButtonPressed();
                       },
                       icon: Icon(Icons.chevron_right),
-                      label: Text("Login".toUpperCase()),
+                      label: Text(L.of(context).loginButton.toUpperCase()),
                     ),
             ),
           ),
