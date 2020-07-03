@@ -6,10 +6,6 @@ import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_session.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 
-// TODO: Make more robust
-// TODO: Login failed does not fail correctly
-// TODO: Investigate if loading times can be lowered
-
 abstract class DualisService {
   Future<bool> login(String username, String password);
 
