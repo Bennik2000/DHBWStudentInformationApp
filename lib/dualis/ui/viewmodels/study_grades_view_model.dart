@@ -2,10 +2,13 @@ import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/model/module.dart';
 import 'package:dhbwstudentapp/dualis/model/semester.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
+import 'package:dhbwstudentapp/dualis/service/cache_dualis_service_decorator.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 
 class StudyGradesViewModel extends BaseViewModel {
-  final DualisService _dualisService = DualisServiceImpl();
+  final DualisService _dualisService = CacheDualisServiceDecorator(
+    DualisServiceImpl(),
+  );
 
   bool _isLoggedIn = false;
   bool get isLoggedIn => _isLoggedIn;
