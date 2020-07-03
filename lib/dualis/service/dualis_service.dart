@@ -109,8 +109,6 @@ class DualisServiceImpl extends DualisService {
       var exams = <Exam>[];
 
       for (var exam in moduleExams) {
-        if (exam.semester != name) continue;
-
         exams.add(Exam(
           exam.name,
           exam.grade,
@@ -133,5 +131,3 @@ class DualisServiceImpl extends DualisService {
     return Semester(name, modules);
   }
 }
-
-class AuthenticationFailedException implements Exception {}
