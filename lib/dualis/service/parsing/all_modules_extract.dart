@@ -47,7 +47,7 @@ class AllModulesExtract {
     if (state == "Bestanden") {
       stateEnum = ExamState.Passed;
     }
-    if (state == "") {
+    if (state == "Offen") {
       stateEnum = ExamState.Pending;
     }
 
