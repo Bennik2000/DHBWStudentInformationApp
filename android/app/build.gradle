@@ -11,8 +11,8 @@ if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-def flutterVersionCode = '3'
-def flutterVersionName = '1.0.1'
+def flutterVersionCode = '4'
+def flutterVersionName = '1.0.2'
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -57,18 +57,9 @@ android {
     buildTypes {
         release {
             //signingConfig signingConfigs.release
-			
 			signingConfig signingConfigs.debug
         }
     }
-
-    //buildTypes {
-    //    release {
-    //        // TODO: Add your own signing config for the release build.
-    //        // Signing with the debug keys for now, so `flutter run --release` works.
-    //        signingConfig signingConfigs.debug
-    //    }
-    //}
 }
 
 flutter {

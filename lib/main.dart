@@ -7,7 +7,6 @@ import 'package:dhbwstudentapp/schedule/ui/onboarding/onboarding_page.dart';
 import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/main_page.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kiwi/kiwi.dart' as kiwi;
 import 'package:flutter/cupertino.dart';
