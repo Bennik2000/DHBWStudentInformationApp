@@ -6,9 +6,18 @@ import 'package:html/parser.dart';
 
 class AllModulesExtract {
   List<DualisModule> extractAllModules(String body) {
+    try {
+      return _extractAllModules(body);
+    } catch (e) {
+      if (e.runtimeType is ParseException) rethrow;
+      throw new ParseException.withInner(e);
+    }
+  }
+
+  List<DualisModule> _extractAllModules(String body) {
     var document = parse(body);
 
-    var modulesTable = document.getElementsByTagName("tbody")[0];
+    var modulesTable = getElementByTagName(document, "tbody");
     var rows = modulesTable.getElementsByTagName("tr");
 
     var modules = <DualisModule>[];
@@ -21,9 +30,7 @@ class AllModulesExtract {
       var cells = row.getElementsByClassName("tbdata");
       if (cells.length != 6) continue;
 
-      DualisModule module = _extractModuleFromCells(cells);
-
-      modules.add(module);
+      modules.add(_extractModuleFromCells(cells));
     }
 
     return modules;

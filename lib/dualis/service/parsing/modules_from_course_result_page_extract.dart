@@ -11,13 +11,24 @@ class ModulesFromCourseResultPageExtract {
     String body,
     String endpointUrl,
   ) {
+    try {
+      return _extractModulesFromCourseResultPage(body, endpointUrl);
+    } catch (e) {
+      if (e.runtimeType is ParseException) rethrow;
+      throw ParseException.withInner(e);
+    }
+  }
+
+  List<DualisModule> _extractModulesFromCourseResultPage(
+      String body, String endpointUrl) {
     var document = parse(body);
 
-    var tableBodies = document.getElementsByTagName("tbody");
+    var tableBodies = getElementByTagName(document, "tbody");
+    var rows = tableBodies.getElementsByTagName("tr");
 
     var modulesOfSemester = <DualisModule>[];
 
-    for (var row in tableBodies[0].getElementsByTagName("tr")) {
+    for (var row in rows) {
       // Only rows with tds as child are modules
       if (row.children[0].localName != "td") continue;
 
@@ -32,6 +43,8 @@ class ModulesFromCourseResultPageExtract {
     Element row,
     String endpointUrl,
   ) {
+    if (row.children.length < 6) return null;
+
     var id = row.children[0].innerHtml;
     var name = row.children[1].innerHtml;
     var grade = row.children[2].innerHtml;
@@ -46,8 +59,6 @@ class ModulesFromCourseResultPageExtract {
 
     if (status == "bestanden") {
       statusEnum = ExamState.Passed;
-    } else if (status == "") {
-      statusEnum = ExamState.Pending;
     }
 
     if (grade == "noch nicht gesetzt") {

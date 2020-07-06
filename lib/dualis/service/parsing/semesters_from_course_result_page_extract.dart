@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
@@ -7,9 +8,21 @@ class SemestersFromCourseResultPageExtract {
     String body,
     String endpointUrl,
   ) {
+    try {
+      return _extractSemestersFromCourseResults(body, endpointUrl);
+    } catch (e) {
+      if (e.runtimeType is ParseException) rethrow;
+      throw ParseException.withInner(e);
+    }
+  }
+
+  List<DualisSemester> _extractSemestersFromCourseResults(
+      String body, String endpointUrl) {
     var page = parse(body);
 
     var semesterSelector = page.getElementById("semester");
+
+    if (semesterSelector == null) throw ElementNotFoundParseException();
 
     var url = _extractSemesterDetailUrlPart(semesterSelector, endpointUrl);
 

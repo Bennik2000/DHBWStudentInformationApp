@@ -4,9 +4,18 @@ import 'package:html/parser.dart';
 
 class ExamsFromModuleDetailsExtract {
   List<DualisExam> extractExamsFromModuleDetails(String body) {
+    try {
+      return _extractExamsFromModuleDetails(body);
+    } on ParseException catch (e) {
+      if (e.runtimeType is ParseException) rethrow;
+      throw ParseException.withInner(e);
+    }
+  }
+
+  List<DualisExam> _extractExamsFromModuleDetails(String body) {
     var document = parse(body);
 
-    var tableExams = document.getElementsByTagName("tbody")[0];
+    var tableExams = getElementByTagName(document, "tbody");
     var tableExamsRows = tableExams.getElementsByTagName("tr");
 
     String currentTry;
@@ -32,7 +41,7 @@ class ExamsFromModuleDetailsExtract {
       // All exam rows contain cells with the tbdata class.
       // If there are none continue with the next row
       var tbdata = row.getElementsByClassName("tbdata");
-      if (tbdata.length == 0) continue;
+      if (tbdata.length < 4) continue;
 
       var semester = tbdata[0].innerHtml;
       var name = tbdata[1].innerHtml;

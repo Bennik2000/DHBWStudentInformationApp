@@ -5,12 +5,22 @@ import 'package:html/parser.dart';
 
 class StudyGradesFromStudentResultsPageExtract {
   StudyGrades extractStudyGradesFromStudentsResultsPage(String body) {
+    try {
+      return _extractStudyGradesFromStudentsResultsPage(body);
+    } catch (e) {
+      if (e.runtimeType is ParseException) rethrow;
+      throw ParseException.withInner(e);
+    }
+  }
+
+  StudyGrades _extractStudyGradesFromStudentsResultsPage(String body) {
     var document = parse(body);
 
-    var tables = document.getElementsByTagName("tbody");
+    var creditsTable = getElementByTagName(document, "tbody", 0);
+    var gpaTable = getElementByTagName(document, "tbody", 1);
 
-    var credits = _extractCredits(tables[0]);
-    var gpa = _extractGpa(tables[1]);
+    var credits = _extractCredits(creditsTable);
+    var gpa = _extractGpa(gpaTable);
 
     return StudyGrades(
       gpa.totalGpa,
@@ -22,6 +32,8 @@ class StudyGradesFromStudentResultsPageExtract {
 
   _Credits _extractCredits(Element table) {
     var rows = table.getElementsByTagName("tr");
+
+    if (rows.length < 2) throw ElementNotFoundParseException();
 
     var neededCreditsRow = rows[rows.length - 1];
     var neededCredits = neededCreditsRow.children[0].innerHtml;
@@ -46,6 +58,8 @@ class StudyGradesFromStudentResultsPageExtract {
 
   _Gpa _extractGpa(Element table) {
     var rows = table.getElementsByTagName("tr");
+
+    if (rows.length < 2) throw ElementNotFoundParseException();
 
     var totalGpaRowCells = rows[0].getElementsByTagName("th");
     var totalGpa = trimAndEscapeString(
