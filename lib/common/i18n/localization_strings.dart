@@ -76,6 +76,7 @@ final de = {
   "loginUsername": "Benutzername",
   "loginPassword": "Passwort",
   "loginButton": "Login",
+  "dualisOverview": "Übersicht",
 };
 
 final en = {
@@ -154,4 +155,5 @@ final en = {
   "loginUsername": "Username",
   "loginPassword": "Password",
   "loginButton": "Login",
+  "dualisOverview": "Overview",
 };

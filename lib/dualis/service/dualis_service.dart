@@ -109,6 +109,7 @@ class DualisServiceImpl extends DualisService {
           exam.name,
           exam.grade,
           ExamState.Failed,
+          exam.semester,
         ));
       }
 

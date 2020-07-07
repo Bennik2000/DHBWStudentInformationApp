@@ -42,7 +42,7 @@ class StudyOverviewPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            L.of(context).dualisOverviewModuleGrades,
+            L.of(context).dualisOverview,
             style: Theme.of(context).textTheme.title,
           ),
           PropertyChangeConsumer(

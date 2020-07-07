@@ -124,10 +124,14 @@ class ExamResultsPage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    module.name,
+                    module.name ?? "",
                   ),
                   Text(
-                    exam.name,
+                    exam.name ?? "",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  Text(
+                    exam.semester ?? "",
                     style: Theme.of(context).textTheme.caption,
                   ),
                 ],

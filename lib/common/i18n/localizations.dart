@@ -118,10 +118,10 @@ class L {
   String get dualisOverviewGpaTotalModules =>
       _getValue("dualisOverviewGpaTotalModules");
 
+  String get dualisOverview => _getValue("dualisOverview");
   String get screenDualisTitle => _getValue("screenDualisTitle");
   String get pageDualisExams => _getValue("pageDualisExams");
   String get pageDualisOverview => _getValue("pageDualisOverview");
-
   String get dualisLoginFailed => _getValue("dualisLoginFailed");
   String get dualisLogin => _getValue("dualisLogin");
   String get loginUsername => _getValue("loginUsername");
