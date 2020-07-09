@@ -8,7 +8,7 @@ import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 
 bool isInitialized = false;
 
@@ -33,7 +33,7 @@ Future<void> initializeApp(bool isBackground) async {
   injectServices();
 
   if (isBackground) {
-    await LocalizationInitialize.fromPreferences(kiwi.Container().resolve())
+    await LocalizationInitialize.fromPreferences(KiwiContainer().resolve())
         .setupLocalizations();
   } else {
     await LocalizationInitialize.fromLanguageCode(Platform.localeName)
