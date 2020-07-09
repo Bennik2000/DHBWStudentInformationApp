@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
@@ -8,12 +9,15 @@ import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/main_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 void main() async {
+  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  Crashlytics.instance.enableInDevMode = true;
+
   await initializeApp(false);
 
   await saveLastStartLanguage();
@@ -46,19 +50,19 @@ void main() async {
 }
 
 Future<void> saveLastStartLanguage() async {
-  PreferencesProvider preferencesProvider = kiwi.Container().resolve();
+  PreferencesProvider preferencesProvider = KiwiContainer().resolve();
   await preferencesProvider.setLastUsedLanguageCode(Platform.localeName);
 }
 
 Future<bool> isFirstStart() async {
-  PreferencesProvider preferencesProvider = kiwi.Container().resolve();
+  PreferencesProvider preferencesProvider = KiwiContainer().resolve();
   bool firstStart = await preferencesProvider.isFirstStart();
   return firstStart;
 }
 
 Future<RootViewModel> setupRootViewModel() async {
   var rootViewModel = RootViewModel(
-    kiwi.Container().resolve(),
+    KiwiContainer().resolve(),
   );
 
   await rootViewModel.loadFromPreferences();

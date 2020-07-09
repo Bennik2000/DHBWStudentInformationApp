@@ -13,9 +13,9 @@ bool _isInjected = false;
 void injectServices() {
   if (_isInjected) return;
 
-  Container c = Container();
+  KiwiContainer c = KiwiContainer();
   c.registerInstance(PreferencesProvider(PreferencesAccess()));
-  c.registerInstance<ScheduleSource, RaplaScheduleSource>(
+  c.registerInstance<ScheduleSource>(
     RaplaScheduleSource(),
   );
   c.registerInstance(DatabaseAccess());

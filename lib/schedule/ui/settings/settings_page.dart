@@ -10,7 +10,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 
 class SettingsPage extends StatefulWidget {
   @override
@@ -19,8 +19,8 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final SettingsViewModel settingsViewModel = SettingsViewModel(
-    kiwi.Container().resolve(),
-    kiwi.Container().resolve<TaskCallback>(NextDayInformationNotification.name),
+    KiwiContainer().resolve(),
+    KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name),
   );
 
   @override

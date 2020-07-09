@@ -1,14 +1,14 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 
 class ScheduleSourceSetup {
   ScheduleSource _scheduleSource;
   PreferencesProvider _preferencesProvider;
 
   ScheduleSourceSetup() {
-    _scheduleSource = kiwi.Container().resolve();
-    _preferencesProvider = kiwi.Container().resolve();
+    _scheduleSource = KiwiContainer().resolve();
+    _preferencesProvider = KiwiContainer().resolve();
   }
 
   Future<void> setupScheduleSource() async {
