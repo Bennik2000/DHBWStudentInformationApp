@@ -11,8 +11,8 @@ if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-def flutterVersionCode = '4'
-def flutterVersionName = '1.0.2'
+def flutterVersionCode = '5'
+def flutterVersionName = '1.0.3'
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -60,8 +60,8 @@ android {
    
     buildTypes {
         release {
-            //signingConfig signingConfigs.release
-			signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+			//signingConfig signingConfigs.debug
         }
     }
 }
