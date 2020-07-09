@@ -1,5 +1,5 @@
 import 'package:dhbwstudentapp/common/ui/notification_api.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 
 class NotificationsInitialize {
   Future<void> setupNotifications() async {
@@ -7,6 +7,6 @@ class NotificationsInitialize {
 
     await notificationApi.initialize();
 
-    kiwi.Container().registerInstance(notificationApi);
+    KiwiContainer().registerInstance(notificationApi);
   }
 }

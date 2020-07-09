@@ -14,7 +14,7 @@ import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/weekly_schedule_page.d
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -30,14 +30,14 @@ class _MainPageState extends State<MainPage> {
         Page(
           widget: WeeklySchedulePage(),
           title: (BuildContext context) => L.of(context).pageWeekOverviewTitle,
-          viewModel: WeeklyScheduleViewModel(kiwi.Container().resolve()),
+          viewModel: WeeklyScheduleViewModel(KiwiContainer().resolve()),
           key: Key("Weekly"),
           icon: Icons.view_week,
         ),
         Page(
           widget: DailySchedulePage(),
           title: (BuildContext context) => L.of(context).pageDayOverviewTitle,
-          viewModel: DailyScheduleViewModel(kiwi.Container().resolve()),
+          viewModel: DailyScheduleViewModel(KiwiContainer().resolve()),
           key: Key("Daily"),
           icon: Icons.calendar_view_day,
         ),

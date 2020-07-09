@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:kiwi/kiwi.dart' as kiwi;
+import 'package:kiwi/kiwi.dart';
 
 class LocalizationInitialize {
   PreferencesProvider _preferencesProvider;
@@ -23,6 +23,6 @@ class LocalizationInitialize {
       _languageCode ??
           (await _preferencesProvider?.getLastUsedLanguageCode() ?? "en"),
     ));
-    kiwi.Container().registerInstance(localization);
+    KiwiContainer().registerInstance(localization);
   }
 }
