@@ -1,0 +1,499 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+	<title>Duale Hochschule Baden-Württemberg</title>
+
+	<!-- Other analytics code - e.g. PIWIK, Tag manager instead of Pageview etc. -->
+
+
+
+
+	<!-- IE document mode -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<meta http-equiv="cache-control" 		content="no-cache" />
+	<meta http-equiv="expires" 				content="-1" />
+	<meta http-equiv="pragma" 				content="no-cache" />
+	<meta http-equiv="Content-Type" 		content="text/html; charset=utf-8" />
+	<meta http-equiv="Content-Script-Type"	content="text/javascript" />
+	<meta name="keywords" content="Datenlotsen,Datenlotsen Informationssysteme GmbH,CampusNet,Campus Management" />
+
+
+
+
+	<script src="/js/jquery.js" 	type="text/javascript"></script>
+	<script src="/js/checkDate.js" 	type="text/javascript"></script>
+	<script src="/js/edittext.js" 	type="text/javascript"></script>
+	<script src="/js/skripts.js" 	type="text/javascript"></script>
+	<script src="/js/x.js" 			type="text/javascript"></script>
+
+
+
+
+
+	<!-- ++++++++++++++++++ DEFAULT STYLESHEETS  ++++++++++++++++++++ -->
+	<link id="defLayout" 	href="/css/_default/def_layout.css"	rel="stylesheet"  type="text/css"	media="screen" />
+	<link id="defMenu" 		href="/css/_default/def_menu.css" 	rel="stylesheet"  type="text/css"	media="screen" />
+	<link id="defStyles" 	href="/css/_default/def_styles.css"	rel="stylesheet"  type="text/css"	/><!-- no media specified - used for screen AND print -->
+	<link id="pagePrint" 	href="/css/_default/def_print.css" 	rel="stylesheet"  type="text/css"	media="print" />
+
+
+
+
+	<!-- ++++++++++++++++++ CUSTOM STYLESHEETS  ++++++++++++++++++++ -->
+	<link id="pageStyle"		href="/css/styles.css"	rel="stylesheet"	type="text/css"  	 />	<!-- no media specified - used for screen AND print -->
+
+
+	<link id="pageColors"		href="/css/colors.css"	rel="stylesheet" 	type="text/css" 	media="screen" />
+
+
+	<!-- ++++++++++++++++++ MINOR IE FIXES ++++++++++++++++++ -->
+	<!--[if IE 9]>
+	<link id="IE9FIXES" href="/css/_default/IE/fixes_ie9.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<!--[if lt IE 8]>
+	<link id="IE7FIXES" href="/css/_default/IE/fixes_ie.css" rel="stylesheet" type="text/css" />
+	<![endif]-->
+	<!--[if lt IE 7]>
+	<link id="IE6FIXES" href="/css/_default/IE/fixes_ie6.css" rel="stylesheet" type="text/css"  media="screen" />
+	<noscript>
+		<link id="IE6FIXESNOSCRIPT" href="/css/_default/IE/fixes_ie6_noScript.css" 	rel="stylesheet" type="text/css"  media="screen" />
+	</noscript>
+	<![endif]-->
+	<!-- ++++++++++++++++++ MENU_CSS FOR HIGHLITING ++++++++++++++++++ -->
+	<style type="text/css">
+				  				#pageTopNavi ul.nav #link000002 a.link000002{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000019 a.link000019{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000028 a.link000028{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000174 a.link000174{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000266 a.link000266{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000280 a.link000280{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000292 a.link000292{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000307 a.link000307{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000310 a.link000310{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000318 a.link000318{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000321 a.link000321{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000324 a.link000324{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000327 a.link000327{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000329 a.link000329{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000330 a.link000330{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000331 a.link000331{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000332 a.link000332{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000334 a.link000334{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000336 a.link000336{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000339 a.link000339{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000340 a.link000340{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				  				#pageTopNavi ul.nav #link000342 a.link000342{
+					background-image:url(/gfx/dhbw/buttons/btn_empty.gif);
+				}
+		  				</style>
+
+
+
+
+
+
+
+	<style type="text/css">
+		#pageTopNavi ul.nav #link000307 a.link000307{
+
+			background-image:url(/gfx/dhbw/buttons/btn__active.gif);
+						background-color:#e10217;
+
+								}
+				#pageTopNavi ul.nav #link000307 {
+			background-image:url(../../gfx/dhbw/naviTopLft.gif);
+			background-repeat:no-repeat;
+			background-position:left bottom;
+		}
+								#pageTopNavi ul.nav #link000307 a.link000307,
+		#pageTopNavi ul.nav #link000307 a.link000307 span{
+			color:#ffffff;
+							text-decoration:none;
+						}
+
+		#pageTopNavi ul.nav.depth_1 #link000307{
+
+		}
+		#pageTopNavi ul.nav.depth_1 #link000307:before{
+
+		}
+		#pageTopNavi ul.nav.depth_1 #link000307:first-child:before{
+
+		}
+		#pageTopNavi ul.nav.depth_1 #link000307:after{
+
+		}
+		#pageTopNavi ul.nav.depth_1 #link000307:last-child:before{
+
+		}
+		#pageTopNavi ul.nav.depth_1 #link000307:hover{
+
+		}
+		#pageTopNavi ul.nav #link000307.tree ul.nav{
+			left:0px;
+			height:auto;
+			display:block;
+		}
+				#pageTopNavi ul.nav #link000307.tree .tree ul{
+			height:0;
+		}
+			</style>
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+
+<div id="Cn-system-desc">                                                                 </div>
+<script type="text/javascript">
+		  $(document).ready(function(){
+			var SystemDesc = $.trim($("#Cn-system-desc").text());
+
+			if(SystemDesc !=''){
+				$("#Cn-system-desc").text(SystemDesc);
+				$("#Cn-system-desc").css('display','block');
+			}
+		  });
+		  			var activateSignCheck = false;
+		  		</script>
+<div id="acc_pageDescription" class="hidden"><a name="keypadDescription" class="hidden">keypadDescription</a>
+	Für maximale Nutzerfreundlichkeit empfehlen wir, die Ausführung von JavaScript und Cookies zu erlauben.Mithilfe der folgenden Accesskeys können Sie im Portal navigieren:
+	<a href="#mainNavi" accesskey="1">1 Hauptmenü</a>
+	<a href="#mainContent" accesskey="2">2 Inhalt</a>
+	<a href="#keypadDescription" accesskey="3">3 Zurück zu dieser Anleitung</a>
+</div>
+<div id="pageContainer" class="pageElementTop">
+	<div class="invAnchor">
+		<a name="top" class="invAnchor"></a>
+	</div>
+	<div id="pageHead" class="pageElementTop">
+		<div id="pageHeadTop" class="pageElementTop">
+			<a href="?APPNAME=CampusNet&amp;PRGNAME=EXTERNALPAGES&amp;ARGUMENTS=-N123456789876543,-N000307,-Aimprint" class="img img_arrowImprint pageElementLeft">Impressum</a>
+			<a href="?APPNAME=CampusNet&amp;PRGNAME=EXTERNALPAGES&amp;ARGUMENTS=-N123456789876543,-N000307,-Acontact" class="img img_arrowContact pageElementLeft">Kontakt</a>
+			<a href="#" onclick="window.print();" class="img img_arrowPrint pageElementLeft">Drucken</a>
+			<a href="#bottom" class="img img_arrowDown pageElementRight">Zum Ende der Seite</a>
+		</div>
+		<div id="pageHeadCenter" class="pageElementTop">
+			<div id="pageHeadLeft" class="pageElementLeft">
+				<a href="http://www.dhbw.de" title="extern www.dhbw.de">
+					<img id="imagePageHeadLeft" src="/gfx/dhbw/logo.gif" alt="Logo Duale Hochschule Baden-Württemberg" />
+				</a>
+			</div>
+			<div id="pageHeadRight" class="pageElementRight">
+				&nbsp;
+			</div>
+		</div>
+		<div id="pageHeadBottom_1" class="pageElementTop">
+			<div id="pageHeadControlsLeft" class="pageElementLeft">
+				<a class="img pageHeadLink" href="#" id="extraNav_link1" alt="Homepage" target="_blank">Homepage</a>
+				<a class="img pageHeadLink" href="#" id="extraNav_link2" alt="standardLink undef" target="_blank">standardLink undef</a>
+			</div>
+			<div id="pageHeadControlsRight" class="pageElementRight">
+				<a class="img" href="#" id="extraNav_link3" alt="standardLink undef" target="_blank">standardLink undef</a>
+				<a class="img" href="#" id="extraNav_link4" alt="standardLink undef" target="_blank">standardLink undef</a>
+				<a class="img" href="#" id="extraNav_link5" alt="&nbsp;" target="_blank">&nbsp;</a>
+			</div>
+		</div>
+		<div id="pageHeadBottom_2" class="pageElementTop">
+
+			<div id="pageHeadBottom_2sub_1" class="pageElementTop">
+				&nbsp;
+			</div>
+			<div id="pageHeadBottom_2sub_2" class="pageElementTop">
+				&nbsp;
+			</div>
+			&nbsp;
+
+		</div>
+
+
+		<div id="pageTopNavi" class="pageElementTop"> <!-- INCLUDING MENU-FILE FOR NAVIGATION-->
+			<a name="mainNavi" class="hidden">&nbsp;</a> <!-- ANCHOR NAVI -->
+
+			<ul class="nav depth_1 linkItemContainer"><li class="intern depth_1 linkItem " title="Home" id="link000019"><a  class="depth_1 link000019 navLink " href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=MLSSTART&amp;ARGUMENTS=-N123456789876543,-N000019," >Home</a></li><li class="intern depth_1 linkItem " title="Prüfungsergebnisse" id="link000307"><a  class="depth_1 link000307 navLink " href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=COURSERESULTS&amp;ARGUMENTS=-N123456789876543,-N000307," >Prüfungsergebnisse</a></li><li class="intern depth_1 linkItem " title="Leistungsübersicht" id="link000310"><a  class="depth_1 link000310 navLink " href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=STUDENT_RESULT&amp;ARGUMENTS=-N123456789876543,-N000310,-N0,-N000000000000000,-N000000000000000,-N000000000000000,-N0,-N000000000000000" >Leistungsübersicht</a></li><li class="tree depth_1 linkItem branchLinkItem " title="Stundenplan" id="link000028"><a  class="depth_1 link000028 navLink branchLink " href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=SCHEDULER&amp;ARGUMENTS=-N123456789876543,-N000028,-A,-A,-N0" >Stundenplan</a><ul class="nav depth_2 linkItemContainer"><li class="intern depth_2 linkItem " title="heute" id="link000029"><a  class="depth_2 link000029 navLink " href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=SCHEDULER&amp;ARGUMENTS=-N123456789876543,-N000029,-A,-A,-N0" >heute</a></li><li class="intern depth_2 linkItem " title="diese Woche" id="link000030"><a  class="depth_2 link000030 navLink " href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=SCHEDULER&amp;ARGUMENTS=-N123456789876543,-N000030,-A,-A,-N1" >diese Woche</a></li><li class="intern depth_2 linkItem " title="Monatsansicht" id="link000031"><a  class="depth_2 link000031 navLink " href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=MONTH&amp;ARGUMENTS=-N123456789876543,-N000031,-A" >Monatsansicht</a></li></ul></li><li class="intern depth_1 linkItem " title="Impressum" id="link000280"><a  class="depth_1 link000280 navLink " href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=EXTERNALPAGES&amp;ARGUMENTS=-N123456789876543,-N000280,-Aimpressum%2Ehtm" >Impressum</a></li><li class="intern depth_1 linkItem " title="Zusatzqualifikationen" id="link000321"><a  class="depth_1 link000321 navLink " href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=ACTION&amp;ARGUMENTS=-AXxdeSe4LELSI8KQq7s3.ugtJfs2Xwb6nSL4KSUKYOQikgsMO08oreC-n6-RActXng1aLH7rrogw.wvcPQct0RMzDaTaXT7m-3BHl06eni9KklN-6yI2yEQeUYi==" >Zusatzqualifikationen</a></li></ul>
+
+		</div>
+		<div id="pageHeadBottom_3" class="pageElementTop">
+
+			<div id="pageHeadSwitchLang" class="pageElementRight">
+
+
+				<a href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=CHANGELANGUAGE&amp;ARGUMENTS=-N123456789876543,-N002" class="img img_LangEnglish pageElementLeft" title="English">English</a>
+
+
+
+				<a href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=LOGOUT&amp;ARGUMENTS=-N123456789876543,-N001" id="logoutButton"    class="img img_arrowLogout" title="Abmelden">Abmelden</a>
+			</div>
+		</div>
+	</div>
+
+	<div id="pageContentContainer" class="pageElementTop">
+		<!-- Anker für Content2 -->
+		<div id="pageLeft" class="pageElementLeft"> <!-- LEFT COL OF CONTENT -->
+			<div id="pageLeftTop"></div>
+		</div>
+
+		<div id="pageContent" class="pageElementLeft">
+			<a name="mainContent" class="hidden">&nbsp;</a> <!-- ANCHOR MAIN CONTENT -->
+			<div id="pageContentTop" class="pageElementTop">
+				<div id="loginData">
+					<span class="loginDataLoggedAs"><b>Sie sind angemeldet als<span class="colon">:</span> </b></span>
+					<span class="loginDataName" id="loginDataName"><b>Name<span class="colon">:</span> </b></span> <span class="loginDataDate"><b>am<span class="colon">:</span></b> </span> <span class="loginDataTime"><b>um<span class="colon time_colon">:</span></b> </span>
+				</div>
+			</div>
+			<div id="contentSpacer_IE" class="pageElementTop"><!-- FORCE MIN HEIGHT IN IE<7 -->
+				<!--[if lt IE 7]>
+				<p class="error">
+					Sie verwenden eine Browserversion, die nicht mehr unterstützt wird. Bitte upgraden Sie Ihren Browser auf die aktuelle Version, um funktionale Störungen und Darstellungsprobleme zu vermeiden.
+				</p>
+				<![endif]-->
+
+
+				<script type="text/javascript"></script>
+
+				<h1>Ergebnisse SoSe yyyy</h1>
+
+				<div class="tb">
+					<form id="semesterchange" action="/scripts/mgrqispi.dll" method="post"  class="pageElementTop">
+						<div>
+							<div class="tbhead">&nbsp;</div>
+							<div class="tbsubhead">Wählen Sie ein Semester</div>
+
+							<div class="formRow">
+								<div class="inputFieldLabel long">
+									<label for="semester">Semester:</label>
+
+									<select id="semester" name="semester" onchange="reloadpage.createUrlAndReload('/scripts/mgrqispi.dll','CampusNet','COURSERESULTS','123456789876543','000307','-N'+this.value);" class="tabledata">
+
+										<option value="000000012345000" selected="selected">SoSe yyyy</option>
+										<option value="000000015048000" >WiSe xx/yy</option>
+									</select>
+
+									<input name="Refresh" type="submit" value="Aktualisieren" class="img img_arrowReload" />
+								</div>
+							</div>
+
+							<input name="APPNAME" type="hidden" value="CampusNet" />
+							<input name="PRGNAME" type="hidden" value="COURSERESULTS" />
+							<input name="ARGUMENTS" type="hidden" value="sessionno,menuno,semester" />
+							<input name="sessionno" type="hidden" value="123456789876543" />
+							<input name="menuno" type="hidden" value="000307" />
+						</div>
+					</form>
+
+					<table class="nb list">
+						<thead>
+						<tr>
+							<td class="tbsubhead">Nr.</td>
+							<td class="tbsubhead">Name</td>
+							<td class="tbsubhead">Endnote</td>
+
+
+							<td class="tbsubhead">Credits</td>
+
+							<td class="tbsubhead">Status</td>
+							<td class="tbsubhead" colspan="2">&nbsp;</td>
+						</tr>
+						</thead>
+						<tbody>
+
+						<tr >
+							<td class="tbdata">T3_1000</td>
+
+							<td class="tbdata">Praxisprojekt I</td>
+
+							<td class="tbdata_numeric" style="vertical-align:top;">
+
+								noch nicht gesetzt
+
+
+
+							</td>
+							<td class="tbdata_numeric"> 20,0</td>
+
+							<td class="tbdata">
+								&nbsp;
+							</td>
+
+							<td class="tbdata" style="vertical-align:top;">
+								<a id="Popup_details0001" href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=RESULTDETAILS&amp;ARGUMENTS=-N123456789876543,-N000307,-N987654321234567,-N000000012345000">Prüfungen</a>
+								<script type="text/javascript">
+                                                      	         <!--
+                                                      	                 var Message0001;
+                                                      	                 function open_details0001() {
+                                                      	                 		var Message0001 = dl_popUp("/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=RESULTDETAILS&ARGUMENTS=-N123456789876543,-N000307,-N987654321234567","Resultdetails",750,400);
+
+                                                      	                 }
+                                                      	                 var PopupElt=document.getElementById("Popup_details0001");
+                                                      	                 PopupElt.href="javascript:open_details0001();";
+                                                      	         //-->
+                                                      	</script>
+							</td>
+							<td class="tbdata">
+							</td>
+						</tr>
+						<tr >
+							<td class="tbdata">T3INF1001</td>
+
+							<td class="tbdata">Mathematik I</td>
+
+							<td class="tbdata_numeric" style="vertical-align:top;">
+
+								4,0
+
+
+
+							</td>
+							<td class="tbdata_numeric">  8,0</td>
+
+							<td class="tbdata">
+								&nbsp;
+							</td>
+
+							<td class="tbdata" style="vertical-align:top;">
+								<a id="Popup_details0002" href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=RESULTDETAILS&amp;ARGUMENTS=-N123456789876543,-N000307,-N121212121212121,-N000000012345000">Prüfungen</a>
+								<script type="text/javascript">
+                                                      	         <!--
+                                                      	                 var Message0002;
+                                                      	                 function open_details0002() {
+                                                      	                 		var Message0002 = dl_popUp("/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=RESULTDETAILS&ARGUMENTS=-N123456789876543,-N000307,-N121212121212121","Resultdetails",750,400);
+
+                                                      	                 }
+                                                      	                 var PopupElt=document.getElementById("Popup_details0002");
+                                                      	                 PopupElt.href="javascript:open_details0002();";
+                                                      	         //-->
+                                                      	</script>
+							</td>
+							<td class="tbdata">
+							</td>
+						</tr>
+						<tr >
+							<td class="tbdata">T3INF1003</td>
+
+							<td class="tbdata">Theoretische Informatik II</td>
+
+							<td class="tbdata_numeric" style="vertical-align:top;">
+
+								noch nicht gesetzt
+
+
+
+							</td>
+							<td class="tbdata_numeric">  5,0</td>
+
+							<td class="tbdata">
+								&nbsp;
+							</td>
+
+							<td class="tbdata" style="vertical-align:top;">
+								<a id="Popup_details0003" href="/scripts/mgrqispi.dll?APPNAME=CampusNet&amp;PRGNAME=RESULTDETAILS&amp;ARGUMENTS=-N123456789876543,-N000307,-N232323232323232,-N000000012345000">Prüfungen</a>
+								<script type="text/javascript">
+                                                      	         <!--
+                                                      	                 var Message0003;
+                                                      	                 function open_details0003() {
+                                                      	                 		var Message0003 = dl_popUp("/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=RESULTDETAILS&ARGUMENTS=-N123456789876543,-N000307,-N232323232323232","Resultdetails",750,400);
+
+                                                      	                 }
+                                                      	                 var PopupElt=document.getElementById("Popup_details0003");
+                                                      	                 PopupElt.href="javascript:open_details0003();";
+                                                      	         //-->
+                                                      	</script>
+							</td>
+							<td class="tbdata">
+							</td>
+						</tr>
+
+
+						<tr>
+							<th colspan="2">Semester-GPA</th>
+							<th class="tbdata">  0,0</th>
+
+							<th>  0,0</th>
+
+							<th class="tbdata" colspan="4">&nbsp;</th>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="pageFoot" class="pageElementTop">
+		<div id="pageFootControls" class="pageElementTop">
+			<div id="pageFootControlsLeft">
+				<a href="?APPNAME=CampusNet&amp;PRGNAME=EXTERNALPAGES&amp;ARGUMENTS=-N123456789876543,-N000307,-Aimprint" class="img img_arrowImprint pageElementLeft" id="pageFootControl_imp">Impressum</a>
+				<a href="?APPNAME=CampusNet&amp;PRGNAME=EXTERNALPAGES&amp;ARGUMENTS=-N123456789876543,-N000307,-Acontact"  class="img img_arrowContact pageElementLeft" id="pageFootControl_con">Kontakt</a>
+
+				<a href="#" onclick="window.print();" class="img img_arrowPrint pageElementLeft" id="pageFootControl_pri">Drucken</a>
+
+			</div>
+			<div id="pageFootControlsRight">
+				<a href="#top" class="img img_arrowUp pageElementRight" id="pageFootControl_up">Zum Anfang der Seite</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="IEdiv">&nbsp;</div><!-- purpose of this is to avoid a pretty strange bug in IE's -->
+
+<!-- in case the schedule exceeds the given width in lower IE's-->
+<!--[if lt IE 7]>
+<script language="JavaScript" type="text/javascript">
+				adjustWidth();
+			</script>
+<![endif]-->
+
+<div class="invAnchor">
+	<a name="bottom" class="invAnchor">&nbsp;</a>
+</div>
+</body>
+</html>
+
