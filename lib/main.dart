@@ -16,7 +16,6 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 
 void main() async {
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
-  Crashlytics.instance.enableInDevMode = true;
 
   await initializeApp(false);
 
