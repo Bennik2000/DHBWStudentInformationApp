@@ -4,6 +4,7 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_query_information_repository.dart';
+import 'package:dhbwstudentapp/schedule/service/error_report_schedule_source_decorator.dart';
 import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:kiwi/kiwi.dart';
@@ -16,7 +17,7 @@ void injectServices() {
   KiwiContainer c = KiwiContainer();
   c.registerInstance(PreferencesProvider(PreferencesAccess()));
   c.registerInstance<ScheduleSource>(
-    RaplaScheduleSource(),
+    ErrorReportScheduleSourceDecorator(RaplaScheduleSource()),
   );
   c.registerInstance(DatabaseAccess());
   c.registerInstance(ScheduleEntryRepository(
