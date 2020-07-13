@@ -19,12 +19,24 @@ abstract class ScheduleSource {
 
 class ScheduleQueryFailedException implements Exception {
   final dynamic innerException;
+  final StackTrace trace;
 
-  ScheduleQueryFailedException(this.innerException);
+  ScheduleQueryFailedException(this.innerException, [this.trace]);
 
   @override
   String toString() {
     return innerException?.toString();
+  }
+}
+
+class ServiceRequestFailed implements Exception {
+  final String message;
+
+  ServiceRequestFailed(this.message);
+
+  @override
+  String toString() {
+    return message;
   }
 }
 
