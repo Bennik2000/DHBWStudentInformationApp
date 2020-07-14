@@ -21,8 +21,15 @@ class ErrorReportScheduleSourceDecorator extends ScheduleSource {
       return schedule;
     } catch (ex, trace) {
       if (ex is OperationCancelledException) rethrow;
+      if (ex is ScheduleQueryFailedException) {
+        // Do not log connectivity exceptions
+        if (ex.innerException is ServiceRequestFailed) rethrow;
 
-      await reportException(ex, trace);
+        await reportException(ex, ex.trace);
+      } else {
+        await reportException(ex, trace);
+      }
+
       rethrow;
     }
   }

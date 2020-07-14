@@ -1,5 +1,6 @@
 # Steps to publish this app
 
+- Check that you are on the `develop` branch and the code is ready to publish
 - Follow the steps according to the specific platform
 - Commit the current state in a publish commit (Message: `Publish version 1.0.1`) 
 - Create a new release on GitHub and tag the commit

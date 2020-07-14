@@ -29,9 +29,11 @@ class NotificationApi {
 
   Future showNotification(String title, String message, [int id]) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      'GenericNotifications',
-      'Fancy channel name',
-      'This is a test channel',
+      'Notifications',
+      'Notifications',
+      'This is the main notification channel',
+      icon: 'outline_event_note_24',
+      channelAction: AndroidNotificationChannelAction.CreateIfNotExists,
       autoCancel: true,
       channelShowBadge: false,
       color: Colors.red,
