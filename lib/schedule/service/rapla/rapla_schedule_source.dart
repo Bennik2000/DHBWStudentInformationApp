@@ -33,9 +33,7 @@ class RaplaScheduleSource extends ScheduleSource {
       } on OperationCancelledException {
         rethrow;
       } catch (e, trace) {
-        print(trace);
-        print(e);
-        throw ScheduleQueryFailedException(e);
+        throw ScheduleQueryFailedException(e, trace);
       }
 
       current = toNextWeek(current);
@@ -96,7 +94,7 @@ class RaplaScheduleSource extends ScheduleSource {
           cancelToken: requestCancellationToken);
 
       if (response == null && !requestCancellationToken.isCanceled)
-        throw ScheduleQueryFailedException("Http request failed!");
+        throw ServiceRequestFailed("Http request failed!");
 
       return response;
     } on http.OperationCanceledError catch (_) {
