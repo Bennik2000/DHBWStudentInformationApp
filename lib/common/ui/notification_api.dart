@@ -33,7 +33,7 @@ class NotificationApi {
       'Notifications',
       'This is the main notification channel',
       icon: 'outline_event_note_24',
-      channelAction: AndroidNotificationChannelAction.Update,
+      channelAction: AndroidNotificationChannelAction.CreateIfNotExists,
       autoCancel: true,
       channelShowBadge: false,
       color: Colors.red,
