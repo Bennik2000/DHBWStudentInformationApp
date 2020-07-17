@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/rate_in_store.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/exam_results_page/exam_results_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/study_overview/study_overview_page.dart';
@@ -23,6 +24,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _currentEntryIndex = 0;
+  bool _rateDialogShown = false;
 
   final List<NavigationEntry> navigationEntries = [
     NavigationEntry.pages(
@@ -99,6 +101,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    showRateInStoreDialogIfNeeded(context);
+
     var body;
     var bodyKey;
     BaseViewModel viewModel;
@@ -193,6 +197,15 @@ class _MainPageState extends State<MainPage> {
         entries: drawerEntries,
       ),
     );
+  }
+
+  void showRateInStoreDialogIfNeeded(BuildContext context) {
+    if (!_rateDialogShown) {
+      RateInStore(KiwiContainer().resolve())
+          .showRateInStoreDialogIfNeeded(context);
+
+      _rateDialogShown = true;
+    }
   }
 }
 

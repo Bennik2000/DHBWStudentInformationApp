@@ -21,6 +21,12 @@
   def flutterVersionName = '1.x.y'
   ```
 
+- Open `common\application_constants.dart` and update the version number
+
+  ```java
+  const String ApplicationVersion = "1.0.1";
+  ```
+  
 - Open `android\app\build.gradle` and change the signing configuration to release mode:
 
   ```java

@@ -77,6 +77,12 @@ final de = {
   "loginPassword": "Passwort",
   "loginButton": "Login",
   "dualisOverview": "Übersicht",
+  "rateDialogRateNowButton": "Jetzt bewerten",
+  "rateDialogRateLaterButton": "Später",
+  "rateDialogDoNotRateButton": "Nein, danke",
+  "rateDialogMessage":
+      "Dann empfehle sie anderen Studenten weiter oder bewerte sie im PlayStore!",
+  "rateDialogTitle": "Gefällt Dir diese App?",
 };
 
 final en = {
@@ -156,4 +162,10 @@ final en = {
   "loginPassword": "Password",
   "loginButton": "Login",
   "dualisOverview": "Overview",
+  "rateDialogRateNowButton": "Rate now",
+  "rateDialogRateLaterButton": "Later",
+  "rateDialogDoNotRateButton": "No, thanks",
+  "rateDialogMessage":
+      "Recommend this App to other students or leave a review on the PlayStore!",
+  "rateDialogTitle": "Do you like this app?",
 };
