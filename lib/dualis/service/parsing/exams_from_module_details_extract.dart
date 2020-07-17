@@ -8,7 +8,8 @@ class ExamsFromModuleDetailsExtract {
       return _extractExamsFromModuleDetails(body);
     } on ParseException catch (e) {
       if (e.runtimeType is ParseException) rethrow;
-      throw ParseException.withInner(e);
+      throw ParseException.withInner(
+          e, "Failed to extractExamsFromModuleDetails");
     }
   }
 

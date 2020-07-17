@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dhbwstudentapp/common/networking/NetworkRequestFailed.dart';
 import 'package:http/http.dart' as http;
 
 class DualisSession extends Session {
@@ -17,15 +18,24 @@ class Session {
   }
 
   Future<http.Response> rawGet(String url) async {
-    http.Response response = await http.get(url, headers: headers);
-    _updateCookie(response);
-    return response;
+    try {
+      http.Response response = await http.get(url, headers: headers);
+      _updateCookie(response);
+      return response;
+    } catch (ex, trace) {
+      throw NetworkRequestFailed.full(url, ex, trace);
+    }
   }
 
   Future<http.Response> post(String url, dynamic data) async {
-    http.Response response = await http.post(url, body: data, headers: headers);
-    _updateCookie(response);
-    return response;
+    try {
+      http.Response response =
+          await http.post(url, body: data, headers: headers);
+      _updateCookie(response);
+      return response;
+    } catch (ex, trace) {
+      throw NetworkRequestFailed.full(url, ex, trace);
+    }
   }
 
   void _updateCookie(http.Response response) {
@@ -37,3 +47,5 @@ class Session {
     }
   }
 }
+
+class RequestException implements Exception {}

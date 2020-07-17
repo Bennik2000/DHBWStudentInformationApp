@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/logging/crash_reporting.dart';
+import 'package:dhbwstudentapp/common/networking/NetworkRequestFailed.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
@@ -23,7 +24,7 @@ class ErrorReportScheduleSourceDecorator extends ScheduleSource {
       if (ex is OperationCancelledException) rethrow;
       if (ex is ScheduleQueryFailedException) {
         // Do not log connectivity exceptions
-        if (ex.innerException is ServiceRequestFailed) rethrow;
+        if (ex.innerException is NetworkRequestFailed) rethrow;
 
         await reportException(ex, ex.trace);
       } else {

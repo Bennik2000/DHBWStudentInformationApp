@@ -28,16 +28,3 @@ class ScheduleQueryFailedException implements Exception {
     return innerException?.toString();
   }
 }
-
-class ServiceRequestFailed implements Exception {
-  final String message;
-
-  ServiceRequestFailed(this.message);
-
-  @override
-  String toString() {
-    return message;
-  }
-}
-
-class EndpointUrlInvalid implements Exception {}

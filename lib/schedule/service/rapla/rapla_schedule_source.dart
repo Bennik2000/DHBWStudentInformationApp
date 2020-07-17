@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/networking/NetworkRequestFailed.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
@@ -94,13 +95,19 @@ class RaplaScheduleSource extends ScheduleSource {
           cancelToken: requestCancellationToken);
 
       if (response == null && !requestCancellationToken.isCanceled)
-        throw ServiceRequestFailed("Http request failed!");
+        throw NetworkRequestFailed.message(
+            "Http request failed!", uri?.toString());
 
       return response;
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
-    } catch (ex) {
-      if (!requestCancellationToken.isCanceled) rethrow;
+    } catch (ex, trace) {
+      if (!requestCancellationToken.isCanceled)
+        throw NetworkRequestFailed.full(
+          uri.toString(),
+          ex,
+          trace,
+        );
     } finally {
       cancellationToken.setCancellationCallback(null);
     }

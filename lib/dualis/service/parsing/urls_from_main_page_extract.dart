@@ -8,7 +8,7 @@ class UrlsFromMainPageExtract {
       return _parseMainPage(body, endpointUrl);
     } catch (e) {
       if (e.runtimeType is ParseException) rethrow;
-      throw ParseException.withInner(e);
+      throw ParseException.withInner(e, "Failed to parseMainPage");
     }
   }
 

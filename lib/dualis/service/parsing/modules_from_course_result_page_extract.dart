@@ -15,7 +15,8 @@ class ModulesFromCourseResultPageExtract {
       return _extractModulesFromCourseResultPage(body, endpointUrl);
     } catch (e) {
       if (e.runtimeType is ParseException) rethrow;
-      throw ParseException.withInner(e);
+      throw ParseException.withInner(
+          e, "Failed to extractModulesFromCourseResultPage");
     }
   }
 

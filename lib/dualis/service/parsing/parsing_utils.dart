@@ -16,7 +16,8 @@ Element getElementByTagName(
 ]) {
   var list = document.getElementsByTagName(localName);
 
-  if (index >= list.length) throw ElementNotFoundParseException();
+  if (index >= list.length)
+    throw ElementNotFoundParseException.elementName(localName);
 
   return list[index];
 }
@@ -28,18 +29,32 @@ Element getElementByClassName(
 ]) {
   var list = document.getElementsByClassName(className);
 
-  if (index >= list.length) throw ElementNotFoundParseException();
+  if (index >= list.length)
+    throw ElementNotFoundParseException.elementName(className);
 
   return list[index];
 }
 
 class ParseException implements Exception {
   Object innerException;
+  String message;
 
-  ParseException.withInner(this.innerException);
+  ParseException.withInner(this.innerException, this.message);
+
+  @override
+  String toString() {
+    return "$message Inner exception: ${innerException?.toString() ?? "null"}";
+  }
 }
 
 class ElementNotFoundParseException implements ParseException {
   @override
   Object innerException;
+
+  @override
+  String message;
+
+  ElementNotFoundParseException.elementName(String elementName) {
+    message = "Element with name $elementName not found";
+  }
 }

@@ -34,15 +34,17 @@ class StudyGradesViewModel extends BaseViewModel {
   Future<bool> login(String username, String password) async {
     print("Logging into dualis...");
 
-    bool success = await _dualisService.login(username, password);
+    bool success;
 
-    if (success) {
-      _loginFailed = false;
-      _isLoggedIn = true;
-    } else {
-      _loginFailed = true;
-      _isLoggedIn = false;
+    try {
+      success = await _dualisService.login(username, password);
+    } catch (ex, trace) {
+      success = false;
+      print("Exception while logging in: $ex $trace");
     }
+
+    _loginFailed = !success;
+    _isLoggedIn = success;
 
     notifyListeners("loginFailed");
     notifyListeners("isLoggedIn");
@@ -66,9 +68,13 @@ class StudyGradesViewModel extends BaseViewModel {
 
     print("Loading study grades...");
 
-    _studyGrades = await _dualisService.queryStudyGrades();
-
-    print("Loaded study grades");
+    try {
+      _studyGrades = await _dualisService.queryStudyGrades();
+      print("Loaded study grades");
+    } catch (ex, trace) {
+      _studyGrades = null;
+      print("Exception while loading study grades: $ex, $trace");
+    }
 
     notifyListeners("studyGrades");
   }
@@ -78,9 +84,13 @@ class StudyGradesViewModel extends BaseViewModel {
 
     print("Loading all modules...");
 
-    _allModules = await _dualisService.queryAllModules();
-
-    print("Loaded all modules");
+    try {
+      _allModules = await _dualisService.queryAllModules();
+      print("Loaded all modules");
+    } catch (ex, trace) {
+      _allModules = null;
+      print("Exception while loading all modules: $ex, $trace");
+    }
 
     notifyListeners("allModules");
   }
@@ -96,9 +106,13 @@ class StudyGradesViewModel extends BaseViewModel {
 
     print("Loading semester $semesterName...");
 
-    _currentSemester = await _dualisService.querySemester(semesterName);
-
-    print("Loaded semester $semesterName");
+    try {
+      _currentSemester = await _dualisService.querySemester(semesterName);
+      print("Loaded semester $semesterName");
+    } catch (ex, trace) {
+      _currentSemester = null;
+      print("Exception while loading semester ($semesterName): $ex, $trace");
+    }
 
     notifyListeners("currentSemester");
   }
@@ -108,9 +122,13 @@ class StudyGradesViewModel extends BaseViewModel {
 
     print("Loading semester names...");
 
-    _semesterNames = await _dualisService.querySemesterNames();
-
-    print("Loaded semester names");
+    try {
+      _semesterNames = await _dualisService.querySemesterNames();
+      print("Loaded semester names");
+    } catch (ex, trace) {
+      _semesterNames = null;
+      print("Exception while loading semester names: $ex, $trace");
+    }
 
     notifyListeners("semesterNames");
 

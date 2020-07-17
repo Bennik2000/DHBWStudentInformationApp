@@ -9,7 +9,8 @@ class StudyGradesFromStudentResultsPageExtract {
       return _extractStudyGradesFromStudentsResultsPage(body);
     } catch (e) {
       if (e.runtimeType is ParseException) rethrow;
-      throw ParseException.withInner(e);
+      throw ParseException.withInner(
+          e, "Failed to extractStudyGradesFromStudentsResultsPage");
     }
   }
 
@@ -33,7 +34,7 @@ class StudyGradesFromStudentResultsPageExtract {
   _Credits _extractCredits(Element table) {
     var rows = table.getElementsByTagName("tr");
 
-    if (rows.length < 2) throw ElementNotFoundParseException();
+    if (rows.length < 2) throw ElementNotFoundParseException.elementName("tr");
 
     var neededCreditsRow = rows[rows.length - 1];
     var neededCredits = neededCreditsRow.children[0].innerHtml;
@@ -59,7 +60,7 @@ class StudyGradesFromStudentResultsPageExtract {
   _Gpa _extractGpa(Element table) {
     var rows = table.getElementsByTagName("tr");
 
-    if (rows.length < 2) throw ElementNotFoundParseException();
+    if (rows.length < 2) throw ElementNotFoundParseException.elementName("tr");
 
     var totalGpaRowCells = rows[0].getElementsByTagName("th");
     var totalGpa = trimAndEscapeString(

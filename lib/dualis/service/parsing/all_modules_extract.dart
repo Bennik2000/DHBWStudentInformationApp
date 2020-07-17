@@ -10,7 +10,7 @@ class AllModulesExtract {
       return _extractAllModules(body);
     } catch (e) {
       if (e.runtimeType is ParseException) rethrow;
-      throw new ParseException.withInner(e);
+      throw new ParseException.withInner(e, "Failed to extractAllModules");
     }
   }
 
