@@ -18,30 +18,55 @@ class ErrorReportDualisDecorator extends DualisService {
       rethrow;
     } catch (ex, trace) {
       await reportException(ex, trace);
+      rethrow;
     }
   }
 
   @override
-  Future<List<Module>> queryAllModules() {
-    // TODO: implement queryAllModules
-    throw UnimplementedError();
+  Future<List<Module>> queryAllModules() async {
+    try {
+      return await _dualisService.queryAllModules();
+    } on NetworkRequestFailed catch (_) {
+      rethrow;
+    } catch (ex, trace) {
+      await reportException(ex, trace);
+      rethrow;
+    }
   }
 
   @override
-  Future<Semester> querySemester(String user) {
-    // TODO: implement querySemester
-    throw UnimplementedError();
+  Future<Semester> querySemester(String name) async {
+    try {
+      return await _dualisService.querySemester(name);
+    } on NetworkRequestFailed catch (_) {
+      rethrow;
+    } catch (ex, trace) {
+      await reportException(ex, trace);
+      rethrow;
+    }
   }
 
   @override
-  Future<List<String>> querySemesterNames() {
-    // TODO: implement querySemesterNames
-    throw UnimplementedError();
+  Future<List<String>> querySemesterNames() async {
+    try {
+      return await _dualisService.querySemesterNames();
+    } on NetworkRequestFailed catch (_) {
+      rethrow;
+    } catch (ex, trace) {
+      await reportException(ex, trace);
+      rethrow;
+    }
   }
 
   @override
-  Future<StudyGrades> queryStudyGrades() {
-    // TODO: implement queryStudyGrades
-    throw UnimplementedError();
+  Future<StudyGrades> queryStudyGrades() async {
+    try {
+      return await _dualisService.queryStudyGrades();
+    } on NetworkRequestFailed catch (_) {
+      rethrow;
+    } catch (ex, trace) {
+      await reportException(ex, trace);
+      rethrow;
+    }
   }
 }
