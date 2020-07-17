@@ -7,6 +7,8 @@ class PreferencesProvider {
   static const String LastUsedLanguageCode = "LastUsedLanguageCode";
   static const String NotifyAboutNextDay = "NotifyAboutNextDay";
   static const String NotifyAboutScheduleChanges = "NotifyAboutScheduleChanges";
+  static const String RateInStoreLaunchCountdown = "RateInStoreLaunchCountdown";
+  static const String DontShowRateNowDialog = "RateNeverButtonPressed";
 
   final PreferencesAccess _preferencesAccess;
 
@@ -59,5 +61,21 @@ class PreferencesProvider {
 
   Future<void> setNotifyAboutScheduleChanges(bool value) async {
     await _preferencesAccess.set(NotifyAboutScheduleChanges, value);
+  }
+
+  Future<int> getRateInStoreLaunchCountdown() async {
+    return await _preferencesAccess.get<int>(RateInStoreLaunchCountdown) ?? 10;
+  }
+
+  Future<void> setRateInStoreLaunchCountdown(int value) async {
+    await _preferencesAccess.set(RateInStoreLaunchCountdown, value);
+  }
+
+  Future<bool> getDontShowRateNowDialog() async {
+    return await _preferencesAccess.get<bool>(DontShowRateNowDialog) ?? false;
+  }
+
+  Future<void> setDontShowRateNowDialog(bool value) async {
+    await _preferencesAccess.set(DontShowRateNowDialog, value);
   }
 }
