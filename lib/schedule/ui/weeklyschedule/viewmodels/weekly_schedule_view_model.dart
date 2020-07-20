@@ -40,7 +40,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     goToToday();
   }
 
-  Future _setSchedule(Schedule schedule) async {
+  void _setSchedule(Schedule schedule) {
     weekSchedule = schedule;
 
     if (weekSchedule != null) {
@@ -114,12 +114,14 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   }
 
   Future _updateScheduleFromCache() async {
-    _setSchedule(
-      await scheduleProvider.getCachedSchedule(
-        currentDateStart,
-        currentDateEnd,
-      ),
+    var cachedSchedule = await scheduleProvider.getCachedSchedule(
+      currentDateStart,
+      currentDateEnd,
     );
+
+    if (_updateScheduleCancellationToken?.isCancelled() ?? true) return;
+
+    _setSchedule(cachedSchedule);
   }
 
   Future _updateScheduleFromService() async {
