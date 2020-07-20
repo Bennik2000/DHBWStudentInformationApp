@@ -149,7 +149,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   Future _pasteUrlButtonTap(OnboardingViewModel model) async {
     ClipboardData data = await Clipboard.getData('text/plain');
-    if (data.text != null) model.setRaplaUrl(data.text);
+    if (data?.text != null) model.setRaplaUrl(data.text);
   }
 
   List<Widget> _buildDecoration() {
