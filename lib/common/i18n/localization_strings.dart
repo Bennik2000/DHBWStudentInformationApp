@@ -83,6 +83,7 @@ final de = {
   "rateDialogMessage":
       "Dann empfehle sie anderen Studenten weiter oder bewerte sie im PlayStore!",
   "rateDialogTitle": "Gefällt Dir diese App?",
+  "dualisStoreCredentials": "Zugangsdaten speichern",
 };
 
 final en = {
@@ -168,4 +169,5 @@ final en = {
   "rateDialogMessage":
       "Recommend this App to other students or leave a review on the PlayStore!",
   "rateDialogTitle": "Do you like this app?",
+  "dualisStoreCredentials": "Save login data",
 };

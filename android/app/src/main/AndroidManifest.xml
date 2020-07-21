@@ -11,7 +11,9 @@
         tools:replace="android:label"
         android:name="de.bennik2000.dhbwstuttgart.ExtApplication"
         android:label="DHBW Studenten App"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:allowBackup="false"
+        android:fullBackupContent="false">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

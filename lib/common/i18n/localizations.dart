@@ -136,6 +136,8 @@ class L {
   String get rateDialogMessage => _getValue("rateDialogMessage");
   String get rateDialogTitle => _getValue("rateDialogTitle");
 
+  String get dualisStoreCredentials => _getValue("dualisStoreCredentials");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }
