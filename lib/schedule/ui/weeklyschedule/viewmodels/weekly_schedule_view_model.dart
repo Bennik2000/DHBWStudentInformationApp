@@ -19,6 +19,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   DateTime clippedDateStart;
   DateTime clippedDateEnd;
 
+  bool didUpdateScheduleIntoFuture = true;
+
   int displayStartHour = 7;
   int displayEndHour = 17;
 
@@ -27,7 +29,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   bool isUpdating = false;
   Schedule weekSchedule;
 
-  DateTime now;
+  DateTime get now => DateTime.now();
 
   Timer _errorResetTimer;
   Timer _updateNowTimer;
@@ -35,12 +37,11 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   CancellationToken _updateScheduleCancellationToken;
 
   WeeklyScheduleViewModel(this.scheduleProvider) {
-    now = DateTime.now();
-    _startUpdateNowTimer();
     goToToday();
+    ensureUpdateNowTimerRunning();
   }
 
-  Future _setSchedule(Schedule schedule) async {
+  void _setSchedule(Schedule schedule) {
     weekSchedule = schedule;
 
     if (weekSchedule != null) {
@@ -73,6 +74,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     currentDateStart = toNextWeek(currentDateStart);
     currentDateEnd = toNextWeek(currentDateEnd);
 
+    didUpdateScheduleIntoFuture = true;
+
     await updateSchedule();
   }
 
@@ -80,11 +83,16 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     currentDateStart = toPreviousWeek(currentDateStart);
     currentDateEnd = toPreviousWeek(currentDateEnd);
 
+    didUpdateScheduleIntoFuture = false;
+
     await updateSchedule();
   }
 
   Future goToToday() async {
     var now = DateTime.now();
+
+    didUpdateScheduleIntoFuture = currentDateStart?.isBefore(now) ?? false;
+
     currentDateStart = toStartOfDay(toMonday(now));
     currentDateEnd = currentDateStart.add(Duration(days: 5));
 
@@ -114,12 +122,14 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   }
 
   Future _updateScheduleFromCache() async {
-    _setSchedule(
-      await scheduleProvider.getCachedSchedule(
-        currentDateStart,
-        currentDateEnd,
-      ),
+    var cachedSchedule = await scheduleProvider.getCachedSchedule(
+      currentDateStart,
+      currentDateEnd,
     );
+
+    if (_updateScheduleCancellationToken?.isCancelled() ?? true) return;
+
+    _setSchedule(cachedSchedule);
   }
 
   Future _updateScheduleFromService() async {
@@ -155,10 +165,9 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     );
   }
 
-  void _startUpdateNowTimer() {
-    if (_updateNowTimer == null) {
-      _updateNowTimer = Timer.periodic(Duration(minutes: 2), (_) {
-        now = DateTime.now();
+  void ensureUpdateNowTimerRunning() {
+    if (_updateNowTimer == null || !_updateNowTimer.isActive) {
+      _updateNowTimer = Timer.periodic(Duration(minutes: 1), (_) {
         notifyListeners("now");
       });
     }

@@ -128,6 +128,16 @@ class L {
   String get loginPassword => _getValue("loginPassword");
   String get loginButton => _getValue("loginButton");
 
+  String get rateDialogRateNowButton => _getValue("rateDialogRateNowButton");
+  String get rateDialogRateLaterButton =>
+      _getValue("rateDialogRateLaterButton");
+  String get rateDialogDoNotRateButton =>
+      _getValue("rateDialogDoNotRateButton");
+  String get rateDialogMessage => _getValue("rateDialogMessage");
+  String get rateDialogTitle => _getValue("rateDialogTitle");
+
+  String get dualisStoreCredentials => _getValue("dualisStoreCredentials");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

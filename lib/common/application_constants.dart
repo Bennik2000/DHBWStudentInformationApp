@@ -1,3 +1,5 @@
-const String ApplicationVersion = "1.0.1";
+const String ApplicationVersion = "1.0.6";
 const String ApplicationSourceCodeUrl =
     "https://github.com/Bennik2000/DHBWStudentInformationApp";
+
+const int RateInStoreCountdownNumber = 10;

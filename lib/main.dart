@@ -1,16 +1,15 @@
 import 'dart:io';
 
+import 'package:dhbwstudentapp/ui/main_page.dart';
+import 'package:dhbwstudentapp/ui/onboarding/onboarding_page.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/schedule/ui/onboarding/onboarding_page.dart';
 import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
-import 'package:dhbwstudentapp/schedule/ui/main_page.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
