@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/dualis/model/exam.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class GradeStateIcon extends StatelessWidget {

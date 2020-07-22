@@ -2,7 +2,6 @@ import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:launch_review/launch_review.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class RateInStore {
