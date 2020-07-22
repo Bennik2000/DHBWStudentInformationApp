@@ -29,7 +29,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   bool isUpdating = false;
   Schedule weekSchedule;
 
-  DateTime now;
+  DateTime get now => DateTime.now();
 
   Timer _errorResetTimer;
   Timer _updateNowTimer;
@@ -37,9 +37,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   CancellationToken _updateScheduleCancellationToken;
 
   WeeklyScheduleViewModel(this.scheduleProvider) {
-    now = DateTime.now();
-    _startUpdateNowTimer();
     goToToday();
+    ensureUpdateNowTimerRunning();
   }
 
   void _setSchedule(Schedule schedule) {
@@ -166,10 +165,9 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     );
   }
 
-  void _startUpdateNowTimer() {
-    if (_updateNowTimer == null) {
-      _updateNowTimer = Timer.periodic(Duration(minutes: 2), (_) {
-        now = DateTime.now();
+  void ensureUpdateNowTimerRunning() {
+    if (_updateNowTimer == null || !_updateNowTimer.isActive) {
+      _updateNowTimer = Timer.periodic(Duration(minutes: 1), (_) {
         notifyListeners("now");
       });
     }

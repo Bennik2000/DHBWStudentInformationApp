@@ -56,6 +56,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   @override
   Widget build(BuildContext context) {
     viewModel = Provider.of<BaseViewModel>(context);
+    viewModel.ensureUpdateNowTimerRunning();
 
     return PropertyChangeProvider(
       value: viewModel,
