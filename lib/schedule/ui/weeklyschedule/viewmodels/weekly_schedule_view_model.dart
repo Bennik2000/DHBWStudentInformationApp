@@ -19,6 +19,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   DateTime clippedDateStart;
   DateTime clippedDateEnd;
 
+  bool didUpdateScheduleIntoFuture = true;
+
   int displayStartHour = 7;
   int displayEndHour = 17;
 
@@ -73,6 +75,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     currentDateStart = toNextWeek(currentDateStart);
     currentDateEnd = toNextWeek(currentDateEnd);
 
+    didUpdateScheduleIntoFuture = true;
+
     await updateSchedule();
   }
 
@@ -80,11 +84,16 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     currentDateStart = toPreviousWeek(currentDateStart);
     currentDateEnd = toPreviousWeek(currentDateEnd);
 
+    didUpdateScheduleIntoFuture = false;
+
     await updateSchedule();
   }
 
   Future goToToday() async {
     var now = DateTime.now();
+
+    didUpdateScheduleIntoFuture = currentDateStart?.isBefore(now) ?? false;
+
     currentDateStart = toStartOfDay(toMonday(now));
     currentDateEnd = currentDateStart.add(Duration(days: 5));
 

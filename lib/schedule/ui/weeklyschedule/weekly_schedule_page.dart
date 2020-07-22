@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/colors.dart';
@@ -90,8 +91,24 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                       child: PropertyChangeConsumer(
                         properties: ["weekSchedule", "now"],
                         builder: (BuildContext context,
-                            WeeklyScheduleViewModel model, Set properties) {
-                          return ScheduleWidget(
+                                WeeklyScheduleViewModel model,
+                                Set properties) =>
+                            PageTransitionSwitcher(
+                          reverse: !model.didUpdateScheduleIntoFuture,
+                          duration: Duration(milliseconds: 300),
+                          transitionBuilder: (Widget child,
+                                  Animation<double> animation,
+                                  Animation<double> secondaryAnimation) =>
+                              SharedAxisTransition(
+                            child: child,
+                            animation: animation,
+                            secondaryAnimation: secondaryAnimation,
+                            transitionType: SharedAxisTransitionType.horizontal,
+                          ),
+                          child: ScheduleWidget(
+                            key: ValueKey(
+                              model.currentDateStart.toIso8601String(),
+                            ),
                             schedule: model.weekSchedule,
                             displayStart: model.clippedDateStart ??
                                 model.currentDateStart,
@@ -103,8 +120,8 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                             now: model.now,
                             displayEndHour: model.displayEndHour,
                             displayStartHour: model.displayStartHour,
-                          );
-                        },
+                          ),
+                        ),
                       ),
                     ),
                     PropertyChangeConsumer(
