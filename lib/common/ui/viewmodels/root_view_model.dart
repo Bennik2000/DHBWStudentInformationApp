@@ -7,12 +7,17 @@ class RootViewModel extends BaseViewModel {
   bool _isDarkMode;
   bool get isDarkMode => _isDarkMode;
 
+  bool _isOnboarding;
+  bool get isOnboarding => _isOnboarding;
+
   RootViewModel(this._preferencesProvider);
 
   Future<void> loadFromPreferences() async {
     _isDarkMode = await _preferencesProvider.isDarkMode();
+    _isOnboarding = await _preferencesProvider.isFirstStart();
 
     notifyListeners("isDarkMode");
+    notifyListeners("isOnboarding");
   }
 
   Future<void> setIsDarkMode(bool value) async {

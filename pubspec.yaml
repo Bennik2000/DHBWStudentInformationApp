@@ -67,6 +67,8 @@ flutter:
     - assets/empty_state.png
     - assets/app_icon.png
     - assets/splash.png
+    - assets/onboarding_bottom_background.png
+    - assets/onboarding_bottom_foreground.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #  - images/a_dot_burr.jpeg

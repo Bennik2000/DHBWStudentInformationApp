@@ -1,38 +1,86 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_rapla_view_model.dart';
+
+enum OnboardingSteps {
+  Start,
+  Rapla,
+  Dualis,
+}
 
 class OnboardingViewModel extends BaseViewModel {
   final PreferencesProvider preferencesProvider;
+  final OnboardingRaplaViewModel onboardingRaplaViewModel;
 
-  String _raplaUrl;
+  Map<OnboardingSteps, bool> usedAppFeatures = {
+    OnboardingSteps.Start: true,
+    OnboardingSteps.Rapla: true,
+    OnboardingSteps.Dualis: true,
+  };
 
-  String get raplaUrl => _raplaUrl;
-  bool urlHasError = false;
+  bool get useRapla => usedAppFeatures[OnboardingSteps.Rapla];
+  bool get useDualis => usedAppFeatures[OnboardingSteps.Dualis];
 
-  OnboardingViewModel(this.preferencesProvider);
+  int get onboardingSteps => 1 + (useRapla ? 1 : 0) + (useDualis ? 1 : 0);
 
-  void setRaplaUrl(String url) {
-    _raplaUrl = url;
+  int _currentStep = 0;
+  int get currentStep => _currentStep;
 
-    notifyListeners("raplaUrl");
+  OnboardingSteps _currentPage = OnboardingSteps.Start;
+  OnboardingSteps get currentPage => _currentPage;
 
-    validateUrl();
+  bool _didStepForward = true;
+  bool get didStepForward => _didStepForward;
+
+  OnboardingViewModel(this.preferencesProvider)
+      : onboardingRaplaViewModel =
+            OnboardingRaplaViewModel(preferencesProvider);
+
+  void setUseRapla(bool useRapla) {
+    usedAppFeatures[OnboardingSteps.Rapla] = useRapla;
+    notifyListeners("useRapla");
   }
 
-  void validateUrl() {
-    try {
-      new RaplaScheduleSource().validateEndpointUrl(_raplaUrl);
-      urlHasError = false;
-    } catch (e) {
-      urlHasError = true;
-    }
-
-    notifyListeners("urlHasError");
+  void setUseDualis(bool useDualis) {
+    usedAppFeatures[OnboardingSteps.Dualis] = useDualis;
+    notifyListeners("useDualis");
   }
 
   Future<void> finishOnboarding() async {
-    await preferencesProvider.setRaplaUrl(_raplaUrl);
+    if (useRapla) {
+      await onboardingRaplaViewModel.save();
+    }
+
     await preferencesProvider.setIsFirstStart(false);
+  }
+
+  void previousPage() {
+    if (_currentStep > 0) {
+      _currentStep--;
+      _didStepForward = false;
+      _setCurrentPage();
+      notifyListeners("currentStep");
+    }
+  }
+
+  void nextPage() {
+    if (_currentStep < onboardingSteps - 1) {
+      _currentStep++;
+      _didStepForward = true;
+      _setCurrentPage();
+      notifyListeners("currentStep");
+    }
+  }
+
+  void _setCurrentPage() {
+    var activeFeatures = <OnboardingSteps>[];
+
+    for (var feature in OnboardingSteps.values) {
+      if (usedAppFeatures[feature]) {
+        activeFeatures.add(feature);
+      }
+    }
+
+    _currentPage = activeFeatures[_currentStep];
   }
 }
