@@ -31,7 +31,11 @@ class _RootPageState extends State<RootPage> {
         builder: (BuildContext context, RootViewModel model, Set properties) =>
             MaterialApp(
           theme: ColorPalettes.buildTheme(model.isDarkMode),
-          home: model.isOnboarding ? OnboardingPage() : MainPage(),
+          home: model.isOnboarding
+              ? OnboardingPage(
+                  rootViewModel: rootViewModel,
+                )
+              : MainPage(),
           localizationsDelegates: [
             const LocalizationDelegate(),
             GlobalMaterialLocalizations.delegate,

@@ -67,7 +67,10 @@ class _MainPageState extends State<MainPage> {
       ],
       Icon(Icons.data_usage),
       (BuildContext context) => L.of(context).screenDualisTitle,
-      StudyGradesViewModel(KiwiContainer().resolve()),
+      StudyGradesViewModel(
+        KiwiContainer().resolve(),
+        KiwiContainer().resolve(),
+      ),
     ),
     NavigationEntry.body(
       UsefulInformationPage(),

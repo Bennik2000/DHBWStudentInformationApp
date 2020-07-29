@@ -1,6 +1,9 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_dualis_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_rapla_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 
 enum OnboardingSteps {
   Start,
@@ -10,13 +13,16 @@ enum OnboardingSteps {
 
 class OnboardingViewModel extends BaseViewModel {
   final PreferencesProvider preferencesProvider;
-  final OnboardingRaplaViewModel onboardingRaplaViewModel;
+  final DualisService dualisService;
 
   Map<OnboardingSteps, bool> usedAppFeatures = {
     OnboardingSteps.Start: true,
     OnboardingSteps.Rapla: true,
     OnboardingSteps.Dualis: true,
   };
+
+  Map<OnboardingSteps, OnboardingViewModelBase> _viewModels = {};
+  OnboardingViewModelBase get currentViewModel => _viewModels[_currentPage];
 
   bool get useRapla => usedAppFeatures[OnboardingSteps.Rapla];
   bool get useDualis => usedAppFeatures[OnboardingSteps.Dualis];
@@ -32,9 +38,23 @@ class OnboardingViewModel extends BaseViewModel {
   bool _didStepForward = true;
   bool get didStepForward => _didStepForward;
 
-  OnboardingViewModel(this.preferencesProvider)
-      : onboardingRaplaViewModel =
-            OnboardingRaplaViewModel(preferencesProvider);
+  bool get canStepNext {
+    return currentViewModel?.isValid ?? true;
+  }
+
+  OnboardingViewModel(this.preferencesProvider, this.dualisService) {
+    _viewModels[OnboardingSteps.Rapla] =
+        OnboardingRaplaViewModel(preferencesProvider);
+
+    _viewModels[OnboardingSteps.Dualis] =
+        OnboardingDualisViewModel(preferencesProvider, dualisService);
+
+    for (var vm in _viewModels.values) {
+      vm.addListener(() {
+        notifyListeners("canStepNext");
+      });
+    }
+  }
 
   void setUseRapla(bool useRapla) {
     usedAppFeatures[OnboardingSteps.Rapla] = useRapla;
@@ -44,14 +64,6 @@ class OnboardingViewModel extends BaseViewModel {
   void setUseDualis(bool useDualis) {
     usedAppFeatures[OnboardingSteps.Dualis] = useDualis;
     notifyListeners("useDualis");
-  }
-
-  Future<void> finishOnboarding() async {
-    if (useRapla) {
-      await onboardingRaplaViewModel.save();
-    }
-
-    await preferencesProvider.setIsFirstStart(false);
   }
 
   void previousPage() {
@@ -82,5 +94,14 @@ class OnboardingViewModel extends BaseViewModel {
     }
 
     _currentPage = activeFeatures[_currentStep];
+
+    notifyListeners("currentPage");
+    notifyListeners("currentViewModel");
+  }
+
+  void save() {
+    for (var viewModel in _viewModels.values) {
+      viewModel.save();
+    }
   }
 }

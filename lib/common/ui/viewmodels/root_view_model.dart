@@ -25,4 +25,10 @@ class RootViewModel extends BaseViewModel {
     _isDarkMode = value;
     notifyListeners("isDarkMode");
   }
+
+  Future<void> setIsOnboarding(bool value) async {
+    await _preferencesProvider.setIsFirstStart(value);
+    _isOnboarding = value;
+    notifyListeners("isOnboarding");
+  }
 }
