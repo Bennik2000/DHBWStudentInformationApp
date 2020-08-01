@@ -22,7 +22,7 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
           padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
           child: Center(
             child: Text(
-              "Jetzt brauche ich den Link zu Rapla",
+              L.of(context).onboardingRaplaPageTitle,
               style: Theme.of(context).textTheme.headline4,
               textAlign: TextAlign.center,
             ),
@@ -33,7 +33,7 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
           child: Divider(),
         ),
         Text(
-          "Hier musst Du den Link zum Rapla Vorlesungsplan eingeben. Diesen bekommst Du üblicherweise am Anfang des Semesters aus dem Sekretariat.",
+          L.of(context).onboardingRaplaPageDescription,
           style: Theme.of(context).textTheme.bodyText2,
           textAlign: TextAlign.center,
         ),
@@ -47,31 +47,35 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
               if (_urlTextController.text != viewModel.raplaUrl)
                 _urlTextController.text = viewModel.raplaUrl;
 
-              return Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: _urlTextController,
-                      decoration: InputDecoration(
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        controller: _urlTextController,
+                        decoration: InputDecoration(
                           errorText: (viewModel.urlHasError ?? false)
-                              ? L.of(context).onboardingSourceUrlInvalid
+                              ? L.of(context).onboardingRaplaUrlInvalid
                               : null,
-                          hintText: L.of(context).onboardingSourceUrlHint),
-                      onChanged: (value) {
-                        viewModel.setRaplaUrl(value);
+                          hintText: L.of(context).onboardingRaplaUrlHint,
+                        ),
+                        onChanged: (value) {
+                          viewModel.setRaplaUrl(value);
+                        },
+                      ),
+                    ),
+                    FlatButton.icon(
+                      onPressed: () async {
+                        await viewModel.pasteUrl();
                       },
+                      icon: Icon(Icons.content_paste),
+                      label: Text(
+                        L.of(context).onboardingRaplaUrlPaste.toUpperCase(),
+                      ),
                     ),
-                  ),
-                  FlatButton.icon(
-                    onPressed: () async {
-                      await viewModel.pasteUrl();
-                    },
-                    icon: Icon(Icons.content_paste),
-                    label: Text(
-                      L.of(context).onboardingSourceUrlPaste.toUpperCase(),
-                    ),
-                  ),
-                ],
+                  ],
+                ),
               );
             },
           ),

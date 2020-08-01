@@ -35,13 +35,6 @@ class L {
   String get settingsScheduleSourceTitle =>
       _getValue("settingsScheduleSourceTitle");
   String get settingsPageTitle => _getValue("settingsPageTitle");
-  String get onboardingTitle => _getValue("onboardingTitle");
-  String get onboardingSourceUrlInput => _getValue("onboardingSourceUrlInput");
-  String get onboardingSourceUrlInvalid =>
-      _getValue("onboardingSourceUrlInvalid");
-  String get onboardingSourceUrlHint => _getValue("onboardingSourceUrlHint");
-  String get onboardingSourceUrlPaste => _getValue("onboardingSourceUrlPaste");
-  String get onboardingFinishButton => _getValue("onboardingFinishButton");
   String get dailyScheduleNoEntriesToday =>
       _getValue("dailyScheduleNoEntriesToday");
   String get scheduleEntryTypePublicHoliday =>
@@ -137,6 +130,32 @@ class L {
   String get rateDialogTitle => _getValue("rateDialogTitle");
 
   String get dualisStoreCredentials => _getValue("dualisStoreCredentials");
+
+  String get onboardingFinishButton => _getValue("onboardingFinishButton");
+  String get onboardingNextButton => _getValue("onboardingNextButton");
+  String get onboardingSkipButton => _getValue("onboardingSkipButton");
+  String get onboardingBackButton => _getValue("onboardingBackButton");
+  String get onboardingFunctionSwitchDualis =>
+      _getValue("onboardingFunctionSwitchDualis");
+  String get onboardingFunctionSwitchRapla =>
+      _getValue("onboardingFunctionSwitchRapla");
+  String get onboardingFunctionSwitchTitle =>
+      _getValue("onboardingFunctionSwitchTitle");
+  String get onboardingRaplaPageTitle => _getValue("onboardingRaplaPageTitle");
+  String get onboardingRaplaPageDescription =>
+      _getValue("onboardingRaplaPageDescription");
+  String get onboardingRaplaUrlInvalid =>
+      _getValue("onboardingRaplaUrlInvalid");
+  String get onboardingRaplaUrlHint => _getValue("onboardingRaplaUrlHint");
+  String get onboardingRaplaUrlPaste => _getValue("onboardingRaplaUrlPaste");
+  String get onboardingDualisPageDescription =>
+      _getValue("onboardingDualisPageDescription");
+  String get onboardingDualisPageTitle =>
+      _getValue("onboardingDualisPageTitle");
+  String get onboardingDualisTestButton =>
+      _getValue("onboardingDualisTestButton");
+  String get onboardingDualisWrongCredentials =>
+      _getValue("onboardingDualisWrongCredentials");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);

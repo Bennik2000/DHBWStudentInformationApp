@@ -9,6 +9,16 @@ class OnboardingPageBackground extends StatelessWidget {
   final Animation<double> bottomForeground;
   final Animation<double> bottomBackground;
 
+  final Map<Brightness, String> foreground = {
+    Brightness.light: "assets/onboarding_bottom_foreground.png",
+    Brightness.dark: "assets/onboarding_bottom_foreground_dark.png",
+  };
+
+  final Map<Brightness, String> background = {
+    Brightness.light: "assets/onboarding_bottom_background.png",
+    Brightness.dark: "assets/onboarding_bottom_background_dark.png",
+  };
+
   OnboardingPageBackground({Key key, this.controller})
       : angleTopBackground = Tween<double>(
           begin: -32,
@@ -92,11 +102,11 @@ class OnboardingPageBackground extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Transform.translate(
-            offset: Offset(bottomBackground.value, 0),
+            offset: Offset(bottomBackground.value, 20),
             child: Transform.scale(
               scale: 1.5,
               child: Image.asset(
-                "assets/onboarding_bottom_background.png",
+                background[Theme.of(context).brightness],
               ),
             ),
           ),
@@ -104,11 +114,11 @@ class OnboardingPageBackground extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Transform.translate(
-            offset: Offset(bottomForeground.value, 10),
+            offset: Offset(bottomForeground.value, 20),
             child: Transform.scale(
               scale: 1.5,
               child: Image.asset(
-                "assets/onboarding_bottom_foreground.png",
+                foreground[Theme.of(context).brightness],
               ),
             ),
           ),

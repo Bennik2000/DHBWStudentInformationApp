@@ -20,6 +20,9 @@ class OnboardingDualisViewModel extends OnboardingViewModelBase {
   bool _loginSuccess = false;
   bool get loginSuccess => _loginSuccess;
 
+  bool _passwordOrUsernameWrong = false;
+  bool get passwordOrUsernameWrong => _passwordOrUsernameWrong;
+
   OnboardingDualisViewModel(this.preferencesProvider, this.dualisService);
 
   Future<void> testCredentials(String username, String password) async {
@@ -32,13 +35,16 @@ class OnboardingDualisViewModel extends OnboardingViewModelBase {
       notifyListeners("isLoading");
 
       _loginSuccess = await dualisService.login(username, password);
+      _passwordOrUsernameWrong = !_loginSuccess;
       setIsValid(_loginSuccess);
     } catch (ex) {
       setIsValid(false);
+      _passwordOrUsernameWrong = true;
     } finally {
       _isLoading = false;
-      notifyListeners("isLoading");
     }
+    notifyListeners("isLoading");
+    notifyListeners("passwordOrUsernameWrong");
   }
 
   @override

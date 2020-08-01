@@ -18,7 +18,7 @@ class SelectAppFeaturesWidget extends StatelessWidget {
           padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
           child: Center(
             child: Text(
-              "Wähle das aus, was du brauchst!",
+              L.of(context).onboardingFunctionSwitchTitle,
               style: Theme.of(context).textTheme.headline4,
               textAlign: TextAlign.center,
             ),
@@ -33,7 +33,9 @@ class SelectAppFeaturesWidget extends StatelessWidget {
               CheckboxListTile(
             value: model.useRapla,
             onChanged: model.setUseRapla,
-            title: Text("Vorlesungsplan aus Rapla laden"),
+            title: Text(
+              L.of(context).onboardingFunctionSwitchRapla,
+            ),
           ),
         ),
         PropertyChangeConsumer(
@@ -41,7 +43,9 @@ class SelectAppFeaturesWidget extends StatelessWidget {
               CheckboxListTile(
             value: model.useDualis,
             onChanged: model.setUseDualis,
-            title: Text("Noten von Dualis einlesen"),
+            title: Text(
+              L.of(context).onboardingFunctionSwitchDualis,
+            ),
           ),
         ),
         Padding(

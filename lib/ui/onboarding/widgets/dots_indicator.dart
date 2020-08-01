@@ -16,7 +16,7 @@ class DotsIndicator extends StatelessWidget {
     for (int i = 0; i < numberSteps; i++) {
       dots.add(
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
           child: Container(
             width: 7.0,
             height: 7.0,
