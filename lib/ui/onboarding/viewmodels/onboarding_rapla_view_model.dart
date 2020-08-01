@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:flutter/services.dart';
@@ -19,10 +18,10 @@ class OnboardingRaplaViewModel extends OnboardingViewModelBase {
 
     notifyListeners("raplaUrl");
 
-    validateUrl();
+    _validateUrl();
   }
 
-  void validateUrl() {
+  void _validateUrl() {
     try {
       new RaplaScheduleSource().validateEndpointUrl(_raplaUrl);
       urlHasError = false;

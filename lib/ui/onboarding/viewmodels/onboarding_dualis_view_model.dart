@@ -1,11 +1,7 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
-import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
-import 'package:flutter/animation.dart';
-import 'package:flutter/services.dart';
 
 class OnboardingDualisViewModel extends OnboardingViewModelBase {
   final PreferencesProvider preferencesProvider;
