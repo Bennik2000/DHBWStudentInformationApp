@@ -22,7 +22,9 @@ class DotsIndicator extends StatelessWidget {
             height: 7.0,
             decoration: new BoxDecoration(
               shape: BoxShape.circle,
-              color: i == currentStep ? Colors.red : Colors.grey,
+              color: i == currentStep
+                  ? Theme.of(context).accentColor
+                  : Theme.of(context).disabledColor,
             ),
           ),
         ),

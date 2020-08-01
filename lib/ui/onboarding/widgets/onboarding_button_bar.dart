@@ -54,7 +54,7 @@ class OnboardingButtonBar extends StatelessWidget {
               onPressed: onPrevious,
               icon: Icon(Icons.navigate_before),
               label: Text(L.of(context).onboardingBackButton.toUpperCase()),
-              textColor: Colors.red,
+              textColor: Theme.of(context).accentColor,
             ),
     );
   }
@@ -63,7 +63,7 @@ class OnboardingButtonBar extends StatelessWidget {
     bool isLastPage = viewModel.currentStep == viewModel.onboardingSteps - 1;
 
     var buttonText;
-    var buttonColor = Colors.red;
+    var buttonColor = Theme.of(context).accentColor;
 
     if (isLastPage) {
       buttonText = L.of(context).onboardingFinishButton;
@@ -72,7 +72,7 @@ class OnboardingButtonBar extends StatelessWidget {
     }
     if (!viewModel.canStepNext) {
       buttonText = L.of(context).onboardingSkipButton;
-      buttonColor = Colors.grey;
+      buttonColor = Theme.of(context).disabledColor;
     }
 
     return AnimatedSwitcher(

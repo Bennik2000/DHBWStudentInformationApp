@@ -36,6 +36,21 @@ Color colorCurrentTimeIndicator(BuildContext context) =>
         ? const Color(0xffffa500)
         : const Color(0xffb37300);
 
+Color colorOnboardingDecorationForeground(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.light
+        ? const Color(0xFFA62828)
+        : const Color(0xFFA62828);
+
+Color colorOnboardingDecorationBackground(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.light
+        ? const Color(0xFFC91A1A)
+        : const Color(0xFFC91A1A);
+
+Color colorSuccess(BuildContext context) =>
+    Theme.of(context).brightness == Brightness.light
+        ? const Color(0xFFC91A1A)
+        : const Color(0xFFC91A1A);
+
 Color colorDailyScheduleTimeVerticalConnector() => Colors.grey;
 
 Color colorSeparator() => Colors.grey;

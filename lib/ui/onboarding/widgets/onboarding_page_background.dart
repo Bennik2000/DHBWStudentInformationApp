@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/math/math.dart';
+import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -82,7 +83,7 @@ class OnboardingPageBackground extends StatelessWidget {
             child: Container(
               width: 4000,
               height: 200,
-              color: Color(0xFFA62828),
+              color: colorOnboardingDecorationForeground(context),
             ),
             offset: Offset(100, -150),
           ),
@@ -93,7 +94,7 @@ class OnboardingPageBackground extends StatelessWidget {
             child: Container(
               width: 3000,
               height: 200,
-              color: Color(0xFFC91A1A),
+              color: colorOnboardingDecorationBackground(context),
             ),
             offset: Offset(0, -170),
           ),

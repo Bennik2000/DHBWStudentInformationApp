@@ -92,9 +92,7 @@ class _DualisLoginCredentialsPageState
                               .of(context)
                               .onboardingDualisTestButton
                               .toUpperCase()),
-                          textColor: viewModel.loginSuccess
-                              ? Colors.green
-                              : Colors.red,
+                          textColor: Theme.of(context).accentColor,
                         ),
                 ),
         ],
