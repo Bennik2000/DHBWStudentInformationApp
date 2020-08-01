@@ -1,180 +1,162 @@
-import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/math/math.dart';
-import 'package:dhbwstudentapp/ui/main_page.dart';
+import 'package:animations/animations.dart';
+import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/widgets/dualis_login_page.dart';
+import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_button_bar.dart';
+import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_page_background.dart';
+import 'package:dhbwstudentapp/ui/onboarding/widgets/rapla_url_page.dart';
+import 'package:dhbwstudentapp/ui/onboarding/widgets/select_app_features.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:property_change_notifier/property_change_notifier.dart';
 
 class OnboardingPage extends StatefulWidget {
+  const OnboardingPage({Key key}) : super(key: key);
+
   @override
   _OnboardingPageState createState() => _OnboardingPageState();
 }
 
-class _OnboardingPageState extends State<OnboardingPage> {
-  final TextEditingController _urlTextController = new TextEditingController();
-
+class _OnboardingPageState extends State<OnboardingPage>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
   OnboardingViewModel viewModel;
+
+  _OnboardingPageState();
 
   @override
   void initState() {
     super.initState();
 
-    viewModel = new OnboardingViewModel(KiwiContainer().resolve());
+    viewModel = new OnboardingViewModel(
+      KiwiContainer().resolve(),
+      KiwiContainer().resolve(),
+    );
+
+    viewModel.addListener(
+      () async {
+        await _controller.animateTo(
+            viewModel.currentStep / viewModel.onboardingSteps,
+            curve: Curves.ease,
+            duration: Duration(milliseconds: 300));
+      },
+      ["currentStep"],
+    );
+
+    _controller = AnimationController(vsync: this);
   }
 
   @override
   Widget build(BuildContext context) {
-    var stackWidgets = <Widget>[];
-
-    stackWidgets.addAll(_buildDecoration());
-
-    stackWidgets.add(
-      Padding(
-        padding: const EdgeInsets.fromLTRB(32, 32, 32, 32),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Center(
-              child: Text(
-                L.of(context).onboardingTitle,
-                style: Theme.of(context).textTheme.display1,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-              child: Divider(),
-            ),
-            Text(
-              L.of(context).onboardingSourceUrlInput,
-              style: Theme.of(context).textTheme.subhead,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-              child: PropertyChangeConsumer(
-                properties: [
-                  "raplaUrl",
-                  "urlHasError",
-                ],
-                builder: (BuildContext context, OnboardingViewModel model,
-                    Set properties) {
-                  if (_urlTextController.text != model.raplaUrl)
-                    _urlTextController.text = model.raplaUrl;
-
-                  return Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: TextField(
-                          controller: _urlTextController,
-                          decoration: InputDecoration(
-                              errorText: model.urlHasError
-                                  ? L.of(context).onboardingSourceUrlInvalid
-                                  : null,
-                              hintText: L.of(context).onboardingSourceUrlHint),
-                          onChanged: (value) {
-                            model.setRaplaUrl(value);
-                          },
-                        ),
-                      ),
-                      FlatButton.icon(
-                        onPressed: () async {
-                          await _pasteUrlButtonTap(model);
-                        },
-                        icon: Icon(Icons.content_paste),
-                        label: Text(
-                          L.of(context).onboardingSourceUrlPaste.toUpperCase(),
-                        ),
-                      )
-                    ],
-                  );
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
-              child: Divider(),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                PropertyChangeConsumer(
-                  properties: ["urlHasError"],
-                  builder: (BuildContext context, OnboardingViewModel model,
-                          Set properties) =>
-                      RaisedButton.icon(
-                    onPressed: (!model.urlHasError &&
-                            model.raplaUrl != null &&
-                            model.raplaUrl.length > 0)
-                        ? () async {
-                            await model.finishOnboarding();
-
-                            await Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (BuildContext context) => MainPage(),
-                              ),
-                            );
-                          }
-                        : null,
-                    icon: Icon(Icons.chevron_right),
-                    label: Text(L.of(context).onboardingFinishButton),
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
-              child: Text(
-                L.of(context).disclaimer,
-                style: Theme.of(context).textTheme.overline,
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-
     return PropertyChangeProvider(
+      value: viewModel,
       child: Scaffold(
         body: Stack(
-          children: stackWidgets,
+          children: <Widget>[
+            buildContent(),
+            OnboardingPageBackground(controller: _controller.view),
+          ],
         ),
+        resizeToAvoidBottomPadding: false,
       ),
-      value: viewModel,
     );
   }
 
-  Future _pasteUrlButtonTap(OnboardingViewModel model) async {
-    ClipboardData data = await Clipboard.getData('text/plain');
-    if (data?.text != null) model.setRaplaUrl(data.text);
+  Widget buildContent() {
+    return GestureDetector(
+      onPanEnd: (details) {
+        if (details.velocity.pixelsPerSecond.dx > 10) {
+          navigateBack(context);
+        } else if (details.velocity.pixelsPerSecond.dx < -10) {
+          navigateNext(context);
+        }
+      },
+      behavior: HitTestBehavior.translucent,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0, 140, 0, 90),
+        child: PropertyChangeConsumer(
+          builder: (BuildContext context, OnboardingViewModel model, _) {
+            return Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                buildActiveOnboardingPage(model),
+                OnboardingButtonBar(
+                  onPrevious: () {
+                    navigateBack(context);
+                  },
+                  onNext: () {
+                    navigateNext(context);
+                  },
+                  viewModel: viewModel,
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    );
   }
 
-  List<Widget> _buildDecoration() {
-    return <Widget>[
-      Transform.translate(
-        child: Transform.rotate(
-          child: Container(
-            width: 2000,
-            height: 2000,
-            color: Theme.of(context).primaryColor,
+  Widget buildActiveOnboardingPage(OnboardingViewModel model) {
+    var contentWidgets = {
+      OnboardingSteps.Start: () => SelectAppFeaturesWidget(
+            viewModel: viewModel,
           ),
-          angle: toRadian(60),
+      OnboardingSteps.Rapla: () => RaplaUrlPage(),
+      OnboardingSteps.Dualis: () => DualisLoginCredentialsPage(),
+    };
+
+    Widget body = Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+      child: contentWidgets[model.currentPage](),
+    );
+
+    if (model.currentViewModel != null) {
+      body = PropertyChangeProvider(
+        key: ValueKey(model.currentStep),
+        value: model.currentViewModel,
+        child: body,
+      );
+    }
+
+    return IntrinsicHeight(
+      child: PageTransitionSwitcher(
+        reverse: !model.didStepForward,
+        duration: Duration(milliseconds: 300),
+        transitionBuilder: (
+          Widget child,
+          Animation<double> animation,
+          Animation<double> secondaryAnimation,
+        ) =>
+            SharedAxisTransition(
+          child: child,
+          animation: animation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.horizontal,
         ),
-        offset: Offset(-170, -450),
+        child: body,
       ),
-      Transform.translate(
-        child: Transform.rotate(
-          child: Container(
-            width: 2000,
-            height: 2000,
-            color: Theme.of(context).accentColor,
-          ),
-          angle: toRadian(55),
-        ),
-        offset: Offset(-200, -450),
-      )
-    ];
+    );
+  }
+
+  void navigateNext(BuildContext context) {
+    if (viewModel.currentStep == viewModel.onboardingSteps - 1) {
+      viewModel.save();
+
+      var rootViewModel =
+          PropertyChangeProvider.of<RootViewModel>(context).value;
+
+      rootViewModel.setIsOnboarding(false);
+
+      Navigator.of(context).pushReplacementNamed("/home");
+    } else {
+      viewModel.nextPage();
+    }
+  }
+
+  void navigateBack(BuildContext context) {
+    viewModel.previousPage();
   }
 }

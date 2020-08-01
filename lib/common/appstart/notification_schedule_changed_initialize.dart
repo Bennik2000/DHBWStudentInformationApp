@@ -3,7 +3,6 @@ import 'package:dhbwstudentapp/schedule/business/schedule_diff_calculator.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/schedule_changed_notification.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:kiwi/kiwi.dart';
 
 class NotificationScheduleChangedInitialize {
   void setupNotification() {
