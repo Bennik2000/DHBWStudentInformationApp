@@ -37,47 +37,50 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
           style: Theme.of(context).textTheme.bodyText2,
           textAlign: TextAlign.center,
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-          child: PropertyChangeConsumer(
-            builder: (BuildContext context, OnboardingViewModelBase model,
-                Set<Object> _) {
-              var viewModel = model as OnboardingRaplaViewModel;
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+            child: PropertyChangeConsumer(
+              builder: (BuildContext context, OnboardingViewModelBase model,
+                  Set<Object> _) {
+                var viewModel = model as OnboardingRaplaViewModel;
 
-              if (_urlTextController.text != viewModel.raplaUrl)
-                _urlTextController.text = viewModel.raplaUrl;
+                if (_urlTextController.text != viewModel.raplaUrl)
+                  _urlTextController.text = viewModel.raplaUrl;
 
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        controller: _urlTextController,
-                        decoration: InputDecoration(
-                          errorText: (viewModel.urlHasError ?? false)
-                              ? L.of(context).onboardingRaplaUrlInvalid
-                              : null,
-                          hintText: L.of(context).onboardingRaplaUrlHint,
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Expanded(
+                        child: TextField(
+                          controller: _urlTextController,
+                          decoration: InputDecoration(
+                            errorText: (viewModel.urlHasError ?? false)
+                                ? L.of(context).onboardingRaplaUrlInvalid
+                                : null,
+                            hintText: L.of(context).onboardingRaplaUrlHint,
+                          ),
+                          onChanged: (value) {
+                            viewModel.setRaplaUrl(value);
+                          },
                         ),
-                        onChanged: (value) {
-                          viewModel.setRaplaUrl(value);
+                      ),
+                      FlatButton.icon(
+                        onPressed: () async {
+                          await viewModel.pasteUrl();
                         },
+                        icon: Icon(Icons.content_paste),
+                        label: Text(
+                          L.of(context).onboardingRaplaUrlPaste.toUpperCase(),
+                        ),
                       ),
-                    ),
-                    FlatButton.icon(
-                      onPressed: () async {
-                        await viewModel.pasteUrl();
-                      },
-                      icon: Icon(Icons.content_paste),
-                      label: Text(
-                        L.of(context).onboardingRaplaUrlPaste.toUpperCase(),
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            },
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
         ),
       ],

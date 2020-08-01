@@ -33,15 +33,15 @@ class _DualisLoginCredentialsPageState
 
         var widgets = <Widget>[];
 
-        widgets.addAll(buildHeader());
+        widgets.addAll(_buildHeader());
         widgets.add(LoginCredentialsWidget(
           usernameEditingController: _usernameEditingController,
           passwordEditingController: _passwordEditingController,
           onSubmitted: () async {
-            await testCredentials(viewModel);
+            await _testCredentials(viewModel);
           },
         ));
-        widgets.add(buildTestCredentialsButton(viewModel));
+        widgets.add(_buildTestCredentialsButton(viewModel));
 
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -52,41 +52,42 @@ class _DualisLoginCredentialsPageState
     );
   }
 
-  IntrinsicHeight buildTestCredentialsButton(
-      OnboardingDualisViewModel viewModel) {
-    return IntrinsicHeight(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          viewModel.passwordOrUsernameWrong
-              ? Text(
-                  L.of(context).onboardingDualisWrongCredentials,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: Theme.of(context).errorColor),
-                )
-              : Container(),
-          viewModel.isLoading
-              ? Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Container(
-                    height: 16,
-                    width: 16,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 1,
-                    ),
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: viewModel.loginSuccess
+  Widget _buildTestCredentialsButton(OnboardingDualisViewModel viewModel) {
+    return Expanded(
+      child: SizedBox(
+        height: 64,
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(40, 16, 0, 0),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: viewModel.passwordOrUsernameWrong
+                    ? Text(
+                        L.of(context).onboardingDualisWrongCredentials,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(color: Theme.of(context).errorColor),
+                      )
+                    : Container(),
+              ),
+              viewModel.isLoading
+                  ? SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 1,
+                      ),
+                    )
+                  : viewModel.loginSuccess
                       ? Icon(
                           Icons.check,
                           color: Colors.green,
                         )
                       : FlatButton(
                           onPressed: () async {
-                            await testCredentials(viewModel);
+                            await _testCredentials(viewModel);
                           },
                           child: Text(L
                               .of(context)
@@ -94,20 +95,21 @@ class _DualisLoginCredentialsPageState
                               .toUpperCase()),
                           textColor: Theme.of(context).accentColor,
                         ),
-                ),
-        ],
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  Future testCredentials(OnboardingDualisViewModel viewModel) async {
+  Future _testCredentials(OnboardingDualisViewModel viewModel) async {
     await viewModel.testCredentials(
       _usernameEditingController.text,
       _passwordEditingController.text,
     );
   }
 
-  List<Widget> buildHeader() {
+  List<Widget> _buildHeader() {
     return [
       Padding(
         padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
