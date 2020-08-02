@@ -86,8 +86,8 @@ class PreferencesProvider {
   }
 
   Future<void> storeDualisCredentials(Credentials credentials) async {
-    await _secureStorageAccess.set(DualisUsername, credentials.username);
-    await _secureStorageAccess.set(DualisPassword, credentials.password);
+    await _secureStorageAccess.set(DualisUsername, credentials.username ?? "");
+    await _secureStorageAccess.set(DualisPassword, credentials.password ?? "");
   }
 
   Future<Credentials> loadDualisCredentials() async {
@@ -106,6 +106,6 @@ class PreferencesProvider {
   }
 
   Future<void> setStoreDualisCredentials(bool value) async {
-    await _preferencesAccess.set(DualisStoreCredentials, value);
+    await _preferencesAccess.set(DualisStoreCredentials, value ?? false);
   }
 }

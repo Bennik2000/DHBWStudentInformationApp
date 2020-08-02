@@ -5,6 +5,7 @@ import 'package:dhbwstudentapp/common/ui/notification_api.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/common/util/string_utils.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:intl/intl.dart';
 
 class NextDayInformationNotification extends TaskCallback {
@@ -29,39 +30,48 @@ class NextDayInformationNotification extends TaskCallback {
     var nextScheduleEntry =
         await _scheduleEntryRepository.queryNextScheduleEntry(now);
 
-    var message;
+    if (nextScheduleEntry == null) return;
+
     var format = DateFormat.Hm();
+    var daysToNextEntry = toStartOfDay(nextScheduleEntry.start)
+        .difference(toStartOfDay(now))
+        .inDays;
 
-    if (nextScheduleEntry == null) {
-      message = _localization.notificationNextClassNoNextClassMessage;
-    } else {
-      var daysToNextEntry = toStartOfDay(nextScheduleEntry.start)
-          .difference(toStartOfDay(now))
-          .inDays;
+    if (daysToNextEntry > 1) return;
 
-      if (daysToNextEntry == 0) {
-        message = interpolate(
-          _localization.notificationNextClassNextClassAtMessage,
-          [
-            nextScheduleEntry.title,
-            format.format(nextScheduleEntry.start),
-          ],
-        );
-      } else if (daysToNextEntry == 1) {
-        message = interpolate(
-          _localization.notificationNextClassTomorrow,
-          [
-            nextScheduleEntry.title,
-            format.format(nextScheduleEntry.start),
-          ],
-        );
-      } else {
-        return;
-      }
-    }
+    var message = _getNotificationMessage(
+      daysToNextEntry,
+      nextScheduleEntry,
+      format,
+    );
 
     await _notificationApi.showNotification(
-        _localization.notificationNextClassTitle, message);
+      _localization.notificationNextClassTitle,
+      message,
+    );
+  }
+
+  _getNotificationMessage(
+      int daysToNextEntry, ScheduleEntry nextScheduleEntry, DateFormat format) {
+    var message;
+    if (daysToNextEntry == 0) {
+      message = interpolate(
+        _localization.notificationNextClassNextClassAtMessage,
+        [
+          nextScheduleEntry.title,
+          format.format(nextScheduleEntry.start),
+        ],
+      );
+    } else if (daysToNextEntry == 1) {
+      message = interpolate(
+        _localization.notificationNextClassTomorrow,
+        [
+          nextScheduleEntry.title,
+          format.format(nextScheduleEntry.start),
+        ],
+      );
+    }
+    return message;
   }
 
   @override
