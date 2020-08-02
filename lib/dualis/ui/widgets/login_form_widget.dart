@@ -1,11 +1,20 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:flutter/material.dart';
 
-typedef OnLogin = Future<bool> Function(String username, String password);
+typedef OnLogin = Future<bool> Function(Credentials credentials);
+typedef OnLoadCredentials = Future<Credentials> Function();
+typedef OnSaveCredentials = Future<void> Function(Credentials credentials);
+typedef OnClearCredentials = Future<void> Function();
+typedef GetDoSaveCredentials = Future<bool> Function();
 
 class LoginForm extends StatefulWidget {
   final OnLogin onLogin;
+  final OnLoadCredentials onLoadCredentials;
+  final OnSaveCredentials onSaveCredentials;
+  final OnClearCredentials onClearCredentials;
+  final GetDoSaveCredentials getDoSaveCredentials;
+
   final Widget title;
   final String loginFailedText;
 
@@ -14,45 +23,71 @@ class LoginForm extends StatefulWidget {
     this.onLogin,
     this.title,
     this.loginFailedText,
+    this.onLoadCredentials,
+    this.onSaveCredentials,
+    this.onClearCredentials,
+    this.getDoSaveCredentials,
   }) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState(
-        "",
         onLogin,
         title,
         loginFailedText,
+        onLoadCredentials,
+        onSaveCredentials,
+        onClearCredentials,
+        getDoSaveCredentials,
       );
 }
 
 class _LoginFormState extends State<LoginForm> {
   final OnLogin _onLogin;
-  final Widget title;
+  final OnLoadCredentials _onLoadCredentials;
+  final OnSaveCredentials _onSaveCredentials;
+  final OnClearCredentials _onClearCredentials;
+  final GetDoSaveCredentials _getDoSaveCredentials;
+  final Widget _title;
 
-  final String loginFailedText;
+  final String _loginFailedText;
 
+  bool _storeCredentials = false;
   bool _loginFailed = false;
   bool _isLoading = false;
-
-  String _username;
-  String _password;
 
   TextEditingController _usernameEditingController = TextEditingController();
   TextEditingController _passwordEditingController = TextEditingController();
 
   _LoginFormState(
-    this._username,
     this._onLogin,
-    this.title,
-    this.loginFailedText,
+    this._title,
+    this._loginFailedText,
+    this._onLoadCredentials,
+    this._onSaveCredentials,
+    this._onClearCredentials,
+    this._getDoSaveCredentials,
   );
 
   @override
   void initState() {
     super.initState();
 
-    _usernameEditingController.text = _username;
-    _passwordEditingController.text = _password;
+    if (_onLoadCredentials != null && _getDoSaveCredentials != null) {
+      _getDoSaveCredentials().then((value) {
+        setState(() {
+          _storeCredentials = value;
+        });
+
+        if (_storeCredentials) {
+          _onLoadCredentials().then((value) {
+            setState(() {
+              _usernameEditingController.text = value.username;
+              _passwordEditingController.text = value.password;
+            });
+          });
+        }
+      });
+    }
   }
 
   @override
@@ -61,10 +96,10 @@ class _LoginFormState extends State<LoginForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        title != null
+        _title != null
             ? Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
-                child: title,
+                child: _title,
               )
             : Container(),
         TextField(
@@ -82,7 +117,23 @@ class _LoginFormState extends State<LoginForm> {
             enabled: !_isLoading,
             hintText: L.of(context).loginPassword,
             icon: Icon(Icons.lock_outline),
-            errorText: _loginFailed ? loginFailedText : null,
+            errorText: _loginFailed ? _loginFailedText : null,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
+          child: CheckboxListTile(
+            controlAffinity: ListTileControlAffinity.trailing,
+            dense: true,
+            title: Text(
+              L.of(context).dualisStoreCredentials,
+            ),
+            onChanged: (bool value) {
+              setState(() {
+                _storeCredentials = value;
+              });
+            },
+            value: _storeCredentials,
           ),
         ),
         Container(
@@ -113,10 +164,20 @@ class _LoginFormState extends State<LoginForm> {
       _isLoading = true;
     });
 
-    bool loginSuccess = await _onLogin(
+    if (!_storeCredentials && _onClearCredentials != null) {
+      await _onClearCredentials();
+    }
+
+    var credentials = Credentials(
       _usernameEditingController.text,
       _passwordEditingController.text,
     );
+
+    bool loginSuccess = await _onLogin(credentials);
+
+    if (loginSuccess && _storeCredentials && _onSaveCredentials != null) {
+      await _onSaveCredentials(credentials);
+    }
 
     setState(() {
       _isLoading = false;

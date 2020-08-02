@@ -1,6 +1,9 @@
 import 'package:dhbwstudentapp/common/data/database_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/common/data/preferences/secure_storage_access.dart';
+import 'package:dhbwstudentapp/dualis/service/cache_dualis_service_decorator.dart';
+import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_query_information_repository.dart';
@@ -15,7 +18,10 @@ void injectServices() {
   if (_isInjected) return;
 
   KiwiContainer c = KiwiContainer();
-  c.registerInstance(PreferencesProvider(PreferencesAccess()));
+  c.registerInstance(PreferencesProvider(
+    PreferencesAccess(),
+    SecureStorageAccess(),
+  ));
   c.registerInstance<ScheduleSource>(
     ErrorReportScheduleSourceDecorator(RaplaScheduleSource()),
   );
@@ -30,6 +36,9 @@ void injectServices() {
     c.resolve(),
     c.resolve(),
     c.resolve(),
+  ));
+  c.registerInstance<DualisService>(CacheDualisServiceDecorator(
+    DualisServiceImpl(),
   ));
 
   _isInjected = true;

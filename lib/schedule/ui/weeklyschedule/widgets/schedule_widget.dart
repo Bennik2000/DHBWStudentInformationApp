@@ -8,7 +8,6 @@ import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_entry_widget.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_grid.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_past_overlay.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';

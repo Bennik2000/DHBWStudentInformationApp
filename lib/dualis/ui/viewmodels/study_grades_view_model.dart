@@ -1,20 +1,26 @@
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/model/module.dart';
 import 'package:dhbwstudentapp/dualis/model/semester.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/cache_dualis_service_decorator.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 
+enum LoginState {
+  LoggedOut,
+  LoggingIn,
+  LoggedIn,
+  LoginFailed,
+}
+
 class StudyGradesViewModel extends BaseViewModel {
-  final DualisService _dualisService = CacheDualisServiceDecorator(
-    DualisServiceImpl(),
-  );
+  final DualisService _dualisService;
 
-  bool _isLoggedIn = false;
-  bool get isLoggedIn => _isLoggedIn;
+  final PreferencesProvider _preferencesProvider;
 
-  bool _loginFailed = false;
-  bool get loginFailed => _loginFailed;
+  LoginState _loginState = LoginState.LoggedOut;
+  LoginState get loginState => _loginState;
 
   StudyGrades _studyGrades;
   StudyGrades get studyGrades => _studyGrades;
@@ -31,23 +37,26 @@ class StudyGradesViewModel extends BaseViewModel {
   String _currentSemesterName;
   String get currentSemesterName => _currentSemesterName;
 
-  Future<bool> login(String username, String password) async {
+  StudyGradesViewModel(this._preferencesProvider, this._dualisService);
+
+  Future<bool> login(Credentials credentials) async {
     print("Logging into dualis...");
 
     bool success;
 
     try {
-      success = await _dualisService.login(username, password);
+      success = await _dualisService.login(
+        credentials.username,
+        credentials.password,
+      );
     } catch (ex, trace) {
       success = false;
       print("Exception while logging in: $ex $trace");
     }
 
-    _loginFailed = !success;
-    _isLoggedIn = success;
+    _loginState = success ? LoginState.LoggedIn : LoginState.LoginFailed;
 
-    notifyListeners("loginFailed");
-    notifyListeners("isLoggedIn");
+    notifyListeners("loginState");
 
     if (!success) {
       print("Login failed!");
@@ -61,6 +70,24 @@ class StudyGradesViewModel extends BaseViewModel {
     loadAllModules();
 
     return true;
+  }
+
+  Future<void> clearCredentials() async {
+    await _preferencesProvider.clearDualisCredentials();
+    await _preferencesProvider.setStoreDualisCredentials(false);
+  }
+
+  Future<Credentials> loadCredentials() async {
+    return await _preferencesProvider.loadDualisCredentials();
+  }
+
+  Future<void> saveCredentials(Credentials credentials) async {
+    await _preferencesProvider.storeDualisCredentials(credentials);
+    await _preferencesProvider.setStoreDualisCredentials(true);
+  }
+
+  Future<bool> getDoSaveCredentials() {
+    return _preferencesProvider.getStoreDualisCredentials();
   }
 
   Future<void> loadStudyGrades() async {

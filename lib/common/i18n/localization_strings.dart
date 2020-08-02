@@ -13,14 +13,6 @@ final de = {
   "settingsScheduleSourceUrl": "Rapla URL festlegen",
   "settingsScheduleSourceTitle": "Vorlesungsplan",
   "settingsPageTitle": "Settings",
-  "onboardingTitle": "Gleich gehts los!",
-  "onboardingSourceUrlInput":
-      "Zuerst musst Du den Link zum Vorlesungsplan eingeben. Diesen bekommst Du üblicherweise am Anfang des Semesters aus dem Sekretariat.",
-  "onboardingSourceUrlInvalid": "Die eingegebene URL ist ungültig",
-  "onboardingSourceUrlHint":
-      "https://rapla.dhbw-stuttgart.de/rapla?key=7tfKQX7jOZcKnAU",
-  "onboardingSourceUrlPaste": "Einfügen",
-  "onboardingFinishButton": "Los gehts!",
   "dailyScheduleNoEntriesToday": "Keine Vorlesungen für heute",
   "scheduleEntryTypePublicHoliday": "Feiertag",
   "scheduleEntryTypeClass": "Vorlesung",
@@ -77,6 +69,32 @@ final de = {
   "loginPassword": "Passwort",
   "loginButton": "Login",
   "dualisOverview": "Übersicht",
+  "rateDialogRateNowButton": "Jetzt bewerten",
+  "rateDialogRateLaterButton": "Später",
+  "rateDialogDoNotRateButton": "Nein, danke",
+  "rateDialogMessage":
+      "Dann empfehle sie anderen Studenten weiter oder bewerte sie im PlayStore!",
+  "rateDialogTitle": "Gefällt Dir diese App?",
+  "dualisStoreCredentials": "Zugangsdaten speichern",
+  "onboardingFinishButton": "Fertig",
+  "onboardingNextButton": "Weiter",
+  "onboardingSkipButton": "Überspringen",
+  "onboardingBackButton": "Zurück",
+  "onboardingFunctionSwitchDualis": "Noten aus Dualis einsehen",
+  "onboardingFunctionSwitchRapla": "Rapla Vorlesungsplan laden",
+  "onboardingFunctionSwitchTitle": "Wähle das aus, was du brauchst!",
+  "onboardingRaplaPageTitle": "Rapla Link",
+  "onboardingRaplaPageDescription":
+      "Hier kannst Du den Link zum Rapla Vorlesungsplan eingeben. Diesen bekommst Du üblicherweise am Anfang des Semesters aus dem Sekretariat.",
+  "onboardingRaplaUrlInvalid": "Der Link ist nicht gültig",
+  "onboardingRaplaUrlHint":
+      "https://rapla.dhbw-stuttgart.de/rapla?key=7tfKQX7jOZcKnAU",
+  "onboardingRaplaUrlPaste": "Einfügen",
+  "onboardingDualisPageDescription":
+      "Hier kannst Du die Dualis Zugangsdaten eingeben um deine Noten in der App abzurufen. Dieser Schritt ist optional und kann auch zu einem späteren Zeitpunkt durchgeführt werden",
+  "onboardingDualisPageTitle": "Dualis Login",
+  "onboardingDualisTestButton": "Testen",
+  "onboardingDualisWrongCredentials": "Passwort oder Benutzername falsch",
 };
 
 final en = {
@@ -94,14 +112,6 @@ final en = {
   "settingsScheduleSourceUrl": "Set the rapla URL",
   "settingsScheduleSourceTitle": "Schedule",
   "settingsPageTitle": "Settings",
-  "onboardingTitle": "We are about to start!",
-  "onboardingSourceUrlInput":
-      "First you have to enter the URL to the schedule. Normally you get this link from the secretariat at the beginning of the semester.",
-  "onboardingSourceUrlInvalid": "This URL is not valid",
-  "onboardingSourceUrlHint":
-      "https://rapla.dhbw-stuttgart.de/rapla?key=7tfKQX7jOZcKnAU",
-  "onboardingSourceUrlPaste": "Paste",
-  "onboardingFinishButton": "Let's go!",
   "dailyScheduleNoEntriesToday": "No classes for today!",
   "scheduleEntryTypePublicHoliday": "Public holiday",
   "scheduleEntryTypeClass": "Class",
@@ -156,4 +166,30 @@ final en = {
   "loginPassword": "Password",
   "loginButton": "Login",
   "dualisOverview": "Overview",
+  "rateDialogRateNowButton": "Rate now",
+  "rateDialogRateLaterButton": "Later",
+  "rateDialogDoNotRateButton": "No, thanks",
+  "rateDialogMessage":
+      "Recommend this App to other students or leave a review on the PlayStore!",
+  "rateDialogTitle": "Do you like this app?",
+  "dualisStoreCredentials": "Save login data",
+  "onboardingFinishButton": "Finish",
+  "onboardingNextButton": "Next",
+  "onboardingSkipButton": "Skip",
+  "onboardingBackButton": "Back",
+  "onboardingFunctionSwitchDualis": "Load your grades from Dualis",
+  "onboardingFunctionSwitchRapla": "Load the schedule from Rapla",
+  "onboardingFunctionSwitchTitle": "Choose the functions that you want!",
+  "onboardingRaplaPageTitle": "Rapla url",
+  "onboardingRaplaPageDescription":
+      "Here you can insert the url to the Rapla online schedule. Normally you get this link from the secretariat at the beginning of the semester.",
+  "onboardingRaplaUrlInvalid": "The url is invalid",
+  "onboardingRaplaUrlHint":
+      "https://rapla.dhbw-stuttgart.de/rapla?key=7tfKQX7jOZcKnAU",
+  "onboardingRaplaUrlPaste": "Paste",
+  "onboardingDualisPageDescription":
+      "Here you can insert the login credentials for Dualis to see your grades in the app. This step is optional and can be done later",
+  "onboardingDualisPageTitle": "Dualis Login",
+  "onboardingDualisTestButton": "Test",
+  "onboardingDualisWrongCredentials": "Wrong password or username",
 };

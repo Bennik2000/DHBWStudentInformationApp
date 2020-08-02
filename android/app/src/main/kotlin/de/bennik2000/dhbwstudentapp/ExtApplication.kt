@@ -1,4 +1,4 @@
-package de.bennik2000.dhbwstuttgart
+package de.bennik2000.dhbwstudentapp
 
 import android.app.Application
 import io.flutter.view.FlutterMain

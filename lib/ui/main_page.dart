@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/rate_in_store.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/exam_results_page/exam_results_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/study_overview/study_overview_page.dart';
@@ -7,10 +8,9 @@ import 'package:dhbwstudentapp/information/ui/usefulinformation/useful_informati
 import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/daily_schedule_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
-import 'package:dhbwstudentapp/schedule/ui/navigation_drawer.dart';
-import 'package:dhbwstudentapp/schedule/ui/settings/settings_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
+import 'package:dhbwstudentapp/ui/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -23,6 +23,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _currentEntryIndex = 0;
+  bool _rateDialogShown = false;
 
   final List<NavigationEntry> navigationEntries = [
     NavigationEntry.pages(
@@ -65,7 +66,10 @@ class _MainPageState extends State<MainPage> {
       ],
       Icon(Icons.data_usage),
       (BuildContext context) => L.of(context).screenDualisTitle,
-      StudyGradesViewModel(),
+      StudyGradesViewModel(
+        KiwiContainer().resolve(),
+        KiwiContainer().resolve(),
+      ),
     ),
     NavigationEntry.body(
       UsefulInformationPage(),
@@ -99,6 +103,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    showRateInStoreDialogIfNeeded(context);
+
     var body;
     var bodyKey;
     BaseViewModel viewModel;
@@ -164,8 +170,7 @@ class _MainPageState extends State<MainPage> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => SettingsPage()));
+              Navigator.of(context).pushNamed("/settings");
             },
           ),
         ],
@@ -193,6 +198,15 @@ class _MainPageState extends State<MainPage> {
         entries: drawerEntries,
       ),
     );
+  }
+
+  void showRateInStoreDialogIfNeeded(BuildContext context) {
+    if (!_rateDialogShown) {
+      RateInStore(KiwiContainer().resolve())
+          .showRateInStoreDialogIfNeeded(context);
+
+      _rateDialogShown = true;
+    }
   }
 }
 
