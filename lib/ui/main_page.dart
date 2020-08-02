@@ -11,7 +11,6 @@ import 'package:dhbwstudentapp/schedule/ui/dailyschedule/viewmodels/daily_schedu
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
 import 'package:dhbwstudentapp/ui/navigation_drawer.dart';
-import 'package:dhbwstudentapp/ui/settings/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -67,7 +66,10 @@ class _MainPageState extends State<MainPage> {
       ],
       Icon(Icons.data_usage),
       (BuildContext context) => L.of(context).screenDualisTitle,
-      StudyGradesViewModel(KiwiContainer().resolve()),
+      StudyGradesViewModel(
+        KiwiContainer().resolve(),
+        KiwiContainer().resolve(),
+      ),
     ),
     NavigationEntry.body(
       UsefulInformationPage(),
@@ -168,8 +170,7 @@ class _MainPageState extends State<MainPage> {
           IconButton(
             icon: Icon(Icons.settings),
             onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (BuildContext context) => SettingsPage()));
+              Navigator.of(context).pushNamed("/settings");
             },
           ),
         ],

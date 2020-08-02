@@ -15,9 +15,7 @@ enum LoginState {
 }
 
 class StudyGradesViewModel extends BaseViewModel {
-  final DualisService _dualisService = CacheDualisServiceDecorator(
-    DualisServiceImpl(),
-  );
+  final DualisService _dualisService;
 
   final PreferencesProvider _preferencesProvider;
 
@@ -39,7 +37,7 @@ class StudyGradesViewModel extends BaseViewModel {
   String _currentSemesterName;
   String get currentSemesterName => _currentSemesterName;
 
-  StudyGradesViewModel(this._preferencesProvider);
+  StudyGradesViewModel(this._preferencesProvider, this._dualisService);
 
   Future<bool> login(Credentials credentials) async {
     print("Logging into dualis...");
