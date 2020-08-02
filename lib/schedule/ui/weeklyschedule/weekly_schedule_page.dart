@@ -59,87 +59,98 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
 
     return PropertyChangeProvider(
       value: viewModel,
-      child: Stack(
-        fit: StackFit.passthrough,
-        children: <Widget>[
-          Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  FlatButton(
-                    child: Icon(Icons.chevron_left),
-                    onPressed: _previousWeek,
-                  ),
-                  FlatButton(
-                    child: Icon(Icons.today),
-                    onPressed: _goToToday,
-                  ),
-                  FlatButton(
-                    child: Icon(Icons.chevron_right),
-                    onPressed: _nextWeek,
-                  ),
-                ],
-              ),
-              Expanded(
-                child: Stack(
+      child: GestureDetector(
+        onPanEnd: (details) {
+          if (details.velocity.pixelsPerSecond.dx > 10) {
+            _previousWeek();
+          } else if (details.velocity.pixelsPerSecond.dx < -10) {
+            _nextWeek();
+          }
+        },
+        behavior: HitTestBehavior.translucent,
+        child: Stack(
+          fit: StackFit.passthrough,
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: PropertyChangeConsumer(
-                        properties: ["weekSchedule", "now"],
-                        builder: (BuildContext context,
-                                WeeklyScheduleViewModel model,
-                                Set properties) =>
-                            PageTransitionSwitcher(
-                          reverse: !model.didUpdateScheduleIntoFuture,
-                          duration: Duration(milliseconds: 300),
-                          transitionBuilder: (Widget child,
-                                  Animation<double> animation,
-                                  Animation<double> secondaryAnimation) =>
-                              SharedAxisTransition(
-                            child: child,
-                            animation: animation,
-                            secondaryAnimation: secondaryAnimation,
-                            transitionType: SharedAxisTransitionType.horizontal,
-                          ),
-                          child: ScheduleWidget(
-                            key: ValueKey(
-                              model.currentDateStart.toIso8601String(),
-                            ),
-                            schedule: model.weekSchedule,
-                            displayStart: model.clippedDateStart ??
-                                model.currentDateStart,
-                            displayEnd:
-                                model.clippedDateEnd ?? model.currentDateEnd,
-                            onScheduleEntryTap: (entry) {
-                              _onScheduleEntryTap(context, entry);
-                            },
-                            now: model.now,
-                            displayEndHour: model.displayEndHour,
-                            displayStartHour: model.displayStartHour,
-                          ),
-                        ),
-                      ),
+                    FlatButton(
+                      child: Icon(Icons.chevron_left),
+                      onPressed: _previousWeek,
                     ),
-                    PropertyChangeConsumer(
-                      properties: ["isUpdating"],
-                      builder: (BuildContext context,
-                          WeeklyScheduleViewModel model, Set properties) {
-                        return model.isUpdating
-                            ? LinearProgressIndicator()
-                            : Container();
-                      },
+                    FlatButton(
+                      child: Icon(Icons.today),
+                      onPressed: _goToToday,
+                    ),
+                    FlatButton(
+                      child: Icon(Icons.chevron_right),
+                      onPressed: _nextWeek,
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
-          buildErrorDisplay(context)
-        ],
+                Expanded(
+                  child: Stack(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: PropertyChangeConsumer(
+                          properties: ["weekSchedule", "now"],
+                          builder: (BuildContext context,
+                                  WeeklyScheduleViewModel model,
+                                  Set properties) =>
+                              PageTransitionSwitcher(
+                            reverse: !model.didUpdateScheduleIntoFuture,
+                            duration: Duration(milliseconds: 300),
+                            transitionBuilder: (Widget child,
+                                    Animation<double> animation,
+                                    Animation<double> secondaryAnimation) =>
+                                SharedAxisTransition(
+                              child: child,
+                              animation: animation,
+                              secondaryAnimation: secondaryAnimation,
+                              transitionType:
+                                  SharedAxisTransitionType.horizontal,
+                            ),
+                            child: ScheduleWidget(
+                              key: ValueKey(
+                                model.currentDateStart.toIso8601String(),
+                              ),
+                              schedule: model.weekSchedule,
+                              displayStart: model.clippedDateStart ??
+                                  model.currentDateStart,
+                              displayEnd:
+                                  model.clippedDateEnd ?? model.currentDateEnd,
+                              onScheduleEntryTap: (entry) {
+                                _onScheduleEntryTap(context, entry);
+                              },
+                              now: model.now,
+                              displayEndHour: model.displayEndHour,
+                              displayStartHour: model.displayStartHour,
+                            ),
+                          ),
+                        ),
+                      ),
+                      PropertyChangeConsumer(
+                        properties: ["isUpdating"],
+                        builder: (BuildContext context,
+                            WeeklyScheduleViewModel model, Set properties) {
+                          return model.isUpdating
+                              ? LinearProgressIndicator()
+                              : Container();
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            buildErrorDisplay(context)
+          ],
+        ),
       ),
     );
   }
