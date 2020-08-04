@@ -10,6 +10,8 @@ abstract class NavigationEntry {
 
   Widget icon(BuildContext context);
 
+  Widget build(BuildContext context);
+
   BaseViewModel viewModel() {
     if (_viewModel == null) {
       _viewModel = initViewModel();

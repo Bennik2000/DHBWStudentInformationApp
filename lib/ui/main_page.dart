@@ -6,7 +6,6 @@ import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
 import 'package:dhbwstudentapp/schedule/ui/schedule_navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/pageable_navigation_entry.dart';
-import 'package:dhbwstudentapp/ui/navigation/single_navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -52,7 +51,6 @@ class _MainPageState extends State<MainPage> {
         actions: currentEntry.appBarActions(context),
       ),
       body: _buildBody(),
-      bottomNavigationBar: _buildBottomNavigationBar(),
       drawer: NavigationDrawer(
         selectedIndex: _currentEntryIndex,
         onTap: _onNavigationTapped,
@@ -80,16 +78,6 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  void _onTabTapped(int index) {
-    setState(() {
-      var entry = navigationEntries[_currentEntryIndex];
-
-      if (entry is PageableNavigationEntry) {
-        entry.setPageIndex(index);
-      }
-    });
-  }
-
   void _showRateInStoreDialogIfNeeded(BuildContext context) {
     if (!_rateDialogShown) {
       RateInStore(KiwiContainer().resolve())
@@ -99,67 +87,20 @@ class _MainPageState extends State<MainPage> {
     }
   }
 
-  Widget _buildBottomNavigationBar() {
-    if (!(currentEntry is PageableNavigationEntry)) {
-      return null;
-    }
-
-    var pageableEntry = currentEntry as PageableNavigationEntry;
-
-    var items = <BottomNavigationBarItem>[];
-
-    for (SingleNavigationEntry page in pageableEntry.pages) {
-      items.add(
-        new BottomNavigationBarItem(
-          icon: page.icon(context),
-          title: Text(page.title(context)),
-        ),
-      );
-    }
-
-    return BottomNavigationBar(
-      onTap: _onTabTapped,
-      currentIndex: pageableEntry.getPageIndex(),
-      items: items,
-    );
-  }
-
   Widget _buildBody() {
     return AnimatedSwitcher(
       child: Column(
         key: currentEntry.key,
         children: <Widget>[
           Expanded(
-            child: currentEntry is PageableNavigationEntry
-                ? _buildPageableBody()
-                : _buildSingleBody(),
+            child: _wrapWithChangeNotifier(
+              currentEntry.build(context),
+              currentEntry.viewModel(),
+            ),
           ),
         ],
       ),
       duration: Duration(milliseconds: 200),
-    );
-  }
-
-  Widget _buildPageableBody() {
-    var pageableEntry = currentEntry as PageableNavigationEntry;
-
-    var page = pageableEntry.getActivePage();
-
-    return _wrapWithChangeNotifier(
-      _wrapWithChangeNotifier(
-        page.build(context),
-        page.viewModel(),
-      ),
-      currentEntry.viewModel(),
-    );
-  }
-
-  Widget _buildSingleBody() {
-    var singleEntry = currentEntry as SingleNavigationEntry;
-
-    return _wrapWithChangeNotifier(
-      singleEntry.build(context),
-      currentEntry.viewModel(),
     );
   }
 

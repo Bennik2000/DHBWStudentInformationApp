@@ -3,6 +3,7 @@ import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/exam_results_page/exam_results_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/study_overview/study_overview_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
+import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/pageable_navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/single_navigation_entry.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ class DualisNavigationEntry extends PageableNavigationEntry {
   }
 
   @override
-  List<SingleNavigationEntry> initPages() {
-    return <SingleNavigationEntry>[
+  List<NavigationEntry> initPages() {
+    return <NavigationEntry>[
       FixedSingleNavigationEntry(
         builder: (_) => StudyOverviewPage(),
         titleBuilder: (BuildContext context) =>

@@ -3,6 +3,7 @@ import 'package:dhbwstudentapp/schedule/ui/dailyschedule/daily_schedule_page.dar
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
+import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/pageable_navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/single_navigation_entry.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,8 @@ class ScheduleNavigationEntry extends PageableNavigationEntry {
   }
 
   @override
-  List<SingleNavigationEntry> initPages() {
-    return <SingleNavigationEntry>[
+  List<NavigationEntry> initPages() {
+    return <NavigationEntry>[
       FixedSingleNavigationEntry(
         builder: (_) => WeeklySchedulePage(),
         iconBuilder: (_) => Icon(Icons.view_week),

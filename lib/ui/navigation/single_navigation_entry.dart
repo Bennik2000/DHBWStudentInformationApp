@@ -2,11 +2,7 @@ import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:flutter/material.dart';
 
-abstract class SingleNavigationEntry extends NavigationEntry {
-  Widget build(BuildContext context);
-}
-
-class FixedSingleNavigationEntry extends SingleNavigationEntry {
+class FixedSingleNavigationEntry extends NavigationEntry {
   final WidgetBuilder builder;
   final WidgetBuilder iconBuilder;
   final String Function(BuildContext) titleBuilder;

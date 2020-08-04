@@ -1,9 +1,9 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/information/ui/usefulinformation/useful_information_page.dart';
-import 'package:dhbwstudentapp/ui/navigation/single_navigation_entry.dart';
+import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:flutter/material.dart';
 
-class UsefulInformationNavigationEntry extends SingleNavigationEntry {
+class UsefulInformationNavigationEntry extends NavigationEntry {
   @override
   Widget build(BuildContext context) {
     return UsefulInformationPage();
