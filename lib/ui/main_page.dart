@@ -1,20 +1,17 @@
-import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/rate_in_store.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/dualis/ui/exam_results_page/exam_results_page.dart';
-import 'package:dhbwstudentapp/dualis/ui/study_overview/study_overview_page.dart';
-import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
-import 'package:dhbwstudentapp/information/ui/usefulinformation/useful_information_page.dart';
+import 'package:dhbwstudentapp/dualis/ui/dualis_navigation_entry.dart';
+import 'package:dhbwstudentapp/information/ui/useful_information_navigation_entry.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
-import 'package:dhbwstudentapp/schedule/ui/dailyschedule/daily_schedule_page.dart';
-import 'package:dhbwstudentapp/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
-import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
-import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
+import 'package:dhbwstudentapp/schedule/ui/schedule_navigation_entry.dart';
+import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
+import 'package:dhbwstudentapp/ui/navigation/pageable_navigation_entry.dart';
+import 'package:dhbwstudentapp/ui/navigation/single_navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -22,140 +19,26 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _currentEntryIndex = 0;
-  bool _rateDialogShown = false;
-
   final List<NavigationEntry> navigationEntries = [
-    NavigationEntry.pages(
-      <Page>[
-        Page(
-          widget: WeeklySchedulePage(),
-          title: (BuildContext context) => L.of(context).pageWeekOverviewTitle,
-          viewModel: WeeklyScheduleViewModel(KiwiContainer().resolve()),
-          key: Key("Weekly"),
-          icon: Icons.view_week,
-        ),
-        Page(
-          widget: DailySchedulePage(),
-          title: (BuildContext context) => L.of(context).pageDayOverviewTitle,
-          viewModel: DailyScheduleViewModel(KiwiContainer().resolve()),
-          key: Key("Daily"),
-          icon: Icons.calendar_view_day,
-        ),
-      ],
-      Icon(Icons.calendar_today),
-      (BuildContext context) => L.of(context).screenScheduleTitle,
-      null,
-    ),
-    NavigationEntry.pages(
-      <Page>[
-        Page(
-          widget: StudyOverviewPage(),
-          title: (BuildContext context) => L.of(context).pageDualisOverview,
-          viewModel: null,
-          key: Key("StudyOverview"),
-          icon: Icons.dashboard,
-        ),
-        Page(
-          widget: ExamResultsPage(),
-          title: (BuildContext context) => L.of(context).pageDualisExams,
-          viewModel: null,
-          key: Key("Exams"),
-          icon: Icons.book,
-        ),
-      ],
-      Icon(Icons.data_usage),
-      (BuildContext context) => L.of(context).screenDualisTitle,
-      StudyGradesViewModel(
-        KiwiContainer().resolve(),
-        KiwiContainer().resolve(),
-      ),
-    ),
-    NavigationEntry.body(
-      UsefulInformationPage(),
-      Icon(Icons.info_outline),
-      (BuildContext context) => L.of(context).screenUsefulLinks,
-      null,
-    ),
+    ScheduleNavigationEntry(),
+    DualisNavigationEntry(),
+    UsefulInformationNavigationEntry(),
   ];
 
-  void onTabTapped(int index) {
-    setState(() {
-      var entry = navigationEntries[_currentEntryIndex];
-
-      if (entry.hasPages) {
-        entry.currentPageIndex = index;
-      }
-    });
-  }
-
-  void onNavigationTapped(int index) {
-    setState(() {
-      _currentEntryIndex = index;
-    });
-  }
+  int _currentEntryIndex = 0;
+  bool _rateDialogShown = false;
+  NavigationEntry get currentEntry => navigationEntries[_currentEntryIndex];
 
   @override
   void initState() {
     super.initState();
-    ScheduleSourceSetup().setupScheduleSource();
+    ScheduleSourceSetup()
+        .setupScheduleSource(); // TODO: Move this somewhere else!
   }
 
   @override
   Widget build(BuildContext context) {
-    showRateInStoreDialogIfNeeded(context);
-
-    var body;
-    var bodyKey;
-    BaseViewModel viewModel;
-    BaseViewModel baseViewModel;
-
-    var currentEntry = navigationEntries[_currentEntryIndex];
-
-    if (currentEntry.hasPages) {
-      body = currentEntry.currentPage.widget;
-      bodyKey = currentEntry.currentPage.key;
-      viewModel = currentEntry.currentPage.viewModel;
-      baseViewModel = currentEntry.viewModel;
-    } else {
-      body = currentEntry.body;
-      bodyKey = currentEntry.key;
-      viewModel = currentEntry.viewModel;
-    }
-
-    var drawerEntries = <DrawerNavigationEntry>[];
-
-    for (var entry in navigationEntries) {
-      drawerEntries
-          .add(DrawerNavigationEntry(entry.icon, entry.title(context)));
-    }
-
-    var bottomNavigationItems = <BottomNavigationBarItem>[];
-
-    for (Page page in currentEntry.pages ?? []) {
-      bottomNavigationItems.add(
-        new BottomNavigationBarItem(
-          icon: Icon(page.icon),
-          title: Text(page.title(context)),
-        ),
-      );
-    }
-
-    if (viewModel != null) {
-      body = ChangeNotifierProvider.value(
-        key: bodyKey,
-        value: viewModel,
-        child: body,
-      );
-    }
-
-    if (baseViewModel != null) {
-      body = ChangeNotifierProvider.value(
-        key: bodyKey,
-        value: baseViewModel,
-        child: body,
-      );
-    }
+    _showRateInStoreDialogIfNeeded(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -175,32 +58,46 @@ class _MainPageState extends State<MainPage> {
           ),
         ],
       ),
-      body: AnimatedSwitcher(
-        child: Column(
-          key: bodyKey,
-          children: <Widget>[
-            Expanded(
-              child: body,
-            ),
-          ],
-        ),
-        duration: Duration(milliseconds: 200),
-      ),
-      bottomNavigationBar: currentEntry.hasPages
-          ? BottomNavigationBar(
-              onTap: onTabTapped,
-              currentIndex: currentEntry.currentPageIndex,
-              items: bottomNavigationItems)
-          : null,
+      body: _buildBody(),
+      bottomNavigationBar: _buildBottomNavigationBar(),
       drawer: NavigationDrawer(
         selectedIndex: _currentEntryIndex,
-        onTap: onNavigationTapped,
-        entries: drawerEntries,
+        onTap: _onNavigationTapped,
+        entries: _buildDrawerEntries(),
       ),
     );
   }
 
-  void showRateInStoreDialogIfNeeded(BuildContext context) {
+  List<DrawerNavigationEntry> _buildDrawerEntries() {
+    var drawerEntries = <DrawerNavigationEntry>[];
+
+    for (var entry in navigationEntries) {
+      drawerEntries.add(DrawerNavigationEntry(
+        entry.icon(context),
+        entry.title(context),
+      ));
+    }
+
+    return drawerEntries;
+  }
+
+  void _onNavigationTapped(int index) {
+    setState(() {
+      _currentEntryIndex = index;
+    });
+  }
+
+  void _onTabTapped(int index) {
+    setState(() {
+      var entry = navigationEntries[_currentEntryIndex];
+
+      if (entry is PageableNavigationEntry) {
+        entry.setPageIndex(index);
+      }
+    });
+  }
+
+  void _showRateInStoreDialogIfNeeded(BuildContext context) {
     if (!_rateDialogShown) {
       RateInStore(KiwiContainer().resolve())
           .showRateInStoreDialogIfNeeded(context);
@@ -208,43 +105,82 @@ class _MainPageState extends State<MainPage> {
       _rateDialogShown = true;
     }
   }
-}
 
-class Page {
-  final Widget widget;
-  final Color color;
-  final String Function(BuildContext context) title;
-  final IconData icon;
-  final BaseViewModel viewModel;
-  final Key key;
+  Widget _buildBottomNavigationBar() {
+    if (!(currentEntry is PageableNavigationEntry)) {
+      return null;
+    }
 
-  Page({
-    this.widget,
-    this.color,
-    this.title,
-    this.viewModel,
-    this.key,
-    this.icon,
-  });
-}
+    var pageableEntry = currentEntry as PageableNavigationEntry;
 
-class NavigationEntry {
-  final Widget icon;
-  final String Function(BuildContext context) title;
-  final BaseViewModel viewModel;
+    var items = <BottomNavigationBarItem>[];
 
-  List<Page> _pages;
-  List<Page> get pages => _pages;
+    for (SingleNavigationEntry page in pageableEntry.pages) {
+      items.add(
+        new BottomNavigationBarItem(
+          icon: page.icon(context),
+          title: Text(page.title(context)),
+        ),
+      );
+    }
 
-  int currentPageIndex = 0;
-  Page get currentPage => pages[currentPageIndex];
+    return BottomNavigationBar(
+      onTap: _onTabTapped,
+      currentIndex: pageableEntry.getPageIndex(),
+      items: items,
+    );
+  }
 
-  Widget _body;
-  Widget get body => _body;
+  Widget _buildBody() {
+    return AnimatedSwitcher(
+      child: Column(
+        key: currentEntry.key,
+        children: <Widget>[
+          Expanded(
+            child: currentEntry is PageableNavigationEntry
+                ? _buildPageableBody()
+                : _buildSingleBody(),
+          ),
+        ],
+      ),
+      duration: Duration(milliseconds: 200),
+    );
+  }
 
-  bool get hasPages => _pages != null && _pages.length > 0;
-  Key get key => ValueKey(title);
+  Widget _buildPageableBody() {
+    var pageableEntry = currentEntry as PageableNavigationEntry;
 
-  NavigationEntry.pages(this._pages, this.icon, this.title, this.viewModel);
-  NavigationEntry.body(this._body, this.icon, this.title, this.viewModel);
+    var page = pageableEntry.getActivePage();
+
+    return _wrapWithChangeNotifier(
+      _wrapWithChangeNotifier(
+        page.build(context),
+        page.viewModel(),
+      ),
+      currentEntry.viewModel(),
+    );
+  }
+
+  Widget _buildSingleBody() {
+    var singleEntry = currentEntry as SingleNavigationEntry;
+
+    return _wrapWithChangeNotifier(
+      singleEntry.build(context),
+      currentEntry.viewModel(),
+    );
+  }
+
+  Widget _wrapWithChangeNotifier(
+    Widget child,
+    BaseViewModel changeNotifier,
+  ) {
+    if (changeNotifier != null) {
+      return ChangeNotifierProvider.value(
+        value: changeNotifier,
+        child: child,
+      );
+    }
+
+    return child;
+  }
 }
