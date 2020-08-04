@@ -49,14 +49,7 @@ class _MainPageState extends State<MainPage> {
         brightness: Theme.of(context).brightness,
         iconTheme: Theme.of(context).iconTheme,
         title: Text(navigationEntries[_currentEntryIndex].title(context)),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/settings");
-            },
-          ),
-        ],
+        actions: currentEntry.appBarActions(context),
       ),
       body: _buildBody(),
       bottomNavigationBar: _buildBottomNavigationBar(),

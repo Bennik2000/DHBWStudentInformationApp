@@ -19,4 +19,6 @@ abstract class NavigationEntry {
   }
 
   BaseViewModel initViewModel() => null;
+
+  List<Widget> appBarActions(BuildContext context) => [];
 }
