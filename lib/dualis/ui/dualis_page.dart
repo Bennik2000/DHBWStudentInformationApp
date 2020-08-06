@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/exam_results_page/exam_results_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/login/dualis_login_page.dart';
@@ -23,13 +24,13 @@ class DualisPage extends StatelessWidget {
         child: PagerWidget(
           pages: <PageDefinition>[
             PageDefinition(
-              text: Text("Overdiwo"),
-              icon: Icon(Icons.network_check),
+              text: Text(L.of(context).pageDualisOverview),
+              icon: Icon(Icons.dashboard),
               builder: (BuildContext context) => StudyOverviewPage(),
             ),
             PageDefinition(
-              text: Text("Examresultew"),
-              icon: Icon(Icons.visibility_off),
+              text: Text(L.of(context).pageDualisExams),
+              icon: Icon(Icons.book),
               builder: (BuildContext context) => ExamResultsPage(),
             ),
           ],
