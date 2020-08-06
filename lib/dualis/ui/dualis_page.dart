@@ -13,10 +13,12 @@ class DualisPage extends StatelessWidget {
   Widget build(BuildContext context) {
     StudyGradesViewModel viewModel = Provider.of<BaseViewModel>(context);
 
+    Widget widget;
+
     if (viewModel.loginState != LoginState.LoggedIn) {
-      return DualisLoginPage();
+      widget = DualisLoginPage();
     } else {
-      return PropertyChangeProvider<StudyGradesViewModel>(
+      widget = PropertyChangeProvider<StudyGradesViewModel>(
         value: viewModel,
         child: PagerWidget(
           pages: <PageDefinition>[
@@ -34,5 +36,10 @@ class DualisPage extends StatelessWidget {
         ),
       );
     }
+
+    return AnimatedSwitcher(
+      duration: Duration(milliseconds: 200),
+      child: widget,
+    );
   }
 }

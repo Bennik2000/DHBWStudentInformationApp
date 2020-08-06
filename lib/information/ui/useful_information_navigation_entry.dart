@@ -20,5 +20,5 @@ class UsefulInformationNavigationEntry extends NavigationEntry {
   }
 
   @override
-  String get route => "/usefulInformation";
+  String get route => "usefulInformation";
 }

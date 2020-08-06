@@ -32,5 +32,5 @@ class DualisNavigationEntry extends NavigationEntry {
   }
 
   @override
-  String get route => "/dualis";
+  String get route => "dualis";
 }

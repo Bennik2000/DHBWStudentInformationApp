@@ -42,8 +42,9 @@ class _MainPageState extends State<MainPage> {
         actions: currentEntry.appBarActions(context),
       ),
       body: Navigator(
-        key: NavigatorKey.key,
+        key: NavigatorKey.mainKey,
         onGenerateRoute: generateDrawerRoute,
+        initialRoute: "schedule",
       ),
       drawer: NavigationDrawer(
         selectedIndex: _currentEntryIndex,
@@ -68,7 +69,7 @@ class _MainPageState extends State<MainPage> {
 
   void _onNavigationTapped(int index) {
     _currentEntryIndex = index;
-    NavigatorKey.key.currentState.pushReplacementNamed(currentEntry.route);
+    NavigatorKey.mainKey.currentState.pushReplacementNamed(currentEntry.route);
 
     setState(() {});
   }

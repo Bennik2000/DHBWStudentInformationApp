@@ -15,6 +15,8 @@ final List<NavigationEntry> navigationEntries = [
 ];
 
 Route<dynamic> generateDrawerRoute(RouteSettings settings) {
+  print("=== === === === === === Navigating to: ${settings.name}");
+
   var widget;
 
   for (var route in navigationEntries) {
@@ -26,33 +28,41 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
 
   if (widget == null) {
     print("Failed to navigate to: " + settings.name);
-    widget = (BuildContext context) => Placeholder();
+    widget = (BuildContext context) => Container();
   }
 
   return PageRouteBuilder(
+    transitionDuration: Duration(milliseconds: 300),
     pageBuilder: (context, animation, secondaryAnimation) => widget(context),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return FadeTransition(
         opacity: animation,
-        child: child,
+        child: Container(
+          child: child,
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
       );
     },
   );
 }
 
 Route<dynamic> generateRoute(RouteSettings settings) {
+  print("=== === === === === === Navigating to: ${settings.name}");
   var target;
 
   switch (settings.name) {
-    case "/onboarding":
+    case "onboarding":
       target = OnboardingPage();
       break;
-    case "/":
+    case "main":
       target = MainPage();
       break;
-    case "/settings":
+    case "settings":
       target = SettingsPage();
       break;
+    default:
+      print("Failed to navigate to: " + settings.name);
+      target = Container();
   }
 
   return MaterialPageRoute(builder: (_) => target);

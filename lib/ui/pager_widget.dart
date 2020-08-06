@@ -47,7 +47,7 @@ class _PagerWidgetState extends State<PagerWidget> {
     );
   }
 
-  Widget _wrapWithChangeNotifierProvider(Widget child, ChangeNotifier value) {
+  Widget _wrapWithChangeNotifierProvider(Widget child, BaseViewModel value) {
     if (value == null) return child;
 
     return ChangeNotifierProvider.value(

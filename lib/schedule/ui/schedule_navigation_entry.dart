@@ -33,9 +33,6 @@ class ScheduleNavigationEntry extends NavigationEntry {
           icon: Icon(Icons.view_week),
           text: Text(L.of(context).pageWeekOverviewTitle),
           builder: (_) => WeeklySchedulePage(),
-          viewModel: WeeklyScheduleViewModel(
-            KiwiContainer().resolve(),
-          ),
         ),
         PageDefinition(
           icon: Icon(Icons.view_day),
@@ -50,5 +47,5 @@ class ScheduleNavigationEntry extends NavigationEntry {
   }
 
   @override
-  String get route => "/";
+  String get route => "schedule";
 }

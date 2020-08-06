@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
 class NavigatorKey {
-  static final key = GlobalKey<NavigatorState>();
+  static final mainKey = GlobalKey<NavigatorState>();
+  static final rootKey = GlobalKey<NavigatorState>();
 }
