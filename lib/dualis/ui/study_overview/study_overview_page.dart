@@ -10,24 +10,17 @@ import 'package:provider/provider.dart';
 class StudyOverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    StudyGradesViewModel viewModel = Provider.of<BaseViewModel>(context);
-
-    return PropertyChangeProvider(
-      value: viewModel,
-      child: DualisLoginPage(
-        builder: (BuildContext context) => Container(
-          height: double.infinity,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                buildGpaCredits(context),
-                buildModules(context),
-              ],
-            ),
-          ),
+    return Container(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            buildGpaCredits(context),
+            buildModules(context),
+          ],
         ),
       ),
     );

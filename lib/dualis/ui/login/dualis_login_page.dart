@@ -6,28 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DualisLoginPage extends StatelessWidget {
-  final WidgetBuilder builder;
-
-  const DualisLoginPage({Key key, this.builder}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     StudyGradesViewModel viewModel = Provider.of<BaseViewModel>(context);
-
-    Widget child;
-
-    if (viewModel.loginState == LoginState.LoggedOut ||
-        viewModel.loginState == LoginState.LoginFailed ||
-        viewModel.loginState == LoginState.LoggingIn) {
-      child = buildLoginPage(context, viewModel);
-    } else {
-      child = builder(context);
-    }
-
-    return AnimatedSwitcher(
-      child: child,
-      duration: Duration(milliseconds: 200),
-    );
+    return buildLoginPage(context, viewModel);
   }
 
   Widget buildLoginPage(BuildContext context, StudyGradesViewModel model) {

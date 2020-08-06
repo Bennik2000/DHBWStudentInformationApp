@@ -42,9 +42,6 @@ class StudyGradesViewModel extends BaseViewModel {
   Future<bool> login(Credentials credentials) async {
     print("Logging into dualis...");
 
-    print(credentials.username);
-    print(credentials.password);
-
     bool success = await _dualisService.login(
       credentials.username,
       credentials.password,

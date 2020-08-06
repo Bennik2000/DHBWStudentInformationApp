@@ -1,3 +1,5 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 typedef NavigationItemOnTap = Function(int index);
@@ -27,6 +29,8 @@ class NavigationDrawer extends StatelessWidget {
       i++;
     }
 
+    widgets.add(_createSettingsItem(context));
+
     return Drawer(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -47,8 +51,8 @@ class NavigationDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "DHBW Studenten App",
-              style: Theme.of(context).textTheme.headline,
+              L.of(context).applicationName,
+              style: Theme.of(context).textTheme.headline5,
             ),
           ],
         ),
@@ -93,6 +97,47 @@ class NavigationDrawer extends StatelessWidget {
             Navigator.of(context).pop();
           },
         ),
+      ),
+    );
+  }
+
+  Widget _createSettingsItem(BuildContext context) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Divider(),
+          InkWell(
+            child: Container(
+              height: 64,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.settings,
+                      color: Theme.of(context).disabledColor,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                      child: Text(
+                        "Einstellungen",
+                        style: TextStyle(
+                          color: Theme.of(context).disabledColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.pushNamed(context, "/settings");
+            },
+          ),
+        ],
       ),
     );
   }

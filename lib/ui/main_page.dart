@@ -1,19 +1,11 @@
-import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/rate_in_store.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/dualis/ui/exam_results_page/exam_results_page.dart';
-import 'package:dhbwstudentapp/dualis/ui/study_overview/study_overview_page.dart';
-import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
-import 'package:dhbwstudentapp/information/ui/usefulinformation/useful_information_page.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
-import 'package:dhbwstudentapp/schedule/ui/dailyschedule/daily_schedule_page.dart';
-import 'package:dhbwstudentapp/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
-import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
-import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
+import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
+import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
+import 'package:dhbwstudentapp/ui/navigation/router.dart';
 import 'package:dhbwstudentapp/ui/navigation_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:provider/provider.dart';
 import 'package:kiwi/kiwi.dart';
 
 class MainPage extends StatefulWidget {
@@ -25,137 +17,18 @@ class _MainPageState extends State<MainPage> {
   int _currentEntryIndex = 0;
   bool _rateDialogShown = false;
 
-  final List<NavigationEntry> navigationEntries = [
-    NavigationEntry.pages(
-      <Page>[
-        Page(
-          widget: WeeklySchedulePage(),
-          title: (BuildContext context) => L.of(context).pageWeekOverviewTitle,
-          viewModel: WeeklyScheduleViewModel(KiwiContainer().resolve()),
-          key: Key("Weekly"),
-          icon: Icons.view_week,
-        ),
-        Page(
-          widget: DailySchedulePage(),
-          title: (BuildContext context) => L.of(context).pageDayOverviewTitle,
-          viewModel: DailyScheduleViewModel(KiwiContainer().resolve()),
-          key: Key("Daily"),
-          icon: Icons.calendar_view_day,
-        ),
-      ],
-      Icon(Icons.calendar_today),
-      (BuildContext context) => L.of(context).screenScheduleTitle,
-      null,
-    ),
-    NavigationEntry.pages(
-      <Page>[
-        Page(
-          widget: StudyOverviewPage(),
-          title: (BuildContext context) => L.of(context).pageDualisOverview,
-          viewModel: null,
-          key: Key("StudyOverview"),
-          icon: Icons.dashboard,
-        ),
-        Page(
-          widget: ExamResultsPage(),
-          title: (BuildContext context) => L.of(context).pageDualisExams,
-          viewModel: null,
-          key: Key("Exams"),
-          icon: Icons.book,
-        ),
-      ],
-      Icon(Icons.data_usage),
-      (BuildContext context) => L.of(context).screenDualisTitle,
-      StudyGradesViewModel(
-        KiwiContainer().resolve(),
-        KiwiContainer().resolve(),
-      ),
-    ),
-    NavigationEntry.body(
-      UsefulInformationPage(),
-      Icon(Icons.info_outline),
-      (BuildContext context) => L.of(context).screenUsefulLinks,
-      null,
-    ),
-  ];
-
-  void onTabTapped(int index) {
-    setState(() {
-      var entry = navigationEntries[_currentEntryIndex];
-
-      if (entry.hasPages) {
-        entry.currentPageIndex = index;
-      }
-    });
-  }
-
-  void onNavigationTapped(int index) {
-    setState(() {
-      _currentEntryIndex = index;
-    });
-  }
+  NavigationEntry get currentEntry => navigationEntries[_currentEntryIndex];
 
   @override
   void initState() {
     super.initState();
-    ScheduleSourceSetup().setupScheduleSource();
+    ScheduleSourceSetup()
+        .setupScheduleSource(); // TODO: Move this somewhere else!
   }
 
   @override
   Widget build(BuildContext context) {
-    showRateInStoreDialogIfNeeded(context);
-
-    var body;
-    var bodyKey;
-    BaseViewModel viewModel;
-    BaseViewModel baseViewModel;
-
-    var currentEntry = navigationEntries[_currentEntryIndex];
-
-    if (currentEntry.hasPages) {
-      body = currentEntry.currentPage.widget;
-      bodyKey = currentEntry.currentPage.key;
-      viewModel = currentEntry.currentPage.viewModel;
-      baseViewModel = currentEntry.viewModel;
-    } else {
-      body = currentEntry.body;
-      bodyKey = currentEntry.key;
-      viewModel = currentEntry.viewModel;
-    }
-
-    var drawerEntries = <DrawerNavigationEntry>[];
-
-    for (var entry in navigationEntries) {
-      drawerEntries
-          .add(DrawerNavigationEntry(entry.icon, entry.title(context)));
-    }
-
-    var bottomNavigationItems = <BottomNavigationBarItem>[];
-
-    for (Page page in currentEntry.pages ?? []) {
-      bottomNavigationItems.add(
-        new BottomNavigationBarItem(
-          icon: Icon(page.icon),
-          title: Text(page.title(context)),
-        ),
-      );
-    }
-
-    if (viewModel != null) {
-      body = ChangeNotifierProvider.value(
-        key: bodyKey,
-        value: viewModel,
-        child: body,
-      );
-    }
-
-    if (baseViewModel != null) {
-      body = ChangeNotifierProvider.value(
-        key: bodyKey,
-        value: baseViewModel,
-        child: body,
-      );
-    }
+    _showRateInStoreDialogIfNeeded(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -166,41 +39,42 @@ class _MainPageState extends State<MainPage> {
         brightness: Theme.of(context).brightness,
         iconTheme: Theme.of(context).iconTheme,
         title: Text(navigationEntries[_currentEntryIndex].title(context)),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              Navigator.of(context).pushNamed("/settings");
-            },
-          ),
-        ],
+        actions: currentEntry.appBarActions(context),
       ),
-      body: AnimatedSwitcher(
-        child: Column(
-          key: bodyKey,
-          children: <Widget>[
-            Expanded(
-              child: body,
-            ),
-          ],
-        ),
-        duration: Duration(milliseconds: 200),
+      body: Navigator(
+        key: NavigatorKey.mainKey,
+        onGenerateRoute: generateDrawerRoute,
+        initialRoute: "schedule",
       ),
-      bottomNavigationBar: currentEntry.hasPages
-          ? BottomNavigationBar(
-              onTap: onTabTapped,
-              currentIndex: currentEntry.currentPageIndex,
-              items: bottomNavigationItems)
-          : null,
       drawer: NavigationDrawer(
         selectedIndex: _currentEntryIndex,
-        onTap: onNavigationTapped,
-        entries: drawerEntries,
+        onTap: _onNavigationTapped,
+        entries: _buildDrawerEntries(),
       ),
     );
   }
 
-  void showRateInStoreDialogIfNeeded(BuildContext context) {
+  List<DrawerNavigationEntry> _buildDrawerEntries() {
+    var drawerEntries = <DrawerNavigationEntry>[];
+
+    for (var entry in navigationEntries) {
+      drawerEntries.add(DrawerNavigationEntry(
+        entry.icon(context),
+        entry.title(context),
+      ));
+    }
+
+    return drawerEntries;
+  }
+
+  void _onNavigationTapped(int index) {
+    _currentEntryIndex = index;
+    NavigatorKey.mainKey.currentState.pushReplacementNamed(currentEntry.route);
+
+    setState(() {});
+  }
+
+  void _showRateInStoreDialogIfNeeded(BuildContext context) {
     if (!_rateDialogShown) {
       RateInStore(KiwiContainer().resolve())
           .showRateInStoreDialogIfNeeded(context);
@@ -208,43 +82,4 @@ class _MainPageState extends State<MainPage> {
       _rateDialogShown = true;
     }
   }
-}
-
-class Page {
-  final Widget widget;
-  final Color color;
-  final String Function(BuildContext context) title;
-  final IconData icon;
-  final BaseViewModel viewModel;
-  final Key key;
-
-  Page({
-    this.widget,
-    this.color,
-    this.title,
-    this.viewModel,
-    this.key,
-    this.icon,
-  });
-}
-
-class NavigationEntry {
-  final Widget icon;
-  final String Function(BuildContext context) title;
-  final BaseViewModel viewModel;
-
-  List<Page> _pages;
-  List<Page> get pages => _pages;
-
-  int currentPageIndex = 0;
-  Page get currentPage => pages[currentPageIndex];
-
-  Widget _body;
-  Widget get body => _body;
-
-  bool get hasPages => _pages != null && _pages.length > 0;
-  Key get key => ValueKey(title);
-
-  NavigationEntry.pages(this._pages, this.icon, this.title, this.viewModel);
-  NavigationEntry.body(this._body, this.icon, this.title, this.viewModel);
 }
