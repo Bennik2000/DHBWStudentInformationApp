@@ -134,7 +134,7 @@ class NavigationDrawer extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).pop();
-              Navigator.pushNamed(context, "/settings");
+              Navigator.pushNamed(context, "settings");
             },
           ),
         ],
