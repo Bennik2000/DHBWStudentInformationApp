@@ -15,10 +15,10 @@ class UsefulInformationNavigationEntry extends NavigationEntry {
   }
 
   @override
-  Key get key => ValueKey("UsefulInformationNavigationEntry");
-
-  @override
   String title(BuildContext context) {
     return L.of(context).screenUsefulLinks;
   }
+
+  @override
+  String get route => "/usefulInformation";
 }

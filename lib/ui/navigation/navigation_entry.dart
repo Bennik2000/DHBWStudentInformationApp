@@ -1,14 +1,27 @@
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 abstract class NavigationEntry {
-  Key get key;
-
   BaseViewModel _viewModel;
+
+  String get route;
 
   String title(BuildContext context);
 
   Widget icon(BuildContext context);
+
+  Widget buildRoute(BuildContext context) {
+    var model = viewModel();
+    if (model != null) {
+      return ChangeNotifierProvider.value(
+        value: model,
+        child: build(context),
+      );
+    } else {
+      return build(context);
+    }
+  }
 
   Widget build(BuildContext context);
 
