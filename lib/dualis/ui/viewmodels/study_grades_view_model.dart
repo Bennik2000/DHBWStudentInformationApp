@@ -4,7 +4,6 @@ import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/model/module.dart';
 import 'package:dhbwstudentapp/dualis/model/semester.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
-import 'package:dhbwstudentapp/dualis/service/cache_dualis_service_decorator.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 
 enum LoginState {

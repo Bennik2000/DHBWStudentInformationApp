@@ -1,7 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/dualis_page.dart';
-import 'package:dhbwstudentapp/dualis/ui/study_overview/study_overview_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:flutter/material.dart';

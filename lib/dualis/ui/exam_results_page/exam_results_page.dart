@@ -1,9 +1,7 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
-import 'package:provider/provider.dart';
 
 class ExamResultsPage extends StatelessWidget {
   @override
@@ -20,7 +18,7 @@ class ExamResultsPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
               child: Text(
                 L.of(context).dualisExamResultsTitle,
-                style: Theme.of(context).textTheme.title,
+                style: Theme.of(context).textTheme.headline6,
               ),
             ),
             Padding(

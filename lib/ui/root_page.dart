@@ -1,11 +1,8 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
-import 'package:dhbwstudentapp/ui/main_page.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:dhbwstudentapp/ui/navigation/router.dart';
-import 'package:dhbwstudentapp/ui/onboarding/onboarding_page.dart';
-import 'package:dhbwstudentapp/ui/settings/settings_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
