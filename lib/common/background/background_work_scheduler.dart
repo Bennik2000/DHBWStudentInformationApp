@@ -15,13 +15,13 @@ class BackgroundWorkScheduler {
     print(
       "Scheduling one shot task: $id. With a delay of ${delay.inMinutes} minutes.",
     );
-
+/*
     await Workmanager.registerOneOffTask(
       id,
       name,
       existingWorkPolicy: ExistingWorkPolicy.replace,
       initialDelay: delay,
-    );
+    );*/
   }
 
   Future<void> scheduleOneShotTaskAt(
@@ -33,7 +33,7 @@ class BackgroundWorkScheduler {
   }
 
   Future<void> cancelTask(String id) async {
-    await Workmanager.cancelByUniqueName(id);
+    //await Workmanager.cancelByUniqueName(id);
     print("Cancelled task $id");
   }
 
@@ -46,7 +46,7 @@ class BackgroundWorkScheduler {
       "Scheduling periodic task: $id. With a delay of ${delay.inMinutes} minutes. Requires network: $needsNetwork",
     );
 
-    await Workmanager.registerPeriodicTask(
+    /*await Workmanager.registerPeriodicTask(
       id,
       id,
       frequency: delay,
@@ -56,7 +56,7 @@ class BackgroundWorkScheduler {
         networkType:
             needsNetwork ? NetworkType.connected : NetworkType.not_required,
       ),
-    );
+    );*/
   }
 
   void registerTask(TaskCallback task) {
@@ -90,14 +90,14 @@ class BackgroundWorkScheduler {
 
   Future<void> _setupBackgroundScheduling() async {
     print("Initialize background scheduling");
-
+/*
     await Workmanager.initialize(
       callbackDispatcher,
       isInDebugMode: false,
-    );
+    );*/
   }
 }
 
 void callbackDispatcher() {
-  Workmanager.executeTask(BackgroundWorkScheduler.backgroundTaskMain);
+  //Workmanager.executeTask(BackgroundWorkScheduler.backgroundTaskMain);
 }
