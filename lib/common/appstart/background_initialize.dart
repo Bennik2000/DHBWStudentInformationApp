@@ -1,13 +1,22 @@
+import 'dart:io';
+
 import 'package:dhbwstudentapp/common/background/background_work_scheduler.dart';
+import 'package:dhbwstudentapp/common/background/void_background_work_scheduler.dart';
+import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/schedule/background/background_schedule_update.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:kiwi/kiwi.dart';
 
 class BackgroundInitialize {
   Future<void> setupBackgroundScheduling() async {
-    var scheduler = BackgroundWorkScheduler();
+    var scheduler;
+    if (Platform.isAndroid) {
+      scheduler = BackgroundWorkScheduler();
+    } else {
+      scheduler = VoidBackgroundWorkScheduler();
+    }
 
-    KiwiContainer().registerInstance(scheduler);
+    KiwiContainer().registerInstance<WorkSchedulerService>(scheduler);
 
     var tasks = [
       BackgroundScheduleUpdate(

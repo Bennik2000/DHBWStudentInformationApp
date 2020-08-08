@@ -1,5 +1,6 @@
 import 'package:dhbwstudentapp/common/background/background_work_scheduler.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
+import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/notification_api.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
@@ -11,7 +12,7 @@ import 'package:intl/intl.dart';
 class NextDayInformationNotification extends TaskCallback {
   final NotificationApi _notificationApi;
   final ScheduleEntryRepository _scheduleEntryRepository;
-  final BackgroundWorkScheduler _scheduler;
+  final WorkSchedulerService _scheduler;
   final L _localization;
 
   NextDayInformationNotification(

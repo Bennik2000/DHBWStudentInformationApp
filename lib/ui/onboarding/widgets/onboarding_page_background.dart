@@ -76,55 +76,65 @@ class OnboardingPageBackground extends StatelessWidget {
         super(key: key);
 
   Widget _buildAnimation(BuildContext context, Widget child) {
-    return Stack(
-      children: <Widget>[
-        Transform.rotate(
-          child: Transform.translate(
-            child: Container(
-              width: 4000,
-              height: 200,
-              color: colorOnboardingDecorationForeground(context),
+    return ClipRect(
+      child: Stack(
+        children: <Widget>[
+          Transform.rotate(
+            child: Transform.translate(
+              child: Container(
+                width: 15000,
+                height: 500,
+                color: colorOnboardingDecorationForeground(context),
+              ),
+              offset: Offset(20, -450),
             ),
-            offset: Offset(100, -150),
+            angle: toRadian(angleTopForeground.value),
           ),
-          angle: toRadian(angleTopForeground.value),
-        ),
-        Transform.rotate(
-          child: Transform.translate(
-            child: Container(
-              width: 3000,
-              height: 200,
-              color: colorOnboardingDecorationBackground(context),
+          Transform.rotate(
+            child: Transform.translate(
+              child: Container(
+                width: 1500,
+                height: 500,
+                color: colorOnboardingDecorationBackground(context),
+              ),
+              offset: Offset(20, -550),
             ),
-            offset: Offset(0, -170),
+            angle: toRadian(angleTopBackground.value),
           ),
-          angle: toRadian(angleTopBackground.value),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Transform.translate(
-            offset: Offset(bottomBackground.value, 20),
-            child: Transform.scale(
-              scale: 1.5,
-              child: Image.asset(
-                background[Theme.of(context).brightness],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 90,
+              width: double.infinity,
+              child: Transform.translate(
+                offset: Offset(bottomBackground.value, 20),
+                child: Transform.scale(
+                  scale: 1.5,
+                  child: Image.asset(
+                    background[Theme.of(context).brightness],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Transform.translate(
-            offset: Offset(bottomForeground.value, 20),
-            child: Transform.scale(
-              scale: 1.5,
-              child: Image.asset(
-                foreground[Theme.of(context).brightness],
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 90,
+              width: double.infinity,
+              child: Transform.translate(
+                offset: Offset(bottomForeground.value, 20),
+                child: Transform.scale(
+                  scale: 1.5,
+                  child: Image.asset(
+                    foreground[Theme.of(context).brightness],
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

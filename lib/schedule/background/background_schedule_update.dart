@@ -1,5 +1,5 @@
-import 'package:dhbwstudentapp/common/background/background_work_scheduler.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
+import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
@@ -10,7 +10,7 @@ class BackgroundScheduleUpdate extends TaskCallback {
   final ScheduleProvider scheduleProvider;
   final ScheduleSource scheduleSource;
   final PreferencesProvider preferencesProvider;
-  final BackgroundWorkScheduler scheduler;
+  final WorkSchedulerService scheduler;
 
   BackgroundScheduleUpdate(
     this.scheduleProvider,

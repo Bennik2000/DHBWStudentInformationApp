@@ -1,5 +1,6 @@
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
+import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
@@ -107,36 +108,41 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   List<Widget> buildNotificationSettings(BuildContext context) {
-    return [
-      TitleListTile(title: L.of(context).settingsNotificationsTitle),
-      PropertyChangeConsumer(
-        properties: [
-          "notifyAboutNextDay",
-        ],
-        builder:
-            (BuildContext context, SettingsViewModel model, Set properties) {
-          return SwitchListTile(
-            title: Text(L.of(context).settingsNotificationsNextDay),
-            onChanged: model.setNotifyAboutNextDay,
-            value: model.notifyAboutNextDay,
-          );
-        },
-      ),
-      PropertyChangeConsumer(
-        properties: [
-          "notifyAboutScheduleChanges",
-        ],
-        builder:
-            (BuildContext context, SettingsViewModel model, Set properties) {
-          return SwitchListTile(
-            title: Text(L.of(context).settingsNotificationsScheduleChange),
-            onChanged: model.setNotifyAboutScheduleChanges,
-            value: model.notifyAboutScheduleChanges,
-          );
-        },
-      ),
-      Divider(),
-    ];
+    WorkSchedulerService service = KiwiContainer().resolve();
+    if (service?.isSchedulingAvailable() ?? false) {
+      return [
+        TitleListTile(title: L.of(context).settingsNotificationsTitle),
+        PropertyChangeConsumer(
+          properties: [
+            "notifyAboutNextDay",
+          ],
+          builder:
+              (BuildContext context, SettingsViewModel model, Set properties) {
+            return SwitchListTile(
+              title: Text(L.of(context).settingsNotificationsNextDay),
+              onChanged: model.setNotifyAboutNextDay,
+              value: model.notifyAboutNextDay,
+            );
+          },
+        ),
+        PropertyChangeConsumer(
+          properties: [
+            "notifyAboutScheduleChanges",
+          ],
+          builder:
+              (BuildContext context, SettingsViewModel model, Set properties) {
+            return SwitchListTile(
+              title: Text(L.of(context).settingsNotificationsScheduleChange),
+              onChanged: model.setNotifyAboutScheduleChanges,
+              value: model.notifyAboutScheduleChanges,
+            );
+          },
+        ),
+        Divider(),
+      ];
+    } else {
+      return [];
+    }
   }
 
   List<Widget> buildDesignSettings(BuildContext context) {
