@@ -8,15 +8,23 @@ class NavigationDrawer extends StatelessWidget {
   final int selectedIndex;
   final NavigationItemOnTap onTap;
   final List<DrawerNavigationEntry> entries;
+  final bool isInDrawer;
 
-  const NavigationDrawer(
-      {Key key, this.selectedIndex, this.onTap, this.entries})
-      : super(key: key);
+  const NavigationDrawer({
+    Key key,
+    this.selectedIndex,
+    this.onTap,
+    this.entries,
+    this.isInDrawer = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var widgets = <Widget>[];
-    widgets.add(_createHeader(context));
+
+    if (isInDrawer) {
+      widgets.add(_createHeader(context));
+    }
 
     int i = 0;
     for (var entry in entries) {
@@ -31,13 +39,19 @@ class NavigationDrawer extends StatelessWidget {
 
     widgets.add(_createSettingsItem(context));
 
-    return Drawer(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: widgets,
-      ),
+    var widget = Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: widgets,
     );
+
+    if (isInDrawer) {
+      return Drawer(
+        child: widget,
+      );
+    }
+
+    return widget;
   }
 
   Widget _createHeader(BuildContext context) {
@@ -94,7 +108,10 @@ class NavigationDrawer extends StatelessWidget {
           ),
           onTap: () {
             onTap(index);
-            Navigator.of(context).pop();
+
+            if (isInDrawer) {
+              Navigator.of(context).pop();
+            }
           },
         ),
       ),
@@ -106,10 +123,9 @@ class NavigationDrawer extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[
-          Divider(),
           InkWell(
             child: Container(
-              height: 64,
+              height: 56,
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
                 child: Row(
@@ -133,7 +149,10 @@ class NavigationDrawer extends StatelessWidget {
               ),
             ),
             onTap: () {
-              Navigator.of(context).pop();
+              if (isInDrawer) {
+                Navigator.of(context).pop();
+              }
+
               Navigator.pushNamed(context, "settings");
             },
           ),

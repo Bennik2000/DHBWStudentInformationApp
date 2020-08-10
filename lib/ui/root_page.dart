@@ -42,6 +42,8 @@ class _RootPageState extends State<RootPage> {
             const LocalizationDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
           ],
           supportedLocales: [
             const Locale('en'),

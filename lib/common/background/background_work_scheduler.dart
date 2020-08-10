@@ -1,9 +1,10 @@
 import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
+import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:workmanager/workmanager.dart';
 
-class BackgroundWorkScheduler {
+class BackgroundWorkScheduler extends WorkSchedulerService{
   Map<String, TaskCallback> _taskCallbacks = {};
 
   BackgroundWorkScheduler() {
@@ -95,6 +96,11 @@ class BackgroundWorkScheduler {
       callbackDispatcher,
       isInDebugMode: false,
     );
+  }
+
+  @override
+  bool isSchedulingAvailable() {
+    return true;
   }
 }
 

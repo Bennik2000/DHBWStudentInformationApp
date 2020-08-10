@@ -9,6 +9,7 @@ import Flutter
   ) -> Bool {
     var flutter_native_splash = 1
     UIApplication.shared.isStatusBarHidden = false
+    UIApplication.shared.setMinimumBackgroundFetchInterval(TimeInterval(60*15))
 
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
