@@ -14,4 +14,9 @@ class PlatformUtil {
   static bool isPortrait(BuildContext context) {
     return MediaQuery.of(context).orientation == Orientation.portrait;
   }
+
+  static Brightness platformBrightness() {
+    final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
+    return data.platformBrightness ?? Brightness.light;
+  }
 }

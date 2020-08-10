@@ -1,5 +1,7 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/common/util/platform_util.dart';
+import 'package:flutter/cupertino.dart';
 
 class RootViewModel extends BaseViewModel {
   final PreferencesProvider _preferencesProvider;
@@ -13,7 +15,13 @@ class RootViewModel extends BaseViewModel {
   RootViewModel(this._preferencesProvider);
 
   Future<void> loadFromPreferences() async {
-    _isDarkMode = await _preferencesProvider.isDarkMode();
+    var darkMode = await _preferencesProvider.isDarkMode();
+
+    if (darkMode == null) {
+      darkMode = PlatformUtil.platformBrightness() == Brightness.dark;
+    }
+
+    _isDarkMode = darkMode;
     _isOnboarding = await _preferencesProvider.isFirstStart();
 
     notifyListeners("isDarkMode");

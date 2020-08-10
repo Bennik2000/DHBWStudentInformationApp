@@ -21,7 +21,7 @@ class PreferencesProvider {
   PreferencesProvider(this._preferencesAccess, this._secureStorageAccess);
 
   Future<bool> isDarkMode() async {
-    return await _preferencesAccess.get(IsDarkModeKey) ?? false;
+    return await _preferencesAccess.get(IsDarkModeKey);
   }
 
   Future<void> setIsDarkMode(bool value) async {
