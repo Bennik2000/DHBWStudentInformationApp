@@ -1,9 +1,8 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
-import 'package:dhbwstudentapp/ui/main_page.dart';
-import 'package:dhbwstudentapp/ui/onboarding/onboarding_page.dart';
-import 'package:dhbwstudentapp/ui/settings/settings_page.dart';
+import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
+import 'package:dhbwstudentapp/ui/navigation/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -37,21 +36,20 @@ class _RootPageState extends State<RootPage> {
         builder: (BuildContext context, RootViewModel model, Set properties) =>
             MaterialApp(
           theme: ColorPalettes.buildTheme(model.isDarkMode),
-          initialRoute: rootViewModel.isOnboarding ? "/" : "/home",
+          initialRoute: rootViewModel.isOnboarding ? "onboarding" : "main",
+          navigatorKey: NavigatorKey.rootKey,
           localizationsDelegates: [
             const LocalizationDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            DefaultCupertinoLocalizations.delegate,
           ],
           supportedLocales: [
             const Locale('en'),
             const Locale('de'),
           ],
-          routes: {
-            "/": (BuildContext context) => OnboardingPage(),
-            "/home": (BuildContext context) => MainPage(),
-            "/settings": (BuildContext context) => SettingsPage(),
-          },
+          onGenerateRoute: generateRoute,
         ),
       ),
       value: rootViewModel,

@@ -7,7 +7,6 @@ import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kiwi/kiwi.dart';
 
 bool isInitialized = false;
@@ -25,10 +24,6 @@ Future<void> initializeApp(bool isBackground) async {
   }
 
   WidgetsFlutterBinding.ensureInitialized();
-
-  if (!isBackground) {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  }
 
   injectServices();
 

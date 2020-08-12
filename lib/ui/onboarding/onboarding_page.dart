@@ -150,7 +150,7 @@ class _OnboardingPageState extends State<OnboardingPage>
 
       rootViewModel.setIsOnboarding(false);
 
-      Navigator.of(context).pushReplacementNamed("/home");
+      Navigator.of(context).pushReplacementNamed("main");
     } else {
       viewModel.nextPage();
     }

@@ -42,6 +42,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
 
   void _onScheduleEntryTap(BuildContext context, ScheduleEntry entry) {
     showModalBottomSheet(
+      useRootNavigator: true,
       context: context,
       builder: (context) => ScheduleEntryDetailBottomSheet(
         scheduleEntry: entry,

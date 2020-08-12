@@ -1,3 +1,5 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 typedef NavigationItemOnTap = Function(int index);
@@ -6,15 +8,23 @@ class NavigationDrawer extends StatelessWidget {
   final int selectedIndex;
   final NavigationItemOnTap onTap;
   final List<DrawerNavigationEntry> entries;
+  final bool isInDrawer;
 
-  const NavigationDrawer(
-      {Key key, this.selectedIndex, this.onTap, this.entries})
-      : super(key: key);
+  const NavigationDrawer({
+    Key key,
+    this.selectedIndex,
+    this.onTap,
+    this.entries,
+    this.isInDrawer = true,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var widgets = <Widget>[];
-    widgets.add(_createHeader(context));
+
+    if (isInDrawer) {
+      widgets.add(_createHeader(context));
+    }
 
     int i = 0;
     for (var entry in entries) {
@@ -27,13 +37,21 @@ class NavigationDrawer extends StatelessWidget {
       i++;
     }
 
-    return Drawer(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: widgets,
-      ),
+    widgets.add(_createSettingsItem(context));
+
+    var widget = Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: widgets,
     );
+
+    if (isInDrawer) {
+      return Drawer(
+        child: widget,
+      );
+    }
+
+    return widget;
   }
 
   Widget _createHeader(BuildContext context) {
@@ -47,8 +65,8 @@ class NavigationDrawer extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-              "DHBW Studenten App",
-              style: Theme.of(context).textTheme.headline,
+              L.of(context).applicationName,
+              style: Theme.of(context).textTheme.headline5,
             ),
           ],
         ),
@@ -90,9 +108,55 @@ class NavigationDrawer extends StatelessWidget {
           ),
           onTap: () {
             onTap(index);
-            Navigator.of(context).pop();
+
+            if (isInDrawer) {
+              Navigator.of(context).pop();
+            }
           },
         ),
+      ),
+    );
+  }
+
+  Widget _createSettingsItem(BuildContext context) {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          InkWell(
+            child: Container(
+              height: 56,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.settings,
+                      color: Theme.of(context).disabledColor,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                      child: Text(
+                        "Einstellungen",
+                        style: TextStyle(
+                          color: Theme.of(context).disabledColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            onTap: () {
+              if (isInDrawer) {
+                Navigator.of(context).pop();
+              }
+
+              Navigator.pushNamed(context, "settings");
+            },
+          ),
+        ],
       ),
     );
   }

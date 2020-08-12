@@ -1,33 +1,23 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/dualis/ui/login/dualis_login_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/widgets/grade_state_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
-import 'package:provider/provider.dart';
 
 class StudyOverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    StudyGradesViewModel viewModel = Provider.of<BaseViewModel>(context);
-
-    return PropertyChangeProvider(
-      value: viewModel,
-      child: DualisLoginPage(
-        builder: (BuildContext context) => Container(
-          height: double.infinity,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                buildGpaCredits(context),
-                buildModules(context),
-              ],
-            ),
-          ),
+    return Container(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            buildGpaCredits(context),
+            buildModules(context),
+          ],
         ),
       ),
     );
@@ -43,7 +33,7 @@ class StudyOverviewPage extends StatelessWidget {
         children: <Widget>[
           Text(
             L.of(context).dualisOverview,
-            style: Theme.of(context).textTheme.title,
+            style: Theme.of(context).textTheme.headline6,
           ),
           PropertyChangeConsumer(
             properties: ["studyGrades"],
@@ -65,7 +55,7 @@ class StudyOverviewPage extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                   model.studyGrades.gpaTotal.toString(),
-                                  style: Theme.of(context).textTheme.display2,
+                                  style: Theme.of(context).textTheme.headline3,
                                 ),
                                 Padding(
                                   padding:
@@ -83,7 +73,7 @@ class StudyOverviewPage extends StatelessWidget {
                             children: <Widget>[
                               Text(
                                 model.studyGrades.gpaMainModules.toString(),
-                                style: Theme.of(context).textTheme.display2,
+                                style: Theme.of(context).textTheme.headline3,
                               ),
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
@@ -101,7 +91,7 @@ class StudyOverviewPage extends StatelessWidget {
                               children: <Widget>[
                                 Text(
                                   "${model.studyGrades.creditsGained} / ${model.studyGrades.creditsTotal}",
-                                  style: Theme.of(context).textTheme.display2,
+                                  style: Theme.of(context).textTheme.headline3,
                                 ),
                                 Padding(
                                   padding:
@@ -132,7 +122,7 @@ class StudyOverviewPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
             child: Text(
               L.of(context).dualisOverviewModuleGrades,
-              style: Theme.of(context).textTheme.title,
+              style: Theme.of(context).textTheme.headline6,
             ),
           ),
           PropertyChangeConsumer(

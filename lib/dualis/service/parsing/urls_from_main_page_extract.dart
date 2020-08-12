@@ -17,6 +17,7 @@ class UrlsFromMainPageExtract {
 
     var courseResultsElement = getElementByClassName(document, "link000307");
     var studentResultsElement = getElementByClassName(document, "link000310");
+    var logoutElement = getElementById(document, "logoutButton");
 
     var courseResultsUrl =
         endpointUrl + courseResultsElement.attributes['href'];
@@ -24,9 +25,12 @@ class UrlsFromMainPageExtract {
     var studentResultsUrl =
         endpointUrl + studentResultsElement.attributes['href'];
 
+    var logoutUrl = endpointUrl + logoutElement.attributes['href'];
+
     return DualisUrls(
       courseResultsUrl,
       studentResultsUrl,
+      logoutUrl,
     );
   }
 }

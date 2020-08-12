@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/dualis/model/exam.dart';
 import 'package:dhbwstudentapp/dualis/model/module.dart';
 import 'package:dhbwstudentapp/dualis/model/semester.dart';
@@ -7,15 +8,32 @@ import 'package:dhbwstudentapp/dualis/service/dualis_session.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 
 abstract class DualisService {
-  Future<bool> login(String username, String password);
+  Future<bool> login(
+    String username,
+    String password, [
+    CancellationToken cancellationToken,
+  ]);
 
-  Future<StudyGrades> queryStudyGrades();
+  Future<StudyGrades> queryStudyGrades([
+    CancellationToken cancellationToken,
+  ]);
 
-  Future<List<String>> querySemesterNames();
+  Future<List<String>> querySemesterNames([
+    CancellationToken cancellationToken,
+  ]);
 
-  Future<List<Module>> queryAllModules();
+  Future<List<Module>> queryAllModules([
+    CancellationToken cancellationToken,
+  ]);
 
-  Future<Semester> querySemester(String name);
+  Future<Semester> querySemester(
+    String name, [
+    CancellationToken cancellationToken,
+  ]);
+
+  Future<void> logout([
+    CancellationToken cancellationToken,
+  ]);
 }
 
 class DualisServiceImpl extends DualisService {
@@ -25,31 +43,52 @@ class DualisServiceImpl extends DualisService {
   DualisSession _session;
 
   @override
-  Future<bool> login(String username, String password) async {
-    _session = await _dualisScraper.login(username, password);
+  Future<bool> login(
+    String username,
+    String password, [
+    CancellationToken cancellationToken,
+  ]) async {
+    _session = await _dualisScraper.login(
+      username,
+      password,
+      cancellationToken,
+    );
 
     if (_session == null) return false;
 
-    _dualisUrls = await _dualisScraper.requestMainPage(_session);
+    cancellationToken?.throwIfCancelled();
+
+    _dualisUrls = await _dualisScraper.requestMainPage(
+      _session,
+      cancellationToken,
+    );
+
+    cancellationToken?.throwIfCancelled();
 
     return true;
   }
 
   @override
-  Future<StudyGrades> queryStudyGrades() async {
+  Future<StudyGrades> queryStudyGrades([
+    CancellationToken cancellationToken,
+  ]) async {
     var studyGrades = await _dualisScraper.loadStudyGrades(
       _session,
       _dualisUrls.studentResultsUrl,
+      cancellationToken,
     );
 
     return studyGrades;
   }
 
   @override
-  Future<List<String>> querySemesterNames() async {
+  Future<List<String>> querySemesterNames([
+    CancellationToken cancellationToken,
+  ]) async {
     var semesters = await _dualisScraper.loadSemesters(
       _session,
       _dualisUrls,
+      cancellationToken,
     );
 
     var names = <String>[];
@@ -65,15 +104,20 @@ class DualisServiceImpl extends DualisService {
   }
 
   @override
-  Future<List<Module>> queryAllModules() async {
+  Future<List<Module>> queryAllModules([
+    CancellationToken cancellationToken,
+  ]) async {
     var dualisModules = await _dualisScraper.loadAllModules(
       _session,
       _dualisUrls.studentResultsUrl,
+      cancellationToken,
     );
 
     var modules = <Module>[];
 
     for (var module in dualisModules) {
+      cancellationToken?.throwIfCancelled();
+
       modules.add(Module(
         <Exam>[],
         module.id,
@@ -88,18 +132,25 @@ class DualisServiceImpl extends DualisService {
   }
 
   @override
-  Future<Semester> querySemester(String name) async {
+  Future<Semester> querySemester(
+    String name, [
+    CancellationToken cancellationToken,
+  ]) async {
     var semesterModules = await _dualisScraper.loadSemesterModules(
       _session,
       _dualisUrls.semesterCourseResultUrls[name],
+      cancellationToken,
     );
 
     var modules = <Module>[];
 
     for (var dualisModule in semesterModules) {
+      cancellationToken?.throwIfCancelled();
+
       var moduleExams = await _dualisScraper.loadModuleExams(
         dualisModule.detailsUrl,
         _session,
+        cancellationToken,
       );
 
       var exams = <Exam>[];
@@ -126,5 +177,19 @@ class DualisServiceImpl extends DualisService {
     }
 
     return Semester(name, modules);
+  }
+
+  @override
+  Future<void> logout([
+    CancellationToken cancellationToken,
+  ]) async {
+    await _dualisScraper.logout(
+      _session,
+      _dualisUrls,
+      cancellationToken,
+    );
+
+    _session = null;
+    _dualisUrls = null;
   }
 }

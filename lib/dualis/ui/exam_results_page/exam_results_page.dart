@@ -1,86 +1,76 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/dualis/ui/login/dualis_login_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
-import 'package:provider/provider.dart';
 
 class ExamResultsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    StudyGradesViewModel viewModel = Provider.of<BaseViewModel>(context);
-
-    return PropertyChangeProvider(
-      value: viewModel,
-      child: DualisLoginPage(
-        builder: (BuildContext context) => Container(
-          height: double.infinity,
-          child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
-                  child: Text(
-                    L.of(context).dualisExamResultsTitle,
-                    style: Theme.of(context).textTheme.title,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Text(L.of(context).dualisExamResultsSemesterSelect),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
-                        child: PropertyChangeConsumer(
-                          properties: [
-                            "currentSemesterName",
-                            "allSemesterNames",
-                          ],
-                          builder: (
-                            BuildContext context,
-                            StudyGradesViewModel model,
-                            Set properties,
-                          ) =>
-                              DropdownButton(
-                            onChanged: (value) => model.loadSemester(value),
-                            value: model.currentSemesterName,
-                            items: (model.allSemesterNames ?? [])
-                                .map(
-                                  (n) => DropdownMenuItem(
-                                    child: Text(n),
-                                    value: n,
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                  child: PropertyChangeConsumer(
-                    properties: ["currentSemester"],
-                    builder: (
-                      BuildContext context,
-                      StudyGradesViewModel model,
-                      Set properties,
-                    ) =>
-                        model.currentSemester != null
-                            ? buildDataTable(context, model)
-                            : Center(child: CircularProgressIndicator()),
-                  ),
-                )
-              ],
+    return Container(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
+              child: Text(
+                L.of(context).dualisExamResultsTitle,
+                style: Theme.of(context).textTheme.headline6,
+              ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text(L.of(context).dualisExamResultsSemesterSelect),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
+                    child: PropertyChangeConsumer(
+                      properties: [
+                        "currentSemesterName",
+                        "allSemesterNames",
+                      ],
+                      builder: (
+                        BuildContext context,
+                        StudyGradesViewModel model,
+                        Set properties,
+                      ) =>
+                          DropdownButton(
+                        onChanged: (value) => model.loadSemester(value),
+                        value: model.currentSemesterName,
+                        items: (model.allSemesterNames ?? [])
+                            .map(
+                              (n) => DropdownMenuItem(
+                                child: Text(n),
+                                value: n,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+              child: PropertyChangeConsumer(
+                properties: ["currentSemester"],
+                builder: (
+                  BuildContext context,
+                  StudyGradesViewModel model,
+                  Set properties,
+                ) =>
+                    model.currentSemester != null
+                        ? buildDataTable(context, model)
+                        : Center(child: CircularProgressIndicator()),
+              ),
+            )
+          ],
         ),
       ),
     );

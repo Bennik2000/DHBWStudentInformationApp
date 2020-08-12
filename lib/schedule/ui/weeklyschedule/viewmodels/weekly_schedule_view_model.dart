@@ -7,6 +7,7 @@ import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
+import 'package:mutex/mutex.dart';
 
 class WeeklyScheduleViewModel extends BaseViewModel {
   static const Duration weekDuration = Duration(days: 7);
@@ -35,14 +36,20 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Timer _updateNowTimer;
 
   CancellationToken _updateScheduleCancellationToken;
+  Mutex _mutex = Mutex();
+  DateTime lastRequestedStart;
+  DateTime lastRequestedEnd;
 
   WeeklyScheduleViewModel(this.scheduleProvider) {
     goToToday();
     ensureUpdateNowTimerRunning();
   }
 
-  void _setSchedule(Schedule schedule) {
+  void _setSchedule(Schedule schedule, DateTime start, DateTime end) {
     weekSchedule = schedule;
+    didUpdateScheduleIntoFuture = currentDateStart?.isBefore(start) ?? true;
+    currentDateStart = start;
+    currentDateEnd = end;
 
     if (weekSchedule != null) {
       var scheduleStart = weekSchedule.getStartDate();
@@ -71,84 +78,96 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   }
 
   Future nextWeek() async {
-    currentDateStart = toNextWeek(currentDateStart);
-    currentDateEnd = toNextWeek(currentDateEnd);
-
-    didUpdateScheduleIntoFuture = true;
-
-    await updateSchedule();
+    await updateSchedule(
+      toNextWeek(currentDateStart),
+      toNextWeek(currentDateEnd),
+    );
   }
 
   Future previousWeek() async {
-    currentDateStart = toPreviousWeek(currentDateStart);
-    currentDateEnd = toPreviousWeek(currentDateEnd);
-
-    didUpdateScheduleIntoFuture = false;
-
-    await updateSchedule();
+    await updateSchedule(
+      toPreviousWeek(currentDateStart),
+      toPreviousWeek(currentDateEnd),
+    );
   }
 
   Future goToToday() async {
-    var now = DateTime.now();
-
-    didUpdateScheduleIntoFuture = currentDateStart?.isBefore(now) ?? false;
-
-    currentDateStart = toStartOfDay(toMonday(now));
+    currentDateStart = toStartOfDay(toMonday(DateTime.now()));
     currentDateEnd = currentDateStart.add(Duration(days: 5));
 
-    await updateSchedule();
+    await updateSchedule(currentDateStart, currentDateEnd);
   }
 
-  Future updateSchedule() async {
-    if (_updateScheduleCancellationToken != null) {
-      _updateScheduleCancellationToken.cancel();
+  Future updateSchedule(DateTime start, DateTime end) async {
+    lastRequestedEnd = end;
+    lastRequestedStart = start;
+
+    _updateScheduleCancellationToken?.cancel();
+
+    await _mutex.acquire();
+
+    _updateScheduleCancellationToken = null;
+
+    if (lastRequestedStart != start || lastRequestedEnd != end) {
+      _mutex.release();
+      return;
     }
 
     _updateScheduleCancellationToken = new CancellationToken();
 
-    isUpdating = true;
-    notifyListeners("isUpdating");
+    try {
+      isUpdating = true;
+      notifyListeners("isUpdating");
+
+      await _doUpdateSchedule(start, end);
+    } catch (_) {} finally {
+      isUpdating = false;
+      _mutex.release();
+      notifyListeners("isUpdating");
+    }
+  }
+
+  Future _doUpdateSchedule(DateTime start, DateTime end) async {
     print("Refreshing schedule...");
 
-    await _updateScheduleFromCache();
+    var cancellationToken = _updateScheduleCancellationToken;
 
-    if (_updateScheduleCancellationToken.isCancelled()) return;
+    var cachedSchedule = await scheduleProvider.getCachedSchedule(start, end);
+    cancellationToken.throwIfCancelled();
+    _setSchedule(cachedSchedule, start, end);
 
-    await _updateScheduleFromService();
+    var updatedSchedule = await _readScheduleFromService(
+      start,
+      end,
+      cancellationToken,
+    );
+    cancellationToken.throwIfCancelled();
+    _setSchedule(updatedSchedule, start, end);
 
-    isUpdating = false;
-    notifyListeners("isUpdating");
+    updateFailed = updatedSchedule == null;
+    notifyListeners("updateFailed");
+
+    if (updateFailed) {
+      _cancelErrorInFuture();
+    }
+
     print("Refreshing done");
   }
 
-  Future _updateScheduleFromCache() async {
-    var cachedSchedule = await scheduleProvider.getCachedSchedule(
-      currentDateStart,
-      currentDateEnd,
-    );
-
-    if (_updateScheduleCancellationToken?.isCancelled() ?? true) return;
-
-    _setSchedule(cachedSchedule);
-  }
-
-  Future _updateScheduleFromService() async {
+  Future _readScheduleFromService(
+    DateTime start,
+    DateTime end,
+    CancellationToken token,
+  ) async {
     try {
-      var updatedSchedule = await scheduleProvider.getUpdatedSchedule(
-        currentDateStart,
-        currentDateEnd,
-        _updateScheduleCancellationToken,
+      return await scheduleProvider.getUpdatedSchedule(
+        start,
+        end,
+        token,
       );
+    } on OperationCancelledException {} on ScheduleQueryFailedException {}
 
-      updateFailed = false;
-      notifyListeners("updateFailed");
-
-      _setSchedule(updatedSchedule);
-    } on OperationCancelledException {} on ScheduleQueryFailedException {
-      updateFailed = true;
-      notifyListeners("updateFailed");
-      _cancelErrorInFuture();
-    }
+    return null;
   }
 
   void _cancelErrorInFuture() async {
