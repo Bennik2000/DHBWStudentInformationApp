@@ -1,4 +1,3 @@
-import 'package:dhbwstudentapp/common/background/background_work_scheduler.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';

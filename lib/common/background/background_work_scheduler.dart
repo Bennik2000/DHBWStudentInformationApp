@@ -4,7 +4,7 @@ import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:workmanager/workmanager.dart';
 
-class BackgroundWorkScheduler extends WorkSchedulerService{
+class BackgroundWorkScheduler extends WorkSchedulerService {
   Map<String, TaskCallback> _taskCallbacks = {};
 
   BackgroundWorkScheduler() {
@@ -74,7 +74,7 @@ class BackgroundWorkScheduler extends WorkSchedulerService{
 
       await initializeApp(true);
 
-      BackgroundWorkScheduler scheduler = KiwiContainer().resolve();
+      WorkSchedulerService scheduler = KiwiContainer().resolve();
 
       await scheduler.executeTask(taskId);
     } catch (e, trace) {

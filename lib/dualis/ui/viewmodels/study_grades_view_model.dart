@@ -1,5 +1,7 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/common/util/cancelable_mutex.dart';
+import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/model/module.dart';
 import 'package:dhbwstudentapp/dualis/model/semester.dart';
@@ -9,6 +11,7 @@ import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 enum LoginState {
   LoggedOut,
   LoggingIn,
+  LoggingOut,
   LoggedIn,
   LoginFailed,
 }
@@ -23,28 +26,40 @@ class StudyGradesViewModel extends BaseViewModel {
 
   StudyGrades _studyGrades;
   StudyGrades get studyGrades => _studyGrades;
+  CancelableMutex _studyGradesCancellationToken = CancelableMutex();
 
   List<Module> _allModules;
   List<Module> get allModules => _allModules;
+  CancelableMutex _allModulesCancellationToken = CancelableMutex();
 
   List<String> _semesterNames;
   List<String> get allSemesterNames => _semesterNames;
+  CancelableMutex _semesterNamesCancellationToken = CancelableMutex();
 
   Semester _currentSemester;
   Semester get currentSemester => _currentSemester;
+  CancelableMutex _currentSemesterCancellationToken = CancelableMutex();
 
   String _currentSemesterName;
   String get currentSemesterName => _currentSemesterName;
+
+  String _currentLoadingSemesterName;
 
   StudyGradesViewModel(this._preferencesProvider, this._dualisService);
 
   Future<bool> login(Credentials credentials) async {
     print("Logging into dualis...");
 
-    bool success = await _dualisService.login(
-      credentials.username,
-      credentials.password,
-    );
+    bool success;
+
+    try {
+      success = await _dualisService.login(
+        credentials.username,
+        credentials.password,
+      );
+    } on OperationCancelledException catch (_) {
+      success = false;
+    }
 
     _loginState = success ? LoginState.LoggedIn : LoginState.LoginFailed;
 
@@ -87,9 +102,18 @@ class StudyGradesViewModel extends BaseViewModel {
 
     print("Loading study grades...");
 
-    _studyGrades = await _dualisService.queryStudyGrades();
+    await _studyGradesCancellationToken.acquireAndCancelOther();
 
-    print("Loaded study grades");
+    try {
+      _studyGrades = await _dualisService
+          .queryStudyGrades(_studyGradesCancellationToken.token);
+
+      print("Loaded study grades");
+    } on OperationCancelledException catch (_) {
+      print("Loading study grades cancelled");
+    } finally {
+      _studyGradesCancellationToken.release();
+    }
 
     notifyListeners("studyGrades");
   }
@@ -99,9 +123,19 @@ class StudyGradesViewModel extends BaseViewModel {
 
     print("Loading all modules...");
 
-    _allModules = await _dualisService.queryAllModules();
+    await _allModulesCancellationToken.acquireAndCancelOther();
 
-    print("Loaded all modules");
+    try {
+      _allModules = await _dualisService.queryAllModules(
+        _allModulesCancellationToken.token,
+      );
+
+      print("Loaded all modules");
+    } on OperationCancelledException catch (_) {
+      print("Loading all modules cancelled");
+    } finally {
+      _allModulesCancellationToken.release();
+    }
 
     notifyListeners("allModules");
   }
@@ -110,6 +144,11 @@ class StudyGradesViewModel extends BaseViewModel {
     if (_currentSemester != null && _currentSemesterName == semesterName)
       return Future.value();
 
+    if (_currentLoadingSemesterName == semesterName) return Future.value();
+
+    await _preferencesProvider.setLastViewedSemester(semesterName);
+
+    _currentLoadingSemesterName = semesterName;
     _currentSemesterName = semesterName;
     _currentSemester = null;
     notifyListeners("currentSemesterName");
@@ -117,9 +156,20 @@ class StudyGradesViewModel extends BaseViewModel {
 
     print("Loading semester $semesterName...");
 
-    _currentSemester = await _dualisService.querySemester(semesterName);
+    await _currentSemesterCancellationToken.acquireAndCancelOther();
 
-    print("Loaded semester $semesterName");
+    try {
+      _currentSemester = await _dualisService.querySemester(
+        semesterName,
+        _currentSemesterCancellationToken.token,
+      );
+
+      print("Loaded semester $semesterName");
+    } on OperationCancelledException catch (_) {
+      print("Loading semester $semesterName cancelled");
+    } finally {
+      _currentSemesterCancellationToken.release();
+    }
 
     notifyListeners("currentSemester");
   }
@@ -129,14 +179,59 @@ class StudyGradesViewModel extends BaseViewModel {
 
     print("Loading semester names...");
 
-    _semesterNames = await _dualisService.querySemesterNames();
+    await _semesterNamesCancellationToken.acquireAndCancelOther();
 
-    print("Loaded semester names");
+    try {
+      _semesterNames = await _dualisService.querySemesterNames(
+        _semesterNamesCancellationToken.token,
+      );
+
+      print("Loaded semester names");
+    } on OperationCancelledException catch (_) {
+      print("Loading semester names cancelled");
+    } finally {
+      _semesterNamesCancellationToken.release();
+    }
 
     notifyListeners("semesterNames");
 
-    if ((_semesterNames?.length ?? 0) > 0) {
+    await _loadInitialSemester();
+  }
+
+  Future _loadInitialSemester() async {
+    if (_semesterNames == null) return;
+    if (_semesterNames.length == 0) return;
+
+    var lastViewedSemester = await _preferencesProvider.getLastViewedSemester();
+
+    if (_semesterNames.contains(lastViewedSemester)) {
+      loadSemester(lastViewedSemester);
+    } else {
       loadSemester(_semesterNames.first);
     }
+  }
+
+  Future<void> logout() async {
+    print("Logging out...");
+
+    _loginState = LoginState.LoggingOut;
+    notifyListeners("loginState");
+
+    _semesterNamesCancellationToken.cancel();
+    _currentSemesterCancellationToken.cancel();
+    _allModulesCancellationToken.cancel();
+    _studyGradesCancellationToken.cancel();
+
+    await _dualisService.logout();
+
+    _loginState = LoginState.LoggedOut;
+    _studyGrades = null;
+    _allModules = null;
+    _semesterNames = null;
+    _currentSemester = null;
+    _currentSemesterName = null;
+    notifyListeners();
+
+    print("Logged out");
   }
 }

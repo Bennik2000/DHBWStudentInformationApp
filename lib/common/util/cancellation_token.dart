@@ -10,7 +10,7 @@ class CancellationToken {
 
   void throwIfCancelled() {
     if (_isCancelled) {
-      throw TokenCancelledException;
+      throw OperationCancelledException();
     }
   }
 
@@ -24,7 +24,5 @@ class CancellationToken {
     _callback = callback;
   }
 }
-
-class TokenCancelledException implements Exception {}
 
 class OperationCancelledException implements Exception {}

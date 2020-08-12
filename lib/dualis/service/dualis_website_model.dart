@@ -3,11 +3,13 @@ import 'package:dhbwstudentapp/dualis/model/exam.dart';
 class DualisUrls {
   final String courseResultUrl;
   final String studentResultsUrl;
+  final String logoutUrl;
   final Map<String, String> semesterCourseResultUrls = {};
 
   DualisUrls(
     this.courseResultUrl,
     this.studentResultsUrl,
+    this.logoutUrl,
   );
 }
 

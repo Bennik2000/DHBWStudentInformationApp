@@ -7,7 +7,6 @@ import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
-import 'package:flutter/material.dart';
 import 'package:mutex/mutex.dart';
 
 class WeeklyScheduleViewModel extends BaseViewModel {

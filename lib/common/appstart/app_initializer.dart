@@ -5,10 +5,8 @@ import 'package:dhbwstudentapp/common/appstart/localization_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notification_schedule_changed_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
-import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kiwi/kiwi.dart';
 
 bool isInitialized = false;

@@ -33,10 +33,26 @@ Element getElementByClassName(
   return list[index];
 }
 
+Element getElementById(
+  Document document,
+  String id,
+) {
+  var element = document.getElementById(id);
+
+  if (element == null) throw ElementNotFoundParseException();
+
+  return element;
+}
+
 class ParseException implements Exception {
   Object innerException;
 
   ParseException.withInner(this.innerException);
+
+  @override
+  String toString() {
+    return "Parse exception: " + innerException?.toString();
+  }
 }
 
 class ElementNotFoundParseException implements ParseException {
