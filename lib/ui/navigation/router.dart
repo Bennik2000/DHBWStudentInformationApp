@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/date_management/ui/date_management_navigation_entry.dart';
 import 'package:dhbwstudentapp/dualis/ui/dualis_navigation_entry.dart';
 import 'package:dhbwstudentapp/information/ui/useful_information_navigation_entry.dart';
 import 'package:dhbwstudentapp/schedule/ui/schedule_navigation_entry.dart';
@@ -5,12 +6,12 @@ import 'package:dhbwstudentapp/ui/main_page.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/onboarding/onboarding_page.dart';
 import 'package:dhbwstudentapp/ui/settings/settings_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 final List<NavigationEntry> navigationEntries = [
   ScheduleNavigationEntry(),
   DualisNavigationEntry(),
+  DateManagementNavigationEntry(),
   UsefulInformationNavigationEntry(),
 ];
 

@@ -18,7 +18,11 @@ class Session {
       return null;
     }
 
-    return utf8.decode(response.bodyBytes);
+    try {
+      return utf8.decode(response.bodyBytes);
+    } on FormatException catch (_) {
+      return latin1.decode(response.bodyBytes);
+    }
   }
 
   Future<Response> rawGet(
