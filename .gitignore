@@ -38,5 +38,4 @@ lib/generated_plugin_registrant.dart
 .gradle
 update_icon.bat
 android/key.properties
-android/app/google-services.json
 ios/Flutter/.last_build_id
