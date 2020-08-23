@@ -11,7 +11,7 @@ Future<void> main() async {
   test('AllDatesExtract extract all dates', () async {
     var extract = AllDatesExtract();
 
-    var dateEntries = extract.extractAllDates(allDatesPage);
+    var dateEntries = extract.extractAllDates(allDatesPage, "");
 
     expect(3, dateEntries.length);
 

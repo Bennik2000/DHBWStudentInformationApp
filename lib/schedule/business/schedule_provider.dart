@@ -38,9 +38,8 @@ class ScheduleProvider {
     var cachedSchedule =
         await _scheduleEntryRepository.queryScheduleBetweenDates(start, end);
 
-    print("Read chached schedule with " +
-        cachedSchedule.entries.length.toString() +
-        " entries");
+    print(
+        "Read chached schedule with ${cachedSchedule.entries.length.toString()} entries");
 
     return cachedSchedule;
   }

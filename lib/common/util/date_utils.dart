@@ -92,3 +92,7 @@ DateTime toDayOfWeek(DateTime dateTime, int weekday) {
   var startOfWeek = addDays(dateTime, -dateTime.weekday);
   return addDays(startOfWeek, weekday);
 }
+
+bool isAtMidnight(DateTime dateTime) {
+  return dateTime.hour == 0 && dateTime.minute == 0;
+}

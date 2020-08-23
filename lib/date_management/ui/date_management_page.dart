@@ -1,7 +1,10 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
+import 'package:dhbwstudentapp/date_management/ui/widgets/date_filter_options.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
@@ -17,18 +20,15 @@ class DateManagementPage extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+          DateFilterOptions(viewModel: viewModel),
+          Stack(
             children: <Widget>[
-              Text("Termindatenbank"),
-              DropdownButton(
-                items: <DropdownMenuItem<dynamic>>[
-                  DropdownMenuItem(
-                    child: Text("Termine_Informatik"),
-                  )
-                ],
-                onChanged: (value) {},
-              ),
+              Divider(),
+              AnimatedSwitcher(
+                  duration: Duration(milliseconds: 200),
+                  child: viewModel.isLoading
+                      ? LinearProgressIndicator()
+                      : Container()),
             ],
           ),
           Expanded(
@@ -39,7 +39,9 @@ class DateManagementPage extends StatelessWidget {
                   DateManagementViewModel model,
                   _,
                 ) =>
-                    _buildAllDatesDataTable(model, context),
+                    AnimatedSwitcher(
+                        duration: Duration(milliseconds: 200),
+                        child: _buildAllDatesDataTable(model, context)),
               ),
             ),
           ),
@@ -49,7 +51,9 @@ class DateManagementPage extends StatelessWidget {
   }
 
   DataTable _buildAllDatesDataTable(
-      DateManagementViewModel model, BuildContext context) {
+    DateManagementViewModel model,
+    BuildContext context,
+  ) {
     var dataRows = <DataRow>[];
     for (DateEntry dateEntry in model?.allDates ?? []) {
       dataRows.add(
@@ -64,16 +68,19 @@ class DateManagementPage extends StatelessWidget {
                       .format(dateEntry.dateAndTime),
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                  child: Text(
-                    DateFormat.Hm(L.of(context).locale.languageCode)
-                        .format(dateEntry.dateAndTime),
-                    style: Theme.of(context).textTheme.bodyText2,
-                  ),
-                ),
+                isAtMidnight(dateEntry.dateAndTime)
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                        child: Text(
+                          DateFormat.Hm(L.of(context).locale.languageCode)
+                              .format(dateEntry.dateAndTime),
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                      ),
               ],
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
             )),
           ],
         ),
@@ -81,6 +88,7 @@ class DateManagementPage extends StatelessWidget {
     }
 
     return DataTable(
+      key: ValueKey(model.dateEntriesKeyIndex),
       rows: dataRows,
       columns: <DataColumn>[
         DataColumn(label: Text("Beschreibung")),

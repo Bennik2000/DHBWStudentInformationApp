@@ -5,16 +5,16 @@ import 'package:intl/intl.dart';
 // TODO: Parse exception to common module
 
 class AllDatesExtract {
-  List<DateEntry> extractAllDates(String body) {
+  List<DateEntry> extractAllDates(String body, String databaseName) {
     try {
-      return _extractAllDates(body);
+      return _extractAllDates(body, databaseName);
     } catch (e) {
       if (e.runtimeType is ParseException) rethrow;
       throw new ParseException.withInner(e);
     }
   }
 
-  List<DateEntry> _extractAllDates(String body) {
+  List<DateEntry> _extractAllDates(String body, String databaseName) {
     var document = parse(body);
 
     // The dates are located in the first <p> element of the page
@@ -25,7 +25,7 @@ class AllDatesExtract {
     for (var a in dateContainingElement.nodes.sublist(2)) {
       var text = a.text;
 
-      var dateEntry = _parseDateEntryLine(text);
+      var dateEntry = _parseDateEntryLine(text, databaseName);
 
       if (dateEntry != null) {
         dateEntries.add(dateEntry);
@@ -35,7 +35,7 @@ class AllDatesExtract {
     return dateEntries;
   }
 
-  DateEntry _parseDateEntryLine(String line) {
+  DateEntry _parseDateEntryLine(String line, String databaseName) {
     var parts = line.split(';');
 
     if (parts.length != 5) {
@@ -46,6 +46,7 @@ class AllDatesExtract {
         comment: parts[4].trim(),
         description: parts[0].trim(),
         year: parts[1].trim(),
+        databaseName: databaseName,
         dateAndTime: _parseDateTime(
           parts[2].trim(),
           parts[3].trim(),
