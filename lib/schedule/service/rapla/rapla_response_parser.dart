@@ -1,8 +1,10 @@
 import 'package:dhbwstudentapp/common/util/string_utils.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 class RaplaResponseParser {
@@ -28,24 +30,104 @@ class RaplaResponseParser {
     var schedule = Schedule();
 
     var document = parse(responseBody);
-    var weekBlocks = document.getElementsByClassName(WEEK_BLOCK_CLASS);
 
-    for (var value in weekBlocks) {
-      ScheduleEntry scheduleEntry = _extractScheduleEntry(value);
+    var dates = _readDatesFromHeadersOrThrow(document);
 
-      if (scheduleEntry == null) continue;
-      schedule.addEntry(scheduleEntry);
+    var allRows = document.getElementsByTagName("tr");
+
+    for (var row in allRows) {
+      var currentDayInWeekIndex = 0;
+      for (var cell in row.children) {
+        if (cell.localName != "td") continue;
+
+        // Skip all spacer cells. They are only used for the alignment in the html page
+        if (cell.classes.contains("week_number")) continue;
+        if (cell.classes.contains("week_header")) continue;
+        if (cell.classes.contains("week_smallseparatorcell")) continue;
+        if (cell.classes.contains("week_smallseparatorcell_black")) continue;
+        if (cell.classes.contains("week_emptycell_black")) continue;
+
+        // The week_separatorcell and week_separatorcell_black cell types mark
+        // the end of a column
+        if (cell.classes.contains("week_separatorcell_black") ||
+            cell.classes.contains("week_separatorcell")) {
+          currentDayInWeekIndex = currentDayInWeekIndex + 1;
+          continue;
+        }
+
+        assert(currentDayInWeekIndex < dates.length + 1);
+
+        // The important information is inside a week_block cell
+        if (cell.classes.contains("week_block")) {
+          var entry = _extractScheduleEntry(cell, dates[currentDayInWeekIndex]);
+          schedule.entries.add(entry);
+        }
+      }
     }
 
     return schedule;
   }
 
-  ScheduleEntry _extractScheduleEntry(Element value) {
-    var tooltip = value.getElementsByClassName(TOOLTIP_CLASS);
-    if (tooltip.length != 1) return null;
+  List<DateTime> _readDatesFromHeadersOrThrow(Document document) {
+    var year = _readYearOrThrow(document);
 
-    var start = _parseStart(tooltip[0].children[1].innerHtml);
-    var end = _parseEnd(tooltip[0].children[1].innerHtml);
+    // The only reliable way to read the dates is the table header.
+    // Some schedule entries contain the dates in the description but not
+    // in every case.
+    var weekHeaders = document.getElementsByClassName("week_header");
+    var dates = <DateTime>[];
+
+    for (var header in weekHeaders) {
+      var dateString = header.text + year;
+
+      var date = DateFormat("dd.MM.yyyy").parse(dateString.substring(3));
+      // TODO: Exception handling
+
+      dates.add(date);
+    }
+    return dates;
+  }
+
+  String _readYearOrThrow(Document document) {
+    // The only reliable way to read the year of this schedule is to parse the
+    // selected year in the date selector
+    var comboBoxes = document.getElementsByTagName("select");
+
+    var year;
+    for (var box in comboBoxes) {
+      if (box.attributes.containsKey("name") &&
+          box.attributes["name"] == "year") {
+        var entries = box.getElementsByTagName("option");
+
+        for (var entry in entries) {
+          if (entry.attributes.containsKey("selected") &&
+              entry.attributes["selected"] == "") {
+            year = entry.text;
+
+            break;
+          }
+        }
+
+        break;
+      }
+    }
+
+    if (year == null) {
+      throw ElementNotFoundParseException();
+    }
+
+    return year;
+  }
+
+  ScheduleEntry _extractScheduleEntry(Element value, DateTime date) {
+    var tooltip = value.getElementsByClassName(TOOLTIP_CLASS);
+    var timeAndClassName = value.getElementsByTagName("a");
+
+    if (tooltip.length != 1) return null;
+    if (timeAndClassName.length == 0) return null;
+
+    var start = _parseTime(timeAndClassName[0].text.substring(0, 5), date);
+    var end = _parseTime(timeAndClassName[0].text.substring(7, 12), date);
     var title = "";
     var details = "";
     var professor = "";
@@ -100,29 +182,13 @@ class RaplaResponseParser {
     return map;
   }
 
-  DateTime _parseStart(String dateString) {
+  DateTime _parseTime(String timeString, DateTime date) {
     try {
-      var date = _parseDate(dateString);
-      var time = DateFormat("HH:mm").parse(dateString.substring(12, 17));
+      var time = DateFormat("HH:mm").parse(timeString.substring(0, 5));
       return DateTime(date.year, date.month, date.day, time.hour, time.minute);
     } catch (e) {
       return null;
     }
-  }
-
-  DateTime _parseEnd(String dateString) {
-    try {
-      var date = _parseDate(dateString);
-      var time = DateFormat("HH:mm").parse(dateString.substring(18, 23));
-      return DateTime(date.year, date.month, date.day, time.hour, time.minute);
-    } catch (e) {
-      return null;
-    }
-  }
-
-  DateTime _parseDate(String dateString) {
-    var date = DateFormat("dd.MM.yy").parse(dateString.substring(3, 11));
-    return DateTime(date.year + 2000, date.month, date.day);
   }
 
   List<String> _extractResources(Element value) {
