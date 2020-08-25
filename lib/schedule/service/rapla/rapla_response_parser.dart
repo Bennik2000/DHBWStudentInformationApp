@@ -27,13 +27,13 @@ class RaplaResponseParser {
   };
 
   Schedule parseSchedule(String responseBody) {
-    var schedule = Schedule();
-
     var document = parse(responseBody);
 
     var dates = _readDatesFromHeadersOrThrow(document);
 
     var allRows = document.getElementsByTagName("tr");
+
+    var allEntries = <ScheduleEntry>[];
 
     for (var row in allRows) {
       var currentDayInWeekIndex = 0;
@@ -60,12 +60,15 @@ class RaplaResponseParser {
         // The important information is inside a week_block cell
         if (cell.classes.contains("week_block")) {
           var entry = _extractScheduleEntry(cell, dates[currentDayInWeekIndex]);
-          schedule.entries.add(entry);
+          allEntries.add(entry);
         }
       }
     }
 
-    return schedule;
+    allEntries.sort((ScheduleEntry e1, ScheduleEntry e2) =>
+        e1?.start?.compareTo(e2?.start));
+
+    return Schedule.fromList(allEntries);
   }
 
   List<DateTime> _readDatesFromHeadersOrThrow(Document document) {
@@ -149,11 +152,11 @@ class RaplaResponseParser {
     var scheduleEntry = new ScheduleEntry(
       start: start,
       end: end,
-      title: title,
-      details: details,
-      professor: professor,
+      title: trimAndEscapeString(title),
+      details: trimAndEscapeString(details),
+      professor: trimAndEscapeString(professor),
       type: type,
-      room: concatStringList(resource, ", "),
+      room: trimAndEscapeString(concatStringList(resource, ", ")),
     );
     return scheduleEntry;
   }
