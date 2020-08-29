@@ -4,7 +4,6 @@ import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
-import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 
 class RaplaResponseParser {
@@ -123,7 +122,10 @@ class RaplaResponseParser {
   }
 
   ScheduleEntry _extractScheduleEntry(Element value, DateTime date) {
+    // The tooltip tag contains the most relevant information
     var tooltip = value.getElementsByClassName(TOOLTIP_CLASS);
+
+    // The only reliable way to extract the time
     var timeAndClassName = value.getElementsByTagName("a");
 
     if (tooltip.length != 1) return null;
@@ -145,6 +147,22 @@ class RaplaResponseParser {
       title = properties[CLASS_NAME_LABEL];
       professor = properties[PROFESSOR_NAME_LABEL];
       details = properties[DETAILS_LABEL];
+
+      if (title == null) {
+        return null;
+      }
+
+      // Sometimes the entry type is not set correctly. When the title of a class
+      // begins with "Online - " it implies that it is online
+      // In this case remove the online prefix and set the type correctly
+      if (title.startsWith("Online - ") && type == ScheduleEntryType.Class) {
+        title = title.substring("Online - ".length);
+        type = ScheduleEntryType.Online;
+      }
+
+      if (professor?.endsWith(",") ?? false) {
+        professor = professor.substring(0, professor.length - 1);
+      }
     }
 
     var resource = _extractResources(value);
@@ -156,7 +174,7 @@ class RaplaResponseParser {
       details: trimAndEscapeString(details),
       professor: trimAndEscapeString(professor),
       type: type,
-      room: trimAndEscapeString(concatStringList(resource, ", ")),
+      room: trimAndEscapeString(resource),
     );
     return scheduleEntry;
   }
@@ -194,7 +212,7 @@ class RaplaResponseParser {
     }
   }
 
-  List<String> _extractResources(Element value) {
+  String _extractResources(Element value) {
     var resources = value.getElementsByClassName(RESOURCE_CLASS);
 
     var resourcesList = <String>[];
@@ -202,6 +220,6 @@ class RaplaResponseParser {
       resourcesList.add(resource.innerHtml);
     }
 
-    return resourcesList;
+    return concatStringList(resourcesList, ", ");
   }
 }
