@@ -103,8 +103,8 @@ class ExamResultsPage extends StatelessWidget {
       dataTables.add(
         DataTable(
           columnSpacing: 10,
-          dataRowHeight: 45,
-          headingRowHeight: 50,
+          dataRowHeight: 60,
+          headingRowHeight: 65,
           rows: buildModuleDataRows(context, module),
           columns: buildModuleColumns(context, module),
         )
@@ -148,7 +148,7 @@ class ExamResultsPage extends StatelessWidget {
     return <DataColumn>[
       DataColumn(
         label: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
           child: Text(
                 module.name ?? "",
                 style: Theme.of(context).textTheme.subtitle2,
@@ -158,14 +158,14 @@ class ExamResultsPage extends StatelessWidget {
       ),
       DataColumn(
         label: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
           child: Text(L.of(context).dualisExamResultsCreditsColumnHeader),
         ),
         numeric: true,
       ),
       DataColumn(
         label: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
           child: Text(L.of(context).dualisExamResultsGradeColumnHeader),
         ),
         numeric: true,
