@@ -131,6 +131,7 @@ class ExamResultsPage extends StatelessWidget {
                 Text(
                   exam.semester ?? "",
                   style: Theme.of(context).textTheme.caption,
+                  textScaleFactor: exam.semester == "" ? 0 : 1,
                 ),
               ],
             )),
