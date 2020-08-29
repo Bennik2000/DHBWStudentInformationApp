@@ -11,6 +11,11 @@ import 'package:flutter/widgets.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
+///
+/// This is the main page widget. It defines the structure of the scaffold,
+/// navigation drawer and provides a nested navigator for the content.
+/// To navigate to a new route inside this widget use the [NavigatorKey.mainKey]
+///
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
