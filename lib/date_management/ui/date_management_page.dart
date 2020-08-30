@@ -4,6 +4,7 @@ import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
+import 'package:dhbwstudentapp/date_management/ui/widgets/date_detail_bottom_sheet.dart';
 import 'package:dhbwstudentapp/date_management/ui/widgets/date_filter_options.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +37,7 @@ class DateManagementPage extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
                   child: PropertyChangeConsumer(
                     builder: (
                       BuildContext context,
@@ -67,7 +69,7 @@ class DateManagementPage extends StatelessWidget {
     );
   }
 
-  DataTable _buildAllDatesDataTable(
+  Widget _buildAllDatesDataTable(
     DateManagementViewModel model,
     BuildContext context,
   ) {
@@ -76,7 +78,7 @@ class DateManagementPage extends StatelessWidget {
       rows: _buildDataTableRows(model, context),
       columns: <DataColumn>[
         DataColumn(label: Text("Beschreibung")),
-        DataColumn(label: Text("Jahrgang")),
+        DataColumn(label: Text("Jahrgang"), numeric: true),
         DataColumn(label: Text("Datum")),
       ],
     );
@@ -91,37 +93,60 @@ class DateManagementPage extends StatelessWidget {
       dataRows.add(
         DataRow(
           cells: <DataCell>[
-            DataCell(Text(dateEntry.description)),
-            DataCell(Text(dateEntry.year)),
-            DataCell(Column(
-              children: <Widget>[
-                Text(
-                  DateFormat.yMd(L.of(context).locale.languageCode)
-                      .format(dateEntry.dateAndTime),
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-                // When the date entry has a time of 00:00 don't show it.
-                // It means the date entry is for the whole day
-                isAtMidnight(dateEntry.dateAndTime)
-                    ? Container()
-                    : Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                        child: Text(
-                          DateFormat.Hm(L.of(context).locale.languageCode)
-                              .format(dateEntry.dateAndTime),
-                          style: Theme.of(context).textTheme.bodyText2,
-                        ),
-                      ),
-              ],
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-            )),
+            DataCell(
+                Text(dateEntry.description,
+                    style: dateEntry.dateAndTime.isBefore(DateTime.now())
+                        ? TextStyle(decoration: TextDecoration.lineThrough)
+                        : null), onTap: () {
+              showDateEntryDetailBottomSheet(context, dateEntry);
+            }),
+            DataCell(Text(dateEntry.year), onTap: () {
+              showDateEntryDetailBottomSheet(context, dateEntry);
+            }),
+            DataCell(
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      DateFormat.yMd(L.of(context).locale.languageCode)
+                          .format(dateEntry.dateAndTime),
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ),
+                    // When the date entry has a time of 00:00 don't show it.
+                    // It means the date entry is for the whole day
+                    isAtMidnight(dateEntry.dateAndTime)
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                            child: Text(
+                              DateFormat.Hm(L.of(context).locale.languageCode)
+                                  .format(dateEntry.dateAndTime),
+                            ),
+                          ),
+                  ],
+                ), onTap: () {
+              showDateEntryDetailBottomSheet(context, dateEntry);
+            }),
           ],
         ),
       );
     }
 
     return dataRows;
+  }
+
+  void showDateEntryDetailBottomSheet(BuildContext context, DateEntry entry) {
+    showModalBottomSheet(
+      useRootNavigator: true,
+      context: context,
+      builder: (context) => DateDetailBottomSheet(
+        dateEntry: entry,
+      ),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
+      ),
+    );
   }
 
   Widget buildErrorDisplay(BuildContext context) {

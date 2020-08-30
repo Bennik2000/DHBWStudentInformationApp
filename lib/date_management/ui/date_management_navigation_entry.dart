@@ -26,7 +26,7 @@ class DateManagementNavigationEntry extends NavigationEntry {
 
   @override
   Widget build(BuildContext context) {
-    return DateManagementPage();
+    return Scaffold(body: DateManagementPage());
   }
 
   @override

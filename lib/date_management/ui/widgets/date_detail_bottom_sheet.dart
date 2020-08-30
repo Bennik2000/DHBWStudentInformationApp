@@ -1,0 +1,95 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/util/date_utils.dart';
+import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
+
+class DateDetailBottomSheet extends StatelessWidget {
+  final DateEntry dateEntry;
+
+  const DateDetailBottomSheet({Key key, this.dateEntry}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    var date = DateFormat.yMd(L.of(context).locale.languageCode)
+        .format(dateEntry.dateAndTime);
+    var time = DateFormat.Hm(L.of(context).locale.languageCode)
+        .format(dateEntry.dateAndTime);
+
+    return Container(
+      height: 400,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
+              child: Center(
+                child: Container(
+                  height: 8,
+                  width: 30,
+                  decoration: new BoxDecoration(
+                      color: colorSeparator(),
+                      borderRadius:
+                          new BorderRadius.all(const Radius.circular(4))),
+                  child: null,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: <Widget>[
+                        Text(
+                          dateEntry.description,
+                          style: Theme.of(context).textTheme.headline5,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: <Widget>[
+                          Text(
+                            date,
+                            softWrap: true,
+                            style: Theme.of(context).textTheme.subtitle2,
+                          ),
+                          isAtMidnight(dateEntry.dateAndTime)
+                              ? Container()
+                              : Text(
+                                  time,
+                                  softWrap: true,
+                                ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+              child: Text(
+                dateEntry.comment,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

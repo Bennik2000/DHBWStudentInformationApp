@@ -201,12 +201,12 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
               child: Icon(Icons.check),
               padding: EdgeInsets.all(0),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onPressed: () async {
+              onPressed: () {
                 setState(() {
                   _isExpanded = false;
                 });
 
-                await viewModel.updateDates();
+                viewModel.updateDates();
               },
             ),
           ),
