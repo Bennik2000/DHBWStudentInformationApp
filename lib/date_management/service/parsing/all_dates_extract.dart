@@ -32,6 +32,9 @@ class AllDatesExtract {
       }
     }
 
+    dateEntries.sort((DateEntry e1, DateEntry e2) =>
+        e1.dateAndTime?.compareTo(e2.dateAndTime));
+
     return dateEntries;
   }
 
@@ -54,10 +57,15 @@ class AllDatesExtract {
   }
 
   DateTime _parseDateTime(String date, String time) {
+    if (time == "24:00") {
+      time = "00:00";
+    }
+
     var dateAndTimeString = date + " " + time;
 
     try {
-      return DateFormat("dd.MM.yyyy hh:mm").parse(dateAndTimeString);
+      var date = DateFormat("dd.MM.yyyy hh:mm").parse(dateAndTimeString);
+      return date;
     } on FormatException catch (_) {
       return null;
     }

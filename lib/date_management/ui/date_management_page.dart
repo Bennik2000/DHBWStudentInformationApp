@@ -1,5 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
@@ -32,25 +33,33 @@ class DateManagementPage extends StatelessWidget {
             ],
           ),
           Expanded(
-            child: SingleChildScrollView(
-              child: PropertyChangeConsumer(
-                builder: (
-                  BuildContext context,
-                  DateManagementViewModel model,
-                  _,
-                ) =>
-                    AnimatedSwitcher(
-                        duration: Duration(milliseconds: 200),
-                        child: Column(
-                          key: ValueKey(
-                              viewModel?.dateSearchParameters?.toString() ??
-                                  ""),
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            _buildAllDatesDataTable(model, context),
-                          ],
-                        )),
-              ),
+            child: Stack(
+              children: <Widget>[
+                SingleChildScrollView(
+                  child: PropertyChangeConsumer(
+                    builder: (
+                      BuildContext context,
+                      DateManagementViewModel model,
+                      _,
+                    ) =>
+                        AnimatedSwitcher(
+                            duration: Duration(milliseconds: 200),
+                            child: Column(
+                              key: ValueKey(
+                                  viewModel?.dateSearchParameters?.toString() ??
+                                      ""),
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                _buildAllDatesDataTable(model, context),
+                              ],
+                            )),
+                  ),
+                ),
+                Align(
+                  child: buildErrorDisplay(context),
+                  alignment: Alignment.bottomCenter,
+                ),
+              ],
             ),
           ),
         ],
@@ -113,5 +122,18 @@ class DateManagementPage extends StatelessWidget {
     }
 
     return dataRows;
+  }
+
+  Widget buildErrorDisplay(BuildContext context) {
+    return PropertyChangeConsumer(
+      properties: [
+        "updateFailed",
+      ],
+      builder: (BuildContext context, DateManagementViewModel model,
+              Set properties) =>
+          ErrorDisplay(
+        show: model.updateFailed,
+      ),
+    );
   }
 }

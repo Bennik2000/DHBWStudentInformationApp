@@ -13,21 +13,26 @@ Future<void> main() async {
 
     var dateEntries = extract.extractAllDates(allDatesPage, "");
 
-    expect(3, dateEntries.length);
+    expect(dateEntries.length, 4);
 
-    expect("Termin 1", dateEntries[0].description);
-    expect("2020", dateEntries[0].year);
-    expect("bis 22.12.21", dateEntries[0].comment);
-    expect(DateTime(2020, 11, 10, 08, 00), dateEntries[0].dateAndTime);
+    expect(dateEntries[0].description, "Termin 1");
+    expect(dateEntries[0].year, "2020");
+    expect(dateEntries[0].comment, "bis 22.12.21");
+    expect(dateEntries[0].dateAndTime, DateTime(2020, 11, 10, 08, 00));
 
-    expect("Abgabe Studienarbeit", dateEntries[1].description);
-    expect("2021", dateEntries[1].year);
-    expect("Abgabesystem", dateEntries[1].comment);
-    expect(DateTime(2021, 03, 04, 24, 00), dateEntries[1].dateAndTime);
+    expect(dateEntries[1].description, "Abgabe Studienarbeit");
+    expect(dateEntries[1].year, "2021");
+    expect(dateEntries[1].comment, "Abgabesystem");
+    expect(dateEntries[1].dateAndTime, DateTime(2021, 03, 04, 00, 00));
 
-    expect("Abgabe Bachelorarbeit", dateEntries[2].description);
-    expect("2019", dateEntries[2].year);
-    expect("Gebunden", dateEntries[2].comment);
-    expect(DateTime(2021, 08, 09, 15, 45), dateEntries[2].dateAndTime);
+    expect(dateEntries[2].description, "Abgabe Bachelorarbeit");
+    expect(dateEntries[2].year, "2019");
+    expect(dateEntries[2].comment, "Gebunden");
+    expect(dateEntries[2].dateAndTime, DateTime(2021, 08, 09, 15, 45));
+
+    expect(dateEntries[3].description, "Abgabe Bericht Praxis 1");
+    expect(dateEntries[3].year, "2021");
+    expect(dateEntries[3].comment, "Elektronisches Abgabesystem");
+    expect(dateEntries[3].dateAndTime, DateTime(2022, 09, 05, 00, 00));
   });
 }

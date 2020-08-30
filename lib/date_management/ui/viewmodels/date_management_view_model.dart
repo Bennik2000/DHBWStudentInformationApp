@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/util/cancelable_mutex.dart';
@@ -6,6 +8,7 @@ import 'package:dhbwstudentapp/date_management/business/date_entry_provider.dart
 import 'package:dhbwstudentapp/date_management/model/date_database.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/model/date_search_parameters.dart';
+import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 
 class DateManagementViewModel extends BaseViewModel {
   final DateEntryProvider _dateEntryProvider;
@@ -27,7 +30,9 @@ class DateManagementViewModel extends BaseViewModel {
   ];
   List<DateDatabase> get allDateDatabases => _allDateDatabases;
 
-  final CancelableMutex _updateMutex = new CancelableMutex();
+  final CancelableMutex _updateMutex = CancelableMutex();
+
+  Timer _errorResetTimer;
 
   List<String> _years;
   List<String> get years => _years;
@@ -53,6 +58,9 @@ class DateManagementViewModel extends BaseViewModel {
   int _dateEntriesKeyIndex = 0;
   int get dateEntriesKeyIndex => _dateEntriesKeyIndex;
 
+  bool _updateFailed = false;
+  bool get updateFailed => _updateFailed;
+
   DateSearchParameters get dateSearchParameters => DateSearchParameters(
         showPassedDates,
         showFutureDates,
@@ -62,8 +70,7 @@ class DateManagementViewModel extends BaseViewModel {
 
   DateManagementViewModel(this._dateEntryProvider, this._preferencesProvider) {
     _buildYearsArray();
-
-    _loadLastSelectedParameters();
+    _loadDefaultSelection();
   }
 
   void _buildYearsArray() {
@@ -75,29 +82,57 @@ class DateManagementViewModel extends BaseViewModel {
   }
 
   Future<void> updateDates() async {
-    _updateMutex.acquireAndCancelOther();
-
-    _isLoading = true;
-    notifyListeners("isLoading");
+    await _updateMutex.acquireAndCancelOther();
 
     try {
-      var loadedDateEntries = _dateEntryProvider.getDateEntries(
+      _isLoading = true;
+      notifyListeners("isLoading");
+
+      await _doUpdateDates();
+    } catch (_) {} finally {
+      _isLoading = false;
+      _updateMutex.release();
+      notifyListeners("isLoading");
+    }
+  }
+
+  Future<void> _doUpdateDates() async {
+    var cachedDateEntries = await _readCachedDateEntries();
+    _updateMutex.token.throwIfCancelled();
+    _setAllDates(cachedDateEntries);
+
+    var loadedDateEntries = await _readUpdatedDateEntries();
+    _updateMutex.token.throwIfCancelled();
+
+    if (loadedDateEntries != null) {
+      _setAllDates(loadedDateEntries);
+    }
+
+    _updateFailed = loadedDateEntries == null;
+    if (updateFailed) {
+      _cancelErrorInFuture();
+    }
+
+    notifyListeners("updateFailed");
+  }
+
+  Future<List<DateEntry>> _readUpdatedDateEntries() async {
+    try {
+      var loadedDateEntries = await _dateEntryProvider.getDateEntries(
         dateSearchParameters,
         _updateMutex.token,
       );
+      return loadedDateEntries;
+    } on OperationCancelledException {} on ServiceRequestFailed {}
 
-      var cachedDateEntries = _dateEntryProvider.getCachedDateEntries(
-        dateSearchParameters,
-      );
+    return null;
+  }
 
-      _setAllDates(await cachedDateEntries);
-      _setAllDates(await loadedDateEntries);
-    } on OperationCancelledException catch (_) {} finally {
-      _isLoading = false;
-      notifyListeners("isLoading");
-
-      _updateMutex.release();
-    }
+  Future<List<DateEntry>> _readCachedDateEntries() async {
+    var cachedDateEntries = await _dateEntryProvider.getCachedDateEntries(
+      dateSearchParameters,
+    );
+    return cachedDateEntries;
   }
 
   void _setAllDates(List<DateEntry> dateEntries) {
@@ -131,7 +166,7 @@ class DateManagementViewModel extends BaseViewModel {
     _preferencesProvider.setLastViewedDateEntryYear(year);
   }
 
-  void _loadLastSelectedParameters() async {
+  void _loadDefaultSelection() async {
     var database = await _preferencesProvider.getLastViewedDateEntryDatabase();
 
     bool didSetDatabase = false;
@@ -141,6 +176,7 @@ class DateManagementViewModel extends BaseViewModel {
         didSetDatabase = true;
       }
     }
+
     if (!didSetDatabase) {
       setCurrentDateDatabase(allDateDatabases[0]);
     }
@@ -153,5 +189,19 @@ class DateManagementViewModel extends BaseViewModel {
     }
 
     await updateDates();
+  }
+
+  void _cancelErrorInFuture() async {
+    if (_errorResetTimer != null) {
+      _errorResetTimer.cancel();
+    }
+
+    _errorResetTimer = Timer(
+      Duration(seconds: 5),
+      () {
+        _updateFailed = false;
+        notifyListeners("updateFailed");
+      },
+    );
   }
 }

@@ -9,6 +9,7 @@ import 'package:dhbwstudentapp/dualis/service/parsing/modules_from_course_result
 import 'package:dhbwstudentapp/dualis/service/parsing/semesters_from_course_result_page_extract.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/study_grades_from_student_results_page_extract.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/urls_from_main_page_extract.dart';
+import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:http/http.dart';
 
 class DualisScraper {
@@ -28,6 +29,7 @@ class DualisScraper {
       cancellationToken,
     );
 
+    if (loginResponse == null) return null;
     if (loginResponse.statusCode != 200) return null;
     if (!loginResponse.headers.containsKey("refresh")) return null;
 
@@ -74,12 +76,16 @@ class DualisScraper {
       "menu_type": "classic",
     };
 
-    var loginResponse = await session.post(
-      loginUrl,
-      data,
-      cancellationToken,
-    );
-    return loginResponse;
+    try {
+      var loginResponse = await session.post(
+        loginUrl,
+        data,
+        cancellationToken,
+      );
+      return loginResponse;
+    } on ServiceRequestFailed {
+      return null;
+    }
   }
 
   Future<DualisUrls> requestMainPage(

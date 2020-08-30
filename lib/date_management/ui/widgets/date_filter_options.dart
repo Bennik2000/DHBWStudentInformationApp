@@ -47,13 +47,10 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
   Widget _buildCollapsed() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.max,
       children: <Widget>[
-        Row(
-          children: _buildCollapsedChips(),
-        ),
         Expanded(
-          child: Container(),
+          child: _buildCollapsedChips(),
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
@@ -76,43 +73,48 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
     );
   }
 
-  List<Widget> _buildCollapsedChips() {
+  Widget _buildCollapsedChips() {
     var chips = <Widget>[];
 
     if (viewModel.showPassedDates && viewModel.showFutureDates) {
-      chips.add(Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Chip(
-          label: Text("Zukünftige und vergangene"),
-        ),
+      chips.add(Chip(
+        label: Text("Zukünftige und vergangene"),
+        visualDensity: VisualDensity.compact,
       ));
     } else if (viewModel.showFutureDates) {
-      chips.add(Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Chip(
-          label: Text("Nur Zukünftige"),
-        ),
+      chips.add(Chip(
+        label: Text("Nur Zukünftige"),
+        visualDensity: VisualDensity.compact,
       ));
     } else if (viewModel.showPassedDates) {
-      chips.add(Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Chip(
-          label: Text("Nur Vergangene"),
-        ),
+      chips.add(Chip(
+        label: Text("Nur Vergangene"),
+        visualDensity: VisualDensity.compact,
+      ));
+    }
+
+    if (viewModel.currentSelectedYear != null) {
+      chips.add(Chip(
+        label: Text(viewModel.currentSelectedYear),
+        visualDensity: VisualDensity.compact,
       ));
     }
 
     var database = viewModel.currentDateDatabase?.displayName ?? "";
     if (database != "") {
-      chips.add(Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Chip(
-          label: Text(database),
-        ),
+      chips.add(Chip(
+        label: Text(database),
+        visualDensity: VisualDensity.compact,
       ));
     }
 
-    return chips;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+      child: Wrap(
+        spacing: 8,
+        children: chips,
+      ),
+    );
   }
 
   Widget _buildExpanded() {
@@ -199,11 +201,12 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
               child: Icon(Icons.check),
               padding: EdgeInsets.all(0),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onPressed: () {
+              onPressed: () async {
                 setState(() {
                   _isExpanded = false;
-                  viewModel.updateDates();
                 });
+
+                await viewModel.updateDates();
               },
             ),
           ),

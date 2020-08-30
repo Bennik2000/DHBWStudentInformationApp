@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
 import 'package:http/http.dart';
 
@@ -46,8 +47,8 @@ class Session {
         headers: cookies,
       );
 
-      //if (response == null && !requestCancellationToken.isCanceled)
-      //  throw ServiceRequestFailed("Http request failed!");
+      if (response == null && !requestCancellationToken.isCanceled)
+        throw ServiceRequestFailed("Http request failed!");
 
       _updateCookie(response);
 
@@ -80,11 +81,21 @@ class Session {
         cancelToken: requestCancellationToken,
       );
 
+      if (response == null && !requestCancellationToken.isCanceled)
+        throw ServiceRequestFailed("Http request failed!");
+
       _updateCookie(response);
+
       return response;
+    } on http.OperationCanceledError catch (_) {
+      throw OperationCancelledException();
+    } catch (ex) {
+      if (!requestCancellationToken.isCanceled) rethrow;
     } finally {
       cancellationToken.setCancellationCallback(null);
     }
+
+    return null;
   }
 
   void _updateCookie(Response response) {
