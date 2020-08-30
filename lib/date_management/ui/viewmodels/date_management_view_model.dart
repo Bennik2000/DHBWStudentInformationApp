@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/util/cancelable_mutex.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
@@ -8,6 +9,8 @@ import 'package:dhbwstudentapp/date_management/model/date_search_parameters.dart
 
 class DateManagementViewModel extends BaseViewModel {
   final DateEntryProvider _dateEntryProvider;
+  final PreferencesProvider _preferencesProvider;
+
   final List<DateDatabase> _allDateDatabases = [
     DateDatabase("Termine_BWL_Bank", "Termine_BWL_Bank"),
     DateDatabase("Termine_BWL_Immo", "Termine_BWL_Immo"),
@@ -25,6 +28,12 @@ class DateManagementViewModel extends BaseViewModel {
   List<DateDatabase> get allDateDatabases => _allDateDatabases;
 
   final CancelableMutex _updateMutex = new CancelableMutex();
+
+  List<String> _years;
+  List<String> get years => _years;
+
+  String _currentSelectedYear;
+  String get currentSelectedYear => _currentSelectedYear;
 
   List<DateEntry> _allDates;
   List<DateEntry> get allDates => _allDates;
@@ -44,8 +53,25 @@ class DateManagementViewModel extends BaseViewModel {
   int _dateEntriesKeyIndex = 0;
   int get dateEntriesKeyIndex => _dateEntriesKeyIndex;
 
-  DateManagementViewModel(this._dateEntryProvider) {
-    updateDates();
+  DateSearchParameters get dateSearchParameters => DateSearchParameters(
+        showPassedDates,
+        showFutureDates,
+        currentSelectedYear,
+        currentDateDatabase?.id,
+      );
+
+  DateManagementViewModel(this._dateEntryProvider, this._preferencesProvider) {
+    _buildYearsArray();
+
+    _loadLastSelectedParameters();
+  }
+
+  void _buildYearsArray() {
+    _years = [];
+
+    for (var i = 2017; i < DateTime.now().year + 3; i++) {
+      _years.add(i.toString());
+    }
   }
 
   Future<void> updateDates() async {
@@ -55,13 +81,6 @@ class DateManagementViewModel extends BaseViewModel {
     notifyListeners("isLoading");
 
     try {
-      var dateSearchParameters = DateSearchParameters(
-        showPassedDates,
-        showFutureDates,
-        "2019",
-        currentDateDatabase?.id,
-      );
-
       var loadedDateEntries = _dateEntryProvider.getDateEntries(
         dateSearchParameters,
         _updateMutex.token,
@@ -101,5 +120,38 @@ class DateManagementViewModel extends BaseViewModel {
   void setCurrentDateDatabase(DateDatabase database) {
     _currentDateDatabase = database;
     notifyListeners("currentDateDatabase");
+
+    _preferencesProvider.setLastViewedDateEntryDatabase(database?.id);
+  }
+
+  void setCurrentSelectedYear(String year) {
+    _currentSelectedYear = year;
+    notifyListeners("currentSelectedYear");
+
+    _preferencesProvider.setLastViewedDateEntryYear(year);
+  }
+
+  void _loadLastSelectedParameters() async {
+    var database = await _preferencesProvider.getLastViewedDateEntryDatabase();
+
+    bool didSetDatabase = false;
+    for (var db in allDateDatabases) {
+      if (db.id == database) {
+        setCurrentDateDatabase(db);
+        didSetDatabase = true;
+      }
+    }
+    if (!didSetDatabase) {
+      setCurrentDateDatabase(allDateDatabases[0]);
+    }
+
+    var year = await _preferencesProvider.getLastViewedDateEntryYear();
+    if (year != null) {
+      setCurrentSelectedYear(year);
+    } else {
+      setCurrentSelectedYear(years[0]);
+    }
+
+    await updateDates();
   }
 }

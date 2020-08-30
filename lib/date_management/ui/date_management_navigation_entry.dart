@@ -18,7 +18,10 @@ class DateManagementNavigationEntry extends NavigationEntry {
 
   @override
   BaseViewModel initViewModel() {
-    return DateManagementViewModel(KiwiContainer().resolve());
+    return DateManagementViewModel(
+      KiwiContainer().resolve(),
+      KiwiContainer().resolve(),
+    );
   }
 
   @override

@@ -22,11 +22,25 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
   @override
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
-      secondChild: _buildExpanded(),
-      firstChild: _buildCollapsed(),
+      secondChild: _fixAbsorbPointer(_buildExpanded()),
+      firstChild: _fixAbsorbPointer(_buildCollapsed()),
       duration: Duration(milliseconds: 200),
       crossFadeState:
           _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+    );
+  }
+
+  Widget _fixAbsorbPointer(Widget widget) {
+    // Wrap the widgets in a stack and absorb the pointer
+    // Otherwise the hidden widget receives pointing gestures
+    // More details here: https://github.com/flutter/flutter/issues/10168
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: AbsorbPointer(),
+        ),
+        widget
+      ],
     );
   }
 
@@ -65,16 +79,21 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
   List<Widget> _buildCollapsedChips() {
     var chips = <Widget>[];
 
-    if (viewModel.showFutureDates) {
+    if (viewModel.showPassedDates && viewModel.showFutureDates) {
+      chips.add(Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Chip(
+          label: Text("Zukünftige und vergangene"),
+        ),
+      ));
+    } else if (viewModel.showFutureDates) {
       chips.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Chip(
           label: Text("Nur Zukünftige"),
         ),
       ));
-    }
-
-    if (viewModel.showPassedDates) {
+    } else if (viewModel.showPassedDates) {
       chips.add(Padding(
         padding: const EdgeInsets.all(8.0),
         child: Chip(
@@ -97,15 +116,6 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
   }
 
   Widget _buildExpanded() {
-    var databaseMenuItems = <DropdownMenuItem<DateDatabase>>[];
-
-    for (var database in viewModel.allDateDatabases) {
-      databaseMenuItems.add(DropdownMenuItem(
-        child: Text(database.displayName),
-        value: database,
-      ));
-    }
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -122,7 +132,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: Text(
-                        "Termindatenbank:",
+                        "Termindatenbank",
                       ),
                     ),
                   ),
@@ -134,7 +144,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                       onChanged: (value) {
                         viewModel.setCurrentDateDatabase(value);
                       },
-                      items: databaseMenuItems,
+                      items: _buildDatabaseMenuItems(),
                     ),
                   ),
                 ],
@@ -145,20 +155,18 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                      child: Text("Jahrgang:"),
+                      child: Text("Jahrgang"),
                     ),
                   ),
                   Expanded(
                     flex: 1,
                     child: DropdownButton(
                       isExpanded: true,
-                      onChanged: (value) {},
-                      items: <DropdownMenuItem<dynamic>>[
-                        DropdownMenuItem(child: Text("2022")),
-                        DropdownMenuItem(child: Text("2021")),
-                        DropdownMenuItem(child: Text("2020")),
-                        DropdownMenuItem(child: Text("2019")),
-                      ],
+                      value: viewModel.currentSelectedYear,
+                      onChanged: (value) {
+                        viewModel.setCurrentSelectedYear(value);
+                      },
+                      items: _buildYearsMenuItems(),
                     ),
                   ),
                 ],
@@ -202,5 +210,29 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
         ),
       ],
     );
+  }
+
+  List<DropdownMenuItem<String>> _buildYearsMenuItems() {
+    var yearMenuItems = <DropdownMenuItem<String>>[];
+
+    for (var year in viewModel.years) {
+      yearMenuItems.add(DropdownMenuItem(
+        child: Text(year),
+        value: year,
+      ));
+    }
+    return yearMenuItems;
+  }
+
+  List<DropdownMenuItem<DateDatabase>> _buildDatabaseMenuItems() {
+    var databaseMenuItems = <DropdownMenuItem<DateDatabase>>[];
+
+    for (var database in viewModel.allDateDatabases) {
+      databaseMenuItems.add(DropdownMenuItem(
+        child: Text(database.displayName),
+        value: database,
+      ));
+    }
+    return databaseMenuItems;
   }
 }

@@ -41,7 +41,15 @@ class DateManagementPage extends StatelessWidget {
                 ) =>
                     AnimatedSwitcher(
                         duration: Duration(milliseconds: 200),
-                        child: _buildAllDatesDataTable(model, context)),
+                        child: Column(
+                          key: ValueKey(
+                              viewModel?.dateSearchParameters?.toString() ??
+                                  ""),
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: <Widget>[
+                            _buildAllDatesDataTable(model, context),
+                          ],
+                        )),
               ),
             ),
           ),
@@ -51,6 +59,21 @@ class DateManagementPage extends StatelessWidget {
   }
 
   DataTable _buildAllDatesDataTable(
+    DateManagementViewModel model,
+    BuildContext context,
+  ) {
+    return DataTable(
+      key: ValueKey(model.dateEntriesKeyIndex),
+      rows: _buildDataTableRows(model, context),
+      columns: <DataColumn>[
+        DataColumn(label: Text("Beschreibung")),
+        DataColumn(label: Text("Jahrgang")),
+        DataColumn(label: Text("Datum")),
+      ],
+    );
+  }
+
+  List<DataRow> _buildDataTableRows(
     DateManagementViewModel model,
     BuildContext context,
   ) {
@@ -68,6 +91,8 @@ class DateManagementPage extends StatelessWidget {
                       .format(dateEntry.dateAndTime),
                   style: Theme.of(context).textTheme.bodyText1,
                 ),
+                // When the date entry has a time of 00:00 don't show it.
+                // It means the date entry is for the whole day
                 isAtMidnight(dateEntry.dateAndTime)
                     ? Container()
                     : Padding(
@@ -87,14 +112,6 @@ class DateManagementPage extends StatelessWidget {
       );
     }
 
-    return DataTable(
-      key: ValueKey(model.dateEntriesKeyIndex),
-      rows: dataRows,
-      columns: <DataColumn>[
-        DataColumn(label: Text("Beschreibung")),
-        DataColumn(label: Text("Jahrgang")),
-        DataColumn(label: Text("Datum")),
-      ],
-    );
+    return dataRows;
   }
 }
