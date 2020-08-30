@@ -19,6 +19,12 @@ void main() async {
   ));
 }
 
+///
+/// Save the current language in the preferences.
+/// The language of the last app start is used for the background initialization.
+/// When the app runs in the background this is an easy way to get the
+/// used language
+///
 Future<void> saveLastStartLanguage() async {
   PreferencesProvider preferencesProvider = KiwiContainer().resolve();
   await preferencesProvider.setLastUsedLanguageCode(Platform.localeName);
