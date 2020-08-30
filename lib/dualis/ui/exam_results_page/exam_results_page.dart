@@ -57,18 +57,18 @@ class ExamResultsPage extends StatelessWidget {
               ),
             ),
             PropertyChangeConsumer(
-                properties: ["currentSemester"],
-                builder: (
-                  BuildContext context,
-                  StudyGradesViewModel model,
-                  Set properties,
-                ) =>
-                    model.currentSemester != null
-                        ? buildModulesColumn(context, model)
-                        : Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-                            child: Center(child: CircularProgressIndicator()),
-                          ),
+              properties: ["currentSemester"],
+              builder: (
+                BuildContext context,
+                StudyGradesViewModel model,
+                Set properties,
+              ) =>
+                  model.currentSemester != null
+                      ? buildModulesColumn(context, model)
+                      : Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
             ),
           ],
         ),
@@ -76,7 +76,8 @@ class ExamResultsPage extends StatelessWidget {
     );
   }
 
-  Widget buildModulesColumn(BuildContext context, StudyGradesViewModel viewModel) {
+  Widget buildModulesColumn(
+      BuildContext context, StudyGradesViewModel viewModel) {
     return AnimatedSwitcher(
       layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
         List<Widget> children = previousChildren;
@@ -99,16 +100,17 @@ class ExamResultsPage extends StatelessWidget {
       BuildContext context, StudyGradesViewModel viewModel) {
     var dataTables = <DataTable>[];
 
-    for(var module in viewModel.currentSemester.modules) {
-      dataTables.add(
-        DataTable(
-          columnSpacing: 10,
-          dataRowHeight: 60,
-          headingRowHeight: 65,
-          rows: buildModuleDataRows(context, module),
-          columns: buildModuleColumns(context, module),
-        )
-      );
+    var isFirstModule = true;
+    for (var module in viewModel.currentSemester.modules) {
+      dataTables.add(DataTable(
+        columnSpacing: 10,
+        dataRowHeight: 60,
+        headingRowHeight: 65,
+        rows: buildModuleDataRows(context, module),
+        columns: buildModuleColumns(context, module,
+            displayGradeHeader: isFirstModule),
+      ));
+      isFirstModule = false;
     }
     return dataTables;
   }
@@ -135,7 +137,7 @@ class ExamResultsPage extends StatelessWidget {
                 ),
               ],
             )),
-            DataCell(Text(module.credits)),
+            DataCell(Text("")),
             DataCell(Text(exam.grade.toString())),
           ],
         ),
@@ -144,34 +146,38 @@ class ExamResultsPage extends StatelessWidget {
     return dataRows;
   }
 
-  List<DataColumn> buildModuleColumns(
-      BuildContext context, var module) {
+  List<DataColumn> buildModuleColumns(BuildContext context, var module,
+      {var displayGradeHeader = false}) {
     return <DataColumn>[
       DataColumn(
         label: Padding(
           padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
           child: Text(
-                module.name ?? "",
-                style: Theme.of(context).textTheme.subtitle2,
+            module.name ?? "",
+            style: Theme.of(context).textTheme.subtitle2,
           ),
         ),
         numeric: false,
       ),
       DataColumn(
         label: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-          child: Text(L.of(context).dualisExamResultsCreditsColumnHeader),
+          padding: EdgeInsets.fromLTRB(0, 28, 30, 0),
+          child: Text(
+              "${L.of(context).dualisExamResultsCreditsColumnHeader}:  ${module.credits}"),
         ),
         numeric: true,
       ),
       DataColumn(
         label: Padding(
           padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-          child: Text(L.of(context).dualisExamResultsGradeColumnHeader),
+          child: Text(
+            displayGradeHeader
+                ? L.of(context).dualisExamResultsGradeColumnHeader
+                : "             ",
+          ),
         ),
         numeric: true,
       ),
     ];
   }
 }
-
