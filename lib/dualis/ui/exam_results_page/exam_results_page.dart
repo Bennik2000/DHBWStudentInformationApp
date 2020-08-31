@@ -104,7 +104,7 @@ class ExamResultsPage extends StatelessWidget {
     for (var module in viewModel.currentSemester.modules) {
       dataTables.add(DataTable(
         columnSpacing: 10,
-        dataRowHeight: 60,
+        dataRowHeight: 45,
         headingRowHeight: 65,
         rows: buildModuleDataRows(context, module),
         columns: buildModuleColumns(context, module,
