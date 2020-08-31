@@ -56,27 +56,28 @@ class ExamResultsPage extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
-              child: PropertyChangeConsumer(
-                properties: ["currentSemester"],
-                builder: (
-                  BuildContext context,
-                  StudyGradesViewModel model,
-                  Set properties,
-                ) =>
-                    model.currentSemester != null
-                        ? buildDataTable(context, model)
-                        : Center(child: CircularProgressIndicator()),
-              ),
-            )
+            PropertyChangeConsumer(
+              properties: ["currentSemester"],
+              builder: (
+                BuildContext context,
+                StudyGradesViewModel model,
+                Set properties,
+              ) =>
+                  model.currentSemester != null
+                      ? buildModulesColumn(context, model)
+                      : Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget buildDataTable(BuildContext context, StudyGradesViewModel viewModel) {
+  Widget buildModulesColumn(
+      BuildContext context, StudyGradesViewModel viewModel) {
     return AnimatedSwitcher(
       layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
         List<Widget> children = previousChildren;
@@ -87,66 +88,94 @@ class ExamResultsPage extends StatelessWidget {
           alignment: Alignment.topCenter,
         );
       },
-      child: DataTable(
+      child: Column(
         key: ValueKey("semester_${viewModel.currentSemester?.name}"),
-        columnSpacing: 10,
-        dataRowHeight: 60,
-        headingRowHeight: 50,
-        rows: buildGradesDataRows(context, viewModel),
-        columns: buildDataTableColumns(context),
+        children: buildModulesDataTables(context, viewModel),
       ),
       duration: Duration(milliseconds: 200),
     );
   }
 
-  List<DataRow> buildGradesDataRows(
+  List<DataTable> buildModulesDataTables(
       BuildContext context, StudyGradesViewModel viewModel) {
+    var dataTables = <DataTable>[];
+
+    var isFirstModule = true;
+    for (var module in viewModel.currentSemester.modules) {
+      dataTables.add(DataTable(
+        columnSpacing: 10,
+        dataRowHeight: 45,
+        headingRowHeight: 65,
+        rows: buildModuleDataRows(context, module),
+        columns: buildModuleColumns(context, module,
+            displayGradeHeader: isFirstModule),
+      ));
+      isFirstModule = false;
+    }
+    return dataTables;
+  }
+
+  List<DataRow> buildModuleDataRows(BuildContext context, var module) {
     var dataRows = <DataRow>[];
 
-    for (var module in viewModel.currentSemester.modules) {
-      for (var exam in module.exams) {
-        dataRows.add(
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    module.name ?? "",
-                  ),
-                  Text(
-                    exam.name ?? "",
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                  Text(
-                    exam.semester ?? "",
-                    style: Theme.of(context).textTheme.caption,
-                  ),
-                ],
-              )),
-              DataCell(Text(module.credits)),
-              DataCell(Text(exam.grade.toString())),
-            ],
-          ),
-        );
-      }
+    for (var exam in module.exams) {
+      dataRows.add(
+        DataRow(
+          cells: <DataCell>[
+            DataCell(Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  exam.name ?? "",
+                  style: Theme.of(context).textTheme.caption,
+                ),
+                Text(
+                  exam.semester ?? "",
+                  style: Theme.of(context).textTheme.caption,
+                  textScaleFactor: exam.semester == "" ? 0 : 1,
+                ),
+              ],
+            )),
+            DataCell(Text("")),
+            DataCell(Text(exam.grade.toString())),
+          ],
+        ),
+      );
     }
     return dataRows;
   }
 
-  List<DataColumn> buildDataTableColumns(BuildContext context) {
+  List<DataColumn> buildModuleColumns(BuildContext context, var module,
+      {var displayGradeHeader = false}) {
     return <DataColumn>[
       DataColumn(
-        label: Text(L.of(context).dualisExamResultsExamColumnHeader),
+        label: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+          child: Text(
+            module.name ?? "",
+            style: Theme.of(context).textTheme.subtitle2,
+          ),
+        ),
         numeric: false,
       ),
       DataColumn(
-        label: Text(L.of(context).dualisExamResultsCreditsColumnHeader),
+        label: Padding(
+          padding: EdgeInsets.fromLTRB(0, 28, 30, 0),
+          child: Text(
+              "${L.of(context).dualisExamResultsCreditsColumnHeader}:  ${module.credits}"),
+        ),
         numeric: true,
       ),
       DataColumn(
-        label: Text(L.of(context).dualisExamResultsGradeColumnHeader),
+        label: Padding(
+          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
+          child: Text(
+            displayGradeHeader
+                ? L.of(context).dualisExamResultsGradeColumnHeader
+                : "             ",
+          ),
+        ),
         numeric: true,
       ),
     ];
