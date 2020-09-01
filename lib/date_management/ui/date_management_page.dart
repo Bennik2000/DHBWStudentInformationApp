@@ -33,36 +33,39 @@ class DateManagementPage extends StatelessWidget {
                       : Container()),
             ],
           ),
-          Expanded(
-            child: Stack(
-              children: <Widget>[
-                SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  child: PropertyChangeConsumer(
-                    builder: (
-                      BuildContext context,
-                      DateManagementViewModel model,
-                      _,
-                    ) =>
-                        AnimatedSwitcher(
-                            duration: Duration(milliseconds: 200),
-                            child: Column(
-                              key: ValueKey(
-                                  viewModel?.dateSearchParameters?.toString() ??
-                                      ""),
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: <Widget>[
-                                _buildAllDatesDataTable(model, context),
-                              ],
-                            )),
-                  ),
-                ),
-                Align(
-                  child: buildErrorDisplay(context),
-                  alignment: Alignment.bottomCenter,
-                ),
-              ],
+          _buildBody(viewModel, context),
+        ],
+      ),
+    );
+  }
+
+  Expanded _buildBody(DateManagementViewModel viewModel, BuildContext context) {
+    return Expanded(
+      child: Stack(
+        children: <Widget>[
+          SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: PropertyChangeConsumer(
+              builder: (
+                BuildContext context,
+                DateManagementViewModel model,
+                _,
+              ) =>
+                  AnimatedSwitcher(
+                      duration: Duration(milliseconds: 200),
+                      child: Column(
+                        key: ValueKey(
+                            viewModel?.dateSearchParameters?.toString() ?? ""),
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          _buildAllDatesDataTable(model, context),
+                        ],
+                      )),
             ),
+          ),
+          Align(
+            child: buildErrorDisplay(context),
+            alignment: Alignment.bottomCenter,
           ),
         ],
       ),
@@ -77,9 +80,16 @@ class DateManagementPage extends StatelessWidget {
       key: ValueKey(model.dateEntriesKeyIndex),
       rows: _buildDataTableRows(model, context),
       columns: <DataColumn>[
-        DataColumn(label: Text("Beschreibung")),
-        DataColumn(label: Text("Jahrgang"), numeric: true),
-        DataColumn(label: Text("Datum")),
+        DataColumn(
+          label: Text(L.of(context).dateManagementTableHeaderDescription),
+        ),
+        DataColumn(
+          label: Text(L.of(context).dateManagementTableHeaderYear),
+          numeric: true,
+        ),
+        DataColumn(
+          label: Text(L.of(context).dateManagementTableHeaderDate),
+        ),
       ],
     );
   }

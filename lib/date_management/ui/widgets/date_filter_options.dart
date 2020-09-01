@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/date_management/model/date_database.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,17 +79,17 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
 
     if (viewModel.showPassedDates && viewModel.showFutureDates) {
       chips.add(Chip(
-        label: Text("Zukünftige und vergangene"),
+        label: Text(L.of(context).dateManagementChipFutureAndPast),
         visualDensity: VisualDensity.compact,
       ));
     } else if (viewModel.showFutureDates) {
       chips.add(Chip(
-        label: Text("Nur Zukünftige"),
+        label: Text(L.of(context).dateManagementChipOnlyFuture),
         visualDensity: VisualDensity.compact,
       ));
     } else if (viewModel.showPassedDates) {
       chips.add(Chip(
-        label: Text("Nur Vergangene"),
+        label: Text(L.of(context).dateManagementChipOnlyPassed),
         visualDensity: VisualDensity.compact,
       ));
     }
@@ -134,7 +135,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: Text(
-                        "Termindatenbank",
+                        L.of(context).dateManagementDropDownDatabase,
                       ),
                     ),
                   ),
@@ -157,7 +158,9 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                      child: Text("Jahrgang"),
+                      child: Text(
+                        L.of(context).dateManagementDropDownYear,
+                      ),
                     ),
                   ),
                   Expanded(
@@ -174,7 +177,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                 ],
               ),
               CheckboxListTile(
-                title: Text("Zukünftige"),
+                title: Text(L.of(context).dateManagementCheckBoxFutureDates),
                 value: viewModel.showFutureDates,
                 dense: true,
                 onChanged: (bool value) {
@@ -182,7 +185,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                 },
               ),
               CheckboxListTile(
-                title: Text("Vergangene"),
+                title: Text(L.of(context).dateManagementCheckBoxPassedDates),
                 value: viewModel.showPassedDates,
                 dense: true,
                 onChanged: (bool value) {

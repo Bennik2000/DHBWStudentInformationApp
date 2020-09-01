@@ -157,6 +157,28 @@ class L {
   String get onboardingDualisWrongCredentials =>
       _getValue("onboardingDualisWrongCredentials");
 
+  String get dateManagementTableHeaderDate =>
+      _getValue("dateManagementTableHeaderDate");
+  String get dateManagementTableHeaderYear =>
+      _getValue("dateManagementTableHeaderYear");
+  String get dateManagementTableHeaderDescription =>
+      _getValue("dateManagementTableHeaderDescription");
+  String get pageDateManagementTitle => _getValue("pageDateManagementTitle");
+  String get dateManagementCheckBoxPassedDates =>
+      _getValue("dateManagementCheckBoxPassedDates");
+  String get dateManagementCheckBoxFutureDates =>
+      _getValue("dateManagementCheckBoxFutureDates");
+  String get dateManagementDropDownYear =>
+      _getValue("dateManagementDropDownYear");
+  String get dateManagementDropDownDatabase =>
+      _getValue("dateManagementDropDownDatabase");
+  String get dateManagementChipOnlyPassed =>
+      _getValue("dateManagementChipOnlyPassed");
+  String get dateManagementChipOnlyFuture =>
+      _getValue("dateManagementChipOnlyFuture");
+  String get dateManagementChipFutureAndPast =>
+      _getValue("dateManagementChipFutureAndPast");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

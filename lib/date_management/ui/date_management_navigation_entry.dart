@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/date_management/ui/date_management_page.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
@@ -13,7 +14,7 @@ class DateManagementNavigationEntry extends NavigationEntry {
 
   @override
   String title(BuildContext context) {
-    return "Terminverwaltung";
+    return L.of(context).pageDateManagementTitle;
   }
 
   @override

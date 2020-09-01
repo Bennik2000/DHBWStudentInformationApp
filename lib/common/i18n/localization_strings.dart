@@ -95,6 +95,17 @@ final de = {
   "onboardingDualisPageTitle": "Dualis Login",
   "onboardingDualisTestButton": "Testen",
   "onboardingDualisWrongCredentials": "Passwort oder Benutzername falsch",
+  "dateManagementTableHeaderDate": "Datum",
+  "dateManagementTableHeaderYear": "Jahrgang",
+  "dateManagementTableHeaderDescription": "Beschreibung",
+  "pageDateManagementTitle": "Terminverwaltung",
+  "dateManagementCheckBoxPassedDates": "Vergangene",
+  "dateManagementCheckBoxFutureDates": "Zukünftige",
+  "dateManagementDropDownYear": "Jahrgang",
+  "dateManagementDropDownDatabase": "Termindatenbank",
+  "dateManagementChipOnlyPassed": "Nur Vergangene",
+  "dateManagementChipOnlyFuture": "Nur Zukünftige",
+  "dateManagementChipFutureAndPast": "Zukünftige und vergangene",
 };
 
 final en = {
@@ -192,4 +203,15 @@ final en = {
   "onboardingDualisPageTitle": "Dualis Login",
   "onboardingDualisTestButton": "Test",
   "onboardingDualisWrongCredentials": "Wrong password or username",
+  "dateManagementTableHeaderDate": "Date",
+  "dateManagementTableHeaderYear": "Year",
+  "dateManagementTableHeaderDescription": "Description",
+  "pageDateManagementTitle": "Dates",
+  "dateManagementCheckBoxPassedDates": "Show passed",
+  "dateManagementCheckBoxFutureDates": "Show future",
+  "dateManagementDropDownYear": "Year",
+  "dateManagementDropDownDatabase": "Database",
+  "dateManagementChipOnlyPassed": "Only passed",
+  "dateManagementChipOnlyFuture": "Only future",
+  "dateManagementChipFutureAndPast": "Future and past",
 };
