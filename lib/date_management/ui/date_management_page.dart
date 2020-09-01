@@ -84,10 +84,6 @@ class DateManagementPage extends StatelessWidget {
           label: Text(L.of(context).dateManagementTableHeaderDescription),
         ),
         DataColumn(
-          label: Text(L.of(context).dateManagementTableHeaderYear),
-          numeric: true,
-        ),
-        DataColumn(
           label: Text(L.of(context).dateManagementTableHeaderDate),
         ),
       ],
@@ -108,9 +104,6 @@ class DateManagementPage extends StatelessWidget {
                     style: dateEntry.dateAndTime.isBefore(DateTime.now())
                         ? TextStyle(decoration: TextDecoration.lineThrough)
                         : null), onTap: () {
-              showDateEntryDetailBottomSheet(context, dateEntry);
-            }),
-            DataCell(Text(dateEntry.year), onTap: () {
               showDateEntryDetailBottomSheet(context, dateEntry);
             }),
             DataCell(
