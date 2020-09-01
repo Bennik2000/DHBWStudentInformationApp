@@ -41,41 +41,34 @@ class DateDetailBottomSheet extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
+              padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Flexible(
+                  Expanded(
+                    child: Text(
+                      dateEntry.description,
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: <Widget>[
                         Text(
-                          dateEntry.description,
-                          style: Theme.of(context).textTheme.headline5,
+                          date,
+                          softWrap: true,
+                          style: Theme.of(context).textTheme.subtitle2,
                         ),
+                        isAtMidnight(dateEntry.dateAndTime)
+                            ? Container()
+                            : Text(
+                                time,
+                                softWrap: true,
+                              ),
                       ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: <Widget>[
-                          Text(
-                            date,
-                            softWrap: true,
-                            style: Theme.of(context).textTheme.subtitle2,
-                          ),
-                          isAtMidnight(dateEntry.dateAndTime)
-                              ? Container()
-                              : Text(
-                                  time,
-                                  softWrap: true,
-                                ),
-                        ],
-                      ),
                     ),
                   ),
                 ],

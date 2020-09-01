@@ -15,18 +15,19 @@ class DateManagementViewModel extends BaseViewModel {
   final PreferencesProvider _preferencesProvider;
 
   final List<DateDatabase> _allDateDatabases = [
-    DateDatabase("Termine_BWL_Bank", "Termine_BWL_Bank"),
-    DateDatabase("Termine_BWL_Immo", "Termine_BWL_Immo"),
-    DateDatabase("Termine_DLM_Consult", "Termine_DLM_Consult"),
-    DateDatabase("Termine_DLM_Logistik", "Termine_DLM_Logistik"),
-    DateDatabase("Termine_Horb_INF", "Termine_Horb_INF"),
-    DateDatabase("Termine_Horb_MB", "Termine_Horb_MB"),
-    DateDatabase("Termine_Horbtest", "Termine_Horbtest"),
-    DateDatabase("Termine_IB", "Termine_IB"),
-    DateDatabase("Termine_Informatik", "Termine_Informatik"),
-    DateDatabase("Termine_MUK", "Termine_MUK"),
-    DateDatabase("Termine_SO_GuO", "Termine_SO_GuO"),
-    DateDatabase("Termine_WIW", "Termine_WIW"),
+    DateDatabase("BWL-Bank", "Termine_BWL_Bank"),
+    DateDatabase("Immobilienwirtschaft", "Termine_BWL_Immo"),
+    DateDatabase(
+        "Dienstleistungsmanagement Consulting & Sales", "Termine_DLM_Consult"),
+    DateDatabase("Dienstleistungsmanagement Logistik", "Termine_DLM_Logistik"),
+    DateDatabase("Campus Horb Informatik", "Termine_Horb_INF"),
+    DateDatabase("Campus Horb Maschinenbau", "Termine_Horb_MB"),
+    DateDatabase("International Business", "Termine_IB"),
+    DateDatabase("Informatik", "Termine_Informatik"),
+    DateDatabase("MUK (DLM - C&S, LogM, MUK)", "Termine_MUK"),
+    DateDatabase("SO_GuO (Abweichungen und Ergänzungen zum Vorlesungsplan)",
+        "Termine_SO_GuO"),
+    DateDatabase("Wirtschaftsingenieurwesen", "Termine_WIW"),
   ];
   List<DateDatabase> get allDateDatabases => _allDateDatabases;
 
