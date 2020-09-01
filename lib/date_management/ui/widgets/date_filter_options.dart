@@ -46,31 +46,38 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
   }
 
   Widget _buildCollapsed() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      mainAxisSize: MainAxisSize.max,
-      children: <Widget>[
-        Expanded(
-          child: _buildCollapsedChips(),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-          child: ButtonTheme(
-            minWidth: 36,
-            height: 36,
-            child: FlatButton(
-              child: Icon(Icons.tune),
-              padding: EdgeInsets.all(0),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              onPressed: () {
-                setState(() {
-                  _isExpanded = true;
-                });
-              },
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _isExpanded = true;
+        });
+      },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.max,
+        children: <Widget>[
+          Expanded(
+            child: _buildCollapsedChips(),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+            child: ButtonTheme(
+              minWidth: 36,
+              height: 36,
+              child: FlatButton(
+                child: Icon(Icons.tune),
+                padding: EdgeInsets.all(0),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                onPressed: () {
+                  setState(() {
+                    _isExpanded = true;
+                  });
+                },
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
