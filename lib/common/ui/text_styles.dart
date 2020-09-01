@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'colors.dart';
-
 TextStyle textStyleDailyScheduleEntryWidgetProfessor(BuildContext context) =>
     Theme.of(context).textTheme.subtitle2;
 
@@ -55,9 +53,4 @@ TextStyle textStyleScheduleEntryBottomPageType(BuildContext context) =>
 TextStyle textStyleScheduleWidgetColumnTitleDay(BuildContext context) =>
     Theme.of(context).textTheme.subtitle2.copyWith(
           fontWeight: FontWeight.w300,
-        );
-
-TextStyle textStyleUpdateNoConnection(BuildContext context) =>
-    Theme.of(context).textTheme.subtitle2.copyWith(
-          color: colorNoConnectionForeground(),
         );

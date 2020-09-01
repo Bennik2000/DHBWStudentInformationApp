@@ -1,8 +1,6 @@
 import 'package:animations/animations.dart';
-import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
-import 'package:dhbwstudentapp/common/ui/text_styles.dart';
+import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/schedule_entry_detail_bottom_sheet.dart';
@@ -157,39 +155,15 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   }
 
   Widget buildErrorDisplay(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        PropertyChangeConsumer(
-          properties: [
-            "updateFailed",
-          ],
-          builder: (BuildContext context, WeeklyScheduleViewModel model,
-                  Set properties) =>
-              AnimatedSwitcher(
-            child: model.updateFailed
-                ? Padding(
-                    padding: const EdgeInsets.all(0),
-                    child: Container(
-                      width: double.infinity,
-                      color: colorNoConnectionBackground(),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(24, 4, 24, 4),
-                        child: Text(
-                          L.of(context).noConnectionMessage,
-                          textAlign: TextAlign.center,
-                          style: textStyleUpdateNoConnection(context),
-                        ),
-                      ),
-                    ),
-                  )
-                : Container(
-                    width: double.infinity,
-                  ),
-            duration: Duration(milliseconds: 300),
-          ),
-        ),
+    return PropertyChangeConsumer(
+      properties: [
+        "updateFailed",
       ],
+      builder: (BuildContext context, WeeklyScheduleViewModel model,
+              Set properties) =>
+          ErrorDisplay(
+        show: model.updateFailed,
+      ),
     );
   }
 }

@@ -154,7 +154,6 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
 
     NavigatorKey.mainKey.currentState
         .pushNamedAndRemoveUntil(currentEntry.route, (route) {
-      print(route.settings.name);
       return route.settings.name == navigationEntries[0].route;
     });
   }

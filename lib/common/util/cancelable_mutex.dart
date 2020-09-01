@@ -15,9 +15,9 @@ class CancelableMutex {
       token?.cancel();
     }
 
-    _token = CancellationToken();
-
     await _mutex.acquire();
+
+    _token = CancellationToken();
   }
 
   void release() {
