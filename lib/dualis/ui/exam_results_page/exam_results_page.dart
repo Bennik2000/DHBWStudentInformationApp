@@ -1,5 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
@@ -103,7 +104,8 @@ class ExamResultsPage extends StatelessWidget {
     var isFirstModule = true;
     for (var module in viewModel.currentSemester.modules) {
       dataTables.add(DataTable(
-        columnSpacing: 10,
+        horizontalMargin: 24,
+        columnSpacing: 0,
         dataRowHeight: 45,
         headingRowHeight: 65,
         rows: buildModuleDataRows(context, module),
@@ -137,8 +139,11 @@ class ExamResultsPage extends StatelessWidget {
                 ),
               ],
             )),
-            DataCell(Text("")),
-            DataCell(Text(exam.grade.toString())),
+            DataCell.empty,
+            DataCell(Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+              child: Text(exam.grade.toString()),
+            )),
           ],
         ),
       );
@@ -150,30 +155,56 @@ class ExamResultsPage extends StatelessWidget {
       {var displayGradeHeader = false}) {
     return <DataColumn>[
       DataColumn(
-        label: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-          child: Text(
-            module.name ?? "",
-            style: Theme.of(context).textTheme.subtitle2,
+        label: ConstrainedBox(
+          constraints: BoxConstraints.expand(
+            width: MediaQuery.of(context).size.width * 0.5 -
+                24, // Subtract the horizontal padding of the DataTable
+          ),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 10, 16),
+              child: Text(
+                (module.name ?? ""),
+                style: Theme.of(context).textTheme.subtitle2,
+                softWrap: true,
+              ),
+            ),
           ),
         ),
         numeric: false,
       ),
       DataColumn(
-        label: Padding(
-          padding: EdgeInsets.fromLTRB(0, 28, 30, 0),
-          child: Text(
-              "${L.of(context).dualisExamResultsCreditsColumnHeader}:  ${module.credits}"),
+        label: ConstrainedBox(
+          constraints: BoxConstraints.expand(
+            width: MediaQuery.of(context).size.width * 0.25,
+          ),
+          child: Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(0, 0, 10, 16),
+              child: Text(
+                  "${L.of(context).dualisExamResultsCreditsColumnHeader}:  ${module.credits}"),
+            ),
+          ),
         ),
         numeric: true,
       ),
       DataColumn(
-        label: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 25, 0, 0),
-          child: Text(
-            displayGradeHeader
-                ? L.of(context).dualisExamResultsGradeColumnHeader
-                : "             ",
+        label: ConstrainedBox(
+          constraints: BoxConstraints.expand(
+            width: MediaQuery.of(context).size.width * 0.25,
+          ),
+          child: Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(0, 0, 16, 16),
+              child: Text(
+                displayGradeHeader
+                    ? L.of(context).dualisExamResultsGradeColumnHeader
+                    : "",
+              ),
+            ),
           ),
         ),
         numeric: true,
