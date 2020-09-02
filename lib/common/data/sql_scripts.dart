@@ -28,5 +28,19 @@ CREATE TABLE IF NOT EXISTS ScheduleQueryInformation
 );
 '''
     ],
+
+    // Version 2 - Add DateEntries table
+    [
+      '''      
+CREATE TABLE IF NOT EXISTS DateEntries
+(
+  date INTEGER,
+  comment TEXT,
+  description TEXT,
+  year TEXT,
+  databaseName TEXT
+);
+'''
+    ],
   ];
 }

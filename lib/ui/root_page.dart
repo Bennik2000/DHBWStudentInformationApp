@@ -9,6 +9,10 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
+///
+/// This is the top level widget of the app. It handles navigation of the
+/// root navigator and rebuilds its child widgets on theme changes
+///
 class RootPage extends StatefulWidget {
   final RootViewModel rootViewModel;
 

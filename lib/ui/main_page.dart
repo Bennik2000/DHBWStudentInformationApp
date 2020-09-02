@@ -9,17 +9,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:provider/provider.dart';
 
+///
+/// This is the main page widget. It defines the structure of the scaffold,
+/// navigation drawer and provides a nested navigator for the content.
+/// To navigate to a new route inside this widget use the [NavigatorKey.mainKey]
+///
 class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
-  int _currentEntryIndex = 0;
+class _MainPageState extends State<MainPage> with NavigatorObserver {
   bool _rateDialogShown = false;
 
-  NavigationEntry get currentEntry => navigationEntries[_currentEntryIndex];
+  ValueNotifier<int> _currentEntryIndex = ValueNotifier<int>(0);
+
+  NavigationEntry get currentEntry =>
+      navigationEntries[_currentEntryIndex.value];
 
   @override
   void initState() {
@@ -34,43 +42,64 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     _showRateInStoreDialogIfNeeded(context);
 
-    Widget content;
+    var navigator = Navigator(
+      key: NavigatorKey.mainKey,
+      onGenerateRoute: generateDrawerRoute,
+      initialRoute: "schedule",
+      observers: [this],
+    );
 
-    if (PlatformUtil.isPhone() || PlatformUtil.isPortrait(context)) {
-      content = buildPhoneLayout(context);
-    } else {
-      content = buildTabletLayout(context);
-    }
+    return ChangeNotifierProvider.value(
+      value: _currentEntryIndex,
+      child: Consumer<ValueNotifier<int>>(
+        builder: (BuildContext context, value, Widget child) {
+          Widget content;
 
-    return content;
-  }
+          if (PlatformUtil.isPhone() || PlatformUtil.isPortrait(context)) {
+            content = buildPhoneLayout(context, navigator);
+          } else {
+            content = buildTabletLayout(context, navigator);
+          }
 
-  Widget buildPhoneLayout(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        textTheme: Theme.of(context).textTheme,
-        actionsIconTheme: Theme.of(context).iconTheme,
-        elevation: 0,
-        brightness: Theme.of(context).brightness,
-        iconTheme: Theme.of(context).iconTheme,
-        title: Text(navigationEntries[_currentEntryIndex].title(context)),
-        actions: currentEntry.appBarActions(context),
-      ),
-      body: Navigator(
-        key: NavigatorKey.mainKey,
-        onGenerateRoute: generateDrawerRoute,
-        initialRoute: "schedule",
-      ),
-      drawer: NavigationDrawer(
-        selectedIndex: _currentEntryIndex,
-        onTap: _onNavigationTapped,
-        entries: _buildDrawerEntries(),
+          return content;
+        },
       ),
     );
   }
 
-  Widget buildTabletLayout(BuildContext context) {
+  Widget buildPhoneLayout(BuildContext context, Navigator navigator) {
+    return WillPopScope(
+      onWillPop: () async {
+        var canPop = NavigatorKey.mainKey.currentState.canPop();
+
+        if (!canPop) return true;
+
+        NavigatorKey.mainKey.currentState.pop();
+
+        return false;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          textTheme: Theme.of(context).textTheme,
+          actionsIconTheme: Theme.of(context).iconTheme,
+          elevation: 0,
+          brightness: Theme.of(context).brightness,
+          iconTheme: Theme.of(context).iconTheme,
+          title: Text(currentEntry.title(context)),
+          actions: currentEntry.appBarActions(context),
+        ),
+        body: navigator,
+        drawer: NavigationDrawer(
+          selectedIndex: _currentEntryIndex.value,
+          onTap: _onNavigationTapped,
+          entries: _buildDrawerEntries(),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTabletLayout(BuildContext context, Navigator navigator) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -79,7 +108,7 @@ class _MainPageState extends State<MainPage> {
         elevation: 0,
         brightness: Theme.of(context).brightness,
         iconTheme: Theme.of(context).iconTheme,
-        title: Text(navigationEntries[_currentEntryIndex].title(context)),
+        title: Text(currentEntry.title(context)),
         actions: currentEntry.appBarActions(context),
       ),
       body: Row(
@@ -88,7 +117,7 @@ class _MainPageState extends State<MainPage> {
             height: double.infinity,
             width: 250,
             child: NavigationDrawer(
-              selectedIndex: _currentEntryIndex,
+              selectedIndex: _currentEntryIndex.value,
               onTap: _onNavigationTapped,
               entries: _buildDrawerEntries(),
               isInDrawer: false,
@@ -99,11 +128,7 @@ class _MainPageState extends State<MainPage> {
             width: 1,
           ),
           Expanded(
-            child: Navigator(
-              key: NavigatorKey.mainKey,
-              onGenerateRoute: generateDrawerRoute,
-              initialRoute: "schedule",
-            ),
+            child: navigator,
             flex: 3,
           ),
         ],
@@ -125,10 +150,12 @@ class _MainPageState extends State<MainPage> {
   }
 
   void _onNavigationTapped(int index) {
-    _currentEntryIndex = index;
-    NavigatorKey.mainKey.currentState.pushReplacementNamed(currentEntry.route);
+    _currentEntryIndex.value = index;
 
-    setState(() {});
+    NavigatorKey.mainKey.currentState
+        .pushNamedAndRemoveUntil(currentEntry.route, (route) {
+      return route.settings.name == navigationEntries[0].route;
+    });
   }
 
   void _showRateInStoreDialogIfNeeded(BuildContext context) {
@@ -151,5 +178,29 @@ class _MainPageState extends State<MainPage> {
         DeviceOrientation.landscapeRight,
       ]);
     }
+  }
+
+  void updateNavigationDrawer(String routeName) {
+    for (int i = 0; i < navigationEntries.length; i++) {
+      if (navigationEntries[i].route == routeName) {
+        _currentEntryIndex.value = i;
+        break;
+      }
+    }
+  }
+
+  @override
+  void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
+    updateNavigationDrawer(previousRoute.settings.name);
+  }
+
+  @override
+  void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
+    updateNavigationDrawer(route.settings.name);
+  }
+
+  @override
+  void didReplace({Route<dynamic> newRoute, Route<dynamic> oldRoute}) {
+    updateNavigationDrawer(newRoute.settings.name);
   }
 }

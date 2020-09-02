@@ -3,6 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+///
+/// This widget uses a [List<PageDefinition>] instance and displays a bottom
+/// bar which displays the individual pages and allows navigating to them.
+///
+/// If the [PageDefinition] has a viewModel it provides it using a
+/// [ChangeNotifierProvider]
+///
 class PagerWidget extends StatefulWidget {
   final List<PageDefinition> pages;
 

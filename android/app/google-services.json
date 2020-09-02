@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "157561172039",
+    "firebase_url": "https://dhbw-studenten-app.firebaseio.com",
+    "project_id": "dhbw-studenten-app",
+    "storage_bucket": "dhbw-studenten-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:157561172039:android:628e67b7b0879b99584162",
+        "android_client_info": {
+          "package_name": "de.bennik2000.dhbwstudentapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "157561172039-8kgrcthg9k3hj1g1delhsejpv572r88p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQzRWHu_2Fol9ukJGqrkk-NFsjg9PsA50"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "157561172039-8kgrcthg9k3hj1g1delhsejpv572r88p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -69,7 +69,7 @@ class DatabaseAccess {
       int offset}) async {
     Database db = await _database;
 
-    for (int i = 0; i < whereArgs.length; i++) {
+    for (int i = 0; i < (whereArgs?.length ?? 0); i++) {
       whereArgs[i] = whereArgs[i] ?? "";
     }
 

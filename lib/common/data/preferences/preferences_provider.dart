@@ -15,6 +15,9 @@ class PreferencesProvider {
   static const String DualisUsername = "DualisUsername";
   static const String DualisPassword = "DualisPassword";
   static const String LastViewedSemester = "LastViewedSemester";
+  static const String LastViewedDateEntryDatabase =
+      "LastViewedDateEntryDatabase";
+  static const String LastViewedDateEntryYear = "LastViewedDateEntryYear";
 
   final PreferencesAccess _preferencesAccess;
   final SecureStorageAccess _secureStorageAccess;
@@ -116,5 +119,21 @@ class PreferencesProvider {
 
   Future<void> setLastViewedSemester(String lastViewedSemester) async {
     await _preferencesAccess.set(LastViewedSemester, lastViewedSemester);
+  }
+
+  Future<String> getLastViewedDateEntryDatabase() async {
+    return await _preferencesAccess.get<String>(LastViewedDateEntryDatabase);
+  }
+
+  Future<void> setLastViewedDateEntryDatabase(String value) async {
+    await _preferencesAccess.set<String>(LastViewedDateEntryDatabase, value);
+  }
+
+  Future<String> getLastViewedDateEntryYear() async {
+    return await _preferencesAccess.get<String>(LastViewedDateEntryYear);
+  }
+
+  Future<void> setLastViewedDateEntryYear(String value) async {
+    await _preferencesAccess.set<String>(LastViewedDateEntryYear, value);
   }
 }

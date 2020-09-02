@@ -142,7 +142,10 @@ class WeeklyScheduleViewModel extends BaseViewModel {
       cancellationToken,
     );
     cancellationToken.throwIfCancelled();
-    _setSchedule(updatedSchedule, start, end);
+
+    if (updatedSchedule != null) {
+      _setSchedule(updatedSchedule, start, end);
+    }
 
     updateFailed = updatedSchedule == null;
     notifyListeners("updateFailed");

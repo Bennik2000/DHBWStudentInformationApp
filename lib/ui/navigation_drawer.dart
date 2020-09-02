@@ -4,6 +4,12 @@ import 'package:flutter/material.dart';
 
 typedef NavigationItemOnTap = Function(int index);
 
+///
+/// This widget builds the content of the navigation drawer. It takes a list of
+/// [DrawerNavigationEntry] and provides a onTap callback.
+///
+/// If the [isInDrawer] variable is true, it shows a header
+///
 class NavigationDrawer extends StatelessWidget {
   final int selectedIndex;
   final NavigationItemOnTap onTap;
