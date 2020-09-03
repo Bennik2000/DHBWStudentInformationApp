@@ -178,6 +178,12 @@ class L {
       _getValue("dateManagementChipOnlyFuture");
   String get dateManagementChipFutureAndPast =>
       _getValue("dateManagementChipFutureAndPast");
+  String get dialogOk => _getValue("dialogOk");
+  String get dialogCancel => _getValue("dialogCancel");
+  String get dialogSetRaplaUrlTitle => _getValue("dialogSetRaplaUrlTitle");
+  String get scheduleEmptyStateSetUrl => _getValue("scheduleEmptyStateSetUrl");
+  String get scheduleEmptyStateBannerMessage =>
+      _getValue("scheduleEmptyStateBannerMessage");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
