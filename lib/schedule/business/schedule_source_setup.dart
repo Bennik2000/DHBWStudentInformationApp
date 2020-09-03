@@ -1,17 +1,38 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
-import 'package:kiwi/kiwi.dart';
+
+typedef OnDidApplyNewUrl = void Function(bool validUrl);
 
 class ScheduleSourceSetup {
-  ScheduleSource _scheduleSource;
-  PreferencesProvider _preferencesProvider;
+  final ScheduleSource _scheduleSource;
+  final PreferencesProvider _preferencesProvider;
 
-  ScheduleSourceSetup() {
-    _scheduleSource = KiwiContainer().resolve();
-    _preferencesProvider = KiwiContainer().resolve();
+  OnDidApplyNewUrl _onDidApplyNewUrl;
+  set onDidApplyNewUrl(OnDidApplyNewUrl value) => _onDidApplyNewUrl = value;
+
+  ScheduleSourceSetup(this._scheduleSource, this._preferencesProvider);
+
+  Future<bool> setupScheduleSource() async {
+    var raplaUrl = await _preferencesProvider.getRaplaUrl();
+
+    try {
+      _scheduleSource.validateEndpointUrl(raplaUrl);
+      _scheduleSource.setEndpointUrl(raplaUrl);
+    } catch (_) {
+      return false;
+    }
+
+    return true;
   }
 
-  Future<void> setupScheduleSource() async {
-    _scheduleSource.setEndpointUrl(await _preferencesProvider.getRaplaUrl());
+  void applyNewEndpointUrl(String url) {
+    try {
+      _scheduleSource.validateEndpointUrl(url);
+      _scheduleSource.setEndpointUrl(url);
+
+      _onDidApplyNewUrl?.call(true);
+    } catch (_) {
+      _onDidApplyNewUrl?.call(false);
+    }
   }
 }

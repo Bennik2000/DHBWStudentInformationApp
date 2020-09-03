@@ -1,11 +1,8 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/schedule/ui/dailyschedule/daily_schedule_page.dart';
-import 'package:dhbwstudentapp/schedule/ui/dailyschedule/viewmodels/daily_schedule_view_model.dart';
-import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
-import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/weekly_schedule_page.dart';
+import 'package:dhbwstudentapp/schedule/ui/schedule_page.dart';
+import 'package:dhbwstudentapp/schedule/ui/viewmodels/schedule_view_model.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
-import 'package:dhbwstudentapp/ui/pager_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -17,7 +14,9 @@ class ScheduleNavigationEntry extends NavigationEntry {
 
   @override
   BaseViewModel initViewModel() {
-    return WeeklyScheduleViewModel(KiwiContainer().resolve());
+    return ScheduleViewModel(
+      KiwiContainer().resolve(),
+    );
   }
 
   @override
@@ -27,23 +26,7 @@ class ScheduleNavigationEntry extends NavigationEntry {
 
   @override
   Widget build(BuildContext context) {
-    return PagerWidget(
-      pages: <PageDefinition>[
-        PageDefinition(
-          icon: Icon(Icons.view_week),
-          text: Text(L.of(context).pageWeekOverviewTitle),
-          builder: (_) => WeeklySchedulePage(),
-        ),
-        PageDefinition(
-          icon: Icon(Icons.view_day),
-          text: Text(L.of(context).pageDayOverviewTitle),
-          builder: (_) => DailySchedulePage(),
-          viewModel: DailyScheduleViewModel(
-            KiwiContainer().resolve(),
-          ),
-        ),
-      ],
-    );
+    return SchedulePage();
   }
 
   @override

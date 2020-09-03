@@ -1,6 +1,5 @@
 import 'package:dhbwstudentapp/common/ui/rate_in_store.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
-import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:dhbwstudentapp/ui/navigation/router.dart';
@@ -32,9 +31,6 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   @override
   void initState() {
     super.initState();
-    ScheduleSourceSetup()
-        .setupScheduleSource(); // TODO: Move this somewhere else!
-
     initializePortraitLandscapeMode();
   }
 
