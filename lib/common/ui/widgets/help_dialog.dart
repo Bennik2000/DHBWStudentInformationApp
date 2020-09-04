@@ -23,7 +23,7 @@ abstract class HelpDialog {
       actions: [
         FlatButton(
           textColor: Theme.of(context).accentColor,
-          child: Text(L.of(context).dialogOk),
+          child: Text(L.of(context).dialogOk.toUpperCase()),
           onPressed: () {
             Navigator.of(context).pop();
           },
