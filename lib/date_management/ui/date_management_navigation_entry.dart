@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/date_management/ui/date_management_page.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
+import 'package:dhbwstudentapp/date_management/ui/widgets/date_management_help_dialog.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -23,6 +24,19 @@ class DateManagementNavigationEntry extends NavigationEntry {
       KiwiContainer().resolve(),
       KiwiContainer().resolve(),
     );
+  }
+
+  @override
+  List<Widget> appBarActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: Icon(Icons.help_outline),
+        onPressed: () async {
+          await DateManagementHelpDialog().show(context);
+        },
+        tooltip: L.of(context).helpButtonTooltip,
+      )
+    ];
   }
 
   @override
