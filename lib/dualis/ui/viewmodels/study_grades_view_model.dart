@@ -230,6 +230,8 @@ class StudyGradesViewModel extends BaseViewModel {
     _semesterNames = null;
     _currentSemester = null;
     _currentSemesterName = null;
+    _currentLoadingSemesterName = null;
+    
     notifyListeners();
 
     print("Logged out");
