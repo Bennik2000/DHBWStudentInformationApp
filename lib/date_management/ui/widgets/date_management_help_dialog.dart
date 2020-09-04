@@ -1,28 +1,15 @@
-import 'package:flutter/cupertino.dart';
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/widgets/help_dialog.dart';
 import 'package:flutter/material.dart';
 
-class DateManagementHelpDialog {
-  Future show(BuildContext context) async {
-    await showDialog(
-      context: context,
-      builder: dialogBuilder,
-    );
+class DateManagementHelpDialog extends HelpDialog {
+  @override
+  String content(BuildContext context) {
+    return L.of(context).dateManagementHelpDialogContent;
   }
 
-  Widget dialogBuilder(BuildContext context) {
-    return AlertDialog(
-      title: Text("Terminverwaltung"),
-      content: Text("Über die Terminverwaltung siehst Du alle Termine, die im Laufe Deines Studiums wichtig sind. "
-          "Die Termine werden von https://it.dhbw-stuttgart.de/DHermine/ abgerufen und sind nur für die DHBW Stuttgart verfügbar."),
-      actions: [
-        FlatButton(
-          textColor: Theme.of(context).accentColor,
-          child: Text("OK"),
-          onPressed: (){
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
+  @override
+  String title(BuildContext context) {
+    return L.of(context).dateManagementHelpDialogTitle;
   }
 }

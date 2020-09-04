@@ -112,6 +112,21 @@ final de = {
   "scheduleEmptyStateSetUrl": "Url festlegen",
   "scheduleEmptyStateBannerMessage":
       "Die URL zum Rapla Vorlesungsplan wurde noch nicht festgelegt. Hier kannst du die URL festlegen.",
+  "helpButtonTooltip": "Hilfe",
+  "logoutButtonTooltip": "Abmelden",
+  "scheduleHelpDialogContent":
+      "Falls Du deinen Vorlesungsplan über Rapla bekommst, kannst Du ihn in der App anzeigen. "
+          "Den Link dazu bekommst Du üblicherweise zu Beginn deines Studiums per Email."
+          "\n\nAndere Systeme (Vorlesungsplan über Dualis/Moodle/...) werden leider noch nicht unterstützt.",
+  "scheduleHelpDialogTitle": "Vorlesungsplan",
+  "dualisHelpDialogContent":
+      "Mit den Dualis Zugangsdaten kannst Du deine Prüfungsergebnisse und Kursnoten in der App ansehen."
+          "\n\nFalls Du dich nicht anmelden kannst, prüfe die Internetverbindung und Zugangsdaten.",
+  "dualisHelpDialogTitle": "Dualis Anmeldung",
+  "dateManagementHelpDialogContent":
+      "Über die Terminverwaltung siehst Du alle Termine, die im Laufe Deines Studiums wichtig sind. "
+          "\nDie Termine werden von https://it.dhbw-stuttgart.de/DHermine/ abgerufen und sind nur für die DHBW Stuttgart verfügbar.",
+  "dateManagementHelpDialogTitle": "Terminverwaltung",
 };
 
 final en = {
@@ -226,4 +241,19 @@ final en = {
   "scheduleEmptyStateSetUrl": "Set Rapla url",
   "scheduleEmptyStateBannerMessage":
       "The url of the rapla schedule was not yet set. Here you can set the url.",
+  "helpButtonTooltip": "Help",
+  "logoutButtonTooltip": "Logout",
+  "scheduleHelpDialogContent": ""
+      "If you get your schedule with Rapla you can view it from within the app."
+      "Normally you get the url at the beginning of the semester via email."
+      "\n\nOther systems to get the schedule (like Dualis/Moodle) are not supported.",
+  "scheduleHelpDialogTitle": "Schedule",
+  "dualisHelpDialogContent": ""
+      "With your Dualis credentials you can view the exam results and course results from within the app."
+      "\n\nIf you cannot login check your internet connection and login credentials",
+  "dualisHelpDialogTitle": "Dualis Login",
+  "dateManagementHelpDialogContent": ""
+      "The dates page provides all important dates for your study. "
+      "\nThe dates are retrieved from https://it.dhbw-stuttgart.de/DHermine/ and are only available for the DHBW Stuttgart",
+  "dateManagementHelpDialogTitle": "Dates",
 };

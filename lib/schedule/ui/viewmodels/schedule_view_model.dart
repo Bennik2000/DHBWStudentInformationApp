@@ -22,6 +22,7 @@ class ScheduleViewModel extends BaseViewModel {
 
   void onDidApplyNewUrl(bool valid) {
     _didSetupProperly = valid;
+    print("notifyListeners");
     notifyListeners("didSetupProperly");
   }
 }

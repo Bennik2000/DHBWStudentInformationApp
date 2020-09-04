@@ -34,7 +34,7 @@ class DateManagementNavigationEntry extends NavigationEntry {
         onPressed: () async {
           await DateManagementHelpDialog().show(context);
         },
-        tooltip: "Help",
+        tooltip: L.of(context).helpButtonTooltip,
       )
     ];
   }

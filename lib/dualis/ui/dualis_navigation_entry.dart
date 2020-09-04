@@ -53,14 +53,14 @@ class DualisNavigationEntry extends NavigationEntry {
                       onPressed: () async {
                         await DualisHelpDialog().show(context);
                       },
-                      tooltip: "Help",
+                      tooltip: L.of(context).helpButtonTooltip,
                     )
                   : IconButton(
                       icon: Icon(CustomIcons.logout),
                       onPressed: () async {
                         await _viewModel.logout();
                       },
-                      tooltip: "Logout",
+                      tooltip: L.of(context).logoutButtonTooltip,
                     ),
         ),
       ),
