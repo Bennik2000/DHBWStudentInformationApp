@@ -106,6 +106,12 @@ final de = {
   "dateManagementChipOnlyPassed": "Nur Vergangene",
   "dateManagementChipOnlyFuture": "Nur Zukünftige",
   "dateManagementChipFutureAndPast": "Zukünftige und vergangene",
+  "dialogOk": "Ok",
+  "dialogCancel": "Cancel",
+  "dialogSetRaplaUrlTitle": "Rapla Url festlegen",
+  "scheduleEmptyStateSetUrl": "Url festlegen",
+  "scheduleEmptyStateBannerMessage":
+      "Die URL zum Rapla Vorlesungsplan wurde noch nicht festgelegt. Hier kannst du die URL festlegen.",
 };
 
 final en = {
@@ -214,4 +220,10 @@ final en = {
   "dateManagementChipOnlyPassed": "Only passed",
   "dateManagementChipOnlyFuture": "Only future",
   "dateManagementChipFutureAndPast": "Future and past",
+  "dialogOk": "Ok",
+  "dialogCancel": "Cancel",
+  "dialogSetRaplaUrlTitle": "Set Rapla url",
+  "scheduleEmptyStateSetUrl": "Set Rapla url",
+  "scheduleEmptyStateBannerMessage":
+      "The url of the rapla schedule was not yet set. Here you can set the url.",
 };
