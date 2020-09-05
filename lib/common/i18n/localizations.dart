@@ -280,7 +280,6 @@ class L {
   String get scheduleEmptyStateBannerMessage =>
       _getValue("scheduleEmptyStateBannerMessage");
 
-
   String get helpButtonTooltip => _getValue("helpButtonTooltip");
 
   String get logoutButtonTooltip => _getValue("logoutButtonTooltip");
@@ -290,8 +289,7 @@ class L {
 
   String get scheduleHelpDialogTitle => _getValue("scheduleHelpDialogTitle");
 
-  String get dualisHelpDialogContent =>
-      _getValue("dualisHelpDialogContent");
+  String get dualisHelpDialogContent => _getValue("dualisHelpDialogContent");
 
   String get dualisHelpDialogTitle => _getValue("dualisHelpDialogTitle");
 
@@ -300,6 +298,13 @@ class L {
 
   String get dateManagementHelpDialogTitle =>
       _getValue("dateManagementHelpDialogTitle");
+
+  String get dateManagementExportToCalendar =>
+      _getValue("dateManagementExportToCalendar");
+  String get dateManagementExportToCalendarConfirm =>
+      _getValue("dateManagementExportToCalendarConfirm");
+  String get dateManagementExportToCalendarDescription =>
+      _getValue("dateManagementExportToCalendarDescription");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);

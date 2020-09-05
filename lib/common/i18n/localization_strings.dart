@@ -127,6 +127,10 @@ final de = {
       "Über die Terminverwaltung siehst Du alle Termine, die im Laufe Deines Studiums wichtig sind. "
           "\nDie Termine werden von https://it.dhbw-stuttgart.de/DHermine/ abgerufen und sind nur für die DHBW Stuttgart verfügbar.",
   "dateManagementHelpDialogTitle": "Terminverwaltung",
+  "dateManagementExportToCalendar": "In Kalender übertragen",
+  "dateManagementExportToCalendarConfirm": "Übertragen",
+  "dateManagementExportToCalendarDescription":
+      "Wähle den Kalender aus, in den die Termine übertragen werden sollen:",
 };
 
 final en = {
@@ -256,4 +260,8 @@ final en = {
       "The dates page provides all important dates for your study. "
       "\nThe dates are retrieved from https://it.dhbw-stuttgart.de/DHermine/ and are only available for the DHBW Stuttgart",
   "dateManagementHelpDialogTitle": "Dates",
+  "dateManagementExportToCalendar": "Export to calendar",
+  "dateManagementExportToCalendarConfirm": "Export",
+  "dateManagementExportToCalendarDescription":
+      "Choose the calendar to export the dates to:",
 };
