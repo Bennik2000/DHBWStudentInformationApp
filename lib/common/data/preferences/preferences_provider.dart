@@ -136,4 +136,12 @@ class PreferencesProvider {
   Future<void> setLastViewedDateEntryYear(String value) async {
     await _preferencesAccess.set<String>(LastViewedDateEntryYear, value);
   }
+
+  Future<void> set<T>(String key, T value) async {
+    return _preferencesAccess.set(key, value);
+  }
+
+  Future<T> get<T>(String key) async {
+    return _preferencesAccess.get(key);
+  }
 }

@@ -22,6 +22,7 @@ class DualisPage extends StatelessWidget {
       widget = PropertyChangeProvider<StudyGradesViewModel>(
         value: viewModel,
         child: PagerWidget(
+          pagesId: "dualis_pager",
           pages: <PageDefinition>[
             PageDefinition(
               text: Text(L.of(context).pageDualisOverview),
