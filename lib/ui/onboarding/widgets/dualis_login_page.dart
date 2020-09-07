@@ -6,6 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
+///
+/// Widget which provides a username and password text field to input login
+/// credentials.
+///
 class DualisLoginCredentialsPage extends StatefulWidget {
   @override
   _DualisLoginCredentialsPageState createState() =>

@@ -12,6 +12,10 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:kiwi/kiwi.dart';
 
+///
+/// Widget for the application settings route. Provides access to many settings
+/// of the app
+///
 class SettingsPage extends StatefulWidget {
   @override
   _SettingsPageState createState() => _SettingsPageState();
