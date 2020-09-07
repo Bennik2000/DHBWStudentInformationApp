@@ -18,15 +18,15 @@ void main() {
   });
 
   test('Diff detect removed entry', () async {
-    var calculator = ScheduleDiffCalculator();
+    final calculator = ScheduleDiffCalculator();
 
-    var oldSchedule = generateSchedule();
-    var newSchedule = generateSchedule();
+    final oldSchedule = generateSchedule();
+    final newSchedule = generateSchedule();
 
-    var removedEntry = oldSchedule.entries[0];
+    final removedEntry = oldSchedule.entries[0];
     newSchedule.entries.removeAt(0);
 
-    var diff = calculator.calculateDiff(oldSchedule, newSchedule);
+    final diff = calculator.calculateDiff(oldSchedule, newSchedule);
 
     expect(diff.removedEntries.length, 1);
     expect(diff.removedEntries[0], removedEntry);
@@ -72,7 +72,7 @@ void main() {
       title: newSchedule.entries[0].title,
       professor: newSchedule.entries[0].professor,
       details: newSchedule.entries[0].details,
-      start: newSchedule.entries[0].start.add(Duration(minutes: 15)),
+      start: newSchedule.entries[0].start.add(const Duration(minutes: 15)),
       end: newSchedule.entries[0].end,
     );
     newSchedule.entries[0] = updatedEntry;
@@ -99,7 +99,7 @@ void main() {
       title: newSchedule.entries[0].title,
       professor: newSchedule.entries[0].professor,
       details: newSchedule.entries[0].details,
-      start: newSchedule.entries[0].start.add(Duration(minutes: 15)),
+      start: newSchedule.entries[0].start.add(const Duration(minutes: 15)),
       end: newSchedule.entries[0].end,
     );
     newSchedule.entries[0] = updatedEntry;
@@ -127,7 +127,7 @@ void main() {
       title: newSchedule.entries[2].title,
       professor: newSchedule.entries[2].professor,
       details: newSchedule.entries[2].details,
-      start: newSchedule.entries[2].start.add(Duration(minutes: 15)),
+      start: newSchedule.entries[2].start.add(const Duration(minutes: 15)),
       end: newSchedule.entries[2].end,
     );
     newSchedule.entries[2] = updatedEntry1;
@@ -138,7 +138,7 @@ void main() {
       title: newSchedule.entries[3].title,
       professor: newSchedule.entries[3].professor,
       details: newSchedule.entries[3].details,
-      start: newSchedule.entries[3].start.add(Duration(minutes: 15)),
+      start: newSchedule.entries[3].start.add(const Duration(minutes: 15)),
       end: newSchedule.entries[3].end,
     );
     newSchedule.entries[3] = updatedEntry2;

@@ -10,7 +10,8 @@ class RateInStore {
   RateInStore(this._preferencesProvider);
 
   Future<void> showRateInStoreDialogIfNeeded(BuildContext context) async {
-    var countdown = await _preferencesProvider.getRateInStoreLaunchCountdown();
+    final countdown =
+        await _preferencesProvider.getRateInStoreLaunchCountdown();
 
     if (countdown <= 0) {
       if (await _preferencesProvider.getDontShowRateNowDialog()) return;
@@ -27,15 +28,15 @@ class RateInStore {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          buttonPadding: EdgeInsets.all(0),
-          actionsPadding: EdgeInsets.all(0),
-          contentPadding: EdgeInsets.all(0),
+          buttonPadding: const EdgeInsets.all(0),
+          actionsPadding: const EdgeInsets.all(0),
+          contentPadding: const EdgeInsets.all(0),
           title: Text(L.of(context).rateDialogTitle),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.all(24),
+                padding: const EdgeInsets.all(24),
                 child: Text(L.of(context).rateDialogMessage),
               ),
               Padding(
@@ -52,7 +53,7 @@ class RateInStore {
   ButtonBar _buildButtonBar(BuildContext context) {
     return ButtonBar(
       mainAxisSize: MainAxisSize.max,
-      buttonPadding: EdgeInsets.fromLTRB(5, 0, 5, 0),
+      buttonPadding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
       children: <Widget>[
         FlatButton(
           child: Text(L.of(context).rateDialogDoNotRateButton.toUpperCase()),

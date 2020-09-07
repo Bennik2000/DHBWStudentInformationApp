@@ -198,7 +198,7 @@ class DateManagementViewModel extends BaseViewModel {
     }
 
     _errorResetTimer = Timer(
-      Duration(seconds: 5),
+      const Duration(seconds: 5),
       () {
         _updateFailed = false;
         notifyListeners("updateFailed");

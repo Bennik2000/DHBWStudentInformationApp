@@ -21,7 +21,7 @@ class OnboardingViewModel extends BaseViewModel {
     OnboardingSteps.Dualis: true,
   };
 
-  Map<OnboardingSteps, OnboardingViewModelBase> _viewModels = {};
+  final Map<OnboardingSteps, OnboardingViewModelBase> _viewModels = {};
   OnboardingViewModelBase get currentViewModel => _viewModels[_currentPage];
 
   bool get useRapla => usedAppFeatures[OnboardingSteps.Rapla];
@@ -85,7 +85,7 @@ class OnboardingViewModel extends BaseViewModel {
   }
 
   void _setCurrentPage() {
-    var activeFeatures = <OnboardingSteps>[];
+    final activeFeatures = <OnboardingSteps>[];
 
     for (var feature in OnboardingSteps.values) {
       if (usedAppFeatures[feature]) {

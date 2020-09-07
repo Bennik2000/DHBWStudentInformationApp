@@ -10,7 +10,7 @@ class AllDatesExtract {
       return _extractAllDates(body, databaseName);
     } catch (e) {
       if (e.runtimeType is ParseException) rethrow;
-      throw new ParseException.withInner(e);
+      throw ParseException.withInner(e);
     }
   }
 

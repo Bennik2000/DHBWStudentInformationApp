@@ -310,12 +310,12 @@ class L {
     return Localizations.of<L>(context, L);
   }
 
-  static Map<String, Map<String, String>> _localizedValues = {
+  static final Map<String, Map<String, String>> _localizedValues = {
     "de": de,
     "en": en
   };
 
-  _getValue(String key) {
+  String _getValue(String key) {
     return _localizedValues[_language][key] ?? "";
   }
 

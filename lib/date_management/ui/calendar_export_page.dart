@@ -60,7 +60,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                       L.of(context).dateManagementExportToCalendarDescription)),
             ),
             _buildCalendarList(),
-            Divider(
+            const Divider(
               height: 1,
             ),
             _buildExportButton()
@@ -106,7 +106,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
             Container(
               width: 24,
               height: 24,
-              decoration: new BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: isSelected ? Color(calendar.color) : Colors.transparent,
                 border: Border.all(
@@ -143,8 +143,8 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
           builder:
               (BuildContext context, CalendarExportViewModel viewModel, _) =>
                   viewModel.isExporting
-                      ? Padding(
-                          padding: const EdgeInsets.all(8.0),
+                      ? const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: SizedBox(
                               height: 32,
                               width: 32,

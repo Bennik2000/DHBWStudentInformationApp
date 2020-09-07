@@ -27,7 +27,7 @@ class OnboardingPageBackground extends StatelessWidget {
         ).animate(
           CurvedAnimation(
             parent: controller,
-            curve: Interval(
+            curve: const Interval(
               0.0,
               1,
               curve: Curves.linear,
@@ -40,7 +40,7 @@ class OnboardingPageBackground extends StatelessWidget {
         ).animate(
           CurvedAnimation(
             parent: controller,
-            curve: Interval(
+            curve: const Interval(
               0.0,
               1,
               curve: Curves.linear,
@@ -53,7 +53,7 @@ class OnboardingPageBackground extends StatelessWidget {
         ).animate(
           CurvedAnimation(
             parent: controller,
-            curve: Interval(
+            curve: const Interval(
               0.0,
               1,
               curve: Curves.linear,
@@ -66,7 +66,7 @@ class OnboardingPageBackground extends StatelessWidget {
         ).animate(
           CurvedAnimation(
             parent: controller,
-            curve: Interval(
+            curve: const Interval(
               0.0,
               1,
               curve: Curves.linear,
@@ -85,7 +85,7 @@ class OnboardingPageBackground extends StatelessWidget {
               height: 500,
               color: colorOnboardingDecorationForeground(context),
             ),
-            offset: Offset(20, -450),
+            offset: const Offset(20, -450),
           ),
           angle: toRadian(angleTopForeground.value),
         ),
@@ -96,7 +96,7 @@ class OnboardingPageBackground extends StatelessWidget {
               height: 500,
               color: colorOnboardingDecorationBackground(context),
             ),
-            offset: Offset(20, -480),
+            offset: const Offset(20, -480),
           ),
           angle: toRadian(angleTopBackground.value),
         ),

@@ -14,12 +14,12 @@ class DateEntryEntity extends DatabaseEntity {
 
   @override
   void fromMap(Map<String, dynamic> map) {
-    var date;
+    DateTime date;
     if (map["date"] != null) {
       date = DateTime.fromMillisecondsSinceEpoch(map["date"]);
     }
 
-    _dateEntry = new DateEntry(
+    _dateEntry = DateEntry(
       comment: map["comment"],
       dateAndTime: date,
       description: map["description"],

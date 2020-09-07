@@ -13,7 +13,7 @@ import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:http/http.dart';
 
 class DualisScraper {
-  static final String dualisEndpoint = "https://dualis.dhbw.de";
+  static const String dualisEndpoint = "https://dualis.dhbw.de";
 
   Future<DualisSession> login(
     String user,

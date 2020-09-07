@@ -58,7 +58,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
           Expanded(
             flex: 7,
             child: Card(
-              margin: EdgeInsets.all(0),
+              margin: const EdgeInsets.all(0),
               elevation: 8,
               color: scheduleEntryTypeToColor(context, scheduleEntry.type),
               child: Padding(

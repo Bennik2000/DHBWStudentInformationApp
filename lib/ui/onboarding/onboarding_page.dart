@@ -29,7 +29,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   void initState() {
     super.initState();
 
-    viewModel = new OnboardingViewModel(
+    viewModel = OnboardingViewModel(
       KiwiContainer().resolve(),
       KiwiContainer().resolve(),
     );
@@ -39,7 +39,7 @@ class _OnboardingPageState extends State<OnboardingPage>
         await _controller.animateTo(
             viewModel.currentStep / viewModel.onboardingSteps,
             curve: Curves.ease,
-            duration: Duration(milliseconds: 300));
+            duration: const Duration(milliseconds: 300));
       },
       ["currentStep"],
     );
@@ -124,7 +124,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     return IntrinsicHeight(
       child: PageTransitionSwitcher(
         reverse: !model.didStepForward,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         transitionBuilder: (
           Widget child,
           Animation<double> animation,

@@ -6,10 +6,10 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseAccess {
-  static final _databaseName = "Database.db";
+  static const String _databaseName = "Database.db";
   static Database _databaseInstance;
 
-  static final String idColumnName = "id";
+  static const String idColumnName = "id";
 
   Future<Database> get _database async {
     if (_databaseInstance != null) return _databaseInstance;
@@ -18,9 +18,10 @@ class DatabaseAccess {
     return _databaseInstance;
   }
 
-  _initDatabase() async {
-    Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, _databaseName);
+  Future<Database> _initDatabase() async {
+    final Directory documentsDirectory =
+        await getApplicationDocumentsDirectory();
+    final String path = join(documentsDirectory.path, _databaseName);
 
     return await openDatabase(path,
         version: SqlScripts.databaseMigrationScripts.length,
@@ -28,13 +29,13 @@ class DatabaseAccess {
         onUpgrade: _onUpgrade);
   }
 
-  Future _onCreate(Database db, int version) async {
+  Future<void> _onCreate(Database db, int version) async {
     print("Initializing Database with version: $version");
 
     await _onUpgrade(db, 1, version);
   }
 
-  Future _onUpgrade(Database db, int oldVersion, int newVersion) async {
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
     print("Migrating database version: $oldVersion -> $newVersion");
 
     for (var i = oldVersion; i <= newVersion; i++) {

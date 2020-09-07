@@ -56,7 +56,7 @@ class DualisNavigationEntry extends NavigationEntry {
                       tooltip: L.of(context).helpButtonTooltip,
                     )
                   : IconButton(
-                      icon: Icon(CustomIcons.logout),
+                      icon: const Icon(CustomIcons.logout),
                       onPressed: () async {
                         await _viewModel.logout();
                       },

@@ -55,7 +55,7 @@ class ModulesFromCourseResultPageExtract {
 
     status = trimAndEscapeString(status);
 
-    var statusEnum;
+    ExamState statusEnum;
 
     if (status == "bestanden") {
       statusEnum = ExamState.Passed;

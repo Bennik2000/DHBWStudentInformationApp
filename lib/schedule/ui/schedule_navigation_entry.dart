@@ -42,7 +42,7 @@ class ScheduleNavigationEntry extends NavigationEntry {
       PropertyChangeProvider(
         value: _viewModel,
         child: PropertyChangeConsumer(
-            properties: ["didSetupProperly"],
+            properties: const ["didSetupProperly"],
             builder: (BuildContext _, ScheduleViewModel __, Set<Object> ___) =>
                 _viewModel.didSetupProperly
                     ? Container()

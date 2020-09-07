@@ -5,7 +5,7 @@ import 'package:dhbwstudentapp/schedule/service/rapla/rapla_response_parser.dart
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  var raplaPage = await new File(Directory.current.absolute.path +
+  var raplaPage = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_response.html')
       .readAsString();
 

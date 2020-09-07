@@ -26,19 +26,19 @@ class StudyGradesViewModel extends BaseViewModel {
 
   StudyGrades _studyGrades;
   StudyGrades get studyGrades => _studyGrades;
-  CancelableMutex _studyGradesCancellationToken = CancelableMutex();
+  final CancelableMutex _studyGradesCancellationToken = CancelableMutex();
 
   List<Module> _allModules;
   List<Module> get allModules => _allModules;
-  CancelableMutex _allModulesCancellationToken = CancelableMutex();
+  final CancelableMutex _allModulesCancellationToken = CancelableMutex();
 
   List<String> _semesterNames;
   List<String> get allSemesterNames => _semesterNames;
-  CancelableMutex _semesterNamesCancellationToken = CancelableMutex();
+  final CancelableMutex _semesterNamesCancellationToken = CancelableMutex();
 
   Semester _currentSemester;
   Semester get currentSemester => _currentSemester;
-  CancelableMutex _currentSemesterCancellationToken = CancelableMutex();
+  final CancelableMutex _currentSemesterCancellationToken = CancelableMutex();
 
   String _currentSemesterName;
   String get currentSemesterName => _currentSemesterName;
@@ -200,7 +200,7 @@ class StudyGradesViewModel extends BaseViewModel {
 
   Future _loadInitialSemester() async {
     if (_semesterNames == null) return;
-    if (_semesterNames.length == 0) return;
+    if (_semesterNames.isEmpty) return;
 
     var lastViewedSemester = await _preferencesProvider.getLastViewedSemester();
 
@@ -231,7 +231,7 @@ class StudyGradesViewModel extends BaseViewModel {
     _currentSemester = null;
     _currentSemesterName = null;
     _currentLoadingSemesterName = null;
-    
+
     notifyListeners();
 
     print("Logged out");

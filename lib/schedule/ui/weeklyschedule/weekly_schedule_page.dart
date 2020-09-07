@@ -45,7 +45,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
       builder: (context) => ScheduleEntryDetailBottomSheet(
         scheduleEntry: entry,
       ),
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
       ),
     );
@@ -97,13 +97,13 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: PropertyChangeConsumer(
-                          properties: ["weekSchedule", "now"],
+                          properties: const ["weekSchedule", "now"],
                           builder: (BuildContext context,
                                   WeeklyScheduleViewModel model,
                                   Set properties) =>
                               PageTransitionSwitcher(
                             reverse: !model.didUpdateScheduleIntoFuture,
-                            duration: Duration(milliseconds: 300),
+                            duration: const Duration(milliseconds: 300),
                             transitionBuilder: (Widget child,
                                     Animation<double> animation,
                                     Animation<double> secondaryAnimation) =>
@@ -134,11 +134,11 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                         ),
                       ),
                       PropertyChangeConsumer(
-                        properties: ["isUpdating"],
+                        properties: const ["isUpdating"],
                         builder: (BuildContext context,
                             WeeklyScheduleViewModel model, Set properties) {
                           return model.isUpdating
-                              ? LinearProgressIndicator()
+                              ? const LinearProgressIndicator()
                               : Container();
                         },
                       ),
@@ -156,7 +156,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
 
   Widget buildErrorDisplay(BuildContext context) {
     return PropertyChangeConsumer(
-      properties: [
+      properties: const [
         "updateFailed",
       ],
       builder: (BuildContext context, WeeklyScheduleViewModel model,

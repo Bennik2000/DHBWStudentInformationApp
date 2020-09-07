@@ -51,7 +51,7 @@ class CalendarAccess {
     List<DateEntry> dateEntries,
     Calendar calendar,
   ) async {
-    if ((dateEntries ?? []).length == 0) return;
+    if ((dateEntries ?? []).isEmpty) return;
 
     var existingEvents =
         await _getExistingEventsFromCalendar(dateEntries, calendar);
@@ -70,7 +70,7 @@ class CalendarAccess {
     var isAllDay = isAtMidnight(entry.dateAndTime);
 
     var start = entry.dateAndTime;
-    var end = isAllDay ? start : start.add(Duration(minutes: 30));
+    var end = isAllDay ? start : start.add(const Duration(minutes: 30));
 
     await _deviceCalendarPlugin.createOrUpdateEvent(Event(
       calendar.id,
@@ -90,9 +90,9 @@ class CalendarAccess {
         .where((element) => element.title == entry.description)
         .toList();
 
-    var id;
+    String id;
 
-    if (existingEvent.length > 0) {
+    if (existingEvent.isNotEmpty) {
       id = existingEvent[0].eventId;
     }
     return id;

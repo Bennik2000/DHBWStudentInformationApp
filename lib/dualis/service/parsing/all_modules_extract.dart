@@ -10,7 +10,7 @@ class AllModulesExtract {
       return _extractAllModules(body);
     } catch (e) {
       if (e.runtimeType is ParseException) rethrow;
-      throw new ParseException.withInner(e);
+      throw ParseException.withInner(e);
     }
   }
 
@@ -40,7 +40,7 @@ class AllModulesExtract {
     var name = cells[1].innerHtml.trim();
     var nameHyperlink = cells[1].getElementsByTagName("a");
 
-    if (nameHyperlink.length != 0) {
+    if (nameHyperlink.isNotEmpty) {
       name = nameHyperlink[0].innerHtml;
     }
 
@@ -49,7 +49,7 @@ class AllModulesExtract {
     var grade = cells[4].innerHtml;
     var state = cells[5].children[0].attributes["alt"];
 
-    var stateEnum;
+    ExamState stateEnum;
 
     if (state == "Bestanden") {
       stateEnum = ExamState.Passed;

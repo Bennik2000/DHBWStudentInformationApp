@@ -36,7 +36,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Timer _updateNowTimer;
 
   CancellationToken _updateScheduleCancellationToken;
-  Mutex _mutex = Mutex();
+  final Mutex _mutex = Mutex();
   DateTime lastRequestedStart;
   DateTime lastRequestedEnd;
 
@@ -93,7 +93,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
   Future goToToday() async {
     currentDateStart = toStartOfDay(toMonday(DateTime.now()));
-    currentDateEnd = currentDateStart.add(Duration(days: 5));
+    currentDateEnd = currentDateStart.add(const Duration(days: 5));
 
     await updateSchedule(currentDateStart, currentDateEnd);
   }
@@ -113,7 +113,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
       return;
     }
 
-    _updateScheduleCancellationToken = new CancellationToken();
+    _updateScheduleCancellationToken = CancellationToken();
 
     try {
       isUpdating = true;
@@ -173,13 +173,13 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     return null;
   }
 
-  void _cancelErrorInFuture() async {
+  void _cancelErrorInFuture() {
     if (_errorResetTimer != null) {
       _errorResetTimer.cancel();
     }
 
     _errorResetTimer = Timer(
-      Duration(seconds: 5),
+      const Duration(seconds: 5),
       () {
         updateFailed = false;
         notifyListeners("updateFailed");
@@ -189,7 +189,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
   void ensureUpdateNowTimerRunning() {
     if (_updateNowTimer == null || !_updateNowTimer.isActive) {
-      _updateNowTimer = Timer.periodic(Duration(minutes: 1), (_) {
+      _updateNowTimer = Timer.periodic(const Duration(minutes: 1), (_) {
         notifyListeners("now");
       });
     }

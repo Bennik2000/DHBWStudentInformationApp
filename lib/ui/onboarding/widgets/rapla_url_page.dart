@@ -11,7 +11,7 @@ class RaplaUrlPage extends StatefulWidget {
 }
 
 class _RaplaUrlPageState extends State<RaplaUrlPage> {
-  final TextEditingController _urlTextController = new TextEditingController();
+  final TextEditingController _urlTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,8 +28,8 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
           child: Divider(),
         ),
         Text(

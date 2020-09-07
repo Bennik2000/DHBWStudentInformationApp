@@ -20,7 +20,8 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final SettingsViewModel settingsViewModel = SettingsViewModel(
     KiwiContainer().resolve(),
-    KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name),
+    KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
+        as NextDayInformationNotification,
   );
 
   @override
@@ -86,7 +87,7 @@ class _SettingsPageState extends State<SettingsPage> {
           launch(ApplicationSourceCodeUrl);
         },
       ),
-      Divider(),
+      const Divider(),
     ];
   }
 
@@ -102,7 +103,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ).show(context);
         },
       ),
-      Divider(),
+      const Divider(),
     ];
   }
 
@@ -112,7 +113,7 @@ class _SettingsPageState extends State<SettingsPage> {
       return [
         TitleListTile(title: L.of(context).settingsNotificationsTitle),
         PropertyChangeConsumer(
-          properties: [
+          properties: const [
             "notifyAboutNextDay",
           ],
           builder:
@@ -125,7 +126,7 @@ class _SettingsPageState extends State<SettingsPage> {
           },
         ),
         PropertyChangeConsumer(
-          properties: [
+          properties: const [
             "notifyAboutScheduleChanges",
           ],
           builder:
@@ -137,7 +138,7 @@ class _SettingsPageState extends State<SettingsPage> {
             );
           },
         ),
-        Divider(),
+        const Divider(),
       ];
     } else {
       return [];
@@ -148,7 +149,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return [
       TitleListTile(title: L.of(context).settingsDesign),
       PropertyChangeConsumer(
-        properties: [
+        properties: const [
           "isDarkMode",
         ],
         builder: (BuildContext context, RootViewModel model, Set properties) {
@@ -159,7 +160,7 @@ class _SettingsPageState extends State<SettingsPage> {
           );
         },
       ),
-      Divider(),
+      const Divider(),
     ];
   }
 }

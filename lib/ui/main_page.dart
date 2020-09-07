@@ -23,7 +23,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with NavigatorObserver {
   bool _rateDialogShown = false;
 
-  ValueNotifier<int> _currentEntryIndex = ValueNotifier<int>(0);
+  final ValueNotifier<int> _currentEntryIndex = ValueNotifier<int>(0);
 
   NavigationEntry get currentEntry =>
       navigationEntries[_currentEntryIndex.value];

@@ -6,6 +6,7 @@ class VoidBackgroundWorkScheduler extends WorkSchedulerService {
     print("Background scheduling is not available!");
   }
 
+  @override
   Future<void> scheduleOneShotTaskIn(Duration delay, String id, String name) {
     print(
       "Did not schedule one shot task: $id. With a delay of ${delay.inMinutes} minutes.",
@@ -14,6 +15,7 @@ class VoidBackgroundWorkScheduler extends WorkSchedulerService {
     return Future.value();
   }
 
+  @override
   Future<void> scheduleOneShotTaskAt(
     DateTime date,
     String id,
@@ -22,12 +24,14 @@ class VoidBackgroundWorkScheduler extends WorkSchedulerService {
     await scheduleOneShotTaskIn(date.difference(DateTime.now()), id, name);
   }
 
+  @override
   Future<void> cancelTask(String id) {
     print("Cancelled task $id");
 
     return Future.value();
   }
 
+  @override
   Future<void> schedulePeriodic(
     Duration delay,
     String id, [
@@ -40,8 +44,10 @@ class VoidBackgroundWorkScheduler extends WorkSchedulerService {
     return Future.value();
   }
 
+  @override
   void registerTask(TaskCallback task) {}
 
+  @override
   Future<void> executeTask(String id) {
     return Future.value();
   }

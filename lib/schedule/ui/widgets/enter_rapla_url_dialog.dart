@@ -11,8 +11,8 @@ class EnterRaplaUrlDialog {
   final ScheduleSourceSetup _scheduleSource;
 
   final TextEditingController _urlTextController = TextEditingController();
-  ValueNotifier<bool> _hasUrlError = ValueNotifier<bool>(false);
-  ValueNotifier<String> _url = ValueNotifier<String>("");
+  final ValueNotifier<bool> _hasUrlError = ValueNotifier<bool>(false);
+  final ValueNotifier<String> _url = ValueNotifier<String>("");
 
   EnterRaplaUrlDialog(this._preferencesProvider, this._scheduleSource) {
     _loadUrl();

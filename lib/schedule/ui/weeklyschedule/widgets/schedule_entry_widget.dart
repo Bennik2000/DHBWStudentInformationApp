@@ -23,7 +23,7 @@ class ScheduleEntryWidget extends StatelessWidget {
     return Card(
       color: color,
       elevation: 5,
-      margin: EdgeInsets.fromLTRB(2, 0, 2, 0),
+      margin: const EdgeInsets.fromLTRB(2, 0, 2, 0),
       child: InkWell(
         onTap: () {
           if (onScheduleEntryTap != null) onScheduleEntryTap(scheduleEntry);

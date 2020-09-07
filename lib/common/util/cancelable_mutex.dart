@@ -2,7 +2,7 @@ import 'package:mutex/mutex.dart';
 import 'cancellation_token.dart';
 
 class CancelableMutex {
-  Mutex _mutex = Mutex();
+  final Mutex _mutex = Mutex();
   CancellationToken _token;
   CancellationToken get token => _token;
 

@@ -51,9 +51,9 @@ class NextDayInformationNotification extends TaskCallback {
     );
   }
 
-  _getNotificationMessage(
+  String _getNotificationMessage(
       int daysToNextEntry, ScheduleEntry nextScheduleEntry, DateFormat format) {
-    var message;
+    String message;
     if (daysToNextEntry == 0) {
       message = interpolate(
         _localization.notificationNextClassNextClassAtMessage,

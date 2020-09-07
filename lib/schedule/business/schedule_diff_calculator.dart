@@ -75,12 +75,12 @@ class ScheduleDiffCalculator {
         (ScheduleEntry e) => e.title == intersectingTitle,
       );
 
-      if (newElementsWithName.length == 0 && oldElementsWithName.length >= 1) {
+      if (newElementsWithName.isEmpty && oldElementsWithName.isNotEmpty) {
         oldEntries.addAll(oldElementsWithName);
         continue;
       }
 
-      if (oldElementsWithName.length == 0 && newElementsWithName.length >= 1) {
+      if (oldElementsWithName.isEmpty && newElementsWithName.isNotEmpty) {
         newEntries.addAll(newElementsWithName);
         continue;
       }
@@ -169,9 +169,9 @@ class ScheduleDiff {
   ScheduleDiff({this.addedEntries, this.removedEntries, this.updatedEntries});
 
   bool didSomethingChange() {
-    return addedEntries.length != 0 ||
-        removedEntries.length != 0 ||
-        updatedEntries.length != 0;
+    return addedEntries.isNotEmpty ||
+        removedEntries.isNotEmpty ||
+        updatedEntries.isNotEmpty;
   }
 }
 
