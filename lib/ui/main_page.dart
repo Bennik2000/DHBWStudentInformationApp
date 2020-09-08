@@ -4,9 +4,11 @@ import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:dhbwstudentapp/ui/navigation/router.dart';
 import 'package:dhbwstudentapp/ui/navigation_drawer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
@@ -74,22 +76,41 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
 
         return false;
       },
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          textTheme: Theme.of(context).textTheme,
-          actionsIconTheme: Theme.of(context).iconTheme,
-          elevation: 0,
-          brightness: Theme.of(context).brightness,
-          iconTheme: Theme.of(context).iconTheme,
-          title: Text(currentEntry.title(context)),
-          actions: currentEntry.appBarActions(context),
+      child: PlatformWidget(
+        material: (_, __) => Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            textTheme: Theme.of(context).textTheme,
+            actionsIconTheme: Theme.of(context).iconTheme,
+            elevation: 0,
+            brightness: Theme.of(context).brightness,
+            iconTheme: Theme.of(context).iconTheme,
+            title: Text(currentEntry.title(context)),
+            actions: currentEntry.appBarActions(context),
+          ),
+          body: navigator,
+          drawer: NavigationDrawer(
+            selectedIndex: _currentEntryIndex.value,
+            onTap: _onNavigationTapped,
+            entries: _buildDrawerEntries(),
+          ),
         ),
-        body: navigator,
-        drawer: NavigationDrawer(
-          selectedIndex: _currentEntryIndex.value,
-          onTap: _onNavigationTapped,
-          entries: _buildDrawerEntries(),
+        cupertino: (_, __) => CupertinoPageScaffold(
+          navigationBar: CupertinoNavigationBar(
+            middle: Text(currentEntry.title(context)),
+          ),
+          child: SafeArea(
+            child: Column(
+              children: [
+                Expanded(child: navigator),
+                CupertinoTabBar(
+                  items: _buildBottomNavigationItems(context),
+                  currentIndex: _currentEntryIndex.value,
+                  onTap: _onNavigationTapped,
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -130,6 +151,16 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
         ],
       ),
     );
+  }
+
+  List<BottomNavigationBarItem> _buildBottomNavigationItems(
+      BuildContext context) {
+    return navigationEntries
+        .map((e) => BottomNavigationBarItem(
+              icon: e.icon(context),
+              title: Text(e.title(context)),
+            ))
+        .toList();
   }
 
   List<DrawerNavigationEntry> _buildDrawerEntries() {

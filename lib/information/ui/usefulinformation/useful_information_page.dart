@@ -1,11 +1,12 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UsefulInformationPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return PlatformScaffold(
       body: ListView(
         children: <Widget>[
           ListTile(
@@ -26,7 +27,8 @@ class UsefulInformationPage extends StatelessWidget {
             leading: Icon(Icons.email),
             title: Text(L.of(context).informationPageRoundcube),
             onTap: () {
-              openLink("https://lehre-webmail.dhbw-stuttgart.de/roundcubemail/");
+              openLink(
+                  "https://lehre-webmail.dhbw-stuttgart.de/roundcubemail/");
             },
           ),
           ListTile(

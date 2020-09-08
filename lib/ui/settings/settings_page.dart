@@ -8,6 +8,7 @@ import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_not
 import 'package:dhbwstudentapp/schedule/ui/widgets/enter_rapla_url_dialog.dart';
 import 'package:dhbwstudentapp/ui/settings/viewmodels/settings_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:kiwi/kiwi.dart';
@@ -38,20 +39,28 @@ class _SettingsPageState extends State<SettingsPage> {
     widgets.addAll(buildAboutSettings(context));
     widgets.add(buildDisclaimer(context));
 
-    return Scaffold(
-      appBar: AppBar(
+    return PlatformScaffold(
+      appBar: PlatformAppBar(
         backgroundColor: Colors.transparent,
-        textTheme: Theme.of(context).textTheme,
-        actionsIconTheme: Theme.of(context).iconTheme,
-        elevation: 0,
-        brightness: Theme.of(context).brightness,
-        iconTheme: Theme.of(context).iconTheme,
-        title: Text(L.of(context).settingsPageTitle),
+        material: (_, __) => MaterialAppBarData(
+          textTheme: Theme.of(context).textTheme,
+          actionsIconTheme: Theme.of(context).iconTheme,
+          elevation: 0,
+          brightness: Theme.of(context).brightness,
+          iconTheme: Theme.of(context).iconTheme,
+          title: Text(L.of(context).settingsPageTitle),
+        ),
+        cupertino: (_, __) => CupertinoNavigationBarData(
+          brightness: Theme.of(context).brightness,
+          title: Text(L.of(context).settingsPageTitle),
+        ),
       ),
       body: PropertyChangeProvider<SettingsViewModel>(
         value: settingsViewModel,
-        child: ListView(
-          children: widgets,
+        child: Material(
+          child: ListView(
+            children: widgets,
+          ),
         ),
       ),
     );

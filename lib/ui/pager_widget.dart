@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
@@ -43,29 +44,45 @@ class _PagerWidgetState extends State<PagerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: Column(
-          key: ValueKey(_currentPage),
-          children: <Widget>[
-            Expanded(
-              child: _wrapWithChangeNotifierProvider(
-                pages[_currentPage].builder(context),
-                pages[_currentPage].viewModel,
+    return PlatformScaffold(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: CupertinoSegmentedControl(
+              children: _buildSegmentedControlChildren(),
+              groupValue: _currentPage,
+              onValueChanged: _onItemChanged,
+            ),
+          ),
+          Expanded(
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 300),
+              child: Column(
+                key: ValueKey(_currentPage),
+                children: <Widget>[
+                  Expanded(
+                    child: _wrapWithChangeNotifierProvider(
+                      pages[_currentPage].builder(context),
+                      pages[_currentPage].viewModel,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
+      /*bottomNavBar: PlatformNavBar(
         currentIndex: _currentPage,
-        onTap: (int index) async {
-          await setActivePage(index);
-        },
-        items: buildBottomNavigationBarItems(),
-      ),
+        itemChanged: _onItemChanged,
+        items: _buildBottomNavigationBarItems(),
+      ),*/
     );
+  }
+
+  void _onItemChanged(int index) async {
+    await setActivePage(index);
   }
 
   Widget _wrapWithChangeNotifierProvider(Widget child, BaseViewModel value) {
@@ -77,18 +94,27 @@ class _PagerWidgetState extends State<PagerWidget> {
     );
   }
 
-  List<BottomNavigationBarItem> buildBottomNavigationBarItems() {
-    var bottomNavigationBarItems = <BottomNavigationBarItem>[];
+  Map<int, Widget> _buildSegmentedControlChildren() {
+    var map = <int, Widget>{};
 
+    var i = 0;
     for (var page in pages) {
-      bottomNavigationBarItems.add(
-        BottomNavigationBarItem(
-          icon: page.icon,
-          title: page.text,
-        ),
+      map[i++] = Padding(
+        padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+        child: page.text,
       );
     }
-    return bottomNavigationBarItems;
+
+    return map;
+  }
+
+  List<BottomNavigationBarItem> _buildBottomNavigationBarItems() {
+    return pages
+        .map((e) => BottomNavigationBarItem(
+              icon: e.icon,
+              title: e.text,
+            ))
+        .toList();
   }
 
   Future<void> setActivePage(int page) async {

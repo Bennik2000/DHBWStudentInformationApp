@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 ///
@@ -38,8 +39,10 @@ class _RootPageState extends State<RootPage> {
       child: PropertyChangeConsumer(
         properties: const ["isDarkMode", "isOnboarding"],
         builder: (BuildContext context, RootViewModel model, Set properties) =>
-            MaterialApp(
-          theme: ColorPalettes.buildTheme(model.isDarkMode),
+            PlatformApp(
+          material: (_, __) => MaterialAppData(
+            theme: ColorPalettes.buildTheme(model.isDarkMode),
+          ),
           initialRoute: rootViewModel.isOnboarding ? "onboarding" : "main",
           navigatorKey: NavigatorKey.rootKey,
           localizationsDelegates: [

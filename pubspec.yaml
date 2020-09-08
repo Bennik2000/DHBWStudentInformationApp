@@ -46,6 +46,7 @@ dependencies:
   flutter_native_splash: ^0.1.9
   mutex: ^1.1.0
   device_calendar: ^3.1.0
+  flutter_platform_widgets: ^0.60.2
 
 dev_dependencies:
   flutter_test:

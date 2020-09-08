@@ -7,6 +7,7 @@ import 'package:dhbwstudentapp/date_management/ui/widgets/date_management_help_d
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
@@ -75,7 +76,7 @@ class DateManagementNavigationEntry extends NavigationEntry {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: DateManagementPage());
+    return PlatformScaffold(body: DateManagementPage());
   }
 
   @override

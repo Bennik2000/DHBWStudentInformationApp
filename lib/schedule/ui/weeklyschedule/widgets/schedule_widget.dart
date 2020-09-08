@@ -131,7 +131,10 @@ class ScheduleWidget extends StatelessWidget {
           left: 0,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(4, 4, 4, 8),
-            child: Text(hourLabelText),
+            child: Text(
+              hourLabelText,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
           ),
         ),
       );
@@ -161,7 +164,10 @@ class ScheduleWidget extends StatelessWidget {
                   dayFormatter.format(columnDate),
                   style: textStyleScheduleWidgetColumnTitleDay(context),
                 ),
-                Text(dateFormatter.format(columnDate)),
+                Text(
+                  dateFormatter.format(columnDate),
+                  style: Theme.of(context).textTheme.bodyText1,
+                ),
               ],
             ),
           ),
