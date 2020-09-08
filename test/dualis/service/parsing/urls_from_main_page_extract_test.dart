@@ -5,7 +5,7 @@ import 'package:dhbwstudentapp/dualis/service/parsing/urls_from_main_page_extrac
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  var mainPage = await new File(Directory.current.absolute.path +
+  var mainPage = await File(Directory.current.absolute.path +
           '/test/dualis/service/parsing/html_resources/main_page.html')
       .readAsString();
 

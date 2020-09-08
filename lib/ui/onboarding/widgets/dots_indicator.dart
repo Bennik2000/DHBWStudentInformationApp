@@ -20,7 +20,7 @@ class DotsIndicator extends StatelessWidget {
           child: Container(
             width: 7.0,
             height: 7.0,
-            decoration: new BoxDecoration(
+            decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: i == currentStep
                   ? Theme.of(context).accentColor

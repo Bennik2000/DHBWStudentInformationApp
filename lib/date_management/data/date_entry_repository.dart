@@ -104,7 +104,7 @@ class DateEntryRepository {
 
     for (var row in rows) {
       dateEntries.add(
-        new DateEntryEntity.fromMap(row).asDateEntry(),
+        DateEntryEntity.fromMap(row).asDateEntry(),
       );
     }
 

@@ -25,7 +25,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
     return AnimatedCrossFade(
       secondChild: _fixAbsorbPointer(_buildExpanded()),
       firstChild: _fixAbsorbPointer(_buildCollapsed()),
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
       crossFadeState:
           _isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
     );
@@ -37,7 +37,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
     // More details here: https://github.com/flutter/flutter/issues/10168
     return Stack(
       children: [
-        Positioned.fill(
+        const Positioned.fill(
           child: AbsorbPointer(),
         ),
         widget
@@ -66,7 +66,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
               height: 36,
               child: FlatButton(
                 child: Icon(Icons.tune),
-                padding: EdgeInsets.all(0),
+                padding: const EdgeInsets.all(0),
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 onPressed: () {
                   setState(() {
@@ -208,8 +208,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
             minWidth: 36,
             height: 36,
             child: FlatButton(
-              child: Icon(Icons.check),
-              padding: EdgeInsets.all(0),
+              child: const Icon(Icons.check),
+              padding: const EdgeInsets.all(0),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               onPressed: () {
                 setState(() {

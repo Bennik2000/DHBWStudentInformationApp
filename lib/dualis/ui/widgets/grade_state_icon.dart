@@ -13,9 +13,9 @@ class GradeStateIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (state) {
       case ExamState.Passed:
-        return Icon(Icons.check, color: Colors.green);
+        return const Icon(Icons.check, color: Colors.green);
       case ExamState.Failed:
-        return Icon(Icons.close, color: Colors.red);
+        return const Icon(Icons.close, color: Colors.red);
       case ExamState.Pending:
         return Container();
     }

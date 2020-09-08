@@ -6,6 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
+///
+/// Widget which provides a username and password text field to input login
+/// credentials.
+///
 class DualisLoginCredentialsPage extends StatefulWidget {
   @override
   _DualisLoginCredentialsPageState createState() =>
@@ -14,8 +18,10 @@ class DualisLoginCredentialsPage extends StatefulWidget {
 
 class _DualisLoginCredentialsPageState
     extends State<DualisLoginCredentialsPage> {
-  TextEditingController _usernameEditingController = TextEditingController();
-  TextEditingController _passwordEditingController = TextEditingController();
+  final TextEditingController _usernameEditingController =
+      TextEditingController();
+  final TextEditingController _passwordEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +79,7 @@ class _DualisLoginCredentialsPageState
                     : Container(),
               ),
               viewModel.isLoading
-                  ? SizedBox(
+                  ? const SizedBox(
                       width: 16,
                       height: 16,
                       child: CircularProgressIndicator(
@@ -81,7 +87,7 @@ class _DualisLoginCredentialsPageState
                       ),
                     )
                   : viewModel.loginSuccess
-                      ? Icon(
+                      ? const Icon(
                           Icons.check,
                           color: Colors.green,
                         )
@@ -121,8 +127,8 @@ class _DualisLoginCredentialsPageState
           ),
         ),
       ),
-      Padding(
-        padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+      const Padding(
+        padding: EdgeInsets.fromLTRB(0, 16, 0, 16),
         child: Divider(),
       ),
       Padding(

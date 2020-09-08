@@ -8,7 +8,7 @@ class NotificationApi {
       FlutterLocalNotificationsPlugin();
 
   Future<void> initialize() async {
-    var initializationSettingsAndroid = AndroidInitializationSettings(
+    var initializationSettingsAndroid = const AndroidInitializationSettings(
       'outline_event_note_24',
     );
 
@@ -44,7 +44,7 @@ class NotificationApi {
       ticker: 'ticker',
     );
 
-    var iOSPlatformChannelSpecifics = IOSNotificationDetails();
+    var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
 
     var platformChannelSpecifics = NotificationDetails(
       androidPlatformChannelSpecifics,

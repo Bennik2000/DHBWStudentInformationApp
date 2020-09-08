@@ -23,7 +23,7 @@ class OnboardingRaplaViewModel extends OnboardingViewModelBase {
 
   void _validateUrl() {
     try {
-      new RaplaScheduleSource().validateEndpointUrl(_raplaUrl);
+      RaplaScheduleSource().validateEndpointUrl(_raplaUrl);
       urlHasError = false;
     } catch (e) {
       urlHasError = true;

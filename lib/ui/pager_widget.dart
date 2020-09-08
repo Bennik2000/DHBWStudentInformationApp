@@ -45,7 +45,7 @@ class _PagerWidgetState extends State<PagerWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         child: Column(
           key: ValueKey(_currentPage),
           children: <Widget>[

@@ -36,7 +36,7 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return PropertyChangeProvider(
       child: PropertyChangeConsumer(
-        properties: ["isDarkMode", "isOnboarding"],
+        properties: const ["isDarkMode", "isOnboarding"],
         builder: (BuildContext context, RootViewModel model, Set properties) =>
             MaterialApp(
           theme: ColorPalettes.buildTheme(model.isDarkMode),
@@ -49,9 +49,9 @@ class _RootPageState extends State<RootPage> {
             GlobalCupertinoLocalizations.delegate,
             DefaultCupertinoLocalizations.delegate,
           ],
-          supportedLocales: [
-            const Locale('en'),
-            const Locale('de'),
+          supportedLocales: const [
+            Locale('en'),
+            Locale('de'),
           ],
           onGenerateRoute: generateRoute,
         ),

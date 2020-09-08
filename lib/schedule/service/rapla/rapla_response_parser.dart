@@ -95,7 +95,7 @@ class RaplaResponseParser {
     // selected year in the date selector
     var comboBoxes = document.getElementsByTagName("select");
 
-    var year;
+    String year;
     for (var box in comboBoxes) {
       if (box.attributes.containsKey("name") &&
           box.attributes["name"] == "year") {
@@ -129,7 +129,7 @@ class RaplaResponseParser {
     var timeAndClassName = value.getElementsByTagName("a");
 
     if (tooltip.length != 1) return null;
-    if (timeAndClassName.length == 0) return null;
+    if (timeAndClassName.isEmpty) return null;
 
     var start = _parseTime(timeAndClassName[0].text.substring(0, 5), date);
     var end = _parseTime(timeAndClassName[0].text.substring(7, 12), date);
@@ -167,7 +167,7 @@ class RaplaResponseParser {
 
     var resource = _extractResources(value);
 
-    var scheduleEntry = new ScheduleEntry(
+    var scheduleEntry = ScheduleEntry(
       start: start,
       end: end,
       title: trimAndEscapeString(title),
@@ -193,7 +193,7 @@ class RaplaResponseParser {
   }
 
   Map<String, String> _parsePropertiesTable(Element infotable) {
-    var map = Map<String, String>();
+    var map = <String, String>{};
     var labels = infotable.getElementsByClassName(LABEL_CLASS);
     var values = infotable.getElementsByClassName(VALUE_CLASS);
 

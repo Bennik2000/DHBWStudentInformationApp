@@ -34,7 +34,7 @@ class ErrorDisplay extends StatelessWidget {
               : Container(
                   width: double.infinity,
                 ),
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
         ),
       ],
     );

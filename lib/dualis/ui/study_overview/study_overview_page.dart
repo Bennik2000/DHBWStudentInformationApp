@@ -36,7 +36,7 @@ class StudyOverviewPage extends StatelessWidget {
             style: Theme.of(context).textTheme.headline6,
           ),
           PropertyChangeConsumer(
-            properties: ["studyGrades"],
+            properties: const ["studyGrades"],
             builder: (
               BuildContext context,
               StudyGradesViewModel model,
@@ -126,7 +126,7 @@ class StudyOverviewPage extends StatelessWidget {
             ),
           ),
           PropertyChangeConsumer(
-            properties: ["allModules"],
+            properties: const ["allModules"],
             builder: (
               BuildContext context,
               StudyGradesViewModel model,
@@ -142,8 +142,8 @@ class StudyOverviewPage extends StatelessWidget {
   }
 
   Padding buildProgressIndicator() {
-    return Padding(
-      padding: const EdgeInsets.all(24),
+    return const Padding(
+      padding: EdgeInsets.all(24),
       child: Center(child: CircularProgressIndicator()),
     );
   }
@@ -190,7 +190,7 @@ class StudyOverviewPage extends StatelessWidget {
         numeric: true,
       ),
       DataColumn(
-        label: Text(""),
+        label: const Text(""),
         numeric: true,
         tooltip: L.of(context).dualisOverviewPassedColumnHeader,
       ),

@@ -25,11 +25,11 @@ class DateManagementPage extends StatelessWidget {
           DateFilterOptions(viewModel: viewModel),
           Stack(
             children: <Widget>[
-              Divider(),
+              const Divider(),
               AnimatedSwitcher(
-                  duration: Duration(milliseconds: 200),
+                  duration: const Duration(milliseconds: 200),
                   child: viewModel.isLoading
-                      ? LinearProgressIndicator()
+                      ? const LinearProgressIndicator()
                       : Container()),
             ],
           ),
@@ -52,7 +52,7 @@ class DateManagementPage extends StatelessWidget {
                 _,
               ) =>
                   AnimatedSwitcher(
-                      duration: Duration(milliseconds: 200),
+                      duration: const Duration(milliseconds: 200),
                       child: Column(
                         key: ValueKey(
                             viewModel?.dateSearchParameters?.toString() ?? ""),
@@ -146,7 +146,7 @@ class DateManagementPage extends StatelessWidget {
       builder: (context) => DateDetailBottomSheet(
         dateEntry: entry,
       ),
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
       ),
     );
@@ -154,7 +154,7 @@ class DateManagementPage extends StatelessWidget {
 
   Widget buildErrorDisplay(BuildContext context) {
     return PropertyChangeConsumer(
-      properties: [
+      properties: const [
         "updateFailed",
       ],
       builder: (BuildContext context, DateManagementViewModel model,

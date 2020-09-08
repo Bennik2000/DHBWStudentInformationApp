@@ -40,7 +40,7 @@ class DualisPage extends StatelessWidget {
     }
 
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
       child: widget,
     );
   }

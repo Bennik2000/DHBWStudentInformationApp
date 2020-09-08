@@ -18,7 +18,7 @@ final List<NavigationEntry> navigationEntries = [
 Route<dynamic> generateDrawerRoute(RouteSettings settings) {
   print("=== === === === === === Navigating to: ${settings.name}");
 
-  var widget;
+  WidgetBuilder widget;
 
   for (var route in navigationEntries) {
     if (route.route == settings.name) {
@@ -34,17 +34,17 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
 
   return PageRouteBuilder(
     settings: settings,
-    transitionDuration: Duration(milliseconds: 200),
+    transitionDuration: const Duration(milliseconds: 200),
     pageBuilder: (context, animation, secondaryAnimation) => widget(context),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      var offsetBegin = Offset(0.0, 0.005);
-      var offsetEnd = Offset.zero;
-      var offsetTween = Tween(begin: offsetBegin, end: offsetEnd)
+      const offsetBegin = Offset(0.0, 0.005);
+      final offsetEnd = Offset.zero;
+      final offsetTween = Tween(begin: offsetBegin, end: offsetEnd)
           .chain(CurveTween(curve: Curves.fastOutSlowIn));
 
-      var opacityBegin = 0.0;
-      var opacityEnd = 1.0;
-      var opacityTween = Tween(begin: opacityBegin, end: opacityEnd)
+      const opacityBegin = 0.0;
+      const opacityEnd = 1.0;
+      final opacityTween = Tween(begin: opacityBegin, end: opacityEnd)
           .chain(CurveTween(curve: Curves.fastOutSlowIn));
 
       return SlideTransition(
@@ -63,11 +63,11 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
 
 Route<dynamic> generateRoute(RouteSettings settings) {
   print("=== === === === === === Navigating to: ${settings.name}");
-  var target;
+  Widget target;
 
   switch (settings.name) {
     case "onboarding":
-      target = OnboardingPage();
+      target = const OnboardingPage();
       break;
     case "main":
       target = MainPage();

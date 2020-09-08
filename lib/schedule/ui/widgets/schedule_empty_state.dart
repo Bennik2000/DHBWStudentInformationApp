@@ -21,7 +21,7 @@ class ScheduleEmptyState extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: Theme.of(context).dividerColor,
-                  offset: Offset(0.0, 1.0),
+                  offset: const Offset(0.0, 1.0),
                   blurRadius: 1.0,
                 ),
               ],

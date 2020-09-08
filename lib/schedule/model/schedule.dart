@@ -3,7 +3,7 @@ import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 class Schedule {
   final List<ScheduleEntry> entries;
 
-  Schedule() : entries = List<ScheduleEntry>();
+  Schedule() : entries = <ScheduleEntry>[];
   Schedule.fromList(this.entries);
 
   void addEntry(ScheduleEntry entry) {
@@ -28,7 +28,7 @@ class Schedule {
   }
 
   DateTime getStartDate() {
-    if (entries.length == 0) return null;
+    if (entries.isEmpty) return null;
 
     var date = entries?.reduce((ScheduleEntry a, ScheduleEntry b) {
       return a.start.isBefore(b.start) ? a : b;
@@ -38,7 +38,7 @@ class Schedule {
   }
 
   DateTime getEndDate() {
-    if (entries.length == 0) return null;
+    if (entries.isEmpty) return null;
 
     var date = entries?.reduce((ScheduleEntry a, ScheduleEntry b) {
       return a.end.isAfter(b.end) ? a : b;

@@ -24,8 +24,8 @@ class SelectAppFeaturesWidget extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
           child: Divider(),
         ),
         PropertyChangeConsumer(
