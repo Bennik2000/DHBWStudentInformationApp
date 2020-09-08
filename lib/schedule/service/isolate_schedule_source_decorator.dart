@@ -5,41 +5,9 @@ import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 
-void scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
-  // Using the given send port, send back a send port for two way communication
-  var port = ReceivePort();
-  sendPort.send(port.sendPort);
-
-  CancellationToken token;
-
-  await for (var message in port) {
-    if (message["type"] == "execute") {
-      token = CancellationToken();
-      executeQueryScheduleMessage(message, sendPort, token);
-    } else if (message["type"] == "cancel") {
-      token?.cancel();
-    }
-  }
-}
-
-Future<void> executeQueryScheduleMessage(
-  Map<String, dynamic> map,
-  SendPort sendPort,
-  CancellationToken token,
-) async {
-  try {
-    ScheduleSource source = map["source"];
-    DateTime from = map["from"];
-    DateTime to = map["to"];
-
-    var result = await source.querySchedule(from, to, token);
-
-    sendPort.send(result);
-  } on OperationCancelledException catch (_) {
-    sendPort.send(null);
-  }
-}
-
+///
+/// ScheduleSource decorator which executes the [querySchedule] in a separated isolate
+///
 class IsolateScheduleSourceDecorator extends ScheduleSource {
   final ScheduleSource _scheduleSource;
 
@@ -99,5 +67,40 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
   @override
   void validateEndpointUrl(String url) {
     _scheduleSource.validateEndpointUrl(url);
+  }
+}
+
+void scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
+  // Using the given send port, send back a send port for two way communication
+  var port = ReceivePort();
+  sendPort.send(port.sendPort);
+
+  CancellationToken token;
+
+  await for (var message in port) {
+    if (message["type"] == "execute") {
+      token = CancellationToken();
+      executeQueryScheduleMessage(message, sendPort, token);
+    } else if (message["type"] == "cancel") {
+      token?.cancel();
+    }
+  }
+}
+
+Future<void> executeQueryScheduleMessage(
+  Map<String, dynamic> map,
+  SendPort sendPort,
+  CancellationToken token,
+) async {
+  try {
+    ScheduleSource source = map["source"];
+    DateTime from = map["from"];
+    DateTime to = map["to"];
+
+    var result = await source.querySchedule(from, to, token);
+
+    sendPort.send(result);
+  } on OperationCancelledException catch (_) {
+    sendPort.send(null);
   }
 }
