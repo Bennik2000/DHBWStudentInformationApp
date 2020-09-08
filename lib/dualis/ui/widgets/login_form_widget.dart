@@ -1,6 +1,7 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_platform_widgets/flutter_platform_widgets.dart';
 
 typedef OnLogin = Future<bool> Function(Credentials credentials);
 typedef OnLoadCredentials = Future<Credentials> Function();
@@ -104,25 +105,29 @@ class _LoginFormState extends State<LoginForm> {
                 child: _title,
               )
             : Container(),
-        TextField(
+        PlatformTextField(
           controller: _usernameEditingController,
-          decoration: InputDecoration(
-            enabled: !_isLoading,
-            hintText: L.of(context).loginUsername,
-            icon: Icon(Icons.alternate_email),
+          material: (_, __) => MaterialTextFieldData(
+            decoration: InputDecoration(
+              enabled: !_isLoading,
+              hintText: L.of(context).loginUsername,
+              icon: Icon(Icons.alternate_email),
+            ),
           ),
         ),
-        TextField(
+        PlatformTextField(
           controller: _passwordEditingController,
           obscureText: true,
-          decoration: InputDecoration(
-            enabled: !_isLoading,
-            hintText: L.of(context).loginPassword,
-            icon: Icon(Icons.lock_outline),
-            errorText: _loginFailed ? _loginFailedText : null,
+          material: (_, __) => MaterialTextFieldData(
+            decoration: InputDecoration(
+              enabled: !_isLoading,
+              hintText: L.of(context).loginPassword,
+              icon: Icon(Icons.lock_outline),
+              errorText: _loginFailed ? _loginFailedText : null,
+            ),
           ),
         ),
-        Padding(
+        /*Padding(
           padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
           child: CheckboxListTile(
             controlAffinity: ListTileControlAffinity.trailing,
@@ -137,7 +142,7 @@ class _LoginFormState extends State<LoginForm> {
             },
             value: _storeCredentials,
           ),
-        ),
+        ),*/
         Container(
           height: 80,
           child: Align(

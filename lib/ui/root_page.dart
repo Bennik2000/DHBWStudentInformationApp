@@ -43,6 +43,13 @@ class _RootPageState extends State<RootPage> {
           material: (_, __) => MaterialAppData(
             theme: ColorPalettes.buildTheme(model.isDarkMode),
           ),
+          cupertino: (_, __) => CupertinoAppData(
+            color: Colors.red,
+            theme: CupertinoThemeData(
+              brightness: model.isDarkMode ? Brightness.dark : Brightness.light,
+              primaryColor: ColorPalettes.main[500],
+            ),
+          ),
           initialRoute: rootViewModel.isOnboarding ? "onboarding" : "main",
           navigatorKey: NavigatorKey.rootKey,
           localizationsDelegates: [
