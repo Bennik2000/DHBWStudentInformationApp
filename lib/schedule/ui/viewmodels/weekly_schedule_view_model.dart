@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/common/util/cancelable_mutex.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
-import 'package:mutex/mutex.dart';
 
 class WeeklyScheduleViewModel extends BaseViewModel {
   static const Duration weekDuration = Duration(days: 7);
@@ -35,8 +35,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Timer _errorResetTimer;
   Timer _updateNowTimer;
 
-  CancellationToken _updateScheduleCancellationToken;
-  Mutex _mutex = Mutex();
+  final CancelableMutex _updateMutex = CancelableMutex();
   DateTime lastRequestedStart;
   DateTime lastRequestedEnd;
 
@@ -102,18 +101,12 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     lastRequestedEnd = end;
     lastRequestedStart = start;
 
-    _updateScheduleCancellationToken?.cancel();
-
-    await _mutex.acquire();
-
-    _updateScheduleCancellationToken = null;
+    await _updateMutex.acquireAndCancelOther();
 
     if (lastRequestedStart != start || lastRequestedEnd != end) {
-      _mutex.release();
+      _updateMutex.release();
       return;
     }
-
-    _updateScheduleCancellationToken = new CancellationToken();
 
     try {
       isUpdating = true;
@@ -122,7 +115,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
       await _doUpdateSchedule(start, end);
     } catch (_) {} finally {
       isUpdating = false;
-      _mutex.release();
+      _updateMutex.release();
       notifyListeners("isUpdating");
     }
   }
@@ -130,7 +123,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Future _doUpdateSchedule(DateTime start, DateTime end) async {
     print("Refreshing schedule...");
 
-    var cancellationToken = _updateScheduleCancellationToken;
+    var cancellationToken = _updateMutex.token;
 
     var cachedSchedule = await scheduleProvider.getCachedSchedule(start, end);
     cancellationToken.throwIfCancelled();
