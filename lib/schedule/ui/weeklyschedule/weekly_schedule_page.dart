@@ -74,23 +74,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    FlatButton(
-                      child: Icon(Icons.chevron_left),
-                      onPressed: _previousWeek,
-                    ),
-                    FlatButton(
-                      child: Icon(Icons.today),
-                      onPressed: _goToToday,
-                    ),
-                    FlatButton(
-                      child: Icon(Icons.chevron_right),
-                      onPressed: _nextWeek,
-                    ),
-                  ],
-                ),
+                _buildNavigationButtonBar(),
                 Expanded(
                   child: Stack(
                     children: <Widget>[
@@ -99,38 +83,38 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                         child: PropertyChangeConsumer(
                           properties: const ["weekSchedule", "now"],
                           builder: (BuildContext context,
-                                  WeeklyScheduleViewModel model,
-                                  Set properties) =>
-                              PageTransitionSwitcher(
-                            reverse: !model.didUpdateScheduleIntoFuture,
-                            duration: const Duration(milliseconds: 300),
-                            transitionBuilder: (Widget child,
-                                    Animation<double> animation,
-                                    Animation<double> secondaryAnimation) =>
-                                SharedAxisTransition(
-                              child: child,
-                              animation: animation,
-                              secondaryAnimation: secondaryAnimation,
-                              transitionType:
-                                  SharedAxisTransitionType.horizontal,
-                            ),
-                            child: ScheduleWidget(
-                              key: ValueKey(
-                                model.currentDateStart.toIso8601String(),
+                              WeeklyScheduleViewModel model, Set properties) {
+                            return PageTransitionSwitcher(
+                              reverse: !model.didUpdateScheduleIntoFuture,
+                              duration: const Duration(milliseconds: 300),
+                              transitionBuilder: (Widget child,
+                                      Animation<double> animation,
+                                      Animation<double> secondaryAnimation) =>
+                                  SharedAxisTransition(
+                                child: child,
+                                animation: animation,
+                                secondaryAnimation: secondaryAnimation,
+                                transitionType:
+                                    SharedAxisTransitionType.horizontal,
                               ),
-                              schedule: model.weekSchedule,
-                              displayStart: model.clippedDateStart ??
-                                  model.currentDateStart,
-                              displayEnd:
-                                  model.clippedDateEnd ?? model.currentDateEnd,
-                              onScheduleEntryTap: (entry) {
-                                _onScheduleEntryTap(context, entry);
-                              },
-                              now: model.now,
-                              displayEndHour: model.displayEndHour,
-                              displayStartHour: model.displayStartHour,
-                            ),
-                          ),
+                              child: ScheduleWidget(
+                                key: ValueKey(
+                                  model.currentDateStart.toIso8601String(),
+                                ),
+                                schedule: model.weekSchedule,
+                                displayStart: model.clippedDateStart ??
+                                    model.currentDateStart,
+                                displayEnd: model.clippedDateEnd ??
+                                    model.currentDateEnd,
+                                onScheduleEntryTap: (entry) {
+                                  _onScheduleEntryTap(context, entry);
+                                },
+                                now: model.now,
+                                displayEndHour: model.displayEndHour,
+                                displayStartHour: model.displayStartHour,
+                              ),
+                            );
+                          },
                         ),
                       ),
                       PropertyChangeConsumer(
@@ -151,6 +135,26 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
           ],
         ),
       ),
+    );
+  }
+
+  Row _buildNavigationButtonBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        FlatButton(
+          child: Icon(Icons.chevron_left),
+          onPressed: _previousWeek,
+        ),
+        FlatButton(
+          child: Icon(Icons.today),
+          onPressed: _goToToday,
+        ),
+        FlatButton(
+          child: Icon(Icons.chevron_right),
+          onPressed: _nextWeek,
+        ),
+      ],
     );
   }
 
