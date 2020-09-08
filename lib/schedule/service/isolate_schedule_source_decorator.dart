@@ -5,7 +5,8 @@ import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 
-scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
+void scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
+  // Using the given send port, send back a send port for two way communication
   var port = ReceivePort();
   sendPort.send(port.sendPort);
 
@@ -14,14 +15,14 @@ scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
   await for (var message in port) {
     if (message["type"] == "execute") {
       token = CancellationToken();
-      executeQuerySchedule(message, sendPort, token);
+      executeQueryScheduleMessage(message, sendPort, token);
     } else if (message["type"] == "cancel") {
       token?.cancel();
     }
   }
 }
 
-Future<void> executeQuerySchedule(
+Future<void> executeQueryScheduleMessage(
   Map<String, dynamic> map,
   SendPort sendPort,
   CancellationToken token,
@@ -53,6 +54,8 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
       [CancellationToken cancellationToken]) async {
     await _initializeIsolate();
 
+    // Use the cancellation token to send a cancel message.
+    // The isolate then uses a new instance to cancel the request
     cancellationToken.setCancellationCallback(() {
       _sendPort.send({"type": "cancel"});
     });
@@ -81,7 +84,7 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
 
     var isolateToMain = ReceivePort();
 
-    // Use a broadcast stream. The normal RecievePort closes after one subscription
+    // Use a broadcast stream. The normal ReceivePort closes after one subscription
     _isolateToMain = isolateToMain.asBroadcastStream();
     _isolate = await Isolate.spawn(
         scheduleSourceIsolateEntryPoint, isolateToMain.sendPort);

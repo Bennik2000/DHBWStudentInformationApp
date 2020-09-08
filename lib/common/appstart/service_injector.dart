@@ -23,7 +23,7 @@ bool _isInjected = false;
 /// This function injects all instances into the KiwiContainer. You can get a
 /// singleton instance of a registered type using KiwiContainer().resolve()
 ///
-void injectServices() {
+void injectServices(bool isBackground) {
   if (_isInjected) return;
 
   KiwiContainer c = KiwiContainer();
@@ -32,9 +32,11 @@ void injectServices() {
     SecureStorageAccess(),
   ));
   c.registerInstance<ScheduleSource>(
-    IsolateScheduleSourceDecorator(
-      ErrorReportScheduleSourceDecorator(RaplaScheduleSource()),
-    ),
+    isBackground
+        ? ErrorReportScheduleSourceDecorator(RaplaScheduleSource())
+        : IsolateScheduleSourceDecorator(
+            ErrorReportScheduleSourceDecorator(RaplaScheduleSource()),
+          ),
   );
   c.registerInstance(DatabaseAccess());
   c.registerInstance(ScheduleEntryRepository(
