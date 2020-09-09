@@ -36,13 +36,27 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
     });
 
     final completer = Completer<Schedule>();
+
+    ScheduleQueryFailedException potentialException;
+
     final subscription = _isolateToMain.listen((result) {
       cancellationToken.setCancellationCallback(null);
-      completer.complete(result);
+
+      if (result != null && !(result is Schedule)) {
+        potentialException = ScheduleQueryFailedException(result);
+        completer.complete(null);
+      } else {
+        completer.complete(result);
+      }
     });
 
     final result = await completer.future;
+
     subscription.cancel();
+
+    if (potentialException != null) {
+      throw potentialException;
+    }
 
     return result;
   }
@@ -102,5 +116,7 @@ Future<void> executeQueryScheduleMessage(
     sendPort.send(result);
   } on OperationCancelledException catch (_) {
     sendPort.send(null);
+  } catch (ex, trace) {
+    sendPort.send("$ex \n$trace");
   }
 }
