@@ -26,14 +26,14 @@ class ExamsFromModuleDetailsExtract {
     for (var row in tableExamsRows) {
       // Save the try for all following exams
       var level01s = row.getElementsByClassName("level01");
-      if (level01s.length > 0) {
+      if (level01s.isNotEmpty) {
         currentTry = level01s[0].innerHtml;
         continue;
       }
 
       // Save the module for all following exams
       var level02s = row.getElementsByClassName("level02");
-      if (level02s.length > 0) {
+      if (level02s.isNotEmpty) {
         currentModule = level02s[0].innerHtml;
         continue;
       }

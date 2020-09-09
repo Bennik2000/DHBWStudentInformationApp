@@ -63,7 +63,7 @@ class BackgroundScheduleUpdate extends TaskCallback {
   @override
   Future<void> schedule() async {
     await scheduler.schedulePeriodic(
-      Duration(hours: 4),
+      const Duration(hours: 4),
       getName(),
     );
   }

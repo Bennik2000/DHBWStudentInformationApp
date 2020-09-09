@@ -45,6 +45,7 @@ dependencies:
   animations: ^1.1.1
   flutter_native_splash: ^0.1.9
   mutex: ^1.1.0
+  device_calendar: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +73,8 @@ flutter:
     - assets/onboarding_bottom_foreground.png
     - assets/onboarding_bottom_background_dark.png
     - assets/onboarding_bottom_foreground_dark.png
+    - assets/schedule_empty_state.png
+    - assets/schedule_empty_state_dark.png
 
   fonts:
     - family:  CustomIcons

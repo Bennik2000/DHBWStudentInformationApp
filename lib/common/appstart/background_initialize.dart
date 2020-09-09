@@ -9,7 +9,7 @@ import 'package:kiwi/kiwi.dart';
 
 class BackgroundInitialize {
   Future<void> setupBackgroundScheduling() async {
-    var scheduler;
+    WorkSchedulerService scheduler;
     if (Platform.isAndroid) {
       scheduler = BackgroundWorkScheduler();
     } else {

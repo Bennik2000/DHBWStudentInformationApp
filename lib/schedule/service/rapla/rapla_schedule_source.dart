@@ -7,12 +7,13 @@ import 'package:http/http.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
 
 class RaplaScheduleSource extends ScheduleSource {
-  final RaplaResponseParser responseParser = new RaplaResponseParser();
+  final RaplaResponseParser responseParser = RaplaResponseParser();
 
   String raplaUrl;
 
   RaplaScheduleSource({this.raplaUrl});
 
+  @override
   void setEndpointUrl(String url) {
     raplaUrl = url;
   }

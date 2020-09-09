@@ -6,7 +6,7 @@ class LoginRedirectUrlExtract {
 
     var metaTags = document.getElementsByTagName("meta");
 
-    var redirectContent;
+    String redirectContent;
 
     for (var metaTag in metaTags) {
       if (!metaTag.attributes.containsKey("http-equiv")) continue;

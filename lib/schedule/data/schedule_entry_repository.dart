@@ -9,7 +9,7 @@ class ScheduleEntryRepository {
   ScheduleEntryRepository(this._database);
 
   Future<Schedule> queryScheduleForDay(DateTime date) async {
-    return queryScheduleBetweenDates(date, date.add(Duration(days: 1)));
+    return queryScheduleBetweenDates(date, date.add(const Duration(days: 1)));
   }
 
   Future<Schedule> queryScheduleBetweenDates(
@@ -27,7 +27,7 @@ class ScheduleEntryRepository {
 
     for (var row in rows) {
       schedule.addEntry(
-        new ScheduleEntryEntity.fromMap(row).asScheduleEntry(),
+        ScheduleEntryEntity.fromMap(row).asScheduleEntry(),
       );
     }
 
@@ -47,9 +47,9 @@ class ScheduleEntryRepository {
       ],
     );
 
-    if (rows.length == 0) return null;
+    if (rows.isEmpty) return null;
 
-    return new ScheduleEntryEntity.fromMap(rows[0]).asScheduleEntry();
+    return ScheduleEntryEntity.fromMap(rows[0]).asScheduleEntry();
   }
 
   Future<ScheduleEntry> queryNextScheduleEntry(DateTime dateTime) async {

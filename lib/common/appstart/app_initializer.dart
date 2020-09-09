@@ -25,7 +25,7 @@ Future<void> initializeApp(bool isBackground) async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  injectServices();
+  injectServices(isBackground);
 
   if (isBackground) {
     await LocalizationInitialize.fromPreferences(KiwiContainer().resolve())
@@ -40,7 +40,10 @@ Future<void> initializeApp(bool isBackground) async {
   NotificationScheduleChangedInitialize().setupNotification();
 
   if (isBackground) {
-    await ScheduleSourceSetup().setupScheduleSource();
+    await ScheduleSourceSetup(
+      KiwiContainer().resolve(),
+      KiwiContainer().resolve(),
+    ).setupScheduleSource();
   }
 
   isInitialized = true;

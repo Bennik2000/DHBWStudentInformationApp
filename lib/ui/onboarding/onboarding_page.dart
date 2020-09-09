@@ -29,7 +29,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   void initState() {
     super.initState();
 
-    viewModel = new OnboardingViewModel(
+    viewModel = OnboardingViewModel(
       KiwiContainer().resolve(),
       KiwiContainer().resolve(),
     );
@@ -39,7 +39,7 @@ class _OnboardingPageState extends State<OnboardingPage>
         await _controller.animateTo(
             viewModel.currentStep / viewModel.onboardingSteps,
             curve: Curves.ease,
-            duration: Duration(milliseconds: 300));
+            duration: const Duration(milliseconds: 300));
       },
       ["currentStep"],
     );
@@ -54,7 +54,7 @@ class _OnboardingPageState extends State<OnboardingPage>
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            buildContent(),
+            _buildContent(),
             OnboardingPageBackground(controller: _controller.view),
           ],
         ),
@@ -63,13 +63,13 @@ class _OnboardingPageState extends State<OnboardingPage>
     );
   }
 
-  Widget buildContent() {
+  Widget _buildContent() {
     return GestureDetector(
       onPanEnd: (details) {
         if (details.velocity.pixelsPerSecond.dx > 10) {
-          navigateBack(context);
+          _navigateBack(context);
         } else if (details.velocity.pixelsPerSecond.dx < -10) {
-          navigateNext(context);
+          _navigateNext(context);
         }
       },
       behavior: HitTestBehavior.translucent,
@@ -81,13 +81,13 @@ class _OnboardingPageState extends State<OnboardingPage>
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                buildActiveOnboardingPage(model),
+                _buildActiveOnboardingPage(model),
                 OnboardingButtonBar(
                   onPrevious: () {
-                    navigateBack(context);
+                    _navigateBack(context);
                   },
                   onNext: () {
-                    navigateNext(context);
+                    _navigateNext(context);
                   },
                   viewModel: viewModel,
                 ),
@@ -99,7 +99,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     );
   }
 
-  Widget buildActiveOnboardingPage(OnboardingViewModel model) {
+  Widget _buildActiveOnboardingPage(OnboardingViewModel model) {
     var contentWidgets = {
       OnboardingSteps.Start: () => SelectAppFeaturesWidget(
             viewModel: viewModel,
@@ -124,7 +124,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     return IntrinsicHeight(
       child: PageTransitionSwitcher(
         reverse: !model.didStepForward,
-        duration: Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
         transitionBuilder: (
           Widget child,
           Animation<double> animation,
@@ -141,7 +141,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     );
   }
 
-  void navigateNext(BuildContext context) {
+  void _navigateNext(BuildContext context) {
     if (viewModel.currentStep == viewModel.onboardingSteps - 1) {
       viewModel.save();
 
@@ -156,7 +156,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     }
   }
 
-  void navigateBack(BuildContext context) {
+  void _navigateBack(BuildContext context) {
     viewModel.previousPage();
   }
 }

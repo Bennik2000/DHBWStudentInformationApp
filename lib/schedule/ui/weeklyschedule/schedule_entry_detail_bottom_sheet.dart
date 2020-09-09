@@ -36,10 +36,9 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 child: Container(
                   height: 8,
                   width: 30,
-                  decoration: new BoxDecoration(
+                  decoration: BoxDecoration(
                       color: colorSeparator(),
-                      borderRadius:
-                          new BorderRadius.all(const Radius.circular(4))),
+                      borderRadius: const BorderRadius.all(Radius.circular(4))),
                   child: null,
                 ),
               ),

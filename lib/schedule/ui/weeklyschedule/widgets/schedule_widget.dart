@@ -120,7 +120,7 @@ class ScheduleWidget extends StatelessWidget {
     double hourHeight,
     double minuteHeight,
   ) {
-    var labelWidgets = List<Widget>();
+    var labelWidgets = <Widget>[];
 
     for (var i = displayStartHour; i < displayEndHour; i++) {
       var hourLabelText = i.toString() + ":00";
@@ -177,9 +177,9 @@ class ScheduleWidget extends StatelessWidget {
   List<Widget> buildEntryWidgets(
       double hourHeight, double minuteHeight, double width, int columns) {
     if (schedule == null) return <Widget>[];
-    if (schedule.entries.length == 0) return <Widget>[];
+    if (schedule.entries.isEmpty) return <Widget>[];
 
-    var entryWidgets = List<Widget>();
+    var entryWidgets = <Widget>[];
 
     var columnWidth = width / columns;
 

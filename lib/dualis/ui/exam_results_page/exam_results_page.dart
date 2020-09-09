@@ -31,7 +31,7 @@ class ExamResultsPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(24, 0, 0, 0),
                     child: PropertyChangeConsumer(
-                      properties: [
+                      properties: const [
                         "currentSemesterName",
                         "allSemesterNames",
                       ],
@@ -58,7 +58,7 @@ class ExamResultsPage extends StatelessWidget {
               ),
             ),
             PropertyChangeConsumer(
-              properties: ["currentSemester"],
+              properties: const ["currentSemester"],
               builder: (
                 BuildContext context,
                 StudyGradesViewModel model,
@@ -66,8 +66,8 @@ class ExamResultsPage extends StatelessWidget {
               ) =>
                   model.currentSemester != null
                       ? buildModulesColumn(context, model)
-                      : Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 16, 0, 0),
+                      : const Padding(
+                          padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                           child: Center(child: CircularProgressIndicator()),
                         ),
             ),
@@ -93,7 +93,7 @@ class ExamResultsPage extends StatelessWidget {
         key: ValueKey("semester_${viewModel.currentSemester?.name}"),
         children: buildModulesDataTables(context, viewModel),
       ),
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
     );
   }
 
@@ -163,7 +163,7 @@ class ExamResultsPage extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 10, 16),
+              padding: const EdgeInsets.fromLTRB(0, 0, 10, 16),
               child: Text(
                 (module.name ?? ""),
                 style: Theme.of(context).textTheme.subtitle2,
@@ -182,7 +182,7 @@ class ExamResultsPage extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 10, 16),
+              padding: const EdgeInsets.fromLTRB(0, 0, 10, 16),
               child: Text(
                   "${L.of(context).dualisExamResultsCreditsColumnHeader}:  ${module.credits}"),
             ),

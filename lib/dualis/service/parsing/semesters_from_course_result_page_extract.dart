@@ -32,7 +32,7 @@ class SemestersFromCourseResultPageExtract {
       var id = option.attributes["value"];
       var name = option.innerHtml;
 
-      var detailsUrl;
+      String detailsUrl;
 
       if (url != null) {
         detailsUrl = url + id;

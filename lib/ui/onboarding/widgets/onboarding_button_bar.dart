@@ -47,7 +47,7 @@ class OnboardingButtonBar extends StatelessWidget {
     bool isFirstPage = viewModel.currentStep == 0;
 
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
       child: isFirstPage
           ? Container()
           : FlatButton.icon(
@@ -62,7 +62,7 @@ class OnboardingButtonBar extends StatelessWidget {
   Widget _buildNextButton(BuildContext context) {
     bool isLastPage = viewModel.currentStep == viewModel.onboardingSteps - 1;
 
-    var buttonText;
+    String buttonText;
     var buttonColor = Theme.of(context).accentColor;
 
     if (isLastPage) {
@@ -76,7 +76,7 @@ class OnboardingButtonBar extends StatelessWidget {
     }
 
     return AnimatedSwitcher(
-      duration: Duration(milliseconds: 100),
+      duration: const Duration(milliseconds: 100),
       child: FlatButton.icon(
         key: ValueKey(buttonText),
         onPressed: onNext,

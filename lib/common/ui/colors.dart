@@ -73,16 +73,16 @@ class ColorPalettes {
   }
 
   static const MaterialColor main = MaterialColor(0xffff061c, <int, Color>{
-    050: const Color(0xFFff838e),
-    100: const Color(0xFFff6a77),
-    200: const Color(0xFFff5160),
-    300: const Color(0xFFff3849),
-    400: const Color(0xFFff1f33),
-    500: const Color(0xffff061c),
-    600: const Color(0xFFe60519),
-    700: const Color(0xFFcc0516),
-    800: const Color(0xFFb30414),
-    900: const Color(0xFF990411),
+    050: Color(0xFFff838e),
+    100: Color(0xFFff6a77),
+    200: Color(0xFFff5160),
+    300: Color(0xFFff3849),
+    400: Color(0xFFff1f33),
+    500: Color(0xffff061c),
+    600: Color(0xFFe60519),
+    700: Color(0xFFcc0516),
+    800: Color(0xFFb30414),
+    900: Color(0xFF990411),
   });
 
   static const MaterialColor secondary = MaterialColor(0xFFCECED0, <int, Color>{

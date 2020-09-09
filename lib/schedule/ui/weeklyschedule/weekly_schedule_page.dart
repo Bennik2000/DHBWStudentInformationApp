@@ -3,8 +3,8 @@ import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
+import 'package:dhbwstudentapp/schedule/ui/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/schedule_entry_detail_bottom_sheet.dart';
-import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
@@ -45,7 +45,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
       builder: (context) => ScheduleEntryDetailBottomSheet(
         scheduleEntry: entry,
       ),
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
       ),
     );
@@ -74,71 +74,55 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    FlatButton(
-                      child: Icon(Icons.chevron_left),
-                      onPressed: _previousWeek,
-                    ),
-                    FlatButton(
-                      child: Icon(Icons.today),
-                      onPressed: _goToToday,
-                    ),
-                    FlatButton(
-                      child: Icon(Icons.chevron_right),
-                      onPressed: _nextWeek,
-                    ),
-                  ],
-                ),
+                _buildNavigationButtonBar(),
                 Expanded(
                   child: Stack(
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: PropertyChangeConsumer(
-                          properties: ["weekSchedule", "now"],
+                          properties: const ["weekSchedule", "now"],
                           builder: (BuildContext context,
-                                  WeeklyScheduleViewModel model,
-                                  Set properties) =>
-                              PageTransitionSwitcher(
-                            reverse: !model.didUpdateScheduleIntoFuture,
-                            duration: Duration(milliseconds: 300),
-                            transitionBuilder: (Widget child,
-                                    Animation<double> animation,
-                                    Animation<double> secondaryAnimation) =>
-                                SharedAxisTransition(
-                              child: child,
-                              animation: animation,
-                              secondaryAnimation: secondaryAnimation,
-                              transitionType:
-                                  SharedAxisTransitionType.horizontal,
-                            ),
-                            child: ScheduleWidget(
-                              key: ValueKey(
-                                model.currentDateStart.toIso8601String(),
+                              WeeklyScheduleViewModel model, Set properties) {
+                            return PageTransitionSwitcher(
+                              reverse: !model.didUpdateScheduleIntoFuture,
+                              duration: const Duration(milliseconds: 300),
+                              transitionBuilder: (Widget child,
+                                      Animation<double> animation,
+                                      Animation<double> secondaryAnimation) =>
+                                  SharedAxisTransition(
+                                child: child,
+                                animation: animation,
+                                secondaryAnimation: secondaryAnimation,
+                                transitionType:
+                                    SharedAxisTransitionType.horizontal,
                               ),
-                              schedule: model.weekSchedule,
-                              displayStart: model.clippedDateStart ??
-                                  model.currentDateStart,
-                              displayEnd:
-                                  model.clippedDateEnd ?? model.currentDateEnd,
-                              onScheduleEntryTap: (entry) {
-                                _onScheduleEntryTap(context, entry);
-                              },
-                              now: model.now,
-                              displayEndHour: model.displayEndHour,
-                              displayStartHour: model.displayStartHour,
-                            ),
-                          ),
+                              child: ScheduleWidget(
+                                key: ValueKey(
+                                  model.currentDateStart.toIso8601String(),
+                                ),
+                                schedule: model.weekSchedule,
+                                displayStart: model.clippedDateStart ??
+                                    model.currentDateStart,
+                                displayEnd: model.clippedDateEnd ??
+                                    model.currentDateEnd,
+                                onScheduleEntryTap: (entry) {
+                                  _onScheduleEntryTap(context, entry);
+                                },
+                                now: model.now,
+                                displayEndHour: model.displayEndHour,
+                                displayStartHour: model.displayStartHour,
+                              ),
+                            );
+                          },
                         ),
                       ),
                       PropertyChangeConsumer(
-                        properties: ["isUpdating"],
+                        properties: const ["isUpdating"],
                         builder: (BuildContext context,
                             WeeklyScheduleViewModel model, Set properties) {
                           return model.isUpdating
-                              ? LinearProgressIndicator()
+                              ? const LinearProgressIndicator()
                               : Container();
                         },
                       ),
@@ -154,9 +138,29 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
     );
   }
 
+  Row _buildNavigationButtonBar() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        FlatButton(
+          child: Icon(Icons.chevron_left),
+          onPressed: _previousWeek,
+        ),
+        FlatButton(
+          child: Icon(Icons.today),
+          onPressed: _goToToday,
+        ),
+        FlatButton(
+          child: Icon(Icons.chevron_right),
+          onPressed: _nextWeek,
+        ),
+      ],
+    );
+  }
+
   Widget buildErrorDisplay(BuildContext context) {
     return PropertyChangeConsumer(
-      properties: [
+      properties: const [
         "updateFailed",
       ],
       builder: (BuildContext context, WeeklyScheduleViewModel model,

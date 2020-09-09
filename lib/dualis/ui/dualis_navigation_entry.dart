@@ -3,6 +3,7 @@ import 'package:dhbwstudentapp/common/ui/custom_icons_icons.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/dualis_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
+import 'package:dhbwstudentapp/dualis/ui/widgets/dualis_help_dialog.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -47,13 +48,19 @@ class DualisNavigationEntry extends NavigationEntry {
         child: PropertyChangeConsumer(
           builder: (BuildContext _, StudyGradesViewModel __, Set<Object> ___) =>
               _viewModel.loginState != LoginState.LoggedIn
-                  ? Container()
+                  ? IconButton(
+                      icon: Icon(Icons.help_outline),
+                      onPressed: () async {
+                        await DualisHelpDialog().show(context);
+                      },
+                      tooltip: L.of(context).helpButtonTooltip,
+                    )
                   : IconButton(
-                      icon: Icon(CustomIcons.logout),
+                      icon: const Icon(CustomIcons.logout),
                       onPressed: () async {
                         await _viewModel.logout();
                       },
-                      tooltip: "Logout",
+                      tooltip: L.of(context).logoutButtonTooltip,
                     ),
         ),
       ),

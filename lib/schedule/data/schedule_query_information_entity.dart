@@ -16,23 +16,23 @@ class ScheduleQueryInformationEntity extends DatabaseEntity {
 
   @override
   void fromMap(Map<String, dynamic> map) {
-    var startDate;
+    DateTime startDate;
     if (map["start"] != null) {
       startDate = DateTime.fromMillisecondsSinceEpoch(map["start"]);
     }
 
-    var endDate;
+    DateTime endDate;
     if (map["end"] != null) {
       endDate = DateTime.fromMillisecondsSinceEpoch(map["end"]);
     }
 
-    var queryTimeDate;
+    DateTime queryTimeDate;
     if (map["end"] != null) {
       queryTimeDate = DateTime.fromMillisecondsSinceEpoch(map["queryTime"]);
     }
 
     _scheduleQueryInformation =
-        new ScheduleQueryInformation(startDate, endDate, queryTimeDate);
+        ScheduleQueryInformation(startDate, endDate, queryTimeDate);
   }
 
   @override

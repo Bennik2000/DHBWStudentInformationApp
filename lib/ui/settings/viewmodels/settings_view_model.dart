@@ -2,20 +2,24 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 
+///
+/// The view model for the settings page.
+///
 class SettingsViewModel extends BaseViewModel {
+  final PreferencesProvider _preferencesProvider;
+  final NextDayInformationNotification _nextDayInformationNotification;
+
   bool _notifyAboutNextDay = false;
   bool get notifyAboutNextDay => _notifyAboutNextDay;
 
   bool _notifyAboutScheduleChanges = false;
   bool get notifyAboutScheduleChanges => _notifyAboutScheduleChanges;
 
-  final PreferencesProvider _preferencesProvider;
-
-  final NextDayInformationNotification _nextDayInformationNotification;
-
   SettingsViewModel(
-      this._preferencesProvider, this._nextDayInformationNotification) {
-    loadPreferences();
+    this._preferencesProvider,
+    this._nextDayInformationNotification,
+  ) {
+    _loadPreferences();
   }
 
   Future<void> setNotifyAboutScheduleChanges(bool value) async {
@@ -39,7 +43,7 @@ class SettingsViewModel extends BaseViewModel {
       await _nextDayInformationNotification.cancel();
   }
 
-  Future<void> loadPreferences() async {
+  Future<void> _loadPreferences() async {
     _notifyAboutNextDay = await _preferencesProvider.getNotifyAboutNextDay();
     _notifyAboutScheduleChanges =
         await _preferencesProvider.getNotifyAboutScheduleChanges();

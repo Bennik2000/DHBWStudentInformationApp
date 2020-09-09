@@ -55,8 +55,10 @@ class _LoginFormState extends State<LoginForm> {
   bool _loginFailed = false;
   bool _isLoading = false;
 
-  TextEditingController _usernameEditingController = TextEditingController();
-  TextEditingController _passwordEditingController = TextEditingController();
+  final TextEditingController _usernameEditingController =
+      TextEditingController();
+  final TextEditingController _passwordEditingController =
+      TextEditingController();
 
   _LoginFormState(
     this._onLogin,
@@ -143,7 +145,7 @@ class _LoginFormState extends State<LoginForm> {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
               child: _isLoading
-                  ? CircularProgressIndicator()
+                  ? const CircularProgressIndicator()
                   : FlatButton.icon(
                       textColor: Theme.of(context).accentColor,
                       onPressed: () async {

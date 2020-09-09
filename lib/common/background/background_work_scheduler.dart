@@ -5,12 +5,13 @@ import 'package:kiwi/kiwi.dart';
 import 'package:workmanager/workmanager.dart';
 
 class BackgroundWorkScheduler extends WorkSchedulerService {
-  Map<String, TaskCallback> _taskCallbacks = {};
+  final Map<String, TaskCallback> _taskCallbacks = {};
 
   BackgroundWorkScheduler() {
     _setupBackgroundScheduling();
   }
 
+  @override
   Future<void> scheduleOneShotTaskIn(
       Duration delay, String id, String name) async {
     print(
@@ -25,6 +26,7 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
     );
   }
 
+  @override
   Future<void> scheduleOneShotTaskAt(
     DateTime date,
     String id,
@@ -33,11 +35,13 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
     await scheduleOneShotTaskIn(date.difference(DateTime.now()), id, name);
   }
 
+  @override
   Future<void> cancelTask(String id) async {
     await Workmanager.cancelByUniqueName(id);
     print("Cancelled task $id");
   }
 
+  @override
   Future<void> schedulePeriodic(
     Duration delay,
     String id, [
@@ -60,10 +64,12 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
     );
   }
 
+  @override
   void registerTask(TaskCallback task) {
     _taskCallbacks[task.getName()] = task;
   }
 
+  @override
   Future<void> executeTask(String id) async {
     await _taskCallbacks[id]?.run();
   }
