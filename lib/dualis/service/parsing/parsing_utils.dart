@@ -52,7 +52,7 @@ class ParseException implements Exception {
 
   @override
   String toString() {
-    return "Parse exception: $innerException \n $trace";
+    return "Parse exception: $innerException \n$trace";
   }
 }
 
@@ -66,4 +66,9 @@ class ElementNotFoundParseException implements ParseException {
   final String elementDescription;
 
   ElementNotFoundParseException(this.elementDescription);
+
+  @override
+  String toString() {
+    return "Did not find: $elementDescription";
+  }
 }
