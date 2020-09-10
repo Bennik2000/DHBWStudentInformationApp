@@ -10,9 +10,9 @@ class SemestersFromCourseResultPageExtract {
   ) {
     try {
       return _extractSemestersFromCourseResults(body, endpointUrl);
-    } catch (e) {
+    } catch (e, trace) {
       if (e.runtimeType is ParseException) rethrow;
-      throw ParseException.withInner(e);
+      throw ParseException.withInner(e, trace);
     }
   }
 
@@ -22,7 +22,8 @@ class SemestersFromCourseResultPageExtract {
 
     var semesterSelector = page.getElementById("semester");
 
-    if (semesterSelector == null) throw ElementNotFoundParseException();
+    if (semesterSelector == null)
+      throw ElementNotFoundParseException("semester selector container");
 
     var url = _extractSemesterDetailUrlPart(semesterSelector, endpointUrl);
 

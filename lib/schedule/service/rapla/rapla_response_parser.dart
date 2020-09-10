@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/util/string_utils.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
 import 'package:intl/intl.dart';
@@ -16,7 +17,6 @@ class RaplaResponseParser {
   static const String CLASS_NAME_LABEL = "Veranstaltungsname:";
   static const String PROFESSOR_NAME_LABEL = "Personen:";
   static const String DETAILS_LABEL = "Bemerkung:";
-  static const String TYPE_TAG_NAME = "strong";
 
   static const Map<String, ScheduleEntryType> entryTypeMapping = {
     "Feiertag": ScheduleEntryType.PublicHoliday,
@@ -25,7 +25,7 @@ class RaplaResponseParser {
     "Klausur / Prüfung": ScheduleEntryType.Exam
   };
 
-  Schedule parseSchedule(String responseBody) {
+  ScheduleQueryResult parseSchedule(String responseBody) {
     var document = parse(responseBody);
 
     var dates = _readDatesFromHeadersOrThrow(document);
@@ -33,6 +33,7 @@ class RaplaResponseParser {
     var allRows = document.getElementsByTagName("tr");
 
     var allEntries = <ScheduleEntry>[];
+    var parseErrors = <ParseError>[];
 
     for (var row in allRows) {
       var currentDayInWeekIndex = 0;
@@ -58,16 +59,28 @@ class RaplaResponseParser {
 
         // The important information is inside a week_block cell
         if (cell.classes.contains("week_block")) {
-          var entry = _extractScheduleEntry(cell, dates[currentDayInWeekIndex]);
-          allEntries.add(entry);
+          try {
+            var entry = _extractScheduleEntryOrThrow(
+              cell,
+              dates[currentDayInWeekIndex],
+            );
+
+            allEntries.add(entry);
+          } catch (exception, trace) {
+            parseErrors.add(ParseError(exception, trace));
+          }
         }
       }
     }
 
-    allEntries.sort((ScheduleEntry e1, ScheduleEntry e2) =>
-        e1?.start?.compareTo(e2?.start));
+    allEntries.sort(
+      (ScheduleEntry e1, ScheduleEntry e2) => e1?.start?.compareTo(e2?.start),
+    );
 
-    return Schedule.fromList(allEntries);
+    return ScheduleQueryResult(
+      Schedule.fromList(allEntries),
+      parseErrors,
+    );
   }
 
   List<DateTime> _readDatesFromHeadersOrThrow(Document document) {
@@ -82,10 +95,12 @@ class RaplaResponseParser {
     for (var header in weekHeaders) {
       var dateString = header.text + year;
 
-      var date = DateFormat("dd.MM.yyyy").parse(dateString.substring(3));
-      // TODO: Exception handling
-
-      dates.add(date);
+      try {
+        var date = DateFormat("dd.MM.yyyy").parse(dateString.substring(3));
+        dates.add(date);
+      } catch (exception, trace) {
+        throw ParseException.withInner(exception, trace);
+      }
     }
     return dates;
   }
@@ -115,54 +130,59 @@ class RaplaResponseParser {
     }
 
     if (year == null) {
-      throw ElementNotFoundParseException();
+      throw ElementNotFoundParseException("year");
     }
 
     return year;
   }
 
-  ScheduleEntry _extractScheduleEntry(Element value, DateTime date) {
+  ScheduleEntry _extractScheduleEntryOrThrow(Element value, DateTime date) {
     // The tooltip tag contains the most relevant information
     var tooltip = value.getElementsByClassName(TOOLTIP_CLASS);
 
     // The only reliable way to extract the time
     var timeAndClassName = value.getElementsByTagName("a");
 
-    if (tooltip.length != 1) return null;
-    if (timeAndClassName.isEmpty) return null;
+    if (tooltip.isEmpty)
+      throw ElementNotFoundParseException("tooltip container");
+
+    if (timeAndClassName.isEmpty)
+      throw ElementNotFoundParseException("time and date container");
 
     var start = _parseTime(timeAndClassName[0].text.substring(0, 5), date);
     var end = _parseTime(timeAndClassName[0].text.substring(7, 12), date);
+
+    if (start == null || end == null)
+      throw ElementNotFoundParseException("start and end date container");
+
     var title = "";
     var details = "";
     var professor = "";
 
-    if (start == null || end == null) return null;
-
     ScheduleEntryType type = _extractEntryType(tooltip);
 
     var infotable = tooltip[0].getElementsByClassName(INFOTABLE_CLASS);
-    if (infotable.length == 1) {
-      Map<String, String> properties = _parsePropertiesTable(infotable[0]);
-      title = properties[CLASS_NAME_LABEL];
-      professor = properties[PROFESSOR_NAME_LABEL];
-      details = properties[DETAILS_LABEL];
 
-      if (title == null) {
-        return null;
-      }
+    if (infotable.isEmpty)
+      throw ElementNotFoundParseException("infotable container");
 
-      // Sometimes the entry type is not set correctly. When the title of a class
-      // begins with "Online - " it implies that it is online
-      // In this case remove the online prefix and set the type correctly
-      if (title.startsWith("Online - ") && type == ScheduleEntryType.Class) {
-        title = title.substring("Online - ".length);
-        type = ScheduleEntryType.Online;
-      }
+    Map<String, String> properties = _parsePropertiesTable(infotable[0]);
+    title = properties[CLASS_NAME_LABEL];
+    professor = properties[PROFESSOR_NAME_LABEL];
+    details = properties[DETAILS_LABEL];
 
-      if (professor?.endsWith(",") ?? false) {
-        professor = professor.substring(0, professor.length - 1);
-      }
+    if (title == null) throw ElementNotFoundParseException("title");
+
+    // Sometimes the entry type is not set correctly. When the title of a class
+    // begins with "Online - " it implies that it is online
+    // In this case remove the online prefix and set the type correctly
+    if (title.startsWith("Online - ") && type == ScheduleEntryType.Class) {
+      title = title.substring("Online - ".length);
+      type = ScheduleEntryType.Online;
+    }
+
+    if (professor?.endsWith(",") ?? false) {
+      professor = professor.substring(0, professor.length - 1);
     }
 
     var resource = _extractResources(value);
@@ -180,15 +200,18 @@ class RaplaResponseParser {
   }
 
   ScheduleEntryType _extractEntryType(List<Element> tooltip) {
-    var type = ScheduleEntryType.Unknown;
-    var strongTag = tooltip[0].getElementsByTagName(TYPE_TAG_NAME);
-    if (strongTag.length == 1) {
-      var typeString = strongTag[0].innerHtml;
+    if (tooltip.isEmpty) return ScheduleEntryType.Unknown;
 
-      if (entryTypeMapping.containsKey(typeString)) {
-        type = entryTypeMapping[typeString];
-      }
+    var strongTag = tooltip[0].getElementsByTagName("strong");
+    if (strongTag.isEmpty) return ScheduleEntryType.Unknown;
+
+    var typeString = strongTag[0].innerHtml;
+
+    var type = ScheduleEntryType.Unknown;
+    if (entryTypeMapping.containsKey(typeString)) {
+      type = entryTypeMapping[typeString];
     }
+
     return type;
   }
 

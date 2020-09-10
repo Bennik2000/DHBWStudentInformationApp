@@ -6,9 +6,9 @@ class ExamsFromModuleDetailsExtract {
   List<DualisExam> extractExamsFromModuleDetails(String body) {
     try {
       return _extractExamsFromModuleDetails(body);
-    } on ParseException catch (e) {
+    } on ParseException catch (e, trace) {
       if (e.runtimeType is ParseException) rethrow;
-      throw ParseException.withInner(e);
+      throw ParseException.withInner(e, trace);
     }
   }
 

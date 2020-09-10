@@ -7,7 +7,9 @@ import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
+import 'package:flutter/foundation.dart';
 
 class WeeklyScheduleViewModel extends BaseViewModel {
   static const Duration weekDuration = Duration(days: 7);
@@ -25,10 +27,17 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   int displayStartHour = 7;
   int displayEndHour = 17;
 
+  bool _hasQueryErrors = false;
+  bool get hasQueryErrors => _hasQueryErrors;
+
+  VoidCallback _queryFailedCallback;
+
   bool updateFailed = false;
 
   bool isUpdating = false;
   Schedule weekSchedule;
+
+  String scheduleUrl;
 
   DateTime get now => DateTime.now();
 
@@ -36,7 +45,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Timer _updateNowTimer;
 
   final CancelableMutex _updateMutex = CancelableMutex();
-  
+
   DateTime lastRequestedStart;
   DateTime lastRequestedEnd;
 
@@ -126,6 +135,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
     var cancellationToken = _updateMutex.token;
 
+    scheduleUrl = null;
+
     var cachedSchedule = await scheduleProvider.getCachedSchedule(start, end);
     cancellationToken.throwIfCancelled();
     _setSchedule(cachedSchedule, start, end);
@@ -137,8 +148,19 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     );
     cancellationToken.throwIfCancelled();
 
-    if (updatedSchedule != null) {
-      _setSchedule(updatedSchedule, start, end);
+    if (updatedSchedule?.schedule != null) {
+      var schedule = updatedSchedule.schedule;
+
+      _setSchedule(schedule, start, end);
+
+      _hasQueryErrors = updatedSchedule.hasError;
+      notifyListeners("hasQueryErrors");
+
+      if (updatedSchedule.hasError) {
+        _queryFailedCallback?.call();
+      }
+
+      scheduleUrl = schedule.urls.isNotEmpty ? schedule.urls[0] : null;
     }
 
     updateFailed = updatedSchedule == null;
@@ -151,7 +173,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     print("Refreshing done");
   }
 
-  Future _readScheduleFromService(
+  Future<ScheduleQueryResult> _readScheduleFromService(
     DateTime start,
     DateTime end,
     CancellationToken token,
@@ -198,5 +220,9 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
     _errorResetTimer?.cancel();
     _errorResetTimer = null;
+  }
+
+  void setQueryFailedCallback(VoidCallback callback) {
+    _queryFailedCallback = callback;
   }
 }

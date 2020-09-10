@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
 class Schedule {
   final List<ScheduleEntry> entries;
+  final List<String> urls = [];
 
   Schedule() : entries = <ScheduleEntry>[];
   Schedule.fromList(this.entries);
@@ -11,8 +12,9 @@ class Schedule {
   }
 
   void merge(Schedule schedule) {
-    entries.addAll(schedule
-        .entries); // TODO: Return new schedule instead of adding it to the list
+    // TODO: Return new schedule instead of adding it to the list
+    urls.addAll(schedule.urls);
+    entries.addAll(schedule.entries);
   }
 
   Schedule trim(DateTime startDate, DateTime endDate) {
@@ -24,7 +26,10 @@ class Schedule {
       }
     }
 
-    return Schedule.fromList(newList);
+    var schedule = Schedule.fromList(newList);
+    schedule.urls.addAll(urls);
+
+    return schedule;
   }
 
   DateTime getStartDate() {

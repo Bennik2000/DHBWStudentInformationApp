@@ -9,6 +9,7 @@ import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_widge
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WeeklySchedulePage extends StatefulWidget {
   @override
@@ -24,6 +25,30 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void _showQueryFailedSnackBar() {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text("Ups, da ist etwas schief gelaufen. Möglicherweise wird "
+                "nicht der gesamte Plan angezeigt. Schaue dir den Plan im "
+                "Broswer an um sicher zu gehen."),
+            FlatButton(
+              textColor: Theme.of(context).accentColor,
+              child: Text("IM BROWSER ÖFFNEN"),
+              onPressed: () {
+                launch(viewModel.scheduleUrl);
+              },
+            )
+          ],
+        ),
+        duration: Duration(seconds: 5),
+      ),
+    );
   }
 
   void _previousWeek() async {
@@ -55,6 +80,8 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   Widget build(BuildContext context) {
     viewModel = Provider.of<BaseViewModel>(context);
     viewModel.ensureUpdateNowTimerRunning();
+
+    viewModel.setQueryFailedCallback(_showQueryFailedSnackBar);
 
     return PropertyChangeProvider(
       value: viewModel,

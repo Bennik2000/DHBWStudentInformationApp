@@ -8,9 +8,9 @@ class AllModulesExtract {
   List<DualisModule> extractAllModules(String body) {
     try {
       return _extractAllModules(body);
-    } catch (e) {
+    } catch (e, trace) {
       if (e.runtimeType is ParseException) rethrow;
-      throw ParseException.withInner(e);
+      throw ParseException.withInner(e, trace);
     }
   }
 
