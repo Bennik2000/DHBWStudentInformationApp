@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
@@ -34,19 +35,18 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
           crossAxisAlignment: CrossAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Text("Ups, da ist etwas schief gelaufen. Möglicherweise wird "
-                "nicht der gesamte Plan angezeigt. Schaue dir den Plan im "
-                "Broswer an um sicher zu gehen."),
+            Text(L.of(context).scheduleQueryFailedMessage),
             FlatButton(
               textColor: Theme.of(context).accentColor,
-              child: Text("IM BROWSER ÖFFNEN"),
+              child: Text(
+                  L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase()),
               onPressed: () {
                 launch(viewModel.scheduleUrl);
               },
             )
           ],
         ),
-        duration: Duration(seconds: 5),
+        duration: Duration(seconds: 15),
       ),
     );
   }

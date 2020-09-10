@@ -305,6 +305,10 @@ class L {
       _getValue("dateManagementExportToCalendarConfirm");
   String get dateManagementExportToCalendarDescription =>
       _getValue("dateManagementExportToCalendarDescription");
+  String get scheduleQueryFailedMessage =>
+      _getValue("scheduleQueryFailedMessage");
+  String get scheduleQueryFailedOpenInBrowser =>
+      _getValue("scheduleQueryFailedOpenInBrowser");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);

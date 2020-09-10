@@ -102,7 +102,7 @@ class RaplaScheduleSource extends ScheduleSource {
     parameters["month"] = date.month.toString();
     parameters["year"] = date.year.toString();
 
-    var requestUri = Uri.http(uri.authority, uri.path, parameters);
+    var requestUri = Uri.https(uri.authority, uri.path, parameters);
 
     return requestUri;
   }
