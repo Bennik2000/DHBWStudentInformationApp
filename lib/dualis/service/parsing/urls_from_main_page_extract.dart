@@ -6,9 +6,9 @@ class UrlsFromMainPageExtract {
   DualisUrls parseMainPage(String body, String endpointUrl) {
     try {
       return _parseMainPage(body, endpointUrl);
-    } catch (e) {
+    } catch (e, trace) {
       if (e.runtimeType is ParseException) rethrow;
-      throw ParseException.withInner(e);
+      throw ParseException.withInner(e, trace);
     }
   }
 

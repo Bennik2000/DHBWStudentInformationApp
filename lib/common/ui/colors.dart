@@ -63,12 +63,22 @@ class ColorPalettes {
   ColorPalettes._();
 
   static ThemeData buildTheme(bool isDark) {
-    return ThemeData(
+    var themeData = ThemeData(
       brightness: isDark ? Brightness.dark : Brightness.light,
       accentColor: ColorPalettes.main[500],
       primarySwatch: ColorPalettes.main,
       toggleableActiveColor:
           isDark ? ColorPalettes.main[700] : ColorPalettes.main[600],
+    );
+
+    return themeData.copyWith(
+      snackBarTheme: themeData.snackBarTheme.copyWith(
+        backgroundColor: isDark ? Color(0xff363635) : Color(0xfffafafa),
+        contentTextStyle: themeData.textTheme.bodyText1.copyWith(
+          color:
+              isDark ? Color(0xffe4e4e4) : themeData.textTheme.bodyText1.color,
+        ),
+      ),
     );
   }
 

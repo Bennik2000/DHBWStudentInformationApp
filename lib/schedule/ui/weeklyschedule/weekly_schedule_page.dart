@@ -1,4 +1,5 @@
 import 'package:animations/animations.dart';
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
@@ -9,6 +10,7 @@ import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_widge
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class WeeklySchedulePage extends StatefulWidget {
   @override
@@ -24,6 +26,29 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   @override
   void initState() {
     super.initState();
+  }
+
+  void _showQueryFailedSnackBar() {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            Text(L.of(context).scheduleQueryFailedMessage),
+            FlatButton(
+              textColor: Theme.of(context).accentColor,
+              child: Text(
+                  L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase()),
+              onPressed: () {
+                launch(viewModel.scheduleUrl);
+              },
+            )
+          ],
+        ),
+        duration: Duration(seconds: 15),
+      ),
+    );
   }
 
   void _previousWeek() async {
@@ -55,6 +80,8 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   Widget build(BuildContext context) {
     viewModel = Provider.of<BaseViewModel>(context);
     viewModel.ensureUpdateNowTimerRunning();
+
+    viewModel.setQueryFailedCallback(_showQueryFailedSnackBar);
 
     return PropertyChangeProvider(
       value: viewModel,

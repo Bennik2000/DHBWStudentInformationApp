@@ -9,10 +9,14 @@ Future<void> main() async {
           '/test/schedule/service/rapla/html_resources/rapla_response.html')
       .readAsString();
 
+  var invalidRaplaPage = await File(Directory.current.absolute.path +
+          '/test/schedule/service/rapla/html_resources/invalid_rapla_response.html')
+      .readAsString();
+
   test('Rapla correctly read all classes', () async {
     var parser = RaplaResponseParser();
 
-    var schedule = parser.parseSchedule(raplaPage);
+    var schedule = parser.parseSchedule(raplaPage).schedule;
 
     expect(schedule.entries.length, 8);
 
@@ -56,5 +60,16 @@ Future<void> main() async {
     expect(schedule.entries[7].start, DateTime(2020, 09, 10, 13, 00));
     expect(schedule.entries[7].end, DateTime(2020, 09, 10, 14, 30));
     expect(schedule.entries[7].type, ScheduleEntryType.Online);
+  });
+
+  test('Rapla robust parse', () async {
+    var parser = RaplaResponseParser();
+
+    var result = parser.parseSchedule(invalidRaplaPage);
+    var schedule = result.schedule;
+    var errors = result.errors;
+
+    expect(errors.length, 4);
+    expect(schedule.entries.length, 4);
   });
 }

@@ -16,7 +16,7 @@ Element getElementByTagName(
 ]) {
   var list = document.getElementsByTagName(localName);
 
-  if (index >= list.length) throw ElementNotFoundParseException();
+  if (index >= list.length) throw ElementNotFoundParseException(localName);
 
   return list[index];
 }
@@ -28,7 +28,7 @@ Element getElementByClassName(
 ]) {
   var list = document.getElementsByClassName(className);
 
-  if (index >= list.length) throw ElementNotFoundParseException();
+  if (index >= list.length) throw ElementNotFoundParseException(className);
 
   return list[index];
 }
@@ -39,23 +39,36 @@ Element getElementById(
 ) {
   var element = document.getElementById(id);
 
-  if (element == null) throw ElementNotFoundParseException();
+  if (element == null) throw ElementNotFoundParseException(id);
 
   return element;
 }
 
 class ParseException implements Exception {
   Object innerException;
+  StackTrace trace;
 
-  ParseException.withInner(this.innerException);
+  ParseException.withInner(this.innerException, this.trace);
 
   @override
   String toString() {
-    return "Parse exception: " + innerException?.toString();
+    return "Parse exception: $innerException \n$trace";
   }
 }
 
 class ElementNotFoundParseException implements ParseException {
   @override
   Object innerException;
+
+  @override
+  StackTrace trace;
+
+  final String elementDescription;
+
+  ElementNotFoundParseException(this.elementDescription);
+
+  @override
+  String toString() {
+    return "Did not find: $elementDescription";
+  }
 }

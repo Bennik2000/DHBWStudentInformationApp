@@ -131,6 +131,9 @@ final de = {
   "dateManagementExportToCalendarConfirm": "Übertragen",
   "dateManagementExportToCalendarDescription":
       "Wähle den Kalender aus, in den die Termine übertragen werden sollen:",
+  "scheduleQueryFailedMessage":
+      "Ups, da ist etwas schief gelaufen. Möglicherweise wird nicht der gesamte Plan angezeigt. Schaue Dir daher den Plan im Browser an um sicher zu gehen, dass Du nichts verpasst.",
+  "scheduleQueryFailedOpenInBrowser": "Im Browser öffnen",
 };
 
 final en = {
@@ -264,4 +267,7 @@ final en = {
   "dateManagementExportToCalendarConfirm": "Export",
   "dateManagementExportToCalendarDescription":
       "Choose the calendar to export the dates to:",
+  "scheduleQueryFailedMessage":
+      "Oops, something went wrong. It is possible that the schedule is incomplete. To ensure that you do not miss something, view the schedule in the browser.",
+  "scheduleQueryFailedOpenInBrowser": "View in browser",
 };

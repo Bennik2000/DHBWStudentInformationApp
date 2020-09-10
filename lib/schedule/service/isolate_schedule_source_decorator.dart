@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
-import 'package:dhbwstudentapp/schedule/model/schedule.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 
 ///
@@ -18,7 +18,7 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
   IsolateScheduleSourceDecorator(this._scheduleSource);
 
   @override
-  Future<Schedule> querySchedule(DateTime from, DateTime to,
+  Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
       [CancellationToken cancellationToken]) async {
     await _initializeIsolate();
 
@@ -35,14 +35,14 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
       "to": to,
     });
 
-    final completer = Completer<Schedule>();
+    final completer = Completer<ScheduleQueryResult>();
 
     ScheduleQueryFailedException potentialException;
 
     final subscription = _isolateToMain.listen((result) {
       cancellationToken.setCancellationCallback(null);
 
-      if (result != null && !(result is Schedule)) {
+      if (result != null && !(result is ScheduleQueryResult)) {
         potentialException = ScheduleQueryFailedException(result);
         completer.complete(null);
       } else {

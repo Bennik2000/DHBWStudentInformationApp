@@ -8,9 +8,9 @@ class AllDatesExtract {
   List<DateEntry> extractAllDates(String body, String databaseName) {
     try {
       return _extractAllDates(body, databaseName);
-    } catch (e) {
+    } catch (e, trace) {
       if (e.runtimeType is ParseException) rethrow;
-      throw ParseException.withInner(e);
+      throw ParseException.withInner(e, trace);
     }
   }
 
