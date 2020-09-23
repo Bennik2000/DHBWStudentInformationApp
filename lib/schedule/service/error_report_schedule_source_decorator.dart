@@ -1,6 +1,6 @@
 import 'package:dhbwstudentapp/common/logging/crash_reporting.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
-import 'package:dhbwstudentapp/schedule/model/schedule.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 
 class ErrorReportScheduleSourceDecorator extends ScheduleSource {
@@ -9,7 +9,7 @@ class ErrorReportScheduleSourceDecorator extends ScheduleSource {
   ErrorReportScheduleSourceDecorator(this._scheduleSource);
 
   @override
-  Future<Schedule> querySchedule(DateTime from, DateTime to,
+  Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
       [CancellationToken cancellationToken]) async {
     try {
       var schedule = await _scheduleSource.querySchedule(

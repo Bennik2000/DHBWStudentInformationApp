@@ -1,5 +1,5 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
-import 'package:dhbwstudentapp/schedule/model/schedule.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 
 abstract class ScheduleSource {
   ///
@@ -9,7 +9,7 @@ abstract class ScheduleSource {
   /// Returns a future which gives the updated schedule or throws an exception
   /// if an error happened or the operation was cancelled
   ///
-  Future<Schedule> querySchedule(DateTime from, DateTime to,
+  Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
       [CancellationToken cancellationToken]);
 
   void setEndpointUrl(String url);
