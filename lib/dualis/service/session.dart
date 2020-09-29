@@ -1,13 +1,11 @@
 import 'dart:convert';
 
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/timeout_extract.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
 import 'package:http/http.dart';
-
-class DualisSession extends Session {
-  String mainPageUrl;
-}
 
 class Session {
   Map<String, String> cookies = {};
@@ -64,7 +62,7 @@ class Session {
     return null;
   }
 
-  Future<Response> post(String url, dynamic data,
+  Future<Response> rawPost(String url, dynamic data,
       [CancellationToken cancellationToken]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
     var requestCancellationToken = http.CancellationToken();
@@ -96,6 +94,21 @@ class Session {
     }
 
     return null;
+  }
+
+  Future<String> post(String url, dynamic data,
+      [CancellationToken cancellationToken]) async {
+    var response = await rawPost(url, data, cancellationToken);
+
+    if (response == null) {
+      return null;
+    }
+
+    try {
+      return utf8.decode(response.bodyBytes);
+    } on FormatException catch (_) {
+      return latin1.decode(response.bodyBytes);
+    }
   }
 
   void _updateCookie(Response response) {
