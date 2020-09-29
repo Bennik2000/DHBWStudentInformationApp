@@ -25,7 +25,7 @@ class ScheduleSourceSetup {
     return true;
   }
 
-  void applyNewEndpointUrl(String url) {
+  void applyRaplaUrl(String url) {
     try {
       _scheduleSource.validateEndpointUrl(url);
       _scheduleSource.setEndpointUrl(url);

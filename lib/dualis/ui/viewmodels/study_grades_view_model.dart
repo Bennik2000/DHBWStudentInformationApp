@@ -53,10 +53,12 @@ class StudyGradesViewModel extends BaseViewModel {
     bool success;
 
     try {
-      success = await _dualisService.login(
+      var result = await _dualisService.login(
         credentials.username,
         credentials.password,
       );
+
+      success = result == LoginResult.LoggedIn;
     } on OperationCancelledException catch (_) {
       success = false;
     }

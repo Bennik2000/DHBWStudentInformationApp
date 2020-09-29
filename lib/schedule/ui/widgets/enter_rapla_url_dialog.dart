@@ -148,7 +148,7 @@ class EnterRaplaUrlDialog {
 
   Future _saveUrl() async {
     await _preferencesProvider.setRaplaUrl(_url.value);
-    _scheduleSource.applyNewEndpointUrl(_url.value);
+    _scheduleSource.applyRaplaUrl(_url.value);
   }
 
   Future _loadUrl() async {

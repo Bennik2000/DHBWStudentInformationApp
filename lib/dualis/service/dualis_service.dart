@@ -6,7 +6,7 @@ import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
 
 abstract class DualisService {
-  Future<bool> login(
+  Future<LoginResult> login(
     String username,
     String password, [
     CancellationToken cancellationToken,
@@ -44,18 +44,16 @@ class DualisServiceImpl extends DualisService {
   final DualisScraper _dualisScraper = DualisScraper();
 
   @override
-  Future<bool> login(
+  Future<LoginResult> login(
     String username,
     String password, [
     CancellationToken cancellationToken,
   ]) async {
-    var result = await _dualisScraper.login(
+    return await _dualisScraper.login(
       username,
       password,
       cancellationToken,
     );
-
-    return result == LoginResult.LoggedIn;
   }
 
   @override

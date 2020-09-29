@@ -38,5 +38,7 @@ class UrlsFromMainPageExtract {
         endpointUrl + monthlyScheduleElement.attributes["href"];
 
     dualisUrls.logoutUrl = endpointUrl + logoutElement.attributes['href'];
+
+    dualisUrls.updateAccessToken(dualisUrls.courseResultUrl);
   }
 }

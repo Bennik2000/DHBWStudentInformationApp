@@ -30,7 +30,8 @@ class OnboardingDualisViewModel extends OnboardingViewModelBase {
 
       notifyListeners("isLoading");
 
-      _loginSuccess = await dualisService.login(username, password);
+      _loginSuccess =
+          await dualisService.login(username, password) == LoginResult.LoggedIn;
       _passwordOrUsernameWrong = !_loginSuccess;
       setIsValid(_loginSuccess);
     } catch (ex) {

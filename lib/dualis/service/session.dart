@@ -7,10 +7,20 @@ import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
 import 'package:http/http.dart';
 
+///
+/// Handles cookies and provides a session. Execute your api calls with the
+/// provided get and set methods.
+///
 class Session {
   Map<String, String> cookies = {};
 
-  Future<String> get(String url, [CancellationToken cancellationToken]) async {
+  ///
+  /// Execute a GET request and return the result body as string
+  ///
+  Future<String> get(
+    String url, [
+    CancellationToken cancellationToken,
+  ]) async {
     var response = await rawGet(url, cancellationToken);
 
     if (response == null) {
@@ -62,8 +72,32 @@ class Session {
     return null;
   }
 
-  Future<Response> rawPost(String url, dynamic data,
-      [CancellationToken cancellationToken]) async {
+  ///
+  /// Execute a POST request and return the result body as string
+  ///
+  Future<String> post(
+    String url,
+    dynamic data, [
+    CancellationToken cancellationToken,
+  ]) async {
+    var response = await rawPost(url, data, cancellationToken);
+
+    if (response == null) {
+      return null;
+    }
+
+    try {
+      return utf8.decode(response.bodyBytes);
+    } on FormatException catch (_) {
+      return latin1.decode(response.bodyBytes);
+    }
+  }
+
+  Future<Response> rawPost(
+    String url,
+    dynamic data, [
+    CancellationToken cancellationToken,
+  ]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
     var requestCancellationToken = http.CancellationToken();
 
@@ -94,21 +128,6 @@ class Session {
     }
 
     return null;
-  }
-
-  Future<String> post(String url, dynamic data,
-      [CancellationToken cancellationToken]) async {
-    var response = await rawPost(url, data, cancellationToken);
-
-    if (response == null) {
-      return null;
-    }
-
-    try {
-      return utf8.decode(response.bodyBytes);
-    } on FormatException catch (_) {
-      return latin1.decode(response.bodyBytes);
-    }
   }
 
   void _updateCookie(Response response) {

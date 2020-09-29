@@ -1,6 +1,7 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/monthly_schedule_extract.dart';
 import 'package:dhbwstudentapp/dualis/service/session.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/access_denied_extract.dart';
@@ -36,7 +37,7 @@ class DualisScraper {
     this.username = username;
     this.password = password;
 
-    dualisUrls = DualisUrls();
+    dualisUrls = dualisUrls ?? DualisUrls();
     session = Session();
 
     var loginResponse = await _makeLoginRequest(
@@ -187,6 +188,18 @@ class DualisScraper {
         .extractStudyGradesFromStudentsResultsPage(studentsResultsPage);
   }
 
+  Future<Schedule> loadMonthlySchedule(
+    DateTime dateInMonth,
+    CancellationToken cancellationToken,
+  ) async {
+    var requestUrl =
+        "${dualisUrls.monthlyScheduleUrl}01.${dateInMonth.month}.${dateInMonth.year}";
+
+    var result = await _authenticatedGet(requestUrl, cancellationToken);
+
+    return MonthlyScheduleExtract().extractScheduleFromMonthly(result);
+  }
+
   Future<void> logout([
     CancellationToken cancellationToken,
   ]) async {
@@ -202,21 +215,28 @@ class DualisScraper {
     String url,
     CancellationToken cancellationToken,
   ) async {
-    var result = await session.get(url, cancellationToken);
-
-    if (TimeoutExtract().isTimeoutErrorPage(result) ||
-        AccessDeniedExtract().isAccessDeniedPage(result)) {
-      var loginResult = await login(username, password);
-
-      if (loginResult == LoginResult.LoggedIn) {
-        result = await session.get(url, cancellationToken);
-      } else {
-        result = null;
-      }
-    }
+    // TODO: Extract the authentication part into a separate class OR in the session class
+    var result = await session.get(
+      dualisUrls.fillUrlWithToken(url),
+      cancellationToken,
+    );
 
     cancellationToken?.throwIfCancelled();
 
-    return result;
+    if (!TimeoutExtract().isTimeoutErrorPage(result) &&
+        !AccessDeniedExtract().isAccessDeniedPage(result)) {
+      return result;
+    }
+
+    var loginResult = await login(username, password);
+
+    if (loginResult == LoginResult.LoggedIn) {
+      return await session.get(
+        dualisUrls.fillUrlWithToken(url),
+        cancellationToken,
+      );
+    }
+
+    return null;
   }
 }

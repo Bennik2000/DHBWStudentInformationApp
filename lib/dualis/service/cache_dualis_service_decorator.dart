@@ -18,7 +18,7 @@ class CacheDualisServiceDecorator extends DualisService {
   CacheDualisServiceDecorator(this._service);
 
   @override
-  Future<bool> login(
+  Future<LoginResult> login(
     String username,
     String password, [
     CancellationToken cancellationToken,
