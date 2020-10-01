@@ -116,19 +116,15 @@ class DualisServiceImpl extends DualisService {
         cancellationToken,
       );
 
-      var exams = <Exam>[];
-
-      for (var exam in moduleExams) {
-        exams.add(Exam(
-          exam.name,
-          exam.grade,
-          ExamState.Failed,
-          exam.semester,
-        ));
-      }
-
       var module = Module(
-        exams,
+        moduleExams.map(
+          (exam) => Exam(
+            exam.name,
+            exam.grade,
+            ExamState.Failed,
+            exam.semester,
+          ),
+        ),
         dualisModule.id,
         dualisModule.name,
         dualisModule.credits,
