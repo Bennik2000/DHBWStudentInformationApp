@@ -1,6 +1,7 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_dualis_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_rapla_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
@@ -14,6 +15,7 @@ enum OnboardingSteps {
 class OnboardingViewModel extends BaseViewModel {
   final PreferencesProvider preferencesProvider;
   final DualisService dualisService;
+  final ScheduleSourceProvider scheduleSourceProvider;
 
   Map<OnboardingSteps, bool> usedAppFeatures = {
     OnboardingSteps.Start: true,
@@ -42,9 +44,13 @@ class OnboardingViewModel extends BaseViewModel {
     return currentViewModel?.isValid ?? true;
   }
 
-  OnboardingViewModel(this.preferencesProvider, this.dualisService) {
+  OnboardingViewModel(
+    this.preferencesProvider,
+    this.dualisService,
+    this.scheduleSourceProvider,
+  ) {
     _viewModels[OnboardingSteps.Rapla] =
-        OnboardingRaplaViewModel(preferencesProvider);
+        OnboardingRaplaViewModel(preferencesProvider, scheduleSourceProvider);
 
     _viewModels[OnboardingSteps.Dualis] =
         OnboardingDualisViewModel(preferencesProvider, dualisService);

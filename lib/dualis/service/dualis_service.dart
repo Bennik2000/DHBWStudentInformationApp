@@ -35,13 +35,16 @@ abstract class DualisService {
 }
 
 enum LoginResult {
+  LoggedOut,
   LoggedIn,
   WrongCredentials,
   LoginFailed,
 }
 
 class DualisServiceImpl extends DualisService {
-  final DualisScraper _dualisScraper = DualisScraper();
+  final DualisScraper _dualisScraper;
+
+  DualisServiceImpl(this._dualisScraper);
 
   @override
   Future<LoginResult> login(
@@ -117,14 +120,16 @@ class DualisServiceImpl extends DualisService {
       );
 
       var module = Module(
-        moduleExams.map(
-          (exam) => Exam(
-            exam.name,
-            exam.grade,
-            ExamState.Failed,
-            exam.semester,
-          ),
-        ),
+        moduleExams
+            .map(
+              (exam) => Exam(
+                exam.name,
+                exam.grade,
+                ExamState.Failed,
+                exam.semester,
+              ),
+            )
+            .toList(),
         dualisModule.id,
         dualisModule.name,
         dualisModule.credits,

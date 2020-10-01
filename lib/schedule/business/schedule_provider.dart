@@ -1,5 +1,6 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_diff_calculator.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_query_information_repository.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
@@ -20,7 +21,7 @@ typedef ScheduleEntryChangedCallback = Future<void> Function(
 );
 
 class ScheduleProvider {
-  final ScheduleSource _scheduleSource;
+  final ScheduleSourceProvider _scheduleSource;
   final ScheduleEntryRepository _scheduleEntryRepository;
   final ScheduleQueryInformationRepository _scheduleQueryInformationRepository;
   final List<ScheduleUpdatedCallback> _scheduleUpdatedCallbacks =
@@ -54,8 +55,8 @@ class ScheduleProvider {
         "Fetching schedule for ${DateFormat.yMd().format(start)} - ${DateFormat.yMd().format(end)}");
 
     try {
-      var updatedSchedule =
-          await _scheduleSource.querySchedule(start, end, cancellationToken);
+      var updatedSchedule = await _scheduleSource.currentScheduleSource
+          .querySchedule(start, end, cancellationToken);
 
       var schedule = updatedSchedule.schedule;
 
@@ -78,9 +79,10 @@ class ScheduleProvider {
       }
 
       return updatedSchedule;
-    } on ScheduleQueryFailedException catch (e) {
+    } on ScheduleQueryFailedException catch (e, trace) {
       print("Failed to fetch schedule!");
       print(e.innerException.toString());
+      print(trace);
       rethrow;
     }
   }

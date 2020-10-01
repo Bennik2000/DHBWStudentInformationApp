@@ -53,10 +53,20 @@ class MonthlyScheduleExtract {
     var startDate = dateFormat.parse(start);
     var endDate = dateFormat.parse(end);
 
+    var details = "";
+
+    var titleRegex =
+        RegExp("[A-Z]{3,}-?[A-Z]+[0-9]*[A-Z]*[0-9]*[\/]?[A-Z]*[0-9]*[ ]*-?");
+    var match = titleRegex.firstMatch(title);
+    if (match != null && match.start == 0) {
+      details = title.substring(0, match.end);
+      title = title.substring(match.end).trim();
+    }
+
     var entry = ScheduleEntry(
       title: title,
       professor: "",
-      details: "",
+      details: details,
       room: room,
       type: ScheduleEntryType.Class,
       start: startDate,

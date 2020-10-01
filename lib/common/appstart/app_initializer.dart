@@ -5,7 +5,7 @@ import 'package:dhbwstudentapp/common/appstart/localization_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notification_schedule_changed_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
-import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -39,12 +39,8 @@ Future<void> initializeApp(bool isBackground) async {
   await BackgroundInitialize().setupBackgroundScheduling();
   NotificationScheduleChangedInitialize().setupNotification();
 
-  if (isBackground) {
-    await ScheduleSourceSetup(
-      KiwiContainer().resolve(),
-      KiwiContainer().resolve(),
-    ).setupScheduleSource();
-  }
+  var setup = KiwiContainer().resolve<ScheduleSourceProvider>();
+  setup.setupScheduleSource();
 
   isInitialized = true;
   print("Initialization finished");

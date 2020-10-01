@@ -10,6 +10,7 @@ import 'package:dhbwstudentapp/dualis/service/parsing/modules_from_course_result
 import 'package:dhbwstudentapp/dualis/service/parsing/semesters_from_course_result_page_extract.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/study_grades_from_student_results_page_extract.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
+import 'package:flutter/services.dart';
 
 ///
 /// Provides one single class to access the dualis api.
@@ -100,7 +101,11 @@ class DualisScraper {
     var result = await _dualisAuthentication.authenticatedGet(
         requestUrl, cancellationToken);
 
-    return MonthlyScheduleExtract().extractScheduleFromMonthly(result);
+    var schedule = MonthlyScheduleExtract().extractScheduleFromMonthly(result);
+
+    schedule.urls.add(dualisEndpoint);
+
+    return schedule;
   }
 
   Future<LoginResult> login(
@@ -113,5 +118,9 @@ class DualisScraper {
 
   Future<void> logout(CancellationToken cancellationToken) {
     return _dualisAuthentication.logout(cancellationToken);
+  }
+
+  bool isLoggedIn() {
+    return _dualisAuthentication.loginState == LoginResult.LoggedIn;
   }
 }

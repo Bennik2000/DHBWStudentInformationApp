@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
-import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
-import 'package:dhbwstudentapp/dualis/service/parsing/timeout_extract.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
 import 'package:http/http.dart';

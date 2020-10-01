@@ -4,6 +4,12 @@ DateTime toStartOfDay(DateTime dateTime) {
       : DateTime(dateTime.year, dateTime.month, dateTime.day, 0, 0, 0);
 }
 
+DateTime toStartOfMonth(DateTime dateTime) {
+  return dateTime == null
+      ? null
+      : DateTime(dateTime.year, dateTime.month, 1, 0, 0, 0);
+}
+
 DateTime tomorrow(DateTime dateTime) {
   return addDays(dateTime, 1);
 }
@@ -47,6 +53,19 @@ DateTime toNextWeek(DateTime dateTime) {
           dateTime.year,
           dateTime.month,
           dateTime.day + 7,
+          dateTime.hour,
+          dateTime.minute,
+          dateTime.second,
+        );
+}
+
+DateTime toNextMonth(DateTime dateTime) {
+  return dateTime == null
+      ? null
+      : DateTime(
+          dateTime.year,
+          dateTime.month + 1,
+          dateTime.day,
           dateTime.hour,
           dateTime.minute,
           dateTime.second,

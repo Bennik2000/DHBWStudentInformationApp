@@ -18,6 +18,7 @@ class PreferencesProvider {
   static const String LastViewedDateEntryDatabase =
       "LastViewedDateEntryDatabase";
   static const String LastViewedDateEntryYear = "LastViewedDateEntryYear";
+  static const String ScheduleSourceType = "ScheduleSourceType";
 
   final PreferencesAccess _preferencesAccess;
   final SecureStorageAccess _secureStorageAccess;
@@ -135,6 +136,14 @@ class PreferencesProvider {
 
   Future<void> setLastViewedDateEntryYear(String value) async {
     await _preferencesAccess.set<String>(LastViewedDateEntryYear, value);
+  }
+
+  Future<int> getScheduleSourceType() async {
+    return await _preferencesAccess.get<int>(ScheduleSourceType);
+  }
+
+  Future<void> setScheduleSourceType(int value) async {
+    await _preferencesAccess.set<int>(ScheduleSourceType, value);
   }
 
   Future<void> set<T>(String key, T value) async {
