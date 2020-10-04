@@ -1,9 +1,10 @@
-import 'package:dhbwstudentapp/dualis/ui/login/dualis_login_page.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_dualis_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/dualis_login_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/select_source_onboarding_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/select_source_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/dualis_login_page.dart';
-import 'package:dhbwstudentapp/ui/onboarding/widgets/select_app_features.dart';
+import 'package:dhbwstudentapp/ui/onboarding/widgets/rapla_url_page.dart';
+import 'package:dhbwstudentapp/ui/onboarding/widgets/select_source_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -16,23 +17,24 @@ abstract class OnboardingStep {
 
   OnboardingStepViewModel viewModel();
 
-  List<String> nextStep();
+  String nextStep();
 }
 
 class SelectSourceOnboardingStep extends OnboardingStep {
-  final SelectSourceOnboardingViewModel _viewModel =
-      SelectSourceOnboardingViewModel();
+  final SelectSourceViewModel _viewModel = SelectSourceViewModel(
+    KiwiContainer().resolve(),
+  );
 
   SelectSourceOnboardingStep() : super("start");
 
   @override
   Widget buildContent(BuildContext context) {
-    return SelectAppFeaturesWidget();
+    return SelectSourcePage();
   }
 
   @override
-  List<String> nextStep() {
-    _viewModel.nextStep();
+  String nextStep() {
+    return _viewModel.nextStep();
   }
 
   @override
@@ -42,7 +44,7 @@ class SelectSourceOnboardingStep extends OnboardingStep {
 }
 
 class DualisCredentialsOnboardingStep extends OnboardingStep {
-  final OnboardingDualisViewModel _viewModel = OnboardingDualisViewModel(
+  final DualisLoginViewModel _viewModel = DualisLoginViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
   );
@@ -55,8 +57,32 @@ class DualisCredentialsOnboardingStep extends OnboardingStep {
   }
 
   @override
-  List<String> nextStep() {
-    return [];
+  String nextStep() {
+    return null;
+  }
+
+  @override
+  OnboardingStepViewModel viewModel() {
+    return _viewModel;
+  }
+}
+
+class RaplaOnboardingStep extends OnboardingStep {
+  RaplaUrlViewModel _viewModel = RaplaUrlViewModel(
+    KiwiContainer().resolve(),
+    KiwiContainer().resolve(),
+  );
+
+  RaplaOnboardingStep() : super("rapla");
+
+  @override
+  Widget buildContent(BuildContext context) {
+    return RaplaUrlPage();
+  }
+
+  @override
+  String nextStep() {
+    return null;
   }
 
   @override

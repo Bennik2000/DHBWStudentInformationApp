@@ -8,28 +8,86 @@ class OnboardingViewModel extends BaseViewModel {
   final PreferencesProvider preferencesProvider;
   final OnboardingFinished _onboardingFinished;
 
-  final Map<String, OnboardingStep> steps = {
+  final List<String> steps = [
+    "selectSource",
+    "rapla",
+    "dualis",
+  ];
+
+  final Map<String, OnboardingStep> pages = {
     "selectSource": SelectSourceOnboardingStep(),
+    "rapla": RaplaOnboardingStep(),
     "dualis": DualisCredentialsOnboardingStep(),
   };
 
-  String _currentStep = "selectSource";
-  String get currentStep => _currentStep;
+  final Map<String, int> stepsBackstack = {};
 
-  List<String> nextSteps;
+  int _stepIndex = 0;
+  int get stepIndex => _stepIndex;
 
-  bool get canStepNext => false;
+  String get currentStep => steps[_stepIndex];
 
-  get onboardingSteps => 2;
+  bool get currentPageValid => pages[currentStep].viewModel().isValid;
+  bool get isLastStep => _stepIndex >= steps.length - 1;
+
+  get onboardingSteps => steps.length;
+
+  bool _didStepForward = true;
+  bool get didStepForward => _didStepForward;
 
   OnboardingViewModel(
     this.preferencesProvider,
     this._onboardingFinished,
-  );
+  ) {
+    for (var page in pages.values) {
+      page.viewModel().addListener(() {
+        notifyListeners("currentPageValid");
+      }, ["isValid"]);
+    }
+  }
 
-  void previousPage() {}
+  void previousPage() {
+    var lastPage = stepsBackstack.keys.last;
+
+    _stepIndex = stepsBackstack[lastPage];
+
+    stepsBackstack.remove(lastPage);
+
+    _didStepForward = false;
+
+    notifyListeners();
+  }
 
   void nextPage() {
-    var next = steps[currentStep].nextStep();
+    if (_stepIndex == steps.length - 1) {
+      finishOnboarding();
+      return;
+    }
+
+    var nextDesiredStep = pages[currentStep].nextStep();
+
+    print("Next desired step: $nextDesiredStep");
+
+    stepsBackstack[currentStep] = _stepIndex;
+
+    if (nextDesiredStep == null) {
+      nextDesiredStep = steps[_stepIndex + 1];
+    }
+
+    while (nextDesiredStep != currentStep) {
+      _stepIndex++;
+    }
+
+    _didStepForward = true;
+
+    notifyListeners();
+  }
+
+  void finishOnboarding() {
+    for (var step in stepsBackstack.keys) {
+      pages[step].viewModel().save();
+    }
+
+    _onboardingFinished?.call();
   }
 }

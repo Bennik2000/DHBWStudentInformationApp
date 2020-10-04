@@ -1,11 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model.dart';
-import 'package:dhbwstudentapp/ui/onboarding/widgets/dualis_login_page.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_button_bar.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_page_background.dart';
-import 'package:dhbwstudentapp/ui/onboarding/widgets/rapla_url_page.dart';
-import 'package:dhbwstudentapp/ui/onboarding/widgets/select_app_features.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -36,12 +33,11 @@ class _OnboardingPageState extends State<OnboardingPage>
 
     viewModel.addListener(
       () async {
-        //await _controller.animateTo(
-        //    viewModel.currentStep / viewModel.onboardingSteps,
-        //    curve: Curves.ease,
-        //    duration: const Duration(milliseconds: 300));
+        await _controller.animateTo(
+            viewModel.stepIndex / viewModel.onboardingSteps,
+            curve: Curves.ease,
+            duration: const Duration(milliseconds: 300));
       },
-      ["currentStep"],
     );
 
     _controller = AnimationController(vsync: this);
@@ -100,7 +96,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   Widget _buildActiveOnboardingPage(OnboardingViewModel model) {
-    var currentStep = model.steps[model.currentStep];
+    var currentStep = model.pages[model.currentStep];
     var contentWidget = currentStep.buildContent(context);
 
     Widget body = Padding(
@@ -118,7 +114,7 @@ class _OnboardingPageState extends State<OnboardingPage>
 
     return IntrinsicHeight(
       child: PageTransitionSwitcher(
-        //reverse: !model.didStepForward,
+        reverse: !model.didStepForward,
         duration: const Duration(milliseconds: 300),
         transitionBuilder: (
           Widget child,

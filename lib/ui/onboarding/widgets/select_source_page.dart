@@ -1,12 +1,13 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/select_source_onboarding_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/select_source_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-class SelectAppFeaturesWidget extends StatelessWidget {
-  const SelectAppFeaturesWidget({Key key}) : super(key: key);
+class SelectSourcePage extends StatelessWidget {
+  const SelectSourcePage({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class SelectAppFeaturesWidget extends StatelessWidget {
         OnboardingStepViewModel model,
         Set<Object> _,
       ) {
-        var viewModel = model as SelectSourceOnboardingViewModel;
+        var viewModel = model as SelectSourceViewModel;
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -30,10 +31,14 @@ class SelectAppFeaturesWidget extends StatelessWidget {
                 ),
               ),
             ),
-            Text("Woher soll der Vorlesungsplan abgerufen werden?"),
             const Padding(
               padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
               child: Divider(),
+            ),
+            Text(
+              "Woher soll der Vorlesungsplan abgerufen werden?",
+              style: Theme.of(context).textTheme.bodyText2,
+              textAlign: TextAlign.center,
             ),
             RadioListTile(
               value: ScheduleSourceType.Rapla, //model.useRapla,

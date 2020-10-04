@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/schedule/service/dualis/dualis_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/error_report_schedule_source_decorator.dart';
 import 'package:dhbwstudentapp/schedule/service/invalid_schedule_source.dart';
@@ -11,12 +12,6 @@ typedef OnDidChangeScheduleSource = void Function(
   ScheduleSource newSource,
   bool setupSuccess,
 );
-
-enum _ScheduleSourceType {
-  None,
-  Rapla,
-  Dualis,
-}
 
 class ScheduleSourceProvider {
   final bool _appRunningInBackground;
@@ -38,8 +33,8 @@ class ScheduleSourceProvider {
     ScheduleSource scheduleSource = InvalidScheduleSource();
 
     final initializer = {
-      _ScheduleSourceType.Dualis: () async => await _dualisScheduleSource(),
-      _ScheduleSourceType.Rapla: () async => await _raplaScheduleSource()
+      ScheduleSourceType.Dualis: () async => await _dualisScheduleSource(),
+      ScheduleSourceType.Rapla: () async => await _raplaScheduleSource()
     };
 
     if (initializer.containsKey(scheduleSourceType)) {
@@ -55,12 +50,12 @@ class ScheduleSourceProvider {
     return success;
   }
 
-  Future<_ScheduleSourceType> _getScheduleSourceType() async {
+  Future<ScheduleSourceType> _getScheduleSourceType() async {
     var type = await _preferencesProvider.getScheduleSourceType();
 
     var scheduleSourceType = type != null
-        ? _ScheduleSourceType.values[type]
-        : _ScheduleSourceType.None;
+        ? ScheduleSourceType.values[type]
+        : ScheduleSourceType.None;
 
     return scheduleSourceType;
   }
@@ -101,14 +96,14 @@ class ScheduleSourceProvider {
   Future<void> setupForRapla(String url) async {
     await _preferencesProvider.setRaplaUrl(url);
     await _preferencesProvider
-        .setScheduleSourceType(_ScheduleSourceType.Rapla.index);
+        .setScheduleSourceType(ScheduleSourceType.Rapla.index);
 
     await setupScheduleSource();
   }
 
   Future<void> setupForDualis() async {
     await _preferencesProvider
-        .setScheduleSourceType(_ScheduleSourceType.Dualis.index);
+        .setScheduleSourceType(ScheduleSourceType.Dualis.index);
 
     await setupScheduleSource();
   }

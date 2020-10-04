@@ -3,7 +3,7 @@ import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 
-class OnboardingDualisViewModel extends OnboardingStepViewModel {
+class DualisLoginViewModel extends OnboardingStepViewModel {
   final PreferencesProvider preferencesProvider;
   final DualisService dualisService;
 
@@ -19,7 +19,7 @@ class OnboardingDualisViewModel extends OnboardingStepViewModel {
   bool _passwordOrUsernameWrong = false;
   bool get passwordOrUsernameWrong => _passwordOrUsernameWrong;
 
-  OnboardingDualisViewModel(this.preferencesProvider, this.dualisService);
+  DualisLoginViewModel(this.preferencesProvider, this.dualisService);
 
   Future<void> testCredentials(String username, String password) async {
     this.username = username;
