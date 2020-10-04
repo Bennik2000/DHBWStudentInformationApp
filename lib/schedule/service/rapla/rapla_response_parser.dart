@@ -15,6 +15,7 @@ class RaplaResponseParser {
   static const String LABEL_CLASS = "label";
   static const String VALUE_CLASS = "value";
   static const String CLASS_NAME_LABEL = "Veranstaltungsname:";
+  static const String CLASS_TITLE_LABEL = "Titel:";
   static const String PROFESSOR_NAME_LABEL = "Personen:";
   static const String DETAILS_LABEL = "Bemerkung:";
 
@@ -22,7 +23,9 @@ class RaplaResponseParser {
     "Feiertag": ScheduleEntryType.PublicHoliday,
     "Online-Format (ohne Raumbelegung)": ScheduleEntryType.Online,
     "Vorlesung / Lehrbetrieb": ScheduleEntryType.Class,
-    "Klausur / Prüfung": ScheduleEntryType.Exam
+    "Lehrveranstaltung": ScheduleEntryType.Class,
+    "Klausur / Prüfung": ScheduleEntryType.Exam,
+    "Prüfung": ScheduleEntryType.Exam
   };
 
   ScheduleQueryResult parseSchedule(String responseBody) {
@@ -167,7 +170,7 @@ class RaplaResponseParser {
       throw ElementNotFoundParseException("infotable container");
 
     Map<String, String> properties = _parsePropertiesTable(infotable[0]);
-    title = properties[CLASS_NAME_LABEL];
+    title = properties[CLASS_NAME_LABEL] ?? properties[CLASS_TITLE_LABEL];
     professor = properties[PROFESSOR_NAME_LABEL];
     details = properties[DETAILS_LABEL];
 

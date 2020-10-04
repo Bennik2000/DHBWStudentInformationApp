@@ -104,8 +104,10 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  Text(
-                    scheduleEntry.professor ?? "",
+                  Expanded(
+                    child: Text(
+                      scheduleEntry.professor ?? "",
+                    ),
                   ),
                   Text(
                     typeString,
