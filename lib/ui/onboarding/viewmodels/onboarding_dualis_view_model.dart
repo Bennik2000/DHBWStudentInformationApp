@@ -3,7 +3,7 @@ import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 
-class OnboardingDualisViewModel extends OnboardingViewModelBase {
+class OnboardingDualisViewModel extends OnboardingStepViewModel {
   final PreferencesProvider preferencesProvider;
   final DualisService dualisService;
 

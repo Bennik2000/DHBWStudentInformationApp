@@ -27,7 +27,7 @@ class _DualisLoginCredentialsPageState
   Widget build(BuildContext context) {
     return PropertyChangeConsumer(
       builder:
-          (BuildContext context, OnboardingViewModelBase base, Set<Object> _) {
+          (BuildContext context, OnboardingStepViewModel base, Set<Object> _) {
         var viewModel = base as OnboardingDualisViewModel;
 
         if (_usernameEditingController.text != viewModel.username) {

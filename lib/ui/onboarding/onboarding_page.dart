@@ -31,16 +31,15 @@ class _OnboardingPageState extends State<OnboardingPage>
 
     viewModel = OnboardingViewModel(
       KiwiContainer().resolve(),
-      KiwiContainer().resolve(),
-      KiwiContainer().resolve(),
+      _onboardingFinished,
     );
 
     viewModel.addListener(
       () async {
-        await _controller.animateTo(
-            viewModel.currentStep / viewModel.onboardingSteps,
-            curve: Curves.ease,
-            duration: const Duration(milliseconds: 300));
+        //await _controller.animateTo(
+        //    viewModel.currentStep / viewModel.onboardingSteps,
+        //    curve: Curves.ease,
+        //    duration: const Duration(milliseconds: 300));
       },
       ["currentStep"],
     );
@@ -101,30 +100,25 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   Widget _buildActiveOnboardingPage(OnboardingViewModel model) {
-    var contentWidgets = {
-      OnboardingSteps.Start: () => SelectAppFeaturesWidget(
-            viewModel: viewModel,
-          ),
-      OnboardingSteps.Rapla: () => RaplaUrlPage(),
-      OnboardingSteps.Dualis: () => DualisLoginCredentialsPage(),
-    };
+    var currentStep = model.steps[model.currentStep];
+    var contentWidget = currentStep.buildContent(context);
 
     Widget body = Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-      child: contentWidgets[model.currentPage](),
+      child: contentWidget,
     );
 
-    if (model.currentViewModel != null) {
+    if (currentStep != null) {
       body = PropertyChangeProvider(
         key: ValueKey(model.currentStep),
-        value: model.currentViewModel,
+        value: currentStep.viewModel(),
         child: body,
       );
     }
 
     return IntrinsicHeight(
       child: PageTransitionSwitcher(
-        reverse: !model.didStepForward,
+        //reverse: !model.didStepForward,
         duration: const Duration(milliseconds: 300),
         transitionBuilder: (
           Widget child,
@@ -143,21 +137,17 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   void _navigateNext(BuildContext context) {
-    if (viewModel.currentStep == viewModel.onboardingSteps - 1) {
-      viewModel.save();
-
-      var rootViewModel =
-          PropertyChangeProvider.of<RootViewModel>(context).value;
-
-      rootViewModel.setIsOnboarding(false);
-
-      Navigator.of(context).pushReplacementNamed("main");
-    } else {
-      viewModel.nextPage();
-    }
+    viewModel.nextPage();
   }
 
   void _navigateBack(BuildContext context) {
     viewModel.previousPage();
+  }
+
+  void _onboardingFinished() {
+    var rootViewModel = PropertyChangeProvider.of<RootViewModel>(context).value;
+    rootViewModel.setIsOnboarding(false);
+
+    Navigator.of(context).pushReplacementNamed("main");
   }
 }

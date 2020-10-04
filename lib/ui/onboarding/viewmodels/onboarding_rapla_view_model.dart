@@ -4,7 +4,7 @@ import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:flutter/services.dart';
 
-class OnboardingRaplaViewModel extends OnboardingViewModelBase {
+class OnboardingRaplaViewModel extends OnboardingStepViewModel {
   final PreferencesProvider preferencesProvider;
   final ScheduleSourceProvider scheduleSourceProvider;
 

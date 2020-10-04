@@ -30,7 +30,7 @@ class OnboardingButtonBar extends StatelessWidget {
           fit: FlexFit.tight,
           flex: 1,
           child: DotsIndicator(
-            currentStep: viewModel.currentStep,
+            currentStep: 0, // viewModel.currentStep,
             numberSteps: viewModel.onboardingSteps,
           ),
         ),
