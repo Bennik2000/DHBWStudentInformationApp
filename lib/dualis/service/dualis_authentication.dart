@@ -203,4 +203,14 @@ class DualisAuthentication {
 
     return url;
   }
+
+  void setLoginCredentials(String username, String password) {
+    _username = username;
+    _password = password;
+  }
+
+  Future<LoginResult> loginWithPreviousCredentials(
+      CancellationToken cancellationToken) async {
+    return await login(_username, _password, cancellationToken);
+  }
 }

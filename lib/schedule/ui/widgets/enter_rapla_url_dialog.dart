@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+///
+/// Shows a dialog to enter and validate the url for rapla
+///
 class EnterRaplaUrlDialog {
   final PreferencesProvider _preferencesProvider;
   final ScheduleSourceProvider _scheduleSource;

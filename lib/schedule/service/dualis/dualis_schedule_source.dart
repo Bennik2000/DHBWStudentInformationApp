@@ -22,6 +22,9 @@ class DualisScheduleSource extends ScheduleSource {
     var schedule = Schedule();
     var allErrors = <ParseError>[];
 
+    if (!_dualisScraper.isLoggedIn())
+      await _dualisScraper.loginWithPreviousCredentials(cancellationToken);
+
     while (to.isAfter(current) && !cancellationToken.isCancelled()) {
       try {
         var monthSchedule = await _dualisScraper.loadMonthlySchedule(
@@ -47,11 +50,10 @@ class DualisScheduleSource extends ScheduleSource {
     return ScheduleQueryResult(schedule, allErrors);
   }
 
-  Future<void> authenticateIfNeeded(Credentials credentials) async {
-    await _dualisScraper.login(
+  Future<void> setLoginCredentials(Credentials credentials) async {
+    _dualisScraper.setLoginCredentials(
       credentials.username,
       credentials.password,
-      CancellationToken(),
     );
   }
 

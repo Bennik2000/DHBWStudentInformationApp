@@ -67,8 +67,6 @@ class OnboardingViewModel extends BaseViewModel {
 
     var nextDesiredStep = pages[currentStep].nextStep();
 
-    print("Next desired step: $nextDesiredStep");
-
     stepsBackstack[currentStep] = _stepIndex;
 
     if (nextDesiredStep == null) {

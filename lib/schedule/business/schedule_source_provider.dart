@@ -20,19 +20,15 @@ class ScheduleSourceProvider {
   ScheduleSource _currentScheduleSource = InvalidScheduleSource();
   ScheduleSource get currentScheduleSource => _currentScheduleSource;
 
-  OnDidChangeScheduleSource _onDidChangeScheduleSource;
-  set onDidChangeScheduleSource(OnDidChangeScheduleSource value) {
-    print("Did set _onDidChangeScheduleSource");
-    _onDidChangeScheduleSource = value;
-  }
+  List<OnDidChangeScheduleSource> _onDidChangeScheduleSourceCallbacks = [];
 
   ScheduleSourceProvider(
-      this._preferencesProvider, this._appRunningInBackground);
+    this._preferencesProvider,
+    this._appRunningInBackground,
+  );
 
   Future<bool> setupScheduleSource() async {
-    print("setupScheduleSource called");
     var scheduleSourceType = await _getScheduleSourceType();
-    print("1");
 
     ScheduleSource scheduleSource = InvalidScheduleSource();
 
@@ -41,20 +37,17 @@ class ScheduleSourceProvider {
       ScheduleSourceType.Rapla: () async => await _raplaScheduleSource(),
     };
 
-    print("2");
     if (initializer.containsKey(scheduleSourceType)) {
       scheduleSource = await initializer[scheduleSourceType]();
     }
-    print("3");
 
     _currentScheduleSource = scheduleSource;
 
     var success = didSetupCorrectly();
-    print("4");
 
-    print("calling onDidChangeScheduleSource...");
-    _onDidChangeScheduleSource?.call(scheduleSource, success);
-    print("5");
+    _onDidChangeScheduleSourceCallbacks.forEach((element) {
+      element(scheduleSource, success);
+    });
 
     return success;
   }
@@ -72,12 +65,10 @@ class ScheduleSourceProvider {
   Future<ScheduleSource> _dualisScheduleSource() async {
     var dualis = DualisScheduleSource(KiwiContainer().resolve());
 
-    print("_dualisScheduleSource 1");
     var credentials = await _preferencesProvider.loadDualisCredentials();
-    print("_dualisScheduleSource 2");
 
     if (credentials.allFieldsFilled()) {
-      dualis.authenticateIfNeeded(credentials);
+      dualis.setLoginCredentials(credentials);
       return ErrorReportScheduleSourceDecorator(dualis);
     } else {
       return InvalidScheduleSource();
@@ -120,8 +111,11 @@ class ScheduleSourceProvider {
   }
 
   bool didSetupCorrectly() {
-    print("_currentScheduleSource is $_currentScheduleSource");
     return _currentScheduleSource != null &&
         !(_currentScheduleSource is InvalidScheduleSource);
+  }
+
+  void addDidChangeScheduleSourceCallback(OnDidChangeScheduleSource callback) {
+    _onDidChangeScheduleSourceCallbacks.add(callback);
   }
 }

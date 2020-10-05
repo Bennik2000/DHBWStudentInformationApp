@@ -115,11 +115,22 @@ class DualisScraper {
     return _dualisAuthentication.login(username, password, cancellationToken);
   }
 
+  Future<LoginResult> loginWithPreviousCredentials(
+    CancellationToken cancellationToken,
+  ) {
+    return _dualisAuthentication
+        .loginWithPreviousCredentials(cancellationToken);
+  }
+
   Future<void> logout(CancellationToken cancellationToken) {
     return _dualisAuthentication.logout(cancellationToken);
   }
 
   bool isLoggedIn() {
     return _dualisAuthentication.loginState == LoginResult.LoggedIn;
+  }
+
+  void setLoginCredentials(String username, String password) {
+    _dualisAuthentication.setLoginCredentials(username, password);
   }
 }

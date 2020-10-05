@@ -4,9 +4,8 @@ import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
-import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
-import 'package:dhbwstudentapp/schedule/ui/widgets/enter_rapla_url_dialog.dart';
+import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
 import 'package:dhbwstudentapp/ui/settings/viewmodels/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
@@ -100,19 +99,9 @@ class _SettingsPageState extends State<SettingsPage> {
     return [
       TitleListTile(title: L.of(context).settingsScheduleSourceTitle),
       ListTile(
-        title: Text(L.of(context).settingsScheduleSourceUrl),
+        title: Text("Setup schedule source"),
         onTap: () async {
-          await EnterRaplaUrlDialog(
-            KiwiContainer().resolve(),
-            KiwiContainer().resolve(),
-          ).show(context);
-        },
-      ),
-      ListTile(
-        title: Text("Change to dualis"),
-        onTap: () async {
-          ScheduleSourceProvider provider = KiwiContainer().resolve();
-          await provider.setupForDualis();
+          await SelectSourceDialog(KiwiContainer().resolve()).show(context);
         },
       ),
       const Divider(),

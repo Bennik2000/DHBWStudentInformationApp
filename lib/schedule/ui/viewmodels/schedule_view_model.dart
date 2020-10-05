@@ -10,8 +10,8 @@ class ScheduleViewModel extends BaseViewModel {
   bool get didSetupProperly => _didSetupProperly;
 
   ScheduleViewModel(this._scheduleSourceProvider) {
-    _scheduleSourceProvider.onDidChangeScheduleSource =
-        onDidChangeScheduleSource;
+    _scheduleSourceProvider
+        .addDidChangeScheduleSourceCallback(onDidChangeScheduleSource);
     _didSetupProperly = _scheduleSourceProvider.didSetupCorrectly();
 
     _scheduleSourceProvider.setupScheduleSource();
@@ -19,7 +19,6 @@ class ScheduleViewModel extends BaseViewModel {
 
   void onDidChangeScheduleSource(ScheduleSource scheduleSource, bool valid) {
     _didSetupProperly = valid;
-    print("onDidChangeScheduleSource called");
     notifyListeners("didSetupProperly");
   }
 }

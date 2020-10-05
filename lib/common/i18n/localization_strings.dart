@@ -109,9 +109,9 @@ final de = {
   "dialogOk": "Ok",
   "dialogCancel": "Cancel",
   "dialogSetRaplaUrlTitle": "Rapla Url festlegen",
-  "scheduleEmptyStateSetUrl": "Url festlegen",
+  "scheduleEmptyStateSetUrl": "Konfigurieren",
   "scheduleEmptyStateBannerMessage":
-      "Die URL zum Rapla Vorlesungsplan wurde noch nicht festgelegt. Hier kannst du die URL festlegen.",
+      "Der Vorlesungsplan wurde noch nicht konfiguriert. Ist der Vorlesungsplan konfiguriert, kannst Du ihn hier sehen.",
   "helpButtonTooltip": "Hilfe",
   "logoutButtonTooltip": "Abmelden",
   "scheduleHelpDialogContent":
@@ -245,9 +245,9 @@ final en = {
   "dialogOk": "Ok",
   "dialogCancel": "Cancel",
   "dialogSetRaplaUrlTitle": "Set Rapla url",
-  "scheduleEmptyStateSetUrl": "Set Rapla url",
+  "scheduleEmptyStateSetUrl": "Configure",
   "scheduleEmptyStateBannerMessage":
-      "The url of the rapla schedule was not yet set. Here you can set the url.",
+      "You did not configure the schedule source. If you configure the schedule source you will see the schedule here.",
   "helpButtonTooltip": "Help",
   "logoutButtonTooltip": "Logout",
   "scheduleHelpDialogContent": ""
