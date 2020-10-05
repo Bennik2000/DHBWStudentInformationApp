@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/enter_dualis_credentials_dialog.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/enter_rapla_url_dialog.dart';
@@ -8,9 +9,11 @@ import 'package:kiwi/kiwi.dart';
 
 class SelectSourceDialog {
   final PreferencesProvider _preferencesProvider;
+  final ScheduleSourceProvider _scheduleSourceProvider;
+
   ScheduleSourceType _currentScheduleSource;
 
-  SelectSourceDialog(this._preferencesProvider);
+  SelectSourceDialog(this._preferencesProvider, this._scheduleSourceProvider);
 
   Future show(BuildContext context) async {
     var type = await _preferencesProvider.getScheduleSourceType();
@@ -63,6 +66,7 @@ class SelectSourceDialog {
 
     switch (type) {
       case ScheduleSourceType.None:
+        await _scheduleSourceProvider.setupScheduleSource();
         break;
       case ScheduleSourceType.Rapla:
         await EnterRaplaUrlDialog(

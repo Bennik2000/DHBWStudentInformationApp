@@ -101,7 +101,10 @@ class _SettingsPageState extends State<SettingsPage> {
       ListTile(
         title: Text("Setup schedule source"),
         onTap: () async {
-          await SelectSourceDialog(KiwiContainer().resolve()).show(context);
+          await SelectSourceDialog(
+            KiwiContainer().resolve(),
+            KiwiContainer().resolve(),
+          ).show(context);
         },
       ),
       const Divider(),
