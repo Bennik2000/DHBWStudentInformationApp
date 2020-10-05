@@ -9,5 +9,5 @@ abstract class OnboardingStepViewModel extends BaseViewModel {
     notifyListeners("isValid");
   }
 
-  void save();
+  Future<void> save();
 }

@@ -39,8 +39,10 @@ Future<void> initializeApp(bool isBackground) async {
   await BackgroundInitialize().setupBackgroundScheduling();
   NotificationScheduleChangedInitialize().setupNotification();
 
-  var setup = KiwiContainer().resolve<ScheduleSourceProvider>();
-  setup.setupScheduleSource();
+  if (isBackground) {
+    var setup = KiwiContainer().resolve<ScheduleSourceProvider>();
+    setup.setupScheduleSource();
+  }
 
   isInitialized = true;
   print("Initialization finished");

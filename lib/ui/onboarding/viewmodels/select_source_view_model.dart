@@ -3,12 +3,12 @@ import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 
 class SelectSourceViewModel extends OnboardingStepViewModel {
-  final PreferencesProvider preferencesProvider;
+  final PreferencesProvider _preferencesProvider;
 
   ScheduleSourceType _scheduleSourceType = ScheduleSourceType.Rapla;
   ScheduleSourceType get scheduleSourceType => _scheduleSourceType;
 
-  SelectSourceViewModel(this.preferencesProvider) {
+  SelectSourceViewModel(this._preferencesProvider) {
     setIsValid(true);
   }
 
@@ -21,7 +21,7 @@ class SelectSourceViewModel extends OnboardingStepViewModel {
 
   @override
   Future<void> save() async {
-    await preferencesProvider.setScheduleSourceType(_scheduleSourceType.index);
+    await _preferencesProvider.setScheduleSourceType(scheduleSourceType.index);
   }
 
   String nextStep() {

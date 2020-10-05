@@ -58,9 +58,10 @@ class OnboardingViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void nextPage() {
+  Future<void> nextPage() async {
     if (_stepIndex == steps.length - 1) {
-      finishOnboarding();
+      stepsBackstack[currentStep] = _stepIndex;
+      await finishOnboarding();
       return;
     }
 
@@ -83,9 +84,9 @@ class OnboardingViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void finishOnboarding() {
+  Future<void> finishOnboarding() async {
     for (var step in stepsBackstack.keys) {
-      pages[step].viewModel().save();
+      await pages[step].viewModel().save();
     }
 
     _onboardingFinished?.call();
