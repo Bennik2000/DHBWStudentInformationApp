@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/enter_dualis_credentials_dialog.dart';
@@ -27,12 +28,12 @@ class SelectSourceDialog {
 
   SimpleDialog _buildDialog(BuildContext context) {
     return SimpleDialog(
-      title: Text("Vorlesungsplan"),
+      title: Text(L.of(context).onboardingScheduleSourceTitle),
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(24, 8, 24, 16),
           child: Text(
-            "Woher soll der Vorlesungsplan geladen werden?",
+            L.of(context).onboardingScheduleSourceDescription,
             style: Theme.of(context).textTheme.bodyText2,
           ),
         ),
@@ -40,19 +41,19 @@ class SelectSourceDialog {
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Rapla,
           onChanged: (v) => sourceSelected(v, context),
-          title: Text("Rapla"),
+          title: Text(L.of(context).scheduleSourceTypeRapla),
         ),
         RadioListTile(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Dualis,
           onChanged: (v) => sourceSelected(v, context),
-          title: Text("Dualis"),
+          title: Text(L.of(context).scheduleSourceTypeDualis),
         ),
         RadioListTile(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.None,
           onChanged: (v) => sourceSelected(v, context),
-          title: Text("Keinen Vorlesungsplan"),
+          title: Text(L.of(context).scheduleSourceTypeNone),
         )
       ],
     );

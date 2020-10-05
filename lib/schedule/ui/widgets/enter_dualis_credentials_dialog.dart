@@ -43,7 +43,7 @@ class EnterDualisCredentialsDialog {
     }
 
     return AlertDialog(
-      title: Text("Dualis Anmeldedaten"),
+      title: Text(L.of(context).onboardingDualisPageTitle),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -51,8 +51,7 @@ class EnterDualisCredentialsDialog {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
             child: Text(
-              "Um den Vorlesungsplan aus Dualis anzuzeigen kannst Du hier"
-              " deine Dualis Anmeldedaten eingeben:",
+              L.of(context).onboardingDualisSourceDescription,
               style: Theme.of(context).textTheme.bodyText2,
             ),
           ),

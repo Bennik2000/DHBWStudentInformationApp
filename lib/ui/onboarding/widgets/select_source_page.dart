@@ -25,7 +25,7 @@ class SelectSourcePage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
               child: Center(
                 child: Text(
-                  "Vorlesungsplan",
+                  L.of(context).onboardingScheduleSourceTitle,
                   style: Theme.of(context).textTheme.headline4,
                   textAlign: TextAlign.center,
                 ),
@@ -36,33 +36,27 @@ class SelectSourcePage extends StatelessWidget {
               child: Divider(),
             ),
             Text(
-              "Woher soll der Vorlesungsplan abgerufen werden?",
+              L.of(context).onboardingScheduleSourceDescription,
               style: Theme.of(context).textTheme.bodyText2,
               textAlign: TextAlign.center,
             ),
-            RadioListTile(
-              value: ScheduleSourceType.Rapla, //model.useRapla,
-              onChanged: viewModel.setScheduleSourceType, // model.setUseRapla,
-              title: Text(
-                "Rapla",
-              ),
-              groupValue: viewModel.scheduleSourceType,
+            buildScheduleTypeRadio(
+              viewModel,
+              context,
+              ScheduleSourceType.Rapla,
+              L.of(context).scheduleSourceTypeRapla,
             ),
-            RadioListTile(
-              value: ScheduleSourceType.Dualis, //model.useDualis,
-              onChanged: viewModel.setScheduleSourceType,
-              title: Text(
-                "Dualis",
-              ),
-              groupValue: viewModel.scheduleSourceType,
+            buildScheduleTypeRadio(
+              viewModel,
+              context,
+              ScheduleSourceType.Dualis,
+              L.of(context).scheduleSourceTypeDualis,
             ),
-            RadioListTile(
-              value: ScheduleSourceType.None, //model.useDualis,
-              onChanged: viewModel.setScheduleSourceType,
-              title: Text(
-                "Keinen Vorlesungsplan",
-              ),
-              groupValue: viewModel.scheduleSourceType,
+            buildScheduleTypeRadio(
+              viewModel,
+              context,
+              ScheduleSourceType.None,
+              L.of(context).scheduleSourceTypeNone,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
@@ -74,6 +68,19 @@ class SelectSourcePage extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  RadioListTile<ScheduleSourceType> buildScheduleTypeRadio(
+      SelectSourceViewModel viewModel,
+      BuildContext context,
+      ScheduleSourceType type,
+      String title) {
+    return RadioListTile(
+      value: type, //model.useDualis,
+      onChanged: viewModel.setScheduleSourceType,
+      title: Text(title),
+      groupValue: viewModel.scheduleSourceType,
     );
   }
 }

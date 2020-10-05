@@ -99,7 +99,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return [
       TitleListTile(title: L.of(context).settingsScheduleSourceTitle),
       ListTile(
-        title: Text("Setup schedule source"),
+        title: Text(L.of(context).settingsSetupScheduleSource),
         onTap: () async {
           await SelectSourceDialog(
             KiwiContainer().resolve(),
