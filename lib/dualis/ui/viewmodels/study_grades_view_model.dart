@@ -7,6 +7,7 @@ import 'package:dhbwstudentapp/dualis/model/module.dart';
 import 'package:dhbwstudentapp/dualis/model/semester.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 
 enum LoginState {
   LoggedOut,
@@ -82,8 +83,16 @@ class StudyGradesViewModel extends BaseViewModel {
   }
 
   Future<void> clearCredentials() async {
-    await _preferencesProvider.clearDualisCredentials();
     await _preferencesProvider.setStoreDualisCredentials(false);
+
+    // When the schedule source is Dualis the login credentials should not be
+    // cleared
+    if (await _preferencesProvider.getScheduleSourceType() ==
+        ScheduleSourceType.Dualis.index) {
+      return;
+    }
+
+    await _preferencesProvider.clearDualisCredentials();
   }
 
   Future<Credentials> loadCredentials() async {

@@ -171,6 +171,7 @@ class DualisAuthentication {
 
     _session = null;
     _dualisUrls = null;
+    _loginState = LoginResult.LoggedOut;
 
     await logoutRequest;
   }

@@ -80,14 +80,12 @@ class _LoginFormState extends State<LoginForm> {
           _storeCredentials = value;
         });
 
-        if (_storeCredentials) {
-          _onLoadCredentials().then((value) {
-            setState(() {
-              _usernameEditingController.text = value.username;
-              _passwordEditingController.text = value.password;
-            });
+        _onLoadCredentials().then((value) {
+          setState(() {
+            _usernameEditingController.text = value.username;
+            _passwordEditingController.text = value.password;
           });
-        }
+        });
       });
     }
   }
