@@ -19,17 +19,20 @@ class DualisLoginPage extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.all(32),
-            child: LoginForm(
-              loginFailedText: L.of(context).dualisLoginFailed,
-              title: Text(
-                L.of(context).dualisLogin,
-                style: Theme.of(context).textTheme.headline6,
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 500),
+              child: LoginForm(
+                loginFailedText: L.of(context).dualisLoginFailed,
+                title: Text(
+                  L.of(context).dualisLogin,
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                onLogin: model.login,
+                onLoadCredentials: model.loadCredentials,
+                onSaveCredentials: model.saveCredentials,
+                onClearCredentials: model.clearCredentials,
+                getDoSaveCredentials: model.getDoSaveCredentials,
               ),
-              onLogin: model.login,
-              onLoadCredentials: model.loadCredentials,
-              onSaveCredentials: model.saveCredentials,
-              onClearCredentials: model.clearCredentials,
-              getDoSaveCredentials: model.getDoSaveCredentials,
             ),
           ),
         ],

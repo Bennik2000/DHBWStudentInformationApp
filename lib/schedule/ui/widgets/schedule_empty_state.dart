@@ -31,7 +31,7 @@ class ScheduleEmptyState extends StatelessWidget {
         Expanded(
           child: ClipRRect(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(32, 0, 32, 32),
+              padding: const EdgeInsets.all(32),
               child: Image.asset(image[Theme.of(context).brightness]),
             ),
           ),

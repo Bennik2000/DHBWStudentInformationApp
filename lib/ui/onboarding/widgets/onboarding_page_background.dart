@@ -1,5 +1,6 @@
 import 'package:dhbwstudentapp/common/math/math.dart';
 import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -22,8 +23,8 @@ class OnboardingPageBackground extends StatelessWidget {
 
   OnboardingPageBackground({Key key, this.controller})
       : angleTopBackground = Tween<double>(
-          begin: -32,
-          end: -10,
+          begin: PlatformUtil.isPhone() ? -32 : -10,
+          end: PlatformUtil.isPhone() ? -10 : -5,
         ).animate(
           CurvedAnimation(
             parent: controller,
@@ -35,8 +36,8 @@ class OnboardingPageBackground extends StatelessWidget {
           ),
         ),
         angleTopForeground = Tween<double>(
-          begin: -14,
-          end: 25,
+          begin: PlatformUtil.isPhone() ? -14 : -5,
+          end: PlatformUtil.isPhone() ? 25 : 10,
         ).animate(
           CurvedAnimation(
             parent: controller,
@@ -100,38 +101,42 @@ class OnboardingPageBackground extends StatelessWidget {
           ),
           angle: toRadian(angleTopBackground.value),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            height: 90,
-            width: double.infinity,
-            child: Transform.translate(
-              offset: Offset(bottomBackground.value, 20),
-              child: Transform.scale(
-                scale: 1.5,
-                child: Image.asset(
-                  background[Theme.of(context).brightness],
+        PlatformUtil.isPhone()
+            ? Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: 90,
+                  width: double.infinity,
+                  child: Transform.translate(
+                    offset: Offset(bottomBackground.value, 20),
+                    child: Transform.scale(
+                      scale: 1.5,
+                      child: Image.asset(
+                        background[Theme.of(context).brightness],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: SizedBox(
-            height: 90,
-            width: double.infinity,
-            child: Transform.translate(
-              offset: Offset(bottomForeground.value, 20),
-              child: Transform.scale(
-                scale: 1.5,
-                child: Image.asset(
-                  foreground[Theme.of(context).brightness],
+              )
+            : Container(),
+        PlatformUtil.isPhone()
+            ? Align(
+                alignment: Alignment.bottomCenter,
+                child: SizedBox(
+                  height: 90,
+                  width: double.infinity,
+                  child: Transform.translate(
+                    offset: Offset(bottomForeground.value, 20),
+                    child: Transform.scale(
+                      scale: 1.5,
+                      child: Image.asset(
+                        foreground[Theme.of(context).brightness],
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        ),
+              )
+            : Container(),
       ],
     );
   }

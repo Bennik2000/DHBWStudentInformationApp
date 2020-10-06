@@ -69,27 +69,32 @@ class _OnboardingPageState extends State<OnboardingPage>
         }
       },
       behavior: HitTestBehavior.translucent,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(0, 140, 0, 90),
-        child: PropertyChangeConsumer(
-          builder: (BuildContext context, OnboardingViewModel model, _) {
-            return Column(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _buildActiveOnboardingPage(model),
-                OnboardingButtonBar(
-                  onPrevious: () {
-                    _navigateBack(context);
-                  },
-                  onNext: () {
-                    _navigateNext(context);
-                  },
-                  viewModel: viewModel,
-                ),
-              ],
-            );
-          },
+      child: Center(
+        child: Container(
+          constraints: BoxConstraints(maxWidth: 500),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(0, 140, 0, 90),
+            child: PropertyChangeConsumer(
+              builder: (BuildContext context, OnboardingViewModel model, _) {
+                return Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    _buildActiveOnboardingPage(model),
+                    OnboardingButtonBar(
+                      onPrevious: () {
+                        _navigateBack(context);
+                      },
+                      onNext: () {
+                        _navigateNext(context);
+                      },
+                      viewModel: viewModel,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
         ),
       ),
     );

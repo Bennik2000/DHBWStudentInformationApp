@@ -31,7 +31,6 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   @override
   void initState() {
     super.initState();
-    initializePortraitLandscapeMode();
   }
 
   @override
@@ -160,19 +159,6 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
           .showRateInStoreDialogIfNeeded(context);
 
       _rateDialogShown = true;
-    }
-  }
-
-  void initializePortraitLandscapeMode() {
-    if (PlatformUtil.isPhone()) {
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    } else {
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-        DeviceOrientation.landscapeLeft,
-        DeviceOrientation.landscapeRight,
-      ]);
     }
   }
 

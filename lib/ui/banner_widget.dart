@@ -25,19 +25,24 @@ class BannerWidget extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Text(
               message,
             ),
             buttonText != null
-                ? Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                    child: FlatButton(
-                      textColor: Theme.of(context).accentColor,
-                      child: Text(buttonText),
-                      onPressed: onButtonTap,
-                    ),
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                        child: FlatButton(
+                          textColor: Theme.of(context).accentColor,
+                          child: Text(buttonText),
+                          onPressed: onButtonTap,
+                        ),
+                      ),
+                    ],
                   )
                 : Container(),
           ],
