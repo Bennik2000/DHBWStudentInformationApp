@@ -1,17 +1,22 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:flutter/services.dart';
 
-class OnboardingRaplaViewModel extends OnboardingViewModelBase {
+class RaplaUrlViewModel extends OnboardingStepViewModel {
   final PreferencesProvider preferencesProvider;
+  final ScheduleSourceProvider scheduleSourceProvider;
 
   String _raplaUrl;
   String get raplaUrl => _raplaUrl;
 
   bool urlHasError = false;
 
-  OnboardingRaplaViewModel(this.preferencesProvider);
+  RaplaUrlViewModel(
+    this.preferencesProvider,
+    this.scheduleSourceProvider,
+  );
 
   void setRaplaUrl(String url) {
     _raplaUrl = url;
@@ -44,6 +49,6 @@ class OnboardingRaplaViewModel extends OnboardingViewModelBase {
 
   @override
   Future<void> save() async {
-    await preferencesProvider.setRaplaUrl(_raplaUrl);
+    await scheduleSourceProvider.setupForRapla(_raplaUrl);
   }
 }

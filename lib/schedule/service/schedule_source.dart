@@ -12,9 +12,7 @@ abstract class ScheduleSource {
   Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
       [CancellationToken cancellationToken]);
 
-  void setEndpointUrl(String url);
-
-  void validateEndpointUrl(String url);
+  bool canQuery();
 }
 
 class ScheduleQueryFailedException implements Exception {
@@ -25,7 +23,7 @@ class ScheduleQueryFailedException implements Exception {
 
   @override
   String toString() {
-    return innerException?.toString();
+    return (innerException?.toString() ?? "") + "\n" + trace?.toString();
   }
 }
 

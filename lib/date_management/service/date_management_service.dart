@@ -2,7 +2,7 @@ import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/model/date_search_parameters.dart';
 import 'package:dhbwstudentapp/date_management/service/parsing/all_dates_extract.dart';
-import 'package:dhbwstudentapp/dualis/service/dualis_session.dart';
+import 'package:dhbwstudentapp/dualis/service/session.dart';
 
 class DateManagementService {
   Future<List<DateEntry>> queryAllDates(

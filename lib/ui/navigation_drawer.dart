@@ -144,7 +144,7 @@ class NavigationDrawer extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                       child: Text(
-                        "Einstellungen",
+                        L.of(context).settingsPageTitle,
                         style: TextStyle(
                           color: Theme.of(context).disabledColor,
                         ),

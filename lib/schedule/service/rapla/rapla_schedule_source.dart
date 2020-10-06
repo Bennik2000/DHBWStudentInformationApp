@@ -15,7 +15,6 @@ class RaplaScheduleSource extends ScheduleSource {
 
   RaplaScheduleSource({this.raplaUrl});
 
-  @override
   void setEndpointUrl(String url) {
     raplaUrl = url;
   }
@@ -134,14 +133,13 @@ class RaplaScheduleSource extends ScheduleSource {
     return null;
   }
 
-  @override
-  void validateEndpointUrl(String url) {
+  bool validateEndpointUrl(String url) {
     Uri uri;
 
     try {
       uri = Uri.parse(url);
     } catch (e) {
-      throw EndpointUrlInvalid();
+      return false;
     }
 
     if (uri != null) {
@@ -151,15 +149,20 @@ class RaplaScheduleSource extends ScheduleSource {
       bool hasPageParameter = uri.queryParameters.containsKey("page");
 
       if (hasUserParameter && hasFileParameter && hasPageParameter) {
-        return;
+        return true;
       }
 
       if (hasKeyParameter) {
-        return;
+        return true;
       }
-
-      throw EndpointUrlInvalid();
     }
+
+    return false;
+  }
+
+  @override
+  bool canQuery() {
+    return validateEndpointUrl(raplaUrl);
   }
 }
 

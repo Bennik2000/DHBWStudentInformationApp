@@ -1,6 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/ui/login_credentials_widget.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_dualis_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/dualis_login_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +27,8 @@ class _DualisLoginCredentialsPageState
   Widget build(BuildContext context) {
     return PropertyChangeConsumer(
       builder:
-          (BuildContext context, OnboardingViewModelBase base, Set<Object> _) {
-        var viewModel = base as OnboardingDualisViewModel;
+          (BuildContext context, OnboardingStepViewModel base, Set<Object> _) {
+        var viewModel = base as DualisLoginViewModel;
 
         if (_usernameEditingController.text != viewModel.username) {
           _usernameEditingController.text = viewModel.username;
@@ -58,7 +58,7 @@ class _DualisLoginCredentialsPageState
     );
   }
 
-  Widget _buildTestCredentialsButton(OnboardingDualisViewModel viewModel) {
+  Widget _buildTestCredentialsButton(DualisLoginViewModel viewModel) {
     return Expanded(
       child: SizedBox(
         height: 64,
@@ -108,7 +108,7 @@ class _DualisLoginCredentialsPageState
     );
   }
 
-  Future _testCredentials(OnboardingDualisViewModel viewModel) async {
+  Future _testCredentials(DualisLoginViewModel viewModel) async {
     await viewModel.testCredentials(
       _usernameEditingController.text,
       _passwordEditingController.text,

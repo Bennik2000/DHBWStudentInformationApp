@@ -12,6 +12,15 @@ import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
 class SchedulePage extends StatelessWidget {
+  final WeeklyScheduleViewModel weeklyScheduleViewModel =
+      WeeklyScheduleViewModel(
+    KiwiContainer().resolve(),
+    KiwiContainer().resolve(),
+  );
+  final DailyScheduleViewModel dailyScheduleViewModel = DailyScheduleViewModel(
+    KiwiContainer().resolve(),
+  );
+
   @override
   Widget build(BuildContext context) {
     ScheduleViewModel viewModel = Provider.of<BaseViewModel>(context);
@@ -25,17 +34,13 @@ class SchedulePage extends StatelessWidget {
             icon: Icon(Icons.view_week),
             text: Text(L.of(context).pageWeekOverviewTitle),
             builder: (_) => WeeklySchedulePage(),
-            viewModel: WeeklyScheduleViewModel(
-              KiwiContainer().resolve(),
-            ),
+            viewModel: weeklyScheduleViewModel,
           ),
           PageDefinition(
             icon: Icon(Icons.view_day),
             text: Text(L.of(context).pageDayOverviewTitle),
             builder: (_) => DailySchedulePage(),
-            viewModel: DailyScheduleViewModel(
-              KiwiContainer().resolve(),
-            ),
+            viewModel: dailyScheduleViewModel,
           ),
         ],
       );

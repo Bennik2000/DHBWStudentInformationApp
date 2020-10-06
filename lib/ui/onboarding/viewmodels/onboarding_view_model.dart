@@ -1,107 +1,92 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_dualis_view_model.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_rapla_view_model.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
+import 'package:dhbwstudentapp/ui/onboarding/onboardin_step.dart';
 
-enum OnboardingSteps {
-  Start,
-  Rapla,
-  Dualis,
-}
+typedef OnboardingFinished = void Function();
 
 class OnboardingViewModel extends BaseViewModel {
   final PreferencesProvider preferencesProvider;
-  final DualisService dualisService;
+  final OnboardingFinished _onboardingFinished;
 
-  Map<OnboardingSteps, bool> usedAppFeatures = {
-    OnboardingSteps.Start: true,
-    OnboardingSteps.Rapla: true,
-    OnboardingSteps.Dualis: true,
+  final List<String> steps = [
+    "selectSource",
+    "rapla",
+    "dualis",
+  ];
+
+  final Map<String, OnboardingStep> pages = {
+    "selectSource": SelectSourceOnboardingStep(),
+    "rapla": RaplaOnboardingStep(),
+    "dualis": DualisCredentialsOnboardingStep(),
   };
 
-  final Map<OnboardingSteps, OnboardingViewModelBase> _viewModels = {};
-  OnboardingViewModelBase get currentViewModel => _viewModels[_currentPage];
+  final Map<String, int> stepsBackstack = {};
 
-  bool get useRapla => usedAppFeatures[OnboardingSteps.Rapla];
-  bool get useDualis => usedAppFeatures[OnboardingSteps.Dualis];
+  int _stepIndex = 0;
+  int get stepIndex => _stepIndex;
 
-  int get onboardingSteps => 1 + (useRapla ? 1 : 0) + (useDualis ? 1 : 0);
+  String get currentStep => steps[_stepIndex];
 
-  int _currentStep = 0;
-  int get currentStep => _currentStep;
+  bool get currentPageValid => pages[currentStep].viewModel().isValid;
+  bool get isLastStep => _stepIndex >= steps.length - 1;
 
-  OnboardingSteps _currentPage = OnboardingSteps.Start;
-  OnboardingSteps get currentPage => _currentPage;
+  get onboardingSteps => steps.length;
 
   bool _didStepForward = true;
   bool get didStepForward => _didStepForward;
 
-  bool get canStepNext {
-    return currentViewModel?.isValid ?? true;
-  }
-
-  OnboardingViewModel(this.preferencesProvider, this.dualisService) {
-    _viewModels[OnboardingSteps.Rapla] =
-        OnboardingRaplaViewModel(preferencesProvider);
-
-    _viewModels[OnboardingSteps.Dualis] =
-        OnboardingDualisViewModel(preferencesProvider, dualisService);
-
-    for (var vm in _viewModels.values) {
-      vm.addListener(() {
-        notifyListeners("canStepNext");
-      });
+  OnboardingViewModel(
+    this.preferencesProvider,
+    this._onboardingFinished,
+  ) {
+    for (var page in pages.values) {
+      page.viewModel().addListener(() {
+        notifyListeners("currentPageValid");
+      }, ["isValid"]);
     }
-  }
-
-  void setUseRapla(bool useRapla) {
-    usedAppFeatures[OnboardingSteps.Rapla] = useRapla;
-    notifyListeners("useRapla");
-  }
-
-  void setUseDualis(bool useDualis) {
-    usedAppFeatures[OnboardingSteps.Dualis] = useDualis;
-    notifyListeners("useDualis");
   }
 
   void previousPage() {
-    if (_currentStep > 0) {
-      _currentStep--;
-      _didStepForward = false;
-      _setCurrentPage();
-      notifyListeners("currentStep");
-    }
+    var lastPage = stepsBackstack.keys.last;
+
+    _stepIndex = stepsBackstack[lastPage];
+
+    stepsBackstack.remove(lastPage);
+
+    _didStepForward = false;
+
+    notifyListeners();
   }
 
-  void nextPage() {
-    if (_currentStep < onboardingSteps - 1) {
-      _currentStep++;
-      _didStepForward = true;
-      _setCurrentPage();
-      notifyListeners("currentStep");
+  Future<void> nextPage() async {
+    if (_stepIndex == steps.length - 1) {
+      stepsBackstack[currentStep] = _stepIndex;
+      await finishOnboarding();
+      return;
     }
+
+    var nextDesiredStep = pages[currentStep].nextStep();
+
+    stepsBackstack[currentStep] = _stepIndex;
+
+    if (nextDesiredStep == null) {
+      nextDesiredStep = steps[_stepIndex + 1];
+    }
+
+    while (nextDesiredStep != currentStep) {
+      _stepIndex++;
+    }
+
+    _didStepForward = true;
+
+    notifyListeners();
   }
 
-  void _setCurrentPage() {
-    final activeFeatures = <OnboardingSteps>[];
-
-    for (var feature in OnboardingSteps.values) {
-      if (usedAppFeatures[feature]) {
-        activeFeatures.add(feature);
-      }
+  Future<void> finishOnboarding() async {
+    for (var step in stepsBackstack.keys) {
+      await pages[step].viewModel().save();
     }
 
-    _currentPage = activeFeatures[_currentStep];
-
-    notifyListeners("currentPage");
-    notifyListeners("currentViewModel");
-  }
-
-  void save() {
-    for (var viewModel in _viewModels.values) {
-      viewModel.save();
-    }
+    _onboardingFinished?.call();
   }
 }

@@ -1,5 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/schedule/ui/widgets/enter_rapla_url_dialog.dart';
+import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
 import 'package:dhbwstudentapp/ui/banner_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -20,7 +20,7 @@ class ScheduleEmptyState extends StatelessWidget {
           child: BannerWidget(
             message: L.of(context).scheduleEmptyStateBannerMessage,
             onButtonTap: () async {
-              await EnterRaplaUrlDialog(
+              await SelectSourceDialog(
                 KiwiContainer().resolve(),
                 KiwiContainer().resolve(),
               ).show(context);

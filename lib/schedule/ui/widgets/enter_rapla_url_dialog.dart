@@ -1,14 +1,17 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/schedule/business/schedule_source_setup.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+///
+/// Shows a dialog to enter and validate the url for rapla
+///
 class EnterRaplaUrlDialog {
   final PreferencesProvider _preferencesProvider;
-  final ScheduleSourceSetup _scheduleSource;
+  final ScheduleSourceProvider _scheduleSource;
 
   final TextEditingController _urlTextController = TextEditingController();
   final ValueNotifier<bool> _hasUrlError = ValueNotifier<bool>(false);
@@ -147,8 +150,7 @@ class EnterRaplaUrlDialog {
   }
 
   Future _saveUrl() async {
-    await _preferencesProvider.setRaplaUrl(_url.value);
-    _scheduleSource.applyNewEndpointUrl(_url.value);
+    await _scheduleSource.setupForRapla(_url.value);
   }
 
   Future _loadUrl() async {

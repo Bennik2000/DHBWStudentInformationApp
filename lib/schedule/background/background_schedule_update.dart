@@ -1,27 +1,24 @@
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
-import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
-import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 
 class BackgroundScheduleUpdate extends TaskCallback {
   final ScheduleProvider scheduleProvider;
-  final ScheduleSource scheduleSource;
-  final PreferencesProvider preferencesProvider;
+  final ScheduleSourceProvider scheduleSource;
   final WorkSchedulerService scheduler;
 
   BackgroundScheduleUpdate(
     this.scheduleProvider,
     this.scheduleSource,
-    this.preferencesProvider,
     this.scheduler,
   );
 
   Future updateSchedule() async {
-    if (!await _canUpdateSchedule()) {
-      print("Cancelled update due to an invalid schedule source endpoint url");
+    if (!scheduleSource.currentScheduleSource.canQuery()) {
+      print("Cancelled update due to an invalid schedule source configuration");
       return;
     }
 
@@ -37,17 +34,6 @@ class BackgroundScheduleUpdate extends TaskCallback {
     );
 
     print("Finished updating schedule");
-  }
-
-  Future<bool> _canUpdateSchedule() async {
-    try {
-      scheduleSource
-          .validateEndpointUrl(await preferencesProvider.getRaplaUrl());
-
-      return true;
-    } catch (_) {
-      return false;
-    }
   }
 
   @override

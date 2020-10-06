@@ -12,7 +12,7 @@ final de = {
   "settingsDesign": "Aussehen",
   "settingsScheduleSourceUrl": "Rapla URL festlegen",
   "settingsScheduleSourceTitle": "Vorlesungsplan",
-  "settingsPageTitle": "Settings",
+  "settingsPageTitle": "Einstellungen",
   "dailyScheduleNoEntriesToday": "Keine Vorlesungen für heute",
   "scheduleEntryTypePublicHoliday": "Feiertag",
   "scheduleEntryTypeClass": "Vorlesung",
@@ -109,15 +109,14 @@ final de = {
   "dialogOk": "Ok",
   "dialogCancel": "Cancel",
   "dialogSetRaplaUrlTitle": "Rapla Url festlegen",
-  "scheduleEmptyStateSetUrl": "Url festlegen",
+  "scheduleEmptyStateSetUrl": "Konfigurieren",
   "scheduleEmptyStateBannerMessage":
-      "Die URL zum Rapla Vorlesungsplan wurde noch nicht festgelegt. Hier kannst du die URL festlegen.",
+      "Der Vorlesungsplan wurde noch nicht konfiguriert. Ist der Vorlesungsplan konfiguriert, kannst Du ihn hier sehen.",
   "helpButtonTooltip": "Hilfe",
   "logoutButtonTooltip": "Abmelden",
   "scheduleHelpDialogContent":
-      "Falls Du deinen Vorlesungsplan über Rapla bekommst, kannst Du ihn in der App anzeigen. "
-          "Den Link dazu bekommst Du üblicherweise zu Beginn deines Studiums per Email."
-          "\n\nAndere Systeme (Vorlesungsplan über Dualis/Moodle/...) werden leider noch nicht unterstützt.",
+      "Du kannst deinen Vorlesungsplan hier anzeigen lassen, falls Du ihn über Rapla oder Dualis bekommst."
+          "\nDen Link zum Rapla Vorlesungsplan bekommst Du üblicherweise zu Beginn deines Studiums per Email.",
   "scheduleHelpDialogTitle": "Vorlesungsplan",
   "dualisHelpDialogContent":
       "Mit den Dualis Zugangsdaten kannst Du deine Prüfungsergebnisse und Kursnoten in der App ansehen."
@@ -134,6 +133,15 @@ final de = {
   "scheduleQueryFailedMessage":
       "Ups, da ist etwas schief gelaufen. Möglicherweise wird nicht der gesamte Plan angezeigt. Schaue Dir daher den Plan im Browser an um sicher zu gehen, dass Du nichts verpasst.",
   "scheduleQueryFailedOpenInBrowser": "Im Browser öffnen",
+  "onboardingScheduleSourceTitle": "Vorlesungsplan",
+  "onboardingScheduleSourceDescription":
+      "Woher soll der Vorlesungsplan geladen werden?",
+  "scheduleSourceTypeRapla": "Rapla",
+  "scheduleSourceTypeDualis": "Dualis",
+  "scheduleSourceTypeNone": "Keinen Vorlesungsplan",
+  "settingsSetupScheduleSource": "Vorlesungsplan konfigurieren",
+  "onboardingDualisSourceDescription":
+      "Um den Vorlesungsplan aus Dualis anzuzeigen kannst Du hier deine Dualis Anmeldedaten eingeben:",
 };
 
 final en = {
@@ -227,7 +235,8 @@ final en = {
       "https://rapla.dhbw-stuttgart.de/rapla?key=7tfKQX7jOZcKnAU",
   "onboardingRaplaUrlPaste": "Paste",
   "onboardingDualisPageDescription":
-      "Here you can insert the login credentials for Dualis to see your grades in the app. This step is optional and can be done later",
+      "Here you can insert the login credentials for Dualis to see your schedule and your grades from within the app. "
+          "This step is optional and can be done later",
   "onboardingDualisPageTitle": "Dualis Login",
   "onboardingDualisTestButton": "Test",
   "onboardingDualisWrongCredentials": "Wrong password or username",
@@ -245,15 +254,14 @@ final en = {
   "dialogOk": "Ok",
   "dialogCancel": "Cancel",
   "dialogSetRaplaUrlTitle": "Set Rapla url",
-  "scheduleEmptyStateSetUrl": "Set Rapla url",
+  "scheduleEmptyStateSetUrl": "Configure",
   "scheduleEmptyStateBannerMessage":
-      "The url of the rapla schedule was not yet set. Here you can set the url.",
+      "You did not configure the schedule source. If you configure the schedule source you will see the schedule here.",
   "helpButtonTooltip": "Help",
   "logoutButtonTooltip": "Logout",
-  "scheduleHelpDialogContent": ""
-      "If you get your schedule with Rapla you can view it from within the app."
-      "Normally you get the url at the beginning of the semester via email."
-      "\n\nOther systems to get the schedule (like Dualis/Moodle) are not supported.",
+  "scheduleHelpDialogContent":
+      "Here you can view your schedule if you get it from Rapla or Dualis."
+          "\nNormally you get the url for Rapla at the beginning of the semester via email.",
   "scheduleHelpDialogTitle": "Schedule",
   "dualisHelpDialogContent": ""
       "With your Dualis credentials you can view the exam results and course results from within the app."
@@ -270,4 +278,13 @@ final en = {
   "scheduleQueryFailedMessage":
       "Oops, something went wrong. It is possible that the schedule is incomplete. To ensure that you do not miss something, view the schedule in the browser.",
   "scheduleQueryFailedOpenInBrowser": "View in browser",
+  "onboardingScheduleSourceTitle": "Schedule",
+  "onboardingScheduleSourceDescription":
+      "Where should the schedule be loaded from?",
+  "scheduleSourceTypeRapla": "Rapla",
+  "scheduleSourceTypeDualis": "Dualis",
+  "scheduleSourceTypeNone": "No schedule",
+  "settingsSetupScheduleSource": "Configure the schedule source",
+  "onboardingDualisSourceDescription":
+      "To view the schedule from Dualis you have to log in using your account:",
 };

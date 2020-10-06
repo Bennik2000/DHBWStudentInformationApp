@@ -35,9 +35,7 @@ class ErrorReportScheduleSourceDecorator extends ScheduleSource {
   }
 
   @override
-  void setEndpointUrl(String url) => _scheduleSource.setEndpointUrl(url);
-
-  @override
-  void validateEndpointUrl(String url) =>
-      _scheduleSource.validateEndpointUrl(url);
+  bool canQuery() {
+    return _scheduleSource.canQuery();
+  }
 }

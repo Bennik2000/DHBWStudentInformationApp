@@ -1,11 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model.dart';
-import 'package:dhbwstudentapp/ui/onboarding/widgets/dualis_login_page.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_button_bar.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_page_background.dart';
-import 'package:dhbwstudentapp/ui/onboarding/widgets/rapla_url_page.dart';
-import 'package:dhbwstudentapp/ui/onboarding/widgets/select_app_features.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -31,17 +28,16 @@ class _OnboardingPageState extends State<OnboardingPage>
 
     viewModel = OnboardingViewModel(
       KiwiContainer().resolve(),
-      KiwiContainer().resolve(),
+      _onboardingFinished,
     );
 
     viewModel.addListener(
       () async {
         await _controller.animateTo(
-            viewModel.currentStep / viewModel.onboardingSteps,
+            viewModel.stepIndex / viewModel.onboardingSteps,
             curve: Curves.ease,
             duration: const Duration(milliseconds: 300));
       },
-      ["currentStep"],
     );
 
     _controller = AnimationController(vsync: this);
@@ -100,23 +96,18 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   Widget _buildActiveOnboardingPage(OnboardingViewModel model) {
-    var contentWidgets = {
-      OnboardingSteps.Start: () => SelectAppFeaturesWidget(
-            viewModel: viewModel,
-          ),
-      OnboardingSteps.Rapla: () => RaplaUrlPage(),
-      OnboardingSteps.Dualis: () => DualisLoginCredentialsPage(),
-    };
+    var currentStep = model.pages[model.currentStep];
+    var contentWidget = currentStep.buildContent(context);
 
     Widget body = Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-      child: contentWidgets[model.currentPage](),
+      child: contentWidget,
     );
 
-    if (model.currentViewModel != null) {
+    if (currentStep != null) {
       body = PropertyChangeProvider(
         key: ValueKey(model.currentStep),
-        value: model.currentViewModel,
+        value: currentStep.viewModel(),
         child: body,
       );
     }
@@ -142,21 +133,17 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   void _navigateNext(BuildContext context) {
-    if (viewModel.currentStep == viewModel.onboardingSteps - 1) {
-      viewModel.save();
-
-      var rootViewModel =
-          PropertyChangeProvider.of<RootViewModel>(context).value;
-
-      rootViewModel.setIsOnboarding(false);
-
-      Navigator.of(context).pushReplacementNamed("main");
-    } else {
-      viewModel.nextPage();
-    }
+    viewModel.nextPage();
   }
 
   void _navigateBack(BuildContext context) {
     viewModel.previousPage();
+  }
+
+  void _onboardingFinished() {
+    var rootViewModel = PropertyChangeProvider.of<RootViewModel>(context).value;
+    rootViewModel.setIsOnboarding(false);
+
+    Navigator.of(context).pushReplacementNamed("main");
   }
 }

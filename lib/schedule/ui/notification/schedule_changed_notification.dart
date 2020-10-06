@@ -17,6 +17,10 @@ class ScheduleChangedNotification {
   }
 
   void showEntriesChangedNotifications(ScheduleDiff scheduleDiff) {
+    if (scheduleDiff.updatedEntries.length > 4) {
+      return;
+    }
+
     for (var entry in scheduleDiff.updatedEntries) {
       var message = interpolate(
         _localization.notificationScheduleChangedClass,
@@ -34,6 +38,10 @@ class ScheduleChangedNotification {
   }
 
   void showEntriesRemovedNotifications(ScheduleDiff scheduleDiff) {
+    if (scheduleDiff.removedEntries.length > 4) {
+      return;
+    }
+
     for (var entry in scheduleDiff.removedEntries) {
       var message = interpolate(
         _localization.notificationScheduleChangedRemovedClass,
@@ -52,6 +60,10 @@ class ScheduleChangedNotification {
   }
 
   void showEntriesAddedNotifications(ScheduleDiff scheduleDiff) {
+    if (scheduleDiff.addedEntries.length > 4) {
+      return;
+    }
+
     for (var entry in scheduleDiff.addedEntries) {
       var message = interpolate(
         _localization.notificationScheduleChangedNewClass,

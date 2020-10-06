@@ -18,6 +18,8 @@ class ScheduleNavigationEntry extends NavigationEntry {
 
   @override
   BaseViewModel initViewModel() {
+    if (_viewModel != null) return _viewModel;
+
     _viewModel = ScheduleViewModel(
       KiwiContainer().resolve(),
     );

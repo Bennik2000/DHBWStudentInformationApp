@@ -6,6 +6,7 @@ import 'package:dhbwstudentapp/common/util/cancelable_mutex.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
@@ -14,7 +15,8 @@ import 'package:flutter/foundation.dart';
 class WeeklyScheduleViewModel extends BaseViewModel {
   static const Duration weekDuration = Duration(days: 7);
 
-  ScheduleProvider scheduleProvider;
+  final ScheduleProvider scheduleProvider;
+  final ScheduleSourceProvider scheduleSourceProvider;
 
   DateTime currentDateStart;
   DateTime currentDateEnd;
@@ -49,9 +51,22 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   DateTime lastRequestedStart;
   DateTime lastRequestedEnd;
 
-  WeeklyScheduleViewModel(this.scheduleProvider) {
+  WeeklyScheduleViewModel(
+    this.scheduleProvider,
+    this.scheduleSourceProvider,
+  ) {
     goToToday();
     ensureUpdateNowTimerRunning();
+
+    scheduleSourceProvider
+        .addDidChangeScheduleSourceCallback(_onDidChangeScheduleSource);
+  }
+
+  Future<void> _onDidChangeScheduleSource(
+    ScheduleSource newSource,
+    bool setupSuccess,
+  ) async {
+    if (setupSuccess) await updateSchedule(currentDateStart, currentDateEnd);
   }
 
   void _setSchedule(Schedule schedule, DateTime start, DateTime end) {

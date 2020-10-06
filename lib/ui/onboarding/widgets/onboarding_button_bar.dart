@@ -1,6 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model.dart';
-import 'package:dhbwstudentapp/ui/onboarding/widgets/dots_indicator.dart';
 import 'package:flutter/material.dart';
 
 class OnboardingButtonBar extends StatelessWidget {
@@ -17,34 +16,21 @@ class OnboardingButtonBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Flexible(
-          fit: FlexFit.tight,
-          flex: 2,
-          child: _buildPreviousButton(context),
-        ),
-        Flexible(
-          fit: FlexFit.tight,
-          flex: 1,
-          child: DotsIndicator(
-            currentStep: viewModel.currentStep,
-            numberSteps: viewModel.onboardingSteps,
-          ),
-        ),
-        Flexible(
-          fit: FlexFit.tight,
-          flex: 2,
-          child: _buildNextButton(context),
-        )
-      ],
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          _buildPreviousButton(context),
+          _buildNextButton(context)
+        ],
+      ),
     );
   }
 
   Widget _buildPreviousButton(BuildContext context) {
-    bool isFirstPage = viewModel.currentStep == 0;
+    bool isFirstPage = viewModel.stepIndex == 0;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 100),
@@ -60,17 +46,15 @@ class OnboardingButtonBar extends StatelessWidget {
   }
 
   Widget _buildNextButton(BuildContext context) {
-    bool isLastPage = viewModel.currentStep == viewModel.onboardingSteps - 1;
-
     String buttonText;
     var buttonColor = Theme.of(context).accentColor;
 
-    if (isLastPage) {
+    if (viewModel.isLastStep) {
       buttonText = L.of(context).onboardingFinishButton;
     } else {
       buttonText = L.of(context).onboardingNextButton;
     }
-    if (!viewModel.canStepNext) {
+    if (!viewModel.currentPageValid) {
       buttonText = L.of(context).onboardingSkipButton;
       buttonColor = Theme.of(context).disabledColor;
     }
@@ -80,8 +64,9 @@ class OnboardingButtonBar extends StatelessWidget {
       child: FlatButton.icon(
         key: ValueKey(buttonText),
         onPressed: onNext,
-        icon:
-            isLastPage ? Icon(Icons.arrow_forward) : Icon(Icons.navigate_next),
+        icon: viewModel.isLastStep
+            ? Icon(Icons.arrow_forward)
+            : Icon(Icons.navigate_next),
         label: Text(buttonText.toUpperCase()),
         textColor: buttonColor,
       ),
