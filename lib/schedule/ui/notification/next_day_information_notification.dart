@@ -1,5 +1,6 @@
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/notification_api.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
@@ -9,6 +10,7 @@ import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:intl/intl.dart';
 
 class NextDayInformationNotification extends TaskCallback {
+  final PreferencesProvider _preferencesProvider;
   final NotificationApi _notificationApi;
   final ScheduleEntryRepository _scheduleEntryRepository;
   final WorkSchedulerService _scheduler;
@@ -19,11 +21,16 @@ class NextDayInformationNotification extends TaskCallback {
     this._scheduleEntryRepository,
     this._scheduler,
     this._localization,
+    this._preferencesProvider,
   );
 
   @override
   Future<void> run() async {
     await schedule();
+
+    if (!await _preferencesProvider.getNotifyAboutNextDay()) {
+      return;
+    }
 
     var now = DateTime.now();
 
