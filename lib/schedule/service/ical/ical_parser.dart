@@ -12,7 +12,7 @@ class IcalParser {
 
   /// Matches a property in the form of:
   /// KEY:Value
-  final String propertyRegex = "([A-Z]+):(.*)";
+  final String propertyRegex = "([A-Z]+)(;[A-Z=-]*)?:(.*)";
 
   /// Matches the date time format:
   /// YYYYMMDDTHHmmss
@@ -51,7 +51,7 @@ class IcalParser {
     Map<String, String> properties = {};
 
     for (var property in allProperties) {
-      properties[property.group(1)] = property.group(2);
+      properties[property.group(1)] = property.group(3);
     }
 
     return ScheduleEntry(
@@ -69,7 +69,7 @@ class IcalParser {
     var match = RegExp(
       dateTimeRegex,
       unicode: true,
-    ).firstMatch(date);
+    ).firstMatch(date ?? "");
 
     if (match == null) {
       return null;
