@@ -7,18 +7,25 @@
 
 # DHBW Studenten App
 
-Diese App zeigt deinen Vorlesungsplan der DHBW. 
+Die DHBW Studenten App bietet Dir eine Möglichkeit deinen Vorlesungsplan auf dem Smartphone abzurufen. Du kannst auch die Noten aus Dualis direkt in der App abrufen.
+
+Schaue auf deinen Vorlesungsplan immer und überall, auch ohne Internetverbindung - z.B. morgens in der S-Bahn.
 
 Bisher verfügbare Funktionen:
 
-- Vorlesungsplan aus Rapla anzeigen
+- Vorlesungsplan aus Rapla und Dualis anzeigen
 - Komplette Übersicht über deine Woche
 - Simple Tagesübersicht
-- Offline modus. Du kannst auf deinen Vorlesungsplan zugreifen, auch wenn du keine Internetverbindung hast
+- Noten aus Dualis abrufen
+- Offline modus: Du kannst auf deinen Vorlesungsplan zugreifen, auch wenn du keine Internetverbindung hast
 - Benachrichtigung am Vorabend zum nächsten Tag
 - Benachrichtigung, wenn sich etwas im Plan geändert hat
-- Noten von Dualis abrufen
+- Integration der [Termindatenbank](https://it.dhbw-stuttgart.de/DHermine/) der DHBW Stuttgart
 - Helles und dunkles Design 👻
+
+
+
+Diese App ist optimiert für die DHBW Stuttgart und manche Funktionen werden  an anderen Standorten möglicherweise nicht unterstützt. Dies ist kein offizielles Angebot der DHBW Stuttgart und wurde von Studenten in Eigeninitiative entwickelt!
 
 
 

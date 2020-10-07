@@ -1,6 +1,6 @@
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 
-abstract class OnboardingViewModelBase extends BaseViewModel {
+abstract class OnboardingStepViewModel extends BaseViewModel {
   bool _isValid = false;
   bool get isValid => _isValid;
 
@@ -9,5 +9,5 @@ abstract class OnboardingViewModelBase extends BaseViewModel {
     notifyListeners("isValid");
   }
 
-  void save();
+  Future<void> save();
 }

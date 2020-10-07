@@ -11,8 +11,8 @@ if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-def flutterVersionCode = '16'
-def flutterVersionName = '1.0.14'
+def flutterVersionCode = '18'
+def flutterVersionName = '1.1.0'
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -62,6 +62,7 @@ android {
         release {
             signingConfig signingConfigs.release
             //signingConfig signingConfigs.debug
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }

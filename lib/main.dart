@@ -8,11 +8,15 @@ import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:flutter/material.dart';
 
+import 'common/util/platform_util.dart';
+
 void main() async {
   FlutterError.onError = Crashlytics.instance.recordFlutterError;
 
   await initializeApp(false);
   await saveLastStartLanguage();
+
+  PlatformUtil.initializePortraitLandscapeMode();
 
   runApp(RootPage(
     rootViewModel: await loadRootViewModel(),

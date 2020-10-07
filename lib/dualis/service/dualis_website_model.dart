@@ -1,16 +1,19 @@
 import 'package:dhbwstudentapp/dualis/model/exam.dart';
 
-class DualisUrls {
-  final String courseResultUrl;
-  final String studentResultsUrl;
-  final String logoutUrl;
-  final Map<String, String> semesterCourseResultUrls = {};
+const String dualisEndpoint = "https://dualis.dhbw.de";
 
-  DualisUrls(
-    this.courseResultUrl,
-    this.studentResultsUrl,
-    this.logoutUrl,
-  );
+///
+/// Stores all important urls to navigate within dualis. It also handles the
+/// access token contained within the urls.
+///
+class DualisUrls {
+  String courseResultUrl;
+  String studentResultsUrl;
+  String logoutUrl;
+  String mainPageUrl;
+  String monthlyScheduleUrl;
+
+  Map<String, String> semesterCourseResultUrls = {};
 }
 
 class DualisSemester {

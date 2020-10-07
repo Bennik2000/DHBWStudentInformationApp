@@ -19,4 +19,17 @@ class PlatformUtil {
     final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     return data.platformBrightness ?? Brightness.light;
   }
+
+  static void initializePortraitLandscapeMode() {
+    if (isPhone()) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    } else {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    }
+  }
 }

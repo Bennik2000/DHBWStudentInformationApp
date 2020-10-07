@@ -1,115 +1,28 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
-import 'package:dhbwstudentapp/dualis/service/dualis_session.dart';
+import 'package:dhbwstudentapp/dualis/service/dualis_authentication.dart';
+import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
+import 'package:dhbwstudentapp/dualis/service/parsing/monthly_schedule_extract.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/all_modules_extract.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/exams_from_module_details_extract.dart';
-import 'package:dhbwstudentapp/dualis/service/parsing/login_redirect_url_extract.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/modules_from_course_result_page_extract.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/semesters_from_course_result_page_extract.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/study_grades_from_student_results_page_extract.dart';
-import 'package:dhbwstudentapp/dualis/service/parsing/urls_from_main_page_extract.dart';
-import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
-import 'package:http/http.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 
+///
+/// Provides one single class to access the dualis api.
+///
 class DualisScraper {
-  static const String dualisEndpoint = "https://dualis.dhbw.de";
+  DualisAuthentication _dualisAuthentication = DualisAuthentication();
+  DualisUrls get _dualisUrls => _dualisAuthentication.dualisUrls;
 
-  Future<DualisSession> login(
-    String user,
-    String password, [
+  Future<List<DualisModule>> loadAllModules([
     CancellationToken cancellationToken,
   ]) async {
-    var session = DualisSession();
-
-    var loginResponse = await _makeLoginRequest(
-      user,
-      password,
-      session,
-      cancellationToken,
-    );
-
-    if (loginResponse == null) return null;
-    if (loginResponse.statusCode != 200) return null;
-    if (!loginResponse.headers.containsKey("refresh")) return null;
-
-    var refreshHeader = loginResponse.headers['refresh'];
-    var refreshUrl = LoginRedirectUrlExtract().getUrlFromHeader(
-      refreshHeader,
-      dualisEndpoint,
-    );
-
-    if (refreshUrl == null) return null;
-
-    var redirectResponse = await session.get(
-      refreshUrl,
-      cancellationToken,
-    );
-
-    var redirectUrl = LoginRedirectUrlExtract().readRedirectUrl(
-      redirectResponse,
-      dualisEndpoint,
-    );
-
-    if (redirectUrl == null) return null;
-
-    session.mainPageUrl = redirectUrl;
-    return session;
-  }
-
-  Future<Response> _makeLoginRequest(
-    String user,
-    String password,
-    DualisSession session, [
-    CancellationToken cancellationToken,
-  ]) async {
-    var loginUrl = dualisEndpoint + "/scripts/mgrqispi.dll";
-
-    var data = {
-      "usrname": user,
-      "pass": password,
-      "APPNAME": "CampusNet",
-      "PRGNAME": "LOGINCHECK",
-      "ARGUMENTS": "clino,usrname,pass,menuno,menu_type,browser,platform",
-      "clino": "000000000000001",
-      "menuno": "000324",
-      "menu_type": "classic",
-    };
-
-    try {
-      var loginResponse = await session.post(
-        loginUrl,
-        data,
-        cancellationToken,
-      );
-      return loginResponse;
-    } on ServiceRequestFailed {
-      return null;
-    }
-  }
-
-  Future<DualisUrls> requestMainPage(
-    DualisSession session, [
-    CancellationToken cancellationToken,
-  ]) async {
-    var mainPageResponse = await session.get(
-      session.mainPageUrl,
-      cancellationToken,
-    );
-
-    return UrlsFromMainPageExtract().parseMainPage(
-      mainPageResponse,
-      dualisEndpoint,
-    );
-  }
-
-  Future<List<DualisModule>> loadAllModules(
-    DualisSession session,
-    String studentResultsUrl, [
-    CancellationToken cancellationToken,
-  ]) async {
-    var allModulesPageResponse = await session.get(
-      studentResultsUrl,
+    var allModulesPageResponse = await _dualisAuthentication.authenticatedGet(
+      _dualisUrls.studentResultsUrl,
       cancellationToken,
     );
 
@@ -117,11 +30,10 @@ class DualisScraper {
   }
 
   Future<List<DualisExam>> loadModuleExams(
-    String moduleDetailsUrl,
-    DualisSession session, [
+    String moduleDetailsUrl, [
     CancellationToken cancellationToken,
   ]) async {
-    var detailsResponse = await session.get(
+    var detailsResponse = await _dualisAuthentication.authenticatedGet(
       moduleDetailsUrl,
       cancellationToken,
     );
@@ -131,30 +43,34 @@ class DualisScraper {
     );
   }
 
-  Future<List<DualisSemester>> loadSemesters(
-    DualisSession session,
-    DualisUrls mainPage, [
+  Future<List<DualisSemester>> loadSemesters([
     CancellationToken cancellationToken,
   ]) async {
-    var courseResultsResponse = await session.get(
-      mainPage.courseResultUrl,
+    var courseResultsResponse = await _dualisAuthentication.authenticatedGet(
+      _dualisUrls.courseResultUrl,
       cancellationToken,
     );
 
-    return SemestersFromCourseResultPageExtract()
+    var semesters = SemestersFromCourseResultPageExtract()
         .extractSemestersFromCourseResults(
       courseResultsResponse,
       dualisEndpoint,
     );
+
+    for (var semester in semesters) {
+      _dualisUrls.semesterCourseResultUrls[semester.semesterName] =
+          semester.semesterCourseResultsUrl;
+    }
+
+    return semesters;
   }
 
   Future<List<DualisModule>> loadSemesterModules(
-    DualisSession session,
-    String semesterCourseResultsUrl, [
+    String semesterName, [
     CancellationToken cancellationToken,
   ]) async {
-    var coursePage = await session.get(
-      semesterCourseResultsUrl,
+    var coursePage = await _dualisAuthentication.authenticatedGet(
+      _dualisUrls.semesterCourseResultUrls[semesterName],
       cancellationToken,
     );
 
@@ -163,12 +79,10 @@ class DualisScraper {
   }
 
   Future<StudyGrades> loadStudyGrades(
-    DualisSession session,
-    String studentResultsUrl, [
     CancellationToken cancellationToken,
-  ]) async {
-    var studentsResultsPage = await session.get(
-      studentResultsUrl,
+  ) async {
+    var studentsResultsPage = await _dualisAuthentication.authenticatedGet(
+      _dualisUrls.studentResultsUrl,
       cancellationToken,
     );
 
@@ -176,11 +90,47 @@ class DualisScraper {
         .extractStudyGradesFromStudentsResultsPage(studentsResultsPage);
   }
 
-  Future<void> logout(
-    DualisSession session,
-    DualisUrls urls, [
+  Future<Schedule> loadMonthlySchedule(
+    DateTime dateInMonth,
     CancellationToken cancellationToken,
-  ]) async {
-    await session.get(urls.logoutUrl, cancellationToken);
+  ) async {
+    var requestUrl =
+        "${_dualisUrls.monthlyScheduleUrl}01.${dateInMonth.month}.${dateInMonth.year}";
+
+    var result = await _dualisAuthentication.authenticatedGet(
+        requestUrl, cancellationToken);
+
+    var schedule = MonthlyScheduleExtract().extractScheduleFromMonthly(result);
+
+    schedule.urls.add(dualisEndpoint);
+
+    return schedule;
+  }
+
+  Future<LoginResult> login(
+    String username,
+    String password,
+    CancellationToken cancellationToken,
+  ) {
+    return _dualisAuthentication.login(username, password, cancellationToken);
+  }
+
+  Future<LoginResult> loginWithPreviousCredentials(
+    CancellationToken cancellationToken,
+  ) {
+    return _dualisAuthentication
+        .loginWithPreviousCredentials(cancellationToken);
+  }
+
+  Future<void> logout(CancellationToken cancellationToken) {
+    return _dualisAuthentication.logout(cancellationToken);
+  }
+
+  bool isLoggedIn() {
+    return _dualisAuthentication.loginState == LoginResult.LoggedIn;
+  }
+
+  void setLoginCredentials(String username, String password) {
+    _dualisAuthentication.setLoginCredentials(username, password);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_rapla_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,9 +41,9 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
             child: PropertyChangeConsumer(
-              builder: (BuildContext context, OnboardingViewModelBase model,
+              builder: (BuildContext context, OnboardingStepViewModel model,
                   Set<Object> _) {
-                var viewModel = model as OnboardingRaplaViewModel;
+                var viewModel = model as RaplaUrlViewModel;
 
                 if (_urlTextController.text != viewModel.raplaUrl)
                   _urlTextController.text = viewModel.raplaUrl;
