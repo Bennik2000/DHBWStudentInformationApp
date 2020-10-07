@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/schedule/service/dualis/dualis_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/error_report_schedule_source_decorator.dart';
+import 'package:dhbwstudentapp/schedule/service/ical/ical_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/invalid_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/isolate_schedule_source_decorator.dart';
 import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
@@ -35,6 +36,7 @@ class ScheduleSourceProvider {
     final initializer = {
       ScheduleSourceType.Dualis: () async => await _dualisScheduleSource(),
       ScheduleSourceType.Rapla: () async => await _raplaScheduleSource(),
+      ScheduleSourceType.Ical: () async => await _icalScheduleSource(),
     };
 
     if (initializer.containsKey(scheduleSourceType)) {
@@ -85,6 +87,24 @@ class ScheduleSourceProvider {
       rapla.setEndpointUrl(raplaUrl);
 
       ScheduleSource source = ErrorReportScheduleSourceDecorator(rapla);
+
+      if (!_appRunningInBackground) {
+        source = IsolateScheduleSourceDecorator(source);
+      }
+      return source;
+    }
+
+    return InvalidScheduleSource();
+  }
+
+  Future<ScheduleSource> _icalScheduleSource() async {
+    var url = await _preferencesProvider.getIcalUrl();
+
+    var ical = IcalScheduleSource();
+    ical.setIcalUrl(url);
+
+    if (ical.canQuery()) {
+      ScheduleSource source = ErrorReportScheduleSourceDecorator(ical);
 
       if (!_appRunningInBackground) {
         source = IsolateScheduleSourceDecorator(source);

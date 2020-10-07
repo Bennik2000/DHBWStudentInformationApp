@@ -153,4 +153,8 @@ class PreferencesProvider {
   Future<T> get<T>(String key) async {
     return _preferencesAccess.get(key);
   }
+
+  Future<String> getIcalUrl() {
+    return Future.value("");
+  }
 }

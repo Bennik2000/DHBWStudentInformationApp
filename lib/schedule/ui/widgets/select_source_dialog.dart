@@ -51,6 +51,12 @@ class SelectSourceDialog {
         ),
         RadioListTile(
           groupValue: _currentScheduleSource,
+          value: ScheduleSourceType.Ical,
+          onChanged: (v) => sourceSelected(v, context),
+          title: Text("Ical"),
+        ),
+        RadioListTile(
+          groupValue: _currentScheduleSource,
           value: ScheduleSourceType.None,
           onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeNone),
@@ -80,6 +86,9 @@ class SelectSourceDialog {
           _preferencesProvider,
           KiwiContainer().resolve(),
         ).show(context);
+        break;
+      case ScheduleSourceType.Ical:
+        await _scheduleSourceProvider.setupScheduleSource();
         break;
     }
   }

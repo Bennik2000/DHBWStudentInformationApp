@@ -8,24 +8,26 @@ import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 class IcalParser {
   /// Matches a calendar entry. The first group contains the text between
   /// the BEGIN:VEVENT and END:VEVENT
-  final RegExp calendarEntryRegex = RegExp(
-    "BEGIN:VEVENT(.*?)END:VEVENT",
-    multiLine: true,
-    unicode: true,
-    dotAll: true,
-  );
+  final String calendarEntryRegex = "BEGIN:VEVENT(.*?)END:VEVENT";
 
   /// Matches a property in the form of:
   /// KEY:Value
-  final RegExp propertyRegex = RegExp("([A-Z]+):(.*)");
+  final String propertyRegex = "([A-Z]+):(.*)";
 
   /// Matches the date time format:
   /// YYYYMMDDTHHmmss
-  final RegExp dateTimeRegex =
-      RegExp("([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2})([0-9]{2})([0-9]{2})");
+  final String dateTimeRegex =
+      "([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2})([0-9]{2})([0-9]{2})";
 
   ScheduleQueryResult parseIcal(String icalData) {
-    var matches = calendarEntryRegex.allMatches(icalData);
+    var regex = RegExp(
+      calendarEntryRegex,
+      multiLine: true,
+      unicode: true,
+      dotAll: true,
+    );
+
+    var matches = regex.allMatches(icalData);
 
     List<ScheduleEntry> entries = [];
 
@@ -41,7 +43,10 @@ class IcalParser {
   }
 
   ScheduleEntry _parseEntry(String entryData) {
-    var allProperties = propertyRegex.allMatches(entryData);
+    var allProperties = RegExp(
+      propertyRegex,
+      unicode: true,
+    ).allMatches(entryData);
 
     Map<String, String> properties = {};
 
@@ -61,7 +66,10 @@ class IcalParser {
   }
 
   DateTime _parseDate(String date) {
-    var match = dateTimeRegex.firstMatch(date);
+    var match = RegExp(
+      dateTimeRegex,
+      unicode: true,
+    ).firstMatch(date);
 
     if (match == null) {
       return null;
