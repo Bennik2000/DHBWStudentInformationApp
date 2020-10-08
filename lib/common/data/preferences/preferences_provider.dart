@@ -139,7 +139,7 @@ class PreferencesProvider {
   }
 
   Future<int> getScheduleSourceType() async {
-    return await _preferencesAccess.get<int>(ScheduleSourceType);
+    return await _preferencesAccess.get<int>(ScheduleSourceType) ?? 0;
   }
 
   Future<void> setScheduleSourceType(int value) async {
