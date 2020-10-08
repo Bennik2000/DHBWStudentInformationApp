@@ -81,7 +81,7 @@ class ScheduleSourceProvider {
     var raplaUrl = await _preferencesProvider.getRaplaUrl();
 
     var rapla = RaplaScheduleSource();
-    var urlValid = rapla.validateEndpointUrl(raplaUrl);
+    var urlValid = RaplaScheduleSource.isValidUrl(raplaUrl);
 
     if (urlValid) {
       rapla.setEndpointUrl(raplaUrl);
@@ -126,6 +126,14 @@ class ScheduleSourceProvider {
   Future<void> setupForDualis() async {
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Dualis.index);
+
+    await setupScheduleSource();
+  }
+
+  Future<void> setupForIcal(String url) async {
+    await _preferencesProvider.setIcalUrl(url);
+    await _preferencesProvider
+        .setScheduleSourceType(ScheduleSourceType.Ical.index);
 
     await setupScheduleSource();
   }

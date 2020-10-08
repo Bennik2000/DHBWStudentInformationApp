@@ -27,12 +27,7 @@ class RaplaUrlViewModel extends OnboardingStepViewModel {
   }
 
   void _validateUrl() {
-    try {
-      RaplaScheduleSource().validateEndpointUrl(_raplaUrl);
-      urlHasError = false;
-    } catch (e) {
-      urlHasError = true;
-    }
+    urlHasError = RaplaScheduleSource.isValidUrl(_raplaUrl);
 
     setIsValid(!urlHasError);
 

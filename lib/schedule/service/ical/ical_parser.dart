@@ -12,6 +12,8 @@ class IcalParser {
 
   /// Matches a property in the form of:
   /// KEY:Value
+  /// or:
+  /// DTSTAMP;VALUE=DATE-TIME:20201008T000006Z
   final String propertyRegex = "([A-Z]+)(;[A-Z=-]*)?:(.*)";
 
   /// Matches the date time format:

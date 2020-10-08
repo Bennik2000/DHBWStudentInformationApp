@@ -1,47 +1,44 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
-import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
+import 'package:dhbwstudentapp/schedule/service/ical/ical_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/enter_url_dialog.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
-///
-/// Shows a dialog to enter and validate the url for rapla
-///
-class EnterRaplaUrlDialog extends EnterUrlDialog {
+class EnterIcalDialog extends EnterUrlDialog {
   final PreferencesProvider _preferencesProvider;
   final ScheduleSourceProvider _scheduleSource;
 
-  EnterRaplaUrlDialog(this._preferencesProvider, this._scheduleSource);
+  EnterIcalDialog(this._preferencesProvider, this._scheduleSource);
 
   @override
-  Future saveUrl(String url) async {
-    await _scheduleSource.setupForRapla(url);
+  Future<String> loadUrl() {
+    return _preferencesProvider.getIcalUrl();
   }
 
   @override
-  Future<String> loadUrl() async {
-    return await _preferencesProvider.getRaplaUrl();
+  Future saveUrl(String url) async {
+    await _scheduleSource.setupForIcal(url);
   }
 
   @override
   bool isValidUrl(String url) {
-    return RaplaScheduleSource.isValidUrl(url);
+    return IcalScheduleSource.isValidUrl(url);
   }
 
   @override
   String hint(BuildContext context) {
-    return L.of(context).onboardingRaplaUrlHint;
+    return "www.google.de/ical";
   }
 
   @override
   String message(BuildContext context) {
-    return L.of(context).onboardingRaplaPageDescription;
+    return "Enter the ical url";
   }
 
   @override
   String title(BuildContext context) {
-    return L.of(context).dialogSetRaplaUrlTitle;
+    return "iCal url";
   }
 
   @override

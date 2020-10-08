@@ -16,13 +16,7 @@ class IcalScheduleSource extends ScheduleSource {
 
   @override
   bool canQuery() {
-    try {
-      Uri.parse(_url);
-    } catch (e) {
-      return false;
-    }
-
-    return true;
+    return isValidUrl(_url);
   }
 
   @override
@@ -75,5 +69,15 @@ class IcalScheduleSource extends ScheduleSource {
     }
 
     return null;
+  }
+
+  static bool isValidUrl(String url) {
+    try {
+      Uri.parse(url);
+    } catch (e) {
+      return false;
+    }
+
+    return true;
   }
 }
