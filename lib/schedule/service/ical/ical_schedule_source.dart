@@ -31,7 +31,8 @@ class IcalScheduleSource extends ScheduleSource {
     if (response == null) return null;
 
     try {
-      var schedule = _icalParser.parseIcal(latin1.decode(response.bodyBytes));
+      var body = utf8.decode(response.bodyBytes);
+      var schedule = _icalParser.parseIcal(body);
 
       return ScheduleQueryResult(
         schedule.schedule.trim(from, to),
