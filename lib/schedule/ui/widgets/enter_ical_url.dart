@@ -28,17 +28,17 @@ class EnterIcalDialog extends EnterUrlDialog {
 
   @override
   String hint(BuildContext context) {
-    return "www.google.de/ical";
+    return L.of(context).onboardingIcalUrlHint;
   }
 
   @override
   String message(BuildContext context) {
-    return "Enter the ical url";
+    return L.of(context).onboardingIcalPageDescription;
   }
 
   @override
   String title(BuildContext context) {
-    return "iCal url";
+    return L.of(context).onboardingIcalPageTitle;
   }
 
   @override

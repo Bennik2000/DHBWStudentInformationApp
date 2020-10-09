@@ -142,6 +142,11 @@ final de = {
   "settingsSetupScheduleSource": "Vorlesungsplan konfigurieren",
   "onboardingDualisSourceDescription":
       "Um den Vorlesungsplan aus Dualis anzuzeigen kannst Du hier deine Dualis Anmeldedaten eingeben:",
+  "onboardingIcalPageDescription":
+      "Hier kannst Du den Link zum iCal online Kalender eingeben:",
+  "onboardingIcalPageTitle": "iCal Kalender",
+  "onboardingIcalUrlHint": "URL",
+  "scheduleSourceTypeIcal": "iCal Kalender",
 };
 
 final en = {
@@ -287,4 +292,9 @@ final en = {
   "settingsSetupScheduleSource": "Configure the schedule source",
   "onboardingDualisSourceDescription":
       "To view the schedule from Dualis you have to log in using your account:",
+  "onboardingIcalPageDescription": ""
+      "Here you can insert the url to the iCal online calendar:",
+  "onboardingIcalPageTitle": "iCal Calendar",
+  "onboardingIcalUrlHint": "URL",
+  "scheduleSourceTypeIcal": "iCal Calendar",
 };

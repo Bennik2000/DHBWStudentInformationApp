@@ -55,6 +55,12 @@ class SelectSourcePage extends StatelessWidget {
             buildScheduleTypeRadio(
               viewModel,
               context,
+              ScheduleSourceType.Ical,
+              L.of(context).scheduleSourceTypeIcal,
+            ),
+            buildScheduleTypeRadio(
+              viewModel,
+              context,
               ScheduleSourceType.None,
               L.of(context).scheduleSourceTypeNone,
             ),
