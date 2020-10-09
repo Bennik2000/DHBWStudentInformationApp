@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
@@ -29,7 +31,7 @@ class IcalScheduleSource extends ScheduleSource {
     if (response == null) return null;
 
     try {
-      var schedule = _icalParser.parseIcal(response.body);
+      var schedule = _icalParser.parseIcal(latin1.decode(response.bodyBytes));
 
       return ScheduleQueryResult(
         schedule.schedule.trim(from, to),
