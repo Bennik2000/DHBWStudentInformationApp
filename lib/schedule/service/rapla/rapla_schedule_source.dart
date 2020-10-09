@@ -133,7 +133,12 @@ class RaplaScheduleSource extends ScheduleSource {
     return null;
   }
 
-  bool validateEndpointUrl(String url) {
+  @override
+  bool canQuery() {
+    return isValidUrl(raplaUrl);
+  }
+
+  static bool isValidUrl(String url) {
     Uri uri;
 
     try {
@@ -158,11 +163,6 @@ class RaplaScheduleSource extends ScheduleSource {
     }
 
     return false;
-  }
-
-  @override
-  bool canQuery() {
-    return validateEndpointUrl(raplaUrl);
   }
 }
 

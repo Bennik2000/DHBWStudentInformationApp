@@ -11,12 +11,14 @@ class OnboardingViewModel extends BaseViewModel {
   final List<String> steps = [
     "selectSource",
     "rapla",
+    "ical",
     "dualis",
   ];
 
   final Map<String, OnboardingStep> pages = {
     "selectSource": SelectSourceOnboardingStep(),
     "rapla": RaplaOnboardingStep(),
+    "ical": IcalOnboardingStep(),
     "dualis": DualisCredentialsOnboardingStep(),
   };
 

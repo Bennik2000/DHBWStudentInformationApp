@@ -3,6 +3,7 @@ import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/enter_dualis_credentials_dialog.dart';
+import 'package:dhbwstudentapp/schedule/ui/widgets/enter_ical_url.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/enter_rapla_url_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -51,6 +52,12 @@ class SelectSourceDialog {
         ),
         RadioListTile(
           groupValue: _currentScheduleSource,
+          value: ScheduleSourceType.Ical,
+          onChanged: (v) => sourceSelected(v, context),
+          title: Text("Ical"),
+        ),
+        RadioListTile(
+          groupValue: _currentScheduleSource,
           value: ScheduleSourceType.None,
           onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeNone),
@@ -77,6 +84,12 @@ class SelectSourceDialog {
         break;
       case ScheduleSourceType.Dualis:
         await EnterDualisCredentialsDialog(
+          _preferencesProvider,
+          KiwiContainer().resolve(),
+        ).show(context);
+        break;
+      case ScheduleSourceType.Ical:
+        await EnterIcalDialog(
           _preferencesProvider,
           KiwiContainer().resolve(),
         ).show(context);
