@@ -25,7 +25,7 @@ Future<void> initializeApp(bool isBackground) async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  injectServices(isBackground);
+  await injectServices(isBackground);
 
   if (isBackground) {
     await LocalizationInitialize.fromPreferences(KiwiContainer().resolve())
