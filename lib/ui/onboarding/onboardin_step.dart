@@ -74,7 +74,7 @@ class RaplaOnboardingStep extends OnboardingStep {
 
   @override
   String nextStep() {
-    return null;
+    return "dualis";
   }
 
   @override
@@ -96,7 +96,7 @@ class IcalOnboardingStep extends OnboardingStep {
 
   @override
   String nextStep() {
-    return null;
+    return "dualis";
   }
 
   @override
