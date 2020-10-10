@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
@@ -31,5 +33,9 @@ class PlatformUtil {
         DeviceOrientation.landscapeRight,
       ]);
     }
+  }
+
+  static bool isAndroid() {
+    return Platform.isAndroid;
   }
 }
