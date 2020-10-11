@@ -6,6 +6,13 @@ import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 import 'package:dhbwstudentapp/dualis/service/fake_data_dualis_scraper.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 
+///
+/// This DualisScraper decorator allows to enter specific fake account
+/// information in order to get beyond the Dualis login without having a
+/// dualis account.
+/// Background: The AppStore review process needs login credentials to every
+/// area of the app.
+///
 class FakeAccountDualisScraperDecorator implements DualisScraper {
   final fakeUsername = "fakeAccount@domain.de";
   final fakePassword = "Passw0rd";

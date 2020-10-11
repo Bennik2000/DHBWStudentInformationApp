@@ -6,6 +6,9 @@ import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 
+///
+/// DualisScraper implementation which returns fake data
+///
 class FakeDataDualisScraper implements DualisScraper {
   bool _isLoggedIn = false;
 
