@@ -73,14 +73,14 @@ class _OnboardingPageState extends State<OnboardingPage>
         child: Container(
           constraints: BoxConstraints(maxWidth: 500),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 140, 0, 90),
+            padding: const EdgeInsets.fromLTRB(0, 120, 0, 90),
             child: PropertyChangeConsumer(
               builder: (BuildContext context, OnboardingViewModel model, _) {
                 return Column(
                   mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    _buildActiveOnboardingPage(model),
+                    Expanded(child: _buildActiveOnboardingPage(model)),
                     OnboardingButtonBar(
                       onPrevious: () {
                         _navigateBack(context);
