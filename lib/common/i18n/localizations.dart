@@ -301,6 +301,11 @@ class L {
       _getValue("settingsSetupScheduleSource");
   String get onboardingDualisSourceDescription =>
       _getValue("onboardingDualisSourceDescription");
+  String get onboardingIcalPageDescription =>
+      _getValue("onboardingIcalPageDescription");
+  String get onboardingIcalPageTitle => _getValue("onboardingIcalPageTitle");
+  String get onboardingIcalUrlHint => _getValue("onboardingIcalUrlHint");
+  String get scheduleSourceTypeIcal => _getValue("scheduleSourceTypeIcal");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);

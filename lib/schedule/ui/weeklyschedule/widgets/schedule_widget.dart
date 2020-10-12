@@ -5,6 +5,7 @@ import 'package:dhbwstudentapp/common/ui/text_styles.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
+import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_entry_alignment.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_entry_widget.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_grid.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_past_overlay.dart';
@@ -216,18 +217,20 @@ class ScheduleWidget extends StatelessWidget {
   ) {
     var entryWidgets = <Widget>[];
 
-    for (ScheduleEntry value in entries) {
-      var interferingEntries = getInterferingEntries(entries, value);
-      var index = interferingEntries.indexOf(value);
+    var laidOutEntries =
+        ScheduleEntryAlignmentAlgorithm().layoutEntries(entries);
 
-      var yStart = hourHeight * (value.start.hour - displayStartHour) +
-          minuteHeight * value.start.minute;
+    for (var value in laidOutEntries) {
+      var entry = value.entry;
 
-      var yEnd = hourHeight * (value.end.hour - displayStartHour) +
-          minuteHeight * value.end.minute;
+      var yStart = hourHeight * (entry.start.hour - displayStartHour) +
+          minuteHeight * entry.start.minute;
 
-      var entryLeft = (maxWidth / interferingEntries.length) * index;
-      var entryWidth = maxWidth / interferingEntries.length;
+      var yEnd = hourHeight * (entry.end.hour - displayStartHour) +
+          minuteHeight * entry.end.minute;
+
+      var entryLeft = maxWidth * value.leftColumn;
+      var entryWidth = maxWidth * (value.rightColumn - value.leftColumn);
 
       var widget = Positioned(
         top: yStart,
@@ -235,7 +238,7 @@ class ScheduleWidget extends StatelessWidget {
         height: yEnd - yStart,
         width: entryWidth,
         child: ScheduleEntryWidget(
-          scheduleEntry: value,
+          scheduleEntry: entry,
           onScheduleEntryTap: onScheduleEntryTap,
         ),
       );
@@ -244,22 +247,5 @@ class ScheduleWidget extends StatelessWidget {
     }
 
     return entryWidgets;
-  }
-
-  List<ScheduleEntry> getInterferingEntries(
-      List<ScheduleEntry> entries, ScheduleEntry entry) {
-    var interferences = <ScheduleEntry>[];
-
-    for (var possibleInterference in entries) {
-      if (possibleInterference == entry) {
-        interferences.add(entry);
-        continue;
-      }
-      if (possibleInterference.start.isBefore(entry.end) &&
-          possibleInterference.end.isAfter(entry.start))
-        interferences.add(possibleInterference);
-    }
-
-    return interferences;
   }
 }

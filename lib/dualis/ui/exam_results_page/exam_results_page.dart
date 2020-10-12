@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -97,9 +98,9 @@ class ExamResultsPage extends StatelessWidget {
     );
   }
 
-  List<DataTable> buildModulesDataTables(
+  List<Widget> buildModulesDataTables(
       BuildContext context, StudyGradesViewModel viewModel) {
-    var dataTables = <DataTable>[];
+    var dataTables = <Widget>[];
 
     var isFirstModule = true;
     for (var module in viewModel.currentSemester.modules) {
@@ -153,11 +154,18 @@ class ExamResultsPage extends StatelessWidget {
 
   List<DataColumn> buildModuleColumns(BuildContext context, var module,
       {var displayGradeHeader = false}) {
+    var displayWidth = MediaQuery.of(context).size.width;
+
+    if (!PlatformUtil.isPortrait(context) && PlatformUtil.isTablet()) {
+      print("isTablet");
+      displayWidth -= 250;
+    }
+
     return <DataColumn>[
       DataColumn(
         label: ConstrainedBox(
           constraints: BoxConstraints.expand(
-            width: MediaQuery.of(context).size.width * 0.5 -
+            width: displayWidth * 0.5 -
                 24, // Subtract the horizontal padding of the DataTable
           ),
           child: Align(
@@ -177,7 +185,7 @@ class ExamResultsPage extends StatelessWidget {
       DataColumn(
         label: ConstrainedBox(
           constraints: BoxConstraints.expand(
-            width: MediaQuery.of(context).size.width * 0.25,
+            width: displayWidth * 0.25,
           ),
           child: Align(
             alignment: Alignment.bottomLeft,
@@ -193,7 +201,7 @@ class ExamResultsPage extends StatelessWidget {
       DataColumn(
         label: ConstrainedBox(
           constraints: BoxConstraints.expand(
-            width: MediaQuery.of(context).size.width * 0.25,
+            width: displayWidth * 0.25,
           ),
           child: Align(
             alignment: Alignment.bottomRight,

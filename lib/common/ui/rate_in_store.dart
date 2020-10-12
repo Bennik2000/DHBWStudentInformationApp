@@ -1,6 +1,7 @@
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class RateInStore {
 
     if (countdown <= 0) {
       if (await _preferencesProvider.getDontShowRateNowDialog()) return;
+      if (!PlatformUtil.isAndroid()) return;
 
       await _showRateDialog(context);
     } else {

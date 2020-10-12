@@ -1,6 +1,8 @@
 PODS:
   - Crashlytics (3.14.0):
     - Fabric (~> 1.10.2)
+  - device_calendar (0.0.1):
+    - Flutter
   - Fabric (1.10.2)
   - Firebase/Core (6.29.0):
     - Firebase/CoreOnly
@@ -89,6 +91,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - device_calendar (from `.symlinks/plugins/device_calendar/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
   - Flutter (from `Flutter`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
@@ -116,6 +119,8 @@ SPEC REPOS:
     - PromisesObjC
 
 EXTERNAL SOURCES:
+  device_calendar:
+    :path: ".symlinks/plugins/device_calendar/ios"
   firebase_crashlytics:
     :path: ".symlinks/plugins/firebase_crashlytics/ios"
   Flutter:
@@ -137,6 +142,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  device_calendar: 23b28a5f1ab3bf77e34542fb1167e1b8b29a98f5
   Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
   Firebase: 57957c8d6eb3d8b80a560b1dc58be24724b89ff2
   firebase_crashlytics: bd8c58df07f107cb7e1a20cb190b9a468e0a69fd
