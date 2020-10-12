@@ -67,3 +67,29 @@ class NotificationApi {
 
   Future selectNotification(String payload) => Future.value();
 }
+
+class VoidNotificationApi implements NotificationApi {
+  @override
+  FlutterLocalNotificationsPlugin get _localNotificationsPlugin => null;
+
+  @override
+  Future<void> initialize() {
+    return Future.value();
+  }
+
+  @override
+  Future onDidReceiveLocalNotification(
+      int id, String title, String body, String payload) {
+    return Future.value();
+  }
+
+  @override
+  Future selectNotification(String payload) {
+    return Future.value();
+  }
+
+  @override
+  Future showNotification(String title, String message, [int id]) {
+    return Future.value();
+  }
+}
