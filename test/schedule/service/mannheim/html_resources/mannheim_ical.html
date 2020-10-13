@@ -1,0 +1,64 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="de" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>DHBW - Kurskalender - ICal</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="cjs/dhwb.css" />
+    <link rel="stylesheet" href="cjs/jquery.mobile.structure-1.0rc2.min.css" />
+    <script src="cjs/jquery-1.6.4.min.js"></script>
+    <script type="text/javascript" src="cjs/lmcbutton.js"></script>
+    <script src="cjs/jquery.mobile-1.0rc2.min.js"></script>
+</head>
+<body>
+<div data-role="page" data-theme="a">
+
+    <center>
+        <div data-role="header" data-theme="a" alignment="center">
+            <div style="text-align:center;">
+                <div class="header-txt-c">
+                    <h1>ICal Export</h1>
+                    <span class="ui-btn-inline"><span class="header-txt-r"></span></span>
+                </div>
+                <a class="logo" href="index.php"><img src="cjs/images/logo.png" /></a>
+            </div>
+        </div>
+
+        <br><br>
+        <div data-role="content" style="text-align:center; width:40%">
+            <table style="width:100%">
+
+                <tr align="center">
+
+                    <td align="center">
+
+
+                        <form id="class_form" ><select  onChange="displayURL()" id="class_select" name="Kurse" size="1" ><option  label="Kurs auswählen" value="Kurs auswählen">Kurs auswählen</option>
+                            <optgroup label="Kurse WIB, WSTL, WIMBIT">
+                                <option label="WIB17 A" value="7201001">WIB17 A</option>
+                                <option label="WIB17 B" value="7202001">WIB17 B</option>
+                                <option label="WSTL20 D" value="8113001">WSTL20 D</option>
+                                <optgroup label="Kurse WOW, WWF, WGW, WST, WIW, WRSW">
+                                    <option label="WRSW20 AC2" value="8130001">WRSW20 AC2</option>
+                                    <option label="WRSW20 ST1" value="8131001">WRSW20 ST1</option>
+                                    <option label="WRSW20 ST2" value="8132001">WRSW20 ST2</option>
+                                    <optgroup label="Kurse TINF,TAI,TIT">
+                                        <option label="TINF20 IT1" value="8065001">TINF20 IT1</option>
+                                        <option label="TINF20 IT2" value="8066001">TINF20 IT2</option>
+
+                        </select>
+                    </td>
+                </tr>
+                <tr align="center">
+                    <td align="center"><input style="text-align:center;" align="center" type="text" id="input_id" name="urlbox"></td></tr><tr align="center"><td align="center"><br><button class="cal-group ui-btn ui-btn-corner-all ui-shadow ui-btn-up-b" data-role="button" data-inline="true" data-theme="b" onclick="call_ics()" id="download_ics">Download ICS File</button>		<button class="cal-group ui-btn ui-btn-corner-all ui-shadow ui-btn-up-b" data-role="button" data-inline="true" data-theme="b" onclick="call_faq()" id="download_faq">Anleitung</button>
+            </td></tr></form></table></div></center>
+
+</div>
+<div class="footer-txt-r">
+    <span></span>
+</div>
+</body>
+</html>

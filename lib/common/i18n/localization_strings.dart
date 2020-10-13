@@ -147,6 +147,12 @@ final de = {
   "onboardingIcalPageTitle": "iCal Kalender",
   "onboardingIcalUrlHint": "URL",
   "scheduleSourceTypeIcal": "iCal Kalender",
+  "scheduleSourceTypeMannheim": "DHBW Mannheim",
+  "onboardingMannheimLoadCoursesFailed":
+      "Die Kurse konnten nicht geladen werden",
+  "onboardingMannheimDescription":
+      "Wähle den passenden Kurs der DHBW Mannheim aus:",
+  "onboardingMannheimTitle": "DHBW Mannheim",
 };
 
 final en = {
@@ -297,4 +303,8 @@ final en = {
   "onboardingIcalPageTitle": "iCal Calendar",
   "onboardingIcalUrlHint": "URL",
   "scheduleSourceTypeIcal": "iCal Calendar",
+  "scheduleSourceTypeMannheim": "DHBW Mannheim",
+  "onboardingMannheimLoadCoursesFailed": "Could not load the courses",
+  "onboardingMannheimDescription": "Choose your course from the lost:",
+  "onboardingMannheimTitle": "DHBW Mannheim",
 };

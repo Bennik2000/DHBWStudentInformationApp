@@ -20,6 +20,7 @@ class PreferencesProvider {
   static const String LastViewedDateEntryYear = "LastViewedDateEntryYear";
   static const String ScheduleSourceType = "ScheduleSourceType";
   static const String ScheduleIcalUrl = "ScheduleIcalUrl";
+  static const String MannheimScheduleId = "MannheimScheduleId";
 
   final PreferencesAccess _preferencesAccess;
   final SecureStorageAccess _secureStorageAccess;
@@ -153,6 +154,14 @@ class PreferencesProvider {
 
   Future<void> setIcalUrl(String url) {
     return _preferencesAccess.set(ScheduleIcalUrl, url);
+  }
+
+  Future<String> getMannheimScheduleId() {
+    return _preferencesAccess.get(MannheimScheduleId);
+  }
+
+  Future<void> setMannheimScheduleId(String url) {
+    return _preferencesAccess.set(MannheimScheduleId, url);
   }
 
   Future<void> set<T>(String key, T value) async {

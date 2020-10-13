@@ -306,6 +306,13 @@ class L {
   String get onboardingIcalPageTitle => _getValue("onboardingIcalPageTitle");
   String get onboardingIcalUrlHint => _getValue("onboardingIcalUrlHint");
   String get scheduleSourceTypeIcal => _getValue("scheduleSourceTypeIcal");
+  String get scheduleSourceTypeMannheim =>
+      _getValue("scheduleSourceTypeMannheim");
+  String get onboardingMannheimLoadCoursesFailed =>
+      _getValue("onboardingMannheimLoadCoursesFailed");
+  String get onboardingMannheimDescription =>
+      _getValue("onboardingMannheimDescription");
+  String get onboardingMannheimTitle => _getValue("onboardingMannheimTitle");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
