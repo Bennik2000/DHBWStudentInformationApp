@@ -1,10 +1,12 @@
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/dualis_login_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/ical_url_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/mannheim_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/select_source_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/dualis_login_page.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/ical_url_page.dart';
+import 'package:dhbwstudentapp/ui/onboarding/widgets/mannheim_page.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/rapla_url_page.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/select_source_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -101,6 +103,31 @@ class IcalOnboardingStep extends OnboardingStep {
 
   @override
   OnboardingStepViewModel viewModel() {
+    return _viewModel;
+  }
+}
+
+class MannheimOnboardingStep extends OnboardingStep {
+  MannheimViewModel _viewModel;
+
+  @override
+  Widget buildContent(BuildContext context) {
+    return MannheimPage();
+  }
+
+  @override
+  String nextStep() {
+    return "dualis";
+  }
+
+  @override
+  OnboardingStepViewModel viewModel() {
+    if (_viewModel == null) {
+      _viewModel = MannheimViewModel(
+        KiwiContainer().resolve(),
+      );
+    }
+
     return _viewModel;
   }
 }

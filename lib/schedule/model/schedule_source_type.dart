@@ -3,4 +3,5 @@ enum ScheduleSourceType {
   Rapla,
   Dualis,
   Ical,
+  Mannheim,
 }

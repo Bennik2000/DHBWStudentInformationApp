@@ -32,6 +32,8 @@ class SelectSourceViewModel extends OnboardingStepViewModel {
         return "dualis";
       case ScheduleSourceType.None:
         return "dualis";
+      case ScheduleSourceType.Mannheim:
+        return "mannheim";
       case ScheduleSourceType.Ical:
         return "ical";
     }

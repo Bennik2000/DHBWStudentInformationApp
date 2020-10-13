@@ -11,6 +11,7 @@ class OnboardingViewModel extends BaseViewModel {
   final List<String> steps = [
     "selectSource",
     "rapla",
+    "mannheim",
     "ical",
     "dualis",
   ];
@@ -20,6 +21,7 @@ class OnboardingViewModel extends BaseViewModel {
     "rapla": RaplaOnboardingStep(),
     "ical": IcalOnboardingStep(),
     "dualis": DualisCredentialsOnboardingStep(),
+    "mannheim": MannheimOnboardingStep(),
   };
 
   final Map<String, int> stepsBackstack = {};

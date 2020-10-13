@@ -5,6 +5,7 @@ import 'package:dhbwstudentapp/schedule/service/error_report_schedule_source_dec
 import 'package:dhbwstudentapp/schedule/service/ical/ical_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/invalid_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/isolate_schedule_source_decorator.dart';
+import 'package:dhbwstudentapp/schedule/service/mannheim/mannheim_course_scraper.dart';
 import 'package:dhbwstudentapp/schedule/service/rapla/rapla_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:kiwi/kiwi.dart';
@@ -37,6 +38,7 @@ class ScheduleSourceProvider {
       ScheduleSourceType.Dualis: () async => await _dualisScheduleSource(),
       ScheduleSourceType.Rapla: () async => await _raplaScheduleSource(),
       ScheduleSourceType.Ical: () async => await _icalScheduleSource(),
+      ScheduleSourceType.Mannheim: () async => await _icalScheduleSource(),
     };
 
     if (initializer.containsKey(scheduleSourceType)) {
@@ -134,6 +136,15 @@ class ScheduleSourceProvider {
     await _preferencesProvider.setIcalUrl(url);
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Ical.index);
+
+    await setupScheduleSource();
+  }
+
+  Future<void> setupForMannheim(Course selectedCourse) async {
+    await _preferencesProvider.setMannheimScheduleId(selectedCourse.scheduleId);
+    await _preferencesProvider.setIcalUrl(selectedCourse.icalUrl);
+    await _preferencesProvider
+        .setScheduleSourceType(ScheduleSourceType.Mannheim.index);
 
     await setupScheduleSource();
   }

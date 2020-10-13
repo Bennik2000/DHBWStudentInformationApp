@@ -40,29 +40,44 @@ class SelectSourcePage extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyText2,
               textAlign: TextAlign.center,
             ),
-            buildScheduleTypeRadio(
-              viewModel,
-              context,
-              ScheduleSourceType.Rapla,
-              L.of(context).scheduleSourceTypeRapla,
-            ),
-            buildScheduleTypeRadio(
-              viewModel,
-              context,
-              ScheduleSourceType.Dualis,
-              L.of(context).scheduleSourceTypeDualis,
-            ),
-            buildScheduleTypeRadio(
-              viewModel,
-              context,
-              ScheduleSourceType.Ical,
-              L.of(context).scheduleSourceTypeIcal,
-            ),
-            buildScheduleTypeRadio(
-              viewModel,
-              context,
-              ScheduleSourceType.None,
-              L.of(context).scheduleSourceTypeNone,
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    buildScheduleTypeRadio(
+                      viewModel,
+                      context,
+                      ScheduleSourceType.Rapla,
+                      L.of(context).scheduleSourceTypeRapla,
+                    ),
+                    buildScheduleTypeRadio(
+                      viewModel,
+                      context,
+                      ScheduleSourceType.Dualis,
+                      L.of(context).scheduleSourceTypeDualis,
+                    ),
+                    buildScheduleTypeRadio(
+                      viewModel,
+                      context,
+                      ScheduleSourceType.Mannheim,
+                      "DHBW Mannheim",
+                    ),
+                    buildScheduleTypeRadio(
+                      viewModel,
+                      context,
+                      ScheduleSourceType.Ical,
+                      L.of(context).scheduleSourceTypeIcal,
+                    ),
+                    buildScheduleTypeRadio(
+                      viewModel,
+                      context,
+                      ScheduleSourceType.None,
+                      L.of(context).scheduleSourceTypeNone,
+                    )
+                  ],
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 32, 16, 8),
