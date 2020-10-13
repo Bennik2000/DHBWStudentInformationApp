@@ -29,7 +29,10 @@ class RaplaScheduleSource extends ScheduleSource {
     var schedule = Schedule();
     var allErrors = <ParseError>[];
 
-    while (to.isAfter(current) && !cancellationToken.isCancelled()) {
+    var didChangeMonth = false;
+
+    while ((to.isAfter(current) && !cancellationToken.isCancelled()) ||
+        didChangeMonth) {
       try {
         var weekSchedule = await _fetchRaplaSource(current, cancellationToken);
 
@@ -45,7 +48,15 @@ class RaplaScheduleSource extends ScheduleSource {
         throw ScheduleQueryFailedException(e, trace);
       }
 
+      var currentMonth = current.month;
       current = toNextWeek(current);
+      var nextMonth = current.month;
+
+      // Some rapla instances only return the dates in the current month.
+      // If the month changes in the middle of a week only half the week is
+      // queried. Thus, if the month changes try to query the second half of the
+      // week which is in a different month
+      didChangeMonth = currentMonth != nextMonth;
     }
 
     if (cancellationToken.isCancelled()) throw OperationCancelledException();
