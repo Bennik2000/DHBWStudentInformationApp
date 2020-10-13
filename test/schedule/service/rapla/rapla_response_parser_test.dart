@@ -72,6 +72,12 @@ Future<void> main() async {
     var schedule = parser.parseSchedule(monthlyRaplaPage).schedule;
 
     expect(schedule.entries.length, 9);
+
+    expect(schedule.entries[0].title, "Mikrocontroller ONLINE");
+    expect(schedule.entries[0].start, DateTime(2020, 10, 01, 13, 00));
+    expect(schedule.entries[0].end, DateTime(2020, 10, 01, 18, 00));
+    expect(schedule.entries[0].type, ScheduleEntryType.Class);
+    expect(schedule.entries[0].professor, "Schmitt, Tobias");
   });
 
   test('Rapla robust parse', () async {
