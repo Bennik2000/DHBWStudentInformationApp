@@ -1,6 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/ical_url_view_model.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
