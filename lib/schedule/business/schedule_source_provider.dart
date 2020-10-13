@@ -141,7 +141,7 @@ class ScheduleSourceProvider {
   }
 
   Future<void> setupForMannheim(Course selectedCourse) async {
-    // TODO: Save id for the future when the mannheim scraper will be implemented
+    await _preferencesProvider.setMannheimScheduleId(selectedCourse.scheduleId);
     await _preferencesProvider.setIcalUrl(selectedCourse.icalUrl);
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Mannheim.index);

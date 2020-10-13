@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/mannheim_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:flutter/cupertino.dart';
@@ -20,7 +21,7 @@ class _MannheimPageState extends State<MannheimPage> {
           padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
           child: Center(
             child: Text(
-              "DHBW Mannheim",
+              L.of(context).onboardingMannheimTitle,
               style: Theme.of(context).textTheme.headline4,
               textAlign: TextAlign.center,
             ),
@@ -31,51 +32,40 @@ class _MannheimPageState extends State<MannheimPage> {
           child: Divider(),
         ),
         Text(
-          "Wähle den passenden Kurs der DHBW Mannheim aus:",
+          L.of(context).onboardingMannheimDescription,
           style: Theme.of(context).textTheme.bodyText2,
           textAlign: TextAlign.center,
         ),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-            child: PropertyChangeConsumer(
-              builder: (BuildContext context, OnboardingStepViewModel model,
-                  Set<Object> _) {
-                var viewModel = model as MannheimViewModel;
-
-                switch (viewModel.loadingState) {
-                  case LoadCoursesState.Loading:
-                    return _buildLoadingIndicator();
-                  case LoadCoursesState.Loaded:
-                    return _buildCourseList(viewModel);
-                  case LoadCoursesState.Failed:
-                    return _buildLoadingError(viewModel);
-                }
-
-                return Container();
-              },
-            ),
+            child: SelectMannheimCourseWidget(),
           ),
         ),
       ],
     );
   }
+}
 
-  Widget _buildLoadingError(MannheimViewModel viewModel) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text("Die Kurse konnten nicht geladen werden."),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: MaterialButton(
-              onPressed: viewModel.loadCourses,
-              child: Icon(Icons.refresh),
-            ),
-          ),
-        ],
-      ),
+class SelectMannheimCourseWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return PropertyChangeConsumer(
+      builder:
+          (BuildContext context, OnboardingStepViewModel model, Set<Object> _) {
+        var viewModel = model as MannheimViewModel;
+
+        switch (viewModel.loadingState) {
+          case LoadCoursesState.Loading:
+            return _buildLoadingIndicator();
+          case LoadCoursesState.Loaded:
+            return _buildCourseList(context, viewModel);
+          case LoadCoursesState.Failed:
+            return _buildLoadingError(context, viewModel);
+        }
+
+        return Container();
+      },
     );
   }
 
@@ -83,8 +73,9 @@ class _MannheimPageState extends State<MannheimPage> {
     return Center(child: CircularProgressIndicator());
   }
 
-  Widget _buildCourseList(MannheimViewModel viewModel) {
+  Widget _buildCourseList(BuildContext context, MannheimViewModel viewModel) {
     return Material(
+      color: Colors.transparent,
       child: ListView.builder(
         padding: EdgeInsets.all(0),
         itemCount: viewModel.courses?.length ?? 0,
@@ -95,7 +86,10 @@ class _MannheimPageState extends State<MannheimPage> {
   }
 
   ListTile _buildCourseListTile(
-      MannheimViewModel viewModel, int index, BuildContext context) {
+    MannheimViewModel viewModel,
+    int index,
+    BuildContext context,
+  ) {
     var isSelected = viewModel.selectedCourse == viewModel.courses[index];
 
     return ListTile(
@@ -113,7 +107,26 @@ class _MannheimPageState extends State<MannheimPage> {
               )
             : null,
       ),
+      subtitle: Text(viewModel.courses[index].title),
       onTap: () => viewModel.setSelectedCourse(viewModel.courses[index]),
+    );
+  }
+
+  Widget _buildLoadingError(BuildContext context, MannheimViewModel viewModel) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(L.of(context).onboardingMannheimLoadCoursesFailed),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: MaterialButton(
+              onPressed: viewModel.loadCourses,
+              child: Icon(Icons.refresh),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

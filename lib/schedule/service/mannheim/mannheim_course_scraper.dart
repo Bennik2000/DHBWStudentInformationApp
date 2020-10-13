@@ -6,9 +6,11 @@ import 'package:http_client_helper/http_client_helper.dart' as http;
 
 class Course {
   final String name;
+  final String title;
   final String icalUrl;
+  final String scheduleId;
 
-  Course(this.name, this.icalUrl);
+  Course(this.name, this.icalUrl, this.title, this.scheduleId);
 }
 
 class MannheimCourseScraper {

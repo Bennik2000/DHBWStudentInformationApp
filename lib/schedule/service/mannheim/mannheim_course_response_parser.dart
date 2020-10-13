@@ -14,6 +14,7 @@ class MannheimCourseResponseParser {
     for (var e in options) {
       var label = e.attributes["label"] ?? "";
       var value = e.attributes["value"] ?? "";
+      var title = e.parent.attributes["label"] ?? "";
 
       if (label == "" || value == "") continue;
       if (label.trim() == "Kurs auswählen") continue;
@@ -21,6 +22,8 @@ class MannheimCourseResponseParser {
       courses.add(Course(
         label,
         "http://vorlesungsplan.dhbw-mannheim.de/ical.php?uid=$value",
+        title,
+        value,
       ));
     }
 
