@@ -5,6 +5,10 @@ import 'package:dhbwstudentapp/schedule/service/rapla/rapla_response_parser.dart
 import 'package:test/test.dart';
 
 Future<void> main() async {
+  var monthlyRaplaPage = await File(Directory.current.absolute.path +
+          '/test/schedule/service/rapla/html_resources/rapla_monthly_response.html')
+      .readAsString();
+
   var raplaPage = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_response.html')
       .readAsString();
@@ -13,7 +17,7 @@ Future<void> main() async {
           '/test/schedule/service/rapla/html_resources/invalid_rapla_response.html')
       .readAsString();
 
-  test('Rapla correctly read all classes', () async {
+  test('Rapla correctly read all classes of weekly view', () async {
     var parser = RaplaResponseParser();
 
     var schedule = parser.parseSchedule(raplaPage).schedule;
@@ -60,6 +64,14 @@ Future<void> main() async {
     expect(schedule.entries[7].start, DateTime(2020, 09, 10, 13, 00));
     expect(schedule.entries[7].end, DateTime(2020, 09, 10, 14, 30));
     expect(schedule.entries[7].type, ScheduleEntryType.Online);
+  });
+
+  test('Rapla correctly read all classes of monthly view', () async {
+    var parser = RaplaResponseParser();
+
+    var schedule = parser.parseSchedule(monthlyRaplaPage).schedule;
+
+    expect(schedule.entries.length, 9);
   });
 
   test('Rapla robust parse', () async {
