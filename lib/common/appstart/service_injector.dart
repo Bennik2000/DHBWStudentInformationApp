@@ -21,15 +21,13 @@ bool _isInjected = false;
 /// This function injects all instances into the KiwiContainer. You can get a
 /// singleton instance of a registered type using KiwiContainer().resolve()
 ///
-Future<void> injectServices(bool isBackground) async {
+void injectServices(bool isBackground) {
   if (_isInjected) return;
 
   KiwiContainer c = KiwiContainer();
 
-  var preferencesAccess = PreferencesAccess();
-  await preferencesAccess.initializeSharedPreferences();
   c.registerInstance(PreferencesProvider(
-    preferencesAccess,
+    PreferencesAccess(),
     SecureStorageAccess(),
   ));
   c.registerInstance(DatabaseAccess());

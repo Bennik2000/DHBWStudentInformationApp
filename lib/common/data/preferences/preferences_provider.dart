@@ -26,6 +26,10 @@ class PreferencesProvider {
 
   PreferencesProvider(this._preferencesAccess, this._secureStorageAccess);
 
+  Future<void> initializePreferencesAccess() async {
+    await _preferencesAccess.initializeSharedPreferences();
+  }
+
   Future<bool> isDarkMode() async {
     return await _preferencesAccess.get(IsDarkModeKey);
   }
