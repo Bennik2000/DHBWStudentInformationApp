@@ -15,6 +15,7 @@ class AllDatesExtract {
   }
 
   List<DateEntry> _extractAllDates(String body, String databaseName) {
+    body = body.replaceAll(new RegExp("<(br|BR)[ /]*>"), "\n");
     var document = parse(body);
 
     // The dates are located in the first <p> element of the page
@@ -22,13 +23,17 @@ class AllDatesExtract {
 
     var dateEntries = <DateEntry>[];
 
-    for (var a in dateContainingElement.nodes.sublist(2)) {
+    for (var a in dateContainingElement.nodes.sublist(0)) {
       var text = a.text;
 
-      var dateEntry = _parseDateEntryLine(text, databaseName);
+      var lines = text.split("\n");
 
-      if (dateEntry != null) {
-        dateEntries.add(dateEntry);
+      for (var line in lines) {
+        var dateEntry = _parseDateEntryLine(line, databaseName);
+
+        if (dateEntry != null) {
+          dateEntries.add(dateEntry);
+        }
       }
     }
 
