@@ -54,10 +54,10 @@ class DateManagementNavigationEntry extends NavigationEntry {
                   PopupMenuButton<String>(
             onSelected: (i) async {
               await NavigatorKey.rootKey.currentState.push(MaterialPageRoute(
-                builder: (BuildContext context) => CalendarExportPage(
-                  entriesToExport: viewModel.allDates,
-                ),
-              ));
+                  builder: (BuildContext context) => CalendarExportPage(
+                        entriesToExport: viewModel.allDates,
+                      ),
+                  settings: RouteSettings(name: "settings")));
             },
             itemBuilder: (BuildContext context) {
               return [

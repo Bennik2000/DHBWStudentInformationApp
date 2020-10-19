@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:dhbwstudentapp/common/ui/rate_in_store.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
@@ -40,7 +41,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
       key: NavigatorKey.mainKey,
       onGenerateRoute: generateDrawerRoute,
       initialRoute: "schedule",
-      observers: [this],
+      observers: [this, mainNavigationObserver],
     );
 
     return ChangeNotifierProvider.value(
