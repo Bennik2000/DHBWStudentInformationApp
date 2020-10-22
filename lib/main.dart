@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dhbwstudentapp/ui/root_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
@@ -11,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'common/util/platform_util.dart';
 
 void main() async {
-  FlutterError.onError = Crashlytics.instance.recordFlutterError;
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   await initializeApp(false);
   await saveLastStartLanguage();
