@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/onboardin_step.dart';
 
@@ -48,6 +49,9 @@ class OnboardingViewModel extends BaseViewModel {
         notifyListeners("currentPageValid");
       }, ["isValid"]);
     }
+
+    analytics.logTutorialBegin();
+    analytics.setUserProperty(name: "onboarding_finished", value: "false");
   }
 
   void previousPage() {
@@ -92,5 +96,8 @@ class OnboardingViewModel extends BaseViewModel {
     }
 
     _onboardingFinished?.call();
+
+    await analytics.logTutorialComplete();
+    await analytics.setUserProperty(name: "onboarding_finished", value: "true");
   }
 }

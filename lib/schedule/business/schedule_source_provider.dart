@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/schedule/service/dualis/dualis_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/error_report_schedule_source_decorator.dart';
@@ -123,6 +124,11 @@ class ScheduleSourceProvider {
         .setScheduleSourceType(ScheduleSourceType.Rapla.index);
 
     await setupScheduleSource();
+
+    await analytics.setUserProperty(
+      name: "schedule_source",
+      value: "Rapla",
+    );
   }
 
   Future<void> setupForDualis() async {
@@ -130,6 +136,11 @@ class ScheduleSourceProvider {
         .setScheduleSourceType(ScheduleSourceType.Dualis.index);
 
     await setupScheduleSource();
+
+    await analytics.setUserProperty(
+      name: "schedule_source",
+      value: "Dualis",
+    );
   }
 
   Future<void> setupForIcal(String url) async {
@@ -138,6 +149,11 @@ class ScheduleSourceProvider {
         .setScheduleSourceType(ScheduleSourceType.Ical.index);
 
     await setupScheduleSource();
+
+    await analytics.setUserProperty(
+      name: "schedule_source",
+      value: "Ical",
+    );
   }
 
   Future<void> setupForMannheim(Course selectedCourse) async {
@@ -147,6 +163,11 @@ class ScheduleSourceProvider {
         .setScheduleSourceType(ScheduleSourceType.Mannheim.index);
 
     await setupScheduleSource();
+
+    await analytics.setUserProperty(
+      name: "schedule_source",
+      value: "DHBW Mannheim",
+    );
   }
 
   bool didSetupCorrectly() {

@@ -1,6 +1,7 @@
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:launch_review/launch_review.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +25,10 @@ class RateInStore {
     }
   }
 
-  Future<void> _showRateDialog(BuildContext context) {
-    return showDialog<void>(
+  Future<void> _showRateDialog(BuildContext context) async {
+    await analytics.logEvent(name: "rateRequestShown");
+
+    return await showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -83,16 +86,19 @@ class RateInStore {
   }
 
   Future<void> _rateLater() async {
+    await analytics.logEvent(name: "rateLater");
     await _preferencesProvider
         .setRateInStoreLaunchCountdown(RateInStoreCountdownNumber);
   }
 
   Future<void> _rateNow() async {
     LaunchReview.launch();
+    await analytics.logEvent(name: "rateNow");
     await _preferencesProvider.setDontShowRateNowDialog(true);
   }
 
   Future<void> _rateNever() async {
+    await analytics.logEvent(name: "rateNever");
     await _preferencesProvider.setDontShowRateNowDialog(true);
   }
 }
