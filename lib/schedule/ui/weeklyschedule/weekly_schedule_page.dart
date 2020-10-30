@@ -1,5 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/custom_icons_icons.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
@@ -170,15 +171,15 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         FlatButton(
-          child: Icon(Icons.chevron_left),
+          child: Icon(CustomIcons.previous),
           onPressed: _previousWeek,
         ),
         FlatButton(
-          child: Icon(Icons.today),
+          child: Icon(CustomIcons.now),
           onPressed: _goToToday,
         ),
         FlatButton(
-          child: Icon(Icons.chevron_right),
+          child: Icon(CustomIcons.next),
           onPressed: _nextWeek,
         ),
       ],

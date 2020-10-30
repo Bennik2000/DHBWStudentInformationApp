@@ -14,7 +14,7 @@ class DualisNavigationEntry extends NavigationEntry {
 
   @override
   Widget icon(BuildContext context) {
-    return Icon(Icons.data_usage);
+    return Icon(CustomIcons.dualis);
   }
 
   @override
@@ -49,7 +49,7 @@ class DualisNavigationEntry extends NavigationEntry {
           builder: (BuildContext _, StudyGradesViewModel __, Set<Object> ___) =>
               _viewModel.loginState != LoginState.LoggedIn
                   ? IconButton(
-                      icon: Icon(Icons.help_outline),
+                      icon: Icon(CustomIcons.help),
                       onPressed: () async {
                         await DualisHelpDialog().show(context);
                       },

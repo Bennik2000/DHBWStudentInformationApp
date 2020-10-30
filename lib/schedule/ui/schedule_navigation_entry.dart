@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/custom_icons_icons.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/schedule_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/viewmodels/schedule_view_model.dart';
@@ -13,7 +14,7 @@ class ScheduleNavigationEntry extends NavigationEntry {
 
   @override
   Widget icon(BuildContext context) {
-    return Icon(Icons.calendar_today);
+    return Icon(CustomIcons.schedule);
   }
 
   @override
@@ -49,7 +50,7 @@ class ScheduleNavigationEntry extends NavigationEntry {
                 _viewModel.didSetupProperly
                     ? Container()
                     : IconButton(
-                        icon: Icon(Icons.help_outline),
+                        icon: Icon(CustomIcons.help),
                         onPressed: () async {
                           await ScheduleHelpDialog().show(context);
                         },

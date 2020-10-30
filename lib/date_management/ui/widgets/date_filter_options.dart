@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/custom_icons_icons.dart';
 import 'package:dhbwstudentapp/date_management/model/date_database.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -65,7 +66,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
               minWidth: 36,
               height: 36,
               child: FlatButton(
-                child: Icon(Icons.tune),
+                child: Icon(CustomIcons.settings),
                 padding: const EdgeInsets.all(0),
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 onPressed: () {
@@ -208,7 +209,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
             minWidth: 36,
             height: 36,
             child: FlatButton(
-              child: const Icon(Icons.check),
+              child: const Icon(CustomIcons.check),
               padding: const EdgeInsets.all(0),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               onPressed: () {

@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/custom_icons_icons.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/date_management/ui/calendar_export_page.dart';
 import 'package:dhbwstudentapp/date_management/ui/date_management_page.dart';
@@ -15,7 +16,7 @@ class DateManagementNavigationEntry extends NavigationEntry {
 
   @override
   Widget icon(BuildContext context) {
-    return Icon(Icons.date_range);
+    return Icon(CustomIcons.datemanagement);
   }
 
   @override
@@ -40,7 +41,7 @@ class DateManagementNavigationEntry extends NavigationEntry {
     initViewModel();
     return [
       IconButton(
-        icon: Icon(Icons.help_outline),
+        icon: Icon(CustomIcons.help),
         onPressed: () async {
           await DateManagementHelpDialog().show(context);
         },

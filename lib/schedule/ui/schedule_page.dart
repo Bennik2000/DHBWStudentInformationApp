@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/custom_icons_icons.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/daily_schedule_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/viewmodels/daily_schedule_view_model.dart';
@@ -31,13 +32,13 @@ class SchedulePage extends StatelessWidget {
       return PagerWidget(
         pages: <PageDefinition>[
           PageDefinition(
-            icon: Icon(Icons.view_week),
+            icon: Icon(CustomIcons.weekly),
             text: Text(L.of(context).pageWeekOverviewTitle),
             builder: (_) => WeeklySchedulePage(),
             viewModel: weeklyScheduleViewModel,
           ),
           PageDefinition(
-            icon: Icon(Icons.view_day),
+            icon: Icon(CustomIcons.daily),
             text: Text(L.of(context).pageDayOverviewTitle),
             builder: (_) => DailySchedulePage(),
             viewModel: dailyScheduleViewModel,

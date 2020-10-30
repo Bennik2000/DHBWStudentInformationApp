@@ -1,5 +1,6 @@
 import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/custom_icons_icons.dart';
 import 'package:dhbwstudentapp/date_management/data/calendar_access.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/calendar_export_view_model.dart';
@@ -117,7 +118,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
               child: isSelected
                   ? Center(
                       child: Icon(
-                        Icons.check,
+                        CustomIcons.check,
                         size: 16,
                         color: Colors.white,
                       ),
