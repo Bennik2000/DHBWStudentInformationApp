@@ -71,6 +71,8 @@ class RaplaParsingUtils {
       type = ScheduleEntryType.Online;
     }
 
+    title = _prettifyScheduleEntryTitle(title);
+
     if (professor?.endsWith(",") ?? false) {
       professor = professor.substring(0, professor.length - 1);
     }
@@ -87,6 +89,23 @@ class RaplaParsingUtils {
       room: trimAndEscapeString(resource),
     );
     return scheduleEntry;
+  }
+
+  static String _prettifyScheduleEntryTitle(String title) {
+    var first = title.split(" ").first;
+
+    // Prettify titles: T3MB9025 Fluidmechanik -> Fluidmechanik
+
+    // The title can not be prettified, if the first word is not only uppercase
+    // or less than 2 charcters long
+    if (!(first == first.toUpperCase() && first.length >= 3)) return title;
+
+    var numberCount = first.split(new RegExp("[0-9]")).length;
+
+    // If there are less thant two numbers in the title, do not prettify it
+    if (numberCount < 2) return title;
+
+    return title.substring(first.length).trim();
   }
 
   static ScheduleEntryType _extractEntryType(List<Element> tooltip) {
