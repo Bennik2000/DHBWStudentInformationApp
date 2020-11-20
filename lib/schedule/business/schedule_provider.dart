@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_diff_calculator.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
@@ -5,8 +6,9 @@ import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_query_information_repository.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
-import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_query_information.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
+import 'package:dhbwstudentapp/schedule/service/schedule_prettifier.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:intl/intl.dart';
 
@@ -21,6 +23,7 @@ typedef ScheduleEntryChangedCallback = Future<void> Function(
 );
 
 class ScheduleProvider {
+  final PreferencesProvider _preferencesProvider;
   final ScheduleSourceProvider _scheduleSource;
   final ScheduleEntryRepository _scheduleEntryRepository;
   final ScheduleQueryInformationRepository _scheduleQueryInformationRepository;
@@ -34,6 +37,7 @@ class ScheduleProvider {
     this._scheduleSource,
     this._scheduleEntryRepository,
     this._scheduleQueryInformationRepository,
+    this._preferencesProvider,
   );
 
   Future<Schedule> getCachedSchedule(DateTime start, DateTime end) async {
@@ -63,6 +67,10 @@ class ScheduleProvider {
       if (schedule == null) {
         print("No schedule returned!");
       } else {
+        if (await _preferencesProvider.getPrettifySchedule()) {
+          schedule = SchedulePrettifier().prettifySchedule(schedule);
+        }
+
         print(
             "Schedule returned with ${schedule.entries.length.toString()} entries");
 
@@ -77,6 +85,8 @@ class ScheduleProvider {
       for (var c in _scheduleUpdatedCallbacks) {
         await c(schedule, start, end);
       }
+
+      updatedSchedule = ScheduleQueryResult(schedule, updatedSchedule.errors);
 
       return updatedSchedule;
     } on ScheduleQueryFailedException catch (e, trace) {

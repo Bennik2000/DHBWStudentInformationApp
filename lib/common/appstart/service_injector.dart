@@ -44,6 +44,7 @@ void injectServices(bool isBackground) {
     c.resolve(),
     c.resolve(),
     c.resolve(),
+    c.resolve(),
   ));
   c.registerInstance<DualisScraper>(
     FakeAccountDualisScraperDecorator(DualisScraper()),

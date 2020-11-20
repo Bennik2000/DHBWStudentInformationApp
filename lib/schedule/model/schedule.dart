@@ -5,6 +5,7 @@ class Schedule {
   final List<String> urls = [];
 
   Schedule() : entries = <ScheduleEntry>[];
+
   Schedule.fromList(this.entries);
 
   void addEntry(ScheduleEntry entry) {
@@ -96,5 +97,13 @@ class Schedule {
     }
 
     return latestTime;
+  }
+
+  Schedule copyWith({List<ScheduleEntry> entries}) {
+    var schedule = Schedule.fromList(entries);
+
+    schedule.urls.addAll(urls);
+
+    return schedule;
   }
 }

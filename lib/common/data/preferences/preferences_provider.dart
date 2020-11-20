@@ -21,6 +21,7 @@ class PreferencesProvider {
   static const String ScheduleSourceType = "ScheduleSourceType";
   static const String ScheduleIcalUrl = "ScheduleIcalUrl";
   static const String MannheimScheduleId = "MannheimScheduleId";
+  static const String PrettifySchedule = "PrettifySchedule";
 
   final PreferencesAccess _preferencesAccess;
   final SecureStorageAccess _secureStorageAccess;
@@ -162,6 +163,14 @@ class PreferencesProvider {
 
   Future<void> setMannheimScheduleId(String url) {
     return _preferencesAccess.set(MannheimScheduleId, url);
+  }
+
+  Future<bool> getPrettifySchedule() async {
+    return await _preferencesAccess.get(PrettifySchedule) ?? true;
+  }
+
+  Future<void> setPrettifySchedule(bool value) {
+    return _preferencesAccess.set(PrettifySchedule, value);
   }
 
   Future<void> set<T>(String key, T value) async {

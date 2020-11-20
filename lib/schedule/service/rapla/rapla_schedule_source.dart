@@ -91,6 +91,10 @@ class RaplaScheduleSource extends ScheduleSource {
   }
 
   Uri _buildRequestUri(DateTime date) {
+    if (!raplaUrl.startsWith("http://") && !raplaUrl.startsWith("https://")) {
+      raplaUrl = "http://$raplaUrl";
+    }
+
     var uri = Uri.parse(raplaUrl);
 
     bool hasKeyParameter = uri.queryParameters.containsKey("key");

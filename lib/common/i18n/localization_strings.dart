@@ -153,6 +153,7 @@ final de = {
   "onboardingMannheimDescription":
       "Wähle den passenden Kurs der DHBW Mannheim aus:",
   "onboardingMannheimTitle": "DHBW Mannheim",
+  "settingsPrettifySchedule": "Texte im Vorlesungsplan verschönern",
 };
 
 final en = {
@@ -307,4 +308,5 @@ final en = {
   "onboardingMannheimLoadCoursesFailed": "Could not load the courses",
   "onboardingMannheimDescription": "Choose your course from the lost:",
   "onboardingMannheimTitle": "DHBW Mannheim",
+  "settingsPrettifySchedule": "Improve schedule entries",
 };

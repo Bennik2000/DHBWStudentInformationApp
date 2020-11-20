@@ -314,6 +314,8 @@ class L {
       _getValue("onboardingMannheimDescription");
   String get onboardingMannheimTitle => _getValue("onboardingMannheimTitle");
 
+  String get settingsPrettifySchedule => _getValue("settingsPrettifySchedule");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

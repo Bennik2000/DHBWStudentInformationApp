@@ -107,6 +107,19 @@ class _SettingsPageState extends State<SettingsPage> {
           ).show(context);
         },
       ),
+      PropertyChangeConsumer(
+        properties: const [
+          "prettifySchedule",
+        ],
+        builder:
+            (BuildContext context, SettingsViewModel model, Set properties) {
+          return SwitchListTile(
+            title: Text(L.of(context).settingsPrettifySchedule),
+            onChanged: model.setPrettifySchedule,
+            value: model.prettifySchedule,
+          );
+        },
+      ),
       const Divider(),
     ];
   }
