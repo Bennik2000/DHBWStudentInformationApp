@@ -10,10 +10,16 @@ class SettingsViewModel extends BaseViewModel {
   final NextDayInformationNotification _nextDayInformationNotification;
 
   bool _notifyAboutNextDay = false;
+
   bool get notifyAboutNextDay => _notifyAboutNextDay;
 
   bool _notifyAboutScheduleChanges = false;
+
   bool get notifyAboutScheduleChanges => _notifyAboutScheduleChanges;
+
+  bool _prettifySchedule = false;
+
+  bool get prettifySchedule => _prettifySchedule;
 
   SettingsViewModel(
     this._preferencesProvider,
@@ -28,6 +34,14 @@ class SettingsViewModel extends BaseViewModel {
     notifyListeners("notifyAboutScheduleChanges");
 
     await _preferencesProvider.setNotifyAboutScheduleChanges(value);
+  }
+
+  Future<void> setPrettifySchedule(bool value) async {
+    _prettifySchedule = value;
+
+    notifyListeners("prettifySchedule");
+
+    await _preferencesProvider.setPrettifySchedule(value);
   }
 
   Future<void> setNotifyAboutNextDay(bool value) async {
@@ -48,7 +62,10 @@ class SettingsViewModel extends BaseViewModel {
     _notifyAboutScheduleChanges =
         await _preferencesProvider.getNotifyAboutScheduleChanges();
 
+    _prettifySchedule = await _preferencesProvider.getPrettifySchedule();
+
     notifyListeners("notifyAboutNextDay");
     notifyListeners("notifyAboutScheduleChanges");
+    notifyListeners("prettifySchedule");
   }
 }
