@@ -1,1 +1,4 @@
-<resources></resources>
+<resources>
+    <string name="widget_schedule_empty_state">Keine Vorlesungen für heute</string>
+    <string name="widget_schedule_title">Vorlesungsplan</string>
+</resources>
