@@ -23,8 +23,7 @@ class SchedulePrettifier {
     // Sometimes the entry type is not set correctly. When the title of a class
     // begins with "Online - " it implies that it is online
     // In this case remove the online prefix and set the type correctly
-    if (!(entry.title.startsWith("Online - ") &&
-        entry.type == ScheduleEntryType.Class)) {
+    if (!entry.title.startsWith("Online - ")) {
       return entry;
     }
 
@@ -35,8 +34,8 @@ class SchedulePrettifier {
   }
 
   ScheduleEntry _removeCourseFromTitle(ScheduleEntry entry) {
-    var title = entry.title;
-    var details = entry.details;
+    var title = entry.title ?? "";
+    var details = entry.details ?? "";
 
     var titleRegex =
         RegExp("[A-Z]{3,}-?[A-Z]+[0-9]*[A-Z]*[0-9]*[\/]?[A-Z]*[0-9]*[ ]*-?");
@@ -59,7 +58,7 @@ class SchedulePrettifier {
       // If there are less thant two numbers in the title, do not prettify it
       if (numberCount < 2) return entry;
 
-      details = title.substring(0, first.length) + " . $details";
+      details = title.substring(0, first.length) + " - $details";
       title = title.substring(first.length).trim();
     }
 
