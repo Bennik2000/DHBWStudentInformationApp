@@ -8,6 +8,12 @@
 
     <color name="widget_schedule_entry_time_text_color">#B8B8B8</color>
     <color name="widget_schedule_entry_text_color">#E1E1E1</color>
-    <color name="widget_schedule_entry_background_color">#781922</color>
     <color name="widget_schedule_empty_state_text_color">#959595</color>
+
+    <color name="widget_schedule_entry_class_color">#781922</color>
+    <color name="widget_schedule_entry_exam_color">#815C19</color>
+    <color name="widget_schedule_entry_holiday_color">#676767</color>
+    <color name="widget_schedule_entry_online_color">#781922</color>
+    <color name="widget_schedule_entry_unknown_color">#676767</color>
+
 </resources>

@@ -52,6 +52,18 @@ class ScheduleEntryViewsFactory(private val context: Context) : RemoteViewsServi
         rv.setTextViewText(R.id.text_view_entry_professor, entry.professor)
         rv.setTextViewText(R.id.text_view_entry_room, entry.room)
 
+        val background = arrayOf(
+                R.drawable.schedule_entry_unknown_background,
+                R.drawable.schedule_entry_class_background,
+                R.drawable.schedule_entry_online_background,
+                R.drawable.schedule_entry_holiday_background,
+                R.drawable.schedule_entry_exam_background
+        )
+
+        if (entry.type >= 0 && entry.type < background.size) {
+            rv.setInt(R.id.layout_schedule_entry, "setBackgroundResource", background[entry.type])
+        }
+        
         return rv
     }
 

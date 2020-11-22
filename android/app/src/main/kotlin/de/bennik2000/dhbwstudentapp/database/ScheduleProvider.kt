@@ -97,7 +97,7 @@ class ScheduleProvider(private val context: Context) {
                 result.getString(result.getColumnIndex("details")),
                 result.getString(result.getColumnIndex("professor")),
                 result.getString(result.getColumnIndex("room")),
-                result.getString(result.getColumnIndex("type")),
+                result.getInt(result.getColumnIndex("type")),
                 start,
                 end)
     }

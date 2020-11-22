@@ -38,17 +38,20 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/layout_schedule_entry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/schedule_entry_background"
+        android:background="@drawable/schedule_entry_class_background"
         android:layout_toEndOf="@id/layout_time"
         android:layout_alignTop="@id/layout_time"
-        android:layout_alignBottom="@id/layout_time"
-        android:padding="4dp">
+        android:layout_alignBottom="@id/layout_time">
         <TextView
+            android:layout_margin="4dp"
             android:id="@+id/text_view_entry_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@color/widget_schedule_entry_text_color"
             android:textStyle="bold"
             android:textSize="14sp"
@@ -59,7 +62,9 @@
             android:layout_height="wrap_content"
             android:textColor="@color/widget_schedule_entry_text_color"
             android:textSize="12sp"
+            android:layout_margin="4dp"
             android:text="Room 101"
+            android:ellipsize="end"
             android:gravity="bottom"
             android:layout_alignParentBottom="true"
             android:layout_below="@id/text_view_entry_title"/>
@@ -70,7 +75,10 @@
             android:textColor="@color/widget_schedule_entry_text_color"
             android:textSize="12sp"
             android:text="Strey"
-            android:gravity="bottom"
+            android:gravity="bottom|end"
+            android:ellipsize="start"
+            android:layout_toEndOf="@id/text_view_entry_room"
+            android:layout_margin="4dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_alignTop="@id/text_view_entry_room"

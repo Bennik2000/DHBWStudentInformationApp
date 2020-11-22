@@ -8,6 +8,6 @@ class ScheduleEntry(
         val details: String,
         val professor: String,
         val room: String,
-        val type: String,
+        val type: Int,
         val start: LocalDateTime,
         val end: LocalDateTime)
