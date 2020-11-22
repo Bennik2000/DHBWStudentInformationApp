@@ -3,6 +3,7 @@ package de.bennik2000.dhbwstudentapp.widget
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -12,6 +13,7 @@ import de.bennik2000.dhbwstudentapp.MainActivity
 import de.bennik2000.dhbwstudentapp.R
 import de.bennik2000.dhbwstudentapp.database.ScheduleProvider
 import org.threeten.bp.LocalDate
+import java.util.*
 
 class ScheduleTodayWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -33,7 +35,6 @@ class ScheduleTodayWidget : AppWidgetProvider() {
         Log.d("ScheduleTodayWidget", "Updating widget with id $appWidgetId")
 
         val views = RemoteViews(context.packageName, R.layout.widget_schedule_today)
-
 
         val pendingIntent = PendingIntent.getActivity(context,
                 0,
@@ -65,5 +66,21 @@ class ScheduleTodayWidget : AppWidgetProvider() {
         }
 
         views.setViewVisibility(R.id.layout_empty_state, visibility)
+    }
+
+
+    companion object {
+        fun requestWidgetRefresh(context: Context) {
+            val intent = Intent(context, ScheduleTodayWidget::class.java)
+
+            intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
+
+            val ids: IntArray = AppWidgetManager
+                    .getInstance(context.applicationContext)
+                    .getAppWidgetIds(ComponentName(context, ScheduleTodayWidget::class.java))
+
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
+            context.sendBroadcast(intent)
+        }
     }
 }
