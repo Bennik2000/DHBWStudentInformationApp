@@ -13,7 +13,6 @@ import de.bennik2000.dhbwstudentapp.MainActivity
 import de.bennik2000.dhbwstudentapp.R
 import de.bennik2000.dhbwstudentapp.database.ScheduleProvider
 import org.threeten.bp.LocalDate
-import java.util.*
 
 class ScheduleTodayWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
@@ -42,23 +41,24 @@ class ScheduleTodayWidget : AppWidgetProvider() {
                 0)
         views.setOnClickPendingIntent(R.id.widget_title, pendingIntent)
 
+        //views.setTextViewText(R.id.update_indicator, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME))
+
         val hasEntries = ScheduleProvider(context).hasScheduleEntriesForDay(LocalDate.now())
 
-        if (hasEntries) {
-            updateScheduleEntryList(context, views)
-        }
-
-        updateScheduleListEmptyState(context, views, hasEntries)
+        updateScheduleEntryList(context, views, appWidgetManager, appWidgetId)
+        updateScheduleListEmptyState(views, hasEntries)
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
 
-    private fun updateScheduleEntryList(context: Context, views: RemoteViews) {
+    private fun updateScheduleEntryList(context: Context, views: RemoteViews, appWidgetManager: AppWidgetManager, id: Int) {
         val intent = Intent(context, ScheduleEntryRemoteViewsService::class.java)
         views.setRemoteAdapter(R.id.schedule_entries_list_view, intent)
+
+        appWidgetManager.notifyAppWidgetViewDataChanged(id, R.id.schedule_entries_list_view)
     }
 
-    private fun updateScheduleListEmptyState(context: Context, views: RemoteViews, hasEntries: Boolean) {
+    private fun updateScheduleListEmptyState(views: RemoteViews, hasEntries: Boolean) {
         var visibility = View.VISIBLE
 
         if (hasEntries) {

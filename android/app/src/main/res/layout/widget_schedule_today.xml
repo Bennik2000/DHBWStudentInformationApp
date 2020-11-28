@@ -17,6 +17,15 @@
             android:textStyle="bold"
             android:textColor="@color/widget_title_text_color"
             android:text="@string/widget_schedule_title"/>
+<!--
+        <TextView
+            android:id="@+id/update_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/widget_title_text_color"
+            android:layout_margin="8dp"/> -->
     </RelativeLayout>
 
     <ListView
