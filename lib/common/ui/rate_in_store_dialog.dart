@@ -3,25 +3,25 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
-import 'package:launch_review/launch_review.dart';
 import 'package:flutter/material.dart';
+import 'package:launch_review/launch_review.dart';
 
-class RateInStore {
+///
+/// Dialog which asks the user to rate the app in the store
+///
+class RateInStoreDialog {
   final PreferencesProvider _preferencesProvider;
+  final int _appLaunchCounter;
 
-  RateInStore(this._preferencesProvider);
+  RateInStoreDialog(this._preferencesProvider, this._appLaunchCounter);
 
-  Future<void> showRateInStoreDialogIfNeeded(BuildContext context) async {
-    final countdown =
-        await _preferencesProvider.getRateInStoreLaunchCountdown();
+  Future<void> showIfNeeded(BuildContext context) async {
+    if (!PlatformUtil.isAndroid()) return;
+    if (await _preferencesProvider.getDontShowRateNowDialog()) return;
 
-    if (countdown <= 0) {
-      if (await _preferencesProvider.getDontShowRateNowDialog()) return;
-      if (!PlatformUtil.isAndroid()) return;
-
+    if (_appLaunchCounter >=
+        await _preferencesProvider.getNextRateInStoreLaunchCount()) {
       await _showRateDialog(context);
-    } else {
-      await _preferencesProvider.setRateInStoreLaunchCountdown(countdown - 1);
     }
   }
 
@@ -87,8 +87,9 @@ class RateInStore {
 
   Future<void> _rateLater() async {
     await analytics.logEvent(name: "rateLater");
-    await _preferencesProvider
-        .setRateInStoreLaunchCountdown(RateInStoreCountdownNumber);
+
+    await _preferencesProvider.setNextRateInStoreLaunchCount(
+        RateInStoreLaunchAfter + _appLaunchCounter);
   }
 
   Future<void> _rateNow() async {

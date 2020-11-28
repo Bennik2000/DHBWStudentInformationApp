@@ -154,6 +154,9 @@ final de = {
       "Wähle den passenden Kurs der DHBW Mannheim aus:",
   "onboardingMannheimTitle": "DHBW Mannheim",
   "settingsPrettifySchedule": "Texte im Vorlesungsplan verschönern",
+  "widgetHelpDialogMessage":
+      "Platziere ein Widget auf deinen Startbildschirm um einen schnellen Blick auf deinen täglichen Vorlesungsplan zu bekommen.",
+  "widgetHelpDialogTitle": "Schon gewusst?",
 };
 
 final en = {
@@ -309,4 +312,7 @@ final en = {
   "onboardingMannheimDescription": "Choose your course from the lost:",
   "onboardingMannheimTitle": "DHBW Mannheim",
   "settingsPrettifySchedule": "Improve schedule entries",
+  "widgetHelpDialogMessage":
+      "Place a widget on your home screen to get a quick view on your daily schedule.",
+  "widgetHelpDialogTitle": "Did you know?",
 };
