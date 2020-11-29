@@ -398,7 +398,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/DHBW Studenten App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -411,7 +411,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp;
 				PRODUCT_NAME = "DHBW Studenten App";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -536,7 +536,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/DHBW Studenten App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -549,7 +549,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp;
 				PRODUCT_NAME = "DHBW Studenten App";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -569,7 +569,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/DHBW Studenten App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -582,7 +582,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp;
 				PRODUCT_NAME = "DHBW Studenten App";
 				PROVISIONING_PROFILE_SPECIFIER = "";
