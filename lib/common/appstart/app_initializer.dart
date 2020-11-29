@@ -5,6 +5,7 @@ import 'package:dhbwstudentapp/common/appstart/localization_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notification_schedule_changed_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
+import 'package:dhbwstudentapp/native/widget/android_schedule_today_widget_schedule_update_callback.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -34,6 +35,9 @@ Future<void> initializeApp(bool isBackground) async {
     await LocalizationInitialize.fromLanguageCode(Platform.localeName)
         .setupLocalizations();
   }
+
+  AndroidScheduleTodayWidgetScheduleUpdateCallback()
+      .registerCallback(KiwiContainer().resolve());
 
   await NotificationsInitialize().setupNotifications();
   await BackgroundInitialize().setupBackgroundScheduling();

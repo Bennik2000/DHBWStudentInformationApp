@@ -1,5 +1,5 @@
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
-import 'package:dhbwstudentapp/common/ui/rate_in_store.dart';
+import 'package:dhbwstudentapp/common/ui/app_launch_dialogs.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
@@ -21,7 +21,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with NavigatorObserver {
-  bool _rateDialogShown = false;
+  bool _appLaunchDialogsShown = false;
 
   final ValueNotifier<int> _currentEntryIndex = ValueNotifier<int>(0);
 
@@ -35,7 +35,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
 
   @override
   Widget build(BuildContext context) {
-    _showRateInStoreDialogIfNeeded(context);
+    _showAppLaunchDialogsIfNeeded(context);
 
     var navigator = Navigator(
       key: NavigatorKey.mainKey,
@@ -153,12 +153,11 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
     });
   }
 
-  void _showRateInStoreDialogIfNeeded(BuildContext context) {
-    if (!_rateDialogShown) {
-      RateInStore(KiwiContainer().resolve())
-          .showRateInStoreDialogIfNeeded(context);
+  void _showAppLaunchDialogsIfNeeded(BuildContext context) {
+    if (!_appLaunchDialogsShown) {
+      AppLaunchDialog(KiwiContainer().resolve()).showAppLaunchDialogs(context);
 
-      _rateDialogShown = true;
+      _appLaunchDialogsShown = true;
     }
   }
 

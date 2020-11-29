@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="splash_color">#ffffff</color>
+
+    <color name="widget_title_background">#FFC91A1A</color>
+    <color name="widget_title_text_color">#FFFFFF</color>
+    <color name="widget_background">#FFFFFF</color>
+
+    <color name="widget_schedule_entry_time_text_color">#8C8C8C</color>
+    <color name="widget_schedule_entry_text_color">#FFFFFF</color>
+    <color name="widget_schedule_empty_state_text_color">#C8C8C8</color>
+
+    <color name="widget_schedule_entry_class_color">#FFC91A1A</color>
+    <color name="widget_schedule_entry_exam_color">#fffdb531</color>
+    <color name="widget_schedule_entry_holiday_color">#B5B5B5</color>
+    <color name="widget_schedule_entry_online_color">#FFC91A1A</color>
+    <color name="widget_schedule_entry_unknown_color">#B5B5B5</color>
+
 </resources>
