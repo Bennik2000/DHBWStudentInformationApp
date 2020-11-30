@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dhbwstudentapp/common/payment/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/ui/root_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -15,6 +16,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+
+  var h = InAppPurchaseHelper();
+  h.initialize();
+
+  KiwiContainer().registerInstance(h);
 
   await initializeApp(false);
   await saveLastStartLanguage();

@@ -1,4 +1,6 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
+import 'package:dhbwstudentapp/common/payment/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/common/ui/app_launch_dialogs.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
@@ -23,6 +25,8 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with NavigatorObserver {
   bool _appLaunchDialogsShown = false;
 
+  InAppPurchaseHelper helper = KiwiContainer().resolve();
+
   final ValueNotifier<int> _currentEntryIndex = ValueNotifier<int>(0);
 
   NavigationEntry get currentEntry =>
@@ -36,6 +40,28 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   @override
   Widget build(BuildContext context) {
     _showAppLaunchDialogsIfNeeded(context);
+
+    helper.messageCallback = (String s) {
+      showDialog(
+        context: context,
+        builder: (BuildContext c) => AlertDialog(
+          title: Text("Donate"),
+          content: Text(
+            s,
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+          actions: [
+            FlatButton(
+              textColor: Theme.of(context).accentColor,
+              child: Text(L.of(context).dialogOk.toUpperCase()),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
+    };
 
     var navigator = Navigator(
       key: NavigatorKey.mainKey,
