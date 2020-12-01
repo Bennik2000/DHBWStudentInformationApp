@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/ui/root_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -13,6 +14,11 @@ import 'common/util/platform_util.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // This has to be done at startup because otherwise payment events are missed
+  KiwiContainer().registerInstance(InAppPurchaseHelper());
+  KiwiContainer().resolve<InAppPurchaseHelper>().initialize();
+
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
