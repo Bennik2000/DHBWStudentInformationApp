@@ -157,6 +157,8 @@ final de = {
   "widgetHelpDialogMessage":
       "Platziere ein Widget auf deinen Startbildschirm um einen schnellen Blick auf deinen täglichen Vorlesungsplan zu bekommen.",
   "widgetHelpDialogTitle": "Schon gewusst?",
+  "donateButtonTitle": "Spendiere dem Entwickler einen Kaffee",
+  "donateButtonSubtitle": "Hier kannst du die Entwicklung der App unterstützen",
 };
 
 final en = {
@@ -315,4 +317,6 @@ final en = {
   "widgetHelpDialogMessage":
       "Place a widget on your home screen to get a quick view on your daily schedule.",
   "widgetHelpDialogTitle": "Did you know?",
+  "donateButtonTitle": "Give the developer a cup of coffee",
+  "donateButtonSubtitle": "Here you can support the development of the app",
 };

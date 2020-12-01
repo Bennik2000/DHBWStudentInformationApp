@@ -358,6 +358,10 @@ class L {
 
   String get widgetHelpDialogTitle => _getValue("widgetHelpDialogTitle");
 
+  String get donateButtonTitle => _getValue("donateButtonTitle");
+
+  String get donateButtonSubtitle => _getValue("donateButtonSubtitle");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

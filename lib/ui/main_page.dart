@@ -1,6 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
-import 'package:dhbwstudentapp/common/payment/in_app_purchase_helper.dart';
+import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/common/ui/app_launch_dialogs.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
