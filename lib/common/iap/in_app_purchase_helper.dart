@@ -3,9 +3,13 @@ import 'dart:async';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 class InAppPurchaseHelper {
+  static const String DonateToDeveloperProductId = "donate_to_developer";
+
   StreamSubscription<List<PurchaseDetails>> _subscription;
 
-  Function(String s) messageCallback;
+  Future<void> donateToDeveloper() async {
+    await _buyById(DonateToDeveloperProductId);
+  }
 
   void initialize() {
     InAppPurchaseConnection.enablePendingPurchases();
@@ -16,14 +20,12 @@ class InAppPurchaseHelper {
     });
   }
 
-  Future<void> donateToDeveloper() async {
-    await _buyConsumableById('donate_to_developer');
-  }
-
-  Future<void> _buyConsumableById(String id) async {
+  Future<void> _buyById(String id) async {
     if (!await InAppPurchaseConnection.instance.isAvailable()) return;
 
     var product = await _getProductDetails(id);
+
+    if (product == null) return;
 
     print("Attempting to buy ${product.title} (${product.description})");
 
@@ -31,9 +33,25 @@ class InAppPurchaseHelper {
       productDetails: product,
     );
 
-    await InAppPurchaseConnection.instance.buyConsumable(
-      purchaseParam: purchaseParam,
-    );
+    if (_isConsumable(id)) {
+      await InAppPurchaseConnection.instance.buyConsumable(
+        purchaseParam: purchaseParam,
+        autoConsume: true,
+      );
+    } else {
+      await InAppPurchaseConnection.instance.buyNonConsumable(
+        purchaseParam: purchaseParam,
+      );
+    }
+  }
+
+  Future<bool> _didBuyNonConsumable(String id) async {
+    var purchases = await InAppPurchaseConnection.instance.queryPastPurchases();
+
+    var purchase =
+        purchases.pastPurchases?.where((element) => element.productID == id);
+
+    return purchase.isNotEmpty;
   }
 
   Future<ProductDetails> _getProductDetails(String id) async {
@@ -56,13 +74,13 @@ class InAppPurchaseHelper {
     for (var p in purchaseDetailsList) {
       if (p.status == PurchaseStatus.pending) continue;
       if (!p.pendingCompletePurchase) continue;
+      if (_isConsumable(p.productID)) continue;
 
-      var result = await InAppPurchaseConnection.instance.completePurchase(p);
-
-      print(
-          "completePurchase() result: ${result.responseCode} (${result.debugMessage})");
-
-      if (result.responseCode != BillingResponse.ok) {}
+      await InAppPurchaseConnection.instance.completePurchase(p);
     }
+  }
+
+  bool _isConsumable(String id) {
+    return id == DonateToDeveloperProductId;
   }
 }

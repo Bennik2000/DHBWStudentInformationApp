@@ -41,28 +41,6 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   Widget build(BuildContext context) {
     _showAppLaunchDialogsIfNeeded(context);
 
-    helper.messageCallback = (String s) {
-      showDialog(
-        context: context,
-        builder: (BuildContext c) => AlertDialog(
-          title: Text("Donate"),
-          content: Text(
-            s,
-            style: Theme.of(context).textTheme.bodyText2,
-          ),
-          actions: [
-            FlatButton(
-              textColor: Theme.of(context).accentColor,
-              child: Text(L.of(context).dialogOk.toUpperCase()),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        ),
-      );
-    };
-
     var navigator = Navigator(
       key: NavigatorKey.mainKey,
       onGenerateRoute: generateDrawerRoute,
