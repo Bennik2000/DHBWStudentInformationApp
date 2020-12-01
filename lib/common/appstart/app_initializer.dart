@@ -37,9 +37,6 @@ Future<void> initializeApp(bool isBackground) async {
         .setupLocalizations();
   }
 
-  KiwiContainer().registerInstance(InAppPurchaseHelper());
-  KiwiContainer().resolve<InAppPurchaseHelper>().initialize();
-
   AndroidScheduleTodayWidgetScheduleUpdateCallback()
       .registerCallback(KiwiContainer().resolve());
 

@@ -1,86 +1,81 @@
 import 'dart:async';
+import 'dart:io';
 
-import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 class InAppPurchaseHelper {
   static const String DonateToDeveloperProductId = "donate_to_developer";
 
-  StreamSubscription<List<PurchaseDetails>> _subscription;
+  StreamSubscription _purchaseUpdatedSubscription;
+  StreamSubscription _purchaseErrorSubscription;
+
+  Future<void> initialize() async {
+    await FlutterInappPurchase.instance.initConnection;
+
+    await _completePendingPurchases();
+
+    _purchaseUpdatedSubscription =
+        FlutterInappPurchase.purchaseUpdated.listen(_completePurchase);
+
+    _purchaseErrorSubscription =
+        FlutterInappPurchase.purchaseError.listen(_onPurchaseError);
+  }
 
   Future<void> donateToDeveloper() async {
     await _buyById(DonateToDeveloperProductId);
   }
 
-  void initialize() {
-    InAppPurchaseConnection.enablePendingPurchases();
-
-    _subscription = InAppPurchaseConnection.instance.purchaseUpdatedStream
-        .listen(_listenToPurchaseUpdated, onDone: () {
-      _subscription.cancel();
-    });
-  }
-
   Future<void> _buyById(String id) async {
-    if (!await InAppPurchaseConnection.instance.isAvailable()) return;
+    print("Attempting to buy $id");
 
-    var product = await _getProductDetails(id);
+    await FlutterInappPurchase.instance.getProducts([id]);
+    await FlutterInappPurchase.instance.requestPurchase(id);
+  }
 
-    if (product == null) return;
+  Future<void> _completePurchase(PurchasedItem item) async {
+    print("Completing purchase: ${item.orderId}");
 
-    print("Attempting to buy ${product.title} (${product.description})");
+    if (!_isPurchased(item)) return;
 
-    final PurchaseParam purchaseParam = PurchaseParam(
-      productDetails: product,
-    );
-
-    if (_isConsumable(id)) {
-      await InAppPurchaseConnection.instance.buyConsumable(
-        purchaseParam: purchaseParam,
-        autoConsume: true,
-      );
+    if (_isConsumable(item.productId)) {
+      await FlutterInappPurchase.instance
+          .consumePurchaseAndroid(item.purchaseToken);
     } else {
-      await InAppPurchaseConnection.instance.buyNonConsumable(
-        purchaseParam: purchaseParam,
-      );
+      await FlutterInappPurchase.instance.finishTransaction(item);
     }
   }
 
-  Future<bool> _didBuyNonConsumable(String id) async {
-    var purchases = await InAppPurchaseConnection.instance.queryPastPurchases();
+  Future<void> _completePendingPurchases() async {
+    var purchases = await FlutterInappPurchase.instance.getAvailablePurchases();
 
-    var purchase =
-        purchases.pastPurchases?.where((element) => element.productID == id);
-
-    return purchase.isNotEmpty;
+    purchases.forEach(_completePurchase);
   }
 
-  Future<ProductDetails> _getProductDetails(String id) async {
-    final ProductDetailsResponse response = await InAppPurchaseConnection
-        .instance
-        .queryProductDetails([id].toSet());
-
-    if (response.notFoundIDs.isNotEmpty ||
-        response.productDetails.length != 1) {
-      print("Did not find product with id $id");
-      return null;
-    }
-
-    return response.productDetails.first;
-  }
-
-  Future<void> _listenToPurchaseUpdated(
-    List<PurchaseDetails> purchaseDetailsList,
-  ) async {
-    for (var p in purchaseDetailsList) {
-      if (p.status == PurchaseStatus.pending) continue;
-      if (!p.pendingCompletePurchase) continue;
-      if (_isConsumable(p.productID)) continue;
-
-      await InAppPurchaseConnection.instance.completePurchase(p);
-    }
+  void _onPurchaseError(PurchaseResult event) {
+    print("Failed to purchase:");
+    print(event.message);
+    print(event.debugMessage);
   }
 
   bool _isConsumable(String id) {
     return id == DonateToDeveloperProductId;
+  }
+
+  bool _isPurchased(PurchasedItem item) {
+    if (Platform.isAndroid) {
+      return item.purchaseStateAndroid == PurchaseState.purchased;
+    } else if (Platform.isIOS) {
+      return item.transactionStateIOS == TransactionState.purchased;
+    }
+
+    return false;
+  }
+
+  void dispose() {
+    _purchaseUpdatedSubscription?.cancel();
+    _purchaseUpdatedSubscription = null;
+
+    _purchaseErrorSubscription?.cancel();
+    _purchaseErrorSubscription = null;
   }
 }
