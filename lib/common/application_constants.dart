@@ -4,4 +4,4 @@ const String ApplicationSourceCodeUrl =
 
 const int RateInStoreLaunchAfter = 16;
 const int WidgetHelpLaunchAfter = 8;
-const int DonateLaunchAfter = 32;
+const int DonateLaunchAfter = 35;

@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
+import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -22,6 +23,8 @@ class DonateToDeveloper {
     if (_appLaunchCounter >= DonateLaunchAfter) {
       await _preferencesProvider.setDidShowDonateDialog(true);
       await _showDialog(context);
+
+      await analytics.logEvent(name: "donateDialogShown");
     }
   }
 

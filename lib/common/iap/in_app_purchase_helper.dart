@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 class InAppPurchaseHelper {
@@ -28,6 +29,8 @@ class InAppPurchaseHelper {
   Future<void> _buyById(String id) async {
     print("Attempting to buy $id");
 
+    await analytics.logEvent(name: "purchase_$id");
+
     await FlutterInappPurchase.instance.getProducts([id]);
     await FlutterInappPurchase.instance.requestPurchase(id);
   }
@@ -43,6 +46,8 @@ class InAppPurchaseHelper {
     } else {
       await FlutterInappPurchase.instance.finishTransaction(item);
     }
+
+    await analytics.logEvent(name: "purchaseCompleted_${item.productId}");
   }
 
   Future<void> _completePendingPurchases() async {
