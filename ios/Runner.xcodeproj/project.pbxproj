@@ -14,6 +14,8 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		D5AFF7392577D09200D9B047 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5AFF7382577D09200D9B047 /* StoreKit.framework */; };
+		D5AFF73B2577D18A00D9B047 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5AFF73A2577D18A00D9B047 /* AuthenticationServices.framework */; };
 		D5EA251D24DDA658007F6B1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D5EA251C24DDA658007F6B1A /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +50,8 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5036E5A25330D0700284A8C /* DHBW Studenten App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DHBW Studenten App.entitlements"; sourceTree = "<group>"; };
+		D5AFF7382577D09200D9B047 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		D5AFF73A2577D18A00D9B047 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		D5EA251C24DDA658007F6B1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		DD25BD6FDAE12E0ED0C0B61F /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -57,7 +61,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5AFF73B2577D18A00D9B047 /* AuthenticationServices.framework in Frameworks */,
 				30E3A960F621FADC0C3072E0 /* Pods_Runner.framework in Frameworks */,
+				D5AFF7392577D09200D9B047 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +73,8 @@
 		153A4B8339F10C6748EF2E3F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D5AFF73A2577D18A00D9B047 /* AuthenticationServices.framework */,
+				D5AFF7382577D09200D9B047 /* StoreKit.framework */,
 				471F2CD75920FE7935A5F1ED /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
@@ -253,6 +261,7 @@
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
 				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
 				"${BUILT_PRODUCTS_DIR}/device_calendar/device_calendar.framework",
+				"${BUILT_PRODUCTS_DIR}/flutter_inapp_purchase/flutter_inapp_purchase.framework",
 				"${BUILT_PRODUCTS_DIR}/flutter_local_notifications/flutter_local_notifications.framework",
 				"${BUILT_PRODUCTS_DIR}/flutter_secure_storage/flutter_secure_storage.framework",
 				"${BUILT_PRODUCTS_DIR}/launch_review/launch_review.framework",
@@ -269,6 +278,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/device_calendar.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_inapp_purchase.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_local_notifications.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_secure_storage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/launch_review.framework",
@@ -398,7 +408,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/DHBW Studenten App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -411,7 +421,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp;
 				PRODUCT_NAME = "DHBW Studenten App";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -536,7 +546,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/DHBW Studenten App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -549,7 +559,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp;
 				PRODUCT_NAME = "DHBW Studenten App";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -569,7 +579,7 @@
 				CODE_SIGN_ENTITLEMENTS = "Runner/DHBW Studenten App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -582,7 +592,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Flutter",
 				);
-				MARKETING_VERSION = 1.1.4;
+				MARKETING_VERSION = 1.1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp;
 				PRODUCT_NAME = "DHBW Studenten App";
 				PROVISIONING_PROFILE_SPECIFIER = "";

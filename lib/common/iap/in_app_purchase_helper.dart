@@ -10,15 +10,19 @@ class InAppPurchaseHelper {
   StreamSubscription _purchaseErrorSubscription;
 
   Future<void> initialize() async {
-    await FlutterInappPurchase.instance.initConnection;
+    print("Initializing in app purchases...");
 
-    await _completePendingPurchases();
+    await FlutterInappPurchase.instance.initConnection;
 
     _purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen(_completePurchase);
 
     _purchaseErrorSubscription =
         FlutterInappPurchase.purchaseError.listen(_onPurchaseError);
+
+    print("In app purchases initialized");
+
+    _completePendingPurchases();
   }
 
   Future<void> donateToDeveloper() async {
@@ -33,22 +37,32 @@ class InAppPurchaseHelper {
   }
 
   Future<void> _completePurchase(PurchasedItem item) async {
-    print("Completing purchase: ${item.orderId}");
+    print("Completing purchase: ${item.orderId} (${item.productId})");
 
     if (!_isPurchased(item)) return;
 
-    if (_isConsumable(item.productId)) {
-      await FlutterInappPurchase.instance
-          .consumePurchaseAndroid(item.purchaseToken);
-    } else {
-      await FlutterInappPurchase.instance.finishTransaction(item);
-    }
+    await FlutterInappPurchase.instance.finishTransaction(
+      item,
+      isConsumable: _isConsumable(item.productId),
+    );
   }
 
   Future<void> _completePendingPurchases() async {
-    var purchases = await FlutterInappPurchase.instance.getAvailablePurchases();
+    print("Completing pending purchases");
 
-    purchases.forEach(_completePurchase);
+    List<PurchasedItem> purchasedItems = [];
+
+    if (Platform.isAndroid) {
+      purchasedItems =
+          await FlutterInappPurchase.instance.getAvailablePurchases();
+    } else if (Platform.isIOS) {
+      purchasedItems =
+          await FlutterInappPurchase.instance.getPendingTransactionsIOS();
+    }
+
+    print("Found ${purchasedItems.length} pending purchases");
+
+    purchasedItems.forEach(_completePurchase);
   }
 
   void _onPurchaseError(PurchaseResult event) {
