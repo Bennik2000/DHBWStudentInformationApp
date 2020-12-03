@@ -17,8 +17,8 @@ class NotificationApi {
     );
 
     var initializationSettings = InitializationSettings(
-      initializationSettingsAndroid,
-      initializationSettingsIOS,
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
     );
 
     await _localNotificationsPlugin.initialize(
@@ -33,22 +33,22 @@ class NotificationApi {
       'Notifications',
       'This is the main notification channel',
       icon: 'outline_event_note_24',
-      channelAction: AndroidNotificationChannelAction.CreateIfNotExists,
+      channelAction: AndroidNotificationChannelAction.createIfNotExists,
       autoCancel: true,
       channelShowBadge: false,
       color: Colors.red,
       enableLights: true,
       enableVibration: true,
-      importance: Importance.High,
-      priority: Priority.High,
+      importance: Importance.high,
+      priority: Priority.high,
       ticker: 'ticker',
     );
 
     var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
 
     var platformChannelSpecifics = NotificationDetails(
-      androidPlatformChannelSpecifics,
-      iOSPlatformChannelSpecifics,
+      android: androidPlatformChannelSpecifics,
+      iOS: iOSPlatformChannelSpecifics,
     );
 
     await _localNotificationsPlugin.show(

@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/common/ui/donate_to_developer.dart';
 import 'package:dhbwstudentapp/common/ui/rate_in_store_dialog.dart';
 import 'package:dhbwstudentapp/common/ui/widget_help_dialog.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,9 @@ class AppLaunchDialog {
         .showIfNeeded(context);
 
     WidgetHelpDialog(_preferencesProvider, appLaunchCounter)
+        .showIfNeeded(context);
+
+    DonateToDeveloper(_preferencesProvider, appLaunchCounter)
         .showIfNeeded(context);
   }
 }
