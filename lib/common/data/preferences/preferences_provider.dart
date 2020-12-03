@@ -199,4 +199,20 @@ class PreferencesProvider {
   Future<void> setNextRateInStoreLaunchCount(int value) async {
     return await _preferencesAccess.set("NextRateInStoreLaunchCount", value);
   }
+
+  Future<bool> getDidShowDonateDialog() async {
+    return await _preferencesAccess.get("DidShowDonateDialog") ?? false;
+  }
+
+  Future<void> setDidShowDonateDialog(bool value) {
+    return _preferencesAccess.set("DidShowDonateDialog", value);
+  }
+
+  Future<bool> getHasPurchasedSomething() async {
+    return await _preferencesAccess.get("HasPurchasedSomething") ?? false;
+  }
+
+  Future<void> setHasPurchasedSomething(bool value) {
+    return _preferencesAccess.set("HasPurchasedSomething", value);
+  }
 }

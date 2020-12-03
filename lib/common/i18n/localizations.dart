@@ -1,10 +1,10 @@
 import 'dart:ui';
 
+import 'package:dhbwstudentapp/common/i18n/localization_strings_de.dart';
+import 'package:dhbwstudentapp/common/i18n/localization_strings_en.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'localization_strings.dart';
 
 class L {
   final Locale locale;
@@ -361,6 +361,16 @@ class L {
   String get donateButtonTitle => _getValue("donateButtonTitle");
 
   String get donateButtonSubtitle => _getValue("donateButtonSubtitle");
+
+  String get donateDialogMessage => _getValue("donateDialogMessage");
+
+  String get donateDialogTitle => _getValue("donateDialogTitle");
+
+  String get donateDialogPositiveButton =>
+      _getValue("donateDialogPositiveButton");
+
+  String get donateDialogNegativeButton =>
+      _getValue("donateDialogNegativeButton");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);

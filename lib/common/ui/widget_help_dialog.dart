@@ -19,13 +19,12 @@ class WidgetHelpDialog {
     if (await _preferencesProvider.getDidShowWidgetHelpDialog()) return;
 
     if (_appLaunchCounter >= WidgetHelpLaunchAfter) {
+      await _preferencesProvider.setDidShowWidgetHelpDialog(true);
       await _showDialog(context);
     }
   }
 
   Future<void> _showDialog(BuildContext context) async {
-    await _preferencesProvider.setDidShowWidgetHelpDialog(true);
-
     return await showDialog<void>(
       context: context,
       barrierDismissible: false,

@@ -15,10 +15,6 @@ import 'common/util/platform_util.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // This has to be done at startup because otherwise payment events are missed
-  KiwiContainer().registerInstance(InAppPurchaseHelper());
-  KiwiContainer().resolve<InAppPurchaseHelper>().initialize();
-
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 

@@ -1,13 +1,19 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
+import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 class InAppPurchaseHelper {
   static const String DonateToDeveloperProductId = "donate_to_developer";
 
+  final PreferencesProvider _preferencesProvider;
+
   StreamSubscription _purchaseUpdatedSubscription;
   StreamSubscription _purchaseErrorSubscription;
+
+  InAppPurchaseHelper(this._preferencesProvider);
 
   Future<void> initialize() async {
     print("Initializing in app purchases...");
@@ -32,8 +38,12 @@ class InAppPurchaseHelper {
   Future<void> _buyById(String id) async {
     print("Attempting to buy $id");
 
+    await analytics.logEvent(name: "purchase_$id");
+
     await FlutterInappPurchase.instance.getProducts([id]);
     await FlutterInappPurchase.instance.requestPurchase(id);
+
+    await _preferencesProvider.setHasPurchasedSomething(true);
   }
 
   Future<void> _completePurchase(PurchasedItem item) async {
@@ -45,10 +55,16 @@ class InAppPurchaseHelper {
       item,
       isConsumable: _isConsumable(item.productId),
     );
+
+    await analytics.logEvent(name: "purchaseCompleted_${item.productId}");
   }
 
   Future<void> _completePendingPurchases() async {
     print("Completing pending purchases");
+
+    if (!await _preferencesProvider.getHasPurchasedSomething()) {
+      return;
+    }
 
     List<PurchasedItem> purchasedItems = [];
 
