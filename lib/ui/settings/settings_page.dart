@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
@@ -71,6 +72,16 @@ class _SettingsPageState extends State<SettingsPage> {
     return [
       TitleListTile(title: L.of(context).settingsAboutTitle),
       ListTile(
+        title: Text(L.of(context).donateButtonTitle),
+        subtitle: Text(L.of(context).donateButtonSubtitle),
+        trailing: Icon(Icons.free_breakfast),
+        onTap: () async {
+          await KiwiContainer()
+              .resolve<InAppPurchaseHelper>()
+              .donateToDeveloper();
+        },
+      ),
+      ListTile(
         title: Text(L.of(context).settingsAbout),
         onTap: () {
           showAboutDialog(
@@ -105,6 +116,19 @@ class _SettingsPageState extends State<SettingsPage> {
             KiwiContainer().resolve(),
             KiwiContainer().resolve(),
           ).show(context);
+        },
+      ),
+      PropertyChangeConsumer(
+        properties: const [
+          "prettifySchedule",
+        ],
+        builder:
+            (BuildContext context, SettingsViewModel model, Set properties) {
+          return SwitchListTile(
+            title: Text(L.of(context).settingsPrettifySchedule),
+            onChanged: model.setPrettifySchedule,
+            value: model.prettifySchedule,
+          );
         },
       ),
       const Divider(),

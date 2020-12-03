@@ -54,4 +54,24 @@ class ScheduleEntry {
 
     return changedProperties;
   }
+
+  ScheduleEntry copyWith(
+      {DateTime start,
+      DateTime end,
+      String title,
+      String details,
+      String professor,
+      String room,
+      ScheduleEntryType type}) {
+    return ScheduleEntry(
+      id: id,
+      start: start ?? this.start,
+      end: end ?? this.end,
+      title: title ?? this.title,
+      details: details ?? this.details,
+      professor: professor ?? this.professor,
+      room: room ?? this.room,
+      type: type ?? this.type,
+    );
+  }
 }

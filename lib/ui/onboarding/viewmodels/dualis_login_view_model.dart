@@ -47,7 +47,10 @@ class DualisLoginViewModel extends OnboardingStepViewModel {
   @override
   Future<void> save() async {
     await preferencesProvider.setStoreDualisCredentials(true);
-    await preferencesProvider.storeDualisCredentials(Credentials(
+
+    // To improve the onboarding experience we do not await this call because
+    // it may take a few seconds
+    preferencesProvider.storeDualisCredentials(Credentials(
       username,
       password,
     ));

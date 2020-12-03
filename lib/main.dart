@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/ui/root_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -17,9 +18,10 @@ void main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   await initializeApp(false);
-  await saveLastStartLanguage();
 
-  PlatformUtil.initializePortraitLandscapeMode();
+  saveLastStartLanguage();
+
+  await PlatformUtil.initializePortraitLandscapeMode();
 
   runApp(RootPage(
     rootViewModel: await loadRootViewModel(),

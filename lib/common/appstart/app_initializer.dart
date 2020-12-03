@@ -5,6 +5,8 @@ import 'package:dhbwstudentapp/common/appstart/localization_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notification_schedule_changed_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
+import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
+import 'package:dhbwstudentapp/native/widget/android_schedule_today_widget_schedule_update_callback.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -23,8 +25,6 @@ Future<void> initializeApp(bool isBackground) async {
     return;
   }
 
-  WidgetsFlutterBinding.ensureInitialized();
-
   injectServices(isBackground);
 
   if (isBackground) {
@@ -35,8 +35,18 @@ Future<void> initializeApp(bool isBackground) async {
         .setupLocalizations();
   }
 
-  await NotificationsInitialize().setupNotifications();
-  await BackgroundInitialize().setupBackgroundScheduling();
+  if (!isBackground) {
+    KiwiContainer().registerInstance(
+      InAppPurchaseHelper(KiwiContainer().resolve()),
+    );
+    KiwiContainer().resolve<InAppPurchaseHelper>().initialize();
+  }
+
+  AndroidScheduleTodayWidgetScheduleUpdateCallback()
+      .registerCallback(KiwiContainer().resolve());
+
+  NotificationsInitialize().setupNotifications();
+  BackgroundInitialize().setupBackgroundScheduling();
   NotificationScheduleChangedInitialize().setupNotification();
 
   if (isBackground) {

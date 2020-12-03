@@ -1,10 +1,10 @@
 import 'dart:ui';
 
+import 'package:dhbwstudentapp/common/i18n/localization_strings_de.dart';
+import 'package:dhbwstudentapp/common/i18n/localization_strings_en.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'localization_strings.dart';
 
 class L {
   final Locale locale;
@@ -253,66 +253,124 @@ class L {
 
   String get dateManagementCheckBoxFutureDates =>
       _getValue("dateManagementCheckBoxFutureDates");
+
   String get dateManagementDropDownYear =>
       _getValue("dateManagementDropDownYear");
+
   String get dateManagementDropDownDatabase =>
       _getValue("dateManagementDropDownDatabase");
+
   String get dateManagementChipOnlyPassed =>
       _getValue("dateManagementChipOnlyPassed");
+
   String get dateManagementChipOnlyFuture =>
       _getValue("dateManagementChipOnlyFuture");
+
   String get dateManagementChipFutureAndPast =>
       _getValue("dateManagementChipFutureAndPast");
+
   String get dialogOk => _getValue("dialogOk");
+
   String get dialogCancel => _getValue("dialogCancel");
+
   String get dialogSetRaplaUrlTitle => _getValue("dialogSetRaplaUrlTitle");
+
   String get scheduleEmptyStateSetUrl => _getValue("scheduleEmptyStateSetUrl");
+
   String get scheduleEmptyStateBannerMessage =>
       _getValue("scheduleEmptyStateBannerMessage");
+
   String get helpButtonTooltip => _getValue("helpButtonTooltip");
+
   String get logoutButtonTooltip => _getValue("logoutButtonTooltip");
+
   String get scheduleHelpDialogContent =>
       _getValue("scheduleHelpDialogContent");
+
   String get scheduleHelpDialogTitle => _getValue("scheduleHelpDialogTitle");
+
   String get dualisHelpDialogContent => _getValue("dualisHelpDialogContent");
+
   String get dualisHelpDialogTitle => _getValue("dualisHelpDialogTitle");
+
   String get dateManagementHelpDialogContent =>
       _getValue("dateManagementHelpDialogContent");
+
   String get dateManagementHelpDialogTitle =>
       _getValue("dateManagementHelpDialogTitle");
+
   String get dateManagementExportToCalendar =>
       _getValue("dateManagementExportToCalendar");
+
   String get dateManagementExportToCalendarConfirm =>
       _getValue("dateManagementExportToCalendarConfirm");
+
   String get dateManagementExportToCalendarDescription =>
       _getValue("dateManagementExportToCalendarDescription");
+
   String get scheduleQueryFailedMessage =>
       _getValue("scheduleQueryFailedMessage");
+
   String get scheduleQueryFailedOpenInBrowser =>
       _getValue("scheduleQueryFailedOpenInBrowser");
+
   String get onboardingScheduleSourceTitle =>
       _getValue("onboardingScheduleSourceTitle");
+
   String get onboardingScheduleSourceDescription =>
       _getValue("onboardingScheduleSourceDescription");
+
   String get scheduleSourceTypeRapla => _getValue("scheduleSourceTypeRapla");
+
   String get scheduleSourceTypeDualis => _getValue("scheduleSourceTypeDualis");
+
   String get scheduleSourceTypeNone => _getValue("scheduleSourceTypeNone");
+
   String get settingsSetupScheduleSource =>
       _getValue("settingsSetupScheduleSource");
+
   String get onboardingDualisSourceDescription =>
       _getValue("onboardingDualisSourceDescription");
+
   String get onboardingIcalPageDescription =>
       _getValue("onboardingIcalPageDescription");
+
   String get onboardingIcalPageTitle => _getValue("onboardingIcalPageTitle");
+
   String get onboardingIcalUrlHint => _getValue("onboardingIcalUrlHint");
+
   String get scheduleSourceTypeIcal => _getValue("scheduleSourceTypeIcal");
+
   String get scheduleSourceTypeMannheim =>
       _getValue("scheduleSourceTypeMannheim");
+
   String get onboardingMannheimLoadCoursesFailed =>
       _getValue("onboardingMannheimLoadCoursesFailed");
+
   String get onboardingMannheimDescription =>
       _getValue("onboardingMannheimDescription");
+
   String get onboardingMannheimTitle => _getValue("onboardingMannheimTitle");
+
+  String get settingsPrettifySchedule => _getValue("settingsPrettifySchedule");
+
+  String get widgetHelpDialogMessage => _getValue("widgetHelpDialogMessage");
+
+  String get widgetHelpDialogTitle => _getValue("widgetHelpDialogTitle");
+
+  String get donateButtonTitle => _getValue("donateButtonTitle");
+
+  String get donateButtonSubtitle => _getValue("donateButtonSubtitle");
+
+  String get donateDialogMessage => _getValue("donateDialogMessage");
+
+  String get donateDialogTitle => _getValue("donateDialogTitle");
+
+  String get donateDialogPositiveButton =>
+      _getValue("donateDialogPositiveButton");
+
+  String get donateDialogNegativeButton =>
+      _getValue("donateDialogNegativeButton");
 
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);

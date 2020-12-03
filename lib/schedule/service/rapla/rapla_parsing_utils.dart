@@ -63,14 +63,6 @@ class RaplaParsingUtils {
 
     if (title == null) throw ElementNotFoundParseException("title");
 
-    // Sometimes the entry type is not set correctly. When the title of a class
-    // begins with "Online - " it implies that it is online
-    // In this case remove the online prefix and set the type correctly
-    if (title.startsWith("Online - ") && type == ScheduleEntryType.Class) {
-      title = title.substring("Online - ".length);
-      type = ScheduleEntryType.Online;
-    }
-
     if (professor?.endsWith(",") ?? false) {
       professor = professor.substring(0, professor.length - 1);
     }

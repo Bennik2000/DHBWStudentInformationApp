@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/secure_storage_access.dart';
 import 'package:dhbwstudentapp/dualis/model/credentials.dart';
@@ -21,6 +22,8 @@ class PreferencesProvider {
   static const String ScheduleSourceType = "ScheduleSourceType";
   static const String ScheduleIcalUrl = "ScheduleIcalUrl";
   static const String MannheimScheduleId = "MannheimScheduleId";
+  static const String PrettifySchedule = "PrettifySchedule";
+  static const String DidShowWidgetHelpDialog = "DidShowWidgetHelpDialog";
 
   final PreferencesAccess _preferencesAccess;
   final SecureStorageAccess _secureStorageAccess;
@@ -74,14 +77,6 @@ class PreferencesProvider {
 
   Future<void> setNotifyAboutScheduleChanges(bool value) async {
     await _preferencesAccess.set(NotifyAboutScheduleChanges, value);
-  }
-
-  Future<int> getRateInStoreLaunchCountdown() async {
-    return await _preferencesAccess.get<int>(RateInStoreLaunchCountdown) ?? 10;
-  }
-
-  Future<void> setRateInStoreLaunchCountdown(int value) async {
-    await _preferencesAccess.set(RateInStoreLaunchCountdown, value);
   }
 
   Future<bool> getDontShowRateNowDialog() async {
@@ -164,11 +159,60 @@ class PreferencesProvider {
     return _preferencesAccess.set(MannheimScheduleId, url);
   }
 
+  Future<bool> getPrettifySchedule() async {
+    return await _preferencesAccess.get(PrettifySchedule) ?? true;
+  }
+
+  Future<void> setPrettifySchedule(bool value) {
+    return _preferencesAccess.set(PrettifySchedule, value);
+  }
+
+  Future<bool> getDidShowWidgetHelpDialog() async {
+    return await _preferencesAccess.get(DidShowWidgetHelpDialog) ?? false;
+  }
+
+  Future<void> setDidShowWidgetHelpDialog(bool value) {
+    return _preferencesAccess.set(DidShowWidgetHelpDialog, value);
+  }
+
   Future<void> set<T>(String key, T value) async {
     return _preferencesAccess.set(key, value);
   }
 
   Future<T> get<T>(String key) async {
     return _preferencesAccess.get(key);
+  }
+
+  Future<int> getAppLaunchCounter() async {
+    return await _preferencesAccess.get("AppLaunchCount") ?? 0;
+  }
+
+  Future<void> setAppLaunchCounter(int value) async {
+    return await _preferencesAccess.set("AppLaunchCount", value);
+  }
+
+  Future<int> getNextRateInStoreLaunchCount() async {
+    return await _preferencesAccess.get("NextRateInStoreLaunchCount") ??
+        RateInStoreLaunchAfter;
+  }
+
+  Future<void> setNextRateInStoreLaunchCount(int value) async {
+    return await _preferencesAccess.set("NextRateInStoreLaunchCount", value);
+  }
+
+  Future<bool> getDidShowDonateDialog() async {
+    return await _preferencesAccess.get("DidShowDonateDialog") ?? false;
+  }
+
+  Future<void> setDidShowDonateDialog(bool value) {
+    return _preferencesAccess.set("DidShowDonateDialog", value);
+  }
+
+  Future<bool> getHasPurchasedSomething() async {
+    return await _preferencesAccess.get("HasPurchasedSomething") ?? false;
+  }
+
+  Future<void> setHasPurchasedSomething(bool value) {
+    return _preferencesAccess.set("HasPurchasedSomething", value);
   }
 }

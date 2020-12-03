@@ -8,9 +8,9 @@ class NotificationsInitialize {
     if (Platform.isAndroid) {
       var notificationApi = NotificationApi();
 
-      await notificationApi.initialize();
-
       KiwiContainer().registerInstance(notificationApi);
+
+      await notificationApi.initialize();
     } else {
       KiwiContainer().registerInstance<NotificationApi>(VoidNotificationApi());
     }

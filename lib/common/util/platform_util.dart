@@ -22,11 +22,12 @@ class PlatformUtil {
     return data.platformBrightness ?? Brightness.light;
   }
 
-  static void initializePortraitLandscapeMode() {
+  static Future<void> initializePortraitLandscapeMode() async {
     if (isPhone()) {
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+      await SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp]);
     } else {
-      SystemChrome.setPreferredOrientations([
+      await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
         DeviceOrientation.portraitDown,
         DeviceOrientation.landscapeLeft,
