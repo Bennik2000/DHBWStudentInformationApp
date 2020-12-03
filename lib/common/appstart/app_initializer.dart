@@ -25,8 +25,6 @@ Future<void> initializeApp(bool isBackground) async {
     return;
   }
 
-  WidgetsFlutterBinding.ensureInitialized();
-
   injectServices(isBackground);
 
   if (isBackground) {
@@ -47,8 +45,8 @@ Future<void> initializeApp(bool isBackground) async {
   AndroidScheduleTodayWidgetScheduleUpdateCallback()
       .registerCallback(KiwiContainer().resolve());
 
-  await NotificationsInitialize().setupNotifications();
-  await BackgroundInitialize().setupBackgroundScheduling();
+  NotificationsInitialize().setupNotifications();
+  BackgroundInitialize().setupBackgroundScheduling();
   NotificationScheduleChangedInitialize().setupNotification();
 
   if (isBackground) {

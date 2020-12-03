@@ -14,14 +14,14 @@ import 'common/util/platform_util.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
 
   await initializeApp(false);
-  await saveLastStartLanguage();
 
-  PlatformUtil.initializePortraitLandscapeMode();
+  saveLastStartLanguage();
+
+  await PlatformUtil.initializePortraitLandscapeMode();
 
   runApp(RootPage(
     rootViewModel: await loadRootViewModel(),
