@@ -40,10 +40,10 @@ class InAppPurchaseHelper {
 
     await analytics.logEvent(name: "purchase_$id");
 
+    await _preferencesProvider.setHasPurchasedSomething(true);
+
     await FlutterInappPurchase.instance.getProducts([id]);
     await FlutterInappPurchase.instance.requestPurchase(id);
-
-    await _preferencesProvider.setHasPurchasedSomething(true);
   }
 
   Future<void> _completePurchase(PurchasedItem item) async {
@@ -62,9 +62,7 @@ class InAppPurchaseHelper {
   Future<void> _completePendingPurchases() async {
     print("Completing pending purchases");
 
-    if (!await _preferencesProvider.getHasPurchasedSomething()) {
-      return;
-    }
+    if (!await _preferencesProvider.getHasPurchasedSomething()) return;
 
     List<PurchasedItem> purchasedItems = [];
 
