@@ -47,6 +47,8 @@ dependencies:
   mutex: ^1.1.0
   device_calendar: ^3.1.0
   flutter_inapp_purchase: ^3.0.1
+  flutter_widgetkit: ^1.0.1
+  ios_app_group: ^1.0.0
 
 dev_dependencies:
   flutter_test:

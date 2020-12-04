@@ -14,10 +14,8 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		D518EA23257A5EA200C149D9 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */; };
-		D518EA24257A5EA200C149D9 /* ScheduleEntryAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */; };
-		D558FBC7257A1E0000DC8F12 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */; };
-		D558FBCA257A1E9A00DC8F12 /* ScheduleEntryAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */; };
+		D558FBC7257A1E0000DC8F12 /* scheduleentry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC6257A1E0000DC8F12 /* scheduleentry.swift */; };
+		D558FBCA257A1E9A00DC8F12 /* scheduleEntryAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC9257A1E9A00DC8F12 /* scheduleEntryAccess.swift */; };
 		D56A330B2579725B001E17F5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D56A330A2579725B001E17F5 /* WidgetKit.framework */; };
 		D56A330D2579725B001E17F5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D56A330C2579725B001E17F5 /* SwiftUI.framework */; };
 		D56A33102579725B001E17F5 /* dailyschedulewidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56A330F2579725B001E17F5 /* dailyschedulewidget.swift */; };
@@ -82,8 +80,8 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5036E5A25330D0700284A8C /* DHBW Studenten App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DHBW Studenten App.entitlements"; sourceTree = "<group>"; };
-		D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntry.swift; sourceTree = "<group>"; };
-		D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntryAccess.swift; sourceTree = "<group>"; };
+		D558FBC6257A1E0000DC8F12 /* scheduleentry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scheduleentry.swift; sourceTree = "<group>"; };
+		D558FBC9257A1E9A00DC8F12 /* scheduleEntryAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = scheduleEntryAccess.swift; sourceTree = "<group>"; };
 		D558FBCE257A2EC300DC8F12 /* dailyschedulewidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dailyschedulewidgetExtension.entitlements; sourceTree = "<group>"; };
 		D56A33092579725B001E17F5 /* dailyschedulewidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = dailyschedulewidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		D56A330A2579725B001E17F5 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
@@ -198,8 +196,8 @@
 				D56A33112579725B001E17F5 /* dailyschedulewidget.intentdefinition */,
 				D56A33122579725C001E17F5 /* Assets.xcassets */,
 				D56A33142579725C001E17F5 /* Info.plist */,
-				D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */,
-				D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */,
+				D558FBC6257A1E0000DC8F12 /* scheduleentry.swift */,
+				D558FBC9257A1E9A00DC8F12 /* scheduleEntryAccess.swift */,
 			);
 			path = dailyschedulewidget;
 			sourceTree = "<group>";
@@ -368,7 +366,6 @@
 				"${BUILT_PRODUCTS_DIR}/flutter_local_notifications/flutter_local_notifications.framework",
 				"${BUILT_PRODUCTS_DIR}/flutter_secure_storage/flutter_secure_storage.framework",
 				"${BUILT_PRODUCTS_DIR}/flutter_widgetkit/flutter_widgetkit.framework",
-				"${BUILT_PRODUCTS_DIR}/ios_app_group/ios_app_group.framework",
 				"${BUILT_PRODUCTS_DIR}/launch_review/launch_review.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework",
@@ -387,7 +384,6 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_local_notifications.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_secure_storage.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_widgetkit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_app_group.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/launch_review.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/path_provider.framework",
@@ -429,9 +425,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D558FBCA257A1E9A00DC8F12 /* ScheduleEntryAccess.swift in Sources */,
+				D558FBCA257A1E9A00DC8F12 /* scheduleEntryAccess.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
-				D558FBC7257A1E0000DC8F12 /* ScheduleEntry.swift in Sources */,
+				D558FBC7257A1E0000DC8F12 /* scheduleentry.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				D56A33162579725C001E17F5 /* dailyschedulewidget.intentdefinition in Sources */,
 			);
@@ -441,8 +437,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D518EA23257A5EA200C149D9 /* ScheduleEntry.swift in Sources */,
-				D518EA24257A5EA200C149D9 /* ScheduleEntryAccess.swift in Sources */,
 				D56A33102579725B001E17F5 /* dailyschedulewidget.swift in Sources */,
 				D56A33152579725C001E17F5 /* dailyschedulewidget.intentdefinition in Sources */,
 			);
@@ -754,7 +748,7 @@
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = dailyschedulewidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -785,7 +779,7 @@
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = dailyschedulewidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp.dailyschedulewidget;
@@ -813,7 +807,7 @@
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = dailyschedulewidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp.dailyschedulewidget;

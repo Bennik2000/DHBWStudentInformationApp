@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dhbwstudentapp/common/data/database_path_provider.dart';
 import 'package:dhbwstudentapp/common/data/sql_scripts.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,9 +20,11 @@ class DatabaseAccess {
   }
 
   Future<Database> _initDatabase() async {
-    final Directory documentsDirectory =
+    /*final Directory documentsDirectory =
         await getApplicationDocumentsDirectory();
-    final String path = join(documentsDirectory.path, _databaseName);
+    final String path = join(documentsDirectory.path, _databaseName);*/
+
+    final String path = await getDatabasePath(_databaseName);
 
     return await openDatabase(path,
         version: SqlScripts.databaseMigrationScripts.length,
