@@ -46,8 +46,9 @@ Future<bool> _migrateOldDatabase(String oldPath, String newPath) async {
     var oldFile = File(oldPath);
 
     if (await oldFile.exists() && !(await newFile.exists())) {
-      oldFile.copy(newPath);
-      oldFile.delete();
+      print("Migrating database...");
+      await oldFile.copy(newPath);
+      await oldFile.delete();
     }
   } on Exception catch (ex) {
     return false;

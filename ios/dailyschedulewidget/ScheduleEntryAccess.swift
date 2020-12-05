@@ -26,6 +26,7 @@ public class ScheduleEntryAccess {
         
         if sqlite3_open(databasePath.path, &db) != SQLITE_OK
         {
+            print("Failed to open database!")
             return nil
         }
         else
@@ -38,7 +39,7 @@ public class ScheduleEntryAccess {
         let startMillis: Double = dateStart.timeIntervalSince1970 * 1000
         let endMillis: Double = dateEnd.timeIntervalSince1970 * 1000
         
-        let query = "SELECT id, start, end, details, professor, room, title, type FROM ScheduleEntries WHERE start >= \(startMillis) AND end <= \(endMillis);"
+        let query = "SELECT id, start, end, details, professor, room, title, type FROM ScheduleEntries WHERE end >= \(startMillis) AND start <= \(endMillis);"
         
         var cursor: OpaquePointer? = nil
         var scheduleEntries : [ScheduleEntry] = []
