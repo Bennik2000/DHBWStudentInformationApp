@@ -16,7 +16,8 @@ struct Provider: IntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(),
                     configuration: ConfigurationIntent(),
-                    entries: []
+                    entries: [],
+                    isPlaceholder: true
         )
     }
 
@@ -28,11 +29,13 @@ struct Provider: IntentTimelineProvider {
                 value: 1,
                 to: Date())!)
         
-        let scheduleEntries = ScheduleEntryAccess().queryScheduleEntriesBetween(dateStart: Date(), dateEnd: midnight)
+        let scheduleEntries = Array(ScheduleEntryAccess()
+                                        .queryScheduleEntriesBetween(dateStart: Date(), dateEnd: midnight).prefix(3))
         
         let entry = SimpleEntry(date: Date(),
                                 configuration: configuration,
-                                entries: scheduleEntries)
+                                entries: scheduleEntries,
+                                isPlaceholder: false)
         
         completion(entry)
     }
@@ -46,13 +49,14 @@ struct Provider: IntentTimelineProvider {
                 value: 1,
                 to: Date())!)
         
-        let scheduleEntries = ScheduleEntryAccess().queryScheduleEntriesBetween(dateStart: Date(), dateEnd: midnight)
+        let scheduleEntries = Array(ScheduleEntryAccess().queryScheduleEntriesBetween(dateStart: Date(), dateEnd: midnight).prefix(3))
         
         // From now on show all entries
         timelineEntries.append(SimpleEntry(
             date: Date(),
             configuration: configuration,
-            entries: scheduleEntries))
+            entries: scheduleEntries,
+            isPlaceholder: false))
         
         var i = 0
         for scheduleEntry in scheduleEntries {
@@ -60,16 +64,18 @@ struct Provider: IntentTimelineProvider {
             // For every entry add two timeline entries
             // one for the beginning and one for the end
             timelineEntries.append(SimpleEntry(
-                date: scheduleEntry.start,
-                configuration: configuration,
-                entries: scheduleEntries.suffix(scheduleEntries.count - i)))
+                                    date: scheduleEntry.start,
+                                    configuration: configuration,
+                                    entries: scheduleEntries.suffix(scheduleEntries.count - i),
+                                    isPlaceholder: false))
             
             i += 1
             
             timelineEntries.append(SimpleEntry(
-                date: scheduleEntry.end,
-                configuration: configuration,
-                entries: scheduleEntries.suffix(scheduleEntries.count - i)))
+                                    date: scheduleEntry.end,
+                                    configuration: configuration,
+                                    entries: scheduleEntries.suffix(scheduleEntries.count - i),
+                                    isPlaceholder: false))
         }
         
         completion(Timeline(entries: timelineEntries, policy: .after(midnight)))
@@ -80,6 +86,36 @@ struct SimpleEntry: TimelineEntry {
     let date: Date
     let configuration: ConfigurationIntent
     let entries: [ScheduleEntry]
+    let isPlaceholder: Bool
+}
+
+struct ScheduleEntryPlaceholderView : View{
+    var body: some View {
+        return HStack(
+            alignment: .top
+        ) {
+            RoundedRectangle(cornerRadius: 2)
+                .fill(Color.red.opacity(0.5))
+                .frame(width:4, height:35)
+            
+            VStack(
+                alignment: .leading
+            ) {
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: 100, height: 10)
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(width: 50, height: 7)
+                }
+            
+            Spacer()
+        }.padding(EdgeInsets(
+            top: 0,
+            leading: 0,
+            bottom: 3,
+            trailing: 0))
+    }
 }
 
 struct ScheduleEntryView : View {
@@ -127,7 +163,11 @@ struct dailyschedulewidgetEntryView : View {
 
     var body: some View {
         VStack {
-            if(entry.entries.count > 0) {
+            if(entry.isPlaceholder) {
+                ScheduleEntryPlaceholderView()
+                ScheduleEntryPlaceholderView()
+            }
+            else if(entry.entries.count > 0) {
                 ForEach(entry.entries, id: \.id) { e in
                     ScheduleEntryView(
                         scheduleEntry: e
@@ -173,7 +213,8 @@ struct dailyschedulewidget_Previews: PreviewProvider {
             entry: SimpleEntry(
                 date: Date(),
                 configuration: ConfigurationIntent(),
-                entries: [])
+                entries: [],
+                isPlaceholder: true)
         )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
     }
