@@ -39,6 +39,8 @@ void injectServices(bool isBackground) {
   c.registerInstance(ScheduleSourceProvider(
     c.resolve(),
     isBackground,
+    c.resolve(),
+    c.resolve(),
   ));
   c.registerInstance(ScheduleProvider(
     c.resolve(),

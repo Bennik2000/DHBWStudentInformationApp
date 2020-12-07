@@ -59,4 +59,12 @@ class ScheduleQueryInformationRepository {
       ScheduleQueryInformationEntity.fromModel(queryInformation).toMap(),
     );
   }
+
+  Future<void> deleteAllQueryInformation() async {
+    await _database.deleteWhere(
+      ScheduleQueryInformationEntity.tableName(),
+      where: "1=1",
+      whereArgs: [],
+    );
+  }
 }
