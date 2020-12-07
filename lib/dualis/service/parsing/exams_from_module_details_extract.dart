@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/dualis/model/exam_grade.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:html/parser.dart';
@@ -47,14 +48,10 @@ class ExamsFromModuleDetailsExtract {
       var name = tbdata[1].innerHtml;
       var grade = trimAndEscapeString(tbdata[3].innerHtml);
 
-      if (grade == "noch nicht gesetzt") {
-        grade = "";
-      }
-
       exams.add(DualisExam(
         trimAndEscapeString(name),
         trimAndEscapeString(currentModule),
-        grade,
+        ExamGrade.fromString(grade),
         trimAndEscapeString(currentTry),
         trimAndEscapeString(semester),
       ));

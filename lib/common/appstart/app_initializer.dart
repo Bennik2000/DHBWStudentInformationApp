@@ -8,7 +8,6 @@ import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/native/widget/android_schedule_today_widget_schedule_update_callback.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 
 bool isInitialized = false;
