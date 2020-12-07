@@ -161,4 +161,6 @@ final en = {
   "donateDialogTitle": "Support the app",
   "donateDialogPositiveButton": "Support",
   "donateDialogNegativeButton": "Not now",
+  "examPassed": "Passed",
+  "examNotPassed": "Not passed",
 };

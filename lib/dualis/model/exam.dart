@@ -1,3 +1,5 @@
+import 'package:dhbwstudentapp/dualis/model/exam_grade.dart';
+
 enum ExamState {
   Passed,
   Failed,
@@ -6,7 +8,7 @@ enum ExamState {
 
 class Exam {
   final String name;
-  final String grade;
+  final ExamGrade grade;
   final String semester;
   final ExamState state;
 

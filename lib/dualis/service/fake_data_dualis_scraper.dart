@@ -1,5 +1,6 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/dualis/model/exam.dart';
+import 'package:dhbwstudentapp/dualis/model/exam_grade.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
@@ -44,7 +45,7 @@ class FakeDataDualisScraper implements DualisScraper {
       DualisExam(
         "Klausur",
         "Module1",
-        "1.0",
+        ExamGrade.graded("1.0"),
         "1",
         "SoSe2020",
       ),
