@@ -55,6 +55,10 @@ class OnboardingViewModel extends BaseViewModel {
   }
 
   void previousPage() {
+    if (stepsBackstack.length == 0) {
+      return;
+    }
+
     var lastPage = stepsBackstack.keys.last;
 
     _stepIndex = stepsBackstack[lastPage];
