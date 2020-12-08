@@ -4,8 +4,11 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import de.bennik2000.dhbwstudentapp.model.ScheduleEntry
+import io.flutter.util.PathUtils
 import org.threeten.bp.*
+import java.io.File
 import java.lang.Exception
+import java.nio.file.Path
 
 
 class ScheduleProvider(private val context: Context) {
@@ -52,8 +55,11 @@ class ScheduleProvider(private val context: Context) {
     }
 
     private fun openDatabase(): SQLiteDatabase? {
-        // use hardcoded /data/data because context.filesDir.path returns the wrong path
-        val path = "/data/data/${context.packageName}/app_flutter/Database.db"
+        val path = PathUtils.getDataDirectory(context) + "/Database.db"
+
+        if(!File(path).exists()) {
+            return null
+        }
 
         return try{
             SQLiteDatabase
