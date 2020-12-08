@@ -8,20 +8,26 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
+import de.bennik2000.dhbwstudentapp.AlarmManagerUtils
 import de.bennik2000.dhbwstudentapp.R
 import de.bennik2000.dhbwstudentapp.database.ScheduleProvider
-import de.bennik2000.dhbwstudentapp.widget.TodayScheduleEntryRemoteViewsService
+import de.bennik2000.dhbwstudentapp.model.ScheduleEntry
 import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
 
 /**
  * Implementation of App Widget functionality.
  */
 class ScheduleNowWidget : AppWidgetProvider() {
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
+        val pendingEntries = ScheduleProvider(context).queryPendingForDay(LocalDateTime.now())
+
         // There may be multiple widgets active, so update all of them
         for (appWidgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId)
+            updateAppWidget(context, appWidgetManager, appWidgetId, pendingEntries)
         }
+
+        scheduleWidgetUpdate(context, pendingEntries)
     }
 
     override fun onEnabled(context: Context) {
@@ -29,19 +35,16 @@ class ScheduleNowWidget : AppWidgetProvider() {
     }
 
     override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
+        cancelWidgetUpdate(context)
     }
 
-    private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int) {
+    private fun updateAppWidget(context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int, pendingEntries: List<ScheduleEntry>) {
         Log.d("ScheduleNowWidget", "Updating widget with id $appWidgetId")
 
         val views = RemoteViews(context.packageName, R.layout.widget_schedule_now)
 
-        //val hasEntries = ScheduleProvider(context).hasScheduleEntriesForDay(LocalDate.now())
-        val hasEntries = true
-
         updateScheduleEntryList(context, views, appWidgetManager, appWidgetId)
-        updateScheduleListEmptyState(views, hasEntries)
+        updateScheduleListEmptyState(views, pendingEntries.isNotEmpty())
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }
@@ -66,6 +69,11 @@ class ScheduleNowWidget : AppWidgetProvider() {
 
     companion object {
         fun requestWidgetRefresh(context: Context) {
+            val intent = getWidgetUpdateIntent(context)
+            context.sendBroadcast(intent)
+        }
+
+        private fun getWidgetUpdateIntent(context: Context): Intent {
             val intent = Intent(context, ScheduleNowWidget::class.java)
 
             intent.action = AppWidgetManager.ACTION_APPWIDGET_UPDATE
@@ -75,7 +83,40 @@ class ScheduleNowWidget : AppWidgetProvider() {
                     .getAppWidgetIds(ComponentName(context, ScheduleNowWidget::class.java))
 
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids)
-            context.sendBroadcast(intent)
+
+            return intent
+        }
+
+        private fun scheduleWidgetUpdate(context: Context, entries: List<ScheduleEntry>) {
+            val now = LocalDateTime.now()
+
+            var updateAt = LocalDate
+                    .now()
+                    .plusDays(1)
+                    .atStartOfDay()
+
+            for (entry in entries) {
+                if (entry.start.isAfter(now)) {
+                    updateAt = entry.start
+                    break
+                }
+                if (entry.end.isAfter(now)) {
+                    updateAt = entry.end
+                    break
+                }
+            }
+            
+            updateAt.plusSeconds(1)
+
+            Log.d("ScheduleNowWidget", "Scheduling widget update at $updateAt")
+
+            val intent = getWidgetUpdateIntent(context)
+            AlarmManagerUtils.scheduleIntentAtExactTime(context, intent, updateAt)
+        }
+
+        private fun cancelWidgetUpdate(context: Context) {
+            val intent = getWidgetUpdateIntent(context)
+            AlarmManagerUtils.cancelIntent(context, intent)
         }
     }
 }

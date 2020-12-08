@@ -17,6 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textColor="@color/widget_schedule_empty_state_text_color"
-        android:textSize="20sp"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_margin="16dp"
         android:text="@string/widget_schedule_empty_state"/>
 </RelativeLayout>

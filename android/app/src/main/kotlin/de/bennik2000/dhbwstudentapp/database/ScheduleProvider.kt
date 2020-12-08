@@ -15,11 +15,18 @@ class ScheduleProvider(private val context: Context) {
 
     private val zoneOffset = OffsetDateTime.now().offset
 
-
+    
     fun hasScheduleEntriesForDay(date: LocalDate): Boolean {
+        val start = date.atStartOfDay()
+        val end = date.plusDays(1).atStartOfDay()
+        
+        return hasScheduleEntriesBetween(start, end)
+    }
+
+    fun hasScheduleEntriesBetween(start: LocalDateTime, end: LocalDateTime): Boolean {
         openDatabase()?.use { database ->
-            val startMillis = date.atStartOfDay().toEpochSecond(zoneOffset) * 1000
-            val endMillis = date.plusDays(1).atStartOfDay().toEpochSecond(zoneOffset) * 1000
+            val startMillis = start.toEpochSecond(zoneOffset) * 1000
+            val endMillis = end.toEpochSecond(zoneOffset) * 1000
 
             database.query(
                     "ScheduleEntries",
@@ -42,7 +49,7 @@ class ScheduleProvider(private val context: Context) {
 
             database.query(
                     "ScheduleEntries",
-                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "start>=? AND end <=?",
+                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "end>? AND start <?",
                     arrayOf(startMillis.toString(), endMillis.toString()),
                     "",
                     "",
@@ -54,6 +61,16 @@ class ScheduleProvider(private val context: Context) {
         return ArrayList()
     }
 
+    fun queryPendingForDay(now: LocalDateTime): List<ScheduleEntry> {
+        val midnight = LocalDate
+                .now()
+                .plusDays(1)
+                .atStartOfDay()
+
+        return ScheduleProvider(context)
+                .queryScheduleEntriesBetween(now, midnight)
+    }
+    
     fun queryScheduleEntriesBetween(start: LocalDateTime, end: LocalDateTime): ArrayList<ScheduleEntry> {
         openDatabase()?.use { database ->
             val startMillis = start.toEpochSecond(zoneOffset) * 1000
@@ -61,7 +78,7 @@ class ScheduleProvider(private val context: Context) {
 
             database.query(
                     "ScheduleEntries",
-                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "start>=? AND end <=?",
+                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "end>? AND start<?",
                     arrayOf(startMillis.toString(), endMillis.toString()),
                     "",
                     "",

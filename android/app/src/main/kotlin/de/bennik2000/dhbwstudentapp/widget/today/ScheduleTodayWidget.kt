@@ -1,4 +1,4 @@
-package de.bennik2000.dhbwstudentapp.widget
+package de.bennik2000.dhbwstudentapp.widget.today
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager

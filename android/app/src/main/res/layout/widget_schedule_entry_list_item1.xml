@@ -28,7 +28,7 @@
             android:maxLines="1"
             android:textColor="@color/widget_schedule_entry_time_text_color"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="16sp"
             android:text=""/>
 
         <TextView
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:layout_below="@id/text_view_entry_title"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/widget_schedule_entry_time_text_color"
             android:text=""/>
 
@@ -45,12 +45,12 @@
             android:id="@+id/text_view_time_separator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
             android:layout_below="@id/text_view_entry_title"
             android:layout_toEndOf="@id/text_view_time_start"
             android:layout_alignBaseline="@id/text_view_time_start"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/widget_schedule_entry_time_text_color"
             android:text="-"/>
 
@@ -62,7 +62,7 @@
             android:layout_marginBottom="4dp"
             android:layout_toEndOf="@id/text_view_time_separator"
             android:layout_alignBaseline="@id/text_view_time_separator"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/widget_schedule_entry_time_text_color"
             android:text=""/>
 

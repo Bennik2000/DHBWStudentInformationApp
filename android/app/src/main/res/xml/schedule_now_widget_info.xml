@@ -2,9 +2,9 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/widget_schedule_now"
     android:initialLayout="@layout/widget_schedule_now"
-    android:minWidth="110dp"
-    android:minHeight="110dp"
-    android:previewImage="@drawable/schedule_today_widget_preview"
+    android:minWidth="80dp"
+    android:minHeight="40dp"
+    android:previewImage="@drawable/schedule_now_widget_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen"/>

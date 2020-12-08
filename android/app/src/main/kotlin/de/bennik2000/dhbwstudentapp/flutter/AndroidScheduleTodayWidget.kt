@@ -2,7 +2,7 @@ package de.bennik2000.dhbwstudentapp.flutter
 
 import android.content.Context
 import androidx.annotation.NonNull
-import de.bennik2000.dhbwstudentapp.widget.ScheduleTodayWidget
+import de.bennik2000.dhbwstudentapp.widget.today.ScheduleTodayWidget
 import de.bennik2000.dhbwstudentapp.widget.now.ScheduleNowWidget
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodCall
