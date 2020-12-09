@@ -87,6 +87,5 @@ class NowScheduleEntryViewsFactory(private val context: Context) : RemoteViewsSe
 
         entries = ScheduleProvider(context)
                 .queryScheduleEntriesBetween(LocalDateTime.now(), midnight)
-        // TODO: Schedule update
     }
 }
