@@ -176,7 +176,7 @@ struct dailyschedulewidgetEntryView : View {
                 Spacer()
             }
             else {
-                Text("Keine weiteren Vorlesungen")
+                Text("WidgetEmptyForDay".localized)
             }
         }
         .padding(
