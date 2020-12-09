@@ -7,6 +7,6 @@ class AndroidScheduleTodayWidget {
   static Future<void> requestWidgetRefresh() async {
     try {
       await platform.invokeMethod('requestWidgetRefresh');
-    } on PlatformException catch (e) {}
+    } on PlatformException catch (_) {}
   }
 }
