@@ -16,12 +16,18 @@
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		D518EA23257A5EA200C149D9 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */; };
 		D518EA24257A5EA200C149D9 /* ScheduleEntryAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */; };
-		D53DD4F125817F4F00A1E855 /* StringLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD4F025817F4F00A1E855 /* StringLocalization.swift */; };
 		D53DD4F225817F4F00A1E855 /* StringLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD4F025817F4F00A1E855 /* StringLocalization.swift */; };
 		D53DD5012581834700A1E855 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D53DD4FF2581834700A1E855 /* Localizable.strings */; };
 		D53DD5022581834700A1E855 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D53DD4FF2581834700A1E855 /* Localizable.strings */; };
-		D558FBC7257A1E0000DC8F12 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */; };
-		D558FBCA257A1E9A00DC8F12 /* ScheduleEntryAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */; };
+		D53DD50B25827B1500A1E855 /* WidgetUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD50925827B1500A1E855 /* WidgetUserDefaults.swift */; };
+		D53DD50F2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD50D2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift */; };
+		D53DD513258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD511258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift */; };
+		D53DD517258281F400A1E855 /* DailyScheduleWidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD515258281F400A1E855 /* DailyScheduleWidgetContent.swift */; };
+		D53DD51B2582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD5192582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift */; };
+		D53DD51F2582823600A1E855 /* ScheduleEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD51D2582823600A1E855 /* ScheduleEntryView.swift */; };
+		D53DD5232582826200A1E855 /* ScheduleEntryPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD5212582826200A1E855 /* ScheduleEntryPlaceholderView.swift */; };
+		D53DD573258292C200A1E855 /* WidgetPlatformChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD572258292C200A1E855 /* WidgetPlatformChannel.swift */; };
+		D53DD575258293C700A1E855 /* WidgetUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD50925827B1500A1E855 /* WidgetUserDefaults.swift */; };
 		D56A330B2579725B001E17F5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D56A330A2579725B001E17F5 /* WidgetKit.framework */; };
 		D56A330D2579725B001E17F5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D56A330C2579725B001E17F5 /* SwiftUI.framework */; };
 		D56A33102579725B001E17F5 /* dailyschedulewidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56A330F2579725B001E17F5 /* dailyschedulewidget.swift */; };
@@ -90,6 +96,14 @@
 		D53DD5002581834700A1E855 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = dailyschedulewidget/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D53DD5052581836800A1E855 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = dailyschedulewidget/de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D53DD507258184A200A1E855 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = dailyschedulewidget/en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D53DD50925827B1500A1E855 /* WidgetUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetUserDefaults.swift; sourceTree = "<group>"; };
+		D53DD50D2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleWidgetNotEnabled.swift; sourceTree = "<group>"; };
+		D53DD511258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleWidgetEmptyState.swift; sourceTree = "<group>"; };
+		D53DD515258281F400A1E855 /* DailyScheduleWidgetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleWidgetContent.swift; sourceTree = "<group>"; };
+		D53DD5192582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleWidgetPlaceholder.swift; sourceTree = "<group>"; };
+		D53DD51D2582823600A1E855 /* ScheduleEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntryView.swift; sourceTree = "<group>"; };
+		D53DD5212582826200A1E855 /* ScheduleEntryPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntryPlaceholderView.swift; sourceTree = "<group>"; };
+		D53DD572258292C200A1E855 /* WidgetPlatformChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPlatformChannel.swift; sourceTree = "<group>"; };
 		D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntry.swift; sourceTree = "<group>"; };
 		D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntryAccess.swift; sourceTree = "<group>"; };
 		D558FBCE257A2EC300DC8F12 /* dailyschedulewidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dailyschedulewidgetExtension.entitlements; sourceTree = "<group>"; };
@@ -188,6 +202,7 @@
 				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
+				D53DD572258292C200A1E855 /* WidgetPlatformChannel.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 			);
 			path = Runner;
@@ -203,13 +218,20 @@
 		D56A330E2579725B001E17F5 /* dailyschedulewidget */ = {
 			isa = PBXGroup;
 			children = (
-				D56A330F2579725B001E17F5 /* dailyschedulewidget.swift */,
-				D56A33112579725B001E17F5 /* dailyschedulewidget.intentdefinition */,
 				D56A33122579725C001E17F5 /* Assets.xcassets */,
+				D56A33112579725B001E17F5 /* dailyschedulewidget.intentdefinition */,
+				D56A330F2579725B001E17F5 /* dailyschedulewidget.swift */,
+				D53DD515258281F400A1E855 /* DailyScheduleWidgetContent.swift */,
+				D53DD511258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift */,
+				D53DD50D2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift */,
+				D53DD5192582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift */,
 				D56A33142579725C001E17F5 /* Info.plist */,
 				D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */,
 				D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */,
+				D53DD5212582826200A1E855 /* ScheduleEntryPlaceholderView.swift */,
+				D53DD51D2582823600A1E855 /* ScheduleEntryView.swift */,
 				D53DD4F025817F4F00A1E855 /* StringLocalization.swift */,
+				D53DD50925827B1500A1E855 /* WidgetUserDefaults.swift */,
 			);
 			path = dailyschedulewidget;
 			sourceTree = "<group>";
@@ -442,12 +464,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D558FBCA257A1E9A00DC8F12 /* ScheduleEntryAccess.swift in Sources */,
-				D53DD4F125817F4F00A1E855 /* StringLocalization.swift in Sources */,
+				D53DD573258292C200A1E855 /* WidgetPlatformChannel.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
-				D558FBC7257A1E0000DC8F12 /* ScheduleEntry.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 				D56A33162579725C001E17F5 /* dailyschedulewidget.intentdefinition in Sources */,
+				D53DD575258293C700A1E855 /* WidgetUserDefaults.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,11 +476,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D53DD50B25827B1500A1E855 /* WidgetUserDefaults.swift in Sources */,
 				D518EA23257A5EA200C149D9 /* ScheduleEntry.swift in Sources */,
+				D53DD513258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift in Sources */,
 				D518EA24257A5EA200C149D9 /* ScheduleEntryAccess.swift in Sources */,
 				D56A33102579725B001E17F5 /* dailyschedulewidget.swift in Sources */,
 				D53DD4F225817F4F00A1E855 /* StringLocalization.swift in Sources */,
+				D53DD5232582826200A1E855 /* ScheduleEntryPlaceholderView.swift in Sources */,
+				D53DD51B2582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift in Sources */,
+				D53DD517258281F400A1E855 /* DailyScheduleWidgetContent.swift in Sources */,
+				D53DD51F2582823600A1E855 /* ScheduleEntryView.swift in Sources */,
 				D56A33152579725C001E17F5 /* dailyschedulewidget.intentdefinition in Sources */,
+				D53DD50F2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

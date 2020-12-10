@@ -89,95 +89,24 @@ struct SimpleEntry: TimelineEntry {
     let isPlaceholder: Bool
 }
 
-struct ScheduleEntryPlaceholderView : View{
-    var body: some View {
-        return HStack(
-            alignment: .top
-        ) {
-            RoundedRectangle(cornerRadius: 2)
-                .fill(Color.red.opacity(0.5))
-                .frame(width:4, height:35)
-            
-            VStack(
-                alignment: .leading
-            ) {
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(width: 100, height: 10)
-                RoundedRectangle(cornerRadius: 2)
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(width: 50, height: 7)
-                }
-            
-            Spacer()
-        }.padding(EdgeInsets(
-            top: 0,
-            leading: 0,
-            bottom: 3,
-            trailing: 0))
-    }
-}
-
-struct ScheduleEntryView : View {
-    let scheduleEntry: ScheduleEntry
-    
-    let colors: [Color] = [Color.gray, Color.red, Color.red, Color.gray, Color.yellow]
-    
-    var body: some View {
-        let timeRange = scheduleEntry.start...scheduleEntry.end
-        let color = colors[scheduleEntry.type]
-        
-        return HStack(
-            alignment: .top
-        ) {
-            RoundedRectangle(cornerRadius: 2)
-                .fill(color)
-                .frame(width:4, height:35)
-            
-            VStack(
-                alignment: .center
-            ) {
-                Text(scheduleEntry.title)
-                    .font(.caption)
-                    .bold()
-                    .lineLimit(1)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Text(timeRange)
-                    .font(.caption)
-                    .lineLimit(1)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            
-            Spacer()
-        }.padding(EdgeInsets(
-            top: 0,
-            leading: 0,
-            bottom: 3,
-            trailing: 0))
-    }
-}
-
 struct dailyschedulewidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
         VStack {
             if(entry.isPlaceholder) {
-                ScheduleEntryPlaceholderView()
-                ScheduleEntryPlaceholderView()
+                DailyScheduleWidgetPlaceholder()
+            }
+            else if(!WidgetUserDefaults().isWidgetEnabled()){
+                DailyScheduleWidgetNotEnabled()
             }
             else if(entry.entries.count > 0) {
-                ForEach(entry.entries, id: \.id) { e in
-                    ScheduleEntryView(
-                        scheduleEntry: e
-                    )
-                }
-                Spacer()
+                DailyScheduleWidgetContent(entries: entry.entries)
             }
             else {
-                Text("WidgetEmptyForDay".localized)
+                DailyScheduleWidgetEmptyState()
             }
+
         }
         .padding(
             EdgeInsets(
@@ -186,6 +115,7 @@ struct dailyschedulewidgetEntryView : View {
         )
     }
 }
+
 
 @main
 struct dailyschedulewidget: Widget {

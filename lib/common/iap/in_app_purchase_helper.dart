@@ -6,6 +6,7 @@ import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 class InAppPurchaseHelper {
+  static const String WidgetProductId = "app_widget";
   static const String DonateToDeveloperProductId = "donate_to_developer";
 
   final PreferencesProvider _preferencesProvider;
@@ -31,11 +32,7 @@ class InAppPurchaseHelper {
     _completePendingPurchases();
   }
 
-  Future<void> donateToDeveloper() async {
-    await _buyById(DonateToDeveloperProductId);
-  }
-
-  Future<void> _buyById(String id) async {
+  Future<void> buyById(String id) async {
     print("Attempting to buy $id");
 
     await analytics.logEvent(name: "purchase_$id");
@@ -44,6 +41,10 @@ class InAppPurchaseHelper {
 
     await FlutterInappPurchase.instance.getProducts([id]);
     await FlutterInappPurchase.instance.requestPurchase(id);
+  }
+
+  Future<bool> didBuyId(String id) {
+    return Future.value(true); // TODO: Implement didBuyId logic
   }
 
   Future<void> _completePurchase(PurchasedItem item) async {

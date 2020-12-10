@@ -2,9 +2,10 @@ import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
+import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
+import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
 import 'package:dhbwstudentapp/ui/settings/viewmodels/settings_view_model.dart';
@@ -76,9 +77,14 @@ class _SettingsPageState extends State<SettingsPage> {
         subtitle: Text(L.of(context).donateButtonSubtitle),
         trailing: Icon(Icons.free_breakfast),
         onTap: () async {
-          await KiwiContainer()
-              .resolve<InAppPurchaseHelper>()
-              .donateToDeveloper();
+          await KiwiContainer().resolve<InAppPurchaseManager>().donate();
+        },
+      ),
+      ListTile(
+        title: Text("Unlock app widgets"),
+        trailing: Icon(Icons.widgets_outlined),
+        onTap: () async {
+          await KiwiContainer().resolve<InAppPurchaseManager>().buyWidget();
         },
       ),
       ListTile(
