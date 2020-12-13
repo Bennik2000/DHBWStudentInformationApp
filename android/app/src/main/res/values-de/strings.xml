@@ -1,4 +1,5 @@
 <resources>
     <string name="widget_schedule_empty_state">Keine Vorlesungen für heute</string>
     <string name="widget_schedule_title">Vorlesungsplan</string>
+    <string name="widget_schedule_not_purchased">Um Widgets zu verwenden, aktiviere sie in den App-Einstellungen</string>
 </resources>

@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/widget_margin">
+    android:padding="@dimen/widget_margin"
+    android:background="@drawable/widget_content_background">
 
     <RelativeLayout
         android:id="@+id/widget_title"
@@ -29,7 +30,6 @@
     </RelativeLayout>
 
     <ListView
-        android:background="@drawable/widget_content_background"
         android:id="@+id/schedule_entries_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -49,4 +49,17 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
         android:text="@string/widget_schedule_empty_state"/>
+
+    <TextView
+        android:id="@+id/layout_purchase"
+        android:layout_marginTop="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/widget_schedule_empty_state_text_color"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/widget_schedule_not_purchased"/>
 </RelativeLayout>

@@ -12,6 +12,7 @@ import android.widget.RemoteViews
 import de.bennik2000.dhbwstudentapp.MainActivity
 import de.bennik2000.dhbwstudentapp.R
 import de.bennik2000.dhbwstudentapp.database.ScheduleProvider
+import de.bennik2000.dhbwstudentapp.widget.WidgetHelper
 import org.threeten.bp.LocalDate
 
 class ScheduleTodayWidget : AppWidgetProvider() {
@@ -41,12 +42,20 @@ class ScheduleTodayWidget : AppWidgetProvider() {
                 0)
         views.setOnClickPendingIntent(R.id.widget_title, pendingIntent)
 
-        //views.setTextViewText(R.id.update_indicator, LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_TIME))
+        if(WidgetHelper(context).isWidgetEnabled()) {
+            views.setViewVisibility(R.id.layout_purchase, View.INVISIBLE)
 
-        val hasEntries = ScheduleProvider(context).hasScheduleEntriesForDay(LocalDate.now())
+            val hasEntries = ScheduleProvider(context).hasScheduleEntriesForDay(LocalDate.now())
 
-        updateScheduleEntryList(context, views, appWidgetManager, appWidgetId)
-        updateScheduleListEmptyState(views, hasEntries)
+            updateScheduleEntryList(context, views, appWidgetManager, appWidgetId)
+            updateScheduleListEmptyState(views, hasEntries)
+        }
+        else {
+            views.setViewVisibility(R.id.layout_empty_state, View.INVISIBLE)
+            views.setViewVisibility(R.id.schedule_entries_list_view, View.INVISIBLE)
+            views.setViewVisibility(R.id.layout_purchase, View.VISIBLE)
+        }
+
 
         appWidgetManager.updateAppWidget(appWidgetId, views)
     }

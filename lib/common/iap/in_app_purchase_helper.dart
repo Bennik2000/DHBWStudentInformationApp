@@ -5,6 +5,11 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
+typedef PurchaseCompletedCallback = Function(
+  String productId,
+  bool isPurchased,
+);
+
 class InAppPurchaseHelper {
   static const String WidgetProductId = "app_widget";
   static const String DonateToDeveloperProductId = "donate_to_developer";
@@ -13,6 +18,8 @@ class InAppPurchaseHelper {
 
   StreamSubscription _purchaseUpdatedSubscription;
   StreamSubscription _purchaseErrorSubscription;
+
+  PurchaseCompletedCallback _purchaseCallback;
 
   InAppPurchaseHelper(this._preferencesProvider);
 
@@ -43,14 +50,32 @@ class InAppPurchaseHelper {
     await FlutterInappPurchase.instance.requestPurchase(id);
   }
 
-  Future<bool> didBuyId(String id) {
-    return Future.value(true); // TODO: Implement didBuyId logic
+  Future<bool> didBuyId(String id) async {
+    var allPurchases =
+        await FlutterInappPurchase.instance.getAvailablePurchases();
+
+    var productIdPurchases =
+        allPurchases.where((element) => element.productId == id);
+
+    if (productIdPurchases.isEmpty) {
+      return false;
+    }
+
+    return productIdPurchases.any((element) => _isPurchased(element));
+  }
+
+  void setPurchaseCompleteCallback(PurchaseCompletedCallback callback) {
+    _purchaseCallback = callback;
   }
 
   Future<void> _completePurchase(PurchasedItem item) async {
     print("Completing purchase: ${item.orderId} (${item.productId})");
 
-    if (!_isPurchased(item)) return;
+    var isPurchased = _isPurchased(item);
+
+    _purchaseCallback(item.productId, isPurchased);
+
+    if (!isPurchased) return;
 
     await FlutterInappPurchase.instance.finishTransaction(
       item,

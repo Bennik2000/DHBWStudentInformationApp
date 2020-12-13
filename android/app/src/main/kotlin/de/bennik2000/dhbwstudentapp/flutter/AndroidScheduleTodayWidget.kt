@@ -2,6 +2,7 @@ package de.bennik2000.dhbwstudentapp.flutter
 
 import android.content.Context
 import androidx.annotation.NonNull
+import de.bennik2000.dhbwstudentapp.widget.WidgetHelper
 import de.bennik2000.dhbwstudentapp.widget.today.ScheduleTodayWidget
 import de.bennik2000.dhbwstudentapp.widget.now.ScheduleNowWidget
 import io.flutter.embedding.engine.FlutterEngine
@@ -18,12 +19,31 @@ class AndroidScheduleTodayWidget(private val context: Context) : MethodChannel.M
     }
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-        if (call.method == "requestWidgetRefresh") {
-            ScheduleTodayWidget.requestWidgetRefresh(context)
-            ScheduleNowWidget.requestWidgetRefresh(context)
-            result.success(null)
-        } else {
-            result.notImplemented()
+        when (call.method) {
+            "requestWidgetRefresh" -> {
+                updateWidget()
+                result.success(null)
+            }
+            "disableWidget" -> {
+                WidgetHelper(context).disableWidget()
+                updateWidget()
+                result.success(null)
+            }
+            "enableWidget" -> {
+                WidgetHelper(context).enableWidget()
+                updateWidget()
+                result.success(null)
+            }
+            else -> {
+                result.notImplemented()
+            }
         }
     }
+
+    private fun updateWidget() {
+        ScheduleTodayWidget.requestWidgetRefresh(context)
+        ScheduleNowWidget.requestWidgetRefresh(context)
+    }
+
+
 }

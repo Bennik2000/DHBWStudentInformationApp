@@ -6,10 +6,18 @@ class AndroidWidgetHelper implements WidgetHelper {
       const MethodChannel('de.bennik2000.dhbwstudentapp/widget');
 
   @override
-  Future<void> disableWidget() async {}
+  Future<void> disableWidget() async {
+    try {
+      await platform.invokeMethod('disableWidget');
+    } on PlatformException catch (_) {}
+  }
 
   @override
-  Future<void> enableWidget() async {}
+  Future<void> enableWidget() async {
+    try {
+      await platform.invokeMethod('enableWidget');
+    } on PlatformException catch (_) {}
+  }
 
   @override
   Future<void> requestWidgetRefresh() async {
