@@ -372,6 +372,10 @@ class L {
   String get donateDialogNegativeButton =>
       _getValue("donateDialogNegativeButton");
 
+  String get examPassed => _getValue("examPassed");
+
+  String get examNotPassed => _getValue("examNotPassed");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/dualis/model/exam.dart';
+import 'package:dhbwstudentapp/dualis/model/exam_grade.dart';
 
 const String dualisEndpoint = "https://dualis.dhbw.de";
 
@@ -50,7 +51,7 @@ class DualisExam {
   final String tryNr;
   final String moduleName;
   final String name;
-  final String grade;
+  final ExamGrade grade;
   final String semester;
 
   DualisExam(

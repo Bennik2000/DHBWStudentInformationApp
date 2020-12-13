@@ -21,7 +21,16 @@
         android:icon="@mipmap/ic_launcher"
         android:label="DHBW Studenten App"
         tools:replace="android:label">
-        <receiver android:name=".widget.ScheduleTodayWidget">
+        <receiver android:name=".widget.now.ScheduleNowWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/schedule_now_widget_info" />
+        </receiver>
+        <receiver android:name=".widget.today.ScheduleTodayWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -32,7 +41,11 @@
         </receiver>
 
         <service
-            android:name=".widget.ScheduleEntryRemoteViewsService"
+            android:name=".widget.today.TodayScheduleEntryRemoteViewsService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <service
+            android:name=".widget.now.NowScheduleEntryRemoteViewsService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <activity
@@ -44,13 +57,17 @@
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- Don't delete the meta-data below.
-             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
+        <!--
+ Don't delete the meta-data below.
+             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+        -->
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
 </manifest>

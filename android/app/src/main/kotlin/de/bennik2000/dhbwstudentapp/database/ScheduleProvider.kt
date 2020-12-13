@@ -4,19 +4,29 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import de.bennik2000.dhbwstudentapp.model.ScheduleEntry
-import org.threeten.bp.*
-import java.lang.Exception
+import io.flutter.util.PathUtils
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
+import java.io.File
 
 
 class ScheduleProvider(private val context: Context) {
 
     private val zoneOffset = OffsetDateTime.now().offset
 
-
+    
     fun hasScheduleEntriesForDay(date: LocalDate): Boolean {
+        val start = date.atStartOfDay()
+        val end = date.plusDays(1).atStartOfDay()
+        
+        return hasScheduleEntriesBetween(start, end)
+    }
+
+    fun hasScheduleEntriesBetween(start: LocalDateTime, end: LocalDateTime): Boolean {
         openDatabase()?.use { database ->
-            val startMillis = date.atStartOfDay().toEpochSecond(zoneOffset) * 1000
-            val endMillis = date.plusDays(1).atStartOfDay().toEpochSecond(zoneOffset) * 1000
+            val startMillis = start.toEpochSecond(zoneOffset) * 1000
+            val endMillis = end.toEpochSecond(zoneOffset) * 1000
 
             database.query(
                     "ScheduleEntries",
@@ -39,7 +49,36 @@ class ScheduleProvider(private val context: Context) {
 
             database.query(
                     "ScheduleEntries",
-                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "start>=? AND end <=?",
+                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "end>? AND start <?",
+                    arrayOf(startMillis.toString(), endMillis.toString()),
+                    "",
+                    "",
+                    "start ASC").use { result ->
+                return readScheduleEntries(result)
+            }
+        }
+
+        return ArrayList()
+    }
+
+    fun queryPendingForDay(now: LocalDateTime): List<ScheduleEntry> {
+        val midnight = LocalDate
+                .now()
+                .plusDays(1)
+                .atStartOfDay()
+
+        return ScheduleProvider(context)
+                .queryScheduleEntriesBetween(now, midnight)
+    }
+    
+    fun queryScheduleEntriesBetween(start: LocalDateTime, end: LocalDateTime): ArrayList<ScheduleEntry> {
+        openDatabase()?.use { database ->
+            val startMillis = start.toEpochSecond(zoneOffset) * 1000
+            val endMillis = end.toEpochSecond(zoneOffset) * 1000
+
+            database.query(
+                    "ScheduleEntries",
+                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "end>? AND start<?",
                     arrayOf(startMillis.toString(), endMillis.toString()),
                     "",
                     "",
@@ -52,16 +91,18 @@ class ScheduleProvider(private val context: Context) {
     }
 
     private fun openDatabase(): SQLiteDatabase? {
-        // use hardcoded /data/data because context.filesDir.path returns the wrong path
-        val path = "/data/data/${context.packageName}/app_flutter/Database.db"
+        val path = PathUtils.getDataDirectory(context) + "/Database.db"
 
-        return try{
+        if (!File(path).exists()) {
+            return null
+        }
+
+        return try {
             SQLiteDatabase
                     .openDatabase(path,
                             null,
                             0)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }

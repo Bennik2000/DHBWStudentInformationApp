@@ -70,7 +70,7 @@ class ScheduleEntryRepository {
     return null;
   }
 
-  Future saveScheduleEntry(ScheduleEntry entry) async {
+  Future<void> saveScheduleEntry(ScheduleEntry entry) async {
     var row = ScheduleEntryEntity.fromModel(entry).toMap();
 
     var existingEntry = await queryExistingScheduleEntry(entry);
@@ -88,17 +88,18 @@ class ScheduleEntryRepository {
     }
   }
 
-  Future saveSchedule(Schedule schedule) async {
+  Future<void> saveSchedule(Schedule schedule) async {
     for (var entry in schedule.entries ?? []) {
       saveScheduleEntry(entry);
     }
   }
 
-  Future deleteScheduleEntry(ScheduleEntry entry) async {
+  Future<void> deleteScheduleEntry(ScheduleEntry entry) async {
     await _database.delete(ScheduleEntryEntity.tableName(), entry.id);
   }
 
-  Future deleteScheduleEntriesBetween(DateTime start, DateTime end) async {
+  Future<void> deleteScheduleEntriesBetween(
+      DateTime start, DateTime end) async {
     await _database.deleteWhere(
       ScheduleEntryEntity.tableName(),
       where: "start>=? AND end<=?",
@@ -106,6 +107,14 @@ class ScheduleEntryRepository {
         start.millisecondsSinceEpoch,
         end.millisecondsSinceEpoch,
       ],
+    );
+  }
+
+  Future<void> deleteAllScheduleEntries() async {
+    await _database.deleteWhere(
+      ScheduleEntryEntity.tableName(),
+      where: "1=1",
+      whereArgs: [],
     );
   }
 }

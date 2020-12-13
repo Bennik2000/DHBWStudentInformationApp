@@ -1,5 +1,7 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
+import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
+import 'package:dhbwstudentapp/schedule/data/schedule_query_information_repository.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/schedule/service/dualis/dualis_schedule_source.dart';
 import 'package:dhbwstudentapp/schedule/service/error_report_schedule_source_decorator.dart';
@@ -19,8 +21,11 @@ typedef OnDidChangeScheduleSource = void Function(
 class ScheduleSourceProvider {
   final bool _appRunningInBackground;
   final PreferencesProvider _preferencesProvider;
+  final ScheduleEntryRepository _scheduleEntryRepository;
+  final ScheduleQueryInformationRepository _scheduleQueryInformationRepository;
 
   ScheduleSource _currentScheduleSource = InvalidScheduleSource();
+
   ScheduleSource get currentScheduleSource => _currentScheduleSource;
 
   List<OnDidChangeScheduleSource> _onDidChangeScheduleSourceCallbacks = [];
@@ -28,6 +33,8 @@ class ScheduleSourceProvider {
   ScheduleSourceProvider(
     this._preferencesProvider,
     this._appRunningInBackground,
+    this._scheduleEntryRepository,
+    this._scheduleQueryInformationRepository,
   );
 
   Future<bool> setupScheduleSource() async {
@@ -123,6 +130,7 @@ class ScheduleSourceProvider {
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Rapla.index);
 
+    await _clearEntryCache();
     await setupScheduleSource();
 
     await analytics.setUserProperty(
@@ -135,6 +143,7 @@ class ScheduleSourceProvider {
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Dualis.index);
 
+    await _clearEntryCache();
     await setupScheduleSource();
 
     await analytics.setUserProperty(
@@ -148,6 +157,7 @@ class ScheduleSourceProvider {
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Ical.index);
 
+    await _clearEntryCache();
     await setupScheduleSource();
 
     await analytics.setUserProperty(
@@ -162,6 +172,7 @@ class ScheduleSourceProvider {
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Mannheim.index);
 
+    await _clearEntryCache();
     await setupScheduleSource();
 
     await analytics.setUserProperty(
@@ -177,5 +188,13 @@ class ScheduleSourceProvider {
 
   void addDidChangeScheduleSourceCallback(OnDidChangeScheduleSource callback) {
     _onDidChangeScheduleSourceCallbacks.add(callback);
+  }
+
+  Future<void> _clearEntryCache() async {
+    var scheduleEntries = _scheduleEntryRepository.deleteAllScheduleEntries();
+    var queryInformation =
+        _scheduleQueryInformationRepository.deleteAllQueryInformation();
+
+    await Future.wait([scheduleEntries, queryInformation]);
   }
 }

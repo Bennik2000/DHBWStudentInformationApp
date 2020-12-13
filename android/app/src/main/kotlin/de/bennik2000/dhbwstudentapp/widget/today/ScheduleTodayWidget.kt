@@ -1,4 +1,4 @@
-package de.bennik2000.dhbwstudentapp.widget
+package de.bennik2000.dhbwstudentapp.widget.today
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -52,7 +52,7 @@ class ScheduleTodayWidget : AppWidgetProvider() {
     }
 
     private fun updateScheduleEntryList(context: Context, views: RemoteViews, appWidgetManager: AppWidgetManager, id: Int) {
-        val intent = Intent(context, ScheduleEntryRemoteViewsService::class.java)
+        val intent = Intent(context, TodayScheduleEntryRemoteViewsService::class.java)
         views.setRemoteAdapter(R.id.schedule_entries_list_view, intent)
 
         appWidgetManager.notifyAppWidgetViewDataChanged(id, R.id.schedule_entries_list_view)
