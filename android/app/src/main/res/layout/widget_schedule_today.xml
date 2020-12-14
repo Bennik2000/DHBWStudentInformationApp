@@ -61,5 +61,6 @@
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         android:text="@string/widget_schedule_not_purchased"/>
 </RelativeLayout>

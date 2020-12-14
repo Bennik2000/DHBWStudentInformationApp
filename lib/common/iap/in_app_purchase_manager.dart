@@ -6,7 +6,7 @@ class InAppPurchaseManager {
   final InAppPurchaseHelper _inAppPurchaseHelper;
   final WidgetHelper _widgetHelper;
 
-  final Map<String, PurchaseCompletedCallback> purchaseCallbacks = {};
+  final Map<String, List<PurchaseCompletedCallback>> purchaseCallbacks = {};
 
   InAppPurchaseManager(
     PreferencesProvider _preferencesProvider,
@@ -16,7 +16,7 @@ class InAppPurchaseManager {
   }
 
   void _initialize() async {
-    setPurchaseCallback(
+    addPurchaseCallback(
       InAppPurchaseHelper.WidgetProductId,
       (String productId, bool isPurchased) => _setWidgetEnabled(isPurchased),
     );
@@ -47,15 +47,30 @@ class InAppPurchaseManager {
 
   void _purchaseCompletedCallback(String productId, bool isValid) {
     if (purchaseCallbacks.containsKey(productId)) {
-      purchaseCallbacks[productId](productId, isValid);
+      var callback = purchaseCallbacks[productId] ?? [];
+
+      callback.forEach((element) {
+        element(productId, isValid);
+      });
     }
   }
 
-  void setPurchaseCallback(
+  void addPurchaseCallback(
     String productId,
     PurchaseCompletedCallback callback,
   ) {
-    purchaseCallbacks[InAppPurchaseHelper.WidgetProductId] = callback;
+    if (!purchaseCallbacks.containsKey(productId)) {
+      purchaseCallbacks[InAppPurchaseHelper.WidgetProductId] = [];
+    }
+
+    purchaseCallbacks[InAppPurchaseHelper.WidgetProductId].add(callback);
+  }
+
+  void removePurchaseCallback(
+    String productId,
+    PurchaseCompletedCallback callback,
+  ) {
+    purchaseCallbacks[InAppPurchaseHelper.WidgetProductId]?.remove(callback);
   }
 
   Future<void> _setWidgetEnabled(bool enabled) async {

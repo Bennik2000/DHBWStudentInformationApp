@@ -46,6 +46,7 @@ class ScheduleNowWidget : AppWidgetProvider() {
 
         if(WidgetHelper(context).isWidgetEnabled()) {
             views.setViewVisibility(R.id.layout_purchase, View.INVISIBLE)
+            views.setViewVisibility(R.id.schedule_entries_list_view, View.VISIBLE)
             updateScheduleEntryList(context, views, appWidgetManager, appWidgetId)
             updateScheduleListEmptyState(views, pendingEntries.isNotEmpty())
         }

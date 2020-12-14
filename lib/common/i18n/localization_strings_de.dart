@@ -166,4 +166,6 @@ final de = {
   "donateDialogNegativeButton": "Nicht jetzt",
   "examPassed": "Bestanden",
   "examNotPassed": "Nicht bestanden",
+  "settingsWidgetPurchase": "Widgets aktivieren",
+  "settingsWidgetDidPurchase": "Widgets sind aktviert",
 };

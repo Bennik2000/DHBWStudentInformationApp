@@ -31,5 +31,6 @@
         android:textSize="14sp"
         android:gravity="center"
         android:layout_margin="16dp"
+        android:visibility="gone"
         android:text="@string/widget_schedule_not_purchased"/>
 </RelativeLayout>

@@ -376,6 +376,11 @@ class L {
 
   String get examNotPassed => _getValue("examNotPassed");
 
+  String get settingsWidgetPurchase => _getValue("settingsWidgetPurchase");
+
+  String get settingsWidgetDidPurchase =>
+      _getValue("settingsWidgetDidPurchase");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

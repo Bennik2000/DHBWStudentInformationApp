@@ -44,6 +44,7 @@ class ScheduleTodayWidget : AppWidgetProvider() {
 
         if(WidgetHelper(context).isWidgetEnabled()) {
             views.setViewVisibility(R.id.layout_purchase, View.INVISIBLE)
+            views.setViewVisibility(R.id.schedule_entries_list_view, View.VISIBLE)
 
             val hasEntries = ScheduleProvider(context).hasScheduleEntriesForDay(LocalDate.now())
 
