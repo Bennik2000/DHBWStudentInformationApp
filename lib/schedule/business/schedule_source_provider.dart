@@ -18,6 +18,11 @@ typedef OnDidChangeScheduleSource = void Function(
   bool setupSuccess,
 );
 
+///
+/// The ScheduleSourceProvider manages the ScheduleSource which is used by the
+/// app. It provides functionality to hot swap the ScheduleSource implementation
+/// while the app is running.
+///
 class ScheduleSourceProvider {
   final bool _appRunningInBackground;
   final PreferencesProvider _preferencesProvider;

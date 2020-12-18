@@ -4,6 +4,11 @@ import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:workmanager/workmanager.dart';
 
+///
+/// Provides functionality to register tasks which will execute after a
+/// specified amount of time or at a specific time. Depending on the android
+/// version and device the tasks will be executed even if the app is closed.
+///
 class BackgroundWorkScheduler extends WorkSchedulerService {
   final Map<String, TaskCallback> _taskCallbacks = {};
 
@@ -11,6 +16,10 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
     _setupBackgroundScheduling();
   }
 
+  ///
+  /// Schedules a task after a specified amount of time. The id must be unique.
+  /// If you schedule two tasks with the same id, the first one will be canceled.
+  ///
   @override
   Future<void> scheduleOneShotTaskIn(
       Duration delay, String id, String name) async {
@@ -26,6 +35,11 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
     );
   }
 
+  ///
+  /// Schedules a task a specific point in time. The id must be unique.
+  /// If you schedule two tasks with the same id, the first one will be canceled.
+  /// The name determines the callback which will be called.
+  ///
   @override
   Future<void> scheduleOneShotTaskAt(
     DateTime date,
@@ -35,12 +49,20 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
     await scheduleOneShotTaskIn(date.difference(DateTime.now()), id, name);
   }
 
+  ///
+  /// Cancels the task with the given id
+  ///
   @override
   Future<void> cancelTask(String id) async {
     await Workmanager.cancelByUniqueName(id);
     print("Cancelled task $id");
   }
 
+  ///
+  /// Schedules one task which will be executed periodically. The first
+  /// execution will be after the specified delay.
+  /// The name determines the callback which will be called.
+  ///
   @override
   Future<void> schedulePeriodic(
     Duration delay,
@@ -64,6 +86,9 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
     );
   }
 
+  ///
+  /// Registers a callback function for when a task was executed
+  ///
   @override
   void registerTask(TaskCallback task) {
     _taskCallbacks[task.getName()] = task;
@@ -74,6 +99,9 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
     await _taskCallbacks[id]?.run();
   }
 
+  ///
+  /// Entry point for when a background task is executed
+  ///
   static Future<bool> backgroundTaskMain(taskId, inputData) async {
     try {
       print("Background task started: $taskId with data: $inputData");

@@ -1,6 +1,9 @@
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 
+///
+/// BackgroundScheduler implementation which does not do anything.
+///
 class VoidBackgroundWorkScheduler extends WorkSchedulerService {
   VoidBackgroundWorkScheduler() {
     print("Background scheduling is not available!");

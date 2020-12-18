@@ -4,6 +4,10 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:kiwi/kiwi.dart';
 
+///
+/// Initializes the localization. This ensures that the UI is displayed in the
+/// correct language
+///
 class LocalizationInitialize {
   PreferencesProvider _preferencesProvider;
   String _languageCode;

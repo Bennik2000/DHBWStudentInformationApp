@@ -11,7 +11,11 @@ import 'package:flutter/material.dart';
 
 import 'common/util/platform_util.dart';
 
+///
+/// Main entry point for the app
+///
 void main() async {
+  // Setup the flutter bindings and the error reporting as early as possible
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
