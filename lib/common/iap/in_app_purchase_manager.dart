@@ -41,8 +41,7 @@ class InAppPurchaseManager {
   }
 
   Future<void> donate() async {
-    await _inAppPurchaseHelper
-        .buyById(InAppPurchaseHelper.DonateToDeveloperProductId);
+    await buyWidget();
   }
 
   void _purchaseCompletedCallback(String productId, bool isValid) {

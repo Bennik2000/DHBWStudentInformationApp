@@ -105,12 +105,24 @@ class _SettingsPageState extends State<SettingsPage> {
           );
         },
       ),
-      ListTile(
-        title: Text(L.of(context).donateButtonTitle),
-        subtitle: Text(L.of(context).donateButtonSubtitle),
-        trailing: Icon(Icons.free_breakfast),
-        onTap: () async {
-          await KiwiContainer().resolve<InAppPurchaseManager>().donate();
+      PropertyChangeConsumer(
+        properties: const [
+          "didPurchaseWidget",
+        ],
+        builder:
+            (BuildContext context, SettingsViewModel model, Set properties) {
+          return model.didPurchaseWidget
+              ? Container()
+              : ListTile(
+                  title: Text(L.of(context).donateButtonTitle),
+                  subtitle: Text(L.of(context).donateButtonSubtitle),
+                  trailing: Icon(Icons.free_breakfast),
+                  onTap: () async {
+                    await KiwiContainer()
+                        .resolve<InAppPurchaseManager>()
+                        .donate();
+                  },
+                );
         },
       ),
       ListTile(

@@ -17,7 +17,6 @@ typedef PurchaseCompletedCallback = Function(
 ///
 class InAppPurchaseHelper {
   static const String WidgetProductId = "app_widget";
-  static const String DonateToDeveloperProductId = "donate_to_developer";
 
   final PreferencesProvider _preferencesProvider;
 
@@ -150,7 +149,7 @@ class InAppPurchaseHelper {
   }
 
   bool _isConsumable(String id) {
-    return id == DonateToDeveloperProductId;
+    return false;
   }
 
   bool _isPurchased(PurchasedItem item) {
