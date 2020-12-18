@@ -18,7 +18,7 @@ class SelectThemeDialog {
 
   Widget dialogBuilder(BuildContext context) {
     return AlertDialog(
-      title: Text("Theme auswählen"),
+      title: Text(L.of(context).selectThemeDialogTitle),
       content: PropertyChangeProvider<RootViewModel>(
         value: _rootViewModel,
         child: PropertyChangeConsumer(
@@ -29,7 +29,6 @@ class SelectThemeDialog {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(L.of(context).selectThemeDialogTitle),
                 RadioListTile(
                   title: Text(L.of(context).selectThemeLight),
                   value: false,
