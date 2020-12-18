@@ -24,7 +24,7 @@ class SettingsViewModel extends BaseViewModel {
 
   bool get prettifySchedule => _prettifySchedule;
 
-  bool _didPurchaseWidget = true;
+  bool _didPurchaseWidget = false;
 
   bool get didPurchaseWidget => _didPurchaseWidget;
 

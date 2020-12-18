@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
 typedef PurchaseCompletedCallback = Function(
@@ -10,6 +11,10 @@ typedef PurchaseCompletedCallback = Function(
   bool isPurchased,
 );
 
+///
+/// InAppPurchaseHelper class abstracts the native purchase functionality.
+/// It provides methods to purchase products and consumables
+///
 class InAppPurchaseHelper {
   static const String WidgetProductId = "app_widget";
   static const String DonateToDeveloperProductId = "donate_to_developer";
@@ -23,6 +28,10 @@ class InAppPurchaseHelper {
 
   InAppPurchaseHelper(this._preferencesProvider);
 
+  ///
+  /// Initializes the in app purchase library. This function has to be called
+  /// at the start of the app.
+  ///
   Future<void> initialize() async {
     print("Initializing in app purchases...");
 
@@ -36,9 +45,12 @@ class InAppPurchaseHelper {
 
     print("In app purchases initialized");
 
-    _completePendingPurchases();
+    await _completePendingPurchases();
   }
 
+  ///
+  /// Tries to buy a product by its id
+  ///
   Future<void> buyById(String id) async {
     print("Attempting to buy $id");
 
@@ -46,11 +58,27 @@ class InAppPurchaseHelper {
 
     await _preferencesProvider.setHasPurchasedSomething(true);
 
-    await FlutterInappPurchase.instance.getProducts([id]);
-    await FlutterInappPurchase.instance.requestPurchase(id);
+    try {
+      await FlutterInappPurchase.instance.getProducts([id]);
+      await FlutterInappPurchase.instance.requestPurchase(id);
+    } on PlatformException catch (_) {
+      if (_purchaseCallback != null) {
+        _purchaseCallback(id, false);
+      }
+    }
   }
 
+  ///
+  /// Checks if the user bought a product already.
+  /// When the app is reinstalled this method returns false even if a product
+  /// was bought previousley. After the [buyById] method is called it returns
+  /// true if a product was bought previousley.
+  ///
   Future<bool> didBuyId(String id) async {
+    if (!await _preferencesProvider.getHasPurchasedSomething()) {
+      return false;
+    }
+
     var allPurchases =
         await FlutterInappPurchase.instance.getAvailablePurchases();
 
@@ -64,6 +92,10 @@ class InAppPurchaseHelper {
     return productIdPurchases.any((element) => _isPurchased(element));
   }
 
+  ///
+  /// Sets the callback function that gets executed when a purchase succeeded
+  /// or failed
+  ///
   void setPurchaseCompleteCallback(PurchaseCompletedCallback callback) {
     _purchaseCallback = callback;
   }
@@ -73,7 +105,9 @@ class InAppPurchaseHelper {
 
     var isPurchased = _isPurchased(item);
 
-    _purchaseCallback(item.productId, isPurchased);
+    if (_purchaseCallback != null) {
+      _purchaseCallback(item.productId, isPurchased);
+    }
 
     if (!isPurchased) return;
 
@@ -88,7 +122,11 @@ class InAppPurchaseHelper {
   Future<void> _completePendingPurchases() async {
     print("Completing pending purchases");
 
-    if (!await _preferencesProvider.getHasPurchasedSomething()) return;
+    if (!await _preferencesProvider.getHasPurchasedSomething()) {
+      print(
+          "Abort complete pending purchases, the user did not buy something in the past");
+      return;
+    }
 
     List<PurchasedItem> purchasedItems = [];
 
@@ -125,6 +163,9 @@ class InAppPurchaseHelper {
     return false;
   }
 
+  ///
+  /// Disposes the subscriptions. Call this at the end of the object lifetime.
+  ///
   void dispose() {
     _purchaseUpdatedSubscription?.cancel();
     _purchaseUpdatedSubscription = null;
