@@ -165,4 +165,8 @@ final en = {
   "examNotPassed": "Not passed",
   "settingsWidgetPurchase": "Enable widgets",
   "settingsWidgetDidPurchase": "Widgets are enabled",
+  "selectThemeDialogTitle": "Select theme",
+  "selectThemeLight": "Light",
+  "selectThemeDark": "Dark",
+  "selectThemeSystem": "System theme",
 };

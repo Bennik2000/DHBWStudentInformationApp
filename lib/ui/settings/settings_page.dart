@@ -7,6 +7,7 @@ import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
+import 'package:dhbwstudentapp/ui/settings/select_theme_dialog.dart';
 import 'package:dhbwstudentapp/ui/settings/viewmodels/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -213,10 +214,16 @@ class _SettingsPageState extends State<SettingsPage> {
           "isDarkMode",
         ],
         builder: (BuildContext context, RootViewModel model, Set properties) {
-          return SwitchListTile(
+          return ListTile(
             title: Text(L.of(context).settingsDarkMode),
-            onChanged: model.setIsDarkMode,
-            value: model.isDarkMode,
+            onTap: () async {
+              await SelectThemeDialog(model).show(context);
+            },
+            subtitle: Text({
+              true: L.of(context).selectThemeDark,
+              false: L.of(context).selectThemeLight,
+              null: L.of(context).selectThemeSystem,
+            }[model.isDarkMode]),
           );
         },
       ),
