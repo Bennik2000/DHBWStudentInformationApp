@@ -24,9 +24,9 @@ class SettingsViewModel extends BaseViewModel {
 
   bool get prettifySchedule => _prettifySchedule;
 
-  bool _didPurchaseWidget = false;
+  PurchaseStateEnum _didPurchaseWidget;
 
-  bool get didPurchaseWidget => _didPurchaseWidget;
+  PurchaseStateEnum get didPurchaseWidget => _didPurchaseWidget;
 
   SettingsViewModel(
     this._preferencesProvider,
@@ -41,8 +41,10 @@ class SettingsViewModel extends BaseViewModel {
     );
   }
 
-  void _widgetPurchaseCallback(String id, bool isPurchased) {
-    _didPurchaseWidget = isPurchased;
+  void _widgetPurchaseCallback(String id, PurchaseResultEnum result) {
+    if (result == PurchaseResultEnum.Success) {
+      _didPurchaseWidget = PurchaseStateEnum.Purchased;
+    }
     notifyListeners("didPurchaseWidget");
   }
 
@@ -86,12 +88,14 @@ class SettingsViewModel extends BaseViewModel {
     notifyListeners("notifyAboutScheduleChanges");
     notifyListeners("prettifySchedule");
 
+    // This call may take some time. Do it at the end when the rest is already
+    // loaded
     _didPurchaseWidget = await _inAppPurchaseManager.didBuyWidget();
     notifyListeners("didPurchaseWidget");
   }
 
   Future<void> purchaseWidgets() async {
-    if (!didPurchaseWidget) {
+    if (_didPurchaseWidget != PurchaseStateEnum.Purchased) {
       await _inAppPurchaseManager.buyWidget();
     }
   }

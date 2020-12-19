@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
@@ -12,6 +13,9 @@ import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+// TODO: Cleanup ui generation code for the in app purchases
+// TODO: Show a loading indicator and error messages right when the purchase button was pressed
 
 ///
 /// Widget for the application settings route. Provides access to many settings
@@ -78,31 +82,38 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
         builder:
             (BuildContext context, SettingsViewModel model, Set properties) {
-          return ListTile(
-            title: Text(L.of(context).settingsWidgetPurchase),
-            trailing: Icon(Icons.widgets_outlined),
-            subtitle: model.didPurchaseWidget
-                ? Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.green,
-                          size: 16,
-                        ),
-                      ),
-                      Text(
-                        L.of(context).settingsWidgetDidPurchase,
-                        style: TextStyle(color: Colors.green),
-                      ),
-                    ],
-                  )
-                : null,
-            onTap: () async {
-              await model.purchaseWidgets();
-            },
-          );
+          switch (model.didPurchaseWidget) {
+            case PurchaseStateEnum.Purchased:
+            case PurchaseStateEnum.NotPurchased:
+              return ListTile(
+                title: Text(L.of(context).settingsWidgetPurchase),
+                trailing: Icon(Icons.widgets_outlined),
+                subtitle: model.didPurchaseWidget == PurchaseStateEnum.Purchased
+                    ? Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+                            child: Icon(
+                              Icons.check,
+                              color: Colors.green,
+                              size: 16,
+                            ),
+                          ),
+                          Text(
+                            L.of(context).settingsWidgetDidPurchase,
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ],
+                      )
+                    : null,
+                onTap: () async {
+                  await model.purchaseWidgets();
+                },
+              );
+
+            default:
+              return Container();
+          }
         },
       ),
       PropertyChangeConsumer(
@@ -111,18 +122,32 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
         builder:
             (BuildContext context, SettingsViewModel model, Set properties) {
-          return model.didPurchaseWidget
-              ? Container()
-              : ListTile(
-                  title: Text(L.of(context).donateButtonTitle),
-                  subtitle: Text(L.of(context).donateButtonSubtitle),
-                  trailing: Icon(Icons.free_breakfast),
-                  onTap: () async {
-                    await KiwiContainer()
-                        .resolve<InAppPurchaseManager>()
-                        .donate();
-                  },
-                );
+          if (model.didPurchaseWidget == null) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: SizedBox(
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                  ),
+                  width: 16,
+                  height: 16,
+                ),
+              ),
+            );
+          } else if (model.didPurchaseWidget ==
+              PurchaseStateEnum.NotPurchased) {
+            return ListTile(
+              title: Text(L.of(context).donateButtonTitle),
+              subtitle: Text(L.of(context).donateButtonSubtitle),
+              trailing: Icon(Icons.free_breakfast),
+              onTap: () async {
+                await KiwiContainer().resolve<InAppPurchaseManager>().donate();
+              },
+            );
+          }
+
+          return Container();
         },
       ),
       ListTile(

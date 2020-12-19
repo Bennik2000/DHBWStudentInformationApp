@@ -6,9 +6,22 @@ import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 
+enum PurchaseStateEnum {
+  Purchased,
+  NotPurchased,
+  Unknown,
+}
+
+enum PurchaseResultEnum {
+  Success,
+  UserCancelled,
+  Error,
+  Pending,
+}
+
 typedef PurchaseCompletedCallback = Function(
   String productId,
-  bool isPurchased,
+  PurchaseResultEnum result,
 );
 
 ///
@@ -50,7 +63,7 @@ class InAppPurchaseHelper {
   ///
   /// Tries to buy a product by its id
   ///
-  Future<void> buyById(String id) async {
+  Future<PurchaseResultEnum> buyById(String id) async {
     print("Attempting to buy $id");
 
     await analytics.logEvent(name: "purchase_$id");
@@ -62,8 +75,10 @@ class InAppPurchaseHelper {
       await FlutterInappPurchase.instance.requestPurchase(id);
     } on PlatformException catch (_) {
       if (_purchaseCallback != null) {
-        _purchaseCallback(id, false);
+        _purchaseCallback(id, PurchaseResultEnum.Error);
       }
+
+      return PurchaseResultEnum.Error;
     }
   }
 
@@ -73,22 +88,30 @@ class InAppPurchaseHelper {
   /// was bought previousley. After the [buyById] method is called it returns
   /// true if a product was bought previousley.
   ///
-  Future<bool> didBuyId(String id) async {
+  Future<PurchaseStateEnum> didBuyId(String id) async {
     if (!await _preferencesProvider.getHasPurchasedSomething()) {
-      return false;
+      return PurchaseStateEnum.NotPurchased;
     }
 
-    var allPurchases =
-        await FlutterInappPurchase.instance.getAvailablePurchases();
+    var allPurchases = [];
+
+    try {
+      allPurchases =
+          await FlutterInappPurchase.instance.getAvailablePurchases();
+    } on Exception catch (_) {
+      return PurchaseStateEnum.Unknown;
+    }
 
     var productIdPurchases =
         allPurchases.where((element) => element.productId == id);
 
     if (productIdPurchases.isEmpty) {
-      return false;
+      return PurchaseStateEnum.NotPurchased;
     }
 
-    return productIdPurchases.any((element) => _isPurchased(element));
+    return productIdPurchases.any((element) => _isPurchased(element))
+        ? PurchaseStateEnum.Purchased
+        : PurchaseStateEnum.NotPurchased;
   }
 
   ///
@@ -104,9 +127,15 @@ class InAppPurchaseHelper {
 
     var isPurchased = _isPurchased(item);
 
-    if (_purchaseCallback != null) {
-      _purchaseCallback(item.productId, isPurchased);
+    var purchaseResult;
+
+    if (isPurchased) {
+      purchaseResult = PurchaseResultEnum.Success;
+    } else {
+      purchaseResult = PurchaseResultEnum.Pending;
     }
+
+    _purchaseCallback?.call(item.productId, purchaseResult);
 
     if (!isPurchased) return;
 
@@ -156,7 +185,8 @@ class InAppPurchaseHelper {
     if (Platform.isAndroid) {
       return item.purchaseStateAndroid == PurchaseState.purchased;
     } else if (Platform.isIOS) {
-      return item.transactionStateIOS == TransactionState.purchased;
+      return item.transactionStateIOS == TransactionState.purchased ||
+          item.transactionStateIOS == TransactionState.restored;
     }
 
     return false;

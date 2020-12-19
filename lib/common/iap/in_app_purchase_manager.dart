@@ -2,6 +2,10 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
 
+///
+/// This class provides simple access to buy and restore in app products.
+/// Note that the calls to methods of this class may take some time to return
+///
 class InAppPurchaseManager {
   final InAppPurchaseHelper _inAppPurchaseHelper;
   final WidgetHelper _widgetHelper;
@@ -18,7 +22,8 @@ class InAppPurchaseManager {
   void _initialize() async {
     addPurchaseCallback(
       InAppPurchaseHelper.WidgetProductId,
-      (String productId, bool isPurchased) => _setWidgetEnabled(isPurchased),
+      (String productId, PurchaseResultEnum result) =>
+          _setWidgetEnabled(result == PurchaseResultEnum.Success),
     );
 
     _inAppPurchaseHelper
@@ -29,10 +34,11 @@ class InAppPurchaseManager {
   }
 
   Future<void> _restorePurchases() async {
-    await _setWidgetEnabled(await didBuyWidget());
+    var didPurchaseWidget = await didBuyWidget() == PurchaseStateEnum.Purchased;
+    await _setWidgetEnabled(didPurchaseWidget);
   }
 
-  Future<bool> didBuyWidget() {
+  Future<PurchaseStateEnum> didBuyWidget() {
     return _inAppPurchaseHelper.didBuyId(InAppPurchaseHelper.WidgetProductId);
   }
 
@@ -44,12 +50,12 @@ class InAppPurchaseManager {
     await buyWidget();
   }
 
-  void _purchaseCompletedCallback(String productId, bool isValid) {
+  void _purchaseCompletedCallback(String productId, PurchaseResultEnum result) {
     if (purchaseCallbacks.containsKey(productId)) {
       var callback = purchaseCallbacks[productId] ?? [];
 
       callback.forEach((element) {
-        element(productId, isValid);
+        element(productId, result);
       });
     }
   }
