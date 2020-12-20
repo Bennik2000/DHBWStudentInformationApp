@@ -4,6 +4,9 @@ import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/schedule_changed_notification.dart';
 import 'package:kiwi/kiwi.dart';
 
+///
+/// Initializes the notification for when the schedule changed
+///
 class NotificationScheduleChangedInitialize {
   void setupNotification() {
     var provider = KiwiContainer().resolve<ScheduleProvider>();

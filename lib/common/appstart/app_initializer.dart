@@ -14,7 +14,7 @@ bool isInitialized = false;
 
 ///
 /// Initializes the app for foreground or background use. After this call
-/// everything will be loaded
+/// everything will be loaded and the startup process is completed
 ///
 Future<void> initializeApp(bool isBackground) async {
   print("Initialize requested. Is background: $isBackground");

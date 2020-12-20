@@ -2,17 +2,21 @@ import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
 import 'package:dhbwstudentapp/ui/settings/select_theme_dialog.dart';
+import 'package:dhbwstudentapp/ui/settings/donate_list_tile.dart';
+import 'package:dhbwstudentapp/ui/settings/purchase_widget_list_tile.dart';
 import 'package:dhbwstudentapp/ui/settings/viewmodels/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+// TODO: Cleanup ui generation code for the in app purchases
+// TODO: Show a loading indicator and error messages right when the purchase button was pressed
 
 ///
 /// Widget for the application settings route. Provides access to many settings
@@ -28,6 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
     KiwiContainer().resolve(),
     KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
         as NextDayInformationNotification,
+    KiwiContainer().resolve(),
     KiwiContainer().resolve(),
   );
 
@@ -73,47 +78,8 @@ class _SettingsPageState extends State<SettingsPage> {
   List<Widget> buildAboutSettings(BuildContext context) {
     return [
       TitleListTile(title: L.of(context).settingsAboutTitle),
-      PropertyChangeConsumer(
-        properties: const [
-          "didPurchaseWidget",
-        ],
-        builder:
-            (BuildContext context, SettingsViewModel model, Set properties) {
-          return ListTile(
-            title: Text(L.of(context).settingsWidgetPurchase),
-            trailing: Icon(Icons.widgets_outlined),
-            subtitle: model.didPurchaseWidget
-                ? Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                        child: Icon(
-                          Icons.check,
-                          color: Colors.green,
-                          size: 16,
-                        ),
-                      ),
-                      Text(
-                        L.of(context).settingsWidgetDidPurchase,
-                        style: TextStyle(color: Colors.green),
-                      ),
-                    ],
-                  )
-                : null,
-            onTap: () async {
-              await model.purchaseWidgets();
-            },
-          );
-        },
-      ),
-      ListTile(
-        title: Text(L.of(context).donateButtonTitle),
-        subtitle: Text(L.of(context).donateButtonSubtitle),
-        trailing: Icon(Icons.free_breakfast),
-        onTap: () async {
-          await KiwiContainer().resolve<InAppPurchaseManager>().donate();
-        },
-      ),
+      PurchaseWidgetListTile(),
+      DonateListTile(),
       ListTile(
         title: Text(L.of(context).settingsAbout),
         onTap: () {

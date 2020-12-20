@@ -20,10 +20,6 @@ class DatabaseAccess {
   }
 
   Future<Database> _initDatabase() async {
-    /*final Directory documentsDirectory =
-        await getApplicationDocumentsDirectory();
-    final String path = join(documentsDirectory.path, _databaseName);*/
-
     final String path = await getDatabasePath(_databaseName);
 
     return await openDatabase(path,

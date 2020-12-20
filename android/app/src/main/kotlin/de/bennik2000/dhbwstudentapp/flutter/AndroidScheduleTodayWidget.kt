@@ -34,6 +34,9 @@ class AndroidScheduleTodayWidget(private val context: Context) : MethodChannel.M
                 updateWidget()
                 result.success(null)
             }
+            "areWidgetsSupported" -> {
+                result.success(true)
+            }
             else -> {
                 result.notImplemented()
             }

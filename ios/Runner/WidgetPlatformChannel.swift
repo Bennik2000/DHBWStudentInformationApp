@@ -18,14 +18,20 @@ class WidgetPlatformChannel {
         widgetPlatformChannel.setMethodCallHandler({
             (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
             if(call.method == "enableWidget") {
-                print("----- enable widget executed on native!")
                 WidgetUserDefaults().enableWidget()
                 result(nil)
             }
             else if(call.method == "disableWidget") {
-                print("----- disable widget executed on native!")
                 WidgetUserDefaults().disableWidget()
                 result(nil)
+            }
+            else if (call.method == "areWidgetsSupported") {
+                if #available(iOS 14.0, *) {
+                    result(true)
+                }
+                else {
+                    result(false)
+                }
             }
         })
     }

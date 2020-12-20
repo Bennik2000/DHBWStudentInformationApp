@@ -2,6 +2,10 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
 
+///
+/// This class provides simple access to buy and restore in app products.
+/// Note that the calls to methods of this class may take some time to return
+///
 class InAppPurchaseManager {
   final InAppPurchaseHelper _inAppPurchaseHelper;
   final WidgetHelper _widgetHelper;
@@ -18,7 +22,8 @@ class InAppPurchaseManager {
   void _initialize() async {
     addPurchaseCallback(
       InAppPurchaseHelper.WidgetProductId,
-      (String productId, bool isPurchased) => _setWidgetEnabled(isPurchased),
+      (String productId, PurchaseResultEnum result) =>
+          _setWidgetEnabled(result == PurchaseResultEnum.Success),
     );
 
     _inAppPurchaseHelper
@@ -29,48 +34,84 @@ class InAppPurchaseManager {
   }
 
   Future<void> _restorePurchases() async {
-    await _setWidgetEnabled(await didBuyWidget());
+    var didPurchaseWidget = await didBuyWidget() == PurchaseStateEnum.Purchased;
+    await _setWidgetEnabled(didPurchaseWidget);
   }
 
-  Future<bool> didBuyWidget() {
+  ///
+  /// Determines if the widget functionality was bought
+  ///
+  Future<PurchaseStateEnum> didBuyWidget() {
     return _inAppPurchaseHelper.didBuyId(InAppPurchaseHelper.WidgetProductId);
   }
 
+  ///
+  /// Executes the process to purchase widget functionality
+  ///
   Future<void> buyWidget() async {
     await _inAppPurchaseHelper.buyById(InAppPurchaseHelper.WidgetProductId);
   }
 
   Future<void> donate() async {
-    await _inAppPurchaseHelper
-        .buyById(InAppPurchaseHelper.DonateToDeveloperProductId);
+    await buyWidget();
   }
 
-  void _purchaseCompletedCallback(String productId, bool isValid) {
+  void _purchaseCompletedCallback(String productId, PurchaseResultEnum result) {
     if (purchaseCallbacks.containsKey(productId)) {
       var callback = purchaseCallbacks[productId] ?? [];
 
       callback.forEach((element) {
-        element(productId, isValid);
+        element(productId, result);
+      });
+    }
+
+    if (purchaseCallbacks.containsKey("*")) {
+      var callback = purchaseCallbacks["*"] ?? [];
+
+      callback.forEach((element) {
+        element(productId, result);
+      });
+    }
+
+    for (var pair in purchaseCallbacks.entries) {
+      pair.value.forEach((element) {
+        element(null, result);
       });
     }
   }
 
+  ///
+  /// Add a callback which gets called when a purchase was updated.
+  /// Updates are registered for one specific productId. If you want to register
+  /// for all product ids, pass null or "*" as productId
+  ///
   void addPurchaseCallback(
     String productId,
     PurchaseCompletedCallback callback,
   ) {
-    if (!purchaseCallbacks.containsKey(productId)) {
-      purchaseCallbacks[InAppPurchaseHelper.WidgetProductId] = [];
+    if (productId == null) {
+      productId = "*";
     }
 
-    purchaseCallbacks[InAppPurchaseHelper.WidgetProductId].add(callback);
+    if (!purchaseCallbacks.containsKey(productId)) {
+      purchaseCallbacks[productId] = [];
+    }
+
+    purchaseCallbacks[productId].add(callback);
   }
 
+  ///
+  /// Removes a callback which was registered using [addPurchaseCallback]
+  ///
   void removePurchaseCallback(
     String productId,
     PurchaseCompletedCallback callback,
   ) {
-    purchaseCallbacks[InAppPurchaseHelper.WidgetProductId]?.remove(callback);
+    if (productId == null) {
+      productId = "*";
+    }
+
+    purchaseCallbacks[productId]?.remove(callback);
   }
 
   Future<void> _setWidgetEnabled(bool enabled) async {
