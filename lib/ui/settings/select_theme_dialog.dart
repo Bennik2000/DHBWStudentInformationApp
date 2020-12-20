@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
+///
+/// Shows a dialog to select dark/light or system theme as app theme
+///
 class SelectThemeDialog {
   final RootViewModel _rootViewModel;
 
