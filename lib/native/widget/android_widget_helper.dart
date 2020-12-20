@@ -30,7 +30,7 @@ class AndroidWidgetHelper implements WidgetHelper {
   Future<bool> areWidgetsSupported() async {
     try {
       return await platform.invokeMethod('areWidgetsSupported');
-    } on PlatformException catch (_) {
+    } on Exception catch (_) {
       return false;
     }
   }

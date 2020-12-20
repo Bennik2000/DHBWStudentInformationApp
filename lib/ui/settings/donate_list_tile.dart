@@ -91,7 +91,8 @@ class _DonateListTileState extends State<DonateListTile> {
   }
 
   void _purchaseClicked() async {
-    if (isPurchasing) return;
+    if (isPurchasing || model.didPurchaseWidget == PurchaseStateEnum.Purchased)
+      return;
 
     setState(() {
       isPurchasing = true;

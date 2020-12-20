@@ -105,7 +105,8 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
   }
 
   void _purchaseClicked() async {
-    if (isPurchasing) return;
+    if (isPurchasing || model.didPurchaseWidget == PurchaseStateEnum.Purchased)
+      return;
 
     setState(() {
       isPurchasing = true;

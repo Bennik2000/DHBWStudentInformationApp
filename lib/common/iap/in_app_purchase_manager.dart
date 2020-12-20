@@ -39,12 +39,7 @@ class InAppPurchaseManager {
   }
 
   Future<PurchaseStateEnum> didBuyWidget() {
-    var result =
-        _inAppPurchaseHelper.didBuyId(InAppPurchaseHelper.WidgetProductId);
-
-    print(result);
-
-    return result;
+    return _inAppPurchaseHelper.didBuyId(InAppPurchaseHelper.WidgetProductId);
   }
 
   Future<void> buyWidget() async {
@@ -71,6 +66,12 @@ class InAppPurchaseManager {
         element(productId, result);
       });
     }
+
+    for (var pair in purchaseCallbacks.entries) {
+      pair.value.forEach((element) {
+        element(null, result);
+      });
+    }
   }
 
   ///
@@ -87,10 +88,10 @@ class InAppPurchaseManager {
     }
 
     if (!purchaseCallbacks.containsKey(productId)) {
-      purchaseCallbacks[InAppPurchaseHelper.WidgetProductId] = [];
+      purchaseCallbacks[productId] = [];
     }
 
-    purchaseCallbacks[InAppPurchaseHelper.WidgetProductId].add(callback);
+    purchaseCallbacks[productId].add(callback);
   }
 
   void removePurchaseCallback(
@@ -101,7 +102,7 @@ class InAppPurchaseManager {
       productId = "*";
     }
 
-    purchaseCallbacks[InAppPurchaseHelper.WidgetProductId]?.remove(callback);
+    purchaseCallbacks[productId]?.remove(callback);
   }
 
   Future<void> _setWidgetEnabled(bool enabled) async {

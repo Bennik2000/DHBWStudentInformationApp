@@ -73,6 +73,8 @@ class InAppPurchaseHelper {
     try {
       await FlutterInappPurchase.instance.getProducts([id]);
       await FlutterInappPurchase.instance.requestPurchase(id);
+
+      return PurchaseResultEnum.Success;
     } on PlatformException catch (_) {
       if (_purchaseCallback != null) {
         _purchaseCallback(id, PurchaseResultEnum.Error);
@@ -123,28 +125,57 @@ class InAppPurchaseHelper {
   }
 
   Future<void> _completePurchase(PurchasedItem item) async {
-    print("Completing purchase: ${item.orderId} (${item.productId})");
+    var purchaseResult = PurchaseResultEnum.Error;
 
-    var isPurchased = _isPurchased(item);
-
-    var purchaseResult;
-
-    if (isPurchased) {
-      purchaseResult = PurchaseResultEnum.Success;
-    } else {
-      purchaseResult = PurchaseResultEnum.Pending;
+    if (Platform.isAndroid) {
+      switch (item.purchaseStateAndroid) {
+        case PurchaseState.pending:
+          purchaseResult = PurchaseResultEnum.Pending;
+          break;
+        case PurchaseState.purchased:
+          purchaseResult = PurchaseResultEnum.Success;
+          break;
+        case PurchaseState.unspecified:
+          purchaseResult = PurchaseResultEnum.Error;
+          break;
+      }
+    } else if (Platform.isIOS) {
+      switch (item.transactionStateIOS) {
+        case TransactionState.purchasing:
+          purchaseResult = PurchaseResultEnum.Pending;
+          break;
+        case TransactionState.purchased:
+          purchaseResult = PurchaseResultEnum.Success;
+          break;
+        case TransactionState.failed:
+          purchaseResult = PurchaseResultEnum.Error;
+          break;
+        case TransactionState.restored:
+          purchaseResult = PurchaseResultEnum.Success;
+          break;
+        case TransactionState.deferred:
+          purchaseResult = PurchaseResultEnum.Pending;
+          break;
+      }
     }
 
     _purchaseCallback?.call(item.productId, purchaseResult);
 
-    if (!isPurchased) return;
+    if (purchaseResult == PurchaseResultEnum.Pending) return;
+    if (item.isAcknowledgedAndroid) return;
 
-    await FlutterInappPurchase.instance.finishTransaction(
-      item,
-      isConsumable: _isConsumable(item.productId),
-    );
+    print("Completing purchase: ${item.orderId} (${item.productId})");
 
-    await analytics.logEvent(name: "purchaseCompleted_${item.productId}");
+    try {
+      await FlutterInappPurchase.instance.finishTransaction(
+        item,
+        isConsumable: _isConsumable(item.productId),
+      );
+
+      await analytics.logEvent(name: "purchaseCompleted_${item.productId}");
+    } catch (_) {
+      print(_);
+    }
   }
 
   Future<void> _completePendingPurchases() async {
@@ -175,6 +206,8 @@ class InAppPurchaseHelper {
     print("Failed to purchase:");
     print(event.message);
     print(event.debugMessage);
+
+    _purchaseCallback?.call(null, PurchaseResultEnum.Error);
   }
 
   bool _isConsumable(String id) {
