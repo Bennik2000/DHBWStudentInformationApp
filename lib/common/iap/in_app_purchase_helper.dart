@@ -125,6 +125,33 @@ class InAppPurchaseHelper {
   }
 
   Future<void> _completePurchase(PurchasedItem item) async {
+    var purchaseResult = _purchaseResultFromItem(item);
+
+    _purchaseCallback?.call(item.productId, purchaseResult);
+
+    if (purchaseResult == PurchaseResultEnum.Pending) return;
+    if (await _hasFinishedTransaction(item)) return;
+
+    print("Completing purchase: ${item.orderId} (${item.productId})");
+
+    try {
+      await FlutterInappPurchase.instance.finishTransaction(
+        item,
+        isConsumable: _isConsumable(item.productId),
+      );
+
+      await _preferencesProvider.set(
+        "purchase_${item.productId}_finished",
+        true,
+      );
+
+      await analytics.logEvent(name: "purchaseCompleted_${item.productId}");
+    } catch (_) {
+      print(_);
+    }
+  }
+
+  PurchaseResultEnum _purchaseResultFromItem(PurchasedItem item) {
     var purchaseResult = PurchaseResultEnum.Error;
 
     if (Platform.isAndroid) {
@@ -159,23 +186,15 @@ class InAppPurchaseHelper {
       }
     }
 
-    _purchaseCallback?.call(item.productId, purchaseResult);
+    return purchaseResult;
+  }
 
-    if (purchaseResult == PurchaseResultEnum.Pending) return;
-    if (item.isAcknowledgedAndroid) return;
+  Future<bool> _hasFinishedTransaction(PurchasedItem item) async {
+    if (item.isAcknowledgedAndroid ?? false) return true;
 
-    print("Completing purchase: ${item.orderId} (${item.productId})");
-
-    try {
-      await FlutterInappPurchase.instance.finishTransaction(
-        item,
-        isConsumable: _isConsumable(item.productId),
-      );
-
-      await analytics.logEvent(name: "purchaseCompleted_${item.productId}");
-    } catch (_) {
-      print(_);
-    }
+    return await _preferencesProvider
+            .get("purchase_${item.productId}_finished") ??
+        false;
   }
 
   Future<void> _completePendingPurchases() async {
