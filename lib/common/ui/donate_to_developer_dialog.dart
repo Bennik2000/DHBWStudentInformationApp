@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
+import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,11 @@ import 'package:kiwi/kiwi.dart';
 /// Show a dialog which informs the user that there is an option to support the
 /// developer
 ///
-class DonateToDeveloper {
+class DonateToDeveloperDialog {
   PreferencesProvider _preferencesProvider;
   int _appLaunchCounter;
 
-  DonateToDeveloper(this._preferencesProvider, this._appLaunchCounter);
+  DonateToDeveloperDialog(this._preferencesProvider, this._appLaunchCounter);
 
   void showIfNeeded(BuildContext context) async {
     if (await _preferencesProvider.getDidShowDonateDialog()) return;
@@ -75,7 +76,7 @@ class DonateToDeveloper {
           child: Text(L.of(context).donateDialogPositiveButton.toUpperCase()),
           onPressed: () {
             Navigator.of(context).pop();
-            KiwiContainer().resolve<InAppPurchaseHelper>().donateToDeveloper();
+            KiwiContainer().resolve<InAppPurchaseManager>().donate();
           },
         ),
         FlatButton(

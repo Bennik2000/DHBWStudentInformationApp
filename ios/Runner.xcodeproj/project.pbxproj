@@ -14,10 +14,41 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		D518EA23257A5EA200C149D9 /* ScheduleEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */; };
+		D518EA24257A5EA200C149D9 /* ScheduleEntryAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */; };
+		D53DD4F225817F4F00A1E855 /* StringLocalization.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD4F025817F4F00A1E855 /* StringLocalization.swift */; };
+		D53DD5012581834700A1E855 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D53DD4FF2581834700A1E855 /* Localizable.strings */; };
+		D53DD5022581834700A1E855 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = D53DD4FF2581834700A1E855 /* Localizable.strings */; };
+		D53DD50B25827B1500A1E855 /* WidgetUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD50925827B1500A1E855 /* WidgetUserDefaults.swift */; };
+		D53DD50F2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD50D2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift */; };
+		D53DD513258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD511258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift */; };
+		D53DD517258281F400A1E855 /* DailyScheduleWidgetContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD515258281F400A1E855 /* DailyScheduleWidgetContent.swift */; };
+		D53DD51B2582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD5192582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift */; };
+		D53DD51F2582823600A1E855 /* ScheduleEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD51D2582823600A1E855 /* ScheduleEntryView.swift */; };
+		D53DD5232582826200A1E855 /* ScheduleEntryPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD5212582826200A1E855 /* ScheduleEntryPlaceholderView.swift */; };
+		D53DD573258292C200A1E855 /* WidgetPlatformChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD572258292C200A1E855 /* WidgetPlatformChannel.swift */; };
+		D53DD575258293C700A1E855 /* WidgetUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53DD50925827B1500A1E855 /* WidgetUserDefaults.swift */; };
+		D56A330B2579725B001E17F5 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D56A330A2579725B001E17F5 /* WidgetKit.framework */; };
+		D56A330D2579725B001E17F5 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D56A330C2579725B001E17F5 /* SwiftUI.framework */; };
+		D56A33102579725B001E17F5 /* dailyschedulewidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56A330F2579725B001E17F5 /* dailyschedulewidget.swift */; };
+		D56A33132579725C001E17F5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D56A33122579725C001E17F5 /* Assets.xcassets */; };
+		D56A33152579725C001E17F5 /* dailyschedulewidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = D56A33112579725B001E17F5 /* dailyschedulewidget.intentdefinition */; };
+		D56A33162579725C001E17F5 /* dailyschedulewidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = D56A33112579725B001E17F5 /* dailyschedulewidget.intentdefinition */; };
+		D56A33192579725C001E17F5 /* dailyschedulewidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D56A33092579725B001E17F5 /* dailyschedulewidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		D5AFF7392577D09200D9B047 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5AFF7382577D09200D9B047 /* StoreKit.framework */; };
 		D5AFF73B2577D18A00D9B047 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5AFF73A2577D18A00D9B047 /* AuthenticationServices.framework */; };
 		D5EA251D24DDA658007F6B1A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D5EA251C24DDA658007F6B1A /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D56A33172579725C001E17F5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D56A33082579725B001E17F5;
+			remoteInfo = dailyschedulewidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
@@ -28,6 +59,17 @@
 			files = (
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D56A331A2579725C001E17F5 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				D56A33192579725C001E17F5 /* dailyschedulewidgetExtension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -50,6 +92,28 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5036E5A25330D0700284A8C /* DHBW Studenten App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "DHBW Studenten App.entitlements"; sourceTree = "<group>"; };
+		D53DD4F025817F4F00A1E855 /* StringLocalization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringLocalization.swift; sourceTree = "<group>"; };
+		D53DD5002581834700A1E855 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = dailyschedulewidget/Base.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D53DD5052581836800A1E855 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = dailyschedulewidget/de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D53DD507258184A200A1E855 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = dailyschedulewidget/en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D53DD50925827B1500A1E855 /* WidgetUserDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetUserDefaults.swift; sourceTree = "<group>"; };
+		D53DD50D2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleWidgetNotEnabled.swift; sourceTree = "<group>"; };
+		D53DD511258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleWidgetEmptyState.swift; sourceTree = "<group>"; };
+		D53DD515258281F400A1E855 /* DailyScheduleWidgetContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleWidgetContent.swift; sourceTree = "<group>"; };
+		D53DD5192582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyScheduleWidgetPlaceholder.swift; sourceTree = "<group>"; };
+		D53DD51D2582823600A1E855 /* ScheduleEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntryView.swift; sourceTree = "<group>"; };
+		D53DD5212582826200A1E855 /* ScheduleEntryPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntryPlaceholderView.swift; sourceTree = "<group>"; };
+		D53DD572258292C200A1E855 /* WidgetPlatformChannel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPlatformChannel.swift; sourceTree = "<group>"; };
+		D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntry.swift; sourceTree = "<group>"; };
+		D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEntryAccess.swift; sourceTree = "<group>"; };
+		D558FBCE257A2EC300DC8F12 /* dailyschedulewidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = dailyschedulewidgetExtension.entitlements; sourceTree = "<group>"; };
+		D56A33092579725B001E17F5 /* dailyschedulewidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = dailyschedulewidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		D56A330A2579725B001E17F5 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		D56A330C2579725B001E17F5 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		D56A330F2579725B001E17F5 /* dailyschedulewidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = dailyschedulewidget.swift; sourceTree = "<group>"; };
+		D56A33112579725B001E17F5 /* dailyschedulewidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = dailyschedulewidget.intentdefinition; sourceTree = "<group>"; };
+		D56A33122579725C001E17F5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D56A33142579725C001E17F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5AFF7382577D09200D9B047 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		D5AFF73A2577D18A00D9B047 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		D5EA251C24DDA658007F6B1A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -67,6 +131,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D56A33062579725B001E17F5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D56A330D2579725B001E17F5 /* SwiftUI.framework in Frameworks */,
+				D56A330B2579725B001E17F5 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -76,6 +149,8 @@
 				D5AFF73A2577D18A00D9B047 /* AuthenticationServices.framework */,
 				D5AFF7382577D09200D9B047 /* StoreKit.framework */,
 				471F2CD75920FE7935A5F1ED /* Pods_Runner.framework */,
+				D56A330A2579725B001E17F5 /* WidgetKit.framework */,
+				D56A330C2579725B001E17F5 /* SwiftUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -94,8 +169,11 @@
 		97C146E51CF9000F007C117D = {
 			isa = PBXGroup;
 			children = (
+				D53DD4FF2581834700A1E855 /* Localizable.strings */,
+				D558FBCE257A2EC300DC8F12 /* dailyschedulewidgetExtension.entitlements */,
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
+				D56A330E2579725B001E17F5 /* dailyschedulewidget */,
 				97C146EF1CF9000F007C117D /* Products */,
 				EE2133AC0A066C4655792E0F /* Pods */,
 				153A4B8339F10C6748EF2E3F /* Frameworks */,
@@ -106,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				97C146EE1CF9000F007C117D /* DHBW Studenten App.app */,
+				D56A33092579725B001E17F5 /* dailyschedulewidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -123,6 +202,7 @@
 				1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */,
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
+				D53DD572258292C200A1E855 /* WidgetPlatformChannel.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 			);
 			path = Runner;
@@ -133,6 +213,27 @@
 			children = (
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D56A330E2579725B001E17F5 /* dailyschedulewidget */ = {
+			isa = PBXGroup;
+			children = (
+				D56A33122579725C001E17F5 /* Assets.xcassets */,
+				D56A33112579725B001E17F5 /* dailyschedulewidget.intentdefinition */,
+				D56A330F2579725B001E17F5 /* dailyschedulewidget.swift */,
+				D53DD515258281F400A1E855 /* DailyScheduleWidgetContent.swift */,
+				D53DD511258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift */,
+				D53DD50D2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift */,
+				D53DD5192582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift */,
+				D56A33142579725C001E17F5 /* Info.plist */,
+				D558FBC6257A1E0000DC8F12 /* ScheduleEntry.swift */,
+				D558FBC9257A1E9A00DC8F12 /* ScheduleEntryAccess.swift */,
+				D53DD5212582826200A1E855 /* ScheduleEntryPlaceholderView.swift */,
+				D53DD51D2582823600A1E855 /* ScheduleEntryView.swift */,
+				D53DD4F025817F4F00A1E855 /* StringLocalization.swift */,
+				D53DD50925827B1500A1E855 /* WidgetUserDefaults.swift */,
+			);
+			path = dailyschedulewidget;
 			sourceTree = "<group>";
 		};
 		EE2133AC0A066C4655792E0F /* Pods */ = {
@@ -160,15 +261,34 @@
 				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				BB72C532B9357362F193A592 /* [CP] Embed Pods Frameworks */,
+				D56A331A2579725C001E17F5 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				D56A33182579725C001E17F5 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
 			productReference = 97C146EE1CF9000F007C117D /* DHBW Studenten App.app */;
 			productType = "com.apple.product-type.application";
+		};
+		D56A33082579725B001E17F5 /* dailyschedulewidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D56A331E2579725C001E17F5 /* Build configuration list for PBXNativeTarget "dailyschedulewidgetExtension" */;
+			buildPhases = (
+				D56A33052579725B001E17F5 /* Sources */,
+				D56A33062579725B001E17F5 /* Frameworks */,
+				D56A33072579725B001E17F5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = dailyschedulewidgetExtension;
+			productName = dailyschedulewidgetExtension;
+			productReference = D56A33092579725B001E17F5 /* dailyschedulewidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -176,6 +296,7 @@
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1220;
 				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "The Chromium Authors";
 				TargetAttributes = {
@@ -183,6 +304,11 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = KCYWF2M799;
 						LastSwiftMigration = 1100;
+						ProvisioningStyle = Automatic;
+					};
+					D56A33082579725B001E17F5 = {
+						CreatedOnToolsVersion = 12.2;
+						DevelopmentTeam = KCYWF2M799;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -194,6 +320,7 @@
 			knownRegions = (
 				en,
 				Base,
+				de,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -201,6 +328,7 @@
 			projectRoot = "";
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
+				D56A33082579725B001E17F5 /* dailyschedulewidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -212,9 +340,19 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */,
+				D53DD5012581834700A1E855 /* Localizable.strings in Resources */,
 				D5EA251D24DDA658007F6B1A /* GoogleService-Info.plist in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D56A33072579725B001E17F5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D56A33132579725C001E17F5 /* Assets.xcassets in Resources */,
+				D53DD5022581834700A1E855 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,6 +402,8 @@
 				"${BUILT_PRODUCTS_DIR}/flutter_inapp_purchase/flutter_inapp_purchase.framework",
 				"${BUILT_PRODUCTS_DIR}/flutter_local_notifications/flutter_local_notifications.framework",
 				"${BUILT_PRODUCTS_DIR}/flutter_secure_storage/flutter_secure_storage.framework",
+				"${BUILT_PRODUCTS_DIR}/flutter_widgetkit/flutter_widgetkit.framework",
+				"${BUILT_PRODUCTS_DIR}/ios_app_group/ios_app_group.framework",
 				"${BUILT_PRODUCTS_DIR}/launch_review/launch_review.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 				"${BUILT_PRODUCTS_DIR}/path_provider/path_provider.framework",
@@ -281,6 +421,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_inapp_purchase.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_local_notifications.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_secure_storage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/flutter_widgetkit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ios_app_group.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/launch_review.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/path_provider.framework",
@@ -322,12 +464,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D53DD573258292C200A1E855 /* WidgetPlatformChannel.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				D56A33162579725C001E17F5 /* dailyschedulewidget.intentdefinition in Sources */,
+				D53DD575258293C700A1E855 /* WidgetUserDefaults.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D56A33052579725B001E17F5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D53DD50B25827B1500A1E855 /* WidgetUserDefaults.swift in Sources */,
+				D518EA23257A5EA200C149D9 /* ScheduleEntry.swift in Sources */,
+				D53DD513258281B100A1E855 /* DailyScheduleWidgetEmptyState.swift in Sources */,
+				D518EA24257A5EA200C149D9 /* ScheduleEntryAccess.swift in Sources */,
+				D56A33102579725B001E17F5 /* dailyschedulewidget.swift in Sources */,
+				D53DD4F225817F4F00A1E855 /* StringLocalization.swift in Sources */,
+				D53DD5232582826200A1E855 /* ScheduleEntryPlaceholderView.swift in Sources */,
+				D53DD51B2582821400A1E855 /* DailyScheduleWidgetPlaceholder.swift in Sources */,
+				D53DD517258281F400A1E855 /* DailyScheduleWidgetContent.swift in Sources */,
+				D53DD51F2582823600A1E855 /* ScheduleEntryView.swift in Sources */,
+				D56A33152579725C001E17F5 /* dailyschedulewidget.intentdefinition in Sources */,
+				D53DD50F2582819500A1E855 /* DailyScheduleWidgetNotEnabled.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D56A33182579725C001E17F5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D56A33082579725B001E17F5 /* dailyschedulewidgetExtension */;
+			targetProxy = D56A33172579725C001E17F5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		97C146FA1CF9000F007C117D /* Main.storyboard */ = {
@@ -346,6 +518,16 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		D53DD4FF2581834700A1E855 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D53DD5002581834700A1E855 /* Base */,
+				D53DD5052581836800A1E855 /* de */,
+				D53DD507258184A200A1E855 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -353,6 +535,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -403,12 +586,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Runner/DHBW Studenten App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -416,6 +600,7 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -435,6 +620,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -490,6 +676,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -541,12 +728,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Runner/DHBW Studenten App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -554,6 +742,7 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -574,12 +763,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = "Runner/DHBW Studenten App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = KCYWF2M799;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -587,6 +777,7 @@
 					"$(PROJECT_DIR)/Flutter",
 				);
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -601,6 +792,93 @@
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
+		};
+		D56A331B2579725C001E17F5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = dailyschedulewidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KCYWF2M799;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = dailyschedulewidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp.dailyschedulewidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D56A331C2579725C001E17F5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = dailyschedulewidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KCYWF2M799;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = dailyschedulewidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp.dailyschedulewidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D56A331D2579725C001E17F5 /* Profile */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_ENTITLEMENTS = dailyschedulewidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = KCYWF2M799;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = dailyschedulewidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = de.bennik2000.dhbwstudentapp.dailyschedulewidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Profile;
 		};
 /* End XCBuildConfiguration section */
 
@@ -621,6 +899,16 @@
 				97C147061CF9000F007C117D /* Debug */,
 				97C147071CF9000F007C117D /* Release */,
 				249021D4217E4FDB00AE95B9 /* Profile */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D56A331E2579725C001E17F5 /* Build configuration list for PBXNativeTarget "dailyschedulewidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D56A331B2579725C001E17F5 /* Debug */,
+				D56A331C2579725C001E17F5 /* Release */,
+				D56A331D2579725C001E17F5 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

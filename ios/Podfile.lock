@@ -11,15 +11,15 @@ PODS:
   - Firebase/Crashlytics (6.33.0):
     - Firebase/CoreOnly
     - FirebaseCrashlytics (~> 4.6.1)
-  - firebase_analytics (6.2.0):
+  - firebase_analytics (6.3.0):
     - Firebase/Analytics (~> 6.33.0)
     - Firebase/CoreOnly (~> 6.33.0)
     - firebase_core
     - Flutter
-  - firebase_core (0.5.2-1):
+  - firebase_core (0.5.3):
     - Firebase/CoreOnly (~> 6.33.0)
     - Flutter
-  - firebase_crashlytics (0.2.3-1):
+  - firebase_crashlytics (0.2.4):
     - Firebase/CoreOnly (~> 6.33.0)
     - Firebase/Crashlytics (~> 6.33.0)
     - firebase_core
@@ -59,6 +59,8 @@ PODS:
     - Flutter
   - flutter_secure_storage (3.3.1):
     - Flutter
+  - flutter_widgetkit (0.0.1):
+    - Flutter
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
@@ -89,6 +91,8 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.7.2):
     - GoogleUtilities/Logger
+  - ios_app_group (1.0.0):
+    - Flutter
   - launch_review (0.0.1):
     - Flutter
   - nanopb (1.30906.0):
@@ -116,6 +120,8 @@ DEPENDENCIES:
   - flutter_inapp_purchase (from `.symlinks/plugins/flutter_inapp_purchase/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_widgetkit (from `.symlinks/plugins/flutter_widgetkit/ios`)
+  - ios_app_group (from `.symlinks/plugins/ios_app_group/ios`)
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
@@ -154,6 +160,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_secure_storage:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_widgetkit:
+    :path: ".symlinks/plugins/flutter_widgetkit/ios"
+  ios_app_group:
+    :path: ".symlinks/plugins/ios_app_group/ios"
   launch_review:
     :path: ".symlinks/plugins/launch_review/ios"
   path_provider:
@@ -168,9 +178,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   device_calendar: 23b28a5f1ab3bf77e34542fb1167e1b8b29a98f5
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
-  firebase_analytics: 52ba26fcfb9cc90f76b36c4e5200cc0a7e9024eb
-  firebase_core: 7423d688a1c6f2f2d859d64ae26991be39989781
-  firebase_crashlytics: edf8c4deccde049e318abf388023e49dd6adbbc2
+  firebase_analytics: 36a619088c46224900829f14f4daa71585693a6f
+  firebase_core: 5d6a02f3d85acd5f8321c2d6d62877626a670659
+  firebase_crashlytics: 7b37f8e79a82175606a3447852c9efa8e10034b3
   FirebaseAnalytics: 5dd088bd2e67bb9d13dbf792d1164ceaf3052193
   FirebaseCore: d889d9e12535b7f36ac8bfbf1713a0836a3012cd
   FirebaseCoreDiagnostics: 770ac5958e1372ce67959ae4b4f31d8e127c3ac1
@@ -180,10 +190,12 @@ SPEC CHECKSUMS:
   flutter_inapp_purchase: 5c6a1ac3f11b11d0c8c0321c0c41c1f05805e4c8
   flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
+  flutter_widgetkit: a0e9b0d50ee9bec366dad36c639509daaafc397a
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
   GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
+  ios_app_group: 87321d24fcc60c7efc177aeffff1e63ba7d953d1
   launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c

@@ -9,6 +9,7 @@ import 'package:dhbwstudentapp/dualis/service/cache_dualis_service_decorator.dar
 import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 import 'package:dhbwstudentapp/dualis/service/fake_account_dualis_scraper_decorator.dart';
+import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
@@ -60,6 +61,7 @@ void injectServices(bool isBackground) {
     DateManagementService(),
     DateEntryRepository(c.resolve()),
   ));
+  c.registerInstance(WidgetHelper());
 
   _isInjected = true;
 }

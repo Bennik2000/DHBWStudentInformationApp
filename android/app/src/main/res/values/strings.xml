@@ -1,4 +1,5 @@
 <resources>
     <string name="widget_schedule_empty_state">No classes for today</string>
+    <string name="widget_schedule_not_purchased">To use widgets enable it in the app settings</string>
     <string name="widget_schedule_title">Schedule</string>
 </resources>
