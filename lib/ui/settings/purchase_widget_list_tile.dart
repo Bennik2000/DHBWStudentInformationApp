@@ -53,8 +53,8 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
     ).value;
 
     if (!model.areWidgetsSupported ||
-        model.didPurchaseWidget == PurchaseStateEnum.Unknown ||
-        model.didPurchaseWidget == null) {
+        model.widgetPurchaseState == PurchaseStateEnum.Unknown ||
+        model.widgetPurchaseState == null) {
       return Container();
     }
 
@@ -83,7 +83,7 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
       );
     }
 
-    if (model.didPurchaseWidget == PurchaseStateEnum.Purchased) {
+    if (model.widgetPurchaseState == PurchaseStateEnum.Purchased) {
       return Row(
         children: [
           Padding(
@@ -105,8 +105,8 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
   }
 
   void _purchaseClicked() async {
-    if (isPurchasing || model.didPurchaseWidget == PurchaseStateEnum.Purchased)
-      return;
+    if (isPurchasing ||
+        model.widgetPurchaseState == PurchaseStateEnum.Purchased) return;
 
     setState(() {
       isPurchasing = true;

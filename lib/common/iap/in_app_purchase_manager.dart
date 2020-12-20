@@ -38,10 +38,16 @@ class InAppPurchaseManager {
     await _setWidgetEnabled(didPurchaseWidget);
   }
 
+  ///
+  /// Determines if the widget functionality was bought
+  ///
   Future<PurchaseStateEnum> didBuyWidget() {
     return _inAppPurchaseHelper.didBuyId(InAppPurchaseHelper.WidgetProductId);
   }
 
+  ///
+  /// Executes the process to purchase widget functionality
+  ///
   Future<void> buyWidget() async {
     await _inAppPurchaseHelper.buyById(InAppPurchaseHelper.WidgetProductId);
   }
@@ -94,6 +100,9 @@ class InAppPurchaseManager {
     purchaseCallbacks[productId].add(callback);
   }
 
+  ///
+  /// Removes a callback which was registered using [addPurchaseCallback]
+  ///
   void removePurchaseCallback(
     String productId,
     PurchaseCompletedCallback callback,

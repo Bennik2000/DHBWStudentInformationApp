@@ -51,7 +51,7 @@ class _DonateListTileState extends State<DonateListTile> {
       ],
     ).value;
 
-    if (model.didPurchaseWidget == null) {
+    if (model.widgetPurchaseState == null) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: Center(
@@ -64,7 +64,7 @@ class _DonateListTileState extends State<DonateListTile> {
           ),
         ),
       );
-    } else if (model.didPurchaseWidget == PurchaseStateEnum.NotPurchased) {
+    } else if (model.widgetPurchaseState == PurchaseStateEnum.NotPurchased) {
       return ListTile(
         title: Text(L.of(context).donateButtonTitle),
         subtitle: isPurchasing
@@ -91,7 +91,7 @@ class _DonateListTileState extends State<DonateListTile> {
   }
 
   void _purchaseClicked() async {
-    if (isPurchasing || model.didPurchaseWidget == PurchaseStateEnum.Purchased)
+    if (isPurchasing || model.widgetPurchaseState == PurchaseStateEnum.Purchased)
       return;
 
     setState(() {
