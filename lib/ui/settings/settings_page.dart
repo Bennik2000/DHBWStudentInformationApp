@@ -2,12 +2,12 @@ import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
-import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
+import 'package:dhbwstudentapp/ui/settings/donate_list_tile.dart';
+import 'package:dhbwstudentapp/ui/settings/purchase_widget_list_tile.dart';
 import 'package:dhbwstudentapp/ui/settings/viewmodels/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -31,6 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
     KiwiContainer().resolve(),
     KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
         as NextDayInformationNotification,
+    KiwiContainer().resolve(),
     KiwiContainer().resolve(),
   );
 
@@ -76,80 +77,8 @@ class _SettingsPageState extends State<SettingsPage> {
   List<Widget> buildAboutSettings(BuildContext context) {
     return [
       TitleListTile(title: L.of(context).settingsAboutTitle),
-      PropertyChangeConsumer(
-        properties: const [
-          "didPurchaseWidget",
-        ],
-        builder:
-            (BuildContext context, SettingsViewModel model, Set properties) {
-          switch (model.didPurchaseWidget) {
-            case PurchaseStateEnum.Purchased:
-            case PurchaseStateEnum.NotPurchased:
-              return ListTile(
-                title: Text(L.of(context).settingsWidgetPurchase),
-                trailing: Icon(Icons.widgets_outlined),
-                subtitle: model.didPurchaseWidget == PurchaseStateEnum.Purchased
-                    ? Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.green,
-                              size: 16,
-                            ),
-                          ),
-                          Text(
-                            L.of(context).settingsWidgetDidPurchase,
-                            style: TextStyle(color: Colors.green),
-                          ),
-                        ],
-                      )
-                    : null,
-                onTap: () async {
-                  await model.purchaseWidgets();
-                },
-              );
-
-            default:
-              return Container();
-          }
-        },
-      ),
-      PropertyChangeConsumer(
-        properties: const [
-          "didPurchaseWidget",
-        ],
-        builder:
-            (BuildContext context, SettingsViewModel model, Set properties) {
-          if (model.didPurchaseWidget == null) {
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: SizedBox(
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                  ),
-                  width: 16,
-                  height: 16,
-                ),
-              ),
-            );
-          } else if (model.didPurchaseWidget ==
-              PurchaseStateEnum.NotPurchased) {
-            return ListTile(
-              title: Text(L.of(context).donateButtonTitle),
-              subtitle: Text(L.of(context).donateButtonSubtitle),
-              trailing: Icon(Icons.free_breakfast),
-              onTap: () async {
-                await KiwiContainer().resolve<InAppPurchaseManager>().donate();
-              },
-            );
-          }
-
-          return Container();
-        },
-      ),
+      PurchaseWidgetListTile(),
+      DonateListTile(),
       ListTile(
         title: Text(L.of(context).settingsAbout),
         onTap: () {

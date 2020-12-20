@@ -39,7 +39,12 @@ class InAppPurchaseManager {
   }
 
   Future<PurchaseStateEnum> didBuyWidget() {
-    return _inAppPurchaseHelper.didBuyId(InAppPurchaseHelper.WidgetProductId);
+    var result =
+        _inAppPurchaseHelper.didBuyId(InAppPurchaseHelper.WidgetProductId);
+
+    print(result);
+
+    return result;
   }
 
   Future<void> buyWidget() async {
@@ -58,12 +63,29 @@ class InAppPurchaseManager {
         element(productId, result);
       });
     }
+
+    if (purchaseCallbacks.containsKey("*")) {
+      var callback = purchaseCallbacks["*"] ?? [];
+
+      callback.forEach((element) {
+        element(productId, result);
+      });
+    }
   }
 
+  ///
+  /// Add a callback which gets called when a purchase was updated.
+  /// Updates are registered for one specific productId. If you want to register
+  /// for all product ids, pass null or "*" as productId
+  ///
   void addPurchaseCallback(
     String productId,
     PurchaseCompletedCallback callback,
   ) {
+    if (productId == null) {
+      productId = "*";
+    }
+
     if (!purchaseCallbacks.containsKey(productId)) {
       purchaseCallbacks[InAppPurchaseHelper.WidgetProductId] = [];
     }
@@ -75,6 +97,10 @@ class InAppPurchaseManager {
     String productId,
     PurchaseCompletedCallback callback,
   ) {
+    if (productId == null) {
+      productId = "*";
+    }
+
     purchaseCallbacks[InAppPurchaseHelper.WidgetProductId]?.remove(callback);
   }
 

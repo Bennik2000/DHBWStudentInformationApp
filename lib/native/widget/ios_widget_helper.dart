@@ -27,4 +27,13 @@ class IOSWidgetHelper implements WidgetHelper {
       WidgetKit.reloadAllTimelines();
     } on PlatformException catch (_) {}
   }
+
+  @override
+  Future<bool> areWidgetsSupported() async {
+    try {
+      return await platform.invokeMethod('areWidgetsSupported');
+    } on PlatformException catch (_) {
+      return false;
+    }
+  }
 }

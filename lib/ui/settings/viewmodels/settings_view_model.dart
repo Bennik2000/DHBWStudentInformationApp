@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 
 ///
@@ -9,6 +10,7 @@ import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_not
 ///
 class SettingsViewModel extends BaseViewModel {
   final PreferencesProvider _preferencesProvider;
+  final WidgetHelper _widgetHelper;
   final NextDayInformationNotification _nextDayInformationNotification;
   final InAppPurchaseManager _inAppPurchaseManager;
 
@@ -28,9 +30,14 @@ class SettingsViewModel extends BaseViewModel {
 
   PurchaseStateEnum get didPurchaseWidget => _didPurchaseWidget;
 
+  bool _areWidgetsSupported = false;
+
+  bool get areWidgetsSupported => _areWidgetsSupported;
+
   SettingsViewModel(
     this._preferencesProvider,
     this._nextDayInformationNotification,
+    this._widgetHelper,
     this._inAppPurchaseManager,
   ) {
     _loadPreferences();
@@ -83,10 +90,12 @@ class SettingsViewModel extends BaseViewModel {
         await _preferencesProvider.getNotifyAboutScheduleChanges();
 
     _prettifySchedule = await _preferencesProvider.getPrettifySchedule();
+    _areWidgetsSupported = await _widgetHelper.areWidgetsSupported();
 
     notifyListeners("notifyAboutNextDay");
     notifyListeners("notifyAboutScheduleChanges");
     notifyListeners("prettifySchedule");
+    notifyListeners("areWidgetsSupported");
 
     // This call may take some time. Do it at the end when the rest is already
     // loaded
@@ -98,6 +107,10 @@ class SettingsViewModel extends BaseViewModel {
     if (_didPurchaseWidget != PurchaseStateEnum.Purchased) {
       await _inAppPurchaseManager.buyWidget();
     }
+  }
+
+  Future<void> donate() async {
+    await _inAppPurchaseManager.donate();
   }
 
   void dispose() {

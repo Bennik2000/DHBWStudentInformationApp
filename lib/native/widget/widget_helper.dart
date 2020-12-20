@@ -31,6 +31,13 @@ class WidgetHelper {
   }
 
   ///
+  /// Checks if widgets are supported by the device
+  ///
+  Future<bool> areWidgetsSupported() {
+    return _instance.areWidgetsSupported();
+  }
+
+  ///
   /// Enables the widget. When the widget is in "enabled" state it will provide
   /// its full functionality.
   ///
@@ -61,5 +68,10 @@ class VoidWidgetHelper implements WidgetHelper {
   @override
   Future<void> requestWidgetRefresh() {
     return Future.value();
+  }
+
+  @override
+  Future<bool> areWidgetsSupported() {
+    return Future.value(false);
   }
 }
