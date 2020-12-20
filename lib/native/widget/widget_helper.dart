@@ -54,6 +54,9 @@ class WidgetHelper {
   }
 }
 
+///
+/// Implementation of the WidgetHelper which does nothing
+///
 class VoidWidgetHelper implements WidgetHelper {
   @override
   Future<void> disableWidget() {
