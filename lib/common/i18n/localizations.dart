@@ -381,6 +381,11 @@ class L {
   String get settingsWidgetDidPurchase =>
       _getValue("settingsWidgetDidPurchase");
 
+  String get selectThemeDialogTitle => _getValue("selectThemeDialogTitle");
+  String get selectThemeLight => _getValue("selectThemeLight");
+  String get selectThemeDark => _getValue("selectThemeDark");
+  String get selectThemeSystem => _getValue("selectThemeSystem");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

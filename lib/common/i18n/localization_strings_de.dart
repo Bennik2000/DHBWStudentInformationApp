@@ -168,4 +168,8 @@ final de = {
   "examNotPassed": "Nicht bestanden",
   "settingsWidgetPurchase": "Widgets aktivieren",
   "settingsWidgetDidPurchase": "Widgets sind aktviert",
+  "selectThemeDialogTitle": "Design auswählen",
+  "selectThemeLight": "Hell",
+  "selectThemeDark": "Dunkel",
+  "selectThemeSystem": "Systemeinstellungen",
 };

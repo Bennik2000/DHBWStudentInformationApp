@@ -17,10 +17,6 @@ class RootViewModel extends BaseViewModel {
   Future<void> loadFromPreferences() async {
     var darkMode = await _preferencesProvider.isDarkMode();
 
-    if (darkMode == null) {
-      darkMode = PlatformUtil.platformBrightness() == Brightness.dark;
-    }
-
     _isDarkMode = darkMode;
     _isOnboarding = await _preferencesProvider.isFirstStart();
 
