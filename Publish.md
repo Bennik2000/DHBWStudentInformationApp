@@ -54,7 +54,7 @@
 - Open the Runner project in Xcode
 - In the menu go to `Product` -> `Scheme` and select "Runner"
 - In the menu go to `Product` -> `Destination` and select "Generic iOS Device"
-- Go to the properties of the Runner project. In the "General" page increase the version and build number.
+- Go to the properties of the Runner project. In the "General" page increase the version and build number. Also check that the version number and build number are the same in the app and widget package.
 - In the menu go to `Product`-> `Archive`. Wait until the build finishes and a window opens
 - Click on "Validate App"
 - Click on "Distribute App"
