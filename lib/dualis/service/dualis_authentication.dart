@@ -116,6 +116,8 @@ class DualisAuthentication {
       "clino": "000000000000001",
       "menuno": "000324",
       "menu_type": "classic",
+      "browser": "",
+      "platform": "",
     };
 
     try {
