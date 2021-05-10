@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
-import 'package:http_client_helper/http_client_helper.dart' as http;
 import 'package:http/http.dart';
+import 'package:http_client_helper/http_client_helper.dart' as http;
 
 ///
 /// Handles cookies and provides a session. Execute your api calls with the
@@ -132,8 +132,12 @@ class Session {
     String rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
-      cookies['cookie'] =
-          (index == -1) ? rawCookie : rawCookie.substring(0, index);
+
+      var cookie = (index == -1) ? rawCookie : rawCookie.substring(0, index);
+
+      cookie = cookie.replaceAll(" ", "");
+
+      cookies['cookie'] = cookie;
     }
   }
 }
