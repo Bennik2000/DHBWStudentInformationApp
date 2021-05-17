@@ -39,3 +39,4 @@ lib/generated_plugin_registrant.dart
 update_icon.bat
 android/key.properties
 ios/Flutter/.last_build_id
+ios/build
