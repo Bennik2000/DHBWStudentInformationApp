@@ -127,4 +127,36 @@ class RaplaParsingUtils {
 
     return concatStringList(resourcesList, ", ");
   }
+
+
+  static String readYearOrThrow(Document document) {
+    // The only reliable way to read the year of this schedule is to parse the
+    // selected year in the date selector
+    var comboBoxes = document.getElementsByTagName("select");
+
+    String year;
+    for (var box in comboBoxes) {
+      if (box.attributes.containsKey("name") &&
+          box.attributes["name"] == "year") {
+        var entries = box.getElementsByTagName("option");
+
+        for (var entry in entries) {
+          if (entry.attributes.containsKey("selected") &&
+              entry.attributes["selected"] == "") {
+            year = entry.text;
+
+            break;
+          }
+        }
+
+        break;
+      }
+    }
+
+    if (year == null) {
+      throw ElementNotFoundParseException("year");
+    }
+
+    return year;
+  }
 }
