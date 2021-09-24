@@ -10,12 +10,9 @@ import 'package:html/dom.dart';
 ///
 class RaplaMonthlyResponseParser {
   static ScheduleQueryResult parseMonthlyTable(
-    Document document,
     Element monthTable,
-    List<DateTime> dates,
   ) {
-    var calendar = document.getElementById("calendar");
-    var title = calendar.getElementsByClassName("title");
+    var title = monthTable.parent.getElementsByClassName("title");
 
     var monthAndYear = title[0].text;
     var yearString = monthAndYear.split(" ")[1];

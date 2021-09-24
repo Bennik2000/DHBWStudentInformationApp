@@ -90,6 +90,14 @@ class RaplaScheduleSource extends ScheduleSource {
     }
   }
 
+  ///
+  /// There are several valid url formats depending on the rapla configuration
+  /// which is used.
+  /// Possible formats are:
+  /// - <rapla_url>?key=XXXXXXXXXX
+  /// - <rapla_url>?key=XXXXXXXXXX&salt=XXXXX&allocatable_id=XXXXXX
+  /// - <rapla_url>?user=XXXXXXXXXX&file=XXXXX&page=XXXXXX
+  ///
   Uri _buildRequestUri(DateTime date) {
     if (!raplaUrl.startsWith("http://") && !raplaUrl.startsWith("https://")) {
       raplaUrl = "http://$raplaUrl";
@@ -102,10 +110,16 @@ class RaplaScheduleSource extends ScheduleSource {
     bool hasFileParameter = uri.queryParameters.containsKey("file");
     bool hasPageParameter = uri.queryParameters.containsKey("page");
 
+    bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
+    bool hasSalt = uri.queryParameters.containsKey("salt");
+
     Map<String, String> parameters = {};
 
     if (hasKeyParameter) {
       parameters["key"] = uri.queryParameters["key"];
+
+      if (hasAllocatableId) parameters["allocatable_id"] = uri.queryParameters["allocatable_id"];
+      if (hasSalt) parameters["salt"] = uri.queryParameters["salt"];
     } else {
       if (hasUserParameter) parameters["user"] = uri.queryParameters["user"];
       if (hasFileParameter) parameters["file"] = uri.queryParameters["file"];
@@ -170,7 +184,14 @@ class RaplaScheduleSource extends ScheduleSource {
       bool hasFileParameter = uri.queryParameters.containsKey("file");
       bool hasPageParameter = uri.queryParameters.containsKey("page");
 
+      bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
+      bool hasSalt = uri.queryParameters.containsKey("salt");
+
       if (hasUserParameter && hasFileParameter && hasPageParameter) {
+        return true;
+      }
+
+      if(hasSalt && hasAllocatableId && hasKeyParameter) {
         return true;
       }
 
