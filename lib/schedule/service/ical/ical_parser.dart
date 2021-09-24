@@ -14,12 +14,12 @@ class IcalParser {
   /// KEY:Value
   /// or:
   /// DTSTAMP;VALUE=DATE-TIME:20201008T000006Z
-  final String propertyRegex = "([A-Z]+)(;[A-Z=-]*)?:(.*)";
+  final String propertyRegex = r"([^;:\n\r\s]+)(;[^:]*)?:(.*)";
 
   /// Matches the date time format:
   /// YYYYMMDDTHHmmss
   final String dateTimeRegex =
-      "([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2})([0-9]{2})([0-9]{2})";
+      "([0-9]{4})([0-9]{2})([0-9]{2})T([0-9]{2})([0-9]{2})([0-9]{2})(Z?)";
 
   ScheduleQueryResult parseIcal(String icalData) {
     var regex = RegExp(
