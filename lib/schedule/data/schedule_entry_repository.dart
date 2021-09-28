@@ -70,6 +70,15 @@ class ScheduleEntryRepository {
     return null;
   }
 
+  Future<List<String>> queryAllNamesOfScheduleEntries() async {
+    var allNames = await _database.rawQuery(
+      "SELECT DISTINCT title FROM  ScheduleEntries",
+      [],
+    );
+
+    return allNames.map((e) => e["title"] as String).toList();
+  }
+
   Future<void> saveScheduleEntry(ScheduleEntry entry) async {
     var row = ScheduleEntryEntity.fromModel(entry).toMap();
 

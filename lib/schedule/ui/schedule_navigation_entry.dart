@@ -2,6 +2,7 @@ import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/schedule_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/viewmodels/schedule_view_model.dart';
+import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/filter/schedule_filter_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/schedule_help_dialog.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:flutter/material.dart';
@@ -56,6 +57,14 @@ class ScheduleNavigationEntry extends NavigationEntry {
                         tooltip: L.of(context).helpButtonTooltip,
                       )),
       ),
+      IconButton(
+        icon: Icon(Icons.filter_alt),
+        onPressed: () async {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => ScheduleFilterPage(),
+          ));
+        },
+      )
     ];
   }
 

@@ -42,5 +42,15 @@ CREATE TABLE IF NOT EXISTS DateEntries
 );
 '''
     ],
+
+    // Version 3 - Add Schedule Entry filter table
+    [
+      '''
+CREATE TABLE IF NOT EXISTS ScheduleEntryFilters
+(
+  title TEXT
+);
+'''
+    ],
   ];
 }

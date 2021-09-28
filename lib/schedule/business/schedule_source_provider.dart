@@ -202,4 +202,10 @@ class ScheduleSourceProvider {
 
     await Future.wait([scheduleEntries, queryInformation]);
   }
+
+  void fireScheduleSourceChanged() {
+    _onDidChangeScheduleSourceCallbacks.forEach((element) {
+      element(currentScheduleSource, true);
+    });
+  }
 }
