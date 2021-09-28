@@ -62,7 +62,7 @@ class IcalParser {
       room: properties["LOCATION"],
       title: properties["SUMMARY"],
       type: ScheduleEntryType.Class,
-      details: "",
+      details: properties["DESCRIPTION"] ?? "",
       professor: "",
     );
   }
