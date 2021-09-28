@@ -52,8 +52,7 @@ class ScheduleWidget extends StatelessWidget {
         (height - dayLabelsHeight) / (displayEndHour - displayStartHour);
     var minuteHeight = hourHeight / 60;
 
-    var difference = toStartOfDay(displayEnd)?.difference(displayStart);
-    var days = max(5, ((difference?.inHours ?? 0) / 24.0).ceil());
+    var days = calculateDisplayedDays();
 
     var labelWidgets = buildLabelWidgets(
       context,
@@ -112,6 +111,20 @@ class ScheduleWidget extends StatelessWidget {
     );
   }
 
+  int calculateDisplayedDays() {
+    var startEndDifference =
+        toStartOfDay(displayEnd)?.difference(toStartOfDay(displayStart));
+
+    var days = (startEndDifference?.inDays ?? 0) + 1;
+
+    if (days > 7) {
+      days = 7;
+    } else if (days < 5) {
+      days = 5;
+    }
+    return days;
+  }
+
   List<Widget> buildLabelWidgets(
     BuildContext context,
     double rowHeight,
@@ -143,8 +156,10 @@ class ScheduleWidget extends StatelessWidget {
     var dayFormatter = DateFormat("E", L.of(context).locale.languageCode);
     var dateFormatter = DateFormat("d. MMM", L.of(context).locale.languageCode);
 
-    for (var columnDate = displayStart;
-        columnDate.isBefore(toStartOfDay(tomorrow(displayEnd)));
+    var loopEnd = toStartOfDay(tomorrow(displayEnd));
+
+    for (var columnDate = toStartOfDay(displayStart);
+        columnDate.isBefore(loopEnd);
         columnDate = tomorrow(columnDate)) {
       labelWidgets.add(
         Positioned(
