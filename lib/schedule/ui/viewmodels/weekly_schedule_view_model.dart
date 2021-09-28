@@ -77,13 +77,15 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
     if (weekSchedule != null) {
       var scheduleStart = weekSchedule.getStartDate();
-      clippedDateStart = toDayOfWeek(scheduleStart, DateTime.monday);
-
-      if (scheduleStart?.isBefore(clippedDateStart) ?? false)
-        clippedDateStart = scheduleStart;
-
       var scheduleEnd = weekSchedule.getEndDate();
-      clippedDateEnd = toDayOfWeek(scheduleEnd, DateTime.friday);
+
+      if (scheduleStart == null && scheduleEnd == null) {
+        clippedDateStart = toDayOfWeek(start, DateTime.monday);
+        clippedDateEnd = toDayOfWeek(start, DateTime.friday);
+      } else {
+        clippedDateStart = toDayOfWeek(scheduleStart, DateTime.monday);
+        clippedDateEnd = toDayOfWeek(scheduleEnd, DateTime.friday);
+      }
 
       if (scheduleEnd?.isAfter(clippedDateEnd) ?? false)
         clippedDateEnd = scheduleEnd;
@@ -116,8 +118,9 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   }
 
   Future goToToday() async {
-    currentDateStart = toStartOfDay(toMonday(DateTime.now()));
-    currentDateEnd = currentDateStart.add(const Duration(days: 5));
+    currentDateStart =
+        toStartOfDay(toDayOfWeek(DateTime.now(), DateTime.monday));
+    currentDateEnd = toNextWeek(currentDateStart);
 
     await updateSchedule(currentDateStart, currentDateEnd);
   }
