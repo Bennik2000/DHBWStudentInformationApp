@@ -28,11 +28,19 @@ class ScheduleFilterPage extends StatelessWidget {
           title: Text("Filter"),
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.all(32),
-              child:
-                  Text("Wähle die Vorlesungen, die angezeigt werden sollen:"),
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                  "Wähle hier die Vorlesungen, die angezeigt werden sollen. Pass auf, dass Du keine ausgeblendete Vorlesung versehentlich verpasst."),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: Text(
+                "Angezeigte Vorlesungen:",
+                style: Theme.of(context).textTheme.headline6,
+              ),
             ),
             Expanded(
               child: PropertyChangeProvider(

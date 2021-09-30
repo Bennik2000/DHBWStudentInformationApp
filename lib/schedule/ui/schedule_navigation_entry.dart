@@ -57,13 +57,22 @@ class ScheduleNavigationEntry extends NavigationEntry {
                         tooltip: L.of(context).helpButtonTooltip,
                       )),
       ),
-      IconButton(
-        icon: Icon(Icons.filter_alt),
-        onPressed: () async {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => ScheduleFilterPage(),
-          ));
-        },
+      PropertyChangeProvider(
+        value: _viewModel,
+        child: PropertyChangeConsumer(
+          properties: const ["didSetupProperly"],
+          builder: (BuildContext _, ScheduleViewModel __, Set<Object> ___) =>
+              _viewModel.didSetupProperly
+                  ? IconButton(
+                      icon: Icon(Icons.filter_alt),
+                      onPressed: () async {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => ScheduleFilterPage(),
+                        ));
+                      },
+                    )
+                  : Container(),
+        ),
       )
     ];
   }
