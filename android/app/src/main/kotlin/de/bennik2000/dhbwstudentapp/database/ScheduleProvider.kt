@@ -24,32 +24,37 @@ class ScheduleProvider(private val context: Context) {
     }
 
     fun hasScheduleEntriesBetween(start: LocalDateTime, end: LocalDateTime): Boolean {
-        openDatabase()?.use { database ->
-            val startMillis = start.toEpochSecond(zoneOffset) * 1000
-            val endMillis = end.toEpochSecond(zoneOffset) * 1000
+        try {
+            openDatabase()?.use { database ->
+                val startMillis = start.toEpochSecond(zoneOffset) * 1000
+                val endMillis = end.toEpochSecond(zoneOffset) * 1000
 
-            database.rawQuery(
-                    SCHEDULE_ENTRIES_BETWEEN_SQL,
-                    arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
-                return result.count > 0
+                database.rawQuery(
+                        SCHEDULE_ENTRIES_BETWEEN_SQL,
+                        arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
+                    return result.count > 0
+                }
             }
+        } catch (ex: Exception) {
         }
-
         return false
     }
 
     fun queryScheduleEntriesForDay(date: LocalDate): ArrayList<ScheduleEntry> {
-        openDatabase()?.use { database ->
-            val startMillis = date.atStartOfDay().toEpochSecond(zoneOffset) * 1000
-            val endMillis = date.plusDays(1).atStartOfDay().toEpochSecond(zoneOffset) * 1000
+        try {
+            openDatabase()?.use { database ->
+                val startMillis = date.atStartOfDay().toEpochSecond(zoneOffset) * 1000
+                val endMillis = date.plusDays(1).atStartOfDay().toEpochSecond(zoneOffset) * 1000
 
-            database.rawQuery(
-                    SCHEDULE_ENTRIES_BETWEEN_SQL,
-                    arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
-                return readScheduleEntries(result)
+                database.rawQuery(
+                        SCHEDULE_ENTRIES_BETWEEN_SQL,
+                        arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
+                    return readScheduleEntries(result)
+                }
             }
         }
-
+        catch(ex: Exception) {
+        }
         return ArrayList()
     }
 
@@ -64,17 +69,20 @@ class ScheduleProvider(private val context: Context) {
     }
     
     fun queryScheduleEntriesBetween(start: LocalDateTime, end: LocalDateTime): ArrayList<ScheduleEntry> {
-        openDatabase()?.use { database ->
-            val startMillis = start.toEpochSecond(zoneOffset) * 1000
-            val endMillis = end.toEpochSecond(zoneOffset) * 1000
+        try {
+            openDatabase()?.use { database ->
+                val startMillis = start.toEpochSecond(zoneOffset) * 1000
+                val endMillis = end.toEpochSecond(zoneOffset) * 1000
 
-            database.rawQuery(
-                    SCHEDULE_ENTRIES_BETWEEN_SQL,
-                    arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
-                return readScheduleEntries(result)
+                database.rawQuery(
+                        SCHEDULE_ENTRIES_BETWEEN_SQL,
+                        arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
+                    return readScheduleEntries(result)
+                }
             }
         }
-
+        catch (ex: Exception) {
+        }
         return ArrayList()
     }
 
