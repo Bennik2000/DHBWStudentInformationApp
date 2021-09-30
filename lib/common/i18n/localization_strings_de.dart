@@ -172,4 +172,8 @@ final de = {
   "selectThemeLight": "Hell",
   "selectThemeDark": "Dunkel",
   "selectThemeSystem": "Systemeinstellungen",
+  "filterDisplayedClasses": "Angezeigte Vorlesungen:",
+  "filterDescription":
+      "Wähle hier die Vorlesungen, die angezeigt werden sollen. Pass auf, dass Du keine ausgeblendete Vorlesung versehentlich verpasst.",
+  "filterTitle": "Filter",
 };

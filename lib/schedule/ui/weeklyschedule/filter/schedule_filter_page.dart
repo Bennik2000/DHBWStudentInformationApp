@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/filter/filter_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -25,20 +26,19 @@ class ScheduleFilterPage extends StatelessWidget {
           elevation: 0,
           brightness: Theme.of(context).brightness,
           iconTheme: Theme.of(context).iconTheme,
-          title: Text("Filter"),
+          title: Text(L.of(context).filterTitle),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Text(
-                  "Wähle hier die Vorlesungen, die angezeigt werden sollen. Pass auf, dass Du keine ausgeblendete Vorlesung versehentlich verpasst."),
+              child: Text(L.of(context).filterDescription),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Text(
-                "Angezeigte Vorlesungen:",
+                L.of(context).filterDisplayedClasses,
                 style: Theme.of(context).textTheme.headline6,
               ),
             ),

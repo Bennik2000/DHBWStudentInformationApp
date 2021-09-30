@@ -386,6 +386,10 @@ class L {
   String get selectThemeDark => _getValue("selectThemeDark");
   String get selectThemeSystem => _getValue("selectThemeSystem");
 
+  String get filterDisplayedClasses => _getValue("filterDisplayedClasses");
+  String get filterDescription => _getValue("filterDescription");
+  String get filterTitle => _getValue("filterTitle");
+
   static L of(BuildContext context) {
     return Localizations.of<L>(context, L);
   }

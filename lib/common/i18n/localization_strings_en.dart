@@ -169,4 +169,8 @@ final en = {
   "selectThemeLight": "Light",
   "selectThemeDark": "Dark",
   "selectThemeSystem": "System theme",
+  "filterDisplayedClasses": "Displayed classes:",
+  "filterDescription":
+      "Select the classes which sould be displayed. Be careful not to accidentally miss a hidden lecture",
+  "filterTitle": "Filter",
 };
