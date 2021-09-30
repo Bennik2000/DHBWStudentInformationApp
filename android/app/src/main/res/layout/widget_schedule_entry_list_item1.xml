@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginEnd="4dp">
+
+    <LinearLayout
+        android:id="@+id/layout_schedule_entry"
+        android:background="@drawable/schedule_now_entry_class_background"
+        android:layout_width="6dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp">
+
+        <TextView
+            android:id="@+id/text_view_entry_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/widget_schedule_entry_time_text_color"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/text_view_time_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/text_view_entry_title"
+            android:textSize="14sp"
+            android:textColor="@color/widget_schedule_entry_time_text_color"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/text_view_time_separator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="4dp"
+            android:layout_below="@id/text_view_entry_title"
+            android:layout_toEndOf="@id/text_view_time_start"
+            android:layout_alignBaseline="@id/text_view_time_start"
+            android:textSize="14sp"
+            android:textColor="@color/widget_schedule_entry_time_text_color"
+            android:text="-"/>
+
+        <TextView
+            android:id="@+id/text_view_time_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="4dp"
+            android:layout_toEndOf="@id/text_view_time_separator"
+            android:layout_alignBaseline="@id/text_view_time_separator"
+            android:textSize="14sp"
+            android:textColor="@color/widget_schedule_entry_time_text_color"
+            android:text=""/>
+
+        <TextView
+            android:id="@+id/text_view_entry_room"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/widget_schedule_entry_time_text_color"
+            android:textSize="12sp"
+            android:layout_margin="4dp"
+            android:text=""
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:gravity="end"
+            android:layout_toEndOf="@id/text_view_time_end"
+            android:layout_alignBaseline="@id/text_view_time_end"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/text_view_entry_title"/>
+    </RelativeLayout>
+</LinearLayout>

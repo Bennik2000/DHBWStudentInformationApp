@@ -1,8 +1,10 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_diff_calculator.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_filter.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
+import 'package:dhbwstudentapp/schedule/data/schedule_filter_repository.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_query_information_repository.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
@@ -26,19 +28,24 @@ class ScheduleProvider {
   final PreferencesProvider _preferencesProvider;
   final ScheduleSourceProvider _scheduleSource;
   final ScheduleEntryRepository _scheduleEntryRepository;
+  final ScheduleFilterRepository _scheduleFilterRepository;
   final ScheduleQueryInformationRepository _scheduleQueryInformationRepository;
   final List<ScheduleUpdatedCallback> _scheduleUpdatedCallbacks =
       <ScheduleUpdatedCallback>[];
+
+  ScheduleFilter _scheduleFilter;
 
   final List<ScheduleEntryChangedCallback> _scheduleEntryChangedCallbacks =
       <ScheduleEntryChangedCallback>[];
 
   ScheduleProvider(
-    this._scheduleSource,
-    this._scheduleEntryRepository,
-    this._scheduleQueryInformationRepository,
-    this._preferencesProvider,
-  );
+      this._scheduleSource,
+      this._scheduleEntryRepository,
+      this._scheduleQueryInformationRepository,
+      this._preferencesProvider,
+      this._scheduleFilterRepository) {
+    _scheduleFilter = ScheduleFilter(_scheduleFilterRepository);
+  }
 
   Future<Schedule> getCachedSchedule(DateTime start, DateTime end) async {
     var cachedSchedule =
@@ -46,6 +53,11 @@ class ScheduleProvider {
 
     print(
         "Read chached schedule with ${cachedSchedule.entries.length.toString()} entries");
+
+    cachedSchedule = await _scheduleFilter.filter(cachedSchedule);
+
+    print(
+        "Filtered cached schedule has ${cachedSchedule.entries.length} entries");
 
     return cachedSchedule;
   }
@@ -71,8 +83,7 @@ class ScheduleProvider {
           schedule = SchedulePrettifier().prettifySchedule(schedule);
         }
 
-        print(
-            "Schedule returned with ${schedule.entries.length.toString()} entries");
+        print("Schedule returned with ${schedule.entries.length} entries");
 
         await _diffToCache(start, end, schedule);
         await _scheduleEntryRepository.deleteScheduleEntriesBetween(start, end);
@@ -80,6 +91,10 @@ class ScheduleProvider {
         await _scheduleQueryInformationRepository.saveScheduleQueryInformation(
           ScheduleQueryInformation(start, end, DateTime.now()),
         );
+
+        schedule = await _scheduleFilter.filter(schedule);
+
+        print("Filtered schedule has ${schedule.entries.length} entries");
       }
 
       for (var c in _scheduleUpdatedCallbacks) {

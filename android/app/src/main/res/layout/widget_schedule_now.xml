@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin"
+    android:background="@drawable/widget_now_content_background">
+
+    <ListView
+        android:id="@+id/schedule_entries_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:dividerHeight="0dp"
+        android:divider="#00000000"/>
+
+    <TextView
+        android:id="@+id/layout_empty_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/widget_schedule_empty_state_text_color"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_margin="16dp"
+        android:text="@string/widget_schedule_empty_state"/>
+
+    <TextView
+        android:id="@+id/layout_purchase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textColor="@color/widget_schedule_empty_state_text_color"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_margin="16dp"
+        android:visibility="gone"
+        android:text="@string/widget_schedule_not_purchased"/>
+</RelativeLayout>

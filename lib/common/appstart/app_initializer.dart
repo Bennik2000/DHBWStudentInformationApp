@@ -5,17 +5,16 @@ import 'package:dhbwstudentapp/common/appstart/localization_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notification_schedule_changed_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
-import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
-import 'package:dhbwstudentapp/native/widget/android_schedule_today_widget_schedule_update_callback.dart';
+import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
+import 'package:dhbwstudentapp/native/widget/widget_update_callback.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
-import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 
 bool isInitialized = false;
 
 ///
 /// Initializes the app for foreground or background use. After this call
-/// everything will be loaded
+/// everything will be loaded and the startup process is completed
 ///
 Future<void> initializeApp(bool isBackground) async {
   print("Initialize requested. Is background: $isBackground");
@@ -37,12 +36,14 @@ Future<void> initializeApp(bool isBackground) async {
 
   if (!isBackground) {
     KiwiContainer().registerInstance(
-      InAppPurchaseHelper(KiwiContainer().resolve()),
+      InAppPurchaseManager(
+        KiwiContainer().resolve(),
+        KiwiContainer().resolve(),
+      ),
     );
-    KiwiContainer().resolve<InAppPurchaseHelper>().initialize();
   }
 
-  AndroidScheduleTodayWidgetScheduleUpdateCallback()
+  WidgetUpdateCallback(KiwiContainer().resolve())
       .registerCallback(KiwiContainer().resolve());
 
   NotificationsInitialize().setupNotifications();

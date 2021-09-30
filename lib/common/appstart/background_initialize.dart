@@ -7,6 +7,10 @@ import 'package:dhbwstudentapp/schedule/background/background_schedule_update.da
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:kiwi/kiwi.dart';
 
+///
+/// Initializes the background scheduler and schedules all tasks.
+/// Note: More or less reliable background scheduling only works on android
+///
 class BackgroundInitialize {
   Future<void> setupBackgroundScheduling() async {
     WorkSchedulerService scheduler;

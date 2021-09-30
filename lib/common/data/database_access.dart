@@ -1,8 +1,5 @@
-import 'dart:io';
-
+import 'package:dhbwstudentapp/common/data/database_path_provider.dart';
 import 'package:dhbwstudentapp/common/data/sql_scripts.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseAccess {
@@ -19,9 +16,7 @@ class DatabaseAccess {
   }
 
   Future<Database> _initDatabase() async {
-    final Directory documentsDirectory =
-        await getApplicationDocumentsDirectory();
-    final String path = join(documentsDirectory.path, _databaseName);
+    final String path = await getDatabasePath(_databaseName);
 
     return await openDatabase(path,
         version: SqlScripts.databaseMigrationScripts.length,
@@ -56,6 +51,12 @@ class DatabaseAccess {
   Future<List<Map<String, dynamic>>> queryAllRows(String table) async {
     Database db = await _database;
     return await db.query(table);
+  }
+
+  Future<List<Map<String, dynamic>>> rawQuery(
+      String sql, List<dynamic> parameters) async {
+    Database db = await _database;
+    return await db.rawQuery(sql, parameters);
   }
 
   Future<List<Map<String, dynamic>>> queryRows(String table,

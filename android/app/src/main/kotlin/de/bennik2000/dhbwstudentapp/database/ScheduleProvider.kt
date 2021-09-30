@@ -4,27 +4,33 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import de.bennik2000.dhbwstudentapp.model.ScheduleEntry
-import org.threeten.bp.*
-import java.lang.Exception
+import io.flutter.util.PathUtils
+import org.threeten.bp.LocalDate
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.OffsetDateTime
+import java.io.File
 
 
 class ScheduleProvider(private val context: Context) {
 
     private val zoneOffset = OffsetDateTime.now().offset
 
-
+    
     fun hasScheduleEntriesForDay(date: LocalDate): Boolean {
-        openDatabase()?.use { database ->
-            val startMillis = date.atStartOfDay().toEpochSecond(zoneOffset) * 1000
-            val endMillis = date.plusDays(1).atStartOfDay().toEpochSecond(zoneOffset) * 1000
+        val start = date.atStartOfDay()
+        val end = date.plusDays(1).atStartOfDay()
+        
+        return hasScheduleEntriesBetween(start, end)
+    }
 
-            database.query(
-                    "ScheduleEntries",
-                    arrayOf("id"), "start>=? AND end <=?",
-                    arrayOf(startMillis.toString(), endMillis.toString()),
-                    "",
-                    "",
-                    "start ASC").use { result ->
+    fun hasScheduleEntriesBetween(start: LocalDateTime, end: LocalDateTime): Boolean {
+        openDatabase()?.use { database ->
+            val startMillis = start.toEpochSecond(zoneOffset) * 1000
+            val endMillis = end.toEpochSecond(zoneOffset) * 1000
+
+            database.rawQuery(
+                    SCHEDULE_ENTRIES_BETWEEN_SQL,
+                    arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
                 return result.count > 0
             }
         }
@@ -37,13 +43,34 @@ class ScheduleProvider(private val context: Context) {
             val startMillis = date.atStartOfDay().toEpochSecond(zoneOffset) * 1000
             val endMillis = date.plusDays(1).atStartOfDay().toEpochSecond(zoneOffset) * 1000
 
-            database.query(
-                    "ScheduleEntries",
-                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "start>=? AND end <=?",
-                    arrayOf(startMillis.toString(), endMillis.toString()),
-                    "",
-                    "",
-                    "start ASC").use { result ->
+            database.rawQuery(
+                    SCHEDULE_ENTRIES_BETWEEN_SQL,
+                    arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
+                return readScheduleEntries(result)
+            }
+        }
+
+        return ArrayList()
+    }
+
+    fun queryPendingForDay(now: LocalDateTime): List<ScheduleEntry> {
+        val midnight = LocalDate
+                .now()
+                .plusDays(1)
+                .atStartOfDay()
+
+        return ScheduleProvider(context)
+                .queryScheduleEntriesBetween(now, midnight)
+    }
+    
+    fun queryScheduleEntriesBetween(start: LocalDateTime, end: LocalDateTime): ArrayList<ScheduleEntry> {
+        openDatabase()?.use { database ->
+            val startMillis = start.toEpochSecond(zoneOffset) * 1000
+            val endMillis = end.toEpochSecond(zoneOffset) * 1000
+
+            database.rawQuery(
+                    SCHEDULE_ENTRIES_BETWEEN_SQL,
+                    arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
                 return readScheduleEntries(result)
             }
         }
@@ -52,16 +79,18 @@ class ScheduleProvider(private val context: Context) {
     }
 
     private fun openDatabase(): SQLiteDatabase? {
-        // use hardcoded /data/data because context.filesDir.path returns the wrong path
-        val path = "/data/data/${context.packageName}/app_flutter/Database.db"
+        val path = PathUtils.getDataDirectory(context) + "/Database.db"
 
-        return try{
+        if (!File(path).exists()) {
+            return null
+        }
+
+        return try {
             SQLiteDatabase
                     .openDatabase(path,
                             null,
                             0)
-        }
-        catch (e: Exception) {
+        } catch (e: Exception) {
             null
         }
     }
@@ -100,5 +129,25 @@ class ScheduleProvider(private val context: Context) {
                 result.getInt(result.getColumnIndex("type")),
                 start,
                 end)
+    }
+
+    companion object {
+        private const val SCHEDULE_ENTRIES_BETWEEN_SQL =
+                "SELECT  \n" +
+                "ScheduleEntries.id,\n" +
+                "ScheduleEntries.start,\n" +
+                "ScheduleEntries.end,\n" +
+                "ScheduleEntries.title,\n" +
+                "ScheduleEntries.details,\n" +
+                "ScheduleEntries.professor,\n" +
+                "ScheduleEntries.room,\n" +
+                "ScheduleEntries.type\n" +
+                "FROM \n" +
+                "    ScheduleEntries\n" +
+                "    LEFT JOIN ScheduleEntryFilters\n" +
+                "        ON ScheduleEntries.title = ScheduleEntryFilters.title\n" +
+                "    WHERE end >= ? AND start <= ?\n" +
+                "        AND ScheduleEntryFilters.title IS NULL\n" +
+                "ORDER BY ScheduleEntries.start ASC;\n"
     }
 }

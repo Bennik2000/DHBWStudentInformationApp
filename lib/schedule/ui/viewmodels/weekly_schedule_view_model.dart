@@ -30,6 +30,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   int displayEndHour = 17;
 
   bool _hasQueryErrors = false;
+
   bool get hasQueryErrors => _hasQueryErrors;
 
   VoidCallback _queryFailedCallback;
@@ -55,7 +56,17 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     this.scheduleProvider,
     this.scheduleSourceProvider,
   ) {
-    goToToday();
+    _initViewModel();
+  }
+
+  Future<void> _initViewModel() async {
+    _setSchedule(
+      null,
+      toDayOfWeek(DateTime.now(), DateTime.monday),
+      toDayOfWeek(DateTime.now(), DateTime.friday),
+    );
+
+    await goToToday();
     ensureUpdateNowTimerRunning();
 
     scheduleSourceProvider
@@ -77,13 +88,15 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
     if (weekSchedule != null) {
       var scheduleStart = weekSchedule.getStartDate();
-      clippedDateStart = toDayOfWeek(scheduleStart, DateTime.monday);
-
-      if (scheduleStart?.isBefore(clippedDateStart) ?? false)
-        clippedDateStart = scheduleStart;
-
       var scheduleEnd = weekSchedule.getEndDate();
-      clippedDateEnd = toDayOfWeek(scheduleEnd, DateTime.friday);
+
+      if (scheduleStart == null && scheduleEnd == null) {
+        clippedDateStart = toDayOfWeek(start, DateTime.monday);
+        clippedDateEnd = toDayOfWeek(start, DateTime.friday);
+      } else {
+        clippedDateStart = toDayOfWeek(scheduleStart, DateTime.monday);
+        clippedDateEnd = toDayOfWeek(scheduleEnd, DateTime.friday);
+      }
 
       if (scheduleEnd?.isAfter(clippedDateEnd) ?? false)
         clippedDateEnd = scheduleEnd;
@@ -94,8 +107,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
       displayEndHour = weekSchedule?.getEndTime()?.hour ?? 0;
       displayEndHour = max(displayEndHour + 1, 17);
     } else {
-      clippedDateStart = currentDateStart;
-      clippedDateEnd = currentDateEnd;
+      clippedDateStart = toDayOfWeek(currentDateStart, DateTime.monday);
+      clippedDateEnd = toDayOfWeek(currentDateEnd, DateTime.friday);
     }
 
     notifyListeners("weekSchedule");
@@ -116,8 +129,9 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   }
 
   Future goToToday() async {
-    currentDateStart = toStartOfDay(toMonday(DateTime.now()));
-    currentDateEnd = currentDateStart.add(const Duration(days: 5));
+    currentDateStart =
+        toStartOfDay(toDayOfWeek(DateTime.now(), DateTime.monday));
+    currentDateEnd = toNextWeek(currentDateStart);
 
     await updateSchedule(currentDateStart, currentDateEnd);
   }

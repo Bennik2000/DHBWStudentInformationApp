@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:flutter/material.dart';
 
 Color colorScheduleEntryPublicHoliday(BuildContext context) =>
@@ -14,8 +15,8 @@ Color colorScheduleEntryExam(BuildContext context) =>
         : const Color(0xffb17f22);
 Color colorScheduleEntryOnline(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
-        ? const Color(0xffe63f3b)
-        : const Color(0xffa52632);
+        ? const Color(0xffE6723B)
+        : const Color(0xff8D3012);
 Color colorScheduleEntryUnknown(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffcbcbcb)
@@ -63,6 +64,10 @@ class ColorPalettes {
   ColorPalettes._();
 
   static ThemeData buildTheme(bool isDark) {
+    if (isDark == null) {
+      isDark = PlatformUtil.platformBrightness() == Brightness.dark;
+    }
+
     var themeData = ThemeData(
       brightness: isDark ? Brightness.dark : Brightness.light,
       accentColor: ColorPalettes.main[500],

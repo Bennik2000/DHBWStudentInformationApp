@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  Runner
+
+  Created by xamarin build on 09.12.20.
+  Copyright © 2020 The Chromium Authors. All rights reserved.
+*/
+"WidgetEmptyForDay"="Keine Vorlesungen für heute";
+"EnableProForWidget"="Um Widgets zu verwenden, aktiviere sie in den App-Einstellungen";

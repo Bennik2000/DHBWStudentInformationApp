@@ -161,4 +161,16 @@ final en = {
   "donateDialogTitle": "Support the app",
   "donateDialogPositiveButton": "Support",
   "donateDialogNegativeButton": "Not now",
+  "examPassed": "Passed",
+  "examNotPassed": "Not passed",
+  "settingsWidgetPurchase": "Enable widgets",
+  "settingsWidgetDidPurchase": "Widgets are enabled",
+  "selectThemeDialogTitle": "Select theme",
+  "selectThemeLight": "Light",
+  "selectThemeDark": "Dark",
+  "selectThemeSystem": "System theme",
+  "filterDisplayedClasses": "Displayed classes:",
+  "filterDescription":
+      "Select the classes which sould be displayed. Be careful not to accidentally miss a hidden lecture",
+  "filterTitle": "Filter",
 };

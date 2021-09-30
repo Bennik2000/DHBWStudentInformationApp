@@ -9,9 +9,11 @@ import 'package:dhbwstudentapp/dualis/service/cache_dualis_service_decorator.dar
 import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 import 'package:dhbwstudentapp/dualis/service/fake_account_dualis_scraper_decorator.dart';
+import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
+import 'package:dhbwstudentapp/schedule/data/schedule_filter_repository.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_query_information_repository.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -33,14 +35,20 @@ void injectServices(bool isBackground) {
   c.registerInstance(ScheduleEntryRepository(
     c.resolve(),
   ));
+  c.registerInstance(ScheduleFilterRepository(
+    c.resolve(),
+  ));
   c.registerInstance(ScheduleQueryInformationRepository(
     c.resolve(),
   ));
   c.registerInstance(ScheduleSourceProvider(
     c.resolve(),
     isBackground,
+    c.resolve(),
+    c.resolve(),
   ));
   c.registerInstance(ScheduleProvider(
+    c.resolve(),
     c.resolve(),
     c.resolve(),
     c.resolve(),
@@ -58,6 +66,7 @@ void injectServices(bool isBackground) {
     DateManagementService(),
     DateEntryRepository(c.resolve()),
   ));
+  c.registerInstance(WidgetHelper());
 
   _isInjected = true;
 }

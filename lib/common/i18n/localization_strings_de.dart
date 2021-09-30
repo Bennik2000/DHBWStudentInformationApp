@@ -164,4 +164,16 @@ final de = {
   "donateDialogTitle": "Unterstütze die App",
   "donateDialogPositiveButton": "Unterstützen",
   "donateDialogNegativeButton": "Nicht jetzt",
+  "examPassed": "Bestanden",
+  "examNotPassed": "Nicht bestanden",
+  "settingsWidgetPurchase": "Widgets aktivieren",
+  "settingsWidgetDidPurchase": "Widgets sind aktviert",
+  "selectThemeDialogTitle": "Design auswählen",
+  "selectThemeLight": "Hell",
+  "selectThemeDark": "Dunkel",
+  "selectThemeSystem": "Systemeinstellungen",
+  "filterDisplayedClasses": "Angezeigte Vorlesungen:",
+  "filterDescription":
+      "Wähle hier die Vorlesungen, die angezeigt werden sollen. Pass auf, dass Du keine ausgeblendete Vorlesung versehentlich verpasst.",
+  "filterTitle": "Filter",
 };

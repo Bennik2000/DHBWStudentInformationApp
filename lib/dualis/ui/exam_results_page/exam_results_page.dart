@@ -1,5 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
+import 'package:dhbwstudentapp/dualis/model/exam_grade.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -143,13 +144,28 @@ class ExamResultsPage extends StatelessWidget {
             DataCell.empty,
             DataCell(Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-              child: Text(exam.grade.toString()),
+              child: _examGradeToWidget(context, exam.grade),
             )),
           ],
         ),
       );
     }
     return dataRows;
+  }
+
+  Widget _examGradeToWidget(BuildContext context, ExamGrade grade) {
+    switch (grade.state) {
+      case ExamGradeState.NotGraded:
+        return Text("");
+      case ExamGradeState.Graded:
+        return Text(grade.gradeValue);
+      case ExamGradeState.Passed:
+        return Text(L.of(context).examPassed);
+      case ExamGradeState.Failed:
+        return Text(L.of(context).examNotPassed);
+    }
+
+    return Text("");
   }
 
   List<DataColumn> buildModuleColumns(BuildContext context, var module,

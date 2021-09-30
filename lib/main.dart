@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/ui/root_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -12,7 +11,11 @@ import 'package:flutter/material.dart';
 
 import 'common/util/platform_util.dart';
 
+///
+/// Main entry point for the app
+///
 void main() async {
+  // Setup the flutter bindings and the error reporting as early as possible
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;

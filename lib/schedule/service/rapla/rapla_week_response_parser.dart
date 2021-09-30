@@ -1,8 +1,10 @@
+import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 import 'package:dhbwstudentapp/schedule/service/rapla/rapla_parsing_utils.dart';
 import 'package:html/dom.dart';
+import 'package:intl/intl.dart';
 
 ///
 /// Implements the parsing of the rapla service when the response is a week
@@ -10,9 +12,10 @@ import 'package:html/dom.dart';
 ///
 class RaplaWeekResponseParser {
   static ScheduleQueryResult parseWeeklyTable(
+    Document document,
     Element weekTable,
-    List<DateTime> dates,
   ) {
+    var dates = _readDatesFromHeadersOrThrow(document);
     var allRows = weekTable.getElementsByTagName("tr");
 
     var allEntries = <ScheduleEntry>[];
@@ -64,5 +67,58 @@ class RaplaWeekResponseParser {
       Schedule.fromList(allEntries),
       parseErrors,
     );
+  }
+
+  static List<DateTime> _readDatesFromHeadersOrThrow(Document document) {
+    var year = _readYearOrThrow(document);
+
+    // The only reliable way to read the dates is the table header.
+    // Some schedule entries contain the dates in the description but not
+    // in every case.
+    var weekHeaders = document.getElementsByClassName("week_header");
+    var dates = <DateTime>[];
+
+    for (var header in weekHeaders) {
+      var dateString = header.text + year;
+
+      try {
+        var date = DateFormat("dd.MM.yyyy").parse(dateString.substring(3));
+        dates.add(date);
+      } catch (exception, trace) {
+        throw ParseException.withInner(exception, trace);
+      }
+    }
+    return dates;
+  }
+
+  static String _readYearOrThrow(Document document) {
+    // The only reliable way to read the year of this schedule is to parse the
+    // selected year in the date selector
+    var comboBoxes = document.getElementsByTagName("select");
+
+    String year;
+    for (var box in comboBoxes) {
+      if (box.attributes.containsKey("name") &&
+          box.attributes["name"] == "year") {
+        var entries = box.getElementsByTagName("option");
+
+        for (var entry in entries) {
+          if (entry.attributes.containsKey("selected") &&
+              entry.attributes["selected"] == "") {
+            year = entry.text;
+
+            break;
+          }
+        }
+
+        break;
+      }
+    }
+
+    if (year == null) {
+      throw ElementNotFoundParseException("year");
+    }
+
+    return year;
   }
 }

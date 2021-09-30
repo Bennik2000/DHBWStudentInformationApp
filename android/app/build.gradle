@@ -11,8 +11,8 @@ if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-def flutterVersionCode = '26'
-def flutterVersionName = '1.1.5'
+def flutterVersionCode = '31'
+def flutterVersionName = '1.1.8'
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -42,7 +42,7 @@ android {
 
     defaultConfig {
         applicationId "de.bennik2000.dhbwstudentapp"
-        minSdkVersion 18
+        minSdkVersion 21
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
