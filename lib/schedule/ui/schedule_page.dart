@@ -11,12 +11,18 @@ import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
-class SchedulePage extends StatelessWidget {
+class SchedulePage extends StatefulWidget {
+  @override
+  _SchedulePageState createState() => _SchedulePageState();
+}
+
+class _SchedulePageState extends State<SchedulePage> {
   final WeeklyScheduleViewModel weeklyScheduleViewModel =
       WeeklyScheduleViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
   );
+
   final DailyScheduleViewModel dailyScheduleViewModel = DailyScheduleViewModel(
     KiwiContainer().resolve(),
   );

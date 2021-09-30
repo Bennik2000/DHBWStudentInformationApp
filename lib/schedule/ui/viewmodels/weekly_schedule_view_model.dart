@@ -30,6 +30,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   int displayEndHour = 17;
 
   bool _hasQueryErrors = false;
+
   bool get hasQueryErrors => _hasQueryErrors;
 
   VoidCallback _queryFailedCallback;
@@ -55,7 +56,17 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     this.scheduleProvider,
     this.scheduleSourceProvider,
   ) {
-    goToToday();
+    _initViewModel();
+  }
+
+  Future<void> _initViewModel() async {
+    _setSchedule(
+      null,
+      toDayOfWeek(DateTime.now(), DateTime.monday),
+      toDayOfWeek(DateTime.now(), DateTime.friday),
+    );
+
+    await goToToday();
     ensureUpdateNowTimerRunning();
 
     scheduleSourceProvider
@@ -96,8 +107,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
       displayEndHour = weekSchedule?.getEndTime()?.hour ?? 0;
       displayEndHour = max(displayEndHour + 1, 17);
     } else {
-      clippedDateStart = currentDateStart;
-      clippedDateEnd = currentDateEnd;
+      clippedDateStart = toDayOfWeek(currentDateStart, DateTime.monday);
+      clippedDateEnd = toDayOfWeek(currentDateEnd, DateTime.friday);
     }
 
     notifyListeners("weekSchedule");

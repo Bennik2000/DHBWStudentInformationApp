@@ -39,7 +39,22 @@ public class ScheduleEntryAccess {
         let startMillis: Double = dateStart.timeIntervalSince1970 * 1000
         let endMillis: Double = dateEnd.timeIntervalSince1970 * 1000
         
-        let query = "SELECT id, start, end, details, professor, room, title, type FROM ScheduleEntries WHERE end >= \(startMillis) AND start <= \(endMillis);"
+        let query = "SELECT  \n" +
+                    "ScheduleEntries.id,\n" +
+                    "ScheduleEntries.start,\n" +
+                    "ScheduleEntries.end,\n" +
+                    "ScheduleEntries.title,\n" +
+                    "ScheduleEntries.details,\n" +
+                    "ScheduleEntries.professor,\n" +
+                    "ScheduleEntries.room,\n" +
+                    "ScheduleEntries.type\n" +
+                    "FROM \n" +
+                    "    ScheduleEntries\n" +
+                    "    LEFT JOIN ScheduleEntryFilters\n" +
+                    "        ON ScheduleEntries.title = ScheduleEntryFilters.title\n" +
+                    "    WHERE end >= \(startMillis) AND start <= \(endMillis)\n" +
+                    "        AND ScheduleEntryFilters.title IS NULL\n" +
+                    "ORDER BY ScheduleEntries.start ASC;\n";
         
         var cursor: OpaquePointer? = nil
         var scheduleEntries : [ScheduleEntry] = []

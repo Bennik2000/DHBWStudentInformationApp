@@ -13,6 +13,7 @@ import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';
+import 'package:dhbwstudentapp/schedule/data/schedule_filter_repository.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_query_information_repository.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -34,6 +35,9 @@ void injectServices(bool isBackground) {
   c.registerInstance(ScheduleEntryRepository(
     c.resolve(),
   ));
+  c.registerInstance(ScheduleFilterRepository(
+    c.resolve(),
+  ));
   c.registerInstance(ScheduleQueryInformationRepository(
     c.resolve(),
   ));
@@ -44,6 +48,7 @@ void injectServices(bool isBackground) {
     c.resolve(),
   ));
   c.registerInstance(ScheduleProvider(
+    c.resolve(),
     c.resolve(),
     c.resolve(),
     c.resolve(),

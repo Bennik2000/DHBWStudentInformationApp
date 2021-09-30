@@ -28,13 +28,9 @@ class ScheduleProvider(private val context: Context) {
             val startMillis = start.toEpochSecond(zoneOffset) * 1000
             val endMillis = end.toEpochSecond(zoneOffset) * 1000
 
-            database.query(
-                    "ScheduleEntries",
-                    arrayOf("id"), "start>=? AND end <=?",
-                    arrayOf(startMillis.toString(), endMillis.toString()),
-                    "",
-                    "",
-                    "start ASC").use { result ->
+            database.rawQuery(
+                    SCHEDULE_ENTRIES_BETWEEN_SQL,
+                    arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
                 return result.count > 0
             }
         }
@@ -47,13 +43,9 @@ class ScheduleProvider(private val context: Context) {
             val startMillis = date.atStartOfDay().toEpochSecond(zoneOffset) * 1000
             val endMillis = date.plusDays(1).atStartOfDay().toEpochSecond(zoneOffset) * 1000
 
-            database.query(
-                    "ScheduleEntries",
-                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "end>? AND start <?",
-                    arrayOf(startMillis.toString(), endMillis.toString()),
-                    "",
-                    "",
-                    "start ASC").use { result ->
+            database.rawQuery(
+                    SCHEDULE_ENTRIES_BETWEEN_SQL,
+                    arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
                 return readScheduleEntries(result)
             }
         }
@@ -76,13 +68,9 @@ class ScheduleProvider(private val context: Context) {
             val startMillis = start.toEpochSecond(zoneOffset) * 1000
             val endMillis = end.toEpochSecond(zoneOffset) * 1000
 
-            database.query(
-                    "ScheduleEntries",
-                    arrayOf("id", "start", "end", "details", "professor", "room", "title", "type"), "end>? AND start<?",
-                    arrayOf(startMillis.toString(), endMillis.toString()),
-                    "",
-                    "",
-                    "start ASC").use { result ->
+            database.rawQuery(
+                    SCHEDULE_ENTRIES_BETWEEN_SQL,
+                    arrayOf(startMillis.toString(), endMillis.toString())).use { result ->
                 return readScheduleEntries(result)
             }
         }
@@ -141,5 +129,25 @@ class ScheduleProvider(private val context: Context) {
                 result.getInt(result.getColumnIndex("type")),
                 start,
                 end)
+    }
+
+    companion object {
+        private const val SCHEDULE_ENTRIES_BETWEEN_SQL =
+                "SELECT  \n" +
+                "ScheduleEntries.id,\n" +
+                "ScheduleEntries.start,\n" +
+                "ScheduleEntries.end,\n" +
+                "ScheduleEntries.title,\n" +
+                "ScheduleEntries.details,\n" +
+                "ScheduleEntries.professor,\n" +
+                "ScheduleEntries.room,\n" +
+                "ScheduleEntries.type\n" +
+                "FROM \n" +
+                "    ScheduleEntries\n" +
+                "    LEFT JOIN ScheduleEntryFilters\n" +
+                "        ON ScheduleEntries.title = ScheduleEntryFilters.title\n" +
+                "    WHERE end >= ? AND start <= ?\n" +
+                "        AND ScheduleEntryFilters.title IS NULL\n" +
+                "ORDER BY ScheduleEntries.start ASC;\n"
     }
 }
