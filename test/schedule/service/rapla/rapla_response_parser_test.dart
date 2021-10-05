@@ -17,6 +17,10 @@ Future<void> main() async {
           '/test/schedule/service/rapla/html_resources/rapla_several_months_response.html')
       .readAsString();
 
+  var severalMonthsPage1 = await File(Directory.current.absolute.path +
+          '/test/schedule/service/rapla/html_resources/rapla_several_months_response_1.html')
+      .readAsString();
+
   var invalidRaplaPage = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/invalid_rapla_response.html')
       .readAsString();
@@ -111,6 +115,37 @@ Future<void> main() async {
     expect(schedule.entries[84].type, ScheduleEntryType.Unknown);
 
     expect(schedule.entries.length, 85);
+  });
+
+  test('Rapla correctly read all classes of problematic several months view',
+      () async {
+    var parser = RaplaResponseParser();
+
+    var schedule = parser.parseSchedule(severalMonthsPage1).schedule;
+
+    expect(schedule.entries[0].title, "Verkehrswegebau und Straßenwesen");
+    expect(schedule.entries[0].start, DateTime(2021, 12, 01, 08, 15));
+    expect(schedule.entries[0].end, DateTime(2021, 12, 01, 12, 15));
+    expect(schedule.entries[0].type, ScheduleEntryType.Class);
+    expect(schedule.entries[0].professor, "Müller");
+
+    expect(schedule.entries[3].title, "Marketing und Unternehmensstrategie");
+    expect(schedule.entries[3].start, DateTime(2021, 12, 03, 13, 00));
+    expect(schedule.entries[3].end, DateTime(2021, 12, 03, 16, 15));
+    expect(schedule.entries[3].type, ScheduleEntryType.Class);
+    expect(schedule.entries[3].professor, "Mayer");
+
+    expect(schedule.entries[11].title, "Stahlbetonbau");
+    expect(schedule.entries[11].start, DateTime(2021, 12, 17, 09, 00));
+    expect(schedule.entries[11].end, DateTime(2021, 12, 17, 10, 30));
+    expect(schedule.entries[11].type, ScheduleEntryType.Exam);
+
+    expect(schedule.entries[17].title, "Silvester");
+    expect(schedule.entries[17].start, DateTime(2021, 12, 31, 08, 00));
+    expect(schedule.entries[17].end, DateTime(2021, 12, 31, 18, 00));
+    expect(schedule.entries[17].type, ScheduleEntryType.Unknown);
+
+    expect(schedule.entries.length, 20);
   });
 
   test('Rapla robust parse', () async {
