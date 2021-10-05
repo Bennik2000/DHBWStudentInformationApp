@@ -15,8 +15,8 @@ Color colorScheduleEntryExam(BuildContext context) =>
         : const Color(0xffb17f22);
 Color colorScheduleEntryOnline(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
-        ? const Color(0xffE6723B)
-        : const Color(0xff8D3012);
+        ? const Color(0xffAFC7EA)
+        : const Color(0xff2659A6);
 Color colorScheduleEntryUnknown(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffcbcbcb)
