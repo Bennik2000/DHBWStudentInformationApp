@@ -15,7 +15,14 @@ class Schedule {
   void merge(Schedule schedule) {
     // TODO: Return new schedule instead of adding it to the list
     urls.addAll(schedule.urls);
-    entries.addAll(schedule.entries);
+
+    for (var newEntry in schedule.entries) {
+      if (entries.any((element) => element.equalsWithIdIgnored(newEntry))) {
+        continue;
+      }
+
+      entries.add(newEntry);
+    }
   }
 
   Schedule trim(DateTime startDate, DateTime endDate) {

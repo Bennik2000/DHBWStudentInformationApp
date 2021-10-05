@@ -27,6 +27,16 @@ class ScheduleEntry {
     this.type,
   });
 
+  bool equalsWithIdIgnored(ScheduleEntry other) {
+    return this.start == other.start &&
+        this.end == other.end &&
+        this.title == other.title &&
+        this.details == other.details &&
+        this.professor == other.professor &&
+        this.room == other.room &&
+        this.type == other.type;
+  }
+
   List<String> getDifferentProperties(ScheduleEntry entry) {
     var changedProperties = <String>[];
 

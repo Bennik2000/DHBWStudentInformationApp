@@ -36,8 +36,9 @@ class RaplaScheduleSource extends ScheduleSource {
       try {
         var weekSchedule = await _fetchRaplaSource(current, cancellationToken);
 
-        if (weekSchedule.schedule != null)
+        if (weekSchedule.schedule != null) {
           schedule.merge(weekSchedule.schedule);
+        }
 
         allErrors.addAll(weekSchedule.errors ?? []);
       } on OperationCancelledException {
@@ -118,7 +119,9 @@ class RaplaScheduleSource extends ScheduleSource {
     if (hasKeyParameter) {
       parameters["key"] = uri.queryParameters["key"];
 
-      if (hasAllocatableId) parameters["allocatable_id"] = uri.queryParameters["allocatable_id"];
+      if (hasAllocatableId) {
+        parameters["allocatable_id"] = uri.queryParameters["allocatable_id"];
+      }
       if (hasSalt) parameters["salt"] = uri.queryParameters["salt"];
     } else {
       if (hasUserParameter) parameters["user"] = uri.queryParameters["user"];
@@ -191,7 +194,7 @@ class RaplaScheduleSource extends ScheduleSource {
         return true;
       }
 
-      if(hasSalt && hasAllocatableId && hasKeyParameter) {
+      if (hasSalt && hasAllocatableId && hasKeyParameter) {
         return true;
       }
 
