@@ -12,6 +12,7 @@ class RaplaParsingUtils {
   static const String LABEL_CLASS = "label";
   static const String VALUE_CLASS = "value";
   static const String CLASS_NAME_LABEL = "Veranstaltungsname:";
+  static const String CLASS_NAME_LABEL_ALTERNATIVE = "Name:";
   static const String CLASS_TITLE_LABEL = "Titel:";
   static const String PROFESSOR_NAME_LABEL = "Personen:";
   static const String DETAILS_LABEL = "Bemerkung:";
@@ -57,11 +58,16 @@ class RaplaParsingUtils {
       throw ElementNotFoundParseException("infotable container");
 
     Map<String, String> properties = _parsePropertiesTable(infotable[0]);
-    title = properties[CLASS_NAME_LABEL] ?? properties[CLASS_TITLE_LABEL];
+    title = properties[CLASS_NAME_LABEL] ??
+        properties[CLASS_TITLE_LABEL] ??
+        properties[CLASS_NAME_LABEL_ALTERNATIVE];
+
     professor = properties[PROFESSOR_NAME_LABEL];
     details = properties[DETAILS_LABEL];
 
-    if (title == null) throw ElementNotFoundParseException("title");
+    if (title == null) {
+      throw ElementNotFoundParseException("title");
+    }
 
     if (professor?.endsWith(",") ?? false) {
       professor = professor.substring(0, professor.length - 1);
@@ -127,7 +133,6 @@ class RaplaParsingUtils {
 
     return concatStringList(resourcesList, ", ");
   }
-
 
   static String readYearOrThrow(Document document) {
     // The only reliable way to read the year of this schedule is to parse the
