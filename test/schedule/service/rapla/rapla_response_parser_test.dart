@@ -13,6 +13,10 @@ Future<void> main() async {
           '/test/schedule/service/rapla/html_resources/rapla_response.html')
       .readAsString();
 
+  var raplaPage1 = await File(Directory.current.absolute.path +
+          '/test/schedule/service/rapla/html_resources/rapla_response_1.html')
+      .readAsString();
+
   var severalMonthsPage = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_several_months_response.html')
       .readAsString();
@@ -146,6 +150,64 @@ Future<void> main() async {
     expect(schedule.entries[17].type, ScheduleEntryType.Unknown);
 
     expect(schedule.entries.length, 20);
+  });
+
+  test('Rapla correctly read the day of a class in week view',
+      () async {
+    var parser = RaplaResponseParser();
+
+    var schedule = parser.parseSchedule(raplaPage1).schedule;
+
+    expect(schedule.entries[0].title, "Grundlagen der Handelsbetriebslehre");
+    expect(schedule.entries[0].start, DateTime(2021, 11, 02, 09, 00));
+    expect(schedule.entries[0].end, DateTime(2021, 11, 02, 12, 15));
+    expect(schedule.entries[0].type, ScheduleEntryType.Class);
+    expect(schedule.entries[0].professor, "Fr, Ta");
+    expect(schedule.entries[0].room, "WDCM21B, XOnline-Veranstaltung A Virtueller Raum");
+
+    expect(schedule.entries[1].title, "Einführung in die Volkswirtschaftslehre und Mikroökonomik");
+    expect(schedule.entries[1].start, DateTime(2021, 11, 02, 13, 45));
+    expect(schedule.entries[1].end, DateTime(2021, 11, 02, 17, 00));
+    expect(schedule.entries[1].type, ScheduleEntryType.Class);
+    expect(schedule.entries[1].professor, "Le, An");
+    expect(schedule.entries[1].room, "WDCM21B, XOnline-Veranstaltung A Virtueller Raum");
+
+    expect(schedule.entries[2].title, "Grundlagen des Bürgerlichen Rechts");
+    expect(schedule.entries[2].start, DateTime(2021, 11, 03, 09, 00));
+    expect(schedule.entries[2].end, DateTime(2021, 11, 03, 11, 30));
+    expect(schedule.entries[2].type, ScheduleEntryType.Class);
+    expect(schedule.entries[2].professor, "Ei, An");
+    expect(schedule.entries[2].room, "WDCM21B, G086 W Hörsaal");
+
+    expect(schedule.entries[3].title, "Technik der Finanzbuchführung I");
+    expect(schedule.entries[3].start, DateTime(2021, 11, 03, 13, 00));
+    expect(schedule.entries[3].end, DateTime(2021, 11, 03, 16, 15));
+    expect(schedule.entries[3].type, ScheduleEntryType.Class);
+    expect(schedule.entries[3].professor, "Se, Ka");
+    expect(schedule.entries[3].room, "WDCM21B, G086 W Hörsaal");
+
+    expect(schedule.entries[4].title, "Grundlagen des wissenschaftlichen Arbeitens");
+    expect(schedule.entries[4].start, DateTime(2021, 11, 04, 09, 00));
+    expect(schedule.entries[4].end, DateTime(2021, 11, 04, 12, 15));
+    expect(schedule.entries[4].type, ScheduleEntryType.Class);
+    expect(schedule.entries[4].professor, "He, Be");
+    expect(schedule.entries[4].room, "WDCM21B, G086 W Hörsaal");
+
+    expect(schedule.entries[5].title, "Grundlagen der Handelsbetriebslehre");
+    expect(schedule.entries[5].start, DateTime(2021, 11, 04, 12, 45));
+    expect(schedule.entries[5].end, DateTime(2021, 11, 04, 16, 00));
+    expect(schedule.entries[5].type, ScheduleEntryType.Class);
+    expect(schedule.entries[5].professor, "Fr, Ta");
+    expect(schedule.entries[5].room, "WDCM21B, G086 W Hörsaal");
+
+    expect(schedule.entries[6].title, "Einführung in die Programmierung");
+    expect(schedule.entries[6].start, DateTime(2021, 11, 05, 13, 00));
+    expect(schedule.entries[6].end, DateTime(2021, 11, 05, 16, 15));
+    expect(schedule.entries[6].type, ScheduleEntryType.Class);
+    expect(schedule.entries[6].professor, "He, Ma");
+    expect(schedule.entries[6].room, "WDCM21B, C348  PC Raum, G086 W Hörsaal");
+
+    expect(schedule.entries.length, 7);
   });
 
   test('Rapla robust parse', () async {

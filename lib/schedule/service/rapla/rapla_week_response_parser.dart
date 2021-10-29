@@ -30,13 +30,16 @@ class RaplaWeekResponseParser {
         if (cell.classes.contains("week_number")) continue;
         if (cell.classes.contains("week_header")) continue;
         if (cell.classes.contains("week_smallseparatorcell")) continue;
+        if (cell.classes.contains("week_smallseparatornolinecell")) continue;
         if (cell.classes.contains("week_smallseparatorcell_black")) continue;
         if (cell.classes.contains("week_emptycell_black")) continue;
+        if (cell.classes.contains("week_emptynolinecell")) continue;
 
         // The week_separatorcell and week_separatorcell_black cell types mark
         // the end of a column
         if (cell.classes.contains("week_separatorcell_black") ||
-            cell.classes.contains("week_separatorcell")) {
+            cell.classes.contains("week_separatorcell") ||
+            cell.classes.contains("week_separatornolinecell")) {
           currentDayInWeekIndex = currentDayInWeekIndex + 1;
           continue;
         }
@@ -104,7 +107,8 @@ class RaplaWeekResponseParser {
 
         for (var entry in entries) {
           if (entry.attributes.containsKey("selected") &&
-              entry.attributes["selected"] == "") {
+              (entry.attributes["selected"] == "" ||
+                  entry.attributes["selected"] == "selected")) {
             year = entry.text;
 
             break;
