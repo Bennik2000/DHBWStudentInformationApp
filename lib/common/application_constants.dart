@@ -1,4 +1,4 @@
-const String ApplicationVersion = "1.1.10";
+const String ApplicationVersion = "1.1.11";
 const String ApplicationSourceCodeUrl =
     "https://github.com/Bennik2000/DHBWStudentInformationApp";
 
