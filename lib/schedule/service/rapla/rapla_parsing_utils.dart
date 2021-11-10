@@ -16,6 +16,7 @@ class RaplaParsingUtils {
   static const String CLASS_TITLE_LABEL = "Titel:";
   static const String PROFESSOR_NAME_LABEL = "Personen:";
   static const String DETAILS_LABEL = "Bemerkung:";
+  static const String RESOURCES_LABEL = "Ressourcen:";
 
   static const Map<String, ScheduleEntryType> entryTypeMapping = {
     "Feiertag": ScheduleEntryType.PublicHoliday,
@@ -49,6 +50,7 @@ class RaplaParsingUtils {
     var title = "";
     var details = "";
     var professor = "";
+    var resource = "";
 
     ScheduleEntryType type = _extractEntryType(tooltip);
 
@@ -64,6 +66,7 @@ class RaplaParsingUtils {
 
     professor = properties[PROFESSOR_NAME_LABEL];
     details = properties[DETAILS_LABEL];
+    resource = properties[RESOURCES_LABEL] ?? _extractResources(value);
 
     if (title == null) {
       throw ElementNotFoundParseException("title");
@@ -73,7 +76,6 @@ class RaplaParsingUtils {
       professor = professor.substring(0, professor.length - 1);
     }
 
-    var resource = _extractResources(value);
 
     var scheduleEntry = ScheduleEntry(
       start: start,

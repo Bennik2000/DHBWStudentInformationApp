@@ -120,7 +120,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 ? Container()
                 : Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    child: Text(scheduleEntry.room),
+                    child: Text(scheduleEntry.room.replaceAll(",", "\n")),
                   ),
             scheduleEntry.details?.isEmpty ?? true
                 ? Container()
