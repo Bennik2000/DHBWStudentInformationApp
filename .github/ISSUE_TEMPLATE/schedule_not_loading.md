@@ -1,5 +1,5 @@
 ---
-name: Vorlesungsplan lädt nicht
+name: 📅 Vorlesungsplan lädt nicht
 about: Verwende diese Vorlage, wenn der Vorlesungsplan für deinen Kurs nicht funktioniert.
 title: ''
 labels: bug
