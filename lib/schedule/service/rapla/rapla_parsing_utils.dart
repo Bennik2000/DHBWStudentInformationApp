@@ -35,56 +35,115 @@ class RaplaParsingUtils {
     // The only reliable way to extract the time
     var timeAndClassName = value.getElementsByTagName("a");
 
-    if (tooltip.isEmpty)
-      throw ElementNotFoundParseException("tooltip container");
-
     if (timeAndClassName.isEmpty)
       throw ElementNotFoundParseException("time and date container");
 
-    var start = _parseTime(timeAndClassName[0].text.substring(0, 5), date);
-    var end = _parseTime(timeAndClassName[0].text.substring(7, 12), date);
+    var descriptionInCell = timeAndClassName[0].text;
+
+    var start = _parseTime(descriptionInCell.substring(0, 5), date);
+    var end = _parseTime(descriptionInCell.substring(7, 12), date);
 
     if (start == null || end == null)
       throw ElementNotFoundParseException("start and end date container");
 
-    var title = "";
-    var details = "";
-    var professor = "";
-    var resource = "";
+    ScheduleEntry scheduleEntry;
 
-    ScheduleEntryType type = _extractEntryType(tooltip);
+    // The important information is stored in a html element called tooltip.
+    // Depending on the Rapla configuration the tooltip is available or not.
+    // When there is no tooltip fallback to extract the available information
+    // From the cell itself.
+    // TODO: Display a warning that information is not extracted from the
+    //       tooltip. Then provide a link with a manual to activate it in Rapla
+    if (tooltip.isEmpty) {
+      scheduleEntry = extractScheduleDetailsFromCell(
+          timeAndClassName, scheduleEntry, start, end);
+    } else {
+      scheduleEntry =
+          extractScheduleFromTooltip(tooltip, value, scheduleEntry, start, end);
+    }
 
-    var infotable = tooltip[0].getElementsByClassName(INFOTABLE_CLASS);
+    return improveScheduleEntry(scheduleEntry);
+  }
 
-    if (infotable.isEmpty)
-      throw ElementNotFoundParseException("infotable container");
-
-    Map<String, String> properties = _parsePropertiesTable(infotable[0]);
-    title = properties[CLASS_NAME_LABEL] ??
-        properties[CLASS_TITLE_LABEL] ??
-        properties[CLASS_NAME_LABEL_ALTERNATIVE];
-
-    professor = properties[PROFESSOR_NAME_LABEL];
-    details = properties[DETAILS_LABEL];
-    resource = properties[RESOURCES_LABEL] ?? _extractResources(value);
-
-    if (title == null) {
+  static ScheduleEntry improveScheduleEntry(ScheduleEntry scheduleEntry) {
+    if (scheduleEntry.title == null) {
       throw ElementNotFoundParseException("title");
     }
 
+    var professor = scheduleEntry.professor;
     if (professor?.endsWith(",") ?? false) {
-      professor = professor.substring(0, professor.length - 1);
+      scheduleEntry = scheduleEntry.copyWith(
+          professor: professor.substring(0, professor.length - 1));
     }
 
+    return scheduleEntry.copyWith(
+      title: trimAndEscapeString(scheduleEntry.title),
+      details: trimAndEscapeString(scheduleEntry.details),
+      professor: trimAndEscapeString(scheduleEntry.professor),
+      room: trimAndEscapeString(scheduleEntry.room),
+    );
+  }
 
-    var scheduleEntry = ScheduleEntry(
+  static ScheduleEntry extractScheduleFromTooltip(
+      List<Element> tooltip,
+      Element value,
+      ScheduleEntry scheduleEntry,
+      DateTime start,
+      DateTime end) {
+    var infotable = tooltip[0].getElementsByClassName(INFOTABLE_CLASS);
+
+    if (infotable.isEmpty) {
+      throw ElementNotFoundParseException("infotable container");
+    }
+
+    Map<String, String> properties = _parsePropertiesTable(infotable[0]);
+    var type = _extractEntryType(tooltip);
+    var title = properties[CLASS_NAME_LABEL] ??
+        properties[CLASS_TITLE_LABEL] ??
+        properties[CLASS_NAME_LABEL_ALTERNATIVE];
+
+    var professor = properties[PROFESSOR_NAME_LABEL];
+    var details = properties[DETAILS_LABEL];
+    var resource = properties[RESOURCES_LABEL] ?? _extractResources(value);
+
+    scheduleEntry = ScheduleEntry(
       start: start,
       end: end,
-      title: trimAndEscapeString(title),
-      details: trimAndEscapeString(details),
-      professor: trimAndEscapeString(professor),
+      title: title,
+      details: details,
+      professor: professor,
       type: type,
-      room: trimAndEscapeString(resource),
+      room: resource,
+    );
+    return scheduleEntry;
+  }
+
+  static ScheduleEntry extractScheduleDetailsFromCell(
+      List<Element> timeAndClassName,
+      ScheduleEntry scheduleEntry,
+      DateTime start,
+      DateTime end) {
+    var descriptionHtml = timeAndClassName[0].innerHtml.substring(12);
+    var descriptionParts = descriptionHtml.split("<br>");
+
+    var title = "";
+    var details = "";
+
+    if (descriptionParts.length == 1) {
+      title = descriptionParts[0];
+    } else if (descriptionParts.length > 0) {
+      title = descriptionParts[1];
+      details = descriptionParts.join("\n");
+    }
+
+    scheduleEntry = ScheduleEntry(
+      start: start,
+      end: end,
+      title: title,
+      details: details,
+      professor: "",
+      type: ScheduleEntryType.Unknown,
+      room: "",
     );
     return scheduleEntry;
   }

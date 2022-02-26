@@ -25,6 +25,10 @@ Future<void> main() async {
           '/test/schedule/service/rapla/html_resources/rapla_several_months_response_1.html')
       .readAsString();
 
+  var severalMonthsPage2 = await File(Directory.current.absolute.path +
+          '/test/schedule/service/rapla/html_resources/rapla_several_months_response_2.html')
+      .readAsString();
+
   var invalidRaplaPage = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/invalid_rapla_response.html')
       .readAsString();
@@ -161,6 +165,20 @@ Future<void> main() async {
     expect(schedule.entries.length, 20);
   });
 
+  test('Rapla correctly read all classes of several months view 3',
+      () async {
+    var parser = RaplaResponseParser();
+
+    var schedule = parser.parseSchedule(severalMonthsPage2).schedule;
+
+    expect(schedule.entries[0].title, "Marketing und Unternehmensstrategie");
+    expect(schedule.entries[0].start, DateTime(2021, 12, 01, 10, 00));
+    expect(schedule.entries[0].end, DateTime(2021, 12, 01, 13, 30));
+    expect(schedule.entries[0].type, ScheduleEntryType.Unknown);
+
+    expect(schedule.entries.length, 36);
+  });
+
   test('Rapla correctly read the day of a class in week view',
       () async {
     var parser = RaplaResponseParser();
@@ -258,7 +276,7 @@ Future<void> main() async {
     var schedule = result.schedule;
     var errors = result.errors;
 
-    expect(errors.length, 4);
-    expect(schedule.entries.length, 4);
+    expect(errors.length, 3);
+    expect(schedule.entries.length, 5);
   });
 }
