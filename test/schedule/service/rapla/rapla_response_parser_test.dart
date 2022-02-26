@@ -33,6 +33,10 @@ Future<void> main() async {
           '/test/schedule/service/rapla/html_resources/rapla_week_response.html')
       .readAsString();
 
+  var raplaWeekResponse1 = await File(Directory.current.absolute.path +
+          '/test/schedule/service/rapla/html_resources/rapla_week_response_1.html')
+      .readAsString();
+
   test('Rapla correctly read all classes of weekly view', () async {
     var parser = RaplaResponseParser();
 
@@ -215,7 +219,6 @@ Future<void> main() async {
     expect(schedule.entries.length, 7);
   });
 
-
   test('Rapla correctly read the week response',
       () async {
     var parser = RaplaResponseParser();
@@ -230,6 +233,22 @@ Future<void> main() async {
     expect(schedule.entries[0].room, "STG-TEL21");
 
     expect(schedule.entries.length, 6);
+  });
+
+  test('Rapla correctly read the week response 1',
+      () async {
+    var parser = RaplaResponseParser();
+
+    var schedule = parser.parseSchedule(raplaWeekResponse1).schedule;
+
+    expect(schedule.entries[0].title, "Klausur Elektronik und Messtechnik");
+    expect(schedule.entries[0].start, DateTime(2021, 12, 13, 08, 00));
+    expect(schedule.entries[0].end, DateTime(2021, 12, 13, 10, 00));
+    expect(schedule.entries[0].type, ScheduleEntryType.Exam);
+    expect(schedule.entries[0].professor, "Man, R.");
+    expect(schedule.entries[0].room, "TEA20,H031, Hörsaal,N003, Hörsaal,N004, Hörsaal");
+
+    expect(schedule.entries.length, 7);
   });
 
   test('Rapla robust parse', () async {
