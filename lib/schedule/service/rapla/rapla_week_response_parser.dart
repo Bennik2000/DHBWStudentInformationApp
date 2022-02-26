@@ -83,9 +83,10 @@ class RaplaWeekResponseParser {
 
     for (var header in weekHeaders) {
       var dateString = header.text + year;
+      dateString = dateString.replaceAll(RegExp(r"\s+\b|\b\s"), "");
 
       try {
-        var date = DateFormat("dd.MM.yyyy").parse(dateString.substring(3));
+        var date = DateFormat("dd.MM.yyyy").parse(dateString.substring(2));
         dates.add(date);
       } catch (exception, trace) {
         throw ParseException.withInner(exception, trace);

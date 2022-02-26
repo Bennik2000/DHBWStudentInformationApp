@@ -29,6 +29,10 @@ Future<void> main() async {
           '/test/schedule/service/rapla/html_resources/invalid_rapla_response.html')
       .readAsString();
 
+  var raplaWeekResponse = await File(Directory.current.absolute.path +
+          '/test/schedule/service/rapla/html_resources/rapla_week_response.html')
+      .readAsString();
+
   test('Rapla correctly read all classes of weekly view', () async {
     var parser = RaplaResponseParser();
 
@@ -209,6 +213,23 @@ Future<void> main() async {
     expect(schedule.entries[6].room, "WDCM21B,C348  PC Raum,D221 W Hörsaal (Fr 08.10.21  13:00, Fr 15.10.21  13:00, Fr 22.10.21  13:00),G086 W Hörsaal (Fr 29.10.21  13:00, Fr 05.11.21  13:00, Fr 12.11.21  13:00, Do 18.11.21  13:00),A167 W Hörsaal (Fr 26.11.21  13:00, Do 02.12.21  13:00)");
 
     expect(schedule.entries.length, 7);
+  });
+
+
+  test('Rapla correctly read the week response',
+      () async {
+    var parser = RaplaResponseParser();
+
+    var schedule = parser.parseSchedule(raplaWeekResponse).schedule;
+
+    expect(schedule.entries[0].title, "Geschäftsprozesse, T3ELG1010");
+    expect(schedule.entries[0].start, DateTime(2022, 02, 21, 08, 30));
+    expect(schedule.entries[0].end, DateTime(2022, 02, 21, 12, 30));
+    expect(schedule.entries[0].type, ScheduleEntryType.Online);
+    expect(schedule.entries[0].professor, "Ko, Ha, Dipl-.Wirtsch.-Ing.");
+    expect(schedule.entries[0].room, "STG-TEL21");
+
+    expect(schedule.entries.length, 6);
   });
 
   test('Rapla robust parse', () async {
