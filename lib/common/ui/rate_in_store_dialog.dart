@@ -60,21 +60,21 @@ class RateInStoreDialog {
       mainAxisSize: MainAxisSize.max,
       buttonPadding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
       children: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(L.of(context).rateDialogDoNotRateButton.toUpperCase()),
           onPressed: () {
             _rateNever();
             Navigator.of(context).pop();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text(L.of(context).rateDialogRateLaterButton.toUpperCase()),
           onPressed: () {
             _rateLater();
             Navigator.of(context).pop();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text(L.of(context).rateDialogRateNowButton.toUpperCase()),
           onPressed: () {
             _rateNow();

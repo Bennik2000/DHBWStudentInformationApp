@@ -67,7 +67,7 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
                           },
                         ),
                       ),
-                      FlatButton.icon(
+                      TextButton.icon(
                         onPressed: () async {
                           await viewModel.pasteUrl();
                         },

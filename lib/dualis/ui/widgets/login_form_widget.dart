@@ -146,8 +146,7 @@ class _LoginFormState extends State<LoginForm> {
               padding: const EdgeInsets.fromLTRB(0, 24, 0, 0),
               child: _isLoading
                   ? const CircularProgressIndicator()
-                  : FlatButton.icon(
-                      textColor: Theme.of(context).accentColor,
+                  : TextButton.icon(
                       onPressed: () async {
                         await loginButtonPressed();
                       },

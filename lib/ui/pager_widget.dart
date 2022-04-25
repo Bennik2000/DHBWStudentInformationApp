@@ -84,7 +84,7 @@ class _PagerWidgetState extends State<PagerWidget> {
       bottomNavigationBarItems.add(
         BottomNavigationBarItem(
           icon: page.icon,
-          title: page.text,
+          label: page.text,
         ),
       );
     }
@@ -123,7 +123,7 @@ class _PagerWidgetState extends State<PagerWidget> {
 
 class PageDefinition {
   final Widget icon;
-  final Widget text;
+  final String text;
   final WidgetBuilder builder;
   final BaseViewModel viewModel;
 

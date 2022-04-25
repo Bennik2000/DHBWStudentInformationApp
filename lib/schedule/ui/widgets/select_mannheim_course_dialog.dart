@@ -61,7 +61,7 @@ class SelectMannheimCourseDialog {
 
   List<Widget> _buildButtons(BuildContext context) {
     return <Widget>[
-      FlatButton(
+      TextButton(
         child: Text(L.of(context).dialogOk.toUpperCase()),
         onPressed: () async {
           await _mannheimViewModel.save();

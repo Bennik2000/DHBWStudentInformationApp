@@ -36,8 +36,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(L.of(context).scheduleQueryFailedMessage),
-            FlatButton(
-              textColor: Theme.of(context).accentColor,
+            TextButton(
               child: Text(
                   L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase()),
               onPressed: () {
@@ -169,15 +168,15 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        FlatButton(
+        TextButton(
           child: Icon(Icons.chevron_left),
           onPressed: _previousWeek,
         ),
-        FlatButton(
+        TextButton(
           child: Icon(Icons.today),
           onPressed: _goToToday,
         ),
-        FlatButton(
+        TextButton(
           child: Icon(Icons.chevron_right),
           onPressed: _nextWeek,
         ),

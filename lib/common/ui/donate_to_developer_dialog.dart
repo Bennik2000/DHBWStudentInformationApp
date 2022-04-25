@@ -1,7 +1,6 @@
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
 import 'package:flutter/cupertino.dart';
@@ -72,14 +71,14 @@ class DonateToDeveloperDialog {
       mainAxisSize: MainAxisSize.max,
       buttonPadding: const EdgeInsets.fromLTRB(10, 0, 5, 0),
       children: <Widget>[
-        FlatButton(
+        TextButton(
           child: Text(L.of(context).donateDialogPositiveButton.toUpperCase()),
           onPressed: () {
             Navigator.of(context).pop();
             KiwiContainer().resolve<InAppPurchaseManager>().donate();
           },
         ),
-        FlatButton(
+        TextButton(
           child: Text(L.of(context).donateDialogNegativeButton.toUpperCase()),
           onPressed: () {
             Navigator.of(context).pop();

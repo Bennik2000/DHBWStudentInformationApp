@@ -105,7 +105,7 @@ class Session {
       });
 
       var response = await http.HttpClientHelper.post(
-        url,
+        Uri.parse(url),
         body: data,
         headers: cookies,
         cancelToken: requestCancellationToken,

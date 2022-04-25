@@ -150,8 +150,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                               width: 32,
                               child: CircularProgressIndicator()),
                         )
-                      : FlatButton(
-                          textColor: Theme.of(context).accentColor,
+                      : TextButton(
                           child: Text(L
                               .of(context)
                               .dateManagementExportToCalendarConfirm

@@ -67,7 +67,7 @@ class _IcalUrlPageState extends State<IcalUrlPage> {
                           },
                         ),
                       ),
-                      FlatButton.icon(
+                      TextButton.icon(
                         onPressed: () async {
                           await viewModel.pasteUrl();
                         },

@@ -91,7 +91,7 @@ class _DualisLoginCredentialsPageState
                           Icons.check,
                           color: Colors.green,
                         )
-                      : FlatButton(
+                      : TextButton(
                           onPressed: () async {
                             await _testCredentials(viewModel);
                           },
@@ -99,7 +99,6 @@ class _DualisLoginCredentialsPageState
                               .of(context)
                               .onboardingDualisTestButton
                               .toUpperCase()),
-                          textColor: Theme.of(context).accentColor,
                         ),
             ],
           ),

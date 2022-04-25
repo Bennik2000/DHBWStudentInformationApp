@@ -64,10 +64,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
             child: ButtonTheme(
               minWidth: 36,
               height: 36,
-              child: FlatButton(
+              child: TextButton(
                 child: Icon(Icons.tune),
-                padding: const EdgeInsets.all(0),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 onPressed: () {
                   setState(() {
                     _isExpanded = true;
@@ -207,10 +205,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
           child: ButtonTheme(
             minWidth: 36,
             height: 36,
-            child: FlatButton(
+            child: TextButton(
               child: const Icon(Icons.check),
-              padding: const EdgeInsets.all(0),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               onPressed: () {
                 setState(() {
                   _isExpanded = false;

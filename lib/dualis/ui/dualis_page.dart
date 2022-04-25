@@ -25,12 +25,12 @@ class DualisPage extends StatelessWidget {
           pagesId: "dualis_pager",
           pages: <PageDefinition>[
             PageDefinition(
-              text: Text(L.of(context).pageDualisOverview),
+              text: L.of(context).pageDualisOverview,
               icon: Icon(Icons.dashboard),
               builder: (BuildContext context) => StudyOverviewPage(),
             ),
             PageDefinition(
-              text: Text(L.of(context).pageDualisExams),
+              text: L.of(context).pageDualisExams,
               icon: Icon(Icons.book),
               builder: (BuildContext context) => ExamResultsPage(),
             ),

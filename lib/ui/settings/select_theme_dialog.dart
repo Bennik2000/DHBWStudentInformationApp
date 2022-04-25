@@ -56,8 +56,7 @@ class SelectThemeDialog {
         ),
       ),
       actions: [
-        FlatButton(
-          textColor: Theme.of(context).accentColor,
+        TextButton(
           child: Text(L.of(context).dialogOk.toUpperCase()),
           onPressed: () {
             Navigator.of(context).pop();

@@ -54,7 +54,6 @@ class _OnboardingPageState extends State<OnboardingPage>
             OnboardingPageBackground(controller: _controller.view),
           ],
         ),
-        resizeToAvoidBottomPadding: false,
       ),
     );
   }

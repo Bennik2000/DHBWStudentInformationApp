@@ -93,7 +93,7 @@ abstract class EnterUrlDialog {
 
   List<Widget> _buildButtons(BuildContext context) {
     return <Widget>[
-      FlatButton(
+      TextButton(
         child: Text(L.of(context).dialogCancel.toUpperCase()),
         onPressed: () {
           Navigator.of(context).pop();
@@ -104,7 +104,7 @@ abstract class EnterUrlDialog {
         child: Consumer(
           builder: (BuildContext context, ValueNotifier<bool> hasUrlError,
                   Widget child) =>
-              FlatButton(
+              TextButton(
             child: Text(L.of(context).dialogOk.toUpperCase()),
             onPressed: hasUrlError.value
                 ? null
