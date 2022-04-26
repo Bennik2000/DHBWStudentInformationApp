@@ -17,7 +17,7 @@ class DateManagementPage extends StatelessWidget {
   Widget build(BuildContext context) {
     DateManagementViewModel viewModel = Provider.of<BaseViewModel>(context);
 
-    return PropertyChangeProvider<DateManagementViewModel>(
+    return PropertyChangeProvider<DateManagementViewModel, Object>(
       value: viewModel,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -153,7 +153,7 @@ class DateManagementPage extends StatelessWidget {
   }
 
   Widget buildErrorDisplay(BuildContext context) {
-    return PropertyChangeConsumer(
+    return PropertyChangeConsumer<DateManagementViewModel, Object>(
       properties: const [
         "updateFailed",
       ],

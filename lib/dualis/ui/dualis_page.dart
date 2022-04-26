@@ -19,7 +19,7 @@ class DualisPage extends StatelessWidget {
     if (viewModel.loginState != LoginState.LoggedIn) {
       widget = DualisLoginPage();
     } else {
-      widget = PropertyChangeProvider<StudyGradesViewModel>(
+      widget = PropertyChangeProvider<StudyGradesViewModel, String>(
         value: viewModel,
         child: PagerWidget(
           pagesId: "dualis_pager",

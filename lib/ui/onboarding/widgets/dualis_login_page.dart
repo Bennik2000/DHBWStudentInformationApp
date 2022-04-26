@@ -25,7 +25,7 @@ class _DualisLoginCredentialsPageState
 
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeConsumer(
+    return PropertyChangeConsumer<OnboardingStepViewModel, String>(
       builder:
           (BuildContext context, OnboardingStepViewModel base, Set<Object> _) {
         var viewModel = base as DualisLoginViewModel;

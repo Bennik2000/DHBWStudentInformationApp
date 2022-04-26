@@ -29,7 +29,7 @@ class SelectMannheimCourseDialog {
     return AlertDialog(
       title: Text(L.of(context).onboardingMannheimTitle),
       contentPadding: EdgeInsets.all(0),
-      content: PropertyChangeProvider<OnboardingStepViewModel>(
+      content: PropertyChangeProvider<OnboardingStepViewModel, String>(
         value: _mannheimViewModel,
         child: Container(
           height: MediaQuery.of(context).size.height,

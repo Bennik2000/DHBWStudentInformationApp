@@ -38,7 +38,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeProvider(
+    return PropertyChangeProvider<CalendarExportViewModel, String>(
       value: viewModel,
       child: Scaffold(
         appBar: AppBar(

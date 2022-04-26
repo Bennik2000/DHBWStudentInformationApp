@@ -22,7 +22,7 @@ class SelectThemeDialog {
   Widget dialogBuilder(BuildContext context) {
     return AlertDialog(
       title: Text(L.of(context).selectThemeDialogTitle),
-      content: PropertyChangeProvider<RootViewModel>(
+      content: PropertyChangeProvider<RootViewModel, String>(
         value: _rootViewModel,
         child: PropertyChangeConsumer(
           properties: const [

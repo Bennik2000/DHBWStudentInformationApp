@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
+import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_button_bar.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_page_background.dart';
 import 'package:flutter/cupertino.dart';
@@ -45,7 +47,7 @@ class _OnboardingPageState extends State<OnboardingPage>
 
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeProvider(
+    return PropertyChangeProvider<OnboardingViewModel, String>(
       value: viewModel,
       child: Scaffold(
         body: Stack(
@@ -73,8 +75,8 @@ class _OnboardingPageState extends State<OnboardingPage>
           constraints: BoxConstraints(maxWidth: 500),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 120, 0, 90),
-            child: PropertyChangeConsumer(
-              builder: (BuildContext context, OnboardingViewModel model, _) {
+            child: PropertyChangeConsumer<OnboardingViewModel, String>(
+              builder: (BuildContext context, BaseViewModel model, _) {
                 return Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -109,7 +111,7 @@ class _OnboardingPageState extends State<OnboardingPage>
     );
 
     if (currentStep != null) {
-      body = PropertyChangeProvider(
+      body = PropertyChangeProvider<OnboardingStepViewModel, String>(
         key: ValueKey(model.currentStep),
         value: currentStep.viewModel(),
         child: body,
@@ -145,7 +147,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   void _onboardingFinished() {
-    var rootViewModel = PropertyChangeProvider.of<RootViewModel>(context).value;
+    var rootViewModel = PropertyChangeProvider.of<RootViewModel, String>(context).value;
     rootViewModel.setIsOnboarding(false);
 
     Navigator.of(context).pushReplacementNamed("main");

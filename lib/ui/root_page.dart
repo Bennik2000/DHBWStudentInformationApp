@@ -35,7 +35,7 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeProvider(
+    return PropertyChangeProvider<RootViewModel, String>(
       child: PropertyChangeConsumer(
         properties: const ["isDarkMode", "isOnboarding"],
         builder: (BuildContext context, RootViewModel model, Set properties) =>

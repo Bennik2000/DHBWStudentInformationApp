@@ -5,18 +5,22 @@ Color colorScheduleEntryPublicHoliday(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffcbcbcb)
         : const Color(0xff515151);
+
 Color colorScheduleEntryClass(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffe63f3b)
         : const Color(0xffa52632);
+
 Color colorScheduleEntryExam(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xfffdb531)
         : const Color(0xffb17f22);
+
 Color colorScheduleEntryOnline(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffAFC7EA)
         : const Color(0xff2659A6);
+
 Color colorScheduleEntryUnknown(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffcbcbcb)
@@ -82,6 +86,15 @@ class ColorPalettes {
         contentTextStyle: themeData.textTheme.bodyText1.copyWith(
           color:
               isDark ? Color(0xffe4e4e4) : themeData.textTheme.bodyText1.color,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: ColorPalettes.main,
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+          ),
         ),
       ),
     );

@@ -42,7 +42,7 @@ class ScheduleNavigationEntry extends NavigationEntry {
   List<Widget> appBarActions(BuildContext context) {
     initViewModel();
     return [
-      PropertyChangeProvider(
+      PropertyChangeProvider<ScheduleViewModel, String>(
         value: _viewModel,
         child: PropertyChangeConsumer(
             properties: const ["didSetupProperly"],
@@ -57,7 +57,7 @@ class ScheduleNavigationEntry extends NavigationEntry {
                         tooltip: L.of(context).helpButtonTooltip,
                       )),
       ),
-      PropertyChangeProvider(
+      PropertyChangeProvider<ScheduleViewModel, String>(
         value: _viewModel,
         child: PropertyChangeConsumer(
           properties: const ["didSetupProperly"],

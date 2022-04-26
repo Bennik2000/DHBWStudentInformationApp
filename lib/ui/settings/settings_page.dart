@@ -56,7 +56,7 @@ class _SettingsPageState extends State<SettingsPage> {
         iconTheme: Theme.of(context).iconTheme,
         title: Text(L.of(context).settingsPageTitle),
       ),
-      body: PropertyChangeProvider<SettingsViewModel>(
+      body: PropertyChangeProvider<SettingsViewModel, String>(
         value: settingsViewModel,
         child: ListView(
           children: widgets,

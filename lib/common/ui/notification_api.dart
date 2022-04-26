@@ -41,7 +41,7 @@ class NotificationApi {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'Notifications',
       'Notifications',
-      'This is the main notification channel',
+      channelDescription: 'This is the main notification channel',
       icon: 'outline_event_note_24',
       channelAction: AndroidNotificationChannelAction.createIfNotExists,
       autoCancel: true,

@@ -82,7 +82,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
 
     viewModel.setQueryFailedCallback(_showQueryFailedSnackBar);
 
-    return PropertyChangeProvider(
+    return PropertyChangeProvider<WeeklyScheduleViewModel, String>(
       value: viewModel,
       child: GestureDetector(
         onPanEnd: (details) {
@@ -168,16 +168,16 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        TextButton(
-          child: Icon(Icons.chevron_left),
+        IconButton(
+          icon: Icon(Icons.chevron_left),
           onPressed: _previousWeek,
         ),
-        TextButton(
-          child: Icon(Icons.today),
+        IconButton(
+          icon: Icon(Icons.today),
           onPressed: _goToToday,
         ),
-        TextButton(
-          child: Icon(Icons.chevron_right),
+        IconButton(
+          icon: Icon(Icons.chevron_right),
           onPressed: _nextWeek,
         ),
       ],

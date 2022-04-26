@@ -64,8 +64,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
             child: ButtonTheme(
               minWidth: 36,
               height: 36,
-              child: TextButton(
-                child: Icon(Icons.tune),
+              child: IconButton(
+                icon: Icon(Icons.tune),
                 onPressed: () {
                   setState(() {
                     _isExpanded = true;
@@ -205,8 +205,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
           child: ButtonTheme(
             minWidth: 36,
             height: 36,
-            child: TextButton(
-              child: const Icon(Icons.check),
+            child: IconButton(
+              icon: const Icon(Icons.check),
               onPressed: () {
                 setState(() {
                   _isExpanded = false;

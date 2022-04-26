@@ -23,7 +23,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
   Widget build(BuildContext context) {
     viewModel = Provider.of<BaseViewModel>(context);
 
-    return PropertyChangeProvider(
+    return PropertyChangeProvider<DailyScheduleViewModel, String>(
       value: viewModel,
       child: SingleChildScrollView(
         child: Padding(
@@ -34,7 +34,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                child: PropertyChangeConsumer(
+                child: PropertyChangeConsumer<DailyScheduleViewModel, String>(
                   builder: (BuildContext context, DailyScheduleViewModel model,
                       Set properties) {
                     var dateFormat = DateFormat.yMMMMEEEEd(

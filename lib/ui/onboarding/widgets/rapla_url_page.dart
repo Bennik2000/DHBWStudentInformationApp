@@ -40,7 +40,7 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-            child: PropertyChangeConsumer(
+            child: PropertyChangeConsumer<OnboardingStepViewModel, String>(
               builder: (BuildContext context, OnboardingStepViewModel model,
                   Set<Object> _) {
                 var viewModel = model as RaplaUrlViewModel;

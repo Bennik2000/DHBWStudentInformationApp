@@ -43,9 +43,9 @@ class ScheduleFilterPage extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: PropertyChangeProvider(
+              child: PropertyChangeProvider<FilterViewModel, String>(
                 value: _viewModel,
-                child: PropertyChangeConsumer(
+                child: PropertyChangeConsumer<FilterViewModel, String>(
                     builder: (BuildContext _, FilterViewModel viewModel,
                             Set<Object> ___) =>
                         ListView.builder(
