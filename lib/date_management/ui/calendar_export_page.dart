@@ -43,12 +43,12 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          textTheme: Theme.of(context).textTheme,
           actionsIconTheme: Theme.of(context).iconTheme,
           elevation: 0,
-          brightness: Theme.of(context).brightness,
           iconTheme: Theme.of(context).iconTheme,
           title: Text(L.of(context).dateManagementExportToCalendar),
+          toolbarTextStyle: Theme.of(context).textTheme.bodyText2,
+          titleTextStyle: Theme.of(context).textTheme.headline6,
         ),
         body: Column(
           children: <Widget>[

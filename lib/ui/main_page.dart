@@ -6,6 +6,7 @@ import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:dhbwstudentapp/ui/navigation/router.dart';
 import 'package:dhbwstudentapp/ui/navigation_drawer.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
@@ -76,13 +77,13 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          textTheme: Theme.of(context).textTheme,
           actionsIconTheme: Theme.of(context).iconTheme,
           elevation: 0,
-          brightness: Theme.of(context).brightness,
           iconTheme: Theme.of(context).iconTheme,
           title: Text(currentEntry.title(context)),
           actions: currentEntry.appBarActions(context),
+          toolbarTextStyle: Theme.of(context).textTheme.bodyText2,
+          titleTextStyle: Theme.of(context).textTheme.headline6,
         ),
         body: navigator,
         drawer: NavigationDrawer(
@@ -98,13 +99,13 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        textTheme: Theme.of(context).textTheme,
         actionsIconTheme: Theme.of(context).iconTheme,
         elevation: 0,
-        brightness: Theme.of(context).brightness,
         iconTheme: Theme.of(context).iconTheme,
         title: Text(currentEntry.title(context)),
         actions: currentEntry.appBarActions(context),
+        toolbarTextStyle: Theme.of(context).textTheme.bodyText2,
+        titleTextStyle: Theme.of(context).textTheme.headline6,
       ),
       body: Row(
         children: [
