@@ -3,7 +3,6 @@ import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/ui/login_credentials_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EnterDualisCredentialsDialog {

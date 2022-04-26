@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 typedef NavigationItemOnTap = Function(int index);

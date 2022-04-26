@@ -5,7 +5,6 @@ import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model.da
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_button_bar.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/onboarding_page_background.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';

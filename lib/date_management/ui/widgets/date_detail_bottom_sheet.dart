@@ -3,7 +3,6 @@ import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class DateDetailBottomSheet extends StatelessWidget {

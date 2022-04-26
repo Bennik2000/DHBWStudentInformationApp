@@ -1,7 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/date_management/model/date_database.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DateFilterOptions extends StatefulWidget {

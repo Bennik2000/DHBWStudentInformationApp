@@ -3,7 +3,6 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 ///
 /// Dialog which informs the user, that there is a widget for the home screen

@@ -6,8 +6,6 @@ import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:dhbwstudentapp/ui/navigation/router.dart';
 import 'package:dhbwstudentapp/ui/navigation_drawer.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 

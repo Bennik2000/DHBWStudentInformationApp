@@ -40,7 +40,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
               child: Text(
                   L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase()),
               onPressed: () {
-                launch(viewModel.scheduleUrl);
+                launchUrl(Uri.parse(viewModel.scheduleUrl));
               },
             )
           ],

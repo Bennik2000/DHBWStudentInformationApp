@@ -1,9 +1,7 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/select_source_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 

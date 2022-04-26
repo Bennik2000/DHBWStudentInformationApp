@@ -3,7 +3,6 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 

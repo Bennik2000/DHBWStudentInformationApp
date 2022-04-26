@@ -46,8 +46,6 @@ class OnboardingButtonBar extends StatelessWidget {
 
   Widget _buildNextButton(BuildContext context) {
     String buttonText;
-    var buttonColor = Theme.of(context).accentColor;
-
     if (viewModel.isLastStep) {
       buttonText = L.of(context).onboardingFinishButton;
     } else {
@@ -55,7 +53,6 @@ class OnboardingButtonBar extends StatelessWidget {
     }
     if (!viewModel.currentPageValid) {
       buttonText = L.of(context).onboardingSkipButton;
-      buttonColor = Theme.of(context).disabledColor;
     }
 
     return AnimatedSwitcher(

@@ -1,6 +1,5 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';

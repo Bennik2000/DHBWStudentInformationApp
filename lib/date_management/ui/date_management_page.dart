@@ -6,7 +6,6 @@ import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
 import 'package:dhbwstudentapp/date_management/ui/widgets/date_detail_bottom_sheet.dart';
 import 'package:dhbwstudentapp/date_management/ui/widgets/date_filter_options.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';

@@ -1,12 +1,8 @@
-import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
-import 'package:dhbwstudentapp/schedule/service/rapla/rapla_monthly_response_parser.dart';
 import 'package:dhbwstudentapp/schedule/service/rapla/rapla_several_months_response_parser.dart';
 import 'package:dhbwstudentapp/schedule/service/rapla/rapla_week_response_parser.dart';
-import 'package:html/dom.dart';
 import 'package:html/parser.dart' show parse;
-import 'package:intl/intl.dart';
 
 ///
 /// Parsing implementation which parses the response of the rapla schedule source.

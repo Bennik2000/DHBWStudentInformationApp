@@ -7,7 +7,6 @@ import 'package:dhbwstudentapp/schedule/ui/widgets/enter_ical_url.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/enter_rapla_url_dialog.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_mannheim_course_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:kiwi/kiwi.dart';
 
 class SelectSourceDialog {

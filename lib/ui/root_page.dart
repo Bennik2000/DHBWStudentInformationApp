@@ -6,7 +6,6 @@ import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:dhbwstudentapp/ui/navigation/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 

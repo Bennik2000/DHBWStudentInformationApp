@@ -98,7 +98,7 @@ class _SettingsPageState extends State<SettingsPage> {
       ListTile(
         title: Text(L.of(context).settingsViewSourceCode),
         onTap: () {
-          launch(ApplicationSourceCodeUrl);
+          launchUrl(Uri.parse(ApplicationSourceCodeUrl));
         },
       ),
       const Divider(),

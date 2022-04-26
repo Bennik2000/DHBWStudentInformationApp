@@ -47,7 +47,7 @@ class InAppPurchaseHelper {
   Future<void> initialize() async {
     print("Initializing in app purchases...");
 
-    await FlutterInappPurchase.instance.initConnection;
+    await FlutterInappPurchase.instance.initialize();
 
     _purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen(_completePurchase);

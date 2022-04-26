@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:dhbwstudentapp/common/i18n/localization_strings_de.dart';
 import 'package:dhbwstudentapp/common/i18n/localization_strings_en.dart';
 import 'package:flutter/foundation.dart';

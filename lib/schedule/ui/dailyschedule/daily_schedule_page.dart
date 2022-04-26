@@ -5,7 +5,6 @@ import 'package:dhbwstudentapp/schedule/ui/dailyschedule/widgets/current_time_in
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/widgets/daily_schedule_entry_widget.dart';
 import 'package:dhbwstudentapp/schedule/ui/viewmodels/daily_schedule_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';

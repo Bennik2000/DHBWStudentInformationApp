@@ -72,12 +72,17 @@ class ColorPalettes {
       isDark = PlatformUtil.platformBrightness() == Brightness.dark;
     }
 
+    var brightness = isDark ? Brightness.dark : Brightness.light;
+
     var themeData = ThemeData(
-      brightness: isDark ? Brightness.dark : Brightness.light,
-      accentColor: ColorPalettes.main[500],
-      primarySwatch: ColorPalettes.main,
+      brightness: brightness,
       toggleableActiveColor:
           isDark ? ColorPalettes.main[700] : ColorPalettes.main[600],
+      colorScheme:
+          ColorScheme.fromSwatch(primarySwatch: ColorPalettes.main).copyWith(
+        secondary: ColorPalettes.main[500],
+        brightness: brightness,
+      ),
     );
 
     return themeData.copyWith(

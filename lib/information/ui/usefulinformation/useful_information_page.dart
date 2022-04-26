@@ -73,6 +73,6 @@ class UsefulInformationPage extends StatelessWidget {
   }
 
   void openLink(String url) {
-    launch(url);
+    launchUrl(Uri.parse(url));
   }
 }
