@@ -49,7 +49,7 @@ class _MannheimPageState extends State<MannheimPage> {
 class SelectMannheimCourseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeConsumer(
+    return PropertyChangeConsumer<OnboardingStepViewModel, String>(
       builder:
           (BuildContext context, OnboardingStepViewModel model, Set<Object> _) {
         var viewModel = model as MannheimViewModel;
