@@ -4,6 +4,8 @@ import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
+import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
+import 'package:dhbwstudentapp/date_management/ui/calendar_export_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
 import 'package:dhbwstudentapp/ui/settings/select_theme_dialog.dart';
@@ -29,12 +31,11 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final SettingsViewModel settingsViewModel = SettingsViewModel(
-    KiwiContainer().resolve(),
-    KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
-        as NextDayInformationNotification,
-    KiwiContainer().resolve(),
-    KiwiContainer().resolve(),
-  );
+      KiwiContainer().resolve(),
+      KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
+          as NextDayInformationNotification,
+      KiwiContainer().resolve(),
+      KiwiContainer().resolve());
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +128,17 @@ class _SettingsPageState extends State<SettingsPage> {
             title: Text(L.of(context).settingsPrettifySchedule),
             onChanged: model.setPrettifySchedule,
             value: model.prettifySchedule,
+          );
+        },
+      ),
+      PropertyChangeConsumer(
+        properties: const ["isCalendarSyncEnabled"],
+        builder:
+            (BuildContext context, SettingsViewModel model, Set properties) {
+          return SwitchListTile(
+            title: Text("Kalendersynchronisation"),
+            onChanged: model.setIsCalendarSyncEnabled,
+            value: model.isCalendarSyncEnabled,
           );
         },
       ),

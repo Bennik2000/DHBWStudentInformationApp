@@ -4,6 +4,10 @@ import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
+import 'package:kiwi/kiwi.dart';
+
+import '../../../common/util/cancellation_token.dart';
+import '../../../schedule/business/schedule_provider.dart';
 
 ///
 /// The view model for the settings page.
@@ -26,6 +30,10 @@ class SettingsViewModel extends BaseViewModel {
 
   bool get prettifySchedule => _prettifySchedule;
 
+  bool _isCalendarSyncEnabled = false;
+
+  bool get isCalendarSyncEnabled => _isCalendarSyncEnabled;
+
   PurchaseStateEnum _widgetPurchaseState;
 
   PurchaseStateEnum get widgetPurchaseState => _widgetPurchaseState;
@@ -38,13 +46,28 @@ class SettingsViewModel extends BaseViewModel {
     this._preferencesProvider,
     this._nextDayInformationNotification,
     this._widgetHelper,
-    this._inAppPurchaseManager,
+    this._inAppPurchaseManager
   ) {
     _loadPreferences();
 
     _inAppPurchaseManager.addPurchaseCallback(
       InAppPurchaseHelper.WidgetProductId,
       _widgetPurchaseCallback,
+    );
+  }
+
+  Future<void> setIsCalendarSyncEnabled(bool value) async {
+    _isCalendarSyncEnabled = value;
+
+    notifyListeners("isCalendarSyncEnabled");
+
+    await _preferencesProvider.setIsCalendarSyncEnabled(value);
+
+    var scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
+    scheduleProvider.getUpdatedSchedule(
+      DateTime.now(),
+      DateTime.now().add(Duration(days: 30)),
+      CancellationToken(),
     );
   }
 

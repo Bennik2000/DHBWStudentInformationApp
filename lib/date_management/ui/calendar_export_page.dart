@@ -72,7 +72,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
 
   Widget _buildCalendarList() {
     return Expanded(
-      child: PropertyChangeConsumer(
+      child: PropertyChangeConsumer<CalendarExportViewModel, String>(
         builder: (BuildContext context, CalendarExportViewModel viewModel, _) =>
             ListView.builder(
           itemCount: viewModel.calendars.length,
@@ -139,7 +139,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
       padding: const EdgeInsets.fromLTRB(0, 8, 16, 8),
       child: Align(
         alignment: Alignment.centerRight,
-        child: PropertyChangeConsumer(
+        child: PropertyChangeConsumer<CalendarExportViewModel, String>(
           builder:
               (BuildContext context, CalendarExportViewModel viewModel, _) =>
                   viewModel.isExporting

@@ -24,6 +24,7 @@ class PreferencesProvider {
   static const String MannheimScheduleId = "MannheimScheduleId";
   static const String PrettifySchedule = "PrettifySchedule";
   static const String DidShowWidgetHelpDialog = "DidShowWidgetHelpDialog";
+  static const String SynchronizeScheduleWithCalendar = "SynchronizeScheduleWithCalendar";
 
   final PreferencesAccess _preferencesAccess;
   final SecureStorageAccess _secureStorageAccess;
@@ -36,6 +37,14 @@ class PreferencesProvider {
 
   Future<void> setIsDarkMode(bool value) async {
     await _preferencesAccess.set(IsDarkModeKey, value);
+  }
+
+  Future<void> setIsCalendarSyncEnabled(bool value) async {
+    await _preferencesAccess.set('isCalendarSyncEnabled', value);
+  }
+
+  Future<bool> isCalendarSyncEnabled() async {
+    return await _preferencesAccess.get('isCalendarSyncEnabled') ?? false;
   }
 
   Future<String> getRaplaUrl() async {
@@ -165,6 +174,14 @@ class PreferencesProvider {
 
   Future<void> setPrettifySchedule(bool value) {
     return _preferencesAccess.set(PrettifySchedule, value);
+  }
+
+  Future<bool> getSynchronizeScheduleWithCalendar() async {
+    return await _preferencesAccess.get(SynchronizeScheduleWithCalendar) ?? true;
+  }
+
+  Future<void> setSynchronizeScheduleWithCalendar(bool value) {
+    return _preferencesAccess.set(SynchronizeScheduleWithCalendar, value);
   }
 
   Future<bool> getDidShowWidgetHelpDialog() async {
