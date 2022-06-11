@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/appstart/background_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/localization_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notification_schedule_changed_initialize.dart';
@@ -8,9 +9,11 @@ import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
+import 'package:dhbwstudentapp/date_management/ui/calendar_export_page.dart';
 import 'package:dhbwstudentapp/native/widget/widget_update_callback.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_entity.dart';
+import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -18,6 +21,8 @@ import '../../date_management/data/calendar_access.dart';
 import '../../schedule/business/schedule_provider.dart';
 import '../data/preferences/preferences_provider.dart';
 import '../util/cancellation_token.dart';
+
+import 'package:timezone/data/latest.dart' as tz;
 
 bool isInitialized = false;
 
@@ -34,6 +39,8 @@ Future<void> initializeApp(bool isBackground) async {
   }
 
   injectServices(isBackground);
+
+  tz.initializeTimeZones();
 
   if (isBackground) {
     await LocalizationInitialize.fromPreferences(KiwiContainer().resolve())
@@ -69,35 +76,56 @@ Future<void> initializeApp(bool isBackground) async {
   KiwiContainer()
       .resolve<ScheduleProvider>()
       .addScheduleUpdatedCallback((schedule, start, end) async {
-      print('in ScheduleUpdatedCallback!');
+
+    List<DateEntry> listDateEntries = List<DateEntry>.empty(growable: true);
+    schedule.entries.forEach(
+      (element) {
+        DateEntry date = DateEntry(
+            room: element.room,
+            comment: element.details,
+            databaseName: 'DHBW',
+            description: element.title,
+            year: element.start.year.toString(),
+            start: element.start,
+            end: element.end);
+        listDateEntries.add(date);
+      },
+    );
+    KiwiContainer().resolve<ListDateEntries30d>().listDateEntries =
+        listDateEntries;
+
     if (await preferenceProvider.isCalendarSyncEnabled()) {
-      print('CalendarSync is ENABLED');
+      print('CalendarSynISENABLED');
+      // inspect(schedule);
 
-      // print(start);
-      // print(end);
-      inspect(schedule);
-      List<DateEntry> listDateEntries;
-      schedule.entries.forEach((element) {
-        // DateEntry d = DateEntry(comment: element.details, databaseName: 'DHBW', dateAndTime: );
 
-      },);
+      // CalendarExportPage(entriesToExport: listDateEntries);
 
-      // CalendarAccess().addOrUpdateDates();
+      // CalendarAccess().addOrUpdateDates(listDateEntries, Calendar(name: 'DHBW'));
 
     }
   });
 
   // trigger ScheduleUpdatedCallback 10 seconds after the app started
-  Future.delayed(Duration(seconds: 10), () {
-    print('getUpdatedSchedule after10 Seconds');
-    var scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
-    scheduleProvider.getUpdatedSchedule(
-      DateTime.now(),
-      DateTime.now().add(Duration(days: 60)),
-      CancellationToken(),
-    );
-  });
+
+  // Future.delayed(Duration(seconds: 10), () {
+  //   print('getUpdatedSchedule after10 Seconds');
+  //   var scheduleSource = KiwiContainer().resolve<ScheduleSourceProvider>();
+  //   if(!scheduleSource.didSetupCorrectly()) return;
+  //   var scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
+  //   // if(scheduleProvider == null) return;
+  //   scheduleProvider.getUpdatedSchedule(
+  //     DateTime.now(),
+  //     DateTime.now().add(Duration(days: 60)),
+  //     CancellationToken(),
+  //   );
+  // });
 
   isInitialized = true;
   print("Initialization finished");
+}
+
+class ListDateEntries30d {
+  List<DateEntry> listDateEntries;
+  ListDateEntries30d(this.listDateEntries) {}
 }

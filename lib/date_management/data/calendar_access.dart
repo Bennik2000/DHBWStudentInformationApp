@@ -1,8 +1,14 @@
+import 'dart:developer';
+
 import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/logging/crash_reporting.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
+import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
+import 'package:timezone/timezone.dart' as tz;
+
+
 
 enum CalendarPermission {
   PermissionGranted,
@@ -15,6 +21,7 @@ enum CalendarPermission {
 ///
 class CalendarAccess {
   final DeviceCalendarPlugin _deviceCalendarPlugin = DeviceCalendarPlugin();
+
 
   Future<CalendarPermission> requestCalendarPermission() async {
     try {
@@ -57,7 +64,7 @@ class CalendarAccess {
         await _getExistingEventsFromCalendar(dateEntries, calendar);
 
     for (var entry in dateEntries) {
-      await _addOrUpdateEntry(existingEvents, entry, calendar);
+      inspect(await _addOrUpdateEntry(existingEvents, entry, calendar));
     }
   }
 
@@ -67,17 +74,29 @@ class CalendarAccess {
     // createOrUpdateEvent(...) works
     var id = _getIdOfExistingEvent(existingEvents, entry);
 
-    var isAllDay = isAtMidnight(entry.dateAndTime);
+    var isAllDay, start, end;
+    // inspect(entry.dateAndTime);
+    if (entry.dateAndTime != null) {
+      print('IsAllDay');
+      isAllDay = isAtMidnight(entry.dateAndTime);
 
-    var start = entry.dateAndTime;
-    var end = isAllDay ? start : start.add(const Duration(minutes: 30));
+      start = entry.dateAndTime;
+      end = isAllDay ? start : start.add(const Duration(minutes: 30));
+    } else {
+      print('NotIsAllDay');
+      isAllDay = false;
+      start = tz.TZDateTime.from(entry.start, tz.local);;
+      end = tz.TZDateTime.from(entry.end, tz.local);
+    }
 
-    await _deviceCalendarPlugin.createOrUpdateEvent(Event(
+
+    return await _deviceCalendarPlugin.createOrUpdateEvent(Event(
       calendar.id,
+      location: entry.room,
       title: entry.description,
-      description: "${entry.comment}"
-          "\n\nDatenbank: ${entry.databaseName}"
-          "\nJahrgang: ${entry.year}",
+      description: "${entry.comment}",
+          // "\n\nDatenbank: ${entry.databaseName}"
+          // "\nJahrgang: ${entry.year}",
       eventId: id,
       allDay: isAllDay,
       start: start,
@@ -121,21 +140,42 @@ class CalendarAccess {
   DateEntry _findFirstEntry(List<DateEntry> entries) {
     var firstEntry = entries[0];
 
-    for (var entry in entries) {
-      if (entry.dateAndTime.isBefore(firstEntry.dateAndTime)) {
-        firstEntry = entry;
+    if (firstEntry.dateAndTime ?? false) {
+      for (var entry in entries) {
+        if (entry.dateAndTime.isBefore(firstEntry?.dateAndTime)) {
+          firstEntry = entry;
+        }
+      }
+    } else {
+       for (var entry in entries) {
+        if (entry.end.isBefore(firstEntry?.end)) {
+          firstEntry = entry;
+        }
       }
     }
+
+    // for (var entry in entries) {
+    //   if (entry.dateAndTime.isBefore(firstEntry?.dateAndTime)) {
+    //     firstEntry = entry;
+    //   }
+    // }
 
     return firstEntry;
   }
 
   DateEntry _findLastEntry(List<DateEntry> entries) {
     var lastEntry = entries[0];
-
-    for (var entry in entries) {
-      if (entry.dateAndTime.isAfter(lastEntry.dateAndTime)) {
-        lastEntry = entry;
+    if (lastEntry.dateAndTime ?? false) {
+      for (var entry in entries) {
+        if (entry.dateAndTime.isAfter(lastEntry.dateAndTime)) {
+          lastEntry = entry;
+        }
+      }
+    } else {
+       for (var entry in entries) {
+        if (entry.end.isAfter(lastEntry.end)) {
+          lastEntry = entry;
+        }
       }
     }
 

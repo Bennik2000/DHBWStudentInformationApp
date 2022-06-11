@@ -4,8 +4,9 @@ class DateEntry {
   final DateTime dateAndTime;
   final String comment;
   final String databaseName;
-  DateTime start;
-  DateTime end;
+  final DateTime start;
+  final DateTime end;
+  final String room;
 
   DateEntry({
     this.description,
@@ -14,6 +15,7 @@ class DateEntry {
     this.comment,
     this.databaseName,
     this.start,
-    this.end
+    this.end,
+    this.room
   });
 }

@@ -1,9 +1,11 @@
+import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
 import 'package:dhbwstudentapp/common/data/database_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/data/preferences/secure_storage_access.dart';
 import 'package:dhbwstudentapp/date_management/business/date_entry_provider.dart';
 import 'package:dhbwstudentapp/date_management/data/date_entry_repository.dart';
+import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/service/date_management_service.dart';
 import 'package:dhbwstudentapp/dualis/service/cache_dualis_service_decorator.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
@@ -67,6 +69,7 @@ void injectServices(bool isBackground) {
     DateEntryRepository(c.resolve()),
   ));
   c.registerInstance(WidgetHelper());
+  c.registerInstance(ListDateEntries30d(List<DateEntry>.empty(growable: true)));
 
   _isInjected = true;
 }
