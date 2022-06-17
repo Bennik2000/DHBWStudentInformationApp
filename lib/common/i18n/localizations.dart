@@ -74,7 +74,17 @@ class L {
   String get notificationNextClassTitle =>
       _getValue("notificationNextClassTitle");
 
-  String get disclaimer => _getValue("disclaimer");
+  String get disclaimer => _getValue(" disclaimer");
+
+  String get settingsCalendarSync => _getValue("settingsCalendarSync");
+
+  String get calendarSyncPageTitle => _getValue("calendarSyncPageTitle");
+
+  String get calendarSyncPageSubtitle => _getValue("calendarSyncPageSubtitle");
+
+  String get calendarSyncPageEndSync => _getValue("calendarSyncPageEndSync");
+
+  String get calendarSyncPageBeginSync => _getValue("calendarSyncPageBeginSync");
 
   String get notificationScheduleChangedNewClass =>
       _getValue("notificationScheduleChangedNewClass");
@@ -272,6 +282,10 @@ class L {
   String get dialogCancel => _getValue("dialogCancel");
 
   String get dialogSetRaplaUrlTitle => _getValue("dialogSetRaplaUrlTitle");
+
+  String get dialogCalendarAccessNotGranted => _getValue("dialogCalendarAccessNotGranted");
+
+  String get dialogTitleCalendarAccessNotGranted => _getValue("dialogTitleCalendarAccessNotGranted");
 
   String get scheduleEmptyStateSetUrl => _getValue("scheduleEmptyStateSetUrl");
 

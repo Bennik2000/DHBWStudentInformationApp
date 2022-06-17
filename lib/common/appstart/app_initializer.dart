@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:device_calendar/device_calendar.dart';
@@ -9,12 +8,8 @@ import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
-import 'package:dhbwstudentapp/date_management/ui/calendar_export_page.dart';
 import 'package:dhbwstudentapp/native/widget/widget_update_callback.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
-import 'package:dhbwstudentapp/schedule/data/schedule_entry_entity.dart';
-import 'package:dhbwstudentapp/schedule/model/schedule.dart';
-import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:kiwi/kiwi.dart';
 
 import '../../date_management/data/calendar_access.dart';
@@ -76,7 +71,6 @@ Future<void> initializeApp(bool isBackground) async {
   KiwiContainer()
       .resolve<ScheduleProvider>()
       .addScheduleUpdatedCallback((schedule, start, end) async {
-
     List<DateEntry> listDateEntries = List<DateEntry>.empty(growable: true);
     schedule.entries.forEach(
       (element) {
@@ -95,31 +89,23 @@ Future<void> initializeApp(bool isBackground) async {
         listDateEntries;
 
     if (await preferenceProvider.isCalendarSyncEnabled()) {
-      print('CalendarSynISENABLED');
-      // inspect(schedule);
-
-
-      // CalendarExportPage(entriesToExport: listDateEntries);
-
-      // CalendarAccess().addOrUpdateDates(listDateEntries, Calendar(name: 'DHBW'));
-
+      Calendar selectedCalendar = await preferenceProvider.getSelectedCalendar();
+      if(selectedCalendar == null) return;
+      CalendarAccess().addOrUpdateDates(listDateEntries, selectedCalendar);
     }
   });
 
-  // trigger ScheduleUpdatedCallback 10 seconds after the app started
-
-  // Future.delayed(Duration(seconds: 10), () {
-  //   print('getUpdatedSchedule after10 Seconds');
-  //   var scheduleSource = KiwiContainer().resolve<ScheduleSourceProvider>();
-  //   if(!scheduleSource.didSetupCorrectly()) return;
-  //   var scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
-  //   // if(scheduleProvider == null) return;
-  //   scheduleProvider.getUpdatedSchedule(
-  //     DateTime.now(),
-  //     DateTime.now().add(Duration(days: 60)),
-  //     CancellationToken(),
-  //   );
-  // });
+  //trigger ScheduleUpdatedCallback 10 seconds after the app started
+  Future.delayed(Duration(seconds: 10), () {
+    var scheduleSource = KiwiContainer().resolve<ScheduleSourceProvider>();
+    if (!scheduleSource.didSetupCorrectly()) return;
+    var scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
+    scheduleProvider.getUpdatedSchedule(
+      DateTime.now(),
+      DateTime.now().add(Duration(days: 30)),
+      CancellationToken(),
+    );
+  });
 
   isInitialized = true;
   print("Initialization finished");

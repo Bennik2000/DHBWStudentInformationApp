@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/logging/crash_reporting.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
-import 'package:flutter/physics.dart';
 import 'package:flutter/services.dart';
 import 'package:timezone/timezone.dart' as tz;
 
@@ -64,7 +61,7 @@ class CalendarAccess {
         await _getExistingEventsFromCalendar(dateEntries, calendar);
 
     for (var entry in dateEntries) {
-      inspect(await _addOrUpdateEntry(existingEvents, entry, calendar));
+      await _addOrUpdateEntry(existingEvents, entry, calendar);
     }
   }
 
@@ -75,7 +72,6 @@ class CalendarAccess {
     var id = _getIdOfExistingEvent(existingEvents, entry);
 
     var isAllDay, start, end;
-    // inspect(entry.dateAndTime);
     if (entry.dateAndTime != null) {
       print('IsAllDay');
       isAllDay = isAtMidnight(entry.dateAndTime);
@@ -85,8 +81,8 @@ class CalendarAccess {
     } else {
       print('NotIsAllDay');
       isAllDay = false;
-      start = tz.TZDateTime.from(entry.start, tz.local);;
-      end = tz.TZDateTime.from(entry.end, tz.local);
+      start = tz.TZDateTime.from(entry.start, tz.getLocation('Europe/Berlin'));
+      end = tz.TZDateTime.from(entry.end, tz.getLocation('Europe/Berlin'));
     }
 
 
@@ -106,9 +102,8 @@ class CalendarAccess {
 
   String _getIdOfExistingEvent(List<Event> existingEvents, DateEntry entry) {
     var existingEvent = existingEvents
-        .where((element) => element.title == entry.description)
+        .where((element) => (element.title == entry.description && element.start.toUtc().isAtSameMomentAs(entry.start.toUtc())))
         .toList();
-
     String id;
 
     if (existingEvent.isNotEmpty) {
@@ -125,8 +120,8 @@ class CalendarAccess {
     var existingEventsResult = await _deviceCalendarPlugin.retrieveEvents(
         calendar.id,
         RetrieveEventsParams(
-          startDate: firstEntry.dateAndTime,
-          endDate: lastEntry.dateAndTime,
+          startDate: firstEntry.start,
+          endDate: lastEntry.end,
         ));
 
     var existingEvents = <Event>[];
@@ -153,12 +148,6 @@ class CalendarAccess {
         }
       }
     }
-
-    // for (var entry in entries) {
-    //   if (entry.dateAndTime.isBefore(firstEntry?.dateAndTime)) {
-    //     firstEntry = entry;
-    //   }
-    // }
 
     return firstEntry;
   }

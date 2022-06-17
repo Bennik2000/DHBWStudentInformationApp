@@ -1,6 +1,8 @@
+import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/secure_storage_access.dart';
+import 'package:dhbwstudentapp/date_management/data/calendar_access.dart';
 import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 
 class PreferencesProvider {
@@ -45,6 +47,23 @@ class PreferencesProvider {
 
   Future<bool> isCalendarSyncEnabled() async {
     return await _preferencesAccess.get('isCalendarSyncEnabled') ?? false;
+  }
+
+   Future<void> setSelectedCalendar(Calendar selectedCalendar) async {
+    await _preferencesAccess.set('SelectedCalendarId', selectedCalendar.id);
+  }
+
+  Future<Calendar> getSelectedCalendar() async {
+    Calendar selectedCalendar;
+    String selectedCalendarId = await _preferencesAccess.get('SelectedCalendarId') ?? null;
+    if(selectedCalendarId == null) return null;
+    List<Calendar> availableCalendars = await CalendarAccess().queryWriteableCalendars();
+    availableCalendars.forEach((cal) => {
+      if(cal.id == selectedCalendarId) {
+        selectedCalendar = cal
+      }
+    });
+    return selectedCalendar;
   }
 
   Future<String> getRaplaUrl() async {

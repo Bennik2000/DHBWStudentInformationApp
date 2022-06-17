@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
@@ -137,47 +135,33 @@ class _SettingsPageState extends State<SettingsPage> {
           );
         },
       ),
-      PropertyChangeConsumer(
-        properties: const ["isCalendarSyncEnabled"],
-        builder:
-            (BuildContext context, SettingsViewModel model, Set properties) {
-          return SwitchListTile(
-            title: Text("Kalendersynchronisation"),
-            onChanged: model.setIsCalendarSyncEnabled,
-            value: model.isCalendarSyncEnabled,
-          );
-        },
-      ),
-      // PropertyChangeConsumer(
-      //     properties: const ["isCalendarSyncEnabled"],
-      //     builder: (BuildContext context, SettingsViewModel model,
-      //         Set properties) {
-      //           List<DateEntry> entriesToExport =
-      //         KiwiContainer().resolve<ListDateEntries30d>().listDateEntries;
-      //           MaterialPageRoute(
-      //         builder: (BuildContext context) => CalendarExportPage(
-      //               entriesToExport: entriesToExport,
-      //             ),
-      //         settings: RouteSettings(name: "settings")));
-      //         }),
       ListTile(
-        title: Text("Kalender synchronisieren"),
+        title: Text(L.of(context).settingsCalendarSync),
         onTap: () async {
-          var preferenceProvider =
-              KiwiContainer().resolve<PreferencesProvider>();
-
-          if (!await preferenceProvider.isCalendarSyncEnabled()) {
-            final hasPermission = await CalendarAccess().requestCalendarPermission();
-            if (hasPermission == CalendarPermission.PermissionDenied) return;
-          await preferenceProvider.setIsCalendarSyncEnabled(true);
+          if (await CalendarAccess().requestCalendarPermission() ==
+              CalendarPermission.PermissionDenied) {
+            await showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: Text(L.of(context).dialogTitleCalendarAccessNotGranted),
+                  content: Text(L.of(context).dialogCalendarAccessNotGranted),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(L.of(context).dialogOk),
+                    )
+                  ],
+                ));
+            return;
           }
-          
+          var isCalendarSyncEnabled = await KiwiContainer().resolve<PreferencesProvider>().isCalendarSyncEnabled();
           List<DateEntry> entriesToExport =
               KiwiContainer().resolve<ListDateEntries30d>().listDateEntries;
-          inspect(entriesToExport);
           await NavigatorKey.rootKey.currentState.push(MaterialPageRoute(
               builder: (BuildContext context) => CalendarExportPage(
                     entriesToExport: entriesToExport,
+                    isCalendarSyncWidget: true,
+                    isCalendarSyncEnabled: isCalendarSyncEnabled,
                   ),
               settings: RouteSettings(name: "settings")));
         },
