@@ -94,7 +94,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
           itemCount: viewModel.calendars.length,
           itemBuilder: (BuildContext context, int index) {
             var isSelected =
-                viewModel.selectedCalendar.id == viewModel.calendars[index].id;
+                viewModel.selectedCalendar?.id == viewModel.calendars[index]?.id;
 
             return _buildCalendarListEntry(
               viewModel.calendars[index],
@@ -111,33 +111,37 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
     //if synchronization is not enabled or if it is not the right page
     if (!this.isCalendarSyncWidget) return SizedBox();
 
-    return Column(
-      children: [
-        Container(
-          decoration: this.isCalendarSyncEnabled ? null : null,
-          child: ListTile(
-            enabled: this.isCalendarSyncEnabled ? true : false,
-            title: Text(
-              L.of(context).calendarSyncPageEndSync.toUpperCase(),
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: this.isCalendarSyncEnabled
-                      ? ColorPalettes.main
-                      : Theme.of(context).disabledColor,
-                  fontSize: 14),
+    return PropertyChangeProvider<CalendarExportViewModel, String>(
+      value: viewModel,
+      child: Column(
+        children: [
+          Container(
+            decoration: this.isCalendarSyncEnabled ? null : null,
+            child: ListTile(
+              enabled: this.isCalendarSyncEnabled ? true : false,
+              title: Text(
+                L.of(context).calendarSyncPageEndSync.toUpperCase(),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: this.isCalendarSyncEnabled
+                        ? ColorPalettes.main
+                        : Theme.of(context).disabledColor,
+                    fontSize: 14),
+              ),
+              onTap: () async {
+                KiwiContainer()
+                    .resolve<PreferencesProvider>()
+                    .setIsCalendarSyncEnabled(false);
+                    viewModel.resetSelectedCalendar();
+                Navigator.of(context).pop();
+              },
             ),
-            onTap: () async {
-              KiwiContainer()
-                  .resolve<PreferencesProvider>()
-                  .setIsCalendarSyncEnabled(false);
-              Navigator.of(context).pop();
-            },
           ),
-        ),
-        const Divider(
-          height: 1,
-        ),
-      ],
+          const Divider(
+            height: 1,
+          ),
+        ],
+      ),
     );
   }
 

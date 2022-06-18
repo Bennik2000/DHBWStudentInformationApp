@@ -46,6 +46,11 @@ class CalendarExportViewModel extends BaseViewModel {
     notifyListeners("selectedCalendar");
   }
 
+  void resetSelectedCalendar() async{
+    await preferencesProvider.setSelectedCalendar(null);
+    this.loadCalendars();
+  }
+
   void toggleSelection(Calendar calendar) {
     if (_selectedCalendar == calendar) {
       _selectedCalendar = null;

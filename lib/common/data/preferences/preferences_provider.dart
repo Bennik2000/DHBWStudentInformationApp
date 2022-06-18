@@ -50,7 +50,8 @@ class PreferencesProvider {
   }
 
    Future<void> setSelectedCalendar(Calendar selectedCalendar) async {
-    await _preferencesAccess.set('SelectedCalendarId', selectedCalendar.id);
+    String selectedCalendarId = selectedCalendar?.id;
+    await _preferencesAccess.set('SelectedCalendarId', selectedCalendarId ?? '');
   }
 
   Future<Calendar> getSelectedCalendar() async {
