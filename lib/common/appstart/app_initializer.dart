@@ -1,22 +1,17 @@
 import 'dart:io';
 
-import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/appstart/background_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/localization_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notification_schedule_changed_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
-import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/native/widget/widget_update_callback.dart';
+import 'package:dhbwstudentapp/schedule/background/calendar_synchronizer.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:kiwi/kiwi.dart';
-
-import '../../date_management/data/calendar_access.dart';
-import '../../schedule/business/schedule_provider.dart';
-import '../data/preferences/preferences_provider.dart';
-import '../util/cancellation_token.dart';
-
+import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 bool isInitialized = false;
@@ -67,51 +62,14 @@ Future<void> initializeApp(bool isBackground) async {
   }
 
   // Callback-Function for synchronizing the device calendar with the schedule, when schedule is updated
-  var preferenceProvider = KiwiContainer().resolve<PreferencesProvider>();
-  KiwiContainer()
-      .resolve<ScheduleProvider>()
-      .addScheduleUpdatedCallback((schedule, start, end) async {
-    List<DateEntry> listDateEntries = List<DateEntry>.empty(growable: true);
-    schedule.entries.forEach(
-      (element) {
-        DateEntry date = DateEntry(
-            room: element.room,
-            comment: element.details,
-            databaseName: 'DHBW',
-            description: element.title,
-            year: element.start.year.toString(),
-            start: element.start,
-            end: element.end);
-        listDateEntries.add(date);
-      },
-    );
-    KiwiContainer().resolve<ListDateEntries30d>().listDateEntries =
-        listDateEntries;
+  CalendarSynchronizer calendarSynchronizer = new CalendarSynchronizer(
+      KiwiContainer().resolve<ScheduleProvider>(),
+      KiwiContainer().resolve<ScheduleSourceProvider>(),
+      KiwiContainer().resolve<PreferencesProvider>());
 
-    if (await preferenceProvider.isCalendarSyncEnabled()) {
-      Calendar selectedCalendar = await preferenceProvider.getSelectedCalendar();
-      if(selectedCalendar == null) return;
-      CalendarAccess().addOrUpdateDates(listDateEntries, selectedCalendar);
-    }
-  });
-
-  //trigger ScheduleUpdatedCallback 10 seconds after the app started
-  Future.delayed(Duration(seconds: 10), () {
-    var scheduleSource = KiwiContainer().resolve<ScheduleSourceProvider>();
-    if (!scheduleSource.didSetupCorrectly()) return;
-    var scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
-    scheduleProvider.getUpdatedSchedule(
-      DateTime.now(),
-      DateTime.now().add(Duration(days: 30)),
-      CancellationToken(),
-    );
-  });
+  calendarSynchronizer.registerSynchronizationCallback();
+  calendarSynchronizer.scheduleSyncInAFewSeconds();
 
   isInitialized = true;
   print("Initialization finished");
-}
-
-class ListDateEntries30d {
-  List<DateEntry> listDateEntries;
-  ListDateEntries30d(this.listDateEntries) {}
 }

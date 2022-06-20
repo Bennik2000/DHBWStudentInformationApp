@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/date_management/ui/calendar_export_page.dart';

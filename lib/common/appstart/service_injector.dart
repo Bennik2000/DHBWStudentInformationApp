@@ -1,4 +1,3 @@
-import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
 import 'package:dhbwstudentapp/common/data/database_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
@@ -12,6 +11,7 @@ import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 import 'package:dhbwstudentapp/dualis/service/fake_account_dualis_scraper_decorator.dart';
 import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
+import 'package:dhbwstudentapp/schedule/background/calendar_synchronizer.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/schedule/data/schedule_entry_repository.dart';

@@ -74,7 +74,7 @@ class L {
   String get notificationNextClassTitle =>
       _getValue("notificationNextClassTitle");
 
-  String get disclaimer => _getValue(" disclaimer");
+  String get disclaimer => _getValue("disclaimer");
 
   String get settingsCalendarSync => _getValue("settingsCalendarSync");
 

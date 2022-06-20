@@ -73,13 +73,11 @@ class CalendarAccess {
 
     var isAllDay, start, end;
     if (entry.dateAndTime != null) {
-      print('IsAllDay');
       isAllDay = isAtMidnight(entry.dateAndTime);
 
       start = entry.dateAndTime;
       end = isAllDay ? start : start.add(const Duration(minutes: 30));
     } else {
-      print('NotIsAllDay');
       isAllDay = false;
       start = tz.TZDateTime.from(entry.start, tz.getLocation('Europe/Berlin'));
       end = tz.TZDateTime.from(entry.end, tz.getLocation('Europe/Berlin'));
@@ -91,8 +89,6 @@ class CalendarAccess {
       location: entry.room,
       title: entry.description,
       description: "${entry.comment}",
-          // "\n\nDatenbank: ${entry.databaseName}"
-          // "\nJahrgang: ${entry.year}",
       eventId: id,
       allDay: isAllDay,
       start: start,

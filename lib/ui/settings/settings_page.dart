@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/application_constants.dart';
-import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
@@ -9,6 +8,7 @@ import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
 import 'package:dhbwstudentapp/date_management/data/calendar_access.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/ui/calendar_export_page.dart';
+import 'package:dhbwstudentapp/schedule/background/calendar_synchronizer.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';

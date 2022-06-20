@@ -25,9 +25,9 @@ class DateEntryEntity extends DatabaseEntity {
       description: map["description"],
       year: map["year"],
       databaseName: map["databaseName"],
-      // start: map["start"],
-      // end: map["end"],
-      // room: map["room"]
+      start: map["start"],
+      end: map["end"],
+      room: map["room"]
     );
   }
 
@@ -39,8 +39,8 @@ class DateEntryEntity extends DatabaseEntity {
       "description": _dateEntry.description ?? "",
       "year": _dateEntry.year ?? "",
       "databaseName": _dateEntry.databaseName ?? "",
-      // "start": _dateEntry.start?.millisecondsSinceEpoch ?? 0,
-      // "end": _dateEntry.end?.millisecondsSinceEpoch ?? 0,
+      "start": _dateEntry.start?.millisecondsSinceEpoch ?? 0,
+      "end": _dateEntry.end?.millisecondsSinceEpoch ?? 0,
     };
   }
 
