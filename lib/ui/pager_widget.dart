@@ -1,6 +1,5 @@
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
@@ -84,7 +83,7 @@ class _PagerWidgetState extends State<PagerWidget> {
       bottomNavigationBarItems.add(
         BottomNavigationBarItem(
           icon: page.icon,
-          title: page.text,
+          label: page.text,
         ),
       );
     }
@@ -123,7 +122,7 @@ class _PagerWidgetState extends State<PagerWidget> {
 
 class PageDefinition {
   final Widget icon;
-  final Widget text;
+  final String text;
   final WidgetBuilder builder;
   final BaseViewModel viewModel;
 

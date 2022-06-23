@@ -42,7 +42,7 @@ class DateEntryProvider {
     }
 
     cachedEntries.sort((DateEntry a1, DateEntry a2) =>
-        a1?.dateAndTime?.compareTo(a2?.dateAndTime));
+        a1?.start?.compareTo(a2?.start));
 
     print("Read cached ${cachedEntries.length} date entries");
 
@@ -82,11 +82,11 @@ class DateEntryProvider {
         continue;
       }
 
-      if (dateEntry.dateAndTime.isBefore(now) && !parameters.includePast) {
+      if (dateEntry.start.isBefore(now) && !parameters.includePast) {
         continue;
       }
 
-      if (dateEntry.dateAndTime.isAfter(now) && !parameters.includeFuture) {
+      if (dateEntry.end.isAfter(now) && !parameters.includeFuture) {
         continue;
       }
 

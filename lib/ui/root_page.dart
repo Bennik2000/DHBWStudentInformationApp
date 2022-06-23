@@ -6,7 +6,6 @@ import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:dhbwstudentapp/ui/navigation/router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
@@ -35,12 +34,12 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeProvider(
+    return PropertyChangeProvider<RootViewModel, String>(
       child: PropertyChangeConsumer(
-        properties: const ["isDarkMode", "isOnboarding"],
+        properties: const ["appTheme", "isOnboarding"],
         builder: (BuildContext context, RootViewModel model, Set properties) =>
             MaterialApp(
-          theme: ColorPalettes.buildTheme(model.isDarkMode),
+          theme: ColorPalettes.buildTheme(model.appTheme),
           initialRoute: rootViewModel.isOnboarding ? "onboarding" : "main",
           navigatorKey: NavigatorKey.rootKey,
           navigatorObservers: [rootNavigationObserver],

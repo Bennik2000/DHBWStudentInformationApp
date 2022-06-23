@@ -36,8 +36,7 @@ class BannerWidget extends StatelessWidget {
                     children: <Widget>[
                       Padding(
                         padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                        child: FlatButton(
-                          textColor: Theme.of(context).accentColor,
+                        child: TextButton(
                           child: Text(buttonText),
                           onPressed: onButtonTap,
                         ),

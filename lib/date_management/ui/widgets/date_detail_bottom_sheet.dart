@@ -3,7 +3,6 @@ import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class DateDetailBottomSheet extends StatelessWidget {
@@ -14,9 +13,9 @@ class DateDetailBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var date = DateFormat.yMd(L.of(context).locale.languageCode)
-        .format(dateEntry.dateAndTime);
+        .format(dateEntry.start);
     var time = DateFormat.Hm(L.of(context).locale.languageCode)
-        .format(dateEntry.dateAndTime);
+        .format(dateEntry.start);
 
     return Container(
       height: 400,
@@ -61,7 +60,7 @@ class DateDetailBottomSheet extends StatelessWidget {
                           softWrap: true,
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
-                        isAtMidnight(dateEntry.dateAndTime)
+                        isAtMidnight(dateEntry.start)
                             ? Container()
                             : Text(
                                 time,

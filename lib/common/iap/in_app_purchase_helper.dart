@@ -47,7 +47,7 @@ class InAppPurchaseHelper {
   Future<void> initialize() async {
     print("Initializing in app purchases...");
 
-    await FlutterInappPurchase.instance.initConnection;
+    await FlutterInappPurchase.instance.initialize();
 
     _purchaseUpdatedSubscription =
         FlutterInappPurchase.purchaseUpdated.listen(_completePurchase);
@@ -132,7 +132,7 @@ class InAppPurchaseHelper {
     if (purchaseResult == PurchaseResultEnum.Pending) return;
     if (await _hasFinishedTransaction(item)) return;
 
-    print("Completing purchase: ${item.orderId} (${item.productId})");
+    print("Completing purchase: ${item.transactionId} (${item.productId})");
 
     try {
       await FlutterInappPurchase.instance.finishTransaction(

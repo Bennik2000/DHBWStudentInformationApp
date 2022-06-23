@@ -3,6 +3,11 @@ final de = {
   "pageWeekOverviewTitle": "Wochenübersicht",
   "noConnectionMessage": "Keine Verbindung!",
   "settingsViewSourceCode": "Source code auf GitHub ansehen",
+  "settingsCalendarSync": "Kalendersynchronisation",
+  "calendarSyncPageTitle": "Kalender synchronisieren",
+  "calendarSyncPageSubtitle": "Wähle den Kalender aus, in den der Vorlesungsplan übertragen werden soll:",
+  "calendarSyncPageEndSync": "Synchronisation beenden",
+  "calendarSyncPageBeginSync": "Kalender synchronisieren",
   "applicationName": "DHBW Studenten App",
   "applicationLegalese":
       "Entwickelt von Benedikt Kolb. Dies ist keine offizielle App der DHBW Stuttgart und wird in Eigeninitiative entwickelt.",
@@ -109,6 +114,8 @@ final de = {
   "dialogOk": "Ok",
   "dialogCancel": "Cancel",
   "dialogSetRaplaUrlTitle": "Rapla Url festlegen",
+  "dialogCalendarAccessNotGranted": "Wenn du den Vorlesungsplan mit deinem nativen Kalender synchronisieren möchtest, musst du in den Einstellungen den Kalenderzugriff erlauben.",
+  "dialogTitleCalendarAccessNotGranted": "Keine Zugriffsrechte",
   "scheduleEmptyStateSetUrl": "Konfigurieren",
   "scheduleEmptyStateBannerMessage":
       "Der Vorlesungsplan wurde noch nicht konfiguriert. Ist der Vorlesungsplan konfiguriert, kannst Du ihn hier sehen.",

@@ -2,7 +2,6 @@ import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_source_type.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/select_source_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
@@ -11,7 +10,7 @@ class SelectSourcePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeConsumer(
+    return PropertyChangeConsumer<OnboardingStepViewModel, String>(
       builder: (
         BuildContext context,
         OnboardingStepViewModel model,

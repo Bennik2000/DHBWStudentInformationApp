@@ -6,7 +6,6 @@ import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
 import 'package:dhbwstudentapp/date_management/ui/widgets/date_detail_bottom_sheet.dart';
 import 'package:dhbwstudentapp/date_management/ui/widgets/date_filter_options.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
@@ -17,7 +16,7 @@ class DateManagementPage extends StatelessWidget {
   Widget build(BuildContext context) {
     DateManagementViewModel viewModel = Provider.of<BaseViewModel>(context);
 
-    return PropertyChangeProvider<DateManagementViewModel>(
+    return PropertyChangeProvider<DateManagementViewModel, Object>(
       value: viewModel,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -101,7 +100,7 @@ class DateManagementPage extends StatelessWidget {
           cells: <DataCell>[
             DataCell(
                 Text(dateEntry.description,
-                    style: dateEntry.dateAndTime.isBefore(DateTime.now())
+                    style: dateEntry.end.isBefore(DateTime.now())
                         ? TextStyle(decoration: TextDecoration.lineThrough)
                         : null), onTap: () {
               showDateEntryDetailBottomSheet(context, dateEntry);
@@ -113,18 +112,18 @@ class DateManagementPage extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       DateFormat.yMd(L.of(context).locale.languageCode)
-                          .format(dateEntry.dateAndTime),
+                          .format(dateEntry.start),
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                     // When the date entry has a time of 00:00 don't show it.
                     // It means the date entry is for the whole day
-                    isAtMidnight(dateEntry.dateAndTime)
+                    isAtMidnight(dateEntry.start)
                         ? Container()
                         : Padding(
                             padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                             child: Text(
                               DateFormat.Hm(L.of(context).locale.languageCode)
-                                  .format(dateEntry.dateAndTime),
+                                  .format(dateEntry.start),
                             ),
                           ),
                   ],
@@ -153,7 +152,7 @@ class DateManagementPage extends StatelessWidget {
   }
 
   Widget buildErrorDisplay(BuildContext context) {
-    return PropertyChangeConsumer(
+    return PropertyChangeConsumer<DateManagementViewModel, Object>(
       properties: const [
         "updateFailed",
       ],

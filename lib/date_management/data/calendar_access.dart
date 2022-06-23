@@ -3,6 +3,9 @@ import 'package:dhbwstudentapp/common/logging/crash_reporting.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:flutter/services.dart';
+import 'package:timezone/timezone.dart' as tz;
+
+
 
 enum CalendarPermission {
   PermissionGranted,
@@ -15,6 +18,7 @@ enum CalendarPermission {
 ///
 class CalendarAccess {
   final DeviceCalendarPlugin _deviceCalendarPlugin = DeviceCalendarPlugin();
+
 
   Future<CalendarPermission> requestCalendarPermission() async {
     try {
@@ -67,29 +71,34 @@ class CalendarAccess {
     // createOrUpdateEvent(...) works
     var id = _getIdOfExistingEvent(existingEvents, entry);
 
-    var isAllDay = isAtMidnight(entry.dateAndTime);
+    var isAllDay, start, end;
+    if (entry.start.isAtSameMomentAs(entry.end)) {
+      isAllDay = isAtMidnight(entry.start);
+      start = entry.start;
+      end = isAllDay ? start : start.add(const Duration(minutes: 30));
+    } else {
+      isAllDay = false;
+      start = entry.start;
+      end = entry.end;
+    }
 
-    var start = entry.dateAndTime;
-    var end = isAllDay ? start : start.add(const Duration(minutes: 30));
 
-    await _deviceCalendarPlugin.createOrUpdateEvent(Event(
+    return await _deviceCalendarPlugin.createOrUpdateEvent(Event(
       calendar.id,
+      location: entry.room,
       title: entry.description,
-      description: "${entry.comment}"
-          "\n\nDatenbank: ${entry.databaseName}"
-          "\nJahrgang: ${entry.year}",
+      description: "${entry.comment}",
       eventId: id,
       allDay: isAllDay,
-      start: start,
-      end: end,
+      start: tz.TZDateTime.from(start, tz.getLocation('Europe/Berlin')),
+      end: tz.TZDateTime.from(end, tz.getLocation('Europe/Berlin')),
     ));
   }
 
   String _getIdOfExistingEvent(List<Event> existingEvents, DateEntry entry) {
     var existingEvent = existingEvents
-        .where((element) => element.title == entry.description)
+        .where((element) => (element.title == entry.description && element.start.toUtc().isAtSameMomentAs(entry.start.toUtc())))
         .toList();
-
     String id;
 
     if (existingEvent.isNotEmpty) {
@@ -106,8 +115,8 @@ class CalendarAccess {
     var existingEventsResult = await _deviceCalendarPlugin.retrieveEvents(
         calendar.id,
         RetrieveEventsParams(
-          startDate: firstEntry.dateAndTime,
-          endDate: lastEntry.dateAndTime,
+          startDate: firstEntry.start,
+          endDate: lastEntry.end,
         ));
 
     var existingEvents = <Event>[];
@@ -122,7 +131,7 @@ class CalendarAccess {
     var firstEntry = entries[0];
 
     for (var entry in entries) {
-      if (entry.dateAndTime.isBefore(firstEntry.dateAndTime)) {
+      if (entry.end.isBefore(firstEntry?.end)) {
         firstEntry = entry;
       }
     }
@@ -134,7 +143,7 @@ class CalendarAccess {
     var lastEntry = entries[0];
 
     for (var entry in entries) {
-      if (entry.dateAndTime.isAfter(lastEntry.dateAndTime)) {
+      if (entry.end.isAfter(lastEntry.end)) {
         lastEntry = entry;
       }
     }

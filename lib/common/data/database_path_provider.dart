@@ -50,7 +50,7 @@ Future<bool> _migrateOldDatabase(String oldPath, String newPath) async {
       await oldFile.copy(newPath);
       await oldFile.delete();
     }
-  } on Exception catch (ex) {
+  } on Exception {
     return false;
   }
 

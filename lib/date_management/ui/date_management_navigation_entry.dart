@@ -46,7 +46,7 @@ class DateManagementNavigationEntry extends NavigationEntry {
         },
         tooltip: L.of(context).helpButtonTooltip,
       ),
-      PropertyChangeProvider(
+      PropertyChangeProvider<DateManagementViewModel, Object>(
         value: _viewModel,
         child: PropertyChangeConsumer(
           builder:

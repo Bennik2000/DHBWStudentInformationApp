@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:flutter/material.dart';
 
@@ -5,18 +6,22 @@ Color colorScheduleEntryPublicHoliday(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffcbcbcb)
         : const Color(0xff515151);
+
 Color colorScheduleEntryClass(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffe63f3b)
         : const Color(0xffa52632);
+
 Color colorScheduleEntryExam(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xfffdb531)
         : const Color(0xffb17f22);
+
 Color colorScheduleEntryOnline(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffAFC7EA)
         : const Color(0xff2659A6);
+
 Color colorScheduleEntryUnknown(BuildContext context) =>
     Theme.of(context).brightness == Brightness.light
         ? const Color(0xffcbcbcb)
@@ -63,17 +68,26 @@ Color colorNoConnectionForeground() => Colors.white;
 class ColorPalettes {
   ColorPalettes._();
 
-  static ThemeData buildTheme(bool isDark) {
-    if (isDark == null) {
-      isDark = PlatformUtil.platformBrightness() == Brightness.dark;
+  static ThemeData buildTheme(AppTheme theme) {
+    if (theme == AppTheme.System) {
+      theme = PlatformUtil.platformBrightness() == Brightness.light
+          ? AppTheme.Light
+          : AppTheme.Dark;
     }
 
+    var isDark = theme == AppTheme.Dark;
+
+    var brightness = isDark ? Brightness.dark : Brightness.light;
+
     var themeData = ThemeData(
-      brightness: isDark ? Brightness.dark : Brightness.light,
-      accentColor: ColorPalettes.main[500],
-      primarySwatch: ColorPalettes.main,
+      brightness: brightness,
       toggleableActiveColor:
           isDark ? ColorPalettes.main[700] : ColorPalettes.main[600],
+      colorScheme:
+          ColorScheme.fromSwatch(primarySwatch: ColorPalettes.main).copyWith(
+        secondary: ColorPalettes.main[500],
+        brightness: brightness,
+      ),
     );
 
     return themeData.copyWith(
@@ -82,6 +96,15 @@ class ColorPalettes {
         contentTextStyle: themeData.textTheme.bodyText1.copyWith(
           color:
               isDark ? Color(0xffe4e4e4) : themeData.textTheme.bodyText1.color,
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          primary: ColorPalettes.main,
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(4.0)),
+          ),
         ),
       ),
     );

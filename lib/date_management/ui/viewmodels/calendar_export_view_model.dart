@@ -1,4 +1,5 @@
 import 'package:device_calendar/device_calendar.dart';
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/date_management/data/calendar_access.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
@@ -7,6 +8,7 @@ typedef OnPermissionDenied = Function();
 
 class CalendarExportViewModel extends BaseViewModel {
   final CalendarAccess calendarAccess;
+  final PreferencesProvider preferencesProvider;
   final List<DateEntry> _entriesToExport;
 
   OnPermissionDenied _onPermissionDenied;
@@ -22,7 +24,7 @@ class CalendarExportViewModel extends BaseViewModel {
   bool _isExporting = false;
   bool get isExporting => _isExporting;
 
-  CalendarExportViewModel(this._entriesToExport, this.calendarAccess) {
+  CalendarExportViewModel(this._entriesToExport, this.calendarAccess, this.preferencesProvider) {
     loadCalendars();
   }
 
@@ -37,6 +39,16 @@ class CalendarExportViewModel extends BaseViewModel {
     _calendars = await calendarAccess.queryWriteableCalendars();
 
     notifyListeners("_calendars");
+  }
+
+  void loadSelectedCalendar() async{
+    _selectedCalendar = await preferencesProvider.getSelectedCalendar();
+    notifyListeners("selectedCalendar");
+  }
+
+  void resetSelectedCalendar() async{
+    await preferencesProvider.setSelectedCalendar(null);
+    this.loadCalendars();
   }
 
   void toggleSelection(Calendar calendar) {

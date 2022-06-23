@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 typedef NavigationItemOnTap = Function(int index);
@@ -132,8 +131,9 @@ class NavigationDrawer extends StatelessWidget {
           InkWell(
             child: Container(
               height: 56,
+              margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(20, 15, 0, 10),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[

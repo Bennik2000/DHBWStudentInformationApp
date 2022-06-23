@@ -36,19 +36,16 @@ class OnboardingButtonBar extends StatelessWidget {
       duration: const Duration(milliseconds: 100),
       child: isFirstPage
           ? Container()
-          : FlatButton.icon(
+          : TextButton.icon(
               onPressed: onPrevious,
               icon: Icon(Icons.navigate_before),
               label: Text(L.of(context).onboardingBackButton.toUpperCase()),
-              textColor: Theme.of(context).accentColor,
             ),
     );
   }
 
   Widget _buildNextButton(BuildContext context) {
     String buttonText;
-    var buttonColor = Theme.of(context).accentColor;
-
     if (viewModel.isLastStep) {
       buttonText = L.of(context).onboardingFinishButton;
     } else {
@@ -56,19 +53,17 @@ class OnboardingButtonBar extends StatelessWidget {
     }
     if (!viewModel.currentPageValid) {
       buttonText = L.of(context).onboardingSkipButton;
-      buttonColor = Theme.of(context).disabledColor;
     }
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 100),
-      child: FlatButton.icon(
+      child: TextButton.icon(
         key: ValueKey(buttonText),
         onPressed: onNext,
         icon: viewModel.isLastStep
             ? Icon(Icons.arrow_forward)
             : Icon(Icons.navigate_next),
         label: Text(buttonText.toUpperCase()),
-        textColor: buttonColor,
       ),
     );
   }

@@ -36,12 +36,11 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Text(L.of(context).scheduleQueryFailedMessage),
-            FlatButton(
-              textColor: Theme.of(context).accentColor,
+            TextButton(
               child: Text(
                   L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase()),
               onPressed: () {
-                launch(viewModel.scheduleUrl);
+                launchUrl(Uri.parse(viewModel.scheduleUrl));
               },
             )
           ],
@@ -83,7 +82,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
 
     viewModel.setQueryFailedCallback(_showQueryFailedSnackBar);
 
-    return PropertyChangeProvider(
+    return PropertyChangeProvider<WeeklyScheduleViewModel, String>(
       value: viewModel,
       child: GestureDetector(
         onPanEnd: (details) {
@@ -169,16 +168,16 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        FlatButton(
-          child: Icon(Icons.chevron_left),
+        IconButton(
+          icon: Icon(Icons.chevron_left),
           onPressed: _previousWeek,
         ),
-        FlatButton(
-          child: Icon(Icons.today),
+        IconButton(
+          icon: Icon(Icons.today),
           onPressed: _goToToday,
         ),
-        FlatButton(
-          child: Icon(Icons.chevron_right),
+        IconButton(
+          icon: Icon(Icons.chevron_right),
           onPressed: _nextWeek,
         ),
       ],

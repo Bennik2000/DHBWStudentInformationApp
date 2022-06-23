@@ -5,7 +5,6 @@ import 'package:dhbwstudentapp/schedule/ui/dailyschedule/widgets/current_time_in
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/widgets/daily_schedule_entry_widget.dart';
 import 'package:dhbwstudentapp/schedule/ui/viewmodels/daily_schedule_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
@@ -23,7 +22,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
   Widget build(BuildContext context) {
     viewModel = Provider.of<BaseViewModel>(context);
 
-    return PropertyChangeProvider(
+    return PropertyChangeProvider<DailyScheduleViewModel, String>(
       value: viewModel,
       child: SingleChildScrollView(
         child: Padding(
@@ -34,7 +33,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
-                child: PropertyChangeConsumer(
+                child: PropertyChangeConsumer<DailyScheduleViewModel, String>(
                   builder: (BuildContext context, DailyScheduleViewModel model,
                       Set properties) {
                     var dateFormat = DateFormat.yMMMMEEEEd(

@@ -3,7 +3,6 @@ import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/mannheim_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/mannheim_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
@@ -29,7 +28,7 @@ class SelectMannheimCourseDialog {
     return AlertDialog(
       title: Text(L.of(context).onboardingMannheimTitle),
       contentPadding: EdgeInsets.all(0),
-      content: PropertyChangeProvider<OnboardingStepViewModel>(
+      content: PropertyChangeProvider<OnboardingStepViewModel, String>(
         value: _mannheimViewModel,
         child: Container(
           height: MediaQuery.of(context).size.height,
@@ -61,7 +60,7 @@ class SelectMannheimCourseDialog {
 
   List<Widget> _buildButtons(BuildContext context) {
     return <Widget>[
-      FlatButton(
+      TextButton(
         child: Text(L.of(context).dialogOk.toUpperCase()),
         onPressed: () async {
           await _mannheimViewModel.save();

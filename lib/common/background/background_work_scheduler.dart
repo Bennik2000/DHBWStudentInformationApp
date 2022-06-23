@@ -11,6 +11,7 @@ import 'package:workmanager/workmanager.dart';
 ///
 class BackgroundWorkScheduler extends WorkSchedulerService {
   final Map<String, TaskCallback> _taskCallbacks = {};
+  final Workmanager workmanager = Workmanager();
 
   BackgroundWorkScheduler() {
     _setupBackgroundScheduling();
@@ -27,7 +28,7 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
       "Scheduling one shot task: $id. With a delay of ${delay.inMinutes} minutes.",
     );
 
-    await Workmanager.registerOneOffTask(
+    await workmanager.registerOneOffTask(
       id,
       name,
       existingWorkPolicy: ExistingWorkPolicy.replace,
@@ -54,7 +55,7 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
   ///
   @override
   Future<void> cancelTask(String id) async {
-    await Workmanager.cancelByUniqueName(id);
+    await workmanager.cancelByUniqueName(id);
     print("Cancelled task $id");
   }
 
@@ -73,7 +74,7 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
       "Scheduling periodic task: $id. With a delay of ${delay.inMinutes} minutes. Requires network: $needsNetwork",
     );
 
-    await Workmanager.registerPeriodicTask(
+    await workmanager.registerPeriodicTask(
       id,
       id,
       frequency: delay,
@@ -126,7 +127,7 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
   Future<void> _setupBackgroundScheduling() async {
     print("Initialize background scheduling");
 
-    await Workmanager.initialize(
+    await workmanager.initialize(
       callbackDispatcher,
       isInDebugMode: false,
     );
@@ -139,5 +140,5 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
 }
 
 void callbackDispatcher() {
-  Workmanager.executeTask(BackgroundWorkScheduler.backgroundTaskMain);
+  Workmanager().executeTask(BackgroundWorkScheduler.backgroundTaskMain);
 }

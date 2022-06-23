@@ -1,13 +1,12 @@
+import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
-import 'package:dhbwstudentapp/common/util/platform_util.dart';
-import 'package:flutter/cupertino.dart';
 
 class RootViewModel extends BaseViewModel {
   final PreferencesProvider _preferencesProvider;
 
-  bool _isDarkMode;
-  bool get isDarkMode => _isDarkMode;
+  AppTheme _appTheme;
+  AppTheme get appTheme => _appTheme;
 
   bool _isOnboarding;
   bool get isOnboarding => _isOnboarding;
@@ -15,19 +14,19 @@ class RootViewModel extends BaseViewModel {
   RootViewModel(this._preferencesProvider);
 
   Future<void> loadFromPreferences() async {
-    var darkMode = await _preferencesProvider.isDarkMode();
+    var darkMode = await _preferencesProvider.appTheme();
 
-    _isDarkMode = darkMode;
+    _appTheme = darkMode;
     _isOnboarding = await _preferencesProvider.isFirstStart();
 
-    notifyListeners("isDarkMode");
+    notifyListeners("appTheme");
     notifyListeners("isOnboarding");
   }
 
-  Future<void> setIsDarkMode(bool value) async {
-    await _preferencesProvider.setIsDarkMode(value);
-    _isDarkMode = value;
-    notifyListeners("isDarkMode");
+  Future<void> setAppTheme(AppTheme value) async {
+    await _preferencesProvider.setAppTheme(value);
+    _appTheme = value;
+    notifyListeners("appTheme");
   }
 
   Future<void> setIsOnboarding(bool value) async {

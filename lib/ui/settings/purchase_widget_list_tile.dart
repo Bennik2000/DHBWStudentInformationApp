@@ -44,7 +44,7 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
 
   @override
   Widget build(BuildContext context) {
-    model = PropertyChangeProvider.of<SettingsViewModel>(
+    model = PropertyChangeProvider.of<SettingsViewModel, String>(
       context,
       properties: const [
         "didPurchaseWidget",

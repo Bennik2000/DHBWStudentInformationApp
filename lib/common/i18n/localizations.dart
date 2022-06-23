@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:dhbwstudentapp/common/i18n/localization_strings_de.dart';
 import 'package:dhbwstudentapp/common/i18n/localization_strings_en.dart';
 import 'package:flutter/foundation.dart';
@@ -77,6 +75,16 @@ class L {
       _getValue("notificationNextClassTitle");
 
   String get disclaimer => _getValue("disclaimer");
+
+  String get settingsCalendarSync => _getValue("settingsCalendarSync");
+
+  String get calendarSyncPageTitle => _getValue("calendarSyncPageTitle");
+
+  String get calendarSyncPageSubtitle => _getValue("calendarSyncPageSubtitle");
+
+  String get calendarSyncPageEndSync => _getValue("calendarSyncPageEndSync");
+
+  String get calendarSyncPageBeginSync => _getValue("calendarSyncPageBeginSync");
 
   String get notificationScheduleChangedNewClass =>
       _getValue("notificationScheduleChangedNewClass");
@@ -274,6 +282,10 @@ class L {
   String get dialogCancel => _getValue("dialogCancel");
 
   String get dialogSetRaplaUrlTitle => _getValue("dialogSetRaplaUrlTitle");
+
+  String get dialogCalendarAccessNotGranted => _getValue("dialogCalendarAccessNotGranted");
+
+  String get dialogTitleCalendarAccessNotGranted => _getValue("dialogTitleCalendarAccessNotGranted");
 
   String get scheduleEmptyStateSetUrl => _getValue("scheduleEmptyStateSetUrl");
 

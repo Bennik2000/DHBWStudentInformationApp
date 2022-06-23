@@ -21,8 +21,7 @@ abstract class HelpDialog {
         style: Theme.of(context).textTheme.bodyText2,
       ),
       actions: [
-        FlatButton(
-          textColor: Theme.of(context).accentColor,
+        TextButton(
           child: Text(L.of(context).dialogOk.toUpperCase()),
           onPressed: () {
             Navigator.of(context).pop();

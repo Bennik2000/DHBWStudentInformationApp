@@ -1,10 +1,13 @@
+import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/application_constants.dart';
+import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/secure_storage_access.dart';
+import 'package:dhbwstudentapp/date_management/data/calendar_access.dart';
 import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 
 class PreferencesProvider {
-  static const String IsDarkModeKey = "IsDarkMode";
+  static const String AppThemeKey = "AppTheme";
   static const String RaplaUrlKey = "RaplaUrl";
   static const String IsFirstStartKey = "IsFirstStart";
   static const String LastUsedLanguageCode = "LastUsedLanguageCode";
@@ -24,18 +27,54 @@ class PreferencesProvider {
   static const String MannheimScheduleId = "MannheimScheduleId";
   static const String PrettifySchedule = "PrettifySchedule";
   static const String DidShowWidgetHelpDialog = "DidShowWidgetHelpDialog";
+  static const String SynchronizeScheduleWithCalendar =
+      "SynchronizeScheduleWithCalendar";
 
   final PreferencesAccess _preferencesAccess;
   final SecureStorageAccess _secureStorageAccess;
 
   PreferencesProvider(this._preferencesAccess, this._secureStorageAccess);
 
-  Future<bool> isDarkMode() async {
-    return await _preferencesAccess.get(IsDarkModeKey);
+  Future<AppTheme> appTheme() async {
+    var theme = await _preferencesAccess.get<String>(AppThemeKey);
+
+    return AppTheme.values.firstWhere(
+      (element) => element.name == theme,
+      orElse: () {
+        return AppTheme.System;
+      },
+    );
   }
 
-  Future<void> setIsDarkMode(bool value) async {
-    await _preferencesAccess.set(IsDarkModeKey, value);
+  Future<void> setAppTheme(AppTheme value) async {
+    await _preferencesAccess.set<String>(AppThemeKey, value.name);
+  }
+
+  Future<void> setIsCalendarSyncEnabled(bool value) async {
+    await _preferencesAccess.set('isCalendarSyncEnabled', value);
+  }
+
+  Future<bool> isCalendarSyncEnabled() async {
+    return await _preferencesAccess.get('isCalendarSyncEnabled') ?? false;
+  }
+
+  Future<void> setSelectedCalendar(Calendar selectedCalendar) async {
+    String selectedCalendarId = selectedCalendar?.id;
+    await _preferencesAccess.set(
+        'SelectedCalendarId', selectedCalendarId ?? '');
+  }
+
+  Future<Calendar> getSelectedCalendar() async {
+    Calendar selectedCalendar;
+    String selectedCalendarId =
+        await _preferencesAccess.get('SelectedCalendarId') ?? null;
+    if (selectedCalendarId == null) return null;
+    List<Calendar> availableCalendars =
+        await CalendarAccess().queryWriteableCalendars();
+    availableCalendars.forEach((cal) => {
+          if (cal.id == selectedCalendarId) {selectedCalendar = cal}
+        });
+    return selectedCalendar;
   }
 
   Future<String> getRaplaUrl() async {
@@ -165,6 +204,15 @@ class PreferencesProvider {
 
   Future<void> setPrettifySchedule(bool value) {
     return _preferencesAccess.set(PrettifySchedule, value);
+  }
+
+  Future<bool> getSynchronizeScheduleWithCalendar() async {
+    return await _preferencesAccess.get(SynchronizeScheduleWithCalendar) ??
+        true;
+  }
+
+  Future<void> setSynchronizeScheduleWithCalendar(bool value) {
+    return _preferencesAccess.set(SynchronizeScheduleWithCalendar, value);
   }
 
   Future<bool> getDidShowWidgetHelpDialog() async {

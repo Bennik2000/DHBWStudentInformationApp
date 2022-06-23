@@ -2,7 +2,6 @@ import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/ui/login_credentials_widget.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/dualis_login_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
@@ -25,7 +24,7 @@ class _DualisLoginCredentialsPageState
 
   @override
   Widget build(BuildContext context) {
-    return PropertyChangeConsumer(
+    return PropertyChangeConsumer<OnboardingStepViewModel, String>(
       builder:
           (BuildContext context, OnboardingStepViewModel base, Set<Object> _) {
         var viewModel = base as DualisLoginViewModel;
@@ -91,7 +90,7 @@ class _DualisLoginCredentialsPageState
                           Icons.check,
                           color: Colors.green,
                         )
-                      : FlatButton(
+                      : TextButton(
                           onPressed: () async {
                             await _testCredentials(viewModel);
                           },
@@ -99,7 +98,6 @@ class _DualisLoginCredentialsPageState
                               .of(context)
                               .onboardingDualisTestButton
                               .toUpperCase()),
-                          textColor: Theme.of(context).accentColor,
                         ),
             ],
           ),

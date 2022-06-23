@@ -44,7 +44,7 @@ class _DonateListTileState extends State<DonateListTile> {
 
   @override
   Widget build(BuildContext context) {
-    model = PropertyChangeProvider.of<SettingsViewModel>(
+    model = PropertyChangeProvider.of<SettingsViewModel, String>(
       context,
       properties: const [
         "didPurchaseWidget",

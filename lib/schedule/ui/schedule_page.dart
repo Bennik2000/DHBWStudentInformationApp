@@ -38,13 +38,13 @@ class _SchedulePageState extends State<SchedulePage> {
         pages: <PageDefinition>[
           PageDefinition(
             icon: Icon(Icons.view_week),
-            text: Text(L.of(context).pageWeekOverviewTitle),
+            text: L.of(context).pageWeekOverviewTitle,
             builder: (_) => WeeklySchedulePage(),
             viewModel: weeklyScheduleViewModel,
           ),
           PageDefinition(
             icon: Icon(Icons.view_day),
-            text: Text(L.of(context).pageDayOverviewTitle),
+            text: L.of(context).pageDayOverviewTitle,
             builder: (_) => DailySchedulePage(),
             viewModel: dailyScheduleViewModel,
           ),

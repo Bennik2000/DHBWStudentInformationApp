@@ -1,7 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/date_management/model/date_database.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DateFilterOptions extends StatefulWidget {
@@ -64,10 +63,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
             child: ButtonTheme(
               minWidth: 36,
               height: 36,
-              child: FlatButton(
-                child: Icon(Icons.tune),
-                padding: const EdgeInsets.all(0),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              child: IconButton(
+                icon: Icon(Icons.tune),
                 onPressed: () {
                   setState(() {
                     _isExpanded = true;
@@ -207,10 +204,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
           child: ButtonTheme(
             minWidth: 36,
             height: 36,
-            child: FlatButton(
-              child: const Icon(Icons.check),
-              padding: const EdgeInsets.all(0),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            child: IconButton(
+              icon: const Icon(Icons.check),
               onPressed: () {
                 setState(() {
                   _isExpanded = false;
