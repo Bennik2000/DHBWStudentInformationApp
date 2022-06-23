@@ -36,10 +36,10 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     return PropertyChangeProvider<RootViewModel, String>(
       child: PropertyChangeConsumer(
-        properties: const ["isDarkMode", "isOnboarding"],
+        properties: const ["appTheme", "isOnboarding"],
         builder: (BuildContext context, RootViewModel model, Set properties) =>
             MaterialApp(
-          theme: ColorPalettes.buildTheme(model.isDarkMode),
+          theme: ColorPalettes.buildTheme(model.appTheme),
           initialRoute: rootViewModel.isOnboarding ? "onboarding" : "main",
           navigatorKey: NavigatorKey.rootKey,
           navigatorObservers: [rootNavigationObserver],
