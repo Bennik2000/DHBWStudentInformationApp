@@ -100,7 +100,7 @@ class DateManagementPage extends StatelessWidget {
           cells: <DataCell>[
             DataCell(
                 Text(dateEntry.description,
-                    style: dateEntry.dateAndTime.isBefore(DateTime.now())
+                    style: dateEntry.end.isBefore(DateTime.now())
                         ? TextStyle(decoration: TextDecoration.lineThrough)
                         : null), onTap: () {
               showDateEntryDetailBottomSheet(context, dateEntry);
@@ -112,18 +112,18 @@ class DateManagementPage extends StatelessWidget {
                   children: <Widget>[
                     Text(
                       DateFormat.yMd(L.of(context).locale.languageCode)
-                          .format(dateEntry.dateAndTime),
+                          .format(dateEntry.start),
                       style: Theme.of(context).textTheme.bodyText1,
                     ),
                     // When the date entry has a time of 00:00 don't show it.
                     // It means the date entry is for the whole day
-                    isAtMidnight(dateEntry.dateAndTime)
+                    isAtMidnight(dateEntry.start)
                         ? Container()
                         : Padding(
                             padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                             child: Text(
                               DateFormat.Hm(L.of(context).locale.languageCode)
-                                  .format(dateEntry.dateAndTime),
+                                  .format(dateEntry.start),
                             ),
                           ),
                   ],

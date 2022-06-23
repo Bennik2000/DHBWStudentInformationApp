@@ -13,9 +13,9 @@ class DateDetailBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var date = DateFormat.yMd(L.of(context).locale.languageCode)
-        .format(dateEntry.dateAndTime);
+        .format(dateEntry.start);
     var time = DateFormat.Hm(L.of(context).locale.languageCode)
-        .format(dateEntry.dateAndTime);
+        .format(dateEntry.start);
 
     return Container(
       height: 400,
@@ -60,7 +60,7 @@ class DateDetailBottomSheet extends StatelessWidget {
                           softWrap: true,
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
-                        isAtMidnight(dateEntry.dateAndTime)
+                        isAtMidnight(dateEntry.start)
                             ? Container()
                             : Text(
                                 time,

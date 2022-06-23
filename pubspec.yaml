@@ -49,6 +49,7 @@ dependencies:
   flutter_inapp_purchase: ^5.1.2
   flutter_widgetkit: ^1.0.3
   ios_app_group: ^1.0.0
+  timezone: ^0.8.0
 
 dev_dependencies:
   flutter_test:

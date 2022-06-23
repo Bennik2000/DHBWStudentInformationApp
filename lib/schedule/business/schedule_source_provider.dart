@@ -172,6 +172,7 @@ class ScheduleSourceProvider {
   }
 
   Future<void> setupForMannheim(Course selectedCourse) async {
+    if(selectedCourse == null) return;
     await _preferencesProvider.setMannheimScheduleId(selectedCourse.scheduleId);
     await _preferencesProvider.setIcalUrl(selectedCourse.icalUrl);
     await _preferencesProvider

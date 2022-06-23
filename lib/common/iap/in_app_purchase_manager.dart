@@ -29,8 +29,13 @@ class InAppPurchaseManager {
     _inAppPurchaseHelper
         .setPurchaseCompleteCallback(_purchaseCompletedCallback);
 
-    await _inAppPurchaseHelper.initialize();
-    await _restorePurchases();
+    try {
+      await _inAppPurchaseHelper.initialize();
+      await _restorePurchases();
+    }
+    catch (ex) {
+      print("Failed to initialize in app purchase!");
+    }
   }
 
   Future<void> _restorePurchases() async {

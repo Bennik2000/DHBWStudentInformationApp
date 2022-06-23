@@ -69,7 +69,6 @@ class ScheduleProvider {
   ) async {
     print(
         "Fetching schedule for ${DateFormat.yMd().format(start)} - ${DateFormat.yMd().format(end)}");
-
     try {
       var updatedSchedule = await _scheduleSource.currentScheduleSource
           .querySchedule(start, end, cancellationToken);

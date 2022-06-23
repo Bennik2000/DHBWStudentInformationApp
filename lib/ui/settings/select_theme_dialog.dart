@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class SelectThemeDialog {
         value: _rootViewModel,
         child: PropertyChangeConsumer(
           properties: const [
-            "isDarkMode",
+            "appTheme",
           ],
           builder: (BuildContext context, RootViewModel model, Set properties) {
             return Column(
@@ -33,21 +34,21 @@ class SelectThemeDialog {
               children: [
                 RadioListTile(
                   title: Text(L.of(context).selectThemeLight),
-                  value: false,
-                  groupValue: _rootViewModel.isDarkMode,
-                  onChanged: (v) => _rootViewModel.setIsDarkMode(v),
+                  value: AppTheme.Light,
+                  groupValue: _rootViewModel.appTheme,
+                  onChanged: (v) => _rootViewModel.setAppTheme(v),
                 ),
                 RadioListTile(
                   title: Text(L.of(context).selectThemeDark),
-                  value: true,
-                  groupValue: _rootViewModel.isDarkMode,
-                  onChanged: (v) => _rootViewModel.setIsDarkMode(v),
+                  value: AppTheme.Dark,
+                  groupValue: _rootViewModel.appTheme,
+                  onChanged: (v) => _rootViewModel.setAppTheme(v),
                 ),
                 RadioListTile(
                   title: Text(L.of(context).selectThemeSystem),
-                  value: null,
-                  groupValue: _rootViewModel.isDarkMode,
-                  onChanged: (v) => _rootViewModel.setIsDarkMode(v),
+                  value: AppTheme.System,
+                  groupValue: _rootViewModel.appTheme,
+                  onChanged: (v) => _rootViewModel.setAppTheme(v),
                 ),
               ],
             );

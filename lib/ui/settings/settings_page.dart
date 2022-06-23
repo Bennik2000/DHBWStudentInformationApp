@@ -1,11 +1,18 @@
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
+import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/title_list_tile.dart';
+import 'package:dhbwstudentapp/date_management/data/calendar_access.dart';
+import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
+import 'package:dhbwstudentapp/date_management/ui/calendar_export_page.dart';
+import 'package:dhbwstudentapp/schedule/background/calendar_synchronizer.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
+import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:dhbwstudentapp/ui/settings/select_theme_dialog.dart';
 import 'package:dhbwstudentapp/ui/settings/donate_list_tile.dart';
 import 'package:dhbwstudentapp/ui/settings/purchase_widget_list_tile.dart';
@@ -29,12 +36,11 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   final SettingsViewModel settingsViewModel = SettingsViewModel(
-    KiwiContainer().resolve(),
-    KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
-        as NextDayInformationNotification,
-    KiwiContainer().resolve(),
-    KiwiContainer().resolve(),
-  );
+      KiwiContainer().resolve(),
+      KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
+          as NextDayInformationNotification,
+      KiwiContainer().resolve(),
+      KiwiContainer().resolve());
 
   @override
   Widget build(BuildContext context) {
@@ -130,6 +136,41 @@ class _SettingsPageState extends State<SettingsPage> {
           );
         },
       ),
+      ListTile(
+        title: Text(L.of(context).settingsCalendarSync),
+        onTap: () async {
+          if (await CalendarAccess().requestCalendarPermission() ==
+              CalendarPermission.PermissionDenied) {
+            await showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                      title: Text(
+                          L.of(context).dialogTitleCalendarAccessNotGranted),
+                      content:
+                          Text(L.of(context).dialogCalendarAccessNotGranted),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(L.of(context).dialogOk),
+                        )
+                      ],
+                    ));
+            return;
+          }
+          var isCalendarSyncEnabled = await KiwiContainer()
+              .resolve<PreferencesProvider>()
+              .isCalendarSyncEnabled();
+          List<DateEntry> entriesToExport =
+              KiwiContainer().resolve<ListDateEntries30d>().listDateEntries;
+          await NavigatorKey.rootKey.currentState.push(MaterialPageRoute(
+              builder: (BuildContext context) => CalendarExportPage(
+                    entriesToExport: entriesToExport,
+                    isCalendarSyncWidget: true,
+                    isCalendarSyncEnabled: isCalendarSyncEnabled,
+                  ),
+              settings: RouteSettings(name: "settings")));
+        },
+      ),
       const Divider(),
     ];
   }
@@ -177,7 +218,7 @@ class _SettingsPageState extends State<SettingsPage> {
       TitleListTile(title: L.of(context).settingsDesign),
       PropertyChangeConsumer(
         properties: const [
-          "isDarkMode",
+          "appTheme",
         ],
         builder: (BuildContext context, RootViewModel model, Set properties) {
           return ListTile(
@@ -186,10 +227,10 @@ class _SettingsPageState extends State<SettingsPage> {
               await SelectThemeDialog(model).show(context);
             },
             subtitle: Text({
-              true: L.of(context).selectThemeDark,
-              false: L.of(context).selectThemeLight,
-              null: L.of(context).selectThemeSystem,
-            }[model.isDarkMode]),
+              AppTheme.Dark: L.of(context).selectThemeDark,
+              AppTheme.Light: L.of(context).selectThemeLight,
+              AppTheme.System: L.of(context).selectThemeSystem,
+            }[model.appTheme]),
           );
         },
       ),

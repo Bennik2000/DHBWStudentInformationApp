@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:flutter/material.dart';
 
@@ -67,10 +68,14 @@ Color colorNoConnectionForeground() => Colors.white;
 class ColorPalettes {
   ColorPalettes._();
 
-  static ThemeData buildTheme(bool isDark) {
-    if (isDark == null) {
-      isDark = PlatformUtil.platformBrightness() == Brightness.dark;
+  static ThemeData buildTheme(AppTheme theme) {
+    if (theme == AppTheme.System) {
+      theme = PlatformUtil.platformBrightness() == Brightness.light
+          ? AppTheme.Light
+          : AppTheme.Dark;
     }
+
+    var isDark = theme == AppTheme.Dark;
 
     var brightness = isDark ? Brightness.dark : Brightness.light;
 
