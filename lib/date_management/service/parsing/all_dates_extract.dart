@@ -37,8 +37,8 @@ class AllDatesExtract {
       }
     }
 
-    dateEntries.sort((DateEntry e1, DateEntry e2) =>
-        e1.dateAndTime?.compareTo(e2.dateAndTime));
+    dateEntries
+        .sort((DateEntry e1, DateEntry e2) => e1.start?.compareTo(e2.start));
 
     return dateEntries;
   }
@@ -50,15 +50,18 @@ class AllDatesExtract {
       return null;
     }
 
+    var date = _parseDateTime(
+      parts[2].trim(),
+      parts[3].trim(),
+    );
+
     return DateEntry(
         comment: parts[4].trim(),
         description: parts[0].trim(),
         year: parts[1].trim(),
         databaseName: databaseName,
-        dateAndTime: _parseDateTime(
-          parts[2].trim(),
-          parts[3].trim(),
-        ));
+        start: date,
+        end: date);
   }
 
   DateTime _parseDateTime(String date, String time) {

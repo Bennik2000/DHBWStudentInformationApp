@@ -21,12 +21,11 @@ class DateEntryEntity extends DatabaseEntity {
 
     _dateEntry = DateEntry(
       comment: map["comment"],
-      dateAndTime: date,
       description: map["description"],
       year: map["year"],
       databaseName: map["databaseName"],
-      start: null,
-      end: null,
+      start: date,
+      end: date,
       room: map["room"]
     );
   }
@@ -34,7 +33,7 @@ class DateEntryEntity extends DatabaseEntity {
   @override
   Map<String, dynamic> toMap() {
     return {
-      "date": _dateEntry.dateAndTime?.millisecondsSinceEpoch ?? 0,
+      "date": _dateEntry.start?.millisecondsSinceEpoch ?? 0,
       "comment": _dateEntry.comment ?? "",
       "description": _dateEntry.description ?? "",
       "year": _dateEntry.year ?? "",

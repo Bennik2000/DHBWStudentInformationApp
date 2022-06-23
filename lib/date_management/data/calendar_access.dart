@@ -72,15 +72,14 @@ class CalendarAccess {
     var id = _getIdOfExistingEvent(existingEvents, entry);
 
     var isAllDay, start, end;
-    if (entry.dateAndTime != null) {
-      isAllDay = isAtMidnight(entry.dateAndTime);
-
-      start = entry.dateAndTime;
+    if (entry.start.isAtSameMomentAs(entry.end)) {
+      isAllDay = isAtMidnight(entry.start);
+      start = entry.start;
       end = isAllDay ? start : start.add(const Duration(minutes: 30));
     } else {
       isAllDay = false;
-      start = tz.TZDateTime.from(entry.start, tz.getLocation('Europe/Berlin'));
-      end = tz.TZDateTime.from(entry.end, tz.getLocation('Europe/Berlin'));
+      start = entry.start;
+      end = entry.end;
     }
 
 
@@ -91,8 +90,8 @@ class CalendarAccess {
       description: "${entry.comment}",
       eventId: id,
       allDay: isAllDay,
-      start: start,
-      end: end,
+      start: tz.TZDateTime.from(start, tz.getLocation('Europe/Berlin')),
+      end: tz.TZDateTime.from(end, tz.getLocation('Europe/Berlin')),
     ));
   }
 
@@ -131,17 +130,9 @@ class CalendarAccess {
   DateEntry _findFirstEntry(List<DateEntry> entries) {
     var firstEntry = entries[0];
 
-    if (firstEntry.dateAndTime ?? false) {
-      for (var entry in entries) {
-        if (entry.dateAndTime.isBefore(firstEntry?.dateAndTime)) {
-          firstEntry = entry;
-        }
-      }
-    } else {
-       for (var entry in entries) {
-        if (entry.end.isBefore(firstEntry?.end)) {
-          firstEntry = entry;
-        }
+    for (var entry in entries) {
+      if (entry.end.isBefore(firstEntry?.end)) {
+        firstEntry = entry;
       }
     }
 
@@ -150,17 +141,10 @@ class CalendarAccess {
 
   DateEntry _findLastEntry(List<DateEntry> entries) {
     var lastEntry = entries[0];
-    if (lastEntry.dateAndTime ?? false) {
-      for (var entry in entries) {
-        if (entry.dateAndTime.isAfter(lastEntry.dateAndTime)) {
-          lastEntry = entry;
-        }
-      }
-    } else {
-       for (var entry in entries) {
-        if (entry.end.isAfter(lastEntry.end)) {
-          lastEntry = entry;
-        }
+
+    for (var entry in entries) {
+      if (entry.end.isAfter(lastEntry.end)) {
+        lastEntry = entry;
       }
     }
 
