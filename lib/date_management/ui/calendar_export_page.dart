@@ -93,8 +93,8 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
             ListView.builder(
           itemCount: viewModel.calendars.length,
           itemBuilder: (BuildContext context, int index) {
-            var isSelected =
-                viewModel.selectedCalendar?.id == viewModel.calendars[index]?.id;
+            var isSelected = viewModel.selectedCalendar?.id ==
+                viewModel.calendars[index]?.id;
 
             return _buildCalendarListEntry(
               viewModel.calendars[index],
@@ -132,7 +132,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                 KiwiContainer()
                     .resolve<PreferencesProvider>()
                     .setIsCalendarSyncEnabled(false);
-                    viewModel.resetSelectedCalendar();
+                viewModel.resetSelectedCalendar();
                 Navigator.of(context).pop();
               },
             ),
@@ -203,9 +203,9 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
               : Container(
                   decoration: !viewModel.canExport
                       ? new BoxDecoration(
-                          color: Color.fromARGB(255, 255, 96, 109))
+                          color: Theme.of(context).colorScheme.background)
                       : new BoxDecoration(
-                          color: Color(0xFFe60519),
+                          color: Theme.of(context).colorScheme.primary,
                         ),
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
