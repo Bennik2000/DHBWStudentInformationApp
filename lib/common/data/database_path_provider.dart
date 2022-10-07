@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
-import 'package:ios_app_group/ios_app_group.dart';
+import 'package:app_group_directory/app_group_directory.dart';
 
 Future<String> getDatabasePath(String databaseName) async {
   Directory documentsDirectory = await getApplicationDocumentsDirectory();
@@ -25,7 +25,7 @@ Future<String> _getiOSDatabasePathAndMigrate(
   // module. "Migration" means that the database at the old path gets
   // copied to the new path
 
-  var groupDirectory = await IosAppGroup.getAppGroupDirectory(
+  var groupDirectory = await AppGroupDirectory.getAppGroupDirectory(
     'group.de.bennik2000.dhbwstudentapp',
   );
 
