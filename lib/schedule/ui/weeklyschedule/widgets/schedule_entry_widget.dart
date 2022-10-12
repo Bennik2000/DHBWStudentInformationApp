@@ -25,7 +25,7 @@ class ScheduleEntryWidget extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(1, 0, 1, 0),
       child: InkWell(
         onTap: () {
-          if (onScheduleEntryTap != null) onScheduleEntryTap!(scheduleEntry);
+          onScheduleEntryTap?.call(scheduleEntry);
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),

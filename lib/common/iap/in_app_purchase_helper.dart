@@ -76,9 +76,7 @@ class InAppPurchaseHelper {
 
       return PurchaseResultEnum.Success;
     } on PlatformException catch (_) {
-      if (_purchaseCallback != null) {
-        _purchaseCallback!(id, PurchaseResultEnum.Error);
-      }
+      _purchaseCallback?.call(id, PurchaseResultEnum.Error);
 
       return PurchaseResultEnum.Error;
     }
@@ -194,7 +192,8 @@ class InAppPurchaseHelper {
 
     if (!await _preferencesProvider.getHasPurchasedSomething()) {
       print(
-          "Abort complete pending purchases, the user did not buy something in the past",);
+        "Abort complete pending purchases, the user did not buy something in the past",
+      );
       return;
     }
 
