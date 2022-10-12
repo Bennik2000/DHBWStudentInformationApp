@@ -11,6 +11,8 @@ import 'package:intl/intl.dart';
 /// table
 ///
 class RaplaWeekResponseParser {
+  const RaplaWeekResponseParser();
+
   static ScheduleQueryResult parseWeeklyTable(
     Document document,
     Element weekTable,

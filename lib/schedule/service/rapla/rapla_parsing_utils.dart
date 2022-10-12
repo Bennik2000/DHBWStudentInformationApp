@@ -5,6 +5,8 @@ import 'package:html/dom.dart';
 import 'package:intl/intl.dart';
 
 class RaplaParsingUtils {
+  const RaplaParsingUtils();
+
   static const String WEEK_BLOCK_CLASS = "week_block";
   static const String TOOLTIP_CLASS = "tooltip";
   static const String INFOTABLE_CLASS = "infotable";
@@ -28,7 +30,9 @@ class RaplaParsingUtils {
   };
 
   static ScheduleEntry extractScheduleEntryOrThrow(
-      Element value, DateTime date,) {
+    Element value,
+    DateTime date,
+  ) {
     // The tooltip tag contains the most relevant information
     final tooltip = value.getElementsByClassName(TOOLTIP_CLASS);
 
@@ -58,7 +62,11 @@ class RaplaParsingUtils {
     //       tooltip. Then provide a link with a manual to activate it in Rapla
     if (tooltip.isEmpty) {
       scheduleEntry = extractScheduleDetailsFromCell(
-          timeAndClassName, scheduleEntry, start, end,);
+        timeAndClassName,
+        scheduleEntry,
+        start,
+        end,
+      );
     } else {
       scheduleEntry =
           extractScheduleFromTooltip(tooltip, value, scheduleEntry, start, end);
@@ -75,7 +83,8 @@ class RaplaParsingUtils {
     final professor = scheduleEntry.professor;
     if (professor.endsWith(",")) {
       scheduleEntry = scheduleEntry.copyWith(
-          professor: professor.substring(0, professor.length - 1),);
+        professor: professor.substring(0, professor.length - 1),
+      );
     }
 
     return scheduleEntry.copyWith(
@@ -87,11 +96,12 @@ class RaplaParsingUtils {
   }
 
   static ScheduleEntry extractScheduleFromTooltip(
-      List<Element> tooltip,
-      Element value,
-      ScheduleEntry? scheduleEntry,
-      DateTime start,
-      DateTime end,) {
+    List<Element> tooltip,
+    Element value,
+    ScheduleEntry? scheduleEntry,
+    DateTime start,
+    DateTime end,
+  ) {
     final infotable = tooltip[0].getElementsByClassName(INFOTABLE_CLASS);
 
     if (infotable.isEmpty) {
@@ -121,10 +131,11 @@ class RaplaParsingUtils {
   }
 
   static ScheduleEntry extractScheduleDetailsFromCell(
-      List<Element> timeAndClassName,
-      ScheduleEntry? scheduleEntry,
-      DateTime start,
-      DateTime end,) {
+    List<Element> timeAndClassName,
+    ScheduleEntry? scheduleEntry,
+    DateTime start,
+    DateTime end,
+  ) {
     final descriptionHtml = timeAndClassName[0].innerHtml.substring(12);
     final descriptionParts = descriptionHtml.split("<br>");
 

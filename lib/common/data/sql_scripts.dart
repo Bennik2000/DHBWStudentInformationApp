@@ -1,6 +1,7 @@
 import 'dart:core';
 
 class SqlScripts {
+  const SqlScripts();
   static final databaseMigrationScripts = [
     // Version 1 - init database
     [

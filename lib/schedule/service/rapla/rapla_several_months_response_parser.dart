@@ -5,6 +5,8 @@ import 'package:dhbwstudentapp/schedule/service/rapla/rapla_monthly_response_par
 import 'package:html/dom.dart';
 
 class RaplaSeveralMonthsResponseParser {
+  const RaplaSeveralMonthsResponseParser();
+
   static ScheduleQueryResult parseSeveralMonthlyTables(
     Document document,
     List<Element> monthTables,

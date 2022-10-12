@@ -9,6 +9,8 @@ import 'package:html/dom.dart';
 /// table
 ///
 class RaplaMonthlyResponseParser {
+  const RaplaMonthlyResponseParser();
+
   static ScheduleQueryResult parseMonthlyTable(
     Element monthTable,
   ) {
