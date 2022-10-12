@@ -29,9 +29,9 @@ class WidgetHelpDialog {
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          buttonPadding: const EdgeInsets.all(0),
-          actionsPadding: const EdgeInsets.all(0),
-          contentPadding: const EdgeInsets.all(0),
+          buttonPadding: EdgeInsets.zero,
+          actionsPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
           title: Text(L.of(context).widgetHelpDialogTitle),
           content: Column(
             mainAxisSize: MainAxisSize.min,

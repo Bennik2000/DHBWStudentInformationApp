@@ -75,7 +75,7 @@ class SelectMannheimCourseWidget extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: ListView.builder(
-        padding: const EdgeInsets.all(0),
+        padding: EdgeInsets.zero,
         itemCount: viewModel.courses?.length ?? 0,
         itemBuilder: (BuildContext context, int index) =>
             _buildCourseListTile(viewModel, index, context),

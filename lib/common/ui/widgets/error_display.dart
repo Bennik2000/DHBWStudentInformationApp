@@ -16,7 +16,7 @@ class ErrorDisplay extends StatelessWidget {
           duration: const Duration(milliseconds: 300),
           child: show
               ? Padding(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   child: Container(
                     width: double.infinity,
                     color: colorNoConnectionBackground(),
