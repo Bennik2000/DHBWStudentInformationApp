@@ -23,7 +23,7 @@ class EnterIcalDialog extends EnterUrlDialog {
 
   @override
   bool isValidUrl(String? url) {
-    return IcalScheduleSource.isValidUrl(url!);
+    return IcalScheduleSource.isValidUrl(url);
   }
 
   @override

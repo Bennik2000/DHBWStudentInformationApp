@@ -51,7 +51,7 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
         position: animation.drive(offsetTween),
         child: FadeTransition(
           opacity: animation.drive(opacityTween),
-          child: Container(
+          child: ColoredBox(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: child,
           ),

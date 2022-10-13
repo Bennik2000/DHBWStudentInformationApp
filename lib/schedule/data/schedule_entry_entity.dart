@@ -2,7 +2,7 @@ import 'package:dhbwstudentapp/common/data/database_entity.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
 class ScheduleEntryEntity extends DatabaseEntity {
-  ScheduleEntry? _scheduleEntry;
+  late ScheduleEntry _scheduleEntry;
 
   ScheduleEntryEntity.fromModel(ScheduleEntry scheduleEntry) {
     _scheduleEntry = scheduleEntry;
@@ -32,18 +32,18 @@ class ScheduleEntryEntity extends DatabaseEntity {
   @override
   Map<String, dynamic> toMap() {
     return {
-      "id": _scheduleEntry!.id,
-      "start": _scheduleEntry!.start.millisecondsSinceEpoch,
-      "end": _scheduleEntry!.end.millisecondsSinceEpoch,
-      "details": _scheduleEntry!.details,
-      "professor": _scheduleEntry!.professor,
-      "room": _scheduleEntry!.room,
-      "title": _scheduleEntry!.title,
-      "type": _scheduleEntry!.type.index
+      "id": _scheduleEntry.id,
+      "start": _scheduleEntry.start.millisecondsSinceEpoch,
+      "end": _scheduleEntry.end.millisecondsSinceEpoch,
+      "details": _scheduleEntry.details,
+      "professor": _scheduleEntry.professor,
+      "room": _scheduleEntry.room,
+      "title": _scheduleEntry.title,
+      "type": _scheduleEntry.type.index
     };
   }
 
-  ScheduleEntry asScheduleEntry() => _scheduleEntry!;
+  ScheduleEntry asScheduleEntry() => _scheduleEntry;
 
   static String tableName() => "ScheduleEntries";
 }

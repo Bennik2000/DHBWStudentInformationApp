@@ -216,8 +216,6 @@ class WeeklyScheduleViewModel extends BaseViewModel {
         token,
       );
     }
-
-    return null;
   }
 
   void _cancelErrorInFuture() {

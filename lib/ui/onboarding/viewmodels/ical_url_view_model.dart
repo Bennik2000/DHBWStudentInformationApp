@@ -24,7 +24,7 @@ class IcalUrlViewModel extends OnboardingStepViewModel {
   }
 
   void _validateUrl() {
-    urlHasError = !IcalScheduleSource.isValidUrl(_url!);
+    urlHasError = !IcalScheduleSource.isValidUrl(_url);
 
     setIsValid(!urlHasError);
 

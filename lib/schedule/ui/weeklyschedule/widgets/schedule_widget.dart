@@ -34,13 +34,11 @@ class ScheduleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-        return buildWithSize(
-            context, constraints.biggest.width, constraints.biggest.height,);
-      },),
-    );
+    return LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints constraints) {
+      return buildWithSize(
+          context, constraints.biggest.width, constraints.biggest.height,);
+    },);
   }
 
   Widget buildWithSize(BuildContext context, double width, double height) {
