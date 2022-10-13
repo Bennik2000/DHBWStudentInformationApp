@@ -33,10 +33,14 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
                 child: PropertyChangeConsumer<DailyScheduleViewModel, String>(
-                  builder: (BuildContext context, DailyScheduleViewModel? model,
-                      Set? properties,) {
+                  builder: (
+                    BuildContext context,
+                    DailyScheduleViewModel? model,
+                    Set? properties,
+                  ) {
                     final dateFormat = DateFormat.yMMMMEEEEd(
-                        L.of(context).locale.languageCode,);
+                      L.of(context).locale.languageCode,
+                    );
                     return Text(
                       dateFormat.format(model!.currentDate!),
                       style: textStyleDailyScheduleCurrentDate(context),
@@ -44,39 +48,41 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                   },
                 ),
               ),
-              if (viewModel.daySchedule.entries.isEmpty) Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-                      child: Column(
+              if (viewModel.schedule.entries.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(child: Container()),
-                              Expanded(
-                                flex: 8,
-                                child: Text(
-                                  L.of(context).dailyScheduleNoEntriesToday,
-                                  softWrap: true,
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      textStyleDailyScheduleNoEntries(context),
-                                ),
-                              ),
-                              Expanded(child: Container()),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(32, 64, 32, 32),
-                            child: Opacity(
-                              opacity: 0.9,
-                              child: Image.asset("assets/empty_state.png"),
+                          Expanded(child: Container()),
+                          Expanded(
+                            flex: 8,
+                            child: Text(
+                              L.of(context).dailyScheduleNoEntriesToday,
+                              softWrap: true,
+                              textAlign: TextAlign.center,
+                              style: textStyleDailyScheduleNoEntries(context),
                             ),
-                          )
+                          ),
+                          Expanded(child: Container()),
                         ],
                       ),
-                    ) else Column(
-                      children: buildEntryWidgets(),
-                    )
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(32, 64, 32, 32),
+                        child: Opacity(
+                          opacity: 0.9,
+                          child: Image.asset("assets/empty_state.png"),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              else
+                Column(
+                  children: buildEntryWidgets(),
+                )
             ],
           ),
         ),
@@ -89,7 +95,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
     final now = DateTime.now();
     var nowIndicatorInserted = false;
 
-    for (final entry in viewModel.daySchedule.entries) {
+    for (final entry in viewModel.schedule.entries) {
       if (!nowIndicatorInserted && (entry.end.isAfter(now))) {
         entryWidgets.add(CurrentTimeIndicatorWidget());
         nowIndicatorInserted = true;
