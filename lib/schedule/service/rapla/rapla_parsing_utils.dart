@@ -118,7 +118,7 @@ class RaplaParsingUtils {
     final details = properties[DETAILS_LABEL];
     final resource = properties[RESOURCES_LABEL] ?? _extractResources(value);
 
-    scheduleEntry = ScheduleEntry(
+    return ScheduleEntry(
       start: start,
       end: end,
       title: title,
@@ -127,7 +127,6 @@ class RaplaParsingUtils {
       type: type,
       room: resource,
     );
-    return scheduleEntry;
   }
 
   static ScheduleEntry extractScheduleDetailsFromCell(
@@ -149,7 +148,7 @@ class RaplaParsingUtils {
       details = descriptionParts.join("\n");
     }
 
-    scheduleEntry = ScheduleEntry(
+    return ScheduleEntry(
       start: start,
       end: end,
       title: title,
@@ -158,7 +157,6 @@ class RaplaParsingUtils {
       type: ScheduleEntryType.Unknown,
       room: "",
     );
-    return scheduleEntry;
   }
 
   static ScheduleEntryType _extractEntryType(List<Element> tooltip) {

@@ -74,7 +74,7 @@ class ScheduleProvider {
       "Fetching schedule for ${DateFormat.yMd().format(start)} - ${DateFormat.yMd().format(end)}",
     );
     try {
-      var updatedSchedule = await _scheduleSource.currentScheduleSource
+      final updatedSchedule = await _scheduleSource.currentScheduleSource
           .querySchedule(start, end, cancellationToken);
 
       var schedule = updatedSchedule?.schedule;
@@ -104,9 +104,7 @@ class ScheduleProvider {
         await c(schedule!, start, end);
       }
 
-      updatedSchedule = ScheduleQueryResult(schedule!, updatedSchedule!.errors);
-
-      return updatedSchedule;
+      return ScheduleQueryResult(schedule!, updatedSchedule!.errors);
     } on ScheduleQueryFailedException catch (e, trace) {
       print("Failed to fetch schedule!");
       print(e.innerException.toString());
