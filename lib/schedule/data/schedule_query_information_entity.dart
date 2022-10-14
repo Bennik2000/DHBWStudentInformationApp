@@ -18,17 +18,18 @@ class ScheduleQueryInformationEntity extends DatabaseEntity {
   void fromMap(Map<String, dynamic> map) {
     DateTime? startDate;
     if (map["start"] != null) {
-      startDate = DateTime.fromMillisecondsSinceEpoch(map["start"]);
+      startDate = DateTime.fromMillisecondsSinceEpoch(map["start"] as int);
     }
 
     DateTime? endDate;
     if (map["end"] != null) {
-      endDate = DateTime.fromMillisecondsSinceEpoch(map["end"]);
+      endDate = DateTime.fromMillisecondsSinceEpoch(map["end"] as int);
     }
 
     DateTime? queryTimeDate;
     if (map["queryTime"] != null) {
-      queryTimeDate = DateTime.fromMillisecondsSinceEpoch(map["queryTime"]);
+      queryTimeDate =
+          DateTime.fromMillisecondsSinceEpoch(map["queryTime"] as int);
     }
 
     _scheduleQueryInformation =

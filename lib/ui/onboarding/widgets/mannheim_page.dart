@@ -112,7 +112,9 @@ class SelectMannheimCourseWidget extends StatelessWidget {
   }
 
   Widget _buildLoadingError(
-      BuildContext context, MannheimViewModel? viewModel,) {
+    BuildContext context,
+    MannheimViewModel? viewModel,
+  ) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

@@ -16,15 +16,19 @@ class DateManagementViewModel extends BaseViewModel {
     DateDatabase("BWL-Bank", "Termine_BWL_Bank"),
     DateDatabase("Immobilienwirtschaft", "Termine_BWL_Immo"),
     DateDatabase(
-        "Dienstleistungsmanagement Consulting & Sales", "Termine_DLM_Consult",),
+      "Dienstleistungsmanagement Consulting & Sales",
+      "Termine_DLM_Consult",
+    ),
     DateDatabase("Dienstleistungsmanagement Logistik", "Termine_DLM_Logistik"),
     DateDatabase("Campus Horb Informatik", "Termine_Horb_INF"),
     DateDatabase("Campus Horb Maschinenbau", "Termine_Horb_MB"),
     DateDatabase("International Business", "Termine_IB"),
     DateDatabase("Informatik", "Termine_Informatik"),
     DateDatabase("MUK (DLM - C&S, LogM, MUK)", "Termine_MUK"),
-    DateDatabase("SO_GuO (Abweichungen und Ergänzungen zum Vorlesungsplan)",
-        "Termine_SO_GuO",),
+    DateDatabase(
+      "SO_GuO (Abweichungen und Ergänzungen zum Vorlesungsplan)",
+      "Termine_SO_GuO",
+    ),
     DateDatabase("Wirtschaftsingenieurwesen", "Termine_WIW"),
   ];
   List<DateDatabase> get allDateDatabases => _allDateDatabases;
@@ -121,9 +125,9 @@ class DateManagementViewModel extends BaseViewModel {
         _updateMutex.token,
       );
       return loadedDateEntries;
+    } catch (_) {
+      return null;
     }
-
-    return null;
   }
 
   Future<List<DateEntry>> _readCachedDateEntries() async {
@@ -171,7 +175,8 @@ class DateManagementViewModel extends BaseViewModel {
   }
 
   Future<void> _loadDefaultSelection() async {
-    final database = await _preferencesProvider.getLastViewedDateEntryDatabase();
+    final database =
+        await _preferencesProvider.getLastViewedDateEntryDatabase();
 
     bool didSetDatabase = false;
     for (final db in allDateDatabases) {

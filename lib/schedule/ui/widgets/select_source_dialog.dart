@@ -38,34 +38,34 @@ class SelectSourceDialog {
             style: Theme.of(context).textTheme.bodyText2,
           ),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Rapla,
-          onChanged: (dynamic v) => sourceSelected(v, context),
+          onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeRapla),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Dualis,
-          onChanged: (dynamic v) => sourceSelected(v, context),
+          onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeDualis),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Mannheim,
-          onChanged: (dynamic v) => sourceSelected(v, context),
+          onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeMannheim),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Ical,
-          onChanged: (dynamic v) => sourceSelected(v, context),
+          onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeIcal),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.None,
-          onChanged: (dynamic v) => sourceSelected(v, context),
+          onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeNone),
         )
       ],
@@ -73,9 +73,10 @@ class SelectSourceDialog {
   }
 
   Future<void> sourceSelected(
-    ScheduleSourceType type,
+    ScheduleSourceType? type,
     BuildContext context,
   ) async {
+    if (type == null) return;
     // TODO: [Leptopoda] only switch the type when the setup is completed.
     _preferencesProvider.setScheduleSourceType(type.index);
 

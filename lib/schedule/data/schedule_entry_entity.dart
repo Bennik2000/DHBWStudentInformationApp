@@ -14,19 +14,28 @@ class ScheduleEntryEntity extends DatabaseEntity {
 
   @override
   void fromMap(Map<String, dynamic> map) {
-    final startDate = DateTime.fromMillisecondsSinceEpoch(map["start"]);
+    final start = map["start"] as int?;
+    DateTime? startDate;
+    if (start != null) {
+      startDate = DateTime.fromMillisecondsSinceEpoch(start);
+    }
 
-    final endDate = DateTime.fromMillisecondsSinceEpoch(map["end"]);
+    final end = map["end"] as int?;
+    DateTime? endDate;
+    if (end != null) {
+      endDate = DateTime.fromMillisecondsSinceEpoch(end);
+    }
 
     _scheduleEntry = ScheduleEntry(
-        id: map["id"],
-        start: startDate,
-        end: endDate,
-        details: map["details"],
-        professor: map["professor"],
-        title: map["title"],
-        room: map["room"],
-        type: ScheduleEntryType.values[map["type"]],);
+      id: map["id"] as int?,
+      start: startDate,
+      end: endDate,
+      details: map["details"] as String?,
+      professor: map["professor"] as String?,
+      title: map["title"] as String?,
+      room: map["room"] as String?,
+      type: ScheduleEntryType.values[map["type"] as int],
+    );
   }
 
   @override

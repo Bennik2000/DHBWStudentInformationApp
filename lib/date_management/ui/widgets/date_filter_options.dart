@@ -77,35 +77,45 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
     final chips = <Widget>[];
 
     if (widget.viewModel.showPassedDates && widget.viewModel.showFutureDates) {
-      chips.add(Chip(
-        label: Text(L.of(context).dateManagementChipFutureAndPast),
-        visualDensity: VisualDensity.compact,
-      ),);
+      chips.add(
+        Chip(
+          label: Text(L.of(context).dateManagementChipFutureAndPast),
+          visualDensity: VisualDensity.compact,
+        ),
+      );
     } else if (widget.viewModel.showFutureDates) {
-      chips.add(Chip(
-        label: Text(L.of(context).dateManagementChipOnlyFuture),
-        visualDensity: VisualDensity.compact,
-      ),);
+      chips.add(
+        Chip(
+          label: Text(L.of(context).dateManagementChipOnlyFuture),
+          visualDensity: VisualDensity.compact,
+        ),
+      );
     } else if (widget.viewModel.showPassedDates) {
-      chips.add(Chip(
-        label: Text(L.of(context).dateManagementChipOnlyPassed),
-        visualDensity: VisualDensity.compact,
-      ),);
+      chips.add(
+        Chip(
+          label: Text(L.of(context).dateManagementChipOnlyPassed),
+          visualDensity: VisualDensity.compact,
+        ),
+      );
     }
 
     if (widget.viewModel.currentSelectedYear != null) {
-      chips.add(Chip(
-        label: Text(widget.viewModel.currentSelectedYear!),
-        visualDensity: VisualDensity.compact,
-      ),);
+      chips.add(
+        Chip(
+          label: Text(widget.viewModel.currentSelectedYear!),
+          visualDensity: VisualDensity.compact,
+        ),
+      );
     }
 
     final database = widget.viewModel.currentDateDatabase?.displayName ?? "";
     if (database != "") {
-      chips.add(Chip(
-        label: Text(database),
-        visualDensity: VisualDensity.compact,
-      ),);
+      chips.add(
+        Chip(
+          label: Text(database),
+          visualDensity: VisualDensity.compact,
+        ),
+      );
     }
 
     return Padding(
@@ -136,7 +146,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     ),
                   ),
                   Expanded(
-                    child: DropdownButton(
+                    child: DropdownButton<DateDatabase?>(
                       isExpanded: true,
                       value: widget.viewModel.currentDateDatabase,
                       onChanged: widget.viewModel.setCurrentDateDatabase,
@@ -156,7 +166,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     ),
                   ),
                   Expanded(
-                    child: DropdownButton(
+                    child: DropdownButton<String?>(
                       isExpanded: true,
                       value: widget.viewModel.currentSelectedYear,
                       onChanged: widget.viewModel.setCurrentSelectedYear,
@@ -204,10 +214,12 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
     final yearMenuItems = <DropdownMenuItem<String>>[];
 
     for (final year in widget.viewModel.years) {
-      yearMenuItems.add(DropdownMenuItem(
-        value: year,
-        child: Text(year),
-      ),);
+      yearMenuItems.add(
+        DropdownMenuItem(
+          value: year,
+          child: Text(year),
+        ),
+      );
     }
     return yearMenuItems;
   }
@@ -216,10 +228,12 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
     final databaseMenuItems = <DropdownMenuItem<DateDatabase>>[];
 
     for (final database in widget.viewModel.allDateDatabases) {
-      databaseMenuItems.add(DropdownMenuItem(
-        value: database,
-        child: Text(database.displayName),
-      ),);
+      databaseMenuItems.add(
+        DropdownMenuItem(
+          value: database,
+          child: Text(database.displayName),
+        ),
+      );
     }
     return databaseMenuItems;
   }

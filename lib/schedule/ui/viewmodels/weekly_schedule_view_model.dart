@@ -209,13 +209,11 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     DateTime end,
     CancellationToken token,
   ) async {
-    try {
-      return await scheduleProvider.getUpdatedSchedule(
-        start,
-        end,
-        token,
-      );
-    }
+    return scheduleProvider.getUpdatedSchedule(
+      start,
+      end,
+      token,
+    );
   }
 
   void _cancelErrorInFuture() {

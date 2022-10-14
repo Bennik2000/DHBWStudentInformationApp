@@ -1,6 +1,7 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
 import 'package:dhbwstudentapp/dualis/model/exam_grade.dart';
+import 'package:dhbwstudentapp/dualis/model/module.dart';
 import 'package:dhbwstudentapp/dualis/ui/viewmodels/study_grades_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
@@ -76,7 +77,9 @@ class ExamResultsPage extends StatelessWidget {
   }
 
   Widget buildModulesColumn(
-      BuildContext context, StudyGradesViewModel viewModel,) {
+    BuildContext context,
+    StudyGradesViewModel viewModel,
+  ) {
     return AnimatedSwitcher(
       layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
         List<Widget> children = previousChildren;
@@ -97,52 +100,63 @@ class ExamResultsPage extends StatelessWidget {
   }
 
   List<Widget> buildModulesDataTables(
-      BuildContext context, StudyGradesViewModel viewModel,) {
+    BuildContext context,
+    StudyGradesViewModel viewModel,
+  ) {
     final dataTables = <Widget>[];
 
     var isFirstModule = true;
     for (final module in viewModel.currentSemester!.modules) {
-      dataTables.add(DataTable(
-        horizontalMargin: 24,
-        columnSpacing: 0,
-        dataRowHeight: 45,
-        headingRowHeight: 65,
-        rows: buildModuleDataRows(context, module),
-        columns: buildModuleColumns(context, module,
-            displayGradeHeader: isFirstModule,),
-      ),);
+      dataTables.add(
+        DataTable(
+          horizontalMargin: 24,
+          columnSpacing: 0,
+          dataRowHeight: 45,
+          headingRowHeight: 65,
+          rows: buildModuleDataRows(context, module),
+          columns: buildModuleColumns(
+            context,
+            module,
+            displayGradeHeader: isFirstModule,
+          ),
+        ),
+      );
       isFirstModule = false;
     }
     return dataTables;
   }
 
-  List<DataRow> buildModuleDataRows(BuildContext context, var module) {
+  List<DataRow> buildModuleDataRows(BuildContext context, Module module) {
     final dataRows = <DataRow>[];
 
     for (final exam in module.exams) {
       dataRows.add(
         DataRow(
           cells: <DataCell>[
-            DataCell(Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  exam.name ?? "",
-                  style: Theme.of(context).textTheme.caption,
-                ),
-                Text(
-                  exam.semester ?? "",
-                  style: Theme.of(context).textTheme.caption,
-                  textScaleFactor: exam.semester == "" ? 0 : 1,
-                ),
-              ],
-            ),),
+            DataCell(
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    exam.name ?? "",
+                    style: Theme.of(context).textTheme.caption,
+                  ),
+                  Text(
+                    exam.semester ?? "",
+                    style: Theme.of(context).textTheme.caption,
+                    textScaleFactor: exam.semester == "" ? 0 : 1,
+                  ),
+                ],
+              ),
+            ),
             DataCell.empty,
-            DataCell(Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
-              child: _examGradeToWidget(context, exam.grade),
-            ),),
+            DataCell(
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
+                child: _examGradeToWidget(context, exam.grade),
+              ),
+            ),
           ],
         ),
       );
@@ -163,8 +177,11 @@ class ExamResultsPage extends StatelessWidget {
     }
   }
 
-  List<DataColumn> buildModuleColumns(BuildContext context, var module,
-      {var displayGradeHeader = false,}) {
+  List<DataColumn> buildModuleColumns(
+    BuildContext context,
+    Module module, {
+    bool displayGradeHeader = false,
+  }) {
     var displayWidth = MediaQuery.of(context).size.width;
 
     if (!PlatformUtil.isPortrait(context) && PlatformUtil.isTablet()) {
@@ -202,7 +219,8 @@ class ExamResultsPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 10, 16),
               child: Text(
-                  "${L.of(context).dualisExamResultsCreditsColumnHeader}:  ${module.credits}",),
+                "${L.of(context).dualisExamResultsCreditsColumnHeader}:  ${module.credits}",
+              ),
             ),
           ),
         ),

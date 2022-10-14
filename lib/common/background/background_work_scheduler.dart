@@ -103,7 +103,7 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
   ///
   /// Entry point for when a background task is executed
   ///
-  static Future<bool> backgroundTaskMain(taskId, inputData) async {
+  static Future<bool> backgroundTaskMain(String taskId, Map<String, dynamic>? inputData) async {
     try {
       print("Background task started: $taskId with data: $inputData");
 

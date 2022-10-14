@@ -33,19 +33,19 @@ class SelectThemeDialog {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                RadioListTile(
+                RadioListTile<AppTheme>(
                   title: Text(L.of(context).selectThemeLight),
                   value: AppTheme.Light,
                   groupValue: _rootViewModel.appTheme,
                   onChanged: _rootViewModel.setAppTheme,
                 ),
-                RadioListTile(
+                RadioListTile<AppTheme>(
                   title: Text(L.of(context).selectThemeDark),
                   value: AppTheme.Dark,
                   groupValue: _rootViewModel.appTheme,
                   onChanged: _rootViewModel.setAppTheme,
                 ),
-                RadioListTile(
+                RadioListTile<AppTheme>(
                   title: Text(L.of(context).selectThemeSystem),
                   value: AppTheme.System,
                   groupValue: _rootViewModel.appTheme,

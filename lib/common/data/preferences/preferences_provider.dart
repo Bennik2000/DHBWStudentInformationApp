@@ -68,13 +68,15 @@ class PreferencesProvider {
     Calendar? selectedCalendar;
     final String? selectedCalendarId =
         await _preferencesAccess.get<String>('SelectedCalendarId');
-    if (selectedCalendarId == null) return null;
-    final List<Calendar> availableCalendars =
+    final List<Calendar>? availableCalendars =
         await CalendarAccess().queryWriteableCalendars();
+    if (selectedCalendarId == null || availableCalendars == null) return null;
     for (final cal in availableCalendars) {
       {
-          if (cal.id == selectedCalendarId) {selectedCalendar = cal}
+        if (cal.id == selectedCalendarId) {
+          selectedCalendar = cal;
         }
+      }
     }
     return selectedCalendar;
   }
@@ -96,7 +98,7 @@ class PreferencesProvider {
   }
 
   Future<String?> getLastUsedLanguageCode() async {
-    return  _preferencesAccess.get<String>(LastUsedLanguageCode);
+    return _preferencesAccess.get<String>(LastUsedLanguageCode);
   }
 
   Future<void> setLastUsedLanguageCode(String languageCode) async {
@@ -158,7 +160,7 @@ class PreferencesProvider {
   }
 
   Future<String?> getLastViewedSemester() async {
-    return  _preferencesAccess.get<String>(LastViewedSemester);
+    return _preferencesAccess.get<String>(LastViewedSemester);
   }
 
   Future<void> setLastViewedSemester(String? lastViewedSemester) async {
@@ -168,16 +170,18 @@ class PreferencesProvider {
   }
 
   Future<String?> getLastViewedDateEntryDatabase() async {
-    return  _preferencesAccess.get<String>(LastViewedDateEntryDatabase);
+    return _preferencesAccess.get<String>(LastViewedDateEntryDatabase);
   }
 
   Future<void> setLastViewedDateEntryDatabase(String? value) async {
     await _preferencesAccess.set<String>(
-        LastViewedDateEntryDatabase, value ?? "",);
+      LastViewedDateEntryDatabase,
+      value ?? "",
+    );
   }
 
   Future<String?> getLastViewedDateEntryYear() async {
-    return  _preferencesAccess.get<String>(LastViewedDateEntryYear);
+    return _preferencesAccess.get<String>(LastViewedDateEntryYear);
   }
 
   Future<void> setLastViewedDateEntryYear(String? value) async {

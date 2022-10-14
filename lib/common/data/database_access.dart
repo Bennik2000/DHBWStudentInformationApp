@@ -15,10 +15,12 @@ class DatabaseAccess {
   Future<Database> _initDatabase() async {
     final String path = await getDatabasePath(_databaseName);
 
-    return  openDatabase(path,
-        version: SqlScripts.databaseMigrationScripts.length,
-        onCreate: _onCreate,
-        onUpgrade: _onUpgrade,);
+    return openDatabase(
+      path,
+      version: SqlScripts.databaseMigrationScripts.length,
+      onCreate: _onCreate,
+      onUpgrade: _onUpgrade,
+    );
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -42,30 +44,34 @@ class DatabaseAccess {
 
   Future<int> insert(String table, Map<String, dynamic> row) async {
     final Database db = await _database;
-    return  db.insert(table, row);
+    return db.insert(table, row);
   }
 
   Future<List<Map<String, dynamic>>> queryAllRows(String table) async {
     final Database db = await _database;
-    return  db.query(table);
+    return db.query(table);
   }
 
   Future<List<Map<String, dynamic>>> rawQuery(
-      String sql, List<dynamic> parameters,) async {
+    String sql,
+    List<dynamic> parameters,
+  ) async {
     final Database db = await _database;
-    return  db.rawQuery(sql, parameters);
+    return db.rawQuery(sql, parameters);
   }
 
-  Future<List<Map<String, dynamic>>> queryRows(String table,
-      {bool? distinct,
-      List<String>? columns,
-      String? where,
-      List<dynamic>? whereArgs,
-      String? groupBy,
-      String? having,
-      String? orderBy,
-      int? limit,
-      int? offset,}) async {
+  Future<List<Map<String, dynamic>>> queryRows(
+    String table, {
+    bool? distinct,
+    List<String>? columns,
+    String? where,
+    List<dynamic>? whereArgs,
+    String? groupBy,
+    String? having,
+    String? orderBy,
+    int? limit,
+    int? offset,
+  }) async {
     final Database db = await _database;
 
     // TODO: [Leptopoda] is there a reason this is done? or at maybe use whereArgs.removeWhere()
@@ -73,7 +79,7 @@ class DatabaseAccess {
       whereArgs![i] = whereArgs[i] ?? "";
     }
 
-    return  db.query(
+    return db.query(
       table,
       distinct: distinct,
       columns: columns,
@@ -90,7 +96,8 @@ class DatabaseAccess {
   Future<int?> queryRowCount(String table) async {
     final Database db = await _database;
     return Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM $table'),);
+      await db.rawQuery('SELECT COUNT(*) FROM $table'),
+    );
   }
 
   Future<int?> queryAggregator(String query, List<dynamic> arguments) async {
@@ -100,14 +107,13 @@ class DatabaseAccess {
 
   Future<int> update(String table, Map<String, dynamic> row) async {
     final Database db = await _database;
-    final int? id = row[idColumnName];
-    return  db
-        .update(table, row, where: '$idColumnName = ?', whereArgs: [id]);
+    final id = row[idColumnName];
+    return db.update(table, row, where: '$idColumnName = ?', whereArgs: [id]);
   }
 
   Future<int> delete(String table, int? id) async {
     final Database db = await _database;
-    return  db.delete(table, where: '$idColumnName = ?', whereArgs: [id]);
+    return db.delete(table, where: '$idColumnName = ?', whereArgs: [id]);
   }
 
   Future<int> deleteWhere(
@@ -116,7 +122,7 @@ class DatabaseAccess {
     List<dynamic>? whereArgs,
   }) async {
     final Database db = await _database;
-    return  db.delete(
+    return db.delete(
       table,
       where: where,
       whereArgs: whereArgs,

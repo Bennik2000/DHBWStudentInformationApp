@@ -13,16 +13,20 @@ class DateEntryEntity extends DatabaseEntity {
 
   @override
   void fromMap(Map<String, dynamic> map) {
-    final date = DateTime.fromMillisecondsSinceEpoch(map["date"]);
+    final date = map["date"] as int?;
+    DateTime? dateTime;
+    if (date != null) {
+      dateTime = DateTime.fromMillisecondsSinceEpoch(date);
+    }
 
     _dateEntry = DateEntry(
-      comment: map["comment"],
-      description: map["description"],
-      year: map["year"],
-      databaseName: map["databaseName"],
-      start: date,
-      end: date,
-      room: map["room"],
+      comment: map["comment"] as String?,
+      description: map["description"] as String?,
+      year: map["year"] as String?,
+      databaseName: map["databaseName"] as String?,
+      start: dateTime,
+      end: dateTime,
+      room: map["room"] as String?,
     );
   }
 

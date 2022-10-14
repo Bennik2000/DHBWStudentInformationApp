@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class LoginCredentialsWidget extends StatefulWidget {
   final CredentialsEditingController controller;
-  final Function onSubmitted;
+  final VoidCallback onSubmitted;
 
   const LoginCredentialsWidget({
     Key? key,
@@ -42,7 +42,7 @@ class _LoginCredentialsWidgetState extends State<LoginCredentialsWidget> {
             icon: const Icon(Icons.lock_outline),
           ),
           focusNode: _focus,
-          onSubmitted: (v) {
+          onSubmitted: (_) {
             widget.onSubmitted();
           },
         ),

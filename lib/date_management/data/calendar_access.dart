@@ -36,16 +36,20 @@ class CalendarAccess {
     return CalendarPermission.PermissionDenied;
   }
 
-  Future<List<Calendar>> queryWriteableCalendars() async {
+  Future<List<Calendar>?> queryWriteableCalendars() async {
     final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-    final writeableCalendars = <Calendar>[];
-    for (final calendar in calendarsResult.data ?? []) {
-      if (!calendar.isReadOnly!) {
-        writeableCalendars.add(calendar);
-      }
-    }
+    final calendars = calendarsResult.data;
 
-    return writeableCalendars;
+    if (calendars != null) {
+      final writeableCalendars = <Calendar>[];
+      for (final calendar in calendars) {
+        if (!calendar.isReadOnly!) {
+          writeableCalendars.add(calendar);
+        }
+      }
+      return writeableCalendars;
+    }
+    return null;
   }
 
   Future<void> addOrUpdateDates(
@@ -63,12 +67,17 @@ class CalendarAccess {
   }
 
   Future _addOrUpdateEntry(
-      List<Event> existingEvents, DateEntry entry, Calendar calendar,) async {
+    List<Event> existingEvents,
+    DateEntry entry,
+    Calendar calendar,
+  ) async {
     // Find the id in the existing events in order that the "update" part of
     // createOrUpdateEvent(...) works
     final id = _getIdOfExistingEvent(existingEvents, entry);
 
-    var isAllDay, start, end;
+    bool isAllDay;
+    DateTime start;
+    DateTime end;
     if (entry.start.isAtSameMomentAs(entry.end)) {
       isAllDay = isAtMidnight(entry.start);
       start = entry.start;
@@ -79,23 +88,28 @@ class CalendarAccess {
       end = entry.end;
     }
 
-    return  _deviceCalendarPlugin.createOrUpdateEvent(Event(
-      calendar.id,
-      location: entry.room,
-      title: entry.description,
-      description: entry.comment,
-      eventId: id,
-      allDay: isAllDay,
-      start: tz.TZDateTime.from(start, tz.getLocation('Europe/Berlin')),
-      end: tz.TZDateTime.from(end, tz.getLocation('Europe/Berlin')),
-    ),);
+    return _deviceCalendarPlugin.createOrUpdateEvent(
+      Event(
+        calendar.id,
+        location: entry.room,
+        title: entry.description,
+        description: entry.comment,
+        eventId: id,
+        allDay: isAllDay,
+        start: tz.TZDateTime.from(start, tz.getLocation('Europe/Berlin')),
+        end: tz.TZDateTime.from(end, tz.getLocation('Europe/Berlin')),
+      ),
+    );
   }
 
   String? _getIdOfExistingEvent(List<Event> existingEvents, DateEntry entry) {
     final existingEvent = existingEvents
-        .where((element) => element.title == entry.description &&
-            (element.start?.toUtc().isAtSameMomentAs(entry.start.toUtc()) ??
-                false),)
+        .where(
+          (element) =>
+              element.title == entry.description &&
+              (element.start?.toUtc().isAtSameMomentAs(entry.start.toUtc()) ??
+                  false),
+        )
         .toList();
     String? id;
 
@@ -106,16 +120,19 @@ class CalendarAccess {
   }
 
   Future<List<Event>> _getExistingEventsFromCalendar(
-      List<DateEntry> dateEntries, Calendar calendar,) async {
+    List<DateEntry> dateEntries,
+    Calendar calendar,
+  ) async {
     final firstEntry = _findFirstEntry(dateEntries);
     final lastEntry = _findLastEntry(dateEntries);
 
     final existingEventsResult = await _deviceCalendarPlugin.retrieveEvents(
-        calendar.id,
-        RetrieveEventsParams(
-          startDate: firstEntry.start,
-          endDate: lastEntry.end,
-        ),);
+      calendar.id,
+      RetrieveEventsParams(
+        startDate: firstEntry.start,
+        endDate: lastEntry.end,
+      ),
+    );
 
     var existingEvents = <Event>[];
 

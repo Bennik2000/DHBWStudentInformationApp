@@ -23,7 +23,6 @@ class RootViewModel extends BaseViewModel {
 
   Future<void> setAppTheme(AppTheme? value) async {
     if (value == null) return;
-
     await _preferencesProvider.setAppTheme(value);
     _appTheme = value;
     notifyListeners("appTheme");
