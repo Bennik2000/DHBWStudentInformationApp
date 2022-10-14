@@ -160,6 +160,7 @@ class RaplaScheduleSource extends ScheduleSource {
       }
 
       return response;
+    // ignore: avoid_catching_errors
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
     } catch (ex) {

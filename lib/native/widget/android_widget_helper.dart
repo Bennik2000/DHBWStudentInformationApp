@@ -5,8 +5,7 @@ import 'package:flutter/services.dart';
 /// WidgetHelper which calls native code to control the widget on android
 ///
 class AndroidWidgetHelper implements WidgetHelper {
-  static const platform =
-      MethodChannel('de.bennik2000.dhbwstudentapp/widget');
+  static const platform = MethodChannel('de.bennik2000.dhbwstudentapp/widget');
 
   @override
   Future<void> disableWidget() async {
@@ -26,7 +25,7 @@ class AndroidWidgetHelper implements WidgetHelper {
   Future<void> requestWidgetRefresh() async {
     try {
       await platform.invokeMethod('requestWidgetRefresh');
-    } on PlatformException {}
+    } on PlatformException catch (_) {}
   }
 
   @override
