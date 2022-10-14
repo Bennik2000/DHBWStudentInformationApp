@@ -114,28 +114,25 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
       value: viewModel,
       child: Column(
         children: [
-          Container(
-            decoration: widget.isCalendarSyncEnabled ? null : null,
-            child: ListTile(
-              enabled: widget.isCalendarSyncEnabled ? true : false,
-              title: Text(
-                L.of(context).calendarSyncPageEndSync.toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: widget.isCalendarSyncEnabled
-                      ? ColorPalettes.main
-                      : Theme.of(context).disabledColor,
-                  fontSize: 14,
-                ),
+          ListTile(
+            enabled: widget.isCalendarSyncEnabled,
+            title: Text(
+              L.of(context).calendarSyncPageEndSync.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: widget.isCalendarSyncEnabled
+                    ? ColorPalettes.main
+                    : Theme.of(context).disabledColor,
+                fontSize: 14,
               ),
-              onTap: () async {
-                KiwiContainer()
-                    .resolve<PreferencesProvider>()
-                    .setIsCalendarSyncEnabled(false);
-                viewModel.resetSelectedCalendar();
-                Navigator.of(context).pop();
-              },
             ),
+            onTap: () async {
+              KiwiContainer()
+                  .resolve<PreferencesProvider>()
+                  .setIsCalendarSyncEnabled(false);
+              viewModel.resetSelectedCalendar();
+              Navigator.of(context).pop();
+            },
           ),
           const Divider(
             height: 1,
@@ -200,7 +197,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                     child: CircularProgressIndicator(),
                   ),
                 )
-              : Container(
+              : DecoratedBox(
                   decoration: !viewModel.canExport
                       ? BoxDecoration(
                           color: Theme.of(context).colorScheme.background,
