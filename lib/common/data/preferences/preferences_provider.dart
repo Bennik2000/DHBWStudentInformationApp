@@ -94,7 +94,7 @@ class PreferencesProvider {
   }
 
   Future<String?> getLastUsedLanguageCode() async {
-    return await _preferencesAccess.get<String>(LastUsedLanguageCode);
+    return  _preferencesAccess.get<String>(LastUsedLanguageCode);
   }
 
   Future<void> setLastUsedLanguageCode(String languageCode) async {
@@ -156,7 +156,7 @@ class PreferencesProvider {
   }
 
   Future<String?> getLastViewedSemester() async {
-    return await _preferencesAccess.get<String>(LastViewedSemester);
+    return  _preferencesAccess.get<String>(LastViewedSemester);
   }
 
   Future<void> setLastViewedSemester(String? lastViewedSemester) async {
@@ -166,7 +166,7 @@ class PreferencesProvider {
   }
 
   Future<String?> getLastViewedDateEntryDatabase() async {
-    return await _preferencesAccess.get<String>(LastViewedDateEntryDatabase);
+    return  _preferencesAccess.get<String>(LastViewedDateEntryDatabase);
   }
 
   Future<void> setLastViewedDateEntryDatabase(String? value) async {
@@ -175,7 +175,7 @@ class PreferencesProvider {
   }
 
   Future<String?> getLastViewedDateEntryYear() async {
-    return await _preferencesAccess.get<String>(LastViewedDateEntryYear);
+    return  _preferencesAccess.get<String>(LastViewedDateEntryYear);
   }
 
   Future<void> setLastViewedDateEntryYear(String? value) async {
@@ -247,7 +247,7 @@ class PreferencesProvider {
   }
 
   Future<void> setAppLaunchCounter(int value) async {
-    return await _preferencesAccess.set<int>("AppLaunchCount", value);
+    return _preferencesAccess.set<int>("AppLaunchCount", value);
   }
 
   Future<int> getNextRateInStoreLaunchCount() async {

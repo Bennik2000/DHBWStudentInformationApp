@@ -51,7 +51,7 @@ class DualisServiceImpl extends DualisService {
     Credentials credentials, [
     CancellationToken? cancellationToken,
   ]) async {
-    return await _dualisScraper.login(
+    return  _dualisScraper.login(
       credentials,
       cancellationToken,
     );
@@ -61,7 +61,7 @@ class DualisServiceImpl extends DualisService {
   Future<StudyGrades> queryStudyGrades([
     CancellationToken? cancellationToken,
   ]) async {
-    return await _dualisScraper.loadStudyGrades(cancellationToken);
+    return  _dualisScraper.loadStudyGrades(cancellationToken);
   }
 
   @override

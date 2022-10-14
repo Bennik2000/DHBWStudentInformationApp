@@ -93,7 +93,7 @@ class StudyGradesViewModel extends BaseViewModel {
   }
 
   Future<Credentials?> loadCredentials() async {
-    return await _preferencesProvider.loadDualisCredentials();
+    return  _preferencesProvider.loadDualisCredentials();
   }
 
   Future<void> saveCredentials(Credentials credentials) async {

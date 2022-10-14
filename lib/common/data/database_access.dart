@@ -15,7 +15,7 @@ class DatabaseAccess {
   Future<Database> _initDatabase() async {
     final String path = await getDatabasePath(_databaseName);
 
-    return await openDatabase(path,
+    return  openDatabase(path,
         version: SqlScripts.databaseMigrationScripts.length,
         onCreate: _onCreate,
         onUpgrade: _onUpgrade,);
@@ -42,18 +42,18 @@ class DatabaseAccess {
 
   Future<int> insert(String table, Map<String, dynamic> row) async {
     final Database db = await _database;
-    return await db.insert(table, row);
+    return  db.insert(table, row);
   }
 
   Future<List<Map<String, dynamic>>> queryAllRows(String table) async {
     final Database db = await _database;
-    return await db.query(table);
+    return  db.query(table);
   }
 
   Future<List<Map<String, dynamic>>> rawQuery(
       String sql, List<dynamic> parameters,) async {
     final Database db = await _database;
-    return await db.rawQuery(sql, parameters);
+    return  db.rawQuery(sql, parameters);
   }
 
   Future<List<Map<String, dynamic>>> queryRows(String table,
@@ -73,7 +73,7 @@ class DatabaseAccess {
       whereArgs![i] = whereArgs[i] ?? "";
     }
 
-    return await db.query(
+    return  db.query(
       table,
       distinct: distinct,
       columns: columns,
@@ -101,13 +101,13 @@ class DatabaseAccess {
   Future<int> update(String table, Map<String, dynamic> row) async {
     final Database db = await _database;
     final int? id = row[idColumnName];
-    return await db
+    return  db
         .update(table, row, where: '$idColumnName = ?', whereArgs: [id]);
   }
 
   Future<int> delete(String table, int? id) async {
     final Database db = await _database;
-    return await db.delete(table, where: '$idColumnName = ?', whereArgs: [id]);
+    return  db.delete(table, where: '$idColumnName = ?', whereArgs: [id]);
   }
 
   Future<int> deleteWhere(
@@ -116,7 +116,7 @@ class DatabaseAccess {
     List<dynamic>? whereArgs,
   }) async {
     final Database db = await _database;
-    return await db.delete(
+    return  db.delete(
       table,
       where: where,
       whereArgs: whereArgs,

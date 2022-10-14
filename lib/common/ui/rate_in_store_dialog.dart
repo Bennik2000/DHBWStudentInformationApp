@@ -28,7 +28,7 @@ class RateInStoreDialog {
   Future<void> _showRateDialog(BuildContext context) async {
     await analytics.logEvent(name: "rateRequestShown");
 
-    return await showDialog<void>(
+    return  showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {

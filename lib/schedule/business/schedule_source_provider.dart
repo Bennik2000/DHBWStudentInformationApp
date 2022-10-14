@@ -48,10 +48,10 @@ class ScheduleSourceProvider {
     ScheduleSource scheduleSource = InvalidScheduleSource();
 
     final initializer = {
-      ScheduleSourceType.Dualis: () async => await _dualisScheduleSource(),
-      ScheduleSourceType.Rapla: () async => await _raplaScheduleSource(),
-      ScheduleSourceType.Ical: () async => await _icalScheduleSource(),
-      ScheduleSourceType.Mannheim: () async => await _icalScheduleSource(),
+      ScheduleSourceType.Dualis: () async => _dualisScheduleSource(),
+      ScheduleSourceType.Rapla: () async => _raplaScheduleSource(),
+      ScheduleSourceType.Ical: () async => _icalScheduleSource(),
+      ScheduleSourceType.Mannheim: () async => _icalScheduleSource(),
     };
 
     if (initializer.containsKey(scheduleSourceType)) {

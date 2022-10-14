@@ -153,7 +153,7 @@ class DualisAuthentication {
     final loginResult = await login(_credentials!, cancellationToken);
 
     if (loginResult == LoginResult.LoggedIn) {
-      return await session.get(
+      return  session.get(
         _fillUrlWithAuthToken(url),
         cancellationToken,
       );
@@ -210,6 +210,6 @@ class DualisAuthentication {
   Future<LoginResult> loginWithPreviousCredentials(
       CancellationToken cancellationToken,) async {
     assert(_credentials != null);
-    return await login(_credentials!, cancellationToken);
+    return  login(_credentials!, cancellationToken);
   }
 }

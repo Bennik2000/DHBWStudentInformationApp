@@ -24,7 +24,7 @@ class WidgetHelpDialog {
   }
 
   Future<void> _showDialog(BuildContext context) async {
-    return await showDialog<void>(
+    return  showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {

@@ -79,7 +79,7 @@ class CalendarAccess {
       end = entry.end;
     }
 
-    return await _deviceCalendarPlugin.createOrUpdateEvent(Event(
+    return  _deviceCalendarPlugin.createOrUpdateEvent(Event(
       calendar.id,
       location: entry.room,
       title: entry.description,

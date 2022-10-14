@@ -22,3 +22,4 @@ linter:
     prefer_final_in_for_each: true
     prefer_final_fields: true
     prefer_const_constructors: true
+    unnecessary_await_in_return: true
