@@ -20,11 +20,9 @@
 import 'package:flutter/widgets.dart';
 
 class CustomIcons {
-  CustomIcons._();
+  const CustomIcons._();
 
   static const _kFontFam = 'CustomIcons';
-  static const dynamic _kFontPkg = null;
 
-  static const IconData logout =
-      IconData(0xe800, fontFamily: _kFontFam);
+  static const IconData logout = IconData(0xe800, fontFamily: _kFontFam);
 }
