@@ -152,7 +152,7 @@ class ExamResultsPage extends StatelessWidget {
   Widget _examGradeToWidget(BuildContext context, ExamGrade grade) {
     switch (grade.state) {
       case ExamGradeState.NotGraded:
-        return Text("");
+        return const Text("");
       case ExamGradeState.Graded:
         return Text(grade.gradeValue!);
       case ExamGradeState.Passed:

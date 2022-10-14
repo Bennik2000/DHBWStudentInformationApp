@@ -63,7 +63,7 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
 
     return ListTile(
       title: Text(L.of(context).settingsWidgetPurchase),
-      trailing: Icon(Icons.add_to_home_screen_outlined),
+      trailing: const Icon(Icons.add_to_home_screen_outlined),
       subtitle: _buildWidgetSubtitle(),
       onTap: _purchaseClicked,
     );
@@ -71,10 +71,10 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
 
   Widget? _buildWidgetSubtitle() {
     if (isPurchasing) {
-      return Align(
+      return const Align(
         alignment: Alignment.centerLeft,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0),
           child: SizedBox(
             child: CircularProgressIndicator(
               strokeWidth: 2,
@@ -89,8 +89,8 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
     if (model.widgetPurchaseState == PurchaseStateEnum.Purchased) {
       return Row(
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 8, 0),
+          const Padding(
+            padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
             child: Icon(
               Icons.check,
               color: Colors.green,
@@ -99,7 +99,7 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
           ),
           Text(
             L.of(context).settingsWidgetDidPurchase,
-            style: TextStyle(color: Colors.green),
+            style: const TextStyle(color: Colors.green),
           ),
         ],
       );

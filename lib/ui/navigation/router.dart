@@ -70,10 +70,10 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       target = const OnboardingPage();
       break;
     case "main":
-      target = MainPage();
+      target = const MainPage();
       break;
     case "settings":
-      target = SettingsPage();
+      target = const SettingsPage();
       break;
     default:
       print("Failed to navigate to: " + settings.name!);

@@ -19,7 +19,7 @@ class DualisLoginPage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(32),
             child: Container(
-              constraints: BoxConstraints(maxWidth: 500),
+              constraints: const BoxConstraints(maxWidth: 500),
               child: LoginForm(
                 loginFailedText: L.of(context).dualisLoginFailed,
                 title: Text(

@@ -86,8 +86,8 @@ class _SettingsPageState extends State<SettingsPage> {
   List<Widget> buildAboutSettings(BuildContext context) {
     return [
       TitleListTile(title: L.of(context).settingsAboutTitle),
-      PurchaseWidgetListTile(),
-      DonateListTile(),
+      const PurchaseWidgetListTile(),
+      const DonateListTile(),
       ListTile(
         title: Text(L.of(context).settingsAbout),
         onTap: () {
@@ -170,7 +170,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     isCalendarSyncWidget: true,
                     isCalendarSyncEnabled: isCalendarSyncEnabled,
                   ),
-              settings: RouteSettings(name: "settings"),),);
+              settings: const RouteSettings(name: "settings"),),);
         },
       ),
       const Divider(),

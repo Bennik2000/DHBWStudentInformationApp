@@ -101,7 +101,7 @@ class DateManagementPage extends StatelessWidget {
               Text(
                 dateEntry.description,
                 style: dateEntry.end.isBefore(DateTime.now())
-                    ? TextStyle(decoration: TextDecoration.lineThrough)
+                    ? const TextStyle(decoration: TextDecoration.lineThrough)
                     : null,
               ),
               onTap: () {

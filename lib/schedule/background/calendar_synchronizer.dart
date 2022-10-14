@@ -44,11 +44,11 @@ class CalendarSynchronizer {
   }
 
   void scheduleSyncInAFewSeconds() {
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(const Duration(seconds: 10), () {
       if (!scheduleSourceProvider.didSetupCorrectly()) return;
       scheduleProvider.getUpdatedSchedule(
         DateTime.now(),
-        DateTime.now().add(Duration(days: 30)),
+        DateTime.now().add(const Duration(days: 30)),
         CancellationToken(),
       );
     });

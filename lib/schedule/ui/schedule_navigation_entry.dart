@@ -10,7 +10,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 
 class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
   @override
-  Icon icon = Icon(Icons.calendar_today);
+  Icon icon = const Icon(Icons.calendar_today);
 
   @override
   ScheduleViewModel initViewModel() {
@@ -26,7 +26,7 @@ class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return SchedulePage();
+    return const SchedulePage();
   }
 
   @override
@@ -41,7 +41,7 @@ class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
                     model.didSetupProperly
                         ? Container()
                         : IconButton(
-                            icon: Icon(Icons.help_outline),
+                            icon: const Icon(Icons.help_outline),
                             onPressed: () async {
                               await ScheduleHelpDialog().show(context);
                             },
@@ -55,7 +55,7 @@ class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
           builder: (BuildContext _, ScheduleViewModel? __, Set<Object>? ___) =>
               model.didSetupProperly
                   ? IconButton(
-                      icon: Icon(Icons.filter_alt),
+                      icon: const Icon(Icons.filter_alt),
                       onPressed: () async {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ScheduleFilterPage(),

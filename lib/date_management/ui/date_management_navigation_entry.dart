@@ -12,7 +12,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 class DateManagementNavigationEntry
     extends NavigationEntry<DateManagementViewModel> {
   @override
-  Icon icon = Icon(Icons.date_range);
+  Icon icon = const Icon(Icons.date_range);
 
   @override
   String title(BuildContext context) {
@@ -31,7 +31,7 @@ class DateManagementNavigationEntry
   List<Widget> appBarActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.help_outline),
+        icon: const Icon(Icons.help_outline),
         onPressed: () async {
           await DateManagementHelpDialog().show(context);
         },
@@ -48,7 +48,7 @@ class DateManagementNavigationEntry
                   builder: (BuildContext context) => CalendarExportPage(
                     entriesToExport: model.allDates!,
                   ),
-                  settings: RouteSettings(name: "settings"),
+                  settings: const RouteSettings(name: "settings"),
                 ),
               );
             },

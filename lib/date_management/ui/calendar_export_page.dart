@@ -103,7 +103,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
   Widget _buildStopCalendarSyncBtn() {
     // Dont display the "Synchronisation beenden" button,
     //if synchronization is not enabled or if it is not the right page
-    if (!widget.isCalendarSyncWidget) return SizedBox();
+    if (!widget.isCalendarSyncWidget) return const SizedBox();
 
     return PropertyChangeProvider<CalendarExportViewModel, String>(
       value: viewModel,
@@ -163,7 +163,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                 ),
               ),
               child: isSelected
-                  ? Center(
+                  ? const Center(
                       child: Icon(
                         Icons.check,
                         size: 16,
@@ -217,7 +217,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                                 .dateManagementExportToCalendarConfirm
                                 .toUpperCase(),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Colors.white,
                         ),

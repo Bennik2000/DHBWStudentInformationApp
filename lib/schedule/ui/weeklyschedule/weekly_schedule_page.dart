@@ -46,7 +46,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
             )
           ],
         ),
-        duration: Duration(seconds: 15),
+        duration: const Duration(seconds: 15),
       ),
     );
   }
@@ -169,15 +169,15 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
           onPressed: _previousWeek,
         ),
         IconButton(
-          icon: Icon(Icons.today),
+          icon: const Icon(Icons.today),
           onPressed: _goToToday,
         ),
         IconButton(
-          icon: Icon(Icons.chevron_right),
+          icon: const Icon(Icons.chevron_right),
           onPressed: _nextWeek,
         ),
       ],

@@ -70,7 +70,7 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
                         onPressed: () async {
                           await viewModel?.pasteUrl();
                         },
-                        icon: Icon(Icons.content_paste),
+                        icon: const Icon(Icons.content_paste),
                         label: Text(
                           L.of(context).onboardingRaplaUrlPaste.toUpperCase(),
                         ),

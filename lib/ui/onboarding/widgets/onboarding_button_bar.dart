@@ -37,7 +37,7 @@ class OnboardingButtonBar extends StatelessWidget {
           ? Container()
           : TextButton.icon(
               onPressed: onPrevious,
-              icon: Icon(Icons.navigate_before),
+              icon: const Icon(Icons.navigate_before),
               label: Text(L.of(context).onboardingBackButton.toUpperCase()),
             ),
     );
@@ -60,8 +60,8 @@ class OnboardingButtonBar extends StatelessWidget {
         key: ValueKey(buttonText),
         onPressed: onNext,
         icon: viewModel.isLastStep
-            ? Icon(Icons.arrow_forward)
-            : Icon(Icons.navigate_next),
+            ? const Icon(Icons.arrow_forward)
+            : const Icon(Icons.navigate_next),
         label: Text(buttonText.toUpperCase()),
       ),
     );

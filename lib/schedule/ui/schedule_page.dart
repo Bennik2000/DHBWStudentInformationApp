@@ -37,15 +37,15 @@ class _SchedulePageState extends State<SchedulePage> {
       return PagerWidget(
         pages: [
           PageDefinition<WeeklyScheduleViewModel>(
-            icon: Icon(Icons.view_week),
+            icon: const Icon(Icons.view_week),
             text: L.of(context).pageWeekOverviewTitle,
-            builder: (_) => WeeklySchedulePage(),
+            builder: (_) => const WeeklySchedulePage(),
             viewModel: weeklyScheduleViewModel,
           ),
           PageDefinition<DailyScheduleViewModel>(
-            icon: Icon(Icons.view_day),
+            icon: const Icon(Icons.view_day),
             text: L.of(context).pageDayOverviewTitle,
-            builder: (_) => DailySchedulePage(),
+            builder: (_) => const DailySchedulePage(),
             viewModel: dailyScheduleViewModel,
           ),
         ],

@@ -27,7 +27,7 @@ class SelectSourceOnboardingStep extends OnboardingStep {
 
   @override
   Widget buildContent(BuildContext context) {
-    return SelectSourcePage();
+    return const SelectSourcePage();
   }
 
   @override
@@ -49,7 +49,7 @@ class DualisCredentialsOnboardingStep extends OnboardingStep {
 
   @override
   Widget buildContent(BuildContext context) {
-    return DualisLoginCredentialsPage();
+    return const DualisLoginCredentialsPage();
   }
 
   @override
@@ -71,7 +71,7 @@ class RaplaOnboardingStep extends OnboardingStep {
 
   @override
   Widget buildContent(BuildContext context) {
-    return RaplaUrlPage();
+    return const RaplaUrlPage();
   }
 
   @override
@@ -93,7 +93,7 @@ class IcalOnboardingStep extends OnboardingStep {
 
   @override
   Widget buildContent(BuildContext context) {
-    return IcalUrlPage();
+    return const IcalUrlPage();
   }
 
   @override
@@ -112,7 +112,7 @@ class MannheimOnboardingStep extends OnboardingStep {
 
   @override
   Widget buildContent(BuildContext context) {
-    return MannheimPage();
+    return const MannheimPage();
   }
 
   @override

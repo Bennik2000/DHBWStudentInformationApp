@@ -11,7 +11,7 @@ class UsefulInformationNavigationEntry extends NavigationEntry<BaseViewModel> {
   }
 
   @override
-  Icon icon = Icon(Icons.info_outline);
+  Icon icon = const Icon(Icons.info_outline);
 
   @override
   String title(BuildContext context) {

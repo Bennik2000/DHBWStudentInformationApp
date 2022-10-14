@@ -45,8 +45,8 @@ class DonateToDeveloperDialog {
                   child: Column(
                     children: [
                       Text(L.of(context).donateDialogMessage),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+                      const Padding(
+                        padding: EdgeInsets.fromLTRB(0, 32, 0, 0),
                         child: Icon(
                           Icons.free_breakfast_outlined,
                           size: 60,

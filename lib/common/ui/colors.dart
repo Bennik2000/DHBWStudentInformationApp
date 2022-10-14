@@ -92,16 +92,16 @@ class ColorPalettes {
 
     return themeData.copyWith(
       snackBarTheme: themeData.snackBarTheme.copyWith(
-        backgroundColor: isDark ? Color(0xff363635) : Color(0xfffafafa),
+        backgroundColor: isDark ? const Color(0xff363635) : const Color(0xfffafafa),
         contentTextStyle: themeData.textTheme.bodyText1!.copyWith(
           color:
-              isDark ? Color(0xffe4e4e4) : themeData.textTheme.bodyText1!.color,
+              isDark ? const Color(0xffe4e4e4) : themeData.textTheme.bodyText1!.color,
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: ColorPalettes.main,
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(4.0)),
           ),

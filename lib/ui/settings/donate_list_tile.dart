@@ -55,8 +55,8 @@ class _DonateListTileState extends State<DonateListTile> {
         .value;
 
     if (model.widgetPurchaseState == null) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
+      return const Padding(
+        padding: EdgeInsets.all(8.0),
         child: Center(
           child: SizedBox(
             child: CircularProgressIndicator(
@@ -71,10 +71,10 @@ class _DonateListTileState extends State<DonateListTile> {
       return ListTile(
         title: Text(L.of(context).donateButtonTitle),
         subtitle: isPurchasing
-            ? Align(
+            ? const Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: SizedBox(
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
@@ -85,7 +85,7 @@ class _DonateListTileState extends State<DonateListTile> {
                 ),
               )
             : Text(L.of(context).donateButtonSubtitle),
-        trailing: Icon(Icons.free_breakfast),
+        trailing: const Icon(Icons.free_breakfast),
         onTap: _purchaseClicked,
       );
     }

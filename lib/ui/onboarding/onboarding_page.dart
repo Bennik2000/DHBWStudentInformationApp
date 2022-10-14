@@ -70,7 +70,7 @@ class _OnboardingPageState extends State<OnboardingPage>
       behavior: HitTestBehavior.translucent,
       child: Center(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 500),
+          constraints: const BoxConstraints(maxWidth: 500),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 120, 0, 90),
             child: PropertyChangeConsumer<OnboardingViewModel, String>(

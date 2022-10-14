@@ -39,7 +39,7 @@ class NotificationApi {
   /// Show a notification with the given title and message
   ///
   Future showNotification(String title, String? message, [int? id]) async {
-    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    final androidPlatformChannelSpecifics = const AndroidNotificationDetails(
       'Notifications',
       'Notifications',
       channelDescription: 'This is the main notification channel',

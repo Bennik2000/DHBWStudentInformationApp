@@ -10,7 +10,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 
 class DualisNavigationEntry extends NavigationEntry<StudyGradesViewModel> {
   @override
-  Icon icon = Icon(Icons.data_usage);
+  Icon icon = const Icon(Icons.data_usage);
 
   @override
   String title(BuildContext context) {
@@ -40,7 +40,7 @@ class DualisNavigationEntry extends NavigationEntry<StudyGradesViewModel> {
               (BuildContext _, StudyGradesViewModel? __, Set<Object>? ___) =>
                   model.loginState != LoginState.LoggedIn
                       ? IconButton(
-                          icon: Icon(Icons.help_outline),
+                          icon: const Icon(Icons.help_outline),
                           onPressed: () async {
                             await DualisHelpDialog().show(context);
                           },

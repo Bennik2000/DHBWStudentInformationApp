@@ -27,7 +27,7 @@ class SelectMannheimCourseDialog {
   AlertDialog _buildDialog(BuildContext context) {
     return AlertDialog(
       title: Text(L.of(context).onboardingMannheimTitle),
-      contentPadding: EdgeInsets.all(0),
+      contentPadding: const EdgeInsets.all(0),
       content: PropertyChangeProvider<OnboardingStepViewModel, String>(
         value: _mannheimViewModel,
         child: Container(

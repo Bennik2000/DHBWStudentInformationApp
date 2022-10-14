@@ -27,7 +27,7 @@ class _LoginCredentialsWidgetState extends State<LoginCredentialsWidget> {
           controller: widget.controller.username,
           decoration: InputDecoration(
             hintText: L.of(context).loginUsername,
-            icon: Icon(Icons.alternate_email),
+            icon: const Icon(Icons.alternate_email),
           ),
           onSubmitted: (v) {
             FocusScope.of(context).requestFocus(_focus);
@@ -39,7 +39,7 @@ class _LoginCredentialsWidgetState extends State<LoginCredentialsWidget> {
           obscureText: true,
           decoration: InputDecoration(
             hintText: L.of(context).loginPassword,
-            icon: Icon(Icons.lock_outline),
+            icon: const Icon(Icons.lock_outline),
           ),
           focusNode: _focus,
           onSubmitted: (v) {

@@ -68,14 +68,14 @@ class SelectMannheimCourseWidget extends StatelessWidget {
   }
 
   Widget _buildLoadingIndicator() {
-    return Center(child: CircularProgressIndicator());
+    return const Center(child: CircularProgressIndicator());
   }
 
   Widget _buildCourseList(BuildContext context, MannheimViewModel viewModel) {
     return Material(
       color: Colors.transparent,
       child: ListView.builder(
-        padding: EdgeInsets.all(0),
+        padding: const EdgeInsets.all(0),
         itemCount: viewModel.courses?.length ?? 0,
         itemBuilder: (BuildContext context, int index) =>
             _buildCourseListTile(viewModel, index, context),
@@ -122,7 +122,7 @@ class SelectMannheimCourseWidget extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: MaterialButton(
               onPressed: viewModel?.loadCourses,
-              child: Icon(Icons.refresh),
+              child: const Icon(Icons.refresh),
             ),
           ),
         ],

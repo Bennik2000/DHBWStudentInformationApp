@@ -65,7 +65,7 @@ class SettingsViewModel extends BaseViewModel {
     final scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
     scheduleProvider.getUpdatedSchedule(
       DateTime.now(),
-      DateTime.now().add(Duration(days: 30)),
+      DateTime.now().add(const Duration(days: 30)),
       CancellationToken(),
     );
   }

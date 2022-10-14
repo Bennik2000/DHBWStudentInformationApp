@@ -81,7 +81,7 @@ abstract class EnterUrlDialog {
                   await _pasteUrl();
                 },
                 tooltip: L.of(context).onboardingRaplaUrlPaste,
-                icon: Icon(Icons.content_paste),
+                icon: const Icon(Icons.content_paste),
               ),
             ],
           ),

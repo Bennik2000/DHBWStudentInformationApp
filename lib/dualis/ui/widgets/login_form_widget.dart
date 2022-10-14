@@ -82,7 +82,7 @@ class _LoginFormState extends State<LoginForm> {
           decoration: InputDecoration(
             enabled: !_isLoading,
             hintText: L.of(context).loginUsername,
-            icon: Icon(Icons.alternate_email),
+            icon: const Icon(Icons.alternate_email),
           ),
         ),
         TextField(
@@ -91,7 +91,7 @@ class _LoginFormState extends State<LoginForm> {
           decoration: InputDecoration(
             enabled: !_isLoading,
             hintText: L.of(context).loginPassword,
-            icon: Icon(Icons.lock_outline),
+            icon: const Icon(Icons.lock_outline),
             errorText: _loginFailed ? widget.loginFailedText : null,
           ),
         ),
@@ -124,7 +124,7 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () async {
                         await loginButtonPressed();
                       },
-                      icon: Icon(Icons.chevron_right),
+                      icon: const Icon(Icons.chevron_right),
                       label: Text(L.of(context).loginButton.toUpperCase()),
                     ),
             ),
