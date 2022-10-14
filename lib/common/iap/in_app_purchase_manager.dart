@@ -13,9 +13,9 @@ class InAppPurchaseManager {
   final Map<String, List<PurchaseCompletedCallback>> purchaseCallbacks = {};
 
   InAppPurchaseManager(
-    PreferencesProvider _preferencesProvider,
+    PreferencesProvider preferencesProvider,
     this._widgetHelper,
-  ) : _inAppPurchaseHelper = InAppPurchaseHelper(_preferencesProvider) {
+  ) : _inAppPurchaseHelper = InAppPurchaseHelper(preferencesProvider) {
     _initialize();
   }
 
