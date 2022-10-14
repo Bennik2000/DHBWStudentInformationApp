@@ -100,10 +100,11 @@ class SettingsViewModel extends BaseViewModel {
 
     await _preferencesProvider.setNotifyAboutNextDay(value);
 
-    if (value)
+    if (value) {
       await _nextDayInformationNotification.schedule();
-    else
+    } else {
       await _nextDayInformationNotification.cancel();
+    }
   }
 
   Future<void> _loadPreferences() async {

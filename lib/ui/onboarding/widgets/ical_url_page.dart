@@ -46,8 +46,9 @@ class _IcalUrlPageState extends State<IcalUrlPage> {
                 final viewModel = model as IcalUrlViewModel?;
 
                 if (viewModel?.url != null &&
-                    _urlTextController.text != viewModel!.url)
+                    _urlTextController.text != viewModel!.url){
                   _urlTextController.text = viewModel.url!;
+                }
 
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),

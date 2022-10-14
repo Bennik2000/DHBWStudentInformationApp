@@ -152,8 +152,9 @@ class RaplaScheduleSource extends ScheduleSource {
       final response = await http.HttpClientHelper.get(uri,
           cancelToken: requestCancellationToken,);
 
-      if (response == null && !requestCancellationToken.isCanceled)
+      if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
+      }
 
       return response;
     } on http.OperationCanceledError catch (_) {

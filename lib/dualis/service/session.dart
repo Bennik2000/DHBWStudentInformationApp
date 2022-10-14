@@ -56,8 +56,9 @@ class Session {
         headers: _cookies,
       );
 
-      if (response == null && !requestCancellationToken.isCanceled)
+      if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
+      }
 
       _updateCookie(response!);
 
@@ -114,8 +115,9 @@ class Session {
         cancelToken: requestCancellationToken,
       );
 
-      if (response == null && !requestCancellationToken.isCanceled)
+      if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
+      }
 
       _updateCookie(response!);
 

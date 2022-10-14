@@ -80,8 +80,9 @@ class ExamResultsPage extends StatelessWidget {
     return AnimatedSwitcher(
       layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
         List<Widget> children = previousChildren;
-        if (currentChild != null)
+        if (currentChild != null) {
           children = children.toList()..add(currentChild);
+        }
         return Stack(
           children: children,
           alignment: Alignment.topCenter,

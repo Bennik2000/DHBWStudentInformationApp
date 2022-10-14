@@ -35,16 +35,18 @@ class RaplaParsingUtils {
     // The only reliable way to extract the time
     final timeAndClassName = value.getElementsByTagName("a");
 
-    if (timeAndClassName.isEmpty)
+    if (timeAndClassName.isEmpty) {
       throw ElementNotFoundParseException("time and date container");
+    }
 
     final descriptionInCell = timeAndClassName[0].text;
 
     final start = _parseTime(descriptionInCell.substring(0, 5), date);
     final end = _parseTime(descriptionInCell.substring(7, 12), date);
 
-    if (start == null || end == null)
+    if (start == null || end == null) {
       throw ElementNotFoundParseException("start and end date container");
+    }
 
     ScheduleEntry? scheduleEntry;
 

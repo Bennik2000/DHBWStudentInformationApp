@@ -22,8 +22,9 @@ class DualisScheduleSource extends ScheduleSource {
     var schedule = Schedule();
     final allErrors = <ParseError>[];
 
-    if (!_dualisScraper.isLoggedIn())
+    if (!_dualisScraper.isLoggedIn()) {
       await _dualisScraper.loginWithPreviousCredentials(cancellationToken);
+    }
 
     while (to!.isAfter(current) && !cancellationToken.isCancelled()) {
       try {

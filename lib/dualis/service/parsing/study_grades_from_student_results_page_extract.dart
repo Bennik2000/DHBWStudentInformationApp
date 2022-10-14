@@ -33,8 +33,9 @@ class StudyGradesFromStudentResultsPageExtract {
   _Credits _extractCredits(Element table) {
     final rows = table.getElementsByTagName("tr");
 
-    if (rows.length < 2)
+    if (rows.length < 2) {
       throw ElementNotFoundParseException("credits container");
+    }
 
     final neededCreditsRow = rows[rows.length - 1];
     var neededCredits = neededCreditsRow.children[0].innerHtml;

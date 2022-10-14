@@ -149,8 +149,9 @@ class StudyGradesViewModel extends BaseViewModel {
   }
 
   Future<void> loadSemester(String? semesterName) async {
-    if (_currentSemester != null && _currentSemesterName == semesterName)
+    if (_currentSemester != null && _currentSemesterName == semesterName) {
       return Future.value();
+    }
 
     if (_currentLoadingSemesterName == semesterName) return Future.value();
 

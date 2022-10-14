@@ -22,8 +22,9 @@ class SemestersFromCourseResultPageExtract {
 
     final semesterSelector = page.getElementById("semester");
 
-    if (semesterSelector == null)
+    if (semesterSelector == null) {
       throw ElementNotFoundParseException("semester selector container");
+    }
 
     final url = _extractSemesterDetailUrlPart(semesterSelector, endpointUrl);
 

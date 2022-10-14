@@ -136,8 +136,9 @@ class ScheduleProvider {
   }
 
   void removeScheduleUpdatedCallback(ScheduleUpdatedCallback callback) {
-    if (_scheduleUpdatedCallbacks.contains(callback))
+    if (_scheduleUpdatedCallbacks.contains(callback)) {
       _scheduleUpdatedCallbacks.remove(callback);
+    }
   }
 
   void addScheduleEntryChangedCallback(ScheduleEntryChangedCallback callback) {
@@ -146,8 +147,9 @@ class ScheduleProvider {
 
   void removeScheduleEntryChangedCallback(
       ScheduleEntryChangedCallback callback,) {
-    if (_scheduleUpdatedCallbacks.contains(callback))
+    if (_scheduleUpdatedCallbacks.contains(callback)) {
       _scheduleEntryChangedCallbacks.remove(callback);
+    }
   }
 
   Future<ScheduleDiff> _cleanDiffFromNewlyQueriedEntries(

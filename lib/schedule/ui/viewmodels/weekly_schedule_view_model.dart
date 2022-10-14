@@ -98,8 +98,9 @@ class WeeklyScheduleViewModel extends BaseViewModel {
         clippedDateEnd = toDayOfWeek(scheduleEnd, DateTime.friday);
       }
 
-      if (scheduleEnd?.isAfter(clippedDateEnd!) ?? false)
+      if (scheduleEnd?.isAfter(clippedDateEnd!) ?? false) {
         clippedDateEnd = scheduleEnd;
+      }
 
       displayStartHour = weekSchedule?.getStartTime()?.hour ?? 23;
       displayStartHour = min(7, displayStartHour);

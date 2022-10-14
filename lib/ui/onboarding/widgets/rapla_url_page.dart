@@ -46,8 +46,9 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
                 final viewModel = model as RaplaUrlViewModel?;
 
                 if (viewModel?.raplaUrl != null &&
-                    _urlTextController.text != viewModel!.raplaUrl)
+                    _urlTextController.text != viewModel!.raplaUrl){
                   _urlTextController.text = viewModel.raplaUrl!;
+                }
 
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),

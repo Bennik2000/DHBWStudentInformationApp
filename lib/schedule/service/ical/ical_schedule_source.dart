@@ -61,8 +61,9 @@ class IcalScheduleSource extends ScheduleSource {
         cancelToken: requestCancellationToken,
       );
 
-      if (response == null && !requestCancellationToken.isCanceled)
+      if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
+      }
 
       return response;
     } on http.OperationCanceledError catch (_) {

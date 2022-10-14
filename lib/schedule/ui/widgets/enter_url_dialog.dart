@@ -51,8 +51,9 @@ abstract class EnterUrlDialog {
                       ValueNotifier<String> url,
                       Widget? child,
                     ) {
-                      if (_urlTextController.text != url.value)
+                      if (_urlTextController.text != url.value) {
                         _urlTextController.text = url.value;
+                      }
 
                       return Consumer(
                         builder: (
