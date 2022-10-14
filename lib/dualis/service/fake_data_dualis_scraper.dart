@@ -126,7 +126,7 @@ class FakeDataDualisScraper implements DualisScraper {
   }
 
   @override
-  void setLoginCredentials(Credentials? credentials) {
+  set loginCredentials(Credentials? credentials) {
     // TODO: implement setLoginCredentials
   }
 }

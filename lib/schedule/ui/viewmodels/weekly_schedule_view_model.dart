@@ -249,7 +249,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     _errorResetTimer = null;
   }
 
-  void setQueryFailedCallback(VoidCallback callback) {
+  set queryFailedCallback(VoidCallback callback) {
     _queryFailedCallback = callback;
   }
 }

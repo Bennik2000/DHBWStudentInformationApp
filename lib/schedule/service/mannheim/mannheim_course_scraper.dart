@@ -28,16 +28,18 @@ class MannheimCourseScraper {
   }
 
   Future<Response> _makeRequest(
-      Uri uri, CancellationToken cancellationToken,) async {
+    Uri uri,
+    CancellationToken cancellationToken,
+  ) async {
     final requestCancellationToken = http.CancellationToken();
 
     try {
-      cancellationToken.setCancellationCallback(() {
-        requestCancellationToken.cancel();
-      });
+      cancellationToken.cancellationCallback = requestCancellationToken.cancel;
 
-      final response = await http.HttpClientHelper.get(uri,
-          cancelToken: requestCancellationToken,);
+      final response = await http.HttpClientHelper.get(
+        uri,
+        cancelToken: requestCancellationToken,
+      );
 
       if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
@@ -50,7 +52,7 @@ class MannheimCourseScraper {
       if (!requestCancellationToken.isCanceled) rethrow;
       throw ServiceRequestFailed("Http request failed!");
     } finally {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
     }
   }
 }

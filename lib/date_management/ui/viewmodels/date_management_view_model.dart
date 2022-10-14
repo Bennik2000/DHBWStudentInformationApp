@@ -100,11 +100,11 @@ class DateManagementViewModel extends BaseViewModel {
 
   Future<void> _doUpdateDates() async {
     final cachedDateEntries = await _readCachedDateEntries();
-    _updateMutex.token!.throwIfCancelled();
+    _updateMutex.token?.throwIfCancelled();
     _setAllDates(cachedDateEntries);
 
     final loadedDateEntries = await _readUpdatedDateEntries();
-    _updateMutex.token!.throwIfCancelled();
+    _updateMutex.token?.throwIfCancelled();
 
     if (loadedDateEntries != null) {
       _setAllDates(loadedDateEntries);
@@ -143,29 +143,28 @@ class DateManagementViewModel extends BaseViewModel {
     notifyListeners("allDates");
   }
 
-  // TODO [Leptopoda]: use setters
-  void setShowPassedDates(bool? value) {
+   set showPassedDates(bool? value) {
     if (value == null) return;
 
     _showPassedDates = value;
     notifyListeners("showPassedDates");
   }
 
-  void setShowFutureDates(bool? value) {
+   set showFutureDates(bool? value) {
     if (value == null) return;
 
     _showFutureDates = value;
     notifyListeners("showFutureDates");
   }
 
-  void setCurrentDateDatabase(DateDatabase? database) {
+   set currentDateDatabase(DateDatabase? database) {
     _currentDateDatabase = database;
     notifyListeners("currentDateDatabase");
 
     _preferencesProvider.setLastViewedDateEntryDatabase(database?.id);
   }
 
-  void setCurrentSelectedYear(String? year) {
+   set currentSelectedYear(String? year) {
     if (year == null) return;
 
     _currentSelectedYear = year;
@@ -181,17 +180,17 @@ class DateManagementViewModel extends BaseViewModel {
     bool didSetDatabase = false;
     for (final db in allDateDatabases) {
       if (db.id == database) {
-        setCurrentDateDatabase(db);
+        currentDateDatabase = db;
         didSetDatabase = true;
       }
     }
 
     if (!didSetDatabase) {
-      setCurrentDateDatabase(allDateDatabases[0]);
+      currentDateDatabase = allDateDatabases[0];
     }
 
     final year = await _preferencesProvider.getLastViewedDateEntryYear();
-    setCurrentSelectedYear(year ?? years[0]);
+    currentSelectedYear = year ?? years[0];
 
     await updateDates();
   }

@@ -4,9 +4,9 @@ class CancellationToken {
   bool _isCancelled = false;
   CancellationCallback? _callback;
 
-  bool isCancelled() {
-    return _isCancelled;
-  }
+  CancellationToken([this._callback]);
+
+  bool get isCancelled => _isCancelled;
 
   void throwIfCancelled() {
     if (_isCancelled) {
@@ -20,7 +20,7 @@ class CancellationToken {
     _callback?.call();
   }
 
-  void setCancellationCallback(CancellationCallback? callback) {
+  set cancellationCallback(CancellationCallback? callback) {
     _callback = callback;
   }
 }

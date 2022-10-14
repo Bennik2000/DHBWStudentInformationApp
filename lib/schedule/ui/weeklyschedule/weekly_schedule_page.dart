@@ -81,7 +81,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
     viewModel = Provider.of<WeeklyScheduleViewModel>(context);
     viewModel.ensureUpdateNowTimerRunning();
 
-    viewModel.setQueryFailedCallback(_showQueryFailedSnackBar);
+    viewModel.queryFailedCallback =_showQueryFailedSnackBar;
 
     return PropertyChangeProvider<WeeklyScheduleViewModel, String>(
       value: viewModel,

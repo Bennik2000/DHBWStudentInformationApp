@@ -29,7 +29,7 @@ class RaplaUrlViewModel extends OnboardingStepViewModel {
   void _validateUrl() {
     urlHasError = !RaplaScheduleSource.isValidUrl(_raplaUrl!);
 
-    setIsValid(!urlHasError);
+    isValid = !urlHasError;
 
     notifyListeners("urlHasError");
   }

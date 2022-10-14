@@ -15,7 +15,7 @@ class IcalUrlViewModel extends OnboardingStepViewModel {
 
   IcalUrlViewModel(this.preferencesProvider, this.scheduleSourceProvider);
 
-  void setUrl(String? url) {
+  set url(String? url) {
     _url = url;
 
     notifyListeners("url");
@@ -26,7 +26,7 @@ class IcalUrlViewModel extends OnboardingStepViewModel {
   void _validateUrl() {
     urlHasError = !IcalScheduleSource.isValidUrl(_url);
 
-    setIsValid(!urlHasError);
+    isValid = !urlHasError;
 
     notifyListeners("urlHasError");
   }
@@ -35,7 +35,7 @@ class IcalUrlViewModel extends OnboardingStepViewModel {
     final ClipboardData? data = await Clipboard.getData('text/plain');
 
     if (data?.text != null) {
-      setUrl(data!.text);
+      url = data!.text;
     }
   }
 

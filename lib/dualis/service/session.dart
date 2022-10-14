@@ -39,14 +39,11 @@ class Session {
     String url, [
     CancellationToken? cancellationToken,
   ]) async {
+    final requestCancellationToken = http.CancellationToken();
     cancellationToken ??= CancellationToken();
 
-    final requestCancellationToken = http.CancellationToken();
-
     try {
-      cancellationToken.setCancellationCallback(() {
-        requestCancellationToken.cancel();
-      });
+      cancellationToken.cancellationCallback = requestCancellationToken.cancel;
 
       final requestUri = Uri.parse(url);
 
@@ -68,7 +65,7 @@ class Session {
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
     } finally {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
     }
 
     return null;
@@ -104,9 +101,7 @@ class Session {
     final requestCancellationToken = http.CancellationToken();
 
     try {
-      cancellationToken.setCancellationCallback(() {
-        requestCancellationToken.cancel();
-      });
+      cancellationToken.cancellationCallback = requestCancellationToken.cancel;
 
       final response = await http.HttpClientHelper.post(
         Uri.parse(url),
@@ -127,7 +122,7 @@ class Session {
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
     } finally {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
     }
 
     return null;

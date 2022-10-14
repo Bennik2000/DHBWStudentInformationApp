@@ -11,17 +11,16 @@ import 'package:http_client_helper/http_client_helper.dart' as http;
 class RaplaScheduleSource extends ScheduleSource {
   final RaplaResponseParser responseParser = RaplaResponseParser();
 
-  String? raplaUrl;
+  String raplaUrl;
 
-  RaplaScheduleSource({this.raplaUrl});
-
-  void setEndpointUrl(String url) {
-    raplaUrl = url;
-  }
+  RaplaScheduleSource({required this.raplaUrl});
 
   @override
-  Future<ScheduleQueryResult> querySchedule(DateTime? from, DateTime? to,
-      [CancellationToken? cancellationToken,]) async {
+  Future<ScheduleQueryResult> querySchedule(
+    DateTime? from,
+    DateTime? to, [
+    CancellationToken? cancellationToken,
+  ]) async {
     DateTime current = toDayOfWeek(from, DateTime.monday)!;
 
     cancellationToken ??= CancellationToken();
@@ -31,10 +30,11 @@ class RaplaScheduleSource extends ScheduleSource {
 
     var didChangeMonth = false;
 
-    while ((to!.isAfter(current) && !cancellationToken.isCancelled()) ||
+    while ((to!.isAfter(current) && !cancellationToken.isCancelled) ||
         didChangeMonth) {
       try {
-        final weekSchedule = await _fetchRaplaSource(current, cancellationToken);
+        final weekSchedule =
+            await _fetchRaplaSource(current, cancellationToken);
 
         if (weekSchedule?.schedule != null) {
           schedule.merge(weekSchedule!.schedule);
@@ -62,7 +62,7 @@ class RaplaScheduleSource extends ScheduleSource {
       didChangeMonth = currentMonth != nextMonth;
     }
 
-    if (cancellationToken.isCancelled()) throw OperationCancelledException();
+    cancellationToken.throwIfCancelled();
 
     schedule = schedule.trim(from, to);
 
@@ -100,18 +100,19 @@ class RaplaScheduleSource extends ScheduleSource {
   /// - <rapla_url>?user=XXXXXXXXXX&file=XXXXX&page=XXXXXX
   ///
   Uri _buildRequestUri(DateTime date) {
-    if (!raplaUrl!.startsWith("http://") && !raplaUrl!.startsWith("https://")) {
+    if (!raplaUrl.startsWith("http://") && !raplaUrl.startsWith("https://")) {
       raplaUrl = "http://$raplaUrl";
     }
 
-    final uri = Uri.parse(raplaUrl!);
+    final uri = Uri.parse(raplaUrl);
 
     final bool hasKeyParameter = uri.queryParameters.containsKey("key");
     final bool hasUserParameter = uri.queryParameters.containsKey("user");
     final bool hasFileParameter = uri.queryParameters.containsKey("file");
     final bool hasPageParameter = uri.queryParameters.containsKey("page");
 
-    final bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
+    final bool hasAllocatableId =
+        uri.queryParameters.containsKey("allocatable_id");
     final bool hasSalt = uri.queryParameters.containsKey("salt");
 
     final Map<String, String?> parameters = {};
@@ -133,7 +134,7 @@ class RaplaScheduleSource extends ScheduleSource {
     parameters["month"] = date.month.toString();
     parameters["year"] = date.year.toString();
 
-    if (raplaUrl!.startsWith("https")) {
+    if (raplaUrl.startsWith("https")) {
       return Uri.https(uri.authority, uri.path, parameters);
     } else {
       return Uri.http(uri.authority, uri.path, parameters);
@@ -141,16 +142,18 @@ class RaplaScheduleSource extends ScheduleSource {
   }
 
   Future<Response?> _makeRequest(
-      Uri uri, CancellationToken cancellationToken,) async {
+    Uri uri,
+    CancellationToken cancellationToken,
+  ) async {
     final requestCancellationToken = http.CancellationToken();
 
     try {
-      cancellationToken.setCancellationCallback(() {
-        requestCancellationToken.cancel();
-      });
+      cancellationToken.cancellationCallback = requestCancellationToken.cancel;
 
-      final response = await http.HttpClientHelper.get(uri,
-          cancelToken: requestCancellationToken,);
+      final response = await http.HttpClientHelper.get(
+        uri,
+        cancelToken: requestCancellationToken,
+      );
 
       if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
@@ -162,7 +165,7 @@ class RaplaScheduleSource extends ScheduleSource {
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
     } finally {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
     }
 
     return null;
@@ -170,7 +173,7 @@ class RaplaScheduleSource extends ScheduleSource {
 
   @override
   bool canQuery() {
-    return isValidUrl(raplaUrl!);
+    return isValidUrl(raplaUrl);
   }
 
   static bool isValidUrl(String url) {
@@ -187,7 +190,8 @@ class RaplaScheduleSource extends ScheduleSource {
     final bool hasFileParameter = uri.queryParameters.containsKey("file");
     final bool hasPageParameter = uri.queryParameters.containsKey("page");
 
-    final bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
+    final bool hasAllocatableId =
+        uri.queryParameters.containsKey("allocatable_id");
     final bool hasSalt = uri.queryParameters.containsKey("salt");
 
     if (hasUserParameter && hasFileParameter && hasPageParameter) {

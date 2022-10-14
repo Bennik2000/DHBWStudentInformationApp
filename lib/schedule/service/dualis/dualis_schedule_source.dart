@@ -10,11 +10,16 @@ import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 class DualisScheduleSource extends ScheduleSource {
   final DualisScraper _dualisScraper;
 
-  DualisScheduleSource(this._dualisScraper);
+  DualisScheduleSource(this._dualisScraper, Credentials credentials) {
+    _dualisScraper.loginCredentials = credentials;
+  }
 
   @override
-  Future<ScheduleQueryResult> querySchedule(DateTime? from, DateTime? to,
-      [CancellationToken? cancellationToken,]) async {
+  Future<ScheduleQueryResult> querySchedule(
+    DateTime? from,
+    DateTime? to, [
+    CancellationToken? cancellationToken,
+  ]) async {
     cancellationToken ??= CancellationToken();
 
     DateTime current = toStartOfMonth(from)!;
@@ -26,10 +31,12 @@ class DualisScheduleSource extends ScheduleSource {
       await _dualisScraper.loginWithPreviousCredentials(cancellationToken);
     }
 
-    while (to!.isAfter(current) && !cancellationToken.isCancelled()) {
+    while (to!.isAfter(current) && !cancellationToken.isCancelled) {
       try {
         final monthSchedule = await _dualisScraper.loadMonthlySchedule(
-            current, cancellationToken,);
+          current,
+          cancellationToken,
+        );
 
         schedule.merge(monthSchedule);
       } on OperationCancelledException {
@@ -44,15 +51,11 @@ class DualisScheduleSource extends ScheduleSource {
       current = toNextMonth(current);
     }
 
-    if (cancellationToken.isCancelled()) throw OperationCancelledException();
+    cancellationToken.throwIfCancelled();
 
     schedule = schedule.trim(from, to);
 
     return ScheduleQueryResult(schedule, allErrors);
-  }
-
-  Future<void> setLoginCredentials(Credentials credentials) async {
-    _dualisScraper.setLoginCredentials(credentials);
   }
 
   @override

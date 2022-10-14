@@ -21,7 +21,7 @@ class MannheimViewModel extends OnboardingStepViewModel {
   List<Course>? get courses => _courses;
 
   MannheimViewModel(this._scheduleSourceProvider) {
-    setIsValid(false);
+    isValid = false;
     loadCourses();
   }
 
@@ -49,7 +49,7 @@ class MannheimViewModel extends OnboardingStepViewModel {
       _selectedCourse = course;
     }
 
-    setIsValid(_selectedCourse != null);
+    isValid = _selectedCourse != null;
   }
 
   @override

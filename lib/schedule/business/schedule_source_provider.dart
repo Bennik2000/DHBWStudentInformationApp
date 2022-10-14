@@ -33,7 +33,8 @@ class ScheduleSourceProvider {
 
   ScheduleSource get currentScheduleSource => _currentScheduleSource;
 
-  final List<OnDidChangeScheduleSource> _onDidChangeScheduleSourceCallbacks = [];
+  final List<OnDidChangeScheduleSource> _onDidChangeScheduleSourceCallbacks =
+      [];
 
   ScheduleSourceProvider(
     this._preferencesProvider,
@@ -76,12 +77,11 @@ class ScheduleSourceProvider {
   }
 
   Future<ScheduleSource> _dualisScheduleSource() async {
-    final dualis = DualisScheduleSource(KiwiContainer().resolve());
-
     final credentials = await _preferencesProvider.loadDualisCredentials();
 
     if (credentials != null) {
-      dualis.setLoginCredentials(credentials);
+      final dualis =
+          DualisScheduleSource(KiwiContainer().resolve(), credentials);
       return ErrorReportScheduleSourceDecorator(dualis);
     } else {
       return InvalidScheduleSource();
@@ -91,11 +91,10 @@ class ScheduleSourceProvider {
   Future<ScheduleSource> _raplaScheduleSource() async {
     final raplaUrl = await _preferencesProvider.getRaplaUrl();
 
-    final rapla = RaplaScheduleSource();
     final urlValid = RaplaScheduleSource.isValidUrl(raplaUrl);
 
     if (urlValid) {
-      rapla.setEndpointUrl(raplaUrl);
+      final rapla = RaplaScheduleSource(raplaUrl: raplaUrl);
 
       ScheduleSource source = ErrorReportScheduleSourceDecorator(rapla);
 
@@ -111,16 +110,17 @@ class ScheduleSourceProvider {
   Future<ScheduleSource> _icalScheduleSource() async {
     final url = await _preferencesProvider.getIcalUrl();
 
-    final ical = IcalScheduleSource();
-    ical.setIcalUrl(url);
+    if (url != null) {
+      final ical = IcalScheduleSource(url);
 
-    if (ical.canQuery()) {
-      ScheduleSource source = ErrorReportScheduleSourceDecorator(ical);
+      if (ical.canQuery()) {
+        ScheduleSource source = ErrorReportScheduleSourceDecorator(ical);
 
-      if (!_appRunningInBackground) {
-        source = IsolateScheduleSourceDecorator(source);
+        if (!_appRunningInBackground) {
+          source = IsolateScheduleSourceDecorator(source);
+        }
+        return source;
       }
-      return source;
     }
 
     return InvalidScheduleSource();

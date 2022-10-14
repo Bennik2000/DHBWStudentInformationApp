@@ -25,7 +25,10 @@ class CalendarExportViewModel extends BaseViewModel {
   bool get isExporting => _isExporting;
 
   CalendarExportViewModel(
-      this._entriesToExport, this.calendarAccess, this.preferencesProvider,) {
+    this._entriesToExport,
+    this.calendarAccess,
+    this.preferencesProvider,
+  ) {
     loadCalendars();
   }
 
@@ -78,7 +81,7 @@ class CalendarExportViewModel extends BaseViewModel {
     }
   }
 
-  void setOnPermissionDeniedCallback(OnPermissionDenied function) {
+  set onPermissionDeniedCallback(OnPermissionDenied function) {
     _onPermissionDenied = function;
   }
 }

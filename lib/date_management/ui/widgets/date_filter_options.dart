@@ -149,7 +149,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     child: DropdownButton<DateDatabase?>(
                       isExpanded: true,
                       value: widget.viewModel.currentDateDatabase,
-                      onChanged: widget.viewModel.setCurrentDateDatabase,
+                      onChanged: (v) =>
+                          widget.viewModel.currentDateDatabase = v,
                       items: _buildDatabaseMenuItems(),
                     ),
                   ),
@@ -169,7 +170,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     child: DropdownButton<String?>(
                       isExpanded: true,
                       value: widget.viewModel.currentSelectedYear,
-                      onChanged: widget.viewModel.setCurrentSelectedYear,
+                      onChanged: (v) =>
+                          widget.viewModel.currentSelectedYear = v,
                       items: _buildYearsMenuItems(),
                     ),
                   ),
@@ -179,13 +181,13 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                 title: Text(L.of(context).dateManagementCheckBoxFutureDates),
                 value: widget.viewModel.showFutureDates,
                 dense: true,
-                onChanged: widget.viewModel.setShowFutureDates,
+                onChanged: (v) => widget.viewModel.showFutureDates = v,
               ),
               CheckboxListTile(
                 title: Text(L.of(context).dateManagementCheckBoxPassedDates),
                 value: widget.viewModel.showPassedDates,
                 dense: true,
-                onChanged: widget.viewModel.setShowPassedDates,
+                onChanged: (v) => widget.viewModel.showPassedDates = v,
               ),
             ],
           ),

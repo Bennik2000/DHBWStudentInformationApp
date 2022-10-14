@@ -64,7 +64,7 @@ class _IcalUrlPageState extends State<IcalUrlPage> {
                                 : null,
                             hintText: L.of(context).onboardingIcalUrlHint,
                           ),
-                          onChanged: viewModel?.setUrl,
+                          onChanged: (v) => viewModel?.url = v,
                         ),
                       ),
                       TextButton.icon(

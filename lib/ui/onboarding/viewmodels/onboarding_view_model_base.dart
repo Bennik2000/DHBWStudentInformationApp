@@ -4,8 +4,7 @@ abstract class OnboardingStepViewModel extends BaseViewModel {
   bool _isValid = false;
   bool get isValid => _isValid;
 
-  // TODO: [Leptopoda] kinda redundant now that we have null safety?¿
-  void setIsValid(bool isValid) {
+  set isValid(bool isValid) {
     _isValid = isValid;
     notifyListeners("isValid");
   }

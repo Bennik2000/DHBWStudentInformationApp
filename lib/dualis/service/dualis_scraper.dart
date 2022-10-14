@@ -19,6 +19,8 @@ class DualisScraper {
   final DualisAuthentication _dualisAuthentication = DualisAuthentication();
   DualisUrls get _dualisUrls => _dualisAuthentication.dualisUrls;
 
+  DualisScraper();
+
   Future<List<DualisModule>> loadAllModules([
     CancellationToken? cancellationToken,
   ]) async {
@@ -99,9 +101,12 @@ class DualisScraper {
         "${_dualisUrls.monthlyScheduleUrl}01.${dateInMonth.month}.${dateInMonth.year}";
 
     final result = await _dualisAuthentication.authenticatedGet(
-        requestUrl, cancellationToken,);
+      requestUrl,
+      cancellationToken,
+    );
 
-    final schedule = MonthlyScheduleExtract().extractScheduleFromMonthly(result);
+    final schedule =
+        MonthlyScheduleExtract().extractScheduleFromMonthly(result);
 
     schedule.urls.add(dualisEndpoint);
 
@@ -130,7 +135,7 @@ class DualisScraper {
     return _dualisAuthentication.loginState == LoginResult.LoggedIn;
   }
 
-  void setLoginCredentials(Credentials credentials) {
-    _dualisAuthentication.setLoginCredentials(credentials);
+  set loginCredentials(Credentials credentials) {
+    _dualisAuthentication.loginCredentials = credentials;
   }
 }

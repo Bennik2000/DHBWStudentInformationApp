@@ -18,11 +18,11 @@ class DualisLoginViewModel extends OnboardingStepViewModel {
   DualisLoginViewModel(this.preferencesProvider, this.dualisService);
 
   @override
-  void setIsValid(bool isValid) {
+  set isValid(bool value) {
     if (credentials == null) {
-      super.setIsValid(false);
+      super.isValid = false;
     } else {
-      super.setIsValid(isValid);
+      super.isValid = value;
     }
   }
 
@@ -34,9 +34,9 @@ class DualisLoginViewModel extends OnboardingStepViewModel {
 
       _loginSuccess =
           await dualisService.login(credentials) == LoginResult.LoggedIn;
-      setIsValid(_loginSuccess);
+      isValid = _loginSuccess;
     } catch (ex) {
-      setIsValid(false);
+      isValid = false;
     } finally {
       _isLoading = false;
     }

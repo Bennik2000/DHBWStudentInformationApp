@@ -27,9 +27,8 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
 
     // Use the cancellation token to send a cancel message.
     // The isolate then uses a new instance to cancel the request
-    cancellationToken!.setCancellationCallback(() {
-      _sendPort!.send({"type": "cancel"});
-    });
+    cancellationToken!.cancellationCallback =
+        () => _sendPort!.send({"type": "cancel"});
 
     _sendPort!.send({
       "type": "execute",
@@ -43,7 +42,7 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
     ScheduleQueryFailedException? potentialException;
 
     final subscription = _isolateToMain!.listen((result) {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
 
       // TODO: [Leptopoda] validate changes
       if (result == null || result is! ScheduleQueryResult) {

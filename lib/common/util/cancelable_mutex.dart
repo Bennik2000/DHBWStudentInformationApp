@@ -11,7 +11,7 @@ class CancelableMutex {
   }
 
   Future acquireAndCancelOther() async {
-    if (!(token?.isCancelled() ?? false)) {
+    if (!(token?.isCancelled ?? false)) {
       token?.cancel();
     }
 

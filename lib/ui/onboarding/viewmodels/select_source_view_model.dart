@@ -9,14 +9,14 @@ class SelectSourceViewModel extends OnboardingStepViewModel {
   ScheduleSourceType get scheduleSourceType => _scheduleSourceType;
 
   SelectSourceViewModel(this._preferencesProvider) {
-    setIsValid(true);
+    isValid = true;
   }
 
   void setScheduleSourceType(ScheduleSourceType? type) {
     if (type == null) return;
 
     _scheduleSourceType = type;
-    setIsValid(true);
+    isValid = true;
 
     notifyListeners("scheduleSourceType");
   }

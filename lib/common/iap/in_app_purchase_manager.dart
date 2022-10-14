@@ -26,8 +26,7 @@ class InAppPurchaseManager {
           _setWidgetEnabled(result == PurchaseResultEnum.Success),
     );
 
-    _inAppPurchaseHelper
-        .setPurchaseCompleteCallback(_purchaseCompletedCallback);
+    _inAppPurchaseHelper.purchaseCompleteCallback = _purchaseCompletedCallback;
 
     try {
       await _inAppPurchaseHelper.initialize();
@@ -39,7 +38,8 @@ class InAppPurchaseManager {
   }
 
   Future<void> _restorePurchases() async {
-    final didPurchaseWidget = await didBuyWidget() == PurchaseStateEnum.Purchased;
+    final didPurchaseWidget =
+        await didBuyWidget() == PurchaseStateEnum.Purchased;
     await _setWidgetEnabled(didPurchaseWidget);
   }
 
@@ -63,7 +63,9 @@ class InAppPurchaseManager {
 
   // TODO: [Leptopoda] better nullseafety
   void _purchaseCompletedCallback(
-      String? productId, PurchaseResultEnum result,) {
+    String? productId,
+    PurchaseResultEnum result,
+  ) {
     if (purchaseCallbacks.containsKey(productId)) {
       final callback = purchaseCallbacks[productId!];
 

@@ -26,8 +26,11 @@ class _DualisLoginCredentialsPageState
   @override
   Widget build(BuildContext context) {
     return PropertyChangeConsumer<OnboardingStepViewModel, String>(
-      builder: (BuildContext context, OnboardingStepViewModel? base,
-          Set<Object>? _,) {
+      builder: (
+        BuildContext context,
+        OnboardingStepViewModel? base,
+        Set<Object>? _,
+      ) {
         final viewModel = base as DualisLoginViewModel?;
 
         final credentials = viewModel?.credentials;
@@ -39,12 +42,14 @@ class _DualisLoginCredentialsPageState
         final widgets = <Widget>[];
 
         widgets.addAll(_buildHeader());
-        widgets.add(LoginCredentialsWidget(
-          controller: _controller,
-          onSubmitted: () async {
-            await _testCredentials(viewModel);
-          },
-        ),);
+        widgets.add(
+          LoginCredentialsWidget(
+            controller: _controller,
+            onSubmitted: () async {
+              await _testCredentials(viewModel);
+            },
+          ),
+        );
         widgets.add(_buildTestCredentialsButton(viewModel));
 
         return Column(
@@ -66,7 +71,7 @@ class _DualisLoginCredentialsPageState
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Expanded(
-                child: viewModel?.isValid ?? false
+                child: viewModel?.isValid == false
                     ? Text(
                         L.of(context).onboardingDualisWrongCredentials,
                         textAlign: TextAlign.start,
@@ -74,26 +79,31 @@ class _DualisLoginCredentialsPageState
                       )
                     : Container(),
               ),
-              if (viewModel?.isLoading ?? false) const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 1,
-                      ),
-                    ) else viewModel?.loginSuccess ?? false
-                      ? const Icon(
-                          Icons.check,
-                          color: Colors.green,
-                        )
-                      : TextButton(
-                          onPressed: () async {
-                            await _testCredentials(viewModel);
-                          },
-                          child: Text(L
+              if (viewModel?.isLoading ?? false)
+                const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                )
+              else
+                viewModel?.loginSuccess ?? false
+                    ? const Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      )
+                    : TextButton(
+                        onPressed: () async {
+                          await _testCredentials(viewModel);
+                        },
+                        child: Text(
+                          L
                               .of(context)
                               .onboardingDualisTestButton
-                              .toUpperCase(),),
+                              .toUpperCase(),
                         ),
+                      ),
             ],
           ),
         ),

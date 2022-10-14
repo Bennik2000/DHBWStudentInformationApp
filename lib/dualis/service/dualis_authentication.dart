@@ -203,7 +203,7 @@ class DualisAuthentication {
     return url;
   }
 
-  void setLoginCredentials(Credentials credentials) {
+  set loginCredentials(Credentials credentials) {
     _credentials = credentials;
   }
 

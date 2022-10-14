@@ -116,7 +116,7 @@ class InAppPurchaseHelper {
   /// Sets the callback function that gets executed when a purchase succeeded
   /// or failed
   ///
-  void setPurchaseCompleteCallback(PurchaseCompletedCallback callback) {
+  set purchaseCompleteCallback(PurchaseCompletedCallback callback) {
     _purchaseCallback = callback;
   }
 
