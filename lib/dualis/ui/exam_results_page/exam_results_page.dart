@@ -11,9 +11,7 @@ class ExamResultsPage extends StatelessWidget {
     return Container(
       height: double.infinity,
       child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
@@ -26,7 +24,6 @@ class ExamResultsPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 8, 24, 0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Text(L.of(context).dualisExamResultsSemesterSelect),
                   Padding(
@@ -193,7 +190,6 @@ class ExamResultsPage extends StatelessWidget {
             ),
           ),
         ),
-        numeric: false,
       ),
       DataColumn(
         label: ConstrainedBox(

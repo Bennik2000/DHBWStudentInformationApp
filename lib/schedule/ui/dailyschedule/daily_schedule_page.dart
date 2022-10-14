@@ -29,7 +29,6 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
@@ -52,9 +51,8 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                         children: <Widget>[
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Expanded(flex: 1, child: Container()),
+                              Expanded(child: Container()),
                               Expanded(
                                 flex: 8,
                                 child: Text(
@@ -65,7 +63,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                                       textStyleDailyScheduleNoEntries(context),
                                 ),
                               ),
-                              Expanded(flex: 1, child: Container()),
+                              Expanded(child: Container()),
                             ],
                           ),
                           Padding(

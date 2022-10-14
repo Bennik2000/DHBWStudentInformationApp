@@ -19,7 +19,6 @@ class OnboardingButtonBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _buildPreviousButton(context),

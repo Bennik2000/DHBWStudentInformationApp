@@ -7,8 +7,8 @@ class ScheduleQueryInformationRepository {
 
   ScheduleQueryInformationRepository(this._database);
 
-      DateTime start, DateTime end,) async {
   Future<DateTime?> getOldestQueryTimeBetweenDates(
+      DateTime start, DateTime end,) async {
     var oldestQueryTimeDate = await _database.queryAggregator(
       "SELECT MIN(queryTime) FROM ScheduleQueryInformation WHERE start<=? AND end>=?",
       [

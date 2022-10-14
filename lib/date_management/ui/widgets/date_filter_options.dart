@@ -50,7 +50,6 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
-        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
           Expanded(
             child: _buildCollapsedChips(),
@@ -59,7 +58,6 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
             padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
             child: ButtonTheme(
               minWidth: 36,
-              height: 36,
               child: IconButton(
                 icon: Icon(Icons.tune),
                 onPressed: () {
@@ -121,18 +119,15 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
 
   Widget _buildExpanded() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Expanded(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Row(
                 children: <Widget>[
                   Expanded(
-                    flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: Text(
@@ -141,7 +136,6 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
                     child: DropdownButton(
                       isExpanded: true,
                       value: widget.viewModel.currentDateDatabase,
@@ -154,7 +148,6 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
               Row(
                 children: <Widget>[
                   Expanded(
-                    flex: 1,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                       child: Text(
@@ -163,7 +156,6 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
                     ),
                   ),
                   Expanded(
-                    flex: 1,
                     child: DropdownButton(
                       isExpanded: true,
                       value: widget.viewModel.currentSelectedYear,
@@ -192,7 +184,6 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
           padding: const EdgeInsets.fromLTRB(0, 0, 16, 8),
           child: ButtonTheme(
             minWidth: 36,
-            height: 36,
             child: IconButton(
               icon: const Icon(Icons.check),
               onPressed: () {

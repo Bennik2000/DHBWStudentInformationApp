@@ -43,7 +43,6 @@ class DateManagementPage extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           SingleChildScrollView(
-            scrollDirection: Axis.vertical,
             child: PropertyChangeConsumer(
               builder: (
                 BuildContext context,

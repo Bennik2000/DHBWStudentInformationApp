@@ -76,8 +76,6 @@ class _OnboardingPageState extends State<OnboardingPage>
             child: PropertyChangeConsumer<OnboardingViewModel, String>(
               builder: (BuildContext context, OnboardingViewModel? model, _) {
                 return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
                     Expanded(child: _buildActiveOnboardingPage(model!)),
                     OnboardingButtonBar(
@@ -117,7 +115,6 @@ class _OnboardingPageState extends State<OnboardingPage>
     return IntrinsicHeight(
       child: PageTransitionSwitcher(
         reverse: !model.didStepForward,
-        duration: const Duration(milliseconds: 300),
         transitionBuilder: (
           Widget child,
           Animation<double> animation,

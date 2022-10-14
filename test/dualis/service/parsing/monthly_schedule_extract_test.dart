@@ -26,10 +26,10 @@ Future<void> main() async {
     ];
 
     var startAndEndTime = [
-      [DateTime(2020, 09, 08, 08, 00), DateTime(2020, 09, 08, 12, 15)],
+      [DateTime(2020, 09, 08, 08), DateTime(2020, 09, 08, 12, 15)],
       [DateTime(2020, 09, 10, 08, 30), DateTime(2020, 09, 10, 12, 45)],
       [DateTime(2020, 09, 10, 13, 30), DateTime(2020, 09, 10, 16, 45)],
-      [DateTime(2020, 09, 14, 09, 00), DateTime(2020, 09, 14, 11, 30)],
+      [DateTime(2020, 09, 14, 09), DateTime(2020, 09, 14, 11, 30)],
       [DateTime(2020, 09, 18, 08, 15), DateTime(2020, 09, 18, 11, 15)],
       [DateTime(2020, 09, 21, 08, 30), DateTime(2020, 09, 21, 11, 45)],
       [DateTime(2020, 09, 21, 13, 30), DateTime(2020, 09, 21, 16, 45)],

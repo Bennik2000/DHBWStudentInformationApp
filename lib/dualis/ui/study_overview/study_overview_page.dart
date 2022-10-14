@@ -10,9 +10,7 @@ class StudyOverviewPage extends StatelessWidget {
     return Container(
       height: double.infinity,
       child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             buildGpaCredits(context),
@@ -44,7 +42,6 @@ class StudyOverviewPage extends StatelessWidget {
             ) =>
                 model!.studyGrades != null
                     ? Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Padding(
@@ -179,7 +176,6 @@ class StudyOverviewPage extends StatelessWidget {
     return <DataColumn>[
       DataColumn(
         label: Text(L.of(context).dualisOverviewModuleColumnHeader),
-        numeric: false,
       ),
       DataColumn(
         label: Text(L.of(context).dualisOverviewCreditsColumnHeader),

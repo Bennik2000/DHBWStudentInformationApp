@@ -17,3 +17,4 @@ analyzer:
 linter:
   rules:
     require_trailing_commas: true
+    avoid_redundant_argument_values: true

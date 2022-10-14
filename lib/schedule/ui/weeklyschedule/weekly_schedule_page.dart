@@ -113,7 +113,6 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                               WeeklyScheduleViewModel? model, Set? _,) {
                             return PageTransitionSwitcher(
                               reverse: !model!.didUpdateScheduleIntoFuture,
-                              duration: const Duration(milliseconds: 300),
                               transitionBuilder: (Widget child,
                                       Animation<double> animation,
                                       Animation<double> secondaryAnimation,) =>

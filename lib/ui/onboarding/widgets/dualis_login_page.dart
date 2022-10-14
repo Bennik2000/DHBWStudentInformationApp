@@ -48,7 +48,6 @@ class _DualisLoginCredentialsPageState
         widgets.add(_buildTestCredentialsButton(viewModel));
 
         return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: widgets,
         );
@@ -65,7 +64,6 @@ class _DualisLoginCredentialsPageState
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
                 child: viewModel?.isValid ?? false

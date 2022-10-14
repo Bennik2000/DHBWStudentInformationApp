@@ -22,7 +22,6 @@ class DateDetailBottomSheet extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
@@ -34,7 +33,6 @@ class DateDetailBottomSheet extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: colorSeparator(),
                       borderRadius: const BorderRadius.all(Radius.circular(4)),),
-                  child: null,
                 ),
               ),
             ),

@@ -129,7 +129,6 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
 
     await workmanager.initialize(
       callbackDispatcher,
-      isInDebugMode: false,
     );
   }
 

@@ -17,7 +17,6 @@ class _IcalUrlPageState extends State<IcalUrlPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),

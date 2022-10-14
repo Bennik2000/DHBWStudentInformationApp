@@ -21,8 +21,6 @@ class DailyScheduleEntryWidget extends StatelessWidget {
 
     return IntrinsicHeight(
       child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
@@ -30,7 +28,6 @@ class DailyScheduleEntryWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     startTime,
@@ -62,7 +59,6 @@ class DailyScheduleEntryWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(

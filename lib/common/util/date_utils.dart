@@ -3,13 +3,13 @@
 DateTime? toStartOfDay(DateTime? dateTime) {
   return dateTime == null
       ? null
-      : DateTime(dateTime.year, dateTime.month, dateTime.day, 0, 0, 0);
+      : DateTime(dateTime.year, dateTime.month, dateTime.day);
 }
 
 DateTime? toStartOfMonth(DateTime? dateTime) {
   return dateTime == null
       ? null
-      : DateTime(dateTime.year, dateTime.month, 1, 0, 0, 0);
+      : DateTime(dateTime.year, dateTime.month);
 }
 
 DateTime? tomorrow(DateTime? dateTime) {

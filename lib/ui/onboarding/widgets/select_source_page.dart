@@ -18,7 +18,6 @@ class SelectSourcePage extends StatelessWidget {
       ) {
         final viewModel = model as SelectSourceViewModel?;
         return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),

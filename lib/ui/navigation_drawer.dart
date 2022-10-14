@@ -45,7 +45,6 @@ class NavigationDrawer extends StatelessWidget {
     widgets.add(_createSettingsItem(context));
 
     var widget = Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: widgets,
     );
@@ -100,7 +99,6 @@ class NavigationDrawer extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   icon,
                   Padding(
@@ -135,7 +133,6 @@ class NavigationDrawer extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 15, 0, 10),
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Icon(
                       Icons.settings,

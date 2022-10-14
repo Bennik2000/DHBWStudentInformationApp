@@ -46,8 +46,8 @@ void main() {
       title: "Project management",
       professor: "Sam",
       details: "ipsum",
-      start: DateTime(2020, 06, 09, 17, 00),
-      end: DateTime(2020, 06, 09, 18, 00),
+      start: DateTime(2020, 06, 09, 17),
+      end: DateTime(2020, 06, 09, 18),
     );
 
     newSchedule.addEntry(newEntry);
@@ -165,8 +165,8 @@ Schedule generateSchedule() {
       title: "Chemistry",
       professor: "Mr. White",
       details: "We will make breaks",
-      start: DateTime(2020, 06, 09, 10, 00),
-      end: DateTime(2020, 06, 09, 12, 00),
+      start: DateTime(2020, 06, 09, 10),
+      end: DateTime(2020, 06, 09, 12),
     ),
     ScheduleEntry(
       room: "Room2",
@@ -174,8 +174,8 @@ Schedule generateSchedule() {
       title: "Computer Science",
       professor: "Mr. Turing",
       details: "Lorem",
-      start: DateTime(2020, 06, 09, 13, 00),
-      end: DateTime(2020, 06, 09, 14, 00),
+      start: DateTime(2020, 06, 09, 13),
+      end: DateTime(2020, 06, 09, 14),
     ),
     ScheduleEntry(
       room: "Room3",
@@ -183,8 +183,8 @@ Schedule generateSchedule() {
       title: "Physics",
       professor: "Mr. Hawking",
       details: "ipsum",
-      start: DateTime(2020, 06, 09, 15, 00),
-      end: DateTime(2020, 06, 09, 16, 00),
+      start: DateTime(2020, 06, 09, 15),
+      end: DateTime(2020, 06, 09, 16),
     ),
     ScheduleEntry(
       room: "Room3",
@@ -192,8 +192,8 @@ Schedule generateSchedule() {
       title: "Physics",
       professor: "Mr. Hawking",
       details: "ipsum",
-      start: DateTime(2020, 06, 09, 17, 00),
-      end: DateTime(2020, 06, 09, 18, 00),
+      start: DateTime(2020, 06, 09, 17),
+      end: DateTime(2020, 06, 09, 18),
     ),
   ];
 

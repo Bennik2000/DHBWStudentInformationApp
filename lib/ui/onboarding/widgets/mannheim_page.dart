@@ -15,8 +15,6 @@ class _MannheimPageState extends State<MannheimPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),

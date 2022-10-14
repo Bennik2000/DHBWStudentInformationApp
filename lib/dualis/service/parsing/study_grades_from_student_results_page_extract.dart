@@ -16,7 +16,7 @@ class StudyGradesFromStudentResultsPageExtract {
   StudyGrades _extractStudyGradesFromStudentsResultsPage(String? body) {
     var document = parse(body);
 
-    var creditsTable = getElementByTagName(document, "tbody", 0);
+    var creditsTable = getElementByTagName(document, "tbody");
     var gpaTable = getElementByTagName(document, "tbody", 1);
 
     var credits = _extractCredits(creditsTable);

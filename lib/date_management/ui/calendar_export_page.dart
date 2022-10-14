@@ -150,7 +150,6 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               width: 24,

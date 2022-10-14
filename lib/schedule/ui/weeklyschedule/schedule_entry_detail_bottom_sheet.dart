@@ -27,7 +27,6 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
@@ -39,14 +38,12 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                   decoration: BoxDecoration(
                       color: colorSeparator(),
                       borderRadius: const BorderRadius.all(Radius.circular(4)),),
-                  child: null,
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,

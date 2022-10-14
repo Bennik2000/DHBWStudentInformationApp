@@ -30,7 +30,6 @@ class OnboardingPageBackground extends StatelessWidget {
             curve: const Interval(
               0.0,
               1,
-              curve: Curves.linear,
             ),
           ),
         ),
@@ -43,7 +42,6 @@ class OnboardingPageBackground extends StatelessWidget {
             curve: const Interval(
               0.0,
               1,
-              curve: Curves.linear,
             ),
           ),
         ),
@@ -56,7 +54,6 @@ class OnboardingPageBackground extends StatelessWidget {
             curve: const Interval(
               0.0,
               1,
-              curve: Curves.linear,
             ),
           ),
         ),
@@ -69,7 +66,6 @@ class OnboardingPageBackground extends StatelessWidget {
             curve: const Interval(
               0.0,
               1,
-              curve: Curves.linear,
             ),
           ),
         ),
