@@ -87,8 +87,8 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     currentDateEnd = end;
 
     if (weekSchedule != null) {
-      var scheduleStart = weekSchedule!.getStartDate();
-      var scheduleEnd = weekSchedule!.getEndDate();
+      final scheduleStart = weekSchedule!.getStartDate();
+      final scheduleEnd = weekSchedule!.getEndDate();
 
       if (scheduleStart == null && scheduleEnd == null) {
         clippedDateStart = toDayOfWeek(start, DateTime.monday);
@@ -163,15 +163,15 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Future _doUpdateSchedule(DateTime start, DateTime end) async {
     print("Refreshing schedule...");
 
-    var cancellationToken = _updateMutex.token!;
+    final cancellationToken = _updateMutex.token!;
 
     scheduleUrl = null;
 
-    var cachedSchedule = await scheduleProvider.getCachedSchedule(start, end);
+    final cachedSchedule = await scheduleProvider.getCachedSchedule(start, end);
     cancellationToken.throwIfCancelled();
     _setSchedule(cachedSchedule, start, end);
 
-    var updatedSchedule = await _readScheduleFromService(
+    final updatedSchedule = await _readScheduleFromService(
       start,
       end,
       cancellationToken,
@@ -179,7 +179,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     cancellationToken.throwIfCancelled();
 
     if (updatedSchedule?.schedule != null) {
-      var schedule = updatedSchedule!.schedule;
+      final schedule = updatedSchedule!.schedule;
 
       _setSchedule(schedule, start, end);
 

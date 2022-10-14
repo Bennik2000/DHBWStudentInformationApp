@@ -26,7 +26,7 @@ class DailyScheduleViewModel extends BaseViewModel {
   Schedule get daySchedule => _daySchedule ??= Schedule();
 
   Future loadScheduleForToday() async {
-    var now = DateTime.now();
+    final now = DateTime.now();
     currentDate = toStartOfDay(now);
 
     await updateSchedule();

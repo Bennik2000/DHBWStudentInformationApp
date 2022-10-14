@@ -38,8 +38,8 @@ class CalendarAccess {
 
   Future<List<Calendar>> queryWriteableCalendars() async {
     final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-    var writeableCalendars = <Calendar>[];
-    for (var calendar in calendarsResult.data ?? []) {
+    final writeableCalendars = <Calendar>[];
+    for (final calendar in calendarsResult.data ?? []) {
       if (!calendar.isReadOnly!) {
         writeableCalendars.add(calendar);
       }
@@ -54,10 +54,10 @@ class CalendarAccess {
   ) async {
     if (dateEntries.isEmpty) return;
 
-    var existingEvents =
+    final existingEvents =
         await _getExistingEventsFromCalendar(dateEntries, calendar!);
 
-    for (var entry in dateEntries) {
+    for (final entry in dateEntries) {
       await _addOrUpdateEntry(existingEvents, entry, calendar);
     }
   }
@@ -66,7 +66,7 @@ class CalendarAccess {
       List<Event> existingEvents, DateEntry entry, Calendar calendar,) async {
     // Find the id in the existing events in order that the "update" part of
     // createOrUpdateEvent(...) works
-    var id = _getIdOfExistingEvent(existingEvents, entry);
+    final id = _getIdOfExistingEvent(existingEvents, entry);
 
     var isAllDay, start, end;
     if (entry.start.isAtSameMomentAs(entry.end)) {
@@ -92,7 +92,7 @@ class CalendarAccess {
   }
 
   String? _getIdOfExistingEvent(List<Event> existingEvents, DateEntry entry) {
-    var existingEvent = existingEvents
+    final existingEvent = existingEvents
         .where((element) => (element.title == entry.description &&
             (element.start?.toUtc().isAtSameMomentAs(entry.start.toUtc()) ??
                 false)),)
@@ -107,10 +107,10 @@ class CalendarAccess {
 
   Future<List<Event>> _getExistingEventsFromCalendar(
       List<DateEntry> dateEntries, Calendar calendar,) async {
-    var firstEntry = _findFirstEntry(dateEntries);
-    var lastEntry = _findLastEntry(dateEntries);
+    final firstEntry = _findFirstEntry(dateEntries);
+    final lastEntry = _findLastEntry(dateEntries);
 
-    var existingEventsResult = await _deviceCalendarPlugin.retrieveEvents(
+    final existingEventsResult = await _deviceCalendarPlugin.retrieveEvents(
         calendar.id,
         RetrieveEventsParams(
           startDate: firstEntry.start,
@@ -128,7 +128,7 @@ class CalendarAccess {
   DateEntry _findFirstEntry(List<DateEntry> entries) {
     var firstEntry = entries[0];
 
-    for (var entry in entries) {
+    for (final entry in entries) {
       if (entry.end.isBefore(firstEntry.end)) {
         firstEntry = entry;
       }
@@ -140,7 +140,7 @@ class CalendarAccess {
   DateEntry _findLastEntry(List<DateEntry> entries) {
     var lastEntry = entries[0];
 
-    for (var entry in entries) {
+    for (final entry in entries) {
       if (entry.end.isAfter(lastEntry.end)) {
         lastEntry = entry;
       }

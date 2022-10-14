@@ -12,9 +12,9 @@ class DateDetailBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var date = DateFormat.yMd(L.of(context).locale.languageCode)
+    final date = DateFormat.yMd(L.of(context).locale.languageCode)
         .format(dateEntry!.start);
-    var time = DateFormat.Hm(L.of(context).locale.languageCode)
+    final time = DateFormat.Hm(L.of(context).locale.languageCode)
         .format(dateEntry!.start);
 
     return Container(

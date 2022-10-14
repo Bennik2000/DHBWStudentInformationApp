@@ -17,10 +17,10 @@ class CalendarSynchronizer {
 
   void registerSynchronizationCallback() {
     scheduleProvider.addScheduleUpdatedCallback((schedule, start, end) async {
-      List<DateEntry> listDateEntries = List<DateEntry>.empty(growable: true);
+      final List<DateEntry> listDateEntries = List<DateEntry>.empty(growable: true);
       schedule.entries.forEach(
         (element) {
-          DateEntry date = DateEntry(
+          final DateEntry date = DateEntry(
               room: element.room,
               comment: element.details,
               databaseName: 'DHBW',
@@ -35,7 +35,7 @@ class CalendarSynchronizer {
           listDateEntries;
 
       if (await preferencesProvider.isCalendarSyncEnabled()) {
-        Calendar? selectedCalendar =
+        final Calendar? selectedCalendar =
             await preferencesProvider.getSelectedCalendar();
         if (selectedCalendar == null) return;
         CalendarAccess().addOrUpdateDates(listDateEntries, selectedCalendar);

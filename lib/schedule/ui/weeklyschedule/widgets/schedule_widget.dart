@@ -44,16 +44,16 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   Widget buildWithSize(BuildContext context, double width, double height) {
-    var dayLabelsHeight = 40.0;
-    var timeLabelsWidth = 50.0;
+    final dayLabelsHeight = 40.0;
+    final timeLabelsWidth = 50.0;
 
-    var hourHeight =
+    final hourHeight =
         (height - dayLabelsHeight) / (displayEndHour! - displayStartHour!);
-    var minuteHeight = hourHeight / 60;
+    final minuteHeight = hourHeight / 60;
 
-    var days = calculateDisplayedDays();
+    final days = calculateDisplayedDays();
 
-    var labelWidgets = buildLabelWidgets(
+    final labelWidgets = buildLabelWidgets(
       context,
       hourHeight,
       (width - timeLabelsWidth) / days,
@@ -111,7 +111,7 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   int calculateDisplayedDays() {
-    var startEndDifference =
+    final startEndDifference =
         toStartOfDay(displayEnd)?.difference(toStartOfDay(displayStart)!);
 
     var days = (startEndDifference?.inDays ?? 0) + 1;
@@ -133,10 +133,10 @@ class ScheduleWidget extends StatelessWidget {
     double hourHeight,
     double minuteHeight,
   ) {
-    var labelWidgets = <Widget>[];
+    final labelWidgets = <Widget>[];
 
     for (var i = displayStartHour!; i < displayEndHour!; i++) {
-      var hourLabelText = i.toString() + ":00";
+      final hourLabelText = i.toString() + ":00";
 
       labelWidgets.add(
         Positioned(
@@ -152,10 +152,10 @@ class ScheduleWidget extends StatelessWidget {
 
     var i = 0;
 
-    var dayFormatter = DateFormat("E", L.of(context).locale.languageCode);
-    var dateFormatter = DateFormat("d. MMM", L.of(context).locale.languageCode);
+    final dayFormatter = DateFormat("E", L.of(context).locale.languageCode);
+    final dateFormatter = DateFormat("d. MMM", L.of(context).locale.languageCode);
 
-    var loopEnd = toStartOfDay(tomorrow(displayEnd))!;
+    final loopEnd = toStartOfDay(tomorrow(displayEnd))!;
 
     for (var columnDate = toStartOfDay(displayStart)!;
         columnDate.isBefore(loopEnd);
@@ -194,18 +194,18 @@ class ScheduleWidget extends StatelessWidget {
     if (schedule == null) return <Widget>[];
     if (schedule!.entries.isEmpty) return <Widget>[];
 
-    var entryWidgets = <Widget>[];
+    final entryWidgets = <Widget>[];
 
-    var columnWidth = width / columns;
+    final columnWidth = width / columns;
 
     DateTime? columnStartDate = toStartOfDay(displayStart);
     DateTime? columnEndDate = tomorrow(columnStartDate);
 
     for (int i = 0; i < columns; i++) {
-      var xPosition = columnWidth * i;
-      var maxWidth = columnWidth;
+      final xPosition = columnWidth * i;
+      final maxWidth = columnWidth;
 
-      var columnSchedule = schedule!.trim(columnStartDate, columnEndDate);
+      final columnSchedule = schedule!.trim(columnStartDate, columnEndDate);
 
       entryWidgets.addAll(buildEntryWidgetsForColumn(
         maxWidth,
@@ -229,24 +229,24 @@ class ScheduleWidget extends StatelessWidget {
     double xPosition,
     List<ScheduleEntry> entries,
   ) {
-    var entryWidgets = <Widget>[];
+    final entryWidgets = <Widget>[];
 
-    var laidOutEntries =
+    final laidOutEntries =
         ScheduleEntryAlignmentAlgorithm().layoutEntries(entries);
 
-    for (var value in laidOutEntries) {
-      var entry = value.entry;
+    for (final value in laidOutEntries) {
+      final entry = value.entry;
 
-      var yStart = hourHeight * (entry.start.hour - displayStartHour!) +
+      final yStart = hourHeight * (entry.start.hour - displayStartHour!) +
           minuteHeight * entry.start.minute;
 
-      var yEnd = hourHeight * (entry.end.hour - displayStartHour!) +
+      final yEnd = hourHeight * (entry.end.hour - displayStartHour!) +
           minuteHeight * entry.end.minute;
 
-      var entryLeft = maxWidth * value.leftColumn;
-      var entryWidth = maxWidth * (value.rightColumn - value.leftColumn);
+      final entryLeft = maxWidth * value.leftColumn;
+      final entryWidth = maxWidth * (value.rightColumn - value.leftColumn);
 
-      var widget = Positioned(
+      final widget = Positioned(
         top: yStart,
         left: entryLeft + xPosition,
         height: yEnd - yStart,

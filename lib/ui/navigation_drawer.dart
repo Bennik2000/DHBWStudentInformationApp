@@ -25,14 +25,14 @@ class NavigationDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var widgets = <Widget>[];
+    final widgets = <Widget>[];
 
     if (isInDrawer) {
       widgets.add(_createHeader(context));
     }
 
     int i = 0;
-    for (var entry in entries) {
+    for (final entry in entries) {
       widgets.add(_createDrawerItem(context,
           icon: entry.icon,
           text: entry.title,
@@ -44,7 +44,7 @@ class NavigationDrawer extends StatelessWidget {
 
     widgets.add(_createSettingsItem(context));
 
-    var widget = Column(
+    final widget = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: widgets,
     );

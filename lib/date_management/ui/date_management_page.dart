@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 class DateManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    DateManagementViewModel viewModel =
+    final DateManagementViewModel viewModel =
         Provider.of<DateManagementViewModel>(context);
 
     return PropertyChangeProvider<DateManagementViewModel, Object>(
@@ -92,8 +92,8 @@ class DateManagementPage extends StatelessWidget {
     DateManagementViewModel model,
     BuildContext context,
   ) {
-    var dataRows = <DataRow>[];
-    for (DateEntry dateEntry in model.allDates ?? []) {
+    final dataRows = <DataRow>[];
+    for (final DateEntry dateEntry in model.allDates ?? []) {
       dataRows.add(
         DataRow(
           cells: <DataCell>[

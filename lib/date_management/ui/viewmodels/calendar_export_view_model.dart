@@ -30,7 +30,7 @@ class CalendarExportViewModel extends BaseViewModel {
   }
 
   Future<void> loadCalendars() async {
-    var access = await calendarAccess.requestCalendarPermission();
+    final access = await calendarAccess.requestCalendarPermission();
 
     if (access == CalendarPermission.PermissionDenied) {
       _onPermissionDenied?.call();

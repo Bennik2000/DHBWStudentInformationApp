@@ -12,30 +12,30 @@ class RaplaMonthlyResponseParser {
   static ScheduleQueryResult parseMonthlyTable(
     Element monthTable,
   ) {
-    var title = monthTable.parent!.getElementsByClassName("title");
+    final title = monthTable.parent!.getElementsByClassName("title");
 
-    var monthAndYear = title[0].text;
-    var yearString = monthAndYear.split(" ")[1];
-    var year = int.tryParse(yearString);
-    var month = _monthStringToDateTime(monthAndYear);
+    final monthAndYear = title[0].text;
+    final yearString = monthAndYear.split(" ")[1];
+    final year = int.tryParse(yearString);
+    final month = _monthStringToDateTime(monthAndYear);
 
-    var dayCells = monthTable.getElementsByClassName("month_cell");
+    final dayCells = monthTable.getElementsByClassName("month_cell");
 
-    var allEntries = <ScheduleEntry>[];
-    var parseErrors = <ParseError>[];
+    final allEntries = <ScheduleEntry>[];
+    final parseErrors = <ParseError>[];
 
-    for (var dayCell in dayCells) {
-      var dayNumber = dayCell.getElementsByTagName("div");
-      var dayEntries = dayCell.getElementsByClassName("month_block");
+    for (final dayCell in dayCells) {
+      final dayNumber = dayCell.getElementsByTagName("div");
+      final dayEntries = dayCell.getElementsByClassName("month_block");
 
       if (dayNumber.isEmpty || dayEntries.isEmpty) continue;
 
-      var dayNumberString = dayNumber[0].text;
-      var day = int.tryParse(dayNumberString);
+      final dayNumberString = dayNumber[0].text;
+      final day = int.tryParse(dayNumberString);
 
-      for (var dayEntry in dayEntries) {
+      for (final dayEntry in dayEntries) {
         try {
-          var entry = RaplaParsingUtils.extractScheduleEntryOrThrow(
+          final entry = RaplaParsingUtils.extractScheduleEntryOrThrow(
             dayEntry,
             DateTime(year!, month!, day!),
           );
@@ -51,8 +51,8 @@ class RaplaMonthlyResponseParser {
   }
 
   static int? _monthStringToDateTime(String monthAndYear) {
-    var monthString = monthAndYear.split(" ")[0];
-    var monthNames = {
+    final monthString = monthAndYear.split(" ")[0];
+    final monthNames = {
       "Januar": DateTime.january,
       "Februar": DateTime.february,
       "März": DateTime.march,
@@ -67,7 +67,7 @@ class RaplaMonthlyResponseParser {
       "Dezember": DateTime.december,
     };
 
-    var month = monthNames[monthString];
+    final month = monthNames[monthString];
     return month;
   }
 }

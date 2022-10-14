@@ -14,9 +14,9 @@ class ScheduleEntryEntity extends DatabaseEntity {
 
   @override
   void fromMap(Map<String, dynamic> map) {
-    var startDate = DateTime.fromMillisecondsSinceEpoch(map["start"]);
+    final startDate = DateTime.fromMillisecondsSinceEpoch(map["start"]);
 
-    var endDate = DateTime.fromMillisecondsSinceEpoch(map["end"]);
+    final endDate = DateTime.fromMillisecondsSinceEpoch(map["end"]);
 
     _scheduleEntry = ScheduleEntry(
         id: map["id"],

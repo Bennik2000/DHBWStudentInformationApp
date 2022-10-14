@@ -46,7 +46,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var widgets = <Widget>[];
+    final widgets = <Widget>[];
 
     widgets.addAll(buildScheduleSourceSettings(context));
     widgets.addAll(buildDesignSettings(context));
@@ -159,10 +159,10 @@ class _SettingsPageState extends State<SettingsPage> {
                     ),);
             return;
           }
-          var isCalendarSyncEnabled = await KiwiContainer()
+          final isCalendarSyncEnabled = await KiwiContainer()
               .resolve<PreferencesProvider>()
               .isCalendarSyncEnabled();
-          List<DateEntry> entriesToExport =
+          final List<DateEntry> entriesToExport =
               KiwiContainer().resolve<ListDateEntries30d>().listDateEntries;
           await NavigatorKey.rootKey.currentState!.push(MaterialPageRoute(
               builder: (BuildContext context) => CalendarExportPage(
@@ -178,7 +178,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   List<Widget> buildNotificationSettings(BuildContext context) {
-    WorkSchedulerService service = KiwiContainer().resolve();
+    final WorkSchedulerService service = KiwiContainer().resolve();
     if (service.isSchedulingAvailable()) {
       return [
         TitleListTile(title: L.of(context).settingsNotificationsTitle),

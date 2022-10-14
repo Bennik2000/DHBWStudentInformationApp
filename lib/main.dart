@@ -38,12 +38,12 @@ void main() async {
 /// used language
 ///
 Future<void> saveLastStartLanguage() async {
-  PreferencesProvider preferencesProvider = KiwiContainer().resolve();
+  final PreferencesProvider preferencesProvider = KiwiContainer().resolve();
   await preferencesProvider.setLastUsedLanguageCode(Platform.localeName);
 }
 
 Future<RootViewModel> loadRootViewModel() async {
-  var rootViewModel = RootViewModel(
+  final rootViewModel = RootViewModel(
     KiwiContainer().resolve(),
   );
 

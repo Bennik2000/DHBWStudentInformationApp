@@ -11,7 +11,7 @@ import 'package:kiwi/kiwi.dart';
 class NotificationsInitialize {
   Future<void> setupNotifications() async {
     if (Platform.isAndroid) {
-      var notificationApi = NotificationApi();
+      final notificationApi = NotificationApi();
 
       KiwiContainer().registerInstance(notificationApi);
 

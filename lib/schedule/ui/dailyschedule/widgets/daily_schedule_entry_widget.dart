@@ -14,10 +14,10 @@ class DailyScheduleEntryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var timeFormatter = DateFormat.Hm(L.of(context).locale.languageCode);
+    final timeFormatter = DateFormat.Hm(L.of(context).locale.languageCode);
 
-    var startTime = timeFormatter.format(scheduleEntry.start);
-    var endTime = timeFormatter.format(scheduleEntry.end);
+    final startTime = timeFormatter.format(scheduleEntry.start);
+    final endTime = timeFormatter.format(scheduleEntry.end);
 
     return IntrinsicHeight(
       child: Row(

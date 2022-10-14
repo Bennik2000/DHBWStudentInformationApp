@@ -120,7 +120,7 @@ abstract class EnterUrlDialog {
   }
 
   Future _pasteUrl() async {
-    ClipboardData? data = await Clipboard.getData('text/plain');
+    final ClipboardData? data = await Clipboard.getData('text/plain');
 
     if (data?.text != null) {
       _setUrl(data!.text!);

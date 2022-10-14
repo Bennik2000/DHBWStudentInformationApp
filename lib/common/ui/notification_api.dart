@@ -15,16 +15,16 @@ class NotificationApi {
   /// call this method
   ///
   Future<void> initialize() async {
-    var initializationSettingsAndroid = const AndroidInitializationSettings(
+    final initializationSettingsAndroid = const AndroidInitializationSettings(
       'outline_event_note_24',
     );
 
-    var initializationSettingsIOS = IOSInitializationSettings(
+    final initializationSettingsIOS = IOSInitializationSettings(
       // TODO: [Leptopoda] the below always returns null so why register it?
       onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
 
-    var initializationSettings = InitializationSettings(
+    final initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
@@ -39,7 +39,7 @@ class NotificationApi {
   /// Show a notification with the given title and message
   ///
   Future showNotification(String title, String? message, [int? id]) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    final androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'Notifications',
       'Notifications',
       channelDescription: 'This is the main notification channel',
@@ -52,9 +52,9 @@ class NotificationApi {
       ticker: 'ticker',
     );
 
-    var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
+    final iOSPlatformChannelSpecifics = const IOSNotificationDetails();
 
-    var platformChannelSpecifics = NotificationDetails(
+    final platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );

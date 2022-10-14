@@ -5,46 +5,46 @@ import 'package:dhbwstudentapp/schedule/service/rapla/rapla_response_parser.dart
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  var monthlyRaplaPage = await File(Directory.current.absolute.path +
+  final monthlyRaplaPage = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_monthly_response.html',)
       .readAsString();
 
-  var raplaPage = await File(Directory.current.absolute.path +
+  final raplaPage = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_response.html',)
       .readAsString();
 
-  var raplaPage1 = await File(Directory.current.absolute.path +
+  final raplaPage1 = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_response_1.html',)
       .readAsString();
 
-  var severalMonthsPage = await File(Directory.current.absolute.path +
+  final severalMonthsPage = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_several_months_response.html',)
       .readAsString();
 
-  var severalMonthsPage1 = await File(Directory.current.absolute.path +
+  final severalMonthsPage1 = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_several_months_response_1.html',)
       .readAsString();
 
-  var severalMonthsPage2 = await File(Directory.current.absolute.path +
+  final severalMonthsPage2 = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_several_months_response_2.html',)
       .readAsString();
 
-  var invalidRaplaPage = await File(Directory.current.absolute.path +
+  final invalidRaplaPage = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/invalid_rapla_response.html',)
       .readAsString();
 
-  var raplaWeekResponse = await File(Directory.current.absolute.path +
+  final raplaWeekResponse = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_week_response.html',)
       .readAsString();
 
-  var raplaWeekResponse1 = await File(Directory.current.absolute.path +
+  final raplaWeekResponse1 = await File(Directory.current.absolute.path +
           '/test/schedule/service/rapla/html_resources/rapla_week_response_1.html',)
       .readAsString();
 
   test('Rapla correctly read all classes of weekly view', () async {
-    var parser = RaplaResponseParser();
+    final parser = RaplaResponseParser();
 
-    var schedule = parser.parseSchedule(raplaPage).schedule;
+    final schedule = parser.parseSchedule(raplaPage).schedule;
 
     expect(schedule.entries.length, 8);
 
@@ -91,9 +91,9 @@ Future<void> main() async {
   });
 
   test('Rapla correctly read all classes of monthly view', () async {
-    var parser = RaplaResponseParser();
+    final parser = RaplaResponseParser();
 
-    var schedule = parser.parseSchedule(monthlyRaplaPage).schedule;
+    final schedule = parser.parseSchedule(monthlyRaplaPage).schedule;
 
     expect(schedule.entries.length, 9);
 
@@ -105,9 +105,9 @@ Future<void> main() async {
   });
 
   test('Rapla correctly read all classes of several months view', () async {
-    var parser = RaplaResponseParser();
+    final parser = RaplaResponseParser();
 
-    var schedule = parser.parseSchedule(severalMonthsPage).schedule;
+    final schedule = parser.parseSchedule(severalMonthsPage).schedule;
 
     expect(schedule.entries[0].title, "Modulprüfung T3_2000");
     expect(schedule.entries[0].start, DateTime(2021, 09, 22, 08));
@@ -137,9 +137,9 @@ Future<void> main() async {
 
   test('Rapla correctly read all classes of problematic several months view',
       () async {
-    var parser = RaplaResponseParser();
+    final parser = RaplaResponseParser();
 
-    var schedule = parser.parseSchedule(severalMonthsPage1).schedule;
+    final schedule = parser.parseSchedule(severalMonthsPage1).schedule;
 
     expect(schedule.entries[0].title, "Verkehrswegebau und Straßenwesen");
     expect(schedule.entries[0].start, DateTime(2021, 12, 01, 08, 15));
@@ -167,9 +167,9 @@ Future<void> main() async {
   });
 
   test('Rapla correctly read all classes of several months view 3', () async {
-    var parser = RaplaResponseParser();
+    final parser = RaplaResponseParser();
 
-    var schedule = parser.parseSchedule(severalMonthsPage2).schedule;
+    final schedule = parser.parseSchedule(severalMonthsPage2).schedule;
 
     expect(schedule.entries[0].title, "Marketing und Unternehmensstrategie");
     expect(schedule.entries[0].start, DateTime(2021, 12, 01, 10));
@@ -180,9 +180,9 @@ Future<void> main() async {
   });
 
   test('Rapla correctly read the day of a class in week view', () async {
-    var parser = RaplaResponseParser();
+    final parser = RaplaResponseParser();
 
-    var schedule = parser.parseSchedule(raplaPage1).schedule;
+    final schedule = parser.parseSchedule(raplaPage1).schedule;
 
     expect(schedule.entries[0].title, "Grundlagen der Handelsbetriebslehre");
     expect(schedule.entries[0].start, DateTime(2021, 11, 02, 09));
@@ -246,9 +246,9 @@ Future<void> main() async {
   });
 
   test('Rapla correctly read the week response', () async {
-    var parser = RaplaResponseParser();
+    final parser = RaplaResponseParser();
 
-    var schedule = parser.parseSchedule(raplaWeekResponse).schedule;
+    final schedule = parser.parseSchedule(raplaWeekResponse).schedule;
 
     expect(schedule.entries[0].title, "Geschäftsprozesse, T3ELG1010");
     expect(schedule.entries[0].start, DateTime(2022, 02, 21, 08, 30));
@@ -261,9 +261,9 @@ Future<void> main() async {
   });
 
   test('Rapla correctly read the week response 1', () async {
-    var parser = RaplaResponseParser();
+    final parser = RaplaResponseParser();
 
-    var schedule = parser.parseSchedule(raplaWeekResponse1).schedule;
+    final schedule = parser.parseSchedule(raplaWeekResponse1).schedule;
 
     expect(schedule.entries[0].title, "Klausur Elektronik und Messtechnik");
     expect(schedule.entries[0].start, DateTime(2021, 12, 13, 08));
@@ -277,11 +277,11 @@ Future<void> main() async {
   });
 
   test('Rapla robust parse', () async {
-    var parser = RaplaResponseParser();
+    final parser = RaplaResponseParser();
 
-    var result = parser.parseSchedule(invalidRaplaPage);
-    var schedule = result.schedule;
-    var errors = result.errors;
+    final result = parser.parseSchedule(invalidRaplaPage);
+    final schedule = result.schedule;
+    final errors = result.errors;
 
     expect(errors.length, 3);
     expect(schedule.entries.length, 5);

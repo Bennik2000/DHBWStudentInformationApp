@@ -62,7 +62,7 @@ class SettingsViewModel extends BaseViewModel {
 
     await _preferencesProvider.setIsCalendarSyncEnabled(value);
 
-    var scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
+    final scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
     scheduleProvider.getUpdatedSchedule(
       DateTime.now(),
       DateTime.now().add(Duration(days: 30)),

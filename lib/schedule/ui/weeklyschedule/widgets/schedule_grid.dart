@@ -45,7 +45,7 @@ class ScheduleGridCustomPaint extends CustomPainter {
       ..color = gridLineColor
       ..strokeWidth = 1;
 
-    var lines = toHour! - fromHour!;
+    final lines = toHour! - fromHour!;
 
     drawHorizontalLines(lines, size, canvas, secondaryPaint);
     drawVerticalLines(size, canvas, secondaryPaint);
@@ -58,7 +58,7 @@ class ScheduleGridCustomPaint extends CustomPainter {
     Paint secondaryPaint,
   ) {
     for (var i = 0; i < lines; i++) {
-      var y = ((size.height - dateLabelsHeight) / lines) * i + dateLabelsHeight;
+      final y = ((size.height - dateLabelsHeight) / lines) * i + dateLabelsHeight;
 
       canvas.drawLine(Offset(0, y), Offset(size.width, y), secondaryPaint);
     }
@@ -66,7 +66,7 @@ class ScheduleGridCustomPaint extends CustomPainter {
 
   void drawVerticalLines(Size size, Canvas canvas, Paint secondaryPaint) {
     for (var i = 0; i < columns; i++) {
-      var x = ((size.width - timeLabelsWidth) / columns) * i + timeLabelsWidth;
+      final x = ((size.width - timeLabelsWidth) / columns) * i + timeLabelsWidth;
 
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), secondaryPaint);
     }

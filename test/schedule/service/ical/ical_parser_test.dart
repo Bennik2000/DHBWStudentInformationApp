@@ -5,14 +5,14 @@ import 'package:dhbwstudentapp/schedule/service/ical/ical_parser.dart';
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  var icalFile = await File(Directory.current.absolute.path +
+  final icalFile = await File(Directory.current.absolute.path +
           '/test/schedule/service/ical/file_resources/ical_test.ics',)
       .readAsString();
 
   test('ical correctly read all entries', () async {
-    var parser = IcalParser();
+    final parser = IcalParser();
 
-    var schedule = parser.parseIcal(icalFile).schedule;
+    final schedule = parser.parseIcal(icalFile).schedule;
 
     expect(schedule.entries.length, 3);
 

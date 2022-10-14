@@ -22,7 +22,7 @@ class BackgroundInitialize {
 
     KiwiContainer().registerInstance<WorkSchedulerService>(scheduler);
 
-    var tasks = [
+    final tasks = [
       BackgroundScheduleUpdate(
         KiwiContainer().resolve(),
         KiwiContainer().resolve(),
@@ -37,7 +37,7 @@ class BackgroundInitialize {
       ),
     ];
 
-    for (var task in tasks) {
+    for (final task in tasks) {
       scheduler.registerTask(task);
 
       KiwiContainer().registerInstance(

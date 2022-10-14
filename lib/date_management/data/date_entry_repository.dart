@@ -11,7 +11,7 @@ class DateEntryRepository {
     String? databaseName,
     String? year,
   ) async {
-    var rows = await _database.queryRows(
+    final rows = await _database.queryRows(
       DateEntryEntity.tableName(),
       where: "databaseName=? AND year=?",
       whereArgs: [databaseName, year],
@@ -26,7 +26,7 @@ class DateEntryRepository {
     DateTime start,
     DateTime end,
   ) async {
-    var rows = await _database.queryRows(
+    final rows = await _database.queryRows(
       DateEntryEntity.tableName(),
       where: "date>=? AND date<=? AND databaseName=? AND year=?",
       whereArgs: [
@@ -45,7 +45,7 @@ class DateEntryRepository {
     String? year,
     DateTime date,
   ) async {
-    var rows = await _database.queryRows(
+    final rows = await _database.queryRows(
       DateEntryEntity.tableName(),
       where: "date>=? AND databaseName=? AND year=?",
       whereArgs: [
@@ -63,7 +63,7 @@ class DateEntryRepository {
     String? year,
     DateTime date,
   ) async {
-    var rows = await _database.queryRows(
+    final rows = await _database.queryRows(
       DateEntryEntity.tableName(),
       where: "date<=? AND databaseName=? AND year=?",
       whereArgs: [
@@ -77,12 +77,12 @@ class DateEntryRepository {
   }
 
   Future saveDateEntry(DateEntry entry) async {
-    var row = DateEntryEntity.fromModel(entry).toMap();
+    final row = DateEntryEntity.fromModel(entry).toMap();
     await _database.insert(DateEntryEntity.tableName(), row);
   }
 
   Future saveDateEntries(List<DateEntry> entries) async {
-    for (var entry in entries) {
+    for (final entry in entries) {
       await saveDateEntry(entry);
     }
   }
@@ -100,9 +100,9 @@ class DateEntryRepository {
   }
 
   List<DateEntry> _rowsToDateEntries(List<Map<String, dynamic>> rows) {
-    var dateEntries = <DateEntry>[];
+    final dateEntries = <DateEntry>[];
 
-    for (var row in rows) {
+    for (final row in rows) {
       dateEntries.add(
         DateEntryEntity.fromMap(row).asDateEntry(),
       );

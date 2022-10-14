@@ -29,7 +29,7 @@ class OnboardingButtonBar extends StatelessWidget {
   }
 
   Widget _buildPreviousButton(BuildContext context) {
-    bool isFirstPage = viewModel.stepIndex == 0;
+    final bool isFirstPage = viewModel.stepIndex == 0;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 100),

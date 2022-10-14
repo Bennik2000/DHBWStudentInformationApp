@@ -9,10 +9,10 @@ import 'package:html/parser.dart' show parse;
 ///
 class RaplaResponseParser {
   ScheduleQueryResult parseSchedule(String responseBody) {
-    var document = parse(responseBody);
+    final document = parse(responseBody);
 
-    var weekTable = document.getElementsByClassName("week_table");
-    var monthTable = document.getElementsByClassName("month_table");
+    final weekTable = document.getElementsByClassName("week_table");
+    final monthTable = document.getElementsByClassName("month_table");
 
     if (weekTable.isNotEmpty) {
       return RaplaWeekResponseParser.parseWeeklyTable(

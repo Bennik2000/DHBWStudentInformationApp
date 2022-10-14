@@ -23,7 +23,7 @@ class LocalizationInitialize {
   LocalizationInitialize.fromPreferences(this._preferencesProvider);
 
   Future<void> setupLocalizations() async {
-    var localization = L(Locale(
+    final localization = L(Locale(
       _languageCode ??
           (await _preferencesProvider?.getLastUsedLanguageCode() ?? "en"),
     ),);

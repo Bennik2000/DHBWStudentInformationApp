@@ -2,16 +2,16 @@ import 'package:html/parser.dart';
 
 class LoginRedirectUrlExtract {
   String? readRedirectUrl(String? body, String redirectUrl) {
-    var document = parse(body);
+    final document = parse(body);
 
-    var metaTags = document.getElementsByTagName("meta");
+    final metaTags = document.getElementsByTagName("meta");
 
     String? redirectContent;
 
-    for (var metaTag in metaTags) {
+    for (final metaTag in metaTags) {
       if (!metaTag.attributes.containsKey("http-equiv")) continue;
 
-      var httpEquiv = metaTag.attributes["http-equiv"];
+      final httpEquiv = metaTag.attributes["http-equiv"];
 
       if (httpEquiv != "refresh") continue;
       if (!metaTag.attributes.containsKey("content")) continue;
@@ -26,7 +26,7 @@ class LoginRedirectUrlExtract {
   String? getUrlFromHeader(String? refreshHeader, String endpointUrl) {
     if (refreshHeader == null || !refreshHeader.contains("URL=")) return null;
 
-    var refreshHeaderUrlIndex = refreshHeader.indexOf("URL=") + "URL=".length;
+    final refreshHeaderUrlIndex = refreshHeader.indexOf("URL=") + "URL=".length;
     return endpointUrl + refreshHeader.substring(refreshHeaderUrlIndex);
   }
 }

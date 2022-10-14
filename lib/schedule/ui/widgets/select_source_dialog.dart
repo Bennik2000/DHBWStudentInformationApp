@@ -18,7 +18,7 @@ class SelectSourceDialog {
   SelectSourceDialog(this._preferencesProvider, this._scheduleSourceProvider);
 
   Future show(BuildContext context) async {
-    var type = await _preferencesProvider.getScheduleSourceType();
+    final type = await _preferencesProvider.getScheduleSourceType();
     _currentScheduleSource = ScheduleSourceType.values[type];
 
     await showDialog(

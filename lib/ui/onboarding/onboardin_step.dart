@@ -64,7 +64,7 @@ class DualisCredentialsOnboardingStep extends OnboardingStep {
 }
 
 class RaplaOnboardingStep extends OnboardingStep {
-  RaplaUrlViewModel _viewModel = RaplaUrlViewModel(
+  final RaplaUrlViewModel _viewModel = RaplaUrlViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
   );
@@ -86,7 +86,7 @@ class RaplaOnboardingStep extends OnboardingStep {
 }
 
 class IcalOnboardingStep extends OnboardingStep {
-  IcalUrlViewModel _viewModel = IcalUrlViewModel(
+  final IcalUrlViewModel _viewModel = IcalUrlViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
   );

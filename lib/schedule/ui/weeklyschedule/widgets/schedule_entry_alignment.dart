@@ -17,7 +17,7 @@ class ScheduleEntryAlignmentAlgorithm {
   List<ScheduleEntryAlignmentInformation> layoutEntries(
     List<ScheduleEntry> entries,
   ) {
-    var events = entries
+    final events = entries
         .map(
           (e) => ScheduleEntryAlignmentInformation(e),
         )
@@ -32,11 +32,11 @@ class ScheduleEntryAlignmentAlgorithm {
       return result;
     });
 
-    List<List<ScheduleEntryAlignmentInformation>> columns = [[]];
+    final List<List<ScheduleEntryAlignmentInformation>> columns = [[]];
 
     DateTime? lastEventEnd;
 
-    for (var event in events) {
+    for (final event in events) {
       if (!event.entry.start
           .isBefore(lastEventEnd ?? DateTime.fromMillisecondsSinceEpoch(0))) {
         _packEvents(columns);
@@ -47,7 +47,7 @@ class ScheduleEntryAlignmentAlgorithm {
       bool placed = false;
 
       // Try to put the event in one existing column.
-      for (var column in columns) {
+      for (final column in columns) {
         if (!_entriesCollide(column.last.entry, event.entry)) {
           column.add(event);
           placed = true;
@@ -77,9 +77,9 @@ class ScheduleEntryAlignmentAlgorithm {
 
   void _packEvents(List<List<ScheduleEntryAlignmentInformation>> columns) {
     int columnIndex = 0;
-    for (var column in columns) {
-      for (var event in column) {
-        var span = _expandEvent(event, columnIndex, columns);
+    for (final column in columns) {
+      for (final event in column) {
+        final span = _expandEvent(event, columnIndex, columns);
         event.leftColumn = columnIndex / columns.length;
         event.rightColumn = (columnIndex + span) / columns.length;
       }
@@ -93,8 +93,8 @@ class ScheduleEntryAlignmentAlgorithm {
     List<List<ScheduleEntryAlignmentInformation>> columns,
   ) {
     var span = 1;
-    for (var column in columns.skip(columnIndex + 1)) {
-      for (var ev in column) {
+    for (final column in columns.skip(columnIndex + 1)) {
+      for (final ev in column) {
         if (_entriesCollide(ev.entry, event.entry)) {
           return span;
         }

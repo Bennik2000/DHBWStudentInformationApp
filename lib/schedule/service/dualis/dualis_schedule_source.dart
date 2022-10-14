@@ -20,14 +20,14 @@ class DualisScheduleSource extends ScheduleSource {
     DateTime current = toStartOfMonth(from)!;
 
     var schedule = Schedule();
-    var allErrors = <ParseError>[];
+    final allErrors = <ParseError>[];
 
     if (!_dualisScraper.isLoggedIn())
       await _dualisScraper.loginWithPreviousCredentials(cancellationToken);
 
     while (to!.isAfter(current) && !cancellationToken.isCancelled()) {
       try {
-        var monthSchedule = await _dualisScraper.loadMonthlySchedule(
+        final monthSchedule = await _dualisScraper.loadMonthlySchedule(
             current, cancellationToken,);
 
         schedule.merge(monthSchedule);

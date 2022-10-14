@@ -57,12 +57,12 @@ Future<void> initializeApp(bool isBackground) async {
   NotificationScheduleChangedInitialize().setupNotification();
 
   if (isBackground) {
-    var setup = KiwiContainer().resolve<ScheduleSourceProvider>();
+    final setup = KiwiContainer().resolve<ScheduleSourceProvider>();
     setup.setupScheduleSource();
   }
 
   // Callback-Function for synchronizing the device calendar with the schedule, when schedule is updated
-  CalendarSynchronizer calendarSynchronizer = new CalendarSynchronizer(
+  final CalendarSynchronizer calendarSynchronizer = new CalendarSynchronizer(
       KiwiContainer().resolve<ScheduleProvider>(),
       KiwiContainer().resolve<ScheduleSourceProvider>(),
       KiwiContainer().resolve<PreferencesProvider>(),);

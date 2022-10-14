@@ -27,12 +27,12 @@ class IcalScheduleSource extends ScheduleSource {
     DateTime? to, [
     CancellationToken? cancellationToken,
   ]) async {
-    var response = await _makeRequest(_url!, cancellationToken!);
+    final response = await _makeRequest(_url!, cancellationToken!);
     if (response == null) return null;
 
     try {
-      var body = utf8.decode(response.bodyBytes);
-      var schedule = _icalParser.parseIcal(body);
+      final body = utf8.decode(response.bodyBytes);
+      final schedule = _icalParser.parseIcal(body);
 
       return ScheduleQueryResult(
         schedule.schedule.trim(from, to),
@@ -49,14 +49,14 @@ class IcalScheduleSource extends ScheduleSource {
       String url, CancellationToken cancellationToken,) async {
     url = url.replaceAll("webcal://", "https://");
 
-    var requestCancellationToken = http.CancellationToken();
+    final requestCancellationToken = http.CancellationToken();
 
     try {
       cancellationToken.setCancellationCallback(() {
         requestCancellationToken.cancel();
       });
 
-      var response = await http.HttpClientHelper.get(
+      final response = await http.HttpClientHelper.get(
         Uri.parse(url),
         cancelToken: requestCancellationToken,
       );

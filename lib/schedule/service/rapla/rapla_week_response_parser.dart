@@ -15,15 +15,15 @@ class RaplaWeekResponseParser {
     Document document,
     Element weekTable,
   ) {
-    var dates = _readDatesFromHeadersOrThrow(document);
-    var allRows = weekTable.getElementsByTagName("tr");
+    final dates = _readDatesFromHeadersOrThrow(document);
+    final allRows = weekTable.getElementsByTagName("tr");
 
-    var allEntries = <ScheduleEntry>[];
-    var parseErrors = <ParseError>[];
+    final allEntries = <ScheduleEntry>[];
+    final parseErrors = <ParseError>[];
 
-    for (var row in allRows) {
+    for (final row in allRows) {
       var currentDayInWeekIndex = 0;
-      for (var cell in row.children) {
+      for (final cell in row.children) {
         if (cell.localName != "td") continue;
 
         // Skip all spacer cells. They are only used for the alignment in the html page
@@ -49,7 +49,7 @@ class RaplaWeekResponseParser {
         // The important information is inside a week_block cell
         if (cell.classes.contains("week_block")) {
           try {
-            var entry = RaplaParsingUtils.extractScheduleEntryOrThrow(
+            final entry = RaplaParsingUtils.extractScheduleEntryOrThrow(
               cell,
               dates[currentDayInWeekIndex],
             );
@@ -73,20 +73,20 @@ class RaplaWeekResponseParser {
   }
 
   static List<DateTime> _readDatesFromHeadersOrThrow(Document document) {
-    var year = _readYearOrThrow(document);
+    final year = _readYearOrThrow(document);
 
     // The only reliable way to read the dates is the table header.
     // Some schedule entries contain the dates in the description but not
     // in every case.
-    var weekHeaders = document.getElementsByClassName("week_header");
-    var dates = <DateTime>[];
+    final weekHeaders = document.getElementsByClassName("week_header");
+    final dates = <DateTime>[];
 
-    for (var header in weekHeaders) {
+    for (final header in weekHeaders) {
       var dateString = header.text + year;
       dateString = dateString.replaceAll(RegExp(r"\s+\b|\b\s"), "");
 
       try {
-        var date = DateFormat("dd.MM.yyyy").parse(dateString.substring(2));
+        final date = DateFormat("dd.MM.yyyy").parse(dateString.substring(2));
         dates.add(date);
       } catch (exception, trace) {
         throw ParseException.withInner(exception, trace);
@@ -98,15 +98,15 @@ class RaplaWeekResponseParser {
   static String _readYearOrThrow(Document document) {
     // The only reliable way to read the year of this schedule is to parse the
     // selected year in the date selector
-    var comboBoxes = document.getElementsByTagName("select");
+    final comboBoxes = document.getElementsByTagName("select");
 
     String? year;
-    for (var box in comboBoxes) {
+    for (final box in comboBoxes) {
       if (box.attributes.containsKey("name") &&
           box.attributes["name"] == "year") {
-        var entries = box.getElementsByTagName("option");
+        final entries = box.getElementsByTagName("option");
 
-        for (var entry in entries) {
+        for (final entry in entries) {
           if (entry.attributes.containsKey("selected") &&
               (entry.attributes["selected"] == "" ||
                   entry.attributes["selected"] == "selected")) {

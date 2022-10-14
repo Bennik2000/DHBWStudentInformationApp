@@ -97,10 +97,10 @@ class ExamResultsPage extends StatelessWidget {
 
   List<Widget> buildModulesDataTables(
       BuildContext context, StudyGradesViewModel viewModel,) {
-    var dataTables = <Widget>[];
+    final dataTables = <Widget>[];
 
     var isFirstModule = true;
-    for (var module in viewModel.currentSemester!.modules) {
+    for (final module in viewModel.currentSemester!.modules) {
       dataTables.add(DataTable(
         horizontalMargin: 24,
         columnSpacing: 0,
@@ -116,9 +116,9 @@ class ExamResultsPage extends StatelessWidget {
   }
 
   List<DataRow> buildModuleDataRows(BuildContext context, var module) {
-    var dataRows = <DataRow>[];
+    final dataRows = <DataRow>[];
 
-    for (var exam in module.exams) {
+    for (final exam in module.exams) {
       dataRows.add(
         DataRow(
           cells: <DataCell>[

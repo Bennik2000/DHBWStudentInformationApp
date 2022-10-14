@@ -3,7 +3,7 @@
 # For apps, use the default set
 #include: package:lint/analysis_options.yaml
 
-# Packages, that may be distributed (i.e. via pub.dev) should use the package 
+# Packages, that may be distributed (i.e. via pub.dev) should use the package
 # version, resulting in a better pub score.
 # include: package:lint/analysis_options_package.yaml
 
@@ -18,3 +18,6 @@ linter:
   rules:
     require_trailing_commas: true
     avoid_redundant_argument_values: true
+    prefer_final_locals: true
+    prefer_final_in_for_each: true
+    prefer_final_fields: true

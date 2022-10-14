@@ -87,7 +87,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                 ListView.builder(
           itemCount: viewModel!.calendars.length,
           itemBuilder: (BuildContext context, int index) {
-            var isSelected =
+            final isSelected =
                 viewModel.selectedCalendar?.id == viewModel.calendars[index].id;
 
             return _buildCalendarListEntry(
@@ -225,7 +225,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                       onTap: viewModel.canExport
                           ? () async {
                               if (widget.isCalendarSyncWidget) {
-                                var preferencesProvider = KiwiContainer()
+                                final preferencesProvider = KiwiContainer()
                                     .resolve<PreferencesProvider>();
                                 preferencesProvider.setSelectedCalendar(
                                     viewModel.selectedCalendar,);

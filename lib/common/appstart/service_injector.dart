@@ -28,7 +28,7 @@ bool _isInjected = false;
 void injectServices(bool isBackground) {
   if (_isInjected) return;
 
-  KiwiContainer c = KiwiContainer();
+  final KiwiContainer c = KiwiContainer();
   c.registerInstance(PreferencesProvider(
     PreferencesAccess(),
     SecureStorageAccess(),

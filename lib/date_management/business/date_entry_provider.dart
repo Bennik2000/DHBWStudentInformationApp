@@ -21,9 +21,9 @@ class DateEntryProvider {
         parameters.year,
       );
     } else {
-      var now = DateTime.now();
+      final now = DateTime.now();
       if (parameters.includeFuture!) {
-        var datesAfter = await _dateEntryRepository.queryDateEntriesAfter(
+        final datesAfter = await _dateEntryRepository.queryDateEntriesAfter(
           parameters.databaseName,
           parameters.year,
           now,
@@ -32,7 +32,7 @@ class DateEntryProvider {
       }
 
       if (parameters.includePast!) {
-        var datesBefore = await _dateEntryRepository.queryDateEntriesBefore(
+        final datesBefore = await _dateEntryRepository.queryDateEntriesBefore(
           parameters.databaseName,
           parameters.year,
           now,
@@ -54,7 +54,7 @@ class DateEntryProvider {
     DateSearchParameters parameters,
     CancellationToken? cancellationToken,
   ) async {
-    var updatedEntries = await _dateEntryService.queryAllDates(
+    final updatedEntries = await _dateEntryService.queryAllDates(
       parameters,
       cancellationToken,
     );
@@ -65,7 +65,7 @@ class DateEntryProvider {
     );
     await _dateEntryRepository.saveDateEntries(updatedEntries);
 
-    var filteredDates = _filterDates(updatedEntries, parameters);
+    final filteredDates = _filterDates(updatedEntries, parameters);
 
     print("Read ${filteredDates.length} date entries");
 
@@ -74,11 +74,11 @@ class DateEntryProvider {
 
   List<DateEntry> _filterDates(
       List<DateEntry> updatedEntries, DateSearchParameters parameters,) {
-    var filteredDateEntries = <DateEntry>[];
+    final filteredDateEntries = <DateEntry>[];
 
-    var now = DateTime.now();
+    final now = DateTime.now();
 
-    for (var dateEntry in updatedEntries) {
+    for (final dateEntry in updatedEntries) {
       if (dateEntry.databaseName != parameters.databaseName) {
         continue;
       }

@@ -32,21 +32,21 @@ class NextDayInformationNotification extends TaskCallback {
       return;
     }
 
-    var now = DateTime.now();
+    final now = DateTime.now();
 
-    var nextScheduleEntry =
+    final nextScheduleEntry =
         await _scheduleEntryRepository.queryNextScheduleEntry(now);
 
     if (nextScheduleEntry == null) return;
 
-    var format = DateFormat.Hm();
-    var daysToNextEntry = toStartOfDay(nextScheduleEntry.start)!
+    final format = DateFormat.Hm();
+    final daysToNextEntry = toStartOfDay(nextScheduleEntry.start)!
         .difference(toStartOfDay(now)!)
         .inDays;
 
     if (daysToNextEntry > 1) return;
 
-    var message = _getNotificationMessage(
+    final message = _getNotificationMessage(
       daysToNextEntry,
       nextScheduleEntry,
       format,
@@ -86,7 +86,7 @@ class NextDayInformationNotification extends TaskCallback {
 
   @override
   Future<void> schedule() async {
-    var nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
+    final nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
     await _scheduler.scheduleOneShotTaskAt(
       nextSchedule,
       "NextDayInformationNotification" + DateFormat.yMd().format(nextSchedule),
@@ -96,7 +96,7 @@ class NextDayInformationNotification extends TaskCallback {
 
   @override
   Future<void> cancel() async {
-    var nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
+    final nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
     await _scheduler.cancelTask(
       "NextDayInformationNotification" + DateFormat.yMd().format(nextSchedule),
     );

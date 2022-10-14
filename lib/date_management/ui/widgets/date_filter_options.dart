@@ -74,7 +74,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
   }
 
   Widget _buildCollapsedChips() {
-    var chips = <Widget>[];
+    final chips = <Widget>[];
 
     if (widget.viewModel.showPassedDates && widget.viewModel.showFutureDates) {
       chips.add(Chip(
@@ -100,7 +100,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
       ),);
     }
 
-    var database = widget.viewModel.currentDateDatabase?.displayName ?? "";
+    final database = widget.viewModel.currentDateDatabase?.displayName ?? "";
     if (database != "") {
       chips.add(Chip(
         label: Text(database),
@@ -201,9 +201,9 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
   }
 
   List<DropdownMenuItem<String>> _buildYearsMenuItems() {
-    var yearMenuItems = <DropdownMenuItem<String>>[];
+    final yearMenuItems = <DropdownMenuItem<String>>[];
 
-    for (var year in widget.viewModel.years) {
+    for (final year in widget.viewModel.years) {
       yearMenuItems.add(DropdownMenuItem(
         child: Text(year),
         value: year,
@@ -213,9 +213,9 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
   }
 
   List<DropdownMenuItem<DateDatabase>> _buildDatabaseMenuItems() {
-    var databaseMenuItems = <DropdownMenuItem<DateDatabase>>[];
+    final databaseMenuItems = <DropdownMenuItem<DateDatabase>>[];
 
-    for (var database in widget.viewModel.allDateDatabases) {
+    for (final database in widget.viewModel.allDateDatabases) {
       databaseMenuItems.add(DropdownMenuItem(
         child: Text(database.displayName),
         value: database,

@@ -149,9 +149,9 @@ class StudyOverviewPage extends StatelessWidget {
     BuildContext context,
     StudyGradesViewModel model,
   ) {
-    var dataRows = <DataRow>[];
+    final dataRows = <DataRow>[];
 
-    for (var module in model.allModules!) {
+    for (final module in model.allModules!) {
       dataRows.add(
         DataRow(
           cells: <DataCell>[

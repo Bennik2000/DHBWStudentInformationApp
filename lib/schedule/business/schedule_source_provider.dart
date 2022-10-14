@@ -33,7 +33,7 @@ class ScheduleSourceProvider {
 
   ScheduleSource get currentScheduleSource => _currentScheduleSource;
 
-  List<OnDidChangeScheduleSource> _onDidChangeScheduleSourceCallbacks = [];
+  final List<OnDidChangeScheduleSource> _onDidChangeScheduleSourceCallbacks = [];
 
   ScheduleSourceProvider(
     this._preferencesProvider,
@@ -43,7 +43,7 @@ class ScheduleSourceProvider {
   );
 
   Future<bool> setupScheduleSource() async {
-    var scheduleSourceType = await _getScheduleSourceType();
+    final scheduleSourceType = await _getScheduleSourceType();
 
     ScheduleSource scheduleSource = InvalidScheduleSource();
 
@@ -60,7 +60,7 @@ class ScheduleSourceProvider {
 
     _currentScheduleSource = scheduleSource;
 
-    var success = didSetupCorrectly();
+    final success = didSetupCorrectly();
 
     _onDidChangeScheduleSourceCallbacks.forEach((element) {
       element(scheduleSource, success);
@@ -70,15 +70,15 @@ class ScheduleSourceProvider {
   }
 
   Future<ScheduleSourceType> _getScheduleSourceType() async {
-    var type = await _preferencesProvider.getScheduleSourceType();
+    final type = await _preferencesProvider.getScheduleSourceType();
 
     return ScheduleSourceType.values[type];
   }
 
   Future<ScheduleSource> _dualisScheduleSource() async {
-    var dualis = DualisScheduleSource(KiwiContainer().resolve());
+    final dualis = DualisScheduleSource(KiwiContainer().resolve());
 
-    var credentials = await _preferencesProvider.loadDualisCredentials();
+    final credentials = await _preferencesProvider.loadDualisCredentials();
 
     if (credentials != null) {
       dualis.setLoginCredentials(credentials);
@@ -89,10 +89,10 @@ class ScheduleSourceProvider {
   }
 
   Future<ScheduleSource> _raplaScheduleSource() async {
-    var raplaUrl = await _preferencesProvider.getRaplaUrl();
+    final raplaUrl = await _preferencesProvider.getRaplaUrl();
 
-    var rapla = RaplaScheduleSource();
-    var urlValid = RaplaScheduleSource.isValidUrl(raplaUrl);
+    final rapla = RaplaScheduleSource();
+    final urlValid = RaplaScheduleSource.isValidUrl(raplaUrl);
 
     if (urlValid) {
       rapla.setEndpointUrl(raplaUrl);
@@ -109,9 +109,9 @@ class ScheduleSourceProvider {
   }
 
   Future<ScheduleSource> _icalScheduleSource() async {
-    var url = await _preferencesProvider.getIcalUrl();
+    final url = await _preferencesProvider.getIcalUrl();
 
-    var ical = IcalScheduleSource();
+    final ical = IcalScheduleSource();
     ical.setIcalUrl(url);
 
     if (ical.canQuery()) {
@@ -196,8 +196,8 @@ class ScheduleSourceProvider {
   }
 
   Future<void> _clearEntryCache() async {
-    var scheduleEntries = _scheduleEntryRepository.deleteAllScheduleEntries();
-    var queryInformation =
+    final scheduleEntries = _scheduleEntryRepository.deleteAllScheduleEntries();
+    final queryInformation =
         _scheduleQueryInformationRepository.deleteAllQueryInformation();
 
     await Future.wait([scheduleEntries, queryInformation]);

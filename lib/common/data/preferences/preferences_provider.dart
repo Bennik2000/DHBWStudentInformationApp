@@ -36,7 +36,7 @@ class PreferencesProvider {
   PreferencesProvider(this._preferencesAccess, this._secureStorageAccess);
 
   Future<AppTheme> appTheme() async {
-    var theme = await _preferencesAccess.get<String>(AppThemeKey);
+    final theme = await _preferencesAccess.get<String>(AppThemeKey);
 
     return AppTheme.values.firstWhere(
       (element) => element.name == theme,
@@ -66,10 +66,10 @@ class PreferencesProvider {
 
   Future<Calendar?> getSelectedCalendar() async {
     Calendar? selectedCalendar;
-    String? selectedCalendarId =
+    final String? selectedCalendarId =
         await _preferencesAccess.get<String>('SelectedCalendarId');
     if (selectedCalendarId == null) return null;
-    List<Calendar> availableCalendars =
+    final List<Calendar> availableCalendars =
         await CalendarAccess().queryWriteableCalendars();
     availableCalendars.forEach((cal) => {
           if (cal.id == selectedCalendarId) {selectedCalendar = cal}
@@ -132,8 +132,8 @@ class PreferencesProvider {
   }
 
   Future<Credentials?> loadDualisCredentials() async {
-    var username = await _secureStorageAccess.get(DualisUsername);
-    var password = await _secureStorageAccess.get(DualisPassword);
+    final username = await _secureStorageAccess.get(DualisUsername);
+    final password = await _secureStorageAccess.get(DualisPassword);
 
     if (username == null ||
         password == null ||

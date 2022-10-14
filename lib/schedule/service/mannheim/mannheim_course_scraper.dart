@@ -19,7 +19,7 @@ class MannheimCourseScraper {
   ]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
 
-    var coursesPage = await _makeRequest(
+    final coursesPage = await _makeRequest(
       Uri.parse("https://vorlesungsplan.dhbw-mannheim.de/ical.php"),
       cancellationToken,
     );
@@ -29,14 +29,14 @@ class MannheimCourseScraper {
 
   Future<Response> _makeRequest(
       Uri uri, CancellationToken cancellationToken,) async {
-    var requestCancellationToken = http.CancellationToken();
+    final requestCancellationToken = http.CancellationToken();
 
     try {
       cancellationToken.setCancellationCallback(() {
         requestCancellationToken.cancel();
       });
 
-      var response = await http.HttpClientHelper.get(uri,
+      final response = await http.HttpClientHelper.get(uri,
           cancelToken: requestCancellationToken,);
 
       if (response == null && !requestCancellationToken.isCanceled)

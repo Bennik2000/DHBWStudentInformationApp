@@ -43,7 +43,7 @@ class ScheduleEntry {
   }
 
   List<String> getDifferentProperties(ScheduleEntry entry) {
-    var changedProperties = <String>[];
+    final changedProperties = <String>[];
 
     if (title != entry.title) {
       changedProperties.add("title");

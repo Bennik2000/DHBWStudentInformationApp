@@ -54,7 +54,7 @@ class StudyGradesViewModel extends BaseViewModel {
     bool success;
 
     try {
-      var result = await _dualisService.login(credentials);
+      final result = await _dualisService.login(credentials);
 
       success = result == LoginResult.LoggedIn;
     } on OperationCancelledException catch (_) {
@@ -210,7 +210,7 @@ class StudyGradesViewModel extends BaseViewModel {
     if (_semesterNames == null) return;
     if (_semesterNames!.isEmpty) return;
 
-    var lastViewedSemester = await _preferencesProvider.getLastViewedSemester();
+    final lastViewedSemester = await _preferencesProvider.getLastViewedSemester();
 
     if (_semesterNames!.contains(lastViewedSemester)) {
       loadSemester(lastViewedSemester);

@@ -37,7 +37,7 @@ class DualisAuthentication {
   ) async {
     _credentials = credentials;
 
-    var loginResponse = await _makeLoginRequest(
+    final loginResponse = await _makeLoginRequest(
       credentials,
       cancellationToken,
     );
@@ -51,7 +51,7 @@ class DualisAuthentication {
 
     // TODO: Test for login failed page
 
-    var redirectUrl = LoginRedirectUrlExtract().getUrlFromHeader(
+    final redirectUrl = LoginRedirectUrlExtract().getUrlFromHeader(
       loginResponse.headers['refresh'],
       dualisEndpoint,
     );
@@ -61,7 +61,7 @@ class DualisAuthentication {
       return loginState;
     }
 
-    var redirectPage = await session.get(
+    final redirectPage = await session.get(
       redirectUrl,
       cancellationToken,
     );
@@ -78,7 +78,7 @@ class DualisAuthentication {
 
     _updateAccessToken(dualisUrls.mainPageUrl!);
 
-    var mainPage = await session.get(
+    final mainPage = await session.get(
       dualisUrls.mainPageUrl!,
       cancellationToken,
     );
@@ -97,9 +97,9 @@ class DualisAuthentication {
     Credentials credentials, [
     CancellationToken? cancellationToken,
   ]) async {
-    var loginUrl = dualisEndpoint + "/scripts/mgrqispi.dll";
+    final loginUrl = dualisEndpoint + "/scripts/mgrqispi.dll";
 
-    var data = {
+    final data = {
       "usrname": credentials.username,
       "pass": credentials.password,
       "APPNAME": "CampusNet",
@@ -113,7 +113,7 @@ class DualisAuthentication {
     };
 
     try {
-      var loginResponse = await session.rawPost(
+      final loginResponse = await session.rawPost(
         loginUrl,
         data,
         cancellationToken,
@@ -136,7 +136,7 @@ class DualisAuthentication {
   ) async {
     assert(_credentials != null);
 
-    var result = await session.get(
+    final result = await session.get(
       _fillUrlWithAuthToken(url),
       cancellationToken,
     );
@@ -150,7 +150,7 @@ class DualisAuthentication {
       return result;
     }
 
-    var loginResult = await login(_credentials!, cancellationToken);
+    final loginResult = await login(_credentials!, cancellationToken);
 
     if (loginResult == LoginResult.LoggedIn) {
       return await session.get(
@@ -165,7 +165,7 @@ class DualisAuthentication {
   Future<void> logout([
     CancellationToken? cancellationToken,
   ]) async {
-    var logoutRequest = session.get(dualisUrls.logoutUrl, cancellationToken);
+    final logoutRequest = session.get(dualisUrls.logoutUrl, cancellationToken);
 
     _session = null;
     _dualisUrls = null;
@@ -180,7 +180,7 @@ class DualisAuthentication {
   /// wrapped in a [fillUrlWithAuthToken()] call
   ///
   void _updateAccessToken(String urlWithNewToken) {
-    var tokenMatch = _tokenRegex.firstMatch(urlWithNewToken);
+    final tokenMatch = _tokenRegex.firstMatch(urlWithNewToken);
 
     if (tokenMatch != null) {
       _authToken = tokenMatch.group(1);
@@ -194,7 +194,7 @@ class DualisAuthentication {
   /// updated api token
   ///
   String _fillUrlWithAuthToken(String url) {
-    var match = _tokenRegex.firstMatch(url);
+    final match = _tokenRegex.firstMatch(url);
     if (match != null) {
       return url.replaceRange(
           match.start, match.end, "ARGUMENTS=-N$_authToken",);

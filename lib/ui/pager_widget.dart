@@ -59,9 +59,9 @@ class _PagerWidgetState extends State<PagerWidget> {
   }
 
   List<BottomNavigationBarItem> buildBottomNavigationBarItems() {
-    var bottomNavigationBarItems = <BottomNavigationBarItem>[];
+    final bottomNavigationBarItems = <BottomNavigationBarItem>[];
 
-    for (var page in widget.pages) {
+    for (final page in widget.pages) {
       bottomNavigationBarItems.add(
         BottomNavigationBarItem(
           icon: page.icon,
@@ -88,7 +88,7 @@ class _PagerWidgetState extends State<PagerWidget> {
   Future<void> loadActivePage() async {
     if (widget.pagesId == null) return;
 
-    var selectedPage = await preferencesProvider.get<int>(
+    final selectedPage = await preferencesProvider.get<int>(
       "${widget.pagesId}_active_page",
     );
 

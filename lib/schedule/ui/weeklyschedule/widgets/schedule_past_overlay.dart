@@ -78,9 +78,9 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
   }
 
   void drawPartialPastOverlay(Canvas canvas, Size size, Paint overlayPaint) {
-    var difference = now!.difference(fromDate!);
-    var differenceInDays = (difference.inHours / 24).floor();
-    var dayWidth = size.width / columns;
+    final difference = now!.difference(fromDate!);
+    final differenceInDays = (difference.inHours / 24).floor();
+    final dayWidth = size.width / columns;
 
     canvas.drawRect(
       Rect.fromLTWH(
@@ -92,11 +92,11 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
       overlayPaint,
     );
 
-    var leftoverMinutes =
+    final leftoverMinutes =
         difference.inMinutes - (differenceInDays * 24 * 60) - (60 * fromHour!);
 
-    var displayedMinutes = (toHour! - fromHour!) * 60;
-    var leftoverHeight = leftoverMinutes * (size.height / displayedMinutes);
+    final displayedMinutes = (toHour! - fromHour!) * 60;
+    final leftoverHeight = leftoverMinutes * (size.height / displayedMinutes);
 
     if (leftoverHeight > 0) {
       canvas.drawRect(

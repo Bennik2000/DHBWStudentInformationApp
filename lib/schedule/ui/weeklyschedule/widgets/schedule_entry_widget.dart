@@ -17,7 +17,7 @@ class ScheduleEntryWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color color = scheduleEntryTypeToColor(context, scheduleEntry.type);
+    final Color color = scheduleEntryTypeToColor(context, scheduleEntry.type);
 
     return Card(
       color: color,

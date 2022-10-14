@@ -34,7 +34,7 @@ class CacheDualisServiceDecorator extends DualisService {
       return Future.value(_allModulesCached);
     }
 
-    var allModules = await _service.queryAllModules(cancellationToken);
+    final allModules = await _service.queryAllModules(cancellationToken);
 
     _allModulesCached = allModules;
 
@@ -49,7 +49,7 @@ class CacheDualisServiceDecorator extends DualisService {
     if (_semestersCached.containsKey(name)) {
       return Future.value(_semestersCached[name]);
     }
-    var semester = await _service.querySemester(name, cancellationToken);
+    final semester = await _service.querySemester(name, cancellationToken);
 
     _semestersCached[name] = semester;
 
@@ -64,7 +64,7 @@ class CacheDualisServiceDecorator extends DualisService {
       return Future.value(_allSemesterNamesCached);
     }
 
-    var allSemesterNames = await _service.querySemesterNames(cancellationToken);
+    final allSemesterNames = await _service.querySemesterNames(cancellationToken);
 
     _allSemesterNamesCached = allSemesterNames;
 
@@ -79,7 +79,7 @@ class CacheDualisServiceDecorator extends DualisService {
       return Future.value(_studyGradesCached);
     }
 
-    var studyGrades = await _service.queryStudyGrades(cancellationToken);
+    final studyGrades = await _service.queryStudyGrades(cancellationToken);
 
     _studyGradesCached = studyGrades;
 

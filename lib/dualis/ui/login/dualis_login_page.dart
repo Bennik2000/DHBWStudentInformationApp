@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 class DualisLoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    StudyGradesViewModel viewModel = Provider.of<StudyGradesViewModel>(context);
+    final StudyGradesViewModel viewModel = Provider.of<StudyGradesViewModel>(context);
     return buildLoginPage(context, viewModel);
   }
 

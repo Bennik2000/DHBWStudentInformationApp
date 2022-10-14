@@ -64,7 +64,7 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
   Future<void> _initializeIsolate() async {
     if (_isolate != null && _isolateToMain != null && _sendPort != null) return;
 
-    var isolateToMain = ReceivePort();
+    final isolateToMain = ReceivePort();
 
     // Use a broadcast stream. The normal ReceivePort closes after one subscription
     _isolateToMain = isolateToMain.asBroadcastStream();
@@ -81,12 +81,12 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
 
 void scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
   // Using the given send port, send back a send port for two way communication
-  var port = ReceivePort();
+  final port = ReceivePort();
   sendPort.send(port.sendPort);
 
   CancellationToken? token;
 
-  await for (var message in port) {
+  await for (final message in port) {
     if (message["type"] == "execute") {
       token = CancellationToken();
       executeQueryScheduleMessage(message, sendPort, token);
@@ -102,11 +102,11 @@ Future<void> executeQueryScheduleMessage(
   CancellationToken? token,
 ) async {
   try {
-    ScheduleSource source = map["source"];
-    DateTime? from = map["from"];
-    DateTime? to = map["to"];
+    final ScheduleSource source = map["source"];
+    final DateTime? from = map["from"];
+    final DateTime? to = map["to"];
 
-    var result = await source.querySchedule(from, to, token);
+    final result = await source.querySchedule(from, to, token);
 
     sendPort.send(result);
   } on OperationCancelledException catch (_) {

@@ -38,7 +38,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   Widget build(BuildContext context) {
     _showAppLaunchDialogsIfNeeded(context);
 
-    var navigator = Navigator(
+    final navigator = Navigator(
       key: NavigatorKey.mainKey,
       onGenerateRoute: generateDrawerRoute,
       initialRoute: "schedule",
@@ -66,7 +66,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   Widget buildPhoneLayout(BuildContext context, Navigator navigator) {
     return WillPopScope(
       onWillPop: () async {
-        var canPop = NavigatorKey.mainKey.currentState!.canPop();
+        final canPop = NavigatorKey.mainKey.currentState!.canPop();
 
         if (!canPop) return true;
 
@@ -133,9 +133,9 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   }
 
   List<DrawerNavigationEntry> _buildDrawerEntries() {
-    var drawerEntries = <DrawerNavigationEntry>[];
+    final drawerEntries = <DrawerNavigationEntry>[];
 
-    for (var entry in navigationEntries) {
+    for (final entry in navigationEntries) {
       drawerEntries.add(DrawerNavigationEntry(
         entry.icon,
         entry.title(context),

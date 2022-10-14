@@ -35,7 +35,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                 child: PropertyChangeConsumer<DailyScheduleViewModel, String>(
                   builder: (BuildContext context, DailyScheduleViewModel? model,
                       Set? properties,) {
-                    var dateFormat = DateFormat.yMMMMEEEEd(
+                    final dateFormat = DateFormat.yMMMMEEEEd(
                         L.of(context).locale.languageCode,);
                     return Text(
                       dateFormat.format(model!.currentDate!),
@@ -87,11 +87,11 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
   }
 
   List<Widget> buildEntryWidgets() {
-    var entryWidgets = <Widget>[];
-    var now = DateTime.now();
+    final entryWidgets = <Widget>[];
+    final now = DateTime.now();
     var nowIndicatorInserted = false;
 
-    for (var entry in viewModel.daySchedule.entries) {
+    for (final entry in viewModel.daySchedule.entries) {
       if (!nowIndicatorInserted && (entry.end.isAfter(now))) {
         entryWidgets.add(CurrentTimeIndicatorWidget());
         nowIndicatorInserted = true;

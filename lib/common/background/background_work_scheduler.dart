@@ -109,7 +109,7 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
 
       await initializeApp(true);
 
-      WorkSchedulerService scheduler = KiwiContainer().resolve();
+      final WorkSchedulerService scheduler = KiwiContainer().resolve();
 
       await scheduler.executeTask(taskId);
     } catch (e, trace) {

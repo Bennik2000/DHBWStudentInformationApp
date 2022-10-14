@@ -98,8 +98,8 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   Widget _buildActiveOnboardingPage(OnboardingViewModel model) {
-    var currentStep = model.pages[model.currentStep]!;
-    var contentWidget = currentStep.buildContent(context);
+    final currentStep = model.pages[model.currentStep]!;
+    final contentWidget = currentStep.buildContent(context);
 
     Widget body = Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
@@ -140,7 +140,7 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   void _onboardingFinished() {
-    var rootViewModel =
+    final rootViewModel =
         PropertyChangeProvider.of<RootViewModel, String>(context)!.value;
     rootViewModel.setIsOnboarding(false);
 

@@ -75,11 +75,11 @@ class ColorPalettes {
           : AppTheme.Dark;
     }
 
-    var isDark = theme == AppTheme.Dark;
+    final isDark = theme == AppTheme.Dark;
 
-    var brightness = isDark ? Brightness.dark : Brightness.light;
+    final brightness = isDark ? Brightness.dark : Brightness.light;
 
-    var themeData = ThemeData(
+    final themeData = ThemeData(
       brightness: brightness,
       toggleableActiveColor:
           isDark ? ColorPalettes.main[700] : ColorPalettes.main[600],

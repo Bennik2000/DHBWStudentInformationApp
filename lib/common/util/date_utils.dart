@@ -103,7 +103,7 @@ bool isAtSameDay(DateTime date1, DateTime date2) {
 DateTime? toDayOfWeek(DateTime? dateTime, int weekday) {
   if (dateTime == null) return null;
 
-  var startOfWeek = addDays(dateTime, -dateTime.weekday);
+  final startOfWeek = addDays(dateTime, -dateTime.weekday);
   return addDays(startOfWeek, weekday);
 }
 

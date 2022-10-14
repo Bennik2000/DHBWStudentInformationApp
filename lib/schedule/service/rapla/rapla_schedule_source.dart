@@ -27,14 +27,14 @@ class RaplaScheduleSource extends ScheduleSource {
     if (cancellationToken == null) cancellationToken = CancellationToken();
 
     var schedule = Schedule();
-    var allErrors = <ParseError>[];
+    final allErrors = <ParseError>[];
 
     var didChangeMonth = false;
 
     while ((to!.isAfter(current) && !cancellationToken.isCancelled()) ||
         didChangeMonth) {
       try {
-        var weekSchedule = await _fetchRaplaSource(current, cancellationToken);
+        final weekSchedule = await _fetchRaplaSource(current, cancellationToken);
 
         if (weekSchedule?.schedule != null) {
           schedule.merge(weekSchedule!.schedule);
@@ -51,9 +51,9 @@ class RaplaScheduleSource extends ScheduleSource {
         throw ScheduleQueryFailedException(e, trace);
       }
 
-      var currentMonth = current.month;
+      final currentMonth = current.month;
       current = toNextWeek(current)!;
-      var nextMonth = current.month;
+      final nextMonth = current.month;
 
       // Some rapla instances only return the dates in the current month.
       // If the month changes in the middle of a week only half the week is
@@ -73,13 +73,13 @@ class RaplaScheduleSource extends ScheduleSource {
     DateTime date,
     CancellationToken cancellationToken,
   ) async {
-    var requestUri = _buildRequestUri(date);
+    final requestUri = _buildRequestUri(date);
 
-    var response = await _makeRequest(requestUri, cancellationToken);
+    final response = await _makeRequest(requestUri, cancellationToken);
     if (response == null) return null;
 
     try {
-      var schedule = responseParser.parseSchedule(response.body);
+      final schedule = responseParser.parseSchedule(response.body);
 
       schedule.schedule.urls.add(requestUri.toString());
 
@@ -104,17 +104,17 @@ class RaplaScheduleSource extends ScheduleSource {
       raplaUrl = "http://$raplaUrl";
     }
 
-    var uri = Uri.parse(raplaUrl!);
+    final uri = Uri.parse(raplaUrl!);
 
-    bool hasKeyParameter = uri.queryParameters.containsKey("key");
-    bool hasUserParameter = uri.queryParameters.containsKey("user");
-    bool hasFileParameter = uri.queryParameters.containsKey("file");
-    bool hasPageParameter = uri.queryParameters.containsKey("page");
+    final bool hasKeyParameter = uri.queryParameters.containsKey("key");
+    final bool hasUserParameter = uri.queryParameters.containsKey("user");
+    final bool hasFileParameter = uri.queryParameters.containsKey("file");
+    final bool hasPageParameter = uri.queryParameters.containsKey("page");
 
-    bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
-    bool hasSalt = uri.queryParameters.containsKey("salt");
+    final bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
+    final bool hasSalt = uri.queryParameters.containsKey("salt");
 
-    Map<String, String?> parameters = {};
+    final Map<String, String?> parameters = {};
 
     if (hasKeyParameter) {
       parameters["key"] = uri.queryParameters["key"];
@@ -142,14 +142,14 @@ class RaplaScheduleSource extends ScheduleSource {
 
   Future<Response?> _makeRequest(
       Uri uri, CancellationToken cancellationToken,) async {
-    var requestCancellationToken = http.CancellationToken();
+    final requestCancellationToken = http.CancellationToken();
 
     try {
       cancellationToken.setCancellationCallback(() {
         requestCancellationToken.cancel();
       });
 
-      var response = await http.HttpClientHelper.get(uri,
+      final response = await http.HttpClientHelper.get(uri,
           cancelToken: requestCancellationToken,);
 
       if (response == null && !requestCancellationToken.isCanceled)
@@ -181,13 +181,13 @@ class RaplaScheduleSource extends ScheduleSource {
       return false;
     }
 
-    bool hasKeyParameter = uri.queryParameters.containsKey("key");
-    bool hasUserParameter = uri.queryParameters.containsKey("user");
-    bool hasFileParameter = uri.queryParameters.containsKey("file");
-    bool hasPageParameter = uri.queryParameters.containsKey("page");
+    final bool hasKeyParameter = uri.queryParameters.containsKey("key");
+    final bool hasUserParameter = uri.queryParameters.containsKey("user");
+    final bool hasFileParameter = uri.queryParameters.containsKey("file");
+    final bool hasPageParameter = uri.queryParameters.containsKey("page");
 
-    bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
-    bool hasSalt = uri.queryParameters.containsKey("salt");
+    final bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
+    final bool hasSalt = uri.queryParameters.containsKey("salt");
 
     if (hasUserParameter && hasFileParameter && hasPageParameter) {
       return true;

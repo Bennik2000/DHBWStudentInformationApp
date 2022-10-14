@@ -35,7 +35,7 @@ class DateManagementViewModel extends BaseViewModel {
 
   Timer? _errorResetTimer;
 
-  List<String> _years = [];
+  final List<String> _years = [];
   List<String> get years => _years;
 
   String? _currentSelectedYear;
@@ -97,11 +97,11 @@ class DateManagementViewModel extends BaseViewModel {
   }
 
   Future<void> _doUpdateDates() async {
-    var cachedDateEntries = await _readCachedDateEntries();
+    final cachedDateEntries = await _readCachedDateEntries();
     _updateMutex.token!.throwIfCancelled();
     _setAllDates(cachedDateEntries);
 
-    var loadedDateEntries = await _readUpdatedDateEntries();
+    final loadedDateEntries = await _readUpdatedDateEntries();
     _updateMutex.token!.throwIfCancelled();
 
     if (loadedDateEntries != null) {
@@ -118,7 +118,7 @@ class DateManagementViewModel extends BaseViewModel {
 
   Future<List<DateEntry>?> _readUpdatedDateEntries() async {
     try {
-      var loadedDateEntries = await _dateEntryProvider.getDateEntries(
+      final loadedDateEntries = await _dateEntryProvider.getDateEntries(
         dateSearchParameters,
         _updateMutex.token,
       );
@@ -174,10 +174,10 @@ class DateManagementViewModel extends BaseViewModel {
   }
 
   void _loadDefaultSelection() async {
-    var database = await _preferencesProvider.getLastViewedDateEntryDatabase();
+    final database = await _preferencesProvider.getLastViewedDateEntryDatabase();
 
     bool didSetDatabase = false;
-    for (var db in allDateDatabases) {
+    for (final db in allDateDatabases) {
       if (db.id == database) {
         setCurrentDateDatabase(db);
         didSetDatabase = true;
@@ -188,7 +188,7 @@ class DateManagementViewModel extends BaseViewModel {
       setCurrentDateDatabase(allDateDatabases[0]);
     }
 
-    var year = await _preferencesProvider.getLastViewedDateEntryYear();
+    final year = await _preferencesProvider.getLastViewedDateEntryYear();
     setCurrentSelectedYear(year ?? years[0]);
 
     await updateDates();

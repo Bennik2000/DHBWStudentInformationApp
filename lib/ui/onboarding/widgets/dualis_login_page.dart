@@ -36,7 +36,7 @@ class _DualisLoginCredentialsPageState
           _controller.credentials = credentials;
         }
 
-        var widgets = <Widget>[];
+        final widgets = <Widget>[];
 
         widgets.addAll(_buildHeader());
         widgets.add(LoginCredentialsWidget(

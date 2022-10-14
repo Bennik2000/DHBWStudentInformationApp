@@ -96,7 +96,7 @@ class ScheduleProvider {
         print("Filtered schedule has ${schedule.entries.length} entries");
       }
 
-      for (var c in _scheduleUpdatedCallbacks) {
+      for (final c in _scheduleUpdatedCallbacks) {
         await c(schedule!, start, end);
       }
 
@@ -116,16 +116,16 @@ class ScheduleProvider {
     DateTime end,
     Schedule updatedSchedule,
   ) async {
-    var oldSchedule =
+    final oldSchedule =
         await _scheduleEntryRepository.queryScheduleBetweenDates(start, end);
 
-    var diff =
+    final diff =
         ScheduleDiffCalculator().calculateDiff(oldSchedule, updatedSchedule);
 
-    var cleanedDiff = await _cleanDiffFromNewlyQueriedEntries(start, end, diff);
+    final cleanedDiff = await _cleanDiffFromNewlyQueriedEntries(start, end, diff);
 
     if (cleanedDiff.didSomethingChange()) {
-      for (var c in _scheduleEntryChangedCallbacks) {
+      for (final c in _scheduleEntryChangedCallbacks) {
         await c(cleanedDiff);
       }
     }
@@ -155,12 +155,12 @@ class ScheduleProvider {
     DateTime end,
     ScheduleDiff diff,
   ) async {
-    var queryInformation = await _scheduleQueryInformationRepository
+    final queryInformation = await _scheduleQueryInformationRepository
         .getQueryInformationBetweenDates(start, end);
 
-    var cleanedAddedEntries = <ScheduleEntry>[];
+    final cleanedAddedEntries = <ScheduleEntry>[];
 
-    for (var addedEntry in diff.addedEntries) {
+    for (final addedEntry in diff.addedEntries) {
       if (queryInformation.any((i) =>
           addedEntry.end.isAfter(i!.start) &&
           addedEntry.start.isBefore(i.end),)) {

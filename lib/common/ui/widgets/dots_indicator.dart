@@ -10,7 +10,7 @@ class DotsIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var dots = <Widget>[];
+    final dots = <Widget>[];
 
     for (int i = 0; i < numberSteps; i++) {
       dots.add(

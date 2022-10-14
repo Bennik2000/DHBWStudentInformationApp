@@ -16,13 +16,13 @@ import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 /// Provides one single class to access the dualis api.
 ///
 class DualisScraper {
-  DualisAuthentication _dualisAuthentication = DualisAuthentication();
+  final DualisAuthentication _dualisAuthentication = DualisAuthentication();
   DualisUrls get _dualisUrls => _dualisAuthentication.dualisUrls;
 
   Future<List<DualisModule>> loadAllModules([
     CancellationToken? cancellationToken,
   ]) async {
-    var allModulesPageResponse = await _dualisAuthentication.authenticatedGet(
+    final allModulesPageResponse = await _dualisAuthentication.authenticatedGet(
       _dualisUrls.studentResultsUrl!,
       cancellationToken,
     );
@@ -34,7 +34,7 @@ class DualisScraper {
     String moduleDetailsUrl, [
     CancellationToken? cancellationToken,
   ]) async {
-    var detailsResponse = await _dualisAuthentication.authenticatedGet(
+    final detailsResponse = await _dualisAuthentication.authenticatedGet(
       moduleDetailsUrl,
       cancellationToken,
     );
@@ -47,18 +47,18 @@ class DualisScraper {
   Future<List<DualisSemester>> loadSemesters([
     CancellationToken? cancellationToken,
   ]) async {
-    var courseResultsResponse = await _dualisAuthentication.authenticatedGet(
+    final courseResultsResponse = await _dualisAuthentication.authenticatedGet(
       _dualisUrls.courseResultUrl!,
       cancellationToken,
     );
 
-    var semesters = SemestersFromCourseResultPageExtract()
+    final semesters = SemestersFromCourseResultPageExtract()
         .extractSemestersFromCourseResults(
       courseResultsResponse,
       dualisEndpoint,
     );
 
-    for (var semester in semesters) {
+    for (final semester in semesters) {
       _dualisUrls.semesterCourseResultUrls[semester.semesterName] =
           semester.semesterCourseResultsUrl;
     }
@@ -70,7 +70,7 @@ class DualisScraper {
     String? semesterName, [
     CancellationToken? cancellationToken,
   ]) async {
-    var coursePage = await _dualisAuthentication.authenticatedGet(
+    final coursePage = await _dualisAuthentication.authenticatedGet(
       _dualisUrls.semesterCourseResultUrls[semesterName!]!,
       cancellationToken,
     );
@@ -82,7 +82,7 @@ class DualisScraper {
   Future<StudyGrades> loadStudyGrades(
     CancellationToken? cancellationToken,
   ) async {
-    var studentsResultsPage = await _dualisAuthentication.authenticatedGet(
+    final studentsResultsPage = await _dualisAuthentication.authenticatedGet(
       _dualisUrls.studentResultsUrl!,
       cancellationToken,
     );
@@ -95,13 +95,13 @@ class DualisScraper {
     DateTime dateInMonth,
     CancellationToken cancellationToken,
   ) async {
-    var requestUrl =
+    final requestUrl =
         "${_dualisUrls.monthlyScheduleUrl}01.${dateInMonth.month}.${dateInMonth.year}";
 
-    var result = await _dualisAuthentication.authenticatedGet(
+    final result = await _dualisAuthentication.authenticatedGet(
         requestUrl, cancellationToken,);
 
-    var schedule = MonthlyScheduleExtract().extractScheduleFromMonthly(result);
+    final schedule = MonthlyScheduleExtract().extractScheduleFromMonthly(result);
 
     schedule.urls.add(dualisEndpoint);
 

@@ -11,8 +11,8 @@ import 'package:kiwi/kiwi.dart';
 /// developer
 ///
 class DonateToDeveloperDialog {
-  PreferencesProvider _preferencesProvider;
-  int _appLaunchCounter;
+  final PreferencesProvider _preferencesProvider;
+  final int _appLaunchCounter;
 
   DonateToDeveloperDialog(this._preferencesProvider, this._appLaunchCounter);
 

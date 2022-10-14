@@ -44,7 +44,7 @@ class OnboardingViewModel extends BaseViewModel {
     this.preferencesProvider,
     this._onboardingFinished,
   ) {
-    for (var page in pages.values) {
+    for (final page in pages.values) {
       page.viewModel().addListener(() {
         notifyListeners("currentPageValid");
       }, ["isValid"],);
@@ -59,7 +59,7 @@ class OnboardingViewModel extends BaseViewModel {
       return;
     }
 
-    var lastPage = stepsBackstack.keys.last;
+    final lastPage = stepsBackstack.keys.last;
 
     _stepIndex = stepsBackstack[lastPage]!;
 
@@ -95,7 +95,7 @@ class OnboardingViewModel extends BaseViewModel {
   }
 
   Future<void> finishOnboarding() async {
-    for (var step in stepsBackstack.keys) {
+    for (final step in stepsBackstack.keys) {
       await pages[step]!.viewModel().save();
     }
 

@@ -96,10 +96,10 @@ class InAppPurchaseHelper {
     }
 
     try {
-      var allPurchases =
+      final allPurchases =
           await FlutterInappPurchase.instance.getAvailablePurchases();
 
-      var productIdPurchases =
+      final productIdPurchases =
           allPurchases?.where((element) => element.productId == id);
 
       if (productIdPurchases?.isNotEmpty ?? false) {
@@ -125,7 +125,7 @@ class InAppPurchaseHelper {
   Future<void> _completePurchase(PurchasedItem? item) async {
     if (item == null) return;
 
-    var purchaseResult = _purchaseResultFromItem(item);
+    final purchaseResult = _purchaseResultFromItem(item);
 
     _purchaseCallback?.call(item.productId, purchaseResult);
 

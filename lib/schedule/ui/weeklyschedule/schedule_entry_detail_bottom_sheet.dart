@@ -15,11 +15,11 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var formatter = DateFormat.Hm(L.of(context).locale.languageCode);
-    var timeStart = formatter.format(scheduleEntry!.start);
-    var timeEnd = formatter.format(scheduleEntry!.end);
+    final formatter = DateFormat.Hm(L.of(context).locale.languageCode);
+    final timeStart = formatter.format(scheduleEntry!.start);
+    final timeEnd = formatter.format(scheduleEntry!.end);
 
-    var typeString =
+    final typeString =
         scheduleEntryTypeToReadableString(context, scheduleEntry!.type);
 
     return Container(

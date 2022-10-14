@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('debugging', () async {
-    var source = RaplaScheduleSource();
+    final source = RaplaScheduleSource();
     source.setEndpointUrl(
         "https://rapla.dhbw-stuttgart.de/rapla?key=txB1FOi5xd1wUJBWuX8lJhGDUgtMSFmnKLgAG_NVMhCn4AzVqTBQM-yMcTKkIDCa",);
     //var schedule = await source.querySchedule(

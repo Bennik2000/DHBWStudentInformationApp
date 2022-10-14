@@ -9,12 +9,12 @@ class DateManagementService {
     DateSearchParameters parameters,
     CancellationToken? cancellationToken,
   ) async {
-    var queryResult = await Session().get(
+    final queryResult = await Session().get(
       _buildRequestUrl(parameters),
       cancellationToken,
     );
 
-    var allDates = AllDatesExtract().extractAllDates(
+    final allDates = AllDatesExtract().extractAllDates(
       queryResult,
       parameters.databaseName,
     );

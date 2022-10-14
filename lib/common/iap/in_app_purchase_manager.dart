@@ -39,7 +39,7 @@ class InAppPurchaseManager {
   }
 
   Future<void> _restorePurchases() async {
-    var didPurchaseWidget = await didBuyWidget() == PurchaseStateEnum.Purchased;
+    final didPurchaseWidget = await didBuyWidget() == PurchaseStateEnum.Purchased;
     await _setWidgetEnabled(didPurchaseWidget);
   }
 
@@ -65,7 +65,7 @@ class InAppPurchaseManager {
   void _purchaseCompletedCallback(
       String? productId, PurchaseResultEnum result,) {
     if (purchaseCallbacks.containsKey(productId)) {
-      var callback = purchaseCallbacks[productId!];
+      final callback = purchaseCallbacks[productId!];
 
       callback?.forEach((element) {
         element(productId, result);
@@ -73,14 +73,14 @@ class InAppPurchaseManager {
     }
 
     if (purchaseCallbacks.containsKey("*")) {
-      var callback = purchaseCallbacks["*"];
+      final callback = purchaseCallbacks["*"];
 
       callback?.forEach((element) {
         element(productId, result);
       });
     }
 
-    for (var pair in purchaseCallbacks.entries) {
+    for (final pair in purchaseCallbacks.entries) {
       pair.value.forEach((element) {
         element(null, result);
       });

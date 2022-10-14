@@ -30,18 +30,18 @@ class RaplaParsingUtils {
   static ScheduleEntry extractScheduleEntryOrThrow(
       Element value, DateTime date,) {
     // The tooltip tag contains the most relevant information
-    var tooltip = value.getElementsByClassName(TOOLTIP_CLASS);
+    final tooltip = value.getElementsByClassName(TOOLTIP_CLASS);
 
     // The only reliable way to extract the time
-    var timeAndClassName = value.getElementsByTagName("a");
+    final timeAndClassName = value.getElementsByTagName("a");
 
     if (timeAndClassName.isEmpty)
       throw ElementNotFoundParseException("time and date container");
 
-    var descriptionInCell = timeAndClassName[0].text;
+    final descriptionInCell = timeAndClassName[0].text;
 
-    var start = _parseTime(descriptionInCell.substring(0, 5), date);
-    var end = _parseTime(descriptionInCell.substring(7, 12), date);
+    final start = _parseTime(descriptionInCell.substring(0, 5), date);
+    final end = _parseTime(descriptionInCell.substring(7, 12), date);
 
     if (start == null || end == null)
       throw ElementNotFoundParseException("start and end date container");
@@ -70,7 +70,7 @@ class RaplaParsingUtils {
       throw ElementNotFoundParseException("title");
     }
 
-    var professor = scheduleEntry.professor;
+    final professor = scheduleEntry.professor;
     if (professor.endsWith(",")) {
       scheduleEntry = scheduleEntry.copyWith(
           professor: professor.substring(0, professor.length - 1),);
@@ -90,21 +90,21 @@ class RaplaParsingUtils {
       ScheduleEntry? scheduleEntry,
       DateTime start,
       DateTime end,) {
-    var infotable = tooltip[0].getElementsByClassName(INFOTABLE_CLASS);
+    final infotable = tooltip[0].getElementsByClassName(INFOTABLE_CLASS);
 
     if (infotable.isEmpty) {
       throw ElementNotFoundParseException("infotable container");
     }
 
-    Map<String, String> properties = _parsePropertiesTable(infotable[0]);
-    var type = _extractEntryType(tooltip);
-    var title = properties[CLASS_NAME_LABEL] ??
+    final Map<String, String> properties = _parsePropertiesTable(infotable[0]);
+    final type = _extractEntryType(tooltip);
+    final title = properties[CLASS_NAME_LABEL] ??
         properties[CLASS_TITLE_LABEL] ??
         properties[CLASS_NAME_LABEL_ALTERNATIVE];
 
-    var professor = properties[PROFESSOR_NAME_LABEL];
-    var details = properties[DETAILS_LABEL];
-    var resource = properties[RESOURCES_LABEL] ?? _extractResources(value);
+    final professor = properties[PROFESSOR_NAME_LABEL];
+    final details = properties[DETAILS_LABEL];
+    final resource = properties[RESOURCES_LABEL] ?? _extractResources(value);
 
     scheduleEntry = ScheduleEntry(
       start: start,
@@ -123,8 +123,8 @@ class RaplaParsingUtils {
       ScheduleEntry? scheduleEntry,
       DateTime start,
       DateTime end,) {
-    var descriptionHtml = timeAndClassName[0].innerHtml.substring(12);
-    var descriptionParts = descriptionHtml.split("<br>");
+    final descriptionHtml = timeAndClassName[0].innerHtml.substring(12);
+    final descriptionParts = descriptionHtml.split("<br>");
 
     var title = "";
     var details = "";
@@ -151,10 +151,10 @@ class RaplaParsingUtils {
   static ScheduleEntryType _extractEntryType(List<Element> tooltip) {
     if (tooltip.isEmpty) return ScheduleEntryType.Unknown;
 
-    var strongTag = tooltip[0].getElementsByTagName("strong");
+    final strongTag = tooltip[0].getElementsByTagName("strong");
     if (strongTag.isEmpty) return ScheduleEntryType.Unknown;
 
-    var typeString = strongTag[0].innerHtml;
+    final typeString = strongTag[0].innerHtml;
 
     if (entryTypeMapping.containsKey(typeString)) {
       return entryTypeMapping[typeString]!;
@@ -164,9 +164,9 @@ class RaplaParsingUtils {
   }
 
   static Map<String, String> _parsePropertiesTable(Element infotable) {
-    var map = <String, String>{};
-    var labels = infotable.getElementsByClassName(LABEL_CLASS);
-    var values = infotable.getElementsByClassName(VALUE_CLASS);
+    final map = <String, String>{};
+    final labels = infotable.getElementsByClassName(LABEL_CLASS);
+    final values = infotable.getElementsByClassName(VALUE_CLASS);
 
     for (var i = 0; i < labels.length; i++) {
       map[labels[i].innerHtml] = values[i].innerHtml;
@@ -176,7 +176,7 @@ class RaplaParsingUtils {
 
   static DateTime? _parseTime(String timeString, DateTime date) {
     try {
-      var time = DateFormat("HH:mm").parse(timeString.substring(0, 5));
+      final time = DateFormat("HH:mm").parse(timeString.substring(0, 5));
       return DateTime(date.year, date.month, date.day, time.hour, time.minute);
     } catch (e) {
       return null;
@@ -184,10 +184,10 @@ class RaplaParsingUtils {
   }
 
   static String _extractResources(Element value) {
-    var resources = value.getElementsByClassName(RESOURCE_CLASS);
+    final resources = value.getElementsByClassName(RESOURCE_CLASS);
 
-    var resourcesList = <String>[];
-    for (var resource in resources) {
+    final resourcesList = <String>[];
+    for (final resource in resources) {
       resourcesList.add(resource.innerHtml);
     }
 
@@ -197,15 +197,15 @@ class RaplaParsingUtils {
   static String readYearOrThrow(Document document) {
     // The only reliable way to read the year of this schedule is to parse the
     // selected year in the date selector
-    var comboBoxes = document.getElementsByTagName("select");
+    final comboBoxes = document.getElementsByTagName("select");
 
     String? year;
-    for (var box in comboBoxes) {
+    for (final box in comboBoxes) {
       if (box.attributes.containsKey("name") &&
           box.attributes["name"] == "year") {
-        var entries = box.getElementsByTagName("option");
+        final entries = box.getElementsByTagName("option");
 
-        for (var entry in entries) {
+        for (final entry in entries) {
           if (entry.attributes.containsKey("selected") &&
               entry.attributes["selected"] == "") {
             year = entry.text;

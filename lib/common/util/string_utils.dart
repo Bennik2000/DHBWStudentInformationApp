@@ -3,7 +3,7 @@
 String concatStringList(List<String> list, String separator) {
   var result = "";
 
-  for (var element in list) {
+  for (final element in list) {
     result += element + separator;
   }
 

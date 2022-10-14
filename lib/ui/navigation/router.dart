@@ -20,7 +20,7 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
 
   WidgetBuilder? widget;
 
-  for (var route in navigationEntries) {
+  for (final route in navigationEntries) {
     if (route.route == settings.name) {
       widget = route.buildRoute;
       break;

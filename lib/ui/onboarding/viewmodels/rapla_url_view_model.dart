@@ -35,7 +35,7 @@ class RaplaUrlViewModel extends OnboardingStepViewModel {
   }
 
   Future<void> pasteUrl() async {
-    ClipboardData? data = await Clipboard.getData('text/plain');
+    final ClipboardData? data = await Clipboard.getData('text/plain');
 
     if (data?.text != null) {
       setRaplaUrl(data!.text);

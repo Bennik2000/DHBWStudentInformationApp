@@ -12,7 +12,7 @@ class DateEntryEntity extends DatabaseEntity {
   }
 
   void fromMap(Map<String, dynamic> map) {
-    var date = DateTime.fromMillisecondsSinceEpoch(map["date"]);
+    final date = DateTime.fromMillisecondsSinceEpoch(map["date"]);
 
     _dateEntry = DateEntry(
       comment: map["comment"],

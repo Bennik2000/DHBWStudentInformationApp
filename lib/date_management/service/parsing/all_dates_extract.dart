@@ -17,20 +17,20 @@ class AllDatesExtract {
 
   List<DateEntry> _extractAllDates(String body, String? databaseName) {
     body = body.replaceAll(new RegExp("<(br|BR)[ /]*>"), "\n");
-    var document = parse(body);
+    final document = parse(body);
 
     // The dates are located in the first <p> element of the page
-    var dateContainingElement = document.getElementsByTagName("p")[0];
+    final dateContainingElement = document.getElementsByTagName("p")[0];
 
-    var dateEntries = <DateEntry>[];
+    final dateEntries = <DateEntry>[];
 
-    for (var a in dateContainingElement.nodes.sublist(0)) {
-      var text = a.text!;
+    for (final a in dateContainingElement.nodes.sublist(0)) {
+      final text = a.text!;
 
-      var lines = text.split("\n");
+      final lines = text.split("\n");
 
-      for (var line in lines) {
-        var dateEntry = _parseDateEntryLine(line, databaseName);
+      for (final line in lines) {
+        final dateEntry = _parseDateEntryLine(line, databaseName);
 
         if (dateEntry != null) {
           dateEntries.add(dateEntry);
@@ -45,13 +45,13 @@ class AllDatesExtract {
   }
 
   DateEntry? _parseDateEntryLine(String line, String? databaseName) {
-    var parts = line.split(';');
+    final parts = line.split(';');
 
     if (parts.length != 5) {
       return null;
     }
 
-    var date = _parseDateTime(
+    final date = _parseDateTime(
       parts[2].trim(),
       parts[3].trim(),
     );
@@ -70,10 +70,10 @@ class AllDatesExtract {
       time = "00:00";
     }
 
-    var dateAndTimeString = date + " " + time;
+    final dateAndTimeString = date + " " + time;
 
     try {
-      var date = DateFormat("dd.MM.yyyy hh:mm").parse(dateAndTimeString);
+      final date = DateFormat("dd.MM.yyyy hh:mm").parse(dateAndTimeString);
       return date;
     } on FormatException catch (_) {
       return null;

@@ -16,15 +16,15 @@ class FilterViewModel extends BaseViewModel {
   }
 
   void loadFilterStates() async {
-    var allNames =
+    final allNames =
         await _scheduleEntryRepository.queryAllNamesOfScheduleEntries();
 
-    var filteredNames = await _scheduleFilterRepository.queryAllHiddenNames();
+    final filteredNames = await _scheduleFilterRepository.queryAllHiddenNames();
 
     allNames.sort((s1, s2) => s1!.compareTo(s2!));
 
     filterStates = allNames.map((e) {
-      var isFiltered = filteredNames.contains(e);
+      final isFiltered = filteredNames.contains(e);
       return ScheduleEntryFilterState(!isFiltered, e);
     }).toList();
 
@@ -32,7 +32,7 @@ class FilterViewModel extends BaseViewModel {
   }
 
   void applyFilter() async {
-    var allFilteredNames = filterStates
+    final allFilteredNames = filterStates
         .where((element) => !element.isDisplayed!)
         .map((e) => e.entryName)
         .toList();

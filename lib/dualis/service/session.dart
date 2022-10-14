@@ -22,7 +22,7 @@ class Session {
     String url, [
     CancellationToken? cancellationToken,
   ]) async {
-    var response = await rawGet(url, cancellationToken);
+    final response = await rawGet(url, cancellationToken);
 
     if (response == null) {
       return null;
@@ -41,16 +41,16 @@ class Session {
   ]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
 
-    var requestCancellationToken = http.CancellationToken();
+    final requestCancellationToken = http.CancellationToken();
 
     try {
       cancellationToken.setCancellationCallback(() {
         requestCancellationToken.cancel();
       });
 
-      var requestUri = Uri.parse(url);
+      final requestUri = Uri.parse(url);
 
-      var response = await http.HttpClientHelper.get(
+      final response = await http.HttpClientHelper.get(
         requestUri,
         cancelToken: requestCancellationToken,
         headers: _cookies,
@@ -81,7 +81,7 @@ class Session {
     Map<String, String> data, [
     CancellationToken? cancellationToken,
   ]) async {
-    var response = await rawPost(url, data, cancellationToken);
+    final response = await rawPost(url, data, cancellationToken);
 
     if (response == null) {
       return null;
@@ -100,14 +100,14 @@ class Session {
     CancellationToken? cancellationToken,
   ]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
-    var requestCancellationToken = http.CancellationToken();
+    final requestCancellationToken = http.CancellationToken();
 
     try {
       cancellationToken.setCancellationCallback(() {
         requestCancellationToken.cancel();
       });
 
-      var response = await http.HttpClientHelper.post(
+      final response = await http.HttpClientHelper.post(
         Uri.parse(url),
         body: data,
         headers: _cookies,
@@ -132,9 +132,9 @@ class Session {
   }
 
   void _updateCookie(Response response) {
-    String? rawCookie = response.headers['set-cookie'];
+    final String? rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
+      final int index = rawCookie.indexOf(';');
 
       var cookie = (index == -1) ? rawCookie : rawCookie.substring(0, index);
 

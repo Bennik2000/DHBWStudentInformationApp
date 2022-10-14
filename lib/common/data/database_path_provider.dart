@@ -5,7 +5,7 @@ import 'package:path/path.dart';
 import 'package:app_group_directory/app_group_directory.dart';
 
 Future<String> getDatabasePath(String databaseName) async {
-  Directory documentsDirectory = await getApplicationDocumentsDirectory();
+  final Directory documentsDirectory = await getApplicationDocumentsDirectory();
 
   var path = join(documentsDirectory.path, databaseName);
 
@@ -26,13 +26,13 @@ Future<String> _getiOSDatabasePathAndMigrate(
   // copied to the new path
   assert(Platform.isIOS);
 
-  Directory? groupDirectory = await AppGroupDirectory.getAppGroupDirectory(
+  final Directory? groupDirectory = await AppGroupDirectory.getAppGroupDirectory(
     'group.de.bennik2000.dhbwstudentapp',
   );
 
-  var newPath = join(groupDirectory!.path, databaseName);
+  final newPath = join(groupDirectory!.path, databaseName);
 
-  var migrateSuccess = await _migrateOldDatabase(oldPath, newPath);
+  final migrateSuccess = await _migrateOldDatabase(oldPath, newPath);
 
   if (!migrateSuccess) {
     print("Failed to migrate database");
@@ -43,8 +43,8 @@ Future<String> _getiOSDatabasePathAndMigrate(
 
 Future<bool> _migrateOldDatabase(String oldPath, String newPath) async {
   try {
-    var newFile = File(newPath);
-    var oldFile = File(oldPath);
+    final newFile = File(newPath);
+    final oldFile = File(oldPath);
 
     if (await oldFile.exists() && !(await newFile.exists())) {
       print("Migrating database...");

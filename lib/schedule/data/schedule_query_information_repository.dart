@@ -9,7 +9,7 @@ class ScheduleQueryInformationRepository {
 
   Future<DateTime?> getOldestQueryTimeBetweenDates(
       DateTime start, DateTime end,) async {
-    var oldestQueryTimeDate = await _database.queryAggregator(
+    final oldestQueryTimeDate = await _database.queryAggregator(
       "SELECT MIN(queryTime) FROM ScheduleQueryInformation WHERE start<=? AND end>=?",
       [
         start.millisecondsSinceEpoch,
@@ -24,7 +24,7 @@ class ScheduleQueryInformationRepository {
 
   Future<List<ScheduleQueryInformation?>> getQueryInformationBetweenDates(
       DateTime start, DateTime end,) async {
-    var rows = await _database.queryRows(
+    final rows = await _database.queryRows(
       ScheduleQueryInformationEntity.tableName(),
       where: "start<=? AND end>=?",
       whereArgs: [
@@ -33,9 +33,9 @@ class ScheduleQueryInformationRepository {
       ],
     );
 
-    var scheduleQueryInformation = <ScheduleQueryInformation?>[];
+    final scheduleQueryInformation = <ScheduleQueryInformation?>[];
 
-    for (var row in rows) {
+    for (final row in rows) {
       scheduleQueryInformation.add(
         ScheduleQueryInformationEntity.fromMap(row)
             .asScheduleQueryInformation(),

@@ -143,9 +143,9 @@ class _LoginFormState extends State<LoginForm> {
       await widget.onClearCredentials();
     }
 
-    var credentials = _controller.credentials;
+    final credentials = _controller.credentials;
 
-    bool loginSuccess = await widget.onLogin(credentials);
+    final bool loginSuccess = await widget.onLogin(credentials);
 
     if (loginSuccess && _storeCredentials) {
       await widget.onSaveCredentials(credentials);

@@ -5,12 +5,12 @@ import 'package:test/test.dart';
 
 void main() {
   test('Diff detect identical schedules', () async {
-    var calculator = ScheduleDiffCalculator();
+    final calculator = ScheduleDiffCalculator();
 
-    var oldSchedule = generateSchedule();
-    var newSchedule = generateSchedule();
+    final oldSchedule = generateSchedule();
+    final newSchedule = generateSchedule();
 
-    var diff = calculator.calculateDiff(oldSchedule, newSchedule);
+    final diff = calculator.calculateDiff(oldSchedule, newSchedule);
 
     expect(diff.addedEntries.length, 0);
     expect(diff.removedEntries.length, 0);
@@ -35,12 +35,12 @@ void main() {
   });
 
   test('Diff detect new entry', () async {
-    var calculator = ScheduleDiffCalculator();
+    final calculator = ScheduleDiffCalculator();
 
-    var oldSchedule = generateSchedule();
-    var newSchedule = generateSchedule();
+    final oldSchedule = generateSchedule();
+    final newSchedule = generateSchedule();
 
-    var newEntry = ScheduleEntry(
+    final newEntry = ScheduleEntry(
       room: "Room3",
       type: ScheduleEntryType.Class,
       title: "Project management",
@@ -52,7 +52,7 @@ void main() {
 
     newSchedule.addEntry(newEntry);
 
-    var diff = calculator.calculateDiff(oldSchedule, newSchedule);
+    final diff = calculator.calculateDiff(oldSchedule, newSchedule);
 
     expect(diff.addedEntries.length, 1);
     expect(diff.addedEntries[0], newEntry);
@@ -61,12 +61,12 @@ void main() {
   });
 
   test('Diff detect changed entry (time)', () async {
-    var calculator = ScheduleDiffCalculator();
+    final calculator = ScheduleDiffCalculator();
 
-    var oldSchedule = generateSchedule();
-    var newSchedule = generateSchedule();
+    final oldSchedule = generateSchedule();
+    final newSchedule = generateSchedule();
 
-    var updatedEntry = ScheduleEntry(
+    final updatedEntry = ScheduleEntry(
       room: newSchedule.entries[0].room,
       type: newSchedule.entries[0].type,
       title: newSchedule.entries[0].title,
@@ -77,7 +77,7 @@ void main() {
     );
     newSchedule.entries[0] = updatedEntry;
 
-    var diff = calculator.calculateDiff(oldSchedule, newSchedule);
+    final diff = calculator.calculateDiff(oldSchedule, newSchedule);
 
     expect(diff.addedEntries.length, 0);
     expect(diff.removedEntries.length, 0);
@@ -88,12 +88,12 @@ void main() {
   });
 
   test('Diff detect changed entry (start and room)', () async {
-    var calculator = ScheduleDiffCalculator();
+    final calculator = ScheduleDiffCalculator();
 
-    var oldSchedule = generateSchedule();
-    var newSchedule = generateSchedule();
+    final oldSchedule = generateSchedule();
+    final newSchedule = generateSchedule();
 
-    var updatedEntry = ScheduleEntry(
+    final updatedEntry = ScheduleEntry(
       room: "Changed room",
       type: newSchedule.entries[0].type,
       title: newSchedule.entries[0].title,
@@ -104,7 +104,7 @@ void main() {
     );
     newSchedule.entries[0] = updatedEntry;
 
-    var diff = calculator.calculateDiff(oldSchedule, newSchedule);
+    final diff = calculator.calculateDiff(oldSchedule, newSchedule);
 
     expect(diff.addedEntries.length, 0);
     expect(diff.removedEntries.length, 0);
@@ -116,12 +116,12 @@ void main() {
   });
 
   test('Diff detect two changed entries of same name (start)', () async {
-    var calculator = ScheduleDiffCalculator();
+    final calculator = ScheduleDiffCalculator();
 
-    var oldSchedule = generateSchedule();
-    var newSchedule = generateSchedule();
+    final oldSchedule = generateSchedule();
+    final newSchedule = generateSchedule();
 
-    var updatedEntry1 = ScheduleEntry(
+    final updatedEntry1 = ScheduleEntry(
       room: newSchedule.entries[2].room,
       type: newSchedule.entries[2].type,
       title: newSchedule.entries[2].title,
@@ -132,7 +132,7 @@ void main() {
     );
     newSchedule.entries[2] = updatedEntry1;
 
-    var updatedEntry2 = ScheduleEntry(
+    final updatedEntry2 = ScheduleEntry(
       room: newSchedule.entries[3].room,
       type: newSchedule.entries[3].type,
       title: newSchedule.entries[3].title,
@@ -143,7 +143,7 @@ void main() {
     );
     newSchedule.entries[3] = updatedEntry2;
 
-    var diff = calculator.calculateDiff(oldSchedule, newSchedule);
+    final diff = calculator.calculateDiff(oldSchedule, newSchedule);
 
     expect(diff.addedEntries.length, 0);
     expect(diff.removedEntries.length, 0);
@@ -158,7 +158,7 @@ void main() {
 }
 
 Schedule generateSchedule() {
-  var scheduleEntries = <ScheduleEntry>[
+  final scheduleEntries = <ScheduleEntry>[
     ScheduleEntry(
       room: "Room1",
       type: ScheduleEntryType.Class,

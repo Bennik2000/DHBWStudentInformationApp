@@ -6,27 +6,27 @@ class ScheduleDiffCalculator {
     Schedule oldSchedule,
     Schedule newSchedule,
   ) {
-    var oldEntries = List<ScheduleEntry>.from(oldSchedule.entries);
-    var newEntries = List<ScheduleEntry>.from(newSchedule.entries);
+    final oldEntries = List<ScheduleEntry>.from(oldSchedule.entries);
+    final newEntries = List<ScheduleEntry>.from(newSchedule.entries);
 
-    var removedEntries = <ScheduleEntry>[];
-    var addedEntries = <ScheduleEntry>[];
+    final removedEntries = <ScheduleEntry>[];
+    final addedEntries = <ScheduleEntry>[];
 
-    for (var entry in oldEntries) {
+    for (final entry in oldEntries) {
       if (!newEntries.any((ScheduleEntry element) =>
           _areScheduleEntriesEqual(element, entry),)) {
         removedEntries.add(entry);
       }
     }
 
-    for (var entry in newEntries) {
+    for (final entry in newEntries) {
       if (!oldEntries.any((ScheduleEntry element) =>
           _areScheduleEntriesEqual(element, entry),)) {
         addedEntries.add(entry);
       }
     }
 
-    var scheduleDiff =
+    final scheduleDiff =
         _tryConnectNewAndOldEntries(addedEntries, removedEntries);
 
     return scheduleDiff;
@@ -55,16 +55,16 @@ class ScheduleDiffCalculator {
     allDistinctTitles.addAll(removedEntries.map((ScheduleEntry e) => e.title));
     allDistinctTitles = allDistinctTitles.toSet().toList();
 
-    var updatedEntries = <UpdatedEntry>[];
-    var newEntries = <ScheduleEntry>[];
-    var oldEntries = <ScheduleEntry>[];
+    final updatedEntries = <UpdatedEntry>[];
+    final newEntries = <ScheduleEntry>[];
+    final oldEntries = <ScheduleEntry>[];
 
-    for (var intersectingTitle in allDistinctTitles) {
-      var oldElementsWithName = removedEntries
+    for (final intersectingTitle in allDistinctTitles) {
+      final oldElementsWithName = removedEntries
           .where((ScheduleEntry e) => e.title == intersectingTitle)
           .toList();
 
-      var newElementsWithName = addedEntries
+      final newElementsWithName = addedEntries
           .where((ScheduleEntry e) => e.title == intersectingTitle)
           .toList();
 
@@ -119,8 +119,8 @@ class ScheduleDiffCalculator {
       List<ScheduleEntry> oldEntries,
       List<ScheduleEntry> newEntries,) {
     if (oldElementsWithName.length == newElementsWithName.length) {
-      for (var oldElement in oldElementsWithName) {
-        ScheduleEntry nearestElement =
+      for (final oldElement in oldElementsWithName) {
+        final ScheduleEntry nearestElement =
             _findNearestElementByStart(newElementsWithName, oldElement);
 
         newElementsWithName.remove(nearestElement);
@@ -133,11 +133,11 @@ class ScheduleDiffCalculator {
         );
       }
     } else {
-      for (var oldElement in oldElementsWithName) {
+      for (final oldElement in oldElementsWithName) {
         oldEntries.add(oldElement);
       }
 
-      for (var newElement in newElementsWithName) {
+      for (final newElement in newElementsWithName) {
         newEntries.add(newElement);
       }
     }
@@ -149,8 +149,8 @@ class ScheduleDiffCalculator {
     Duration minimalDifference =
         reference.start.difference(nearestElement.start).abs();
 
-    for (var newElement in elements) {
-      var difference = reference.start.difference(newElement.start).abs();
+    for (final newElement in elements) {
+      final difference = reference.start.difference(newElement.start).abs();
 
       if (difference < minimalDifference) {
         nearestElement = newElement;
