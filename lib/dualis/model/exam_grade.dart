@@ -23,7 +23,7 @@ class ExamGrade {
 
   ExamGrade.graded(this.gradeValue) : state = ExamGradeState.Graded;
 
-  static ExamGrade fromString(String? grade) {
+  factory ExamGrade.fromString(String? grade) {
     if (grade == "noch nicht gesetzt" || grade == "") {
       return ExamGrade.notGraded();
     }
