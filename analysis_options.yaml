@@ -3,10 +3,6 @@
 # For apps, use the default set
 include: package:lint/analysis_options.yaml
 
-# Packages, that may be distributed (i.e. via pub.dev) should use the package
-# version, resulting in a better pub score.
-# include: package:lint/analysis_options_package.yaml
-
 # You might want to exclude auto-generated files from dart analysis
 analyzer:
   exclude:
@@ -16,11 +12,9 @@ analyzer:
 # can be found at https://dart-lang.github.io/linter/lints/options/options.html
 linter:
   rules:
-    require_trailing_commas: true
-    avoid_redundant_argument_values: true
-    prefer_final_locals: true
-    prefer_final_in_for_each: true
-    prefer_final_fields: true
-    prefer_const_constructors: true
-    unnecessary_await_in_return: true
-    curly_braces_in_flow_control_structures: true
+    constant_identifier_names: false
+    avoid_print: false
+    avoid_positional_boolean_parameters: false
+    use_build_context_synchronously: false
+    parameter_assignments: false
+    avoid_setters_without_getters: false
