@@ -75,29 +75,28 @@ class OnboardingPageBackground extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Transform.rotate(
+          angle: toRadian(angleTopForeground.value),
           child: Transform.translate(
+            offset: const Offset(20, -450),
             child: Container(
               width: 15000,
               height: 500,
               color: colorOnboardingDecorationForeground(context),
             ),
-            offset: const Offset(20, -450),
           ),
-          angle: toRadian(angleTopForeground.value),
         ),
         Transform.rotate(
+          angle: toRadian(angleTopBackground.value),
           child: Transform.translate(
+            offset: const Offset(20, -480),
             child: Container(
               width: 1500,
               height: 500,
               color: colorOnboardingDecorationBackground(context),
             ),
-            offset: const Offset(20, -480),
           ),
-          angle: toRadian(angleTopBackground.value),
         ),
-        PlatformUtil.isPhone()
-            ? Align(
+        if (PlatformUtil.isPhone()) Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
                   height: 90,
@@ -112,10 +111,8 @@ class OnboardingPageBackground extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
-            : Container(),
-        PlatformUtil.isPhone()
-            ? Align(
+              ) else Container(),
+        if (PlatformUtil.isPhone()) Align(
                 alignment: Alignment.bottomCenter,
                 child: SizedBox(
                   height: 90,
@@ -130,8 +127,7 @@ class OnboardingPageBackground extends StatelessWidget {
                     ),
                   ),
                 ),
-              )
-            : Container(),
+              ) else Container(),
       ],
     );
   }

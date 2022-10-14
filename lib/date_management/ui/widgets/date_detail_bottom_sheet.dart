@@ -17,7 +17,7 @@ class DateDetailBottomSheet extends StatelessWidget {
     final time = DateFormat.Hm(L.of(context).locale.languageCode)
         .format(dateEntry!.start);
 
-    return Container(
+    return SizedBox(
       height: 400,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
@@ -58,9 +58,7 @@ class DateDetailBottomSheet extends StatelessWidget {
                           softWrap: true,
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
-                        isAtMidnight(dateEntry!.start)
-                            ? Container()
-                            : Text(
+                        if (isAtMidnight(dateEntry!.start)) Container() else Text(
                                 time,
                                 softWrap: true,
                               ),

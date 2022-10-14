@@ -5,40 +5,31 @@ import 'package:dhbwstudentapp/schedule/service/rapla/rapla_response_parser.dart
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  final monthlyRaplaPage = await File(Directory.current.absolute.path +
-          '/test/schedule/service/rapla/html_resources/rapla_monthly_response.html',)
+  final monthlyRaplaPage = await File('${Directory.current.absolute.path}/test/schedule/service/rapla/html_resources/rapla_monthly_response.html',)
       .readAsString();
 
-  final raplaPage = await File(Directory.current.absolute.path +
-          '/test/schedule/service/rapla/html_resources/rapla_response.html',)
+  final raplaPage = await File('${Directory.current.absolute.path}/test/schedule/service/rapla/html_resources/rapla_response.html',)
       .readAsString();
 
-  final raplaPage1 = await File(Directory.current.absolute.path +
-          '/test/schedule/service/rapla/html_resources/rapla_response_1.html',)
+  final raplaPage1 = await File('${Directory.current.absolute.path}/test/schedule/service/rapla/html_resources/rapla_response_1.html',)
       .readAsString();
 
-  final severalMonthsPage = await File(Directory.current.absolute.path +
-          '/test/schedule/service/rapla/html_resources/rapla_several_months_response.html',)
+  final severalMonthsPage = await File('${Directory.current.absolute.path}/test/schedule/service/rapla/html_resources/rapla_several_months_response.html',)
       .readAsString();
 
-  final severalMonthsPage1 = await File(Directory.current.absolute.path +
-          '/test/schedule/service/rapla/html_resources/rapla_several_months_response_1.html',)
+  final severalMonthsPage1 = await File('${Directory.current.absolute.path}/test/schedule/service/rapla/html_resources/rapla_several_months_response_1.html',)
       .readAsString();
 
-  final severalMonthsPage2 = await File(Directory.current.absolute.path +
-          '/test/schedule/service/rapla/html_resources/rapla_several_months_response_2.html',)
+  final severalMonthsPage2 = await File('${Directory.current.absolute.path}/test/schedule/service/rapla/html_resources/rapla_several_months_response_2.html',)
       .readAsString();
 
-  final invalidRaplaPage = await File(Directory.current.absolute.path +
-          '/test/schedule/service/rapla/html_resources/invalid_rapla_response.html',)
+  final invalidRaplaPage = await File('${Directory.current.absolute.path}/test/schedule/service/rapla/html_resources/invalid_rapla_response.html',)
       .readAsString();
 
-  final raplaWeekResponse = await File(Directory.current.absolute.path +
-          '/test/schedule/service/rapla/html_resources/rapla_week_response.html',)
+  final raplaWeekResponse = await File('${Directory.current.absolute.path}/test/schedule/service/rapla/html_resources/rapla_week_response.html',)
       .readAsString();
 
-  final raplaWeekResponse1 = await File(Directory.current.absolute.path +
-          '/test/schedule/service/rapla/html_resources/rapla_week_response_1.html',)
+  final raplaWeekResponse1 = await File('${Directory.current.absolute.path}/test/schedule/service/rapla/html_resources/rapla_week_response_1.html',)
       .readAsString();
 
   test('Rapla correctly read all classes of weekly view', () async {

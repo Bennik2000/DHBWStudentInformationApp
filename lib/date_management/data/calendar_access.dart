@@ -83,7 +83,7 @@ class CalendarAccess {
       calendar.id,
       location: entry.room,
       title: entry.description,
-      description: "${entry.comment}",
+      description: entry.comment,
       eventId: id,
       allDay: isAllDay,
       start: tz.TZDateTime.from(start, tz.getLocation('Europe/Berlin')),
@@ -93,9 +93,9 @@ class CalendarAccess {
 
   String? _getIdOfExistingEvent(List<Event> existingEvents, DateEntry entry) {
     final existingEvent = existingEvents
-        .where((element) => (element.title == entry.description &&
+        .where((element) => element.title == entry.description &&
             (element.start?.toUtc().isAtSameMomentAs(entry.start.toUtc()) ??
-                false)),)
+                false),)
         .toList();
     String? id;
 

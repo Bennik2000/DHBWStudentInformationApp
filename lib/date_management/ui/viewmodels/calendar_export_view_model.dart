@@ -42,14 +42,14 @@ class CalendarExportViewModel extends BaseViewModel {
     notifyListeners("_calendars");
   }
 
-  void loadSelectedCalendar() async {
+  Future<void> loadSelectedCalendar() async {
     _selectedCalendar = await preferencesProvider.getSelectedCalendar();
     notifyListeners("selectedCalendar");
   }
 
-  void resetSelectedCalendar() async {
+  Future<void> resetSelectedCalendar() async {
     await preferencesProvider.setSelectedCalendar(null);
-    this.loadCalendars();
+    loadCalendars();
   }
 
   void toggleSelection(Calendar calendar) {

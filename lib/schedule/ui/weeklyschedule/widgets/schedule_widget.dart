@@ -44,8 +44,8 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   Widget buildWithSize(BuildContext context, double width, double height) {
-    final dayLabelsHeight = 40.0;
-    final timeLabelsWidth = 50.0;
+    const dayLabelsHeight = 40.0;
+    const timeLabelsWidth = 50.0;
 
     final hourHeight =
         (height - dayLabelsHeight) / (displayEndHour! - displayStartHour!);
@@ -86,7 +86,7 @@ class ScheduleWidget extends StatelessWidget {
           colorScheduleGridGridLines(context),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
+          padding: const EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
           child: Stack(
             children: entryWidgets,
           ),
@@ -95,7 +95,7 @@ class ScheduleWidget extends StatelessWidget {
           children: labelWidgets,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
+          padding: const EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
           child: SchedulePastOverlay(
             displayStartHour,
             displayEndHour,
@@ -136,7 +136,7 @@ class ScheduleWidget extends StatelessWidget {
     final labelWidgets = <Widget>[];
 
     for (var i = displayStartHour!; i < displayEndHour!; i++) {
-      final hourLabelText = i.toString() + ":00";
+      final hourLabelText = "$i:00";
 
       labelWidgets.add(
         Positioned(

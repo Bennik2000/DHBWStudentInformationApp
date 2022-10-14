@@ -120,8 +120,8 @@ class PageDefinition<T extends BaseViewModel> {
     if (viewModel == null) return builder(context);
 
     return ChangeNotifierProvider.value(
-      child: builder(context),
       value: viewModel,
+      child: builder(context),
     );
   }
 }

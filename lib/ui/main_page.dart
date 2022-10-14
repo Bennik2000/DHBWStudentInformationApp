@@ -124,8 +124,8 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
             width: 1,
           ),
           Expanded(
-            child: navigator,
             flex: 3,
+            child: navigator,
           ),
         ],
       ),

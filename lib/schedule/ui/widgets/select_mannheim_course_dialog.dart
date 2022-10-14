@@ -30,7 +30,7 @@ class SelectMannheimCourseDialog {
       contentPadding: const EdgeInsets.all(0),
       content: PropertyChangeProvider<OnboardingStepViewModel, String>(
         value: _mannheimViewModel,
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(

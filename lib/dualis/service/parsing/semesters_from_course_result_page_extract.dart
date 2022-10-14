@@ -67,7 +67,7 @@ class SemestersFromCourseResultPageExtract {
     final sessionNo = matches[2].group(1);
     final menuId = matches[3].group(1);
 
-    var url = endpointUrl + "/scripts/mgrqispi.dll";
+    var url = "$endpointUrl/scripts/mgrqispi.dll";
     url += "?APPNAME=$applicationName";
     url += "&PRGNAME=$programName";
     url += "&ARGUMENTS=-N$sessionNo,-N$menuId,-N";

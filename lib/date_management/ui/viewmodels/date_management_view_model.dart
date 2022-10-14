@@ -3,12 +3,10 @@ import 'dart:async';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/util/cancelable_mutex.dart';
-import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/date_management/business/date_entry_provider.dart';
 import 'package:dhbwstudentapp/date_management/model/date_database.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/model/date_search_parameters.dart';
-import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 
 class DateManagementViewModel extends BaseViewModel {
   final DateEntryProvider _dateEntryProvider;
@@ -123,8 +121,7 @@ class DateManagementViewModel extends BaseViewModel {
         _updateMutex.token,
       );
       return loadedDateEntries;
-    } on OperationCancelledException {
-    } on ServiceRequestFailed {}
+    }
 
     return null;
   }
@@ -173,7 +170,7 @@ class DateManagementViewModel extends BaseViewModel {
     _preferencesProvider.setLastViewedDateEntryYear(year);
   }
 
-  void _loadDefaultSelection() async {
+  Future<void> _loadDefaultSelection() async {
     final database = await _preferencesProvider.getLastViewedDateEntryDatabase();
 
     bool didSetDatabase = false;
@@ -194,7 +191,7 @@ class DateManagementViewModel extends BaseViewModel {
     await updateDates();
   }
 
-  void _cancelErrorInFuture() async {
+  Future<void> _cancelErrorInFuture() async {
     _errorResetTimer?.cancel();
 
     _errorResetTimer = Timer(

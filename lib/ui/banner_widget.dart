@@ -38,8 +38,8 @@ class BannerWidget extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
                   child: TextButton(
-                    child: Text(buttonText),
                     onPressed: onButtonTap,
+                    child: Text(buttonText),
                   ),
                 ),
               ],

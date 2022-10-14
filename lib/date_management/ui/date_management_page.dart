@@ -62,8 +62,8 @@ class DateManagementPage extends StatelessWidget {
             ),
           ),
           Align(
-            child: buildErrorDisplay(context),
             alignment: Alignment.bottomCenter,
+            child: buildErrorDisplay(context),
           ),
         ],
       ),
@@ -120,9 +120,7 @@ class DateManagementPage extends StatelessWidget {
                     ),
                     // When the date entry has a time of 00:00 don't show it.
                     // It means the date entry is for the whole day
-                    isAtMidnight(dateEntry.start)
-                        ? Container()
-                        : Padding(
+                    if (isAtMidnight(dateEntry.start)) Container() else Padding(
                             padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
                             child: Text(
                               DateFormat.Hm(L.of(context).locale.languageCode)

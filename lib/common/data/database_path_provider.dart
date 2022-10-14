@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart';
 import 'package:app_group_directory/app_group_directory.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 Future<String> getDatabasePath(String databaseName) async {
   final Directory documentsDirectory = await getApplicationDocumentsDirectory();

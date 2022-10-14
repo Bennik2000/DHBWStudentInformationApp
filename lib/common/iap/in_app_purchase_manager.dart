@@ -19,7 +19,7 @@ class InAppPurchaseManager {
     _initialize();
   }
 
-  void _initialize() async {
+  Future<void> _initialize() async {
     addPurchaseCallback(
       InAppPurchaseHelper.WidgetProductId,
       (String? productId, PurchaseResultEnum result) =>
@@ -81,9 +81,9 @@ class InAppPurchaseManager {
     }
 
     for (final pair in purchaseCallbacks.entries) {
-      pair.value.forEach((element) {
+      for (final element in pair.value) {
         element(null, result);
-      });
+      }
     }
   }
 
@@ -96,9 +96,7 @@ class InAppPurchaseManager {
     String? productId,
     PurchaseCompletedCallback callback,
   ) {
-    if (productId == null) {
-      productId = "*";
-    }
+    productId ??= "*";
 
     purchaseCallbacks[productId]?.add(callback);
   }
@@ -110,9 +108,7 @@ class InAppPurchaseManager {
     String? productId,
     PurchaseCompletedCallback callback,
   ) {
-    if (productId == null) {
-      productId = "*";
-    }
+    productId ??= "*";
 
     purchaseCallbacks[productId]?.remove(callback);
   }

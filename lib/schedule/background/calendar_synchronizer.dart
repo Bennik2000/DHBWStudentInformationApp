@@ -18,8 +18,7 @@ class CalendarSynchronizer {
   void registerSynchronizationCallback() {
     scheduleProvider.addScheduleUpdatedCallback((schedule, start, end) async {
       final List<DateEntry> listDateEntries = List<DateEntry>.empty(growable: true);
-      schedule.entries.forEach(
-        (element) {
+      for (final element in schedule.entries) {
           final DateEntry date = DateEntry(
               room: element.room,
               comment: element.details,
@@ -29,8 +28,7 @@ class CalendarSynchronizer {
               start: element.start,
               end: element.end,);
           listDateEntries.add(date);
-        },
-      );
+        }
       KiwiContainer().resolve<ListDateEntries30d>().listDateEntries =
           listDateEntries;
 

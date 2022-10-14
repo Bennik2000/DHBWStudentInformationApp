@@ -71,9 +71,11 @@ class PreferencesProvider {
     if (selectedCalendarId == null) return null;
     final List<Calendar> availableCalendars =
         await CalendarAccess().queryWriteableCalendars();
-    availableCalendars.forEach((cal) => {
+    for (final cal in availableCalendars) {
+      {
           if (cal.id == selectedCalendarId) {selectedCalendar = cal}
-        },);
+        }
+    }
     return selectedCalendar;
   }
 

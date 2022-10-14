@@ -195,9 +195,9 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                 )
               : Container(
                   decoration: !viewModel.canExport
-                      ? new BoxDecoration(
+                      ? BoxDecoration(
                           color: Theme.of(context).colorScheme.background,)
-                      : new BoxDecoration(
+                      : BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                         ),
                   child: Padding(

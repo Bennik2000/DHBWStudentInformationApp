@@ -59,11 +59,11 @@ class _DonateListTileState extends State<DonateListTile> {
         padding: EdgeInsets.all(8.0),
         child: Center(
           child: SizedBox(
+            width: 16,
+            height: 16,
             child: CircularProgressIndicator(
               strokeWidth: 2,
             ),
-            width: 16,
-            height: 16,
           ),
         ),
       );
@@ -76,11 +76,11 @@ class _DonateListTileState extends State<DonateListTile> {
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: SizedBox(
+                    width: 16,
+                    height: 16,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                     ),
-                    width: 16,
-                    height: 16,
                   ),
                 ),
               )
@@ -93,7 +93,7 @@ class _DonateListTileState extends State<DonateListTile> {
     return Container();
   }
 
-  void _purchaseClicked() async {
+  Future<void> _purchaseClicked() async {
     if (isPurchasing ||
         model.widgetPurchaseState == PurchaseStateEnum.Purchased) return;
 

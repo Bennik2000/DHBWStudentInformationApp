@@ -1,5 +1,5 @@
+import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:mutex/mutex.dart';
-import 'cancellation_token.dart';
 
 class CancelableMutex {
   final Mutex _mutex = Mutex();

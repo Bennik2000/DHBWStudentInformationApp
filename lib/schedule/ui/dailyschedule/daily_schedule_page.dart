@@ -44,8 +44,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                   },
                 ),
               ),
-              viewModel.daySchedule.entries.isEmpty
-                  ? Padding(
+              if (viewModel.daySchedule.entries.isEmpty) Padding(
                       padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
                       child: Column(
                         children: <Widget>[
@@ -69,14 +68,13 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(32, 64, 32, 32),
                             child: Opacity(
-                              child: Image.asset("assets/empty_state.png"),
                               opacity: 0.9,
+                              child: Image.asset("assets/empty_state.png"),
                             ),
                           )
                         ],
                       ),
-                    )
-                  : Column(
+                    ) else Column(
                       children: buildEntryWidgets(),
                     )
             ],

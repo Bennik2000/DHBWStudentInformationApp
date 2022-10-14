@@ -215,8 +215,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
         end,
         token,
       );
-    } on OperationCancelledException {
-    } on ScheduleQueryFailedException {}
+    }
 
     return null;
   }

@@ -97,7 +97,7 @@ class DualisAuthentication {
     Credentials credentials, [
     CancellationToken? cancellationToken,
   ]) async {
-    final loginUrl = dualisEndpoint + "/scripts/mgrqispi.dll";
+    const loginUrl = "$dualisEndpoint/scripts/mgrqispi.dll";
 
     final data = {
       "usrname": credentials.username,

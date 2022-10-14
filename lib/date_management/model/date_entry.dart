@@ -15,10 +15,10 @@ class DateEntry {
     DateTime? start,
     DateTime? end,
     this.room,
-  })  : this.start = start ?? DateTime.fromMicrosecondsSinceEpoch(0),
-        this.end = end ?? DateTime.fromMicrosecondsSinceEpoch(0),
-        this.comment = comment ?? "",
-        this.description = description ?? "",
-        this.year = year ?? "",
-        this.databaseName = databaseName ?? "";
+  })  : start = start ?? DateTime.fromMicrosecondsSinceEpoch(0),
+        end = end ?? DateTime.fromMicrosecondsSinceEpoch(0),
+        comment = comment ?? "",
+        description = description ?? "",
+        year = year ?? "",
+        databaseName = databaseName ?? "";
 }

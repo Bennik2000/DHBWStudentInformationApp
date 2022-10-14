@@ -35,7 +35,7 @@ class OnboardingViewModel extends BaseViewModel {
   bool get currentPageValid => pages[currentStep]!.viewModel().isValid;
   bool get isLastStep => _stepIndex >= steps.length - 1;
 
-  get onboardingSteps => steps.length;
+  int get onboardingSteps => steps.length;
 
   bool _didStepForward = true;
   bool get didStepForward => _didStepForward;
@@ -55,7 +55,7 @@ class OnboardingViewModel extends BaseViewModel {
   }
 
   void previousPage() {
-    if (stepsBackstack.length == 0) {
+    if (stepsBackstack.isEmpty) {
       return;
     }
 
@@ -81,9 +81,7 @@ class OnboardingViewModel extends BaseViewModel {
 
     stepsBackstack[currentStep] = _stepIndex;
 
-    if (nextDesiredStep == null) {
-      nextDesiredStep = steps[_stepIndex + 1];
-    }
+    nextDesiredStep ??= steps[_stepIndex + 1];
 
     while (nextDesiredStep != currentStep) {
       _stepIndex++;

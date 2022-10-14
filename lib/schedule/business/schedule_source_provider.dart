@@ -62,9 +62,9 @@ class ScheduleSourceProvider {
 
     final success = didSetupCorrectly();
 
-    _onDidChangeScheduleSourceCallbacks.forEach((element) {
+    for (final element in _onDidChangeScheduleSourceCallbacks) {
       element(scheduleSource, success);
-    });
+    }
 
     return success;
   }
@@ -188,7 +188,7 @@ class ScheduleSourceProvider {
   }
 
   bool didSetupCorrectly() {
-    return !(_currentScheduleSource is InvalidScheduleSource);
+    return _currentScheduleSource is! InvalidScheduleSource;
   }
 
   void addDidChangeScheduleSourceCallback(OnDidChangeScheduleSource callback) {
@@ -204,8 +204,8 @@ class ScheduleSourceProvider {
   }
 
   void fireScheduleSourceChanged() {
-    _onDidChangeScheduleSourceCallbacks.forEach((element) {
+    for (final element in _onDidChangeScheduleSourceCallbacks) {
       element(currentScheduleSource, true);
-    });
+    }
   }
 }

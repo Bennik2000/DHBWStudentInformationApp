@@ -37,7 +37,7 @@ class SchedulePrettifier {
       return entry;
     }
 
-    final type = ScheduleEntryType.Online;
+    const type = ScheduleEntryType.Online;
 
     return entry.copyWith(title: newTitle, type: type);
   }
@@ -47,11 +47,11 @@ class SchedulePrettifier {
     var details = entry.details;
 
     final titleRegex =
-        RegExp("[A-Z]{3,}-?[A-Z]+[0-9]*[A-Z]*[0-9]*[\/]?[A-Z]*[0-9]*[ ]*-?");
+        RegExp("[A-Z]{3,}-?[A-Z]+[0-9]*[A-Z]*[0-9]*[/]?[A-Z]*[0-9]*[ ]*-?");
     final match = titleRegex.firstMatch(entry.title);
 
     if (match != null && match.start == 0) {
-      details = title.substring(0, match.end) + " - $details";
+      details = "${title.substring(0, match.end)} - $details";
       title = title.substring(match.end).trim();
     } else {
       final first = title.split(" ").first;
@@ -62,12 +62,12 @@ class SchedulePrettifier {
       // or less than 2 charcters long
       if (!(first == first.toUpperCase() && first.length >= 3)) return entry;
 
-      final numberCount = first.split(new RegExp("[0-9]")).length;
+      final numberCount = first.split(RegExp("[0-9]")).length;
 
       // If there are less thant two numbers in the title, do not prettify it
       if (numberCount < 2) return entry;
 
-      details = title.substring(0, first.length) + " - $details";
+      details = "${title.substring(0, first.length)} - $details";
       title = title.substring(first.length).trim();
     }
 

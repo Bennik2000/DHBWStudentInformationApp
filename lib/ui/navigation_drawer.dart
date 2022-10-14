@@ -94,7 +94,7 @@ class NavigationDrawer extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: InkWell(
-          child: Container(
+          child: SizedBox(
             height: 48,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),

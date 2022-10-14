@@ -42,7 +42,7 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
     final subscription = _isolateToMain!.listen((result) {
       cancellationToken.setCancellationCallback(null);
 
-      if (result != null && !(result is ScheduleQueryResult)) {
+      if (result != null && result is! ScheduleQueryResult) {
         potentialException = ScheduleQueryFailedException(result);
         completer.complete(null);
       } else {
@@ -79,7 +79,7 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
   }
 }
 
-void scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
+Future<void> scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
   // Using the given send port, send back a send port for two way communication
   final port = ReceivePort();
   sendPort.send(port.sendPort);

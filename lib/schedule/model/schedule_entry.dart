@@ -25,21 +25,21 @@ class ScheduleEntry {
     String? professor,
     String? room,
     required this.type,
-  })  : this.start = start ?? DateTime.fromMicrosecondsSinceEpoch(0),
-        this.end = end ?? DateTime.fromMicrosecondsSinceEpoch(0),
-        this.details = details ?? "",
-        this.professor = professor ?? "",
-        this.room = room ?? "",
-        this.title = title ?? "";
+  })  : start = start ?? DateTime.fromMicrosecondsSinceEpoch(0),
+        end = end ?? DateTime.fromMicrosecondsSinceEpoch(0),
+        details = details ?? "",
+        professor = professor ?? "",
+        room = room ?? "",
+        title = title ?? "";
 
   bool equalsWithIdIgnored(ScheduleEntry other) {
-    return this.start == other.start &&
-        this.end == other.end &&
-        this.title == other.title &&
-        this.details == other.details &&
-        this.professor == other.professor &&
-        this.room == other.room &&
-        this.type == other.type;
+    return start == other.start &&
+        end == other.end &&
+        title == other.title &&
+        details == other.details &&
+        professor == other.professor &&
+        room == other.room &&
+        type == other.type;
   }
 
   List<String> getDifferentProperties(ScheduleEntry entry) {

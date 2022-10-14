@@ -7,7 +7,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 class StudyOverviewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: double.infinity,
       child: SingleChildScrollView(
         child: Column(

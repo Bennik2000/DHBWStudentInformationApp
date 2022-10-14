@@ -1,8 +1,8 @@
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/dualis_login_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/ical_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/mannheim_view_model.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/select_source_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/dualis_login_page.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/ical_url_page.dart';

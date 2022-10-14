@@ -13,6 +13,7 @@ class ErrorDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
           child: show
               ? Padding(
                   padding: const EdgeInsets.all(0),
@@ -34,7 +35,6 @@ class ErrorDisplay extends StatelessWidget {
               : Container(
                   width: double.infinity,
                 ),
-          duration: const Duration(milliseconds: 300),
         ),
       ],
     );

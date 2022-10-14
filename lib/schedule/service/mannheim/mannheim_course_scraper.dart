@@ -17,7 +17,7 @@ class MannheimCourseScraper {
   Future<List<Course>> loadCourses([
     CancellationToken? cancellationToken,
   ]) async {
-    if (cancellationToken == null) cancellationToken = CancellationToken();
+    cancellationToken ??= CancellationToken();
 
     final coursesPage = await _makeRequest(
       Uri.parse("https://vorlesungsplan.dhbw-mannheim.de/ical.php"),

@@ -23,7 +23,7 @@ class ScheduleQueryFailedException implements Exception {
 
   @override
   String toString() {
-    return innerException.toString() + "\n" + (trace?.toString() ?? "");
+    return "${innerException.toString()}\n${trace?.toString() ?? ""}";
   }
 }
 

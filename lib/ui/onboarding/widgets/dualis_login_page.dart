@@ -74,15 +74,13 @@ class _DualisLoginCredentialsPageState
                       )
                     : Container(),
               ),
-              viewModel?.isLoading ?? false
-                  ? const SizedBox(
+              if (viewModel?.isLoading ?? false) const SizedBox(
                       width: 16,
                       height: 16,
                       child: CircularProgressIndicator(
                         strokeWidth: 1,
                       ),
-                    )
-                  : viewModel?.loginSuccess ?? false
+                    ) else viewModel?.loginSuccess ?? false
                       ? const Icon(
                           Icons.check,
                           color: Colors.green,

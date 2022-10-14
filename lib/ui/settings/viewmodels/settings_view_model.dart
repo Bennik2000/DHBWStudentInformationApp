@@ -2,12 +2,11 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:kiwi/kiwi.dart';
-
-import '../../../common/util/cancellation_token.dart';
-import '../../../schedule/business/schedule_provider.dart';
 
 ///
 /// The view model for the settings page.
@@ -136,6 +135,7 @@ class SettingsViewModel extends BaseViewModel {
     await _inAppPurchaseManager.donate();
   }
 
+  @override
   void dispose() {
     super.dispose();
 

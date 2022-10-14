@@ -7,6 +7,6 @@ class ScheduleQueryInformation {
     DateTime? start,
     DateTime? end,
     this.queryTime,
-  )   : this.start = start ?? DateTime.fromMillisecondsSinceEpoch(0),
-        this.end = end ?? DateTime.fromMillisecondsSinceEpoch(0);
+  )   : start = start ?? DateTime.fromMillisecondsSinceEpoch(0),
+        end = end ?? DateTime.fromMillisecondsSinceEpoch(0);
 }

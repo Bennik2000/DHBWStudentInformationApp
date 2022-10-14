@@ -31,6 +31,7 @@ class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     return PropertyChangeProvider<RootViewModel, String>(
+      value: widget.rootViewModel,
       child: PropertyChangeConsumer(
         properties: const ["appTheme", "isOnboarding"],
         builder:
@@ -41,8 +42,8 @@ class _RootPageState extends State<RootPage> {
               widget.rootViewModel.isOnboarding ? "onboarding" : "main",
           navigatorKey: NavigatorKey.rootKey,
           navigatorObservers: [rootNavigationObserver],
-          localizationsDelegates: [
-            const LocalizationDelegate(),
+          localizationsDelegates: const [
+            LocalizationDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
@@ -55,7 +56,6 @@ class _RootPageState extends State<RootPage> {
           onGenerateRoute: generateRoute,
         ),
       ),
-      value: widget.rootViewModel,
     );
   }
 }

@@ -51,15 +51,15 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
     );
   }
 
-  void _previousWeek() async {
+  Future<void> _previousWeek() async {
     await viewModel.previousWeek();
   }
 
-  void _nextWeek() async {
+  Future<void> _nextWeek() async {
     await viewModel.nextWeek();
   }
 
-  void _goToToday() async {
+  Future<void> _goToToday() async {
     await viewModel.goToToday();
   }
 
@@ -117,11 +117,11 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                                       Animation<double> animation,
                                       Animation<double> secondaryAnimation,) =>
                                   SharedAxisTransition(
-                                child: child,
                                 animation: animation,
                                 secondaryAnimation: secondaryAnimation,
                                 transitionType:
                                     SharedAxisTransitionType.horizontal,
+                                child: child,
                               ),
                               child: ScheduleWidget(
                                 key: ValueKey(

@@ -5,8 +5,7 @@ import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  final courseResultsPage = await File(Directory.current.absolute.path +
-          '/test/dualis/service/parsing/html_resources/course_results.html',)
+  final courseResultsPage = await File('${Directory.current.absolute.path}/test/dualis/service/parsing/html_resources/course_results.html',)
       .readAsString();
 
   test('ModulesFromCourseResultPageExtract', () async {

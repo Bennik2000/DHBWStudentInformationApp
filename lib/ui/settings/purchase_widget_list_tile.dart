@@ -76,11 +76,11 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
         child: Padding(
           padding: EdgeInsets.all(8.0),
           child: SizedBox(
+            width: 16,
+            height: 16,
             child: CircularProgressIndicator(
               strokeWidth: 2,
             ),
-            width: 16,
-            height: 16,
           ),
         ),
       );
@@ -107,7 +107,7 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
     return null;
   }
 
-  void _purchaseClicked() async {
+  Future<void> _purchaseClicked() async {
     if (isPurchasing ||
         model.widgetPurchaseState == PurchaseStateEnum.Purchased) return;
 

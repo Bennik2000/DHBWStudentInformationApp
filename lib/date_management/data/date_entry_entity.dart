@@ -11,6 +11,7 @@ class DateEntryEntity extends DatabaseEntity {
     fromMap(map);
   }
 
+  @override
   void fromMap(Map<String, dynamic> map) {
     final date = DateTime.fromMillisecondsSinceEpoch(map["date"]);
 

@@ -22,7 +22,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
     final typeString =
         scheduleEntryTypeToReadableString(context, scheduleEntry!.type);
 
-    return Container(
+    return SizedBox(
       height: 400,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
@@ -113,24 +113,18 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            scheduleEntry!.room.isEmpty
-                ? Container()
-                : Padding(
+            if (scheduleEntry!.room.isEmpty) Container() else Padding(
                     padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
                     child: Text(scheduleEntry!.room.replaceAll(",", "\n")),
                   ),
-            scheduleEntry!.details.isEmpty
-                ? Container()
-                : Padding(
+            if (scheduleEntry!.details.isEmpty) Container() else Padding(
                     padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                     child: Container(
                       color: colorSeparator(),
                       height: 1,
                     ),
                   ),
-            scheduleEntry!.details.isEmpty
-                ? Container()
-                : Text(scheduleEntry!.details),
+            if (scheduleEntry!.details.isEmpty) Container() else Text(scheduleEntry!.details),
           ],
         ),
       ),

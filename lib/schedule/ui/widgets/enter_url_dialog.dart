@@ -106,7 +106,6 @@ abstract class EnterUrlDialog {
           builder: (BuildContext context, ValueNotifier<bool> hasUrlError,
                   Widget? child,) =>
               TextButton(
-            child: Text(L.of(context).dialogOk.toUpperCase()),
             onPressed: hasUrlError.value
                 ? null
                 : () async {
@@ -114,6 +113,7 @@ abstract class EnterUrlDialog {
 
                     await saveUrl(_url.value);
                   },
+            child: Text(L.of(context).dialogOk.toUpperCase()),
           ),
         ),
       ),

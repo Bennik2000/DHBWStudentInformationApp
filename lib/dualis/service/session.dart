@@ -39,7 +39,7 @@ class Session {
     String url, [
     CancellationToken? cancellationToken,
   ]) async {
-    if (cancellationToken == null) cancellationToken = CancellationToken();
+    cancellationToken ??= CancellationToken();
 
     final requestCancellationToken = http.CancellationToken();
 
@@ -100,7 +100,7 @@ class Session {
     Map<String, String> data, [
     CancellationToken? cancellationToken,
   ]) async {
-    if (cancellationToken == null) cancellationToken = CancellationToken();
+    cancellationToken ??= CancellationToken();
     final requestCancellationToken = http.CancellationToken();
 
     try {

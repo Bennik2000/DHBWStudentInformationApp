@@ -15,7 +15,7 @@ class DualisScheduleSource extends ScheduleSource {
   @override
   Future<ScheduleQueryResult> querySchedule(DateTime? from, DateTime? to,
       [CancellationToken? cancellationToken,]) async {
-    if (cancellationToken == null) cancellationToken = CancellationToken();
+    cancellationToken ??= CancellationToken();
 
     DateTime current = toStartOfMonth(from)!;
 

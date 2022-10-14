@@ -15,7 +15,7 @@ class FilterViewModel extends BaseViewModel {
     loadFilterStates();
   }
 
-  void loadFilterStates() async {
+  Future<void> loadFilterStates() async {
     final allNames =
         await _scheduleEntryRepository.queryAllNamesOfScheduleEntries();
 
@@ -31,7 +31,7 @@ class FilterViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void applyFilter() async {
+  Future<void> applyFilter() async {
     final allFilteredNames = filterStates
         .where((element) => !element.isDisplayed!)
         .map((e) => e.entryName)

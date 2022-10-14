@@ -15,7 +15,7 @@ class NotificationApi {
   /// call this method
   ///
   Future<void> initialize() async {
-    final initializationSettingsAndroid = const AndroidInitializationSettings(
+    const initializationSettingsAndroid = AndroidInitializationSettings(
       'outline_event_note_24',
     );
 
@@ -39,7 +39,7 @@ class NotificationApi {
   /// Show a notification with the given title and message
   ///
   Future showNotification(String title, String? message, [int? id]) async {
-    final androidPlatformChannelSpecifics = const AndroidNotificationDetails(
+    const androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'Notifications',
       'Notifications',
       channelDescription: 'This is the main notification channel',
@@ -52,9 +52,9 @@ class NotificationApi {
       ticker: 'ticker',
     );
 
-    final iOSPlatformChannelSpecifics = const IOSNotificationDetails();
+    const iOSPlatformChannelSpecifics = IOSNotificationDetails();
 
-    final platformChannelSpecifics = NotificationDetails(
+    const platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );

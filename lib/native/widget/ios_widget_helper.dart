@@ -7,7 +7,7 @@ import 'package:flutter_widgetkit/flutter_widgetkit.dart';
 ///
 class IOSWidgetHelper implements WidgetHelper {
   static const platform =
-      const MethodChannel('de.bennik2000.dhbwstudentapp/widget');
+      MethodChannel('de.bennik2000.dhbwstudentapp/widget');
 
   @override
   Future<void> disableWidget() async {

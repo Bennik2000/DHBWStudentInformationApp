@@ -1,7 +1,7 @@
 # This file configures the analyzer to use the lint rule set from `package:lint`
 
 # For apps, use the default set
-#include: package:lint/analysis_options.yaml
+include: package:lint/analysis_options.yaml
 
 # Packages, that may be distributed (i.e. via pub.dev) should use the package
 # version, resulting in a better pub score.

@@ -16,7 +16,7 @@ class AllDatesExtract {
   }
 
   List<DateEntry> _extractAllDates(String body, String? databaseName) {
-    body = body.replaceAll(new RegExp("<(br|BR)[ /]*>"), "\n");
+    body = body.replaceAll(RegExp("<(br|BR)[ /]*>"), "\n");
     final document = parse(body);
 
     // The dates are located in the first <p> element of the page
@@ -70,7 +70,7 @@ class AllDatesExtract {
       time = "00:00";
     }
 
-    final dateAndTimeString = date + " " + time;
+    final dateAndTimeString = "$date $time";
 
     try {
       final date = DateFormat("dd.MM.yyyy hh:mm").parse(dateAndTimeString);

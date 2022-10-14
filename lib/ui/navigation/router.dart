@@ -28,7 +28,7 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
   }
 
   if (widget == null) {
-    print("Failed to navigate to: " + settings.name!);
+    print("Failed to navigate to: ${settings.name!}");
     widget = (BuildContext context) => Container();
   }
 
@@ -38,7 +38,7 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
     pageBuilder: (context, animation, secondaryAnimation) => widget!(context),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const offsetBegin = Offset(0.0, 0.005);
-      final offsetEnd = Offset.zero;
+      const offsetEnd = Offset.zero;
       final offsetTween = Tween(begin: offsetBegin, end: offsetEnd)
           .chain(CurveTween(curve: Curves.fastOutSlowIn));
 
@@ -52,8 +52,8 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
         child: FadeTransition(
           opacity: animation.drive(opacityTween),
           child: Container(
-            child: child,
             color: Theme.of(context).scaffoldBackgroundColor,
+            child: child,
           ),
         ),
       );
@@ -76,7 +76,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       target = const SettingsPage();
       break;
     default:
-      print("Failed to navigate to: " + settings.name!);
+      print("Failed to navigate to: ${settings.name!}");
       target = Container();
   }
 

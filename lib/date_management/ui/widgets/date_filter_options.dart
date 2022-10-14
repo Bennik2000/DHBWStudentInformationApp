@@ -205,8 +205,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
 
     for (final year in widget.viewModel.years) {
       yearMenuItems.add(DropdownMenuItem(
-        child: Text(year),
         value: year,
+        child: Text(year),
       ),);
     }
     return yearMenuItems;
@@ -217,8 +217,8 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
 
     for (final database in widget.viewModel.allDateDatabases) {
       databaseMenuItems.add(DropdownMenuItem(
-        child: Text(database.displayName),
         value: database,
+        child: Text(database.displayName),
       ),);
     }
     return databaseMenuItems;

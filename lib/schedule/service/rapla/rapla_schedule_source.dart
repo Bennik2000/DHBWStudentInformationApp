@@ -24,7 +24,7 @@ class RaplaScheduleSource extends ScheduleSource {
       [CancellationToken? cancellationToken,]) async {
     DateTime current = toDayOfWeek(from, DateTime.monday)!;
 
-    if (cancellationToken == null) cancellationToken = CancellationToken();
+    cancellationToken ??= CancellationToken();
 
     var schedule = Schedule();
     final allErrors = <ParseError>[];

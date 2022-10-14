@@ -16,7 +16,7 @@ class DonateToDeveloperDialog {
 
   DonateToDeveloperDialog(this._preferencesProvider, this._appLaunchCounter);
 
-  void showIfNeeded(BuildContext context) async {
+  Future<void> showIfNeeded(BuildContext context) async {
     if (await _preferencesProvider.getDidShowDonateDialog()) return;
 
     if (_appLaunchCounter >= DonateLaunchAfter) {

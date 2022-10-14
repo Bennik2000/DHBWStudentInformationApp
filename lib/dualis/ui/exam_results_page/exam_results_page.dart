@@ -8,7 +8,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 class ExamResultsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: double.infinity,
       child: SingleChildScrollView(
         child: Column(
@@ -44,8 +44,8 @@ class ExamResultsPage extends StatelessWidget {
                         items: model?.allSemesterNames
                             ?.map(
                               (n) => DropdownMenuItem(
-                                child: Text(n),
                                 value: n,
+                                child: Text(n),
                               ),
                             )
                             .toList(),
@@ -84,15 +84,15 @@ class ExamResultsPage extends StatelessWidget {
           children = children.toList()..add(currentChild);
         }
         return Stack(
-          children: children,
           alignment: Alignment.topCenter,
+          children: children,
         );
       },
+      duration: const Duration(milliseconds: 200),
       child: Column(
         key: ValueKey("semester_${viewModel.currentSemester?.name}"),
         children: buildModulesDataTables(context, viewModel),
       ),
-      duration: const Duration(milliseconds: 200),
     );
   }
 
@@ -184,7 +184,7 @@ class ExamResultsPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 10, 16),
               child: Text(
-                (module.name ?? ""),
+                module.name ?? "",
                 style: Theme.of(context).textTheme.subtitle2,
                 softWrap: true,
               ),

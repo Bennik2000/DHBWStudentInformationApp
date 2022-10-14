@@ -133,7 +133,7 @@ class RaplaParsingUtils {
 
     if (descriptionParts.length == 1) {
       title = descriptionParts[0];
-    } else if (descriptionParts.length > 0) {
+    } else if (descriptionParts.isNotEmpty) {
       title = descriptionParts[1];
       details = descriptionParts.join("\n");
     }

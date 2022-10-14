@@ -112,7 +112,7 @@ class _LoginFormState extends State<LoginForm> {
             value: _storeCredentials,
           ),
         ),
-        Container(
+        SizedBox(
           height: 80,
           child: Align(
             alignment: Alignment.topRight,
