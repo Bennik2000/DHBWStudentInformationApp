@@ -46,7 +46,7 @@ class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
                               await ScheduleHelpDialog().show(context);
                             },
                             tooltip: L.of(context).helpButtonTooltip,
-                          )),
+                          ),),
       ),
       PropertyChangeProvider<ScheduleViewModel, String>(
         value: model,
@@ -59,7 +59,7 @@ class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
                       onPressed: () async {
                         Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => ScheduleFilterPage(),
-                        ));
+                        ),);
                       },
                     )
                   : Container(),

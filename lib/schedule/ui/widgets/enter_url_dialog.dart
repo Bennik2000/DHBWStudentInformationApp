@@ -103,7 +103,7 @@ abstract class EnterUrlDialog {
         value: _hasUrlError,
         child: Consumer(
           builder: (BuildContext context, ValueNotifier<bool> hasUrlError,
-                  Widget? child) =>
+                  Widget? child,) =>
               TextButton(
             child: Text(L.of(context).dialogOk.toUpperCase()),
             onPressed: hasUrlError.value

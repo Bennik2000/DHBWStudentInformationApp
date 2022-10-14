@@ -38,7 +38,7 @@ class WidgetHelpDialog {
             children: <Widget>[
               Padding(
                   padding: const EdgeInsets.all(24),
-                  child: Text(L.of(context).widgetHelpDialogMessage)),
+                  child: Text(L.of(context).widgetHelpDialogMessage),),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                 child: _buildButtonBar(context),

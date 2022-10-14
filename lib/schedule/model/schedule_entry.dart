@@ -78,7 +78,7 @@ class ScheduleEntry {
       String? details,
       String? professor,
       String? room,
-      ScheduleEntryType? type}) {
+      ScheduleEntryType? type,}) {
     return ScheduleEntry(
       id: id,
       start: start ?? this.start,

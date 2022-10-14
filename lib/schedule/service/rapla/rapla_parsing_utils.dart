@@ -28,7 +28,7 @@ class RaplaParsingUtils {
   };
 
   static ScheduleEntry extractScheduleEntryOrThrow(
-      Element value, DateTime date) {
+      Element value, DateTime date,) {
     // The tooltip tag contains the most relevant information
     var tooltip = value.getElementsByClassName(TOOLTIP_CLASS);
 
@@ -56,7 +56,7 @@ class RaplaParsingUtils {
     //       tooltip. Then provide a link with a manual to activate it in Rapla
     if (tooltip.isEmpty) {
       scheduleEntry = extractScheduleDetailsFromCell(
-          timeAndClassName, scheduleEntry, start, end);
+          timeAndClassName, scheduleEntry, start, end,);
     } else {
       scheduleEntry =
           extractScheduleFromTooltip(tooltip, value, scheduleEntry, start, end);
@@ -73,7 +73,7 @@ class RaplaParsingUtils {
     var professor = scheduleEntry.professor;
     if (professor.endsWith(",")) {
       scheduleEntry = scheduleEntry.copyWith(
-          professor: professor.substring(0, professor.length - 1));
+          professor: professor.substring(0, professor.length - 1),);
     }
 
     return scheduleEntry.copyWith(
@@ -89,7 +89,7 @@ class RaplaParsingUtils {
       Element value,
       ScheduleEntry? scheduleEntry,
       DateTime start,
-      DateTime end) {
+      DateTime end,) {
     var infotable = tooltip[0].getElementsByClassName(INFOTABLE_CLASS);
 
     if (infotable.isEmpty) {
@@ -122,7 +122,7 @@ class RaplaParsingUtils {
       List<Element> timeAndClassName,
       ScheduleEntry? scheduleEntry,
       DateTime start,
-      DateTime end) {
+      DateTime end,) {
     var descriptionHtml = timeAndClassName[0].innerHtml.substring(12);
     var descriptionParts = descriptionHtml.split("<br>");
 

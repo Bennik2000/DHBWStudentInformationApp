@@ -18,7 +18,7 @@ class CalendarExportPage extends StatefulWidget {
       {Key? key,
       required this.entriesToExport,
       this.isCalendarSyncWidget = false,
-      this.isCalendarSyncEnabled = false})
+      this.isCalendarSyncEnabled = false,})
       : super(key: key);
 
   @override
@@ -33,7 +33,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
     super.initState();
 
     viewModel = CalendarExportViewModel(widget.entriesToExport,
-        CalendarAccess(), KiwiContainer().resolve<PreferencesProvider>());
+        CalendarAccess(), KiwiContainer().resolve<PreferencesProvider>(),);
     viewModel.setOnPermissionDeniedCallback(() {
       Navigator.of(context).pop();
     });
@@ -52,7 +52,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
           iconTheme: Theme.of(context).iconTheme,
           title: Text(widget.isCalendarSyncWidget
               ? L.of(context).calendarSyncPageTitle
-              : L.of(context).dateManagementExportToCalendar),
+              : L.of(context).dateManagementExportToCalendar,),
           toolbarTextStyle: Theme.of(context).textTheme.bodyText2,
           titleTextStyle: Theme.of(context).textTheme.headline6,
         ),
@@ -64,7 +64,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                 alignment: Alignment.centerLeft,
                 child: Text(widget.isCalendarSyncWidget
                     ? L.of(context).calendarSyncPageSubtitle
-                    : L.of(context).dateManagementExportToCalendarDescription),
+                    : L.of(context).dateManagementExportToCalendarDescription,),
               ),
             ),
             _buildCalendarList(),
@@ -120,7 +120,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                     color: widget.isCalendarSyncEnabled
                         ? ColorPalettes.main
                         : Theme.of(context).disabledColor,
-                    fontSize: 14),
+                    fontSize: 14,),
               ),
               onTap: () async {
                 KiwiContainer()
@@ -192,12 +192,12 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                   child: SizedBox(
                       height: 32,
                       width: 32,
-                      child: CircularProgressIndicator()),
+                      child: CircularProgressIndicator(),),
                 )
               : Container(
                   decoration: !viewModel.canExport
                       ? new BoxDecoration(
-                          color: Theme.of(context).colorScheme.background)
+                          color: Theme.of(context).colorScheme.background,)
                       : new BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                         ),
@@ -229,7 +229,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                                 var preferencesProvider = KiwiContainer()
                                     .resolve<PreferencesProvider>();
                                 preferencesProvider.setSelectedCalendar(
-                                    viewModel.selectedCalendar);
+                                    viewModel.selectedCalendar,);
                                 preferencesProvider
                                     .setIsCalendarSyncEnabled(true);
                               }

@@ -14,14 +14,14 @@ class ScheduleDiffCalculator {
 
     for (var entry in oldEntries) {
       if (!newEntries.any((ScheduleEntry element) =>
-          _areScheduleEntriesEqual(element, entry))) {
+          _areScheduleEntriesEqual(element, entry),)) {
         removedEntries.add(entry);
       }
     }
 
     for (var entry in newEntries) {
       if (!oldEntries.any((ScheduleEntry element) =>
-          _areScheduleEntriesEqual(element, entry))) {
+          _areScheduleEntriesEqual(element, entry),)) {
         addedEntries.add(entry);
       }
     }
@@ -89,7 +89,7 @@ class ScheduleDiffCalculator {
         updatedEntries.add(UpdatedEntry(
           newElementsWithName[0],
           newElementsWithName[0].getDifferentProperties(oldElementsWithName[0]),
-        ));
+        ),);
         continue;
       }
 
@@ -117,7 +117,7 @@ class ScheduleDiffCalculator {
       List<ScheduleEntry> newElementsWithName,
       List<UpdatedEntry> updatedEntries,
       List<ScheduleEntry> oldEntries,
-      List<ScheduleEntry> newEntries) {
+      List<ScheduleEntry> newEntries,) {
     if (oldElementsWithName.length == newElementsWithName.length) {
       for (var oldElement in oldElementsWithName) {
         ScheduleEntry nearestElement =
@@ -144,7 +144,7 @@ class ScheduleDiffCalculator {
   }
 
   ScheduleEntry _findNearestElementByStart(
-      List<ScheduleEntry> elements, ScheduleEntry reference) {
+      List<ScheduleEntry> elements, ScheduleEntry reference,) {
     ScheduleEntry nearestElement = elements[0];
     Duration minimalDifference =
         reference.start.difference(nearestElement.start).abs();
@@ -169,7 +169,7 @@ class ScheduleDiff {
   ScheduleDiff(
       {required this.addedEntries,
       required this.removedEntries,
-      required this.updatedEntries});
+      required this.updatedEntries,});
 
   bool didSomethingChange() {
     return addedEntries.isNotEmpty ||

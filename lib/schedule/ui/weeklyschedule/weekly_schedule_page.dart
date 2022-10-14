@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
@@ -40,7 +39,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
             Text(L.of(context).scheduleQueryFailedMessage),
             TextButton(
               child: Text(
-                  L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase()),
+                  L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase(),),
               onPressed: () {
                 launchUrl(Uri.parse(viewModel.scheduleUrl!));
               },
@@ -111,13 +110,13 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                         child: PropertyChangeConsumer(
                           properties: const ["weekSchedule", "now"],
                           builder: (BuildContext context,
-                              WeeklyScheduleViewModel? model, Set? _) {
+                              WeeklyScheduleViewModel? model, Set? _,) {
                             return PageTransitionSwitcher(
                               reverse: !model!.didUpdateScheduleIntoFuture,
                               duration: const Duration(milliseconds: 300),
                               transitionBuilder: (Widget child,
                                       Animation<double> animation,
-                                      Animation<double> secondaryAnimation) =>
+                                      Animation<double> secondaryAnimation,) =>
                                   SharedAxisTransition(
                                 child: child,
                                 animation: animation,
@@ -148,7 +147,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                       PropertyChangeConsumer(
                         properties: const ["isUpdating"],
                         builder: (BuildContext context,
-                            WeeklyScheduleViewModel? model, Set? _) {
+                            WeeklyScheduleViewModel? model, Set? _,) {
                           return model!.isUpdating
                               ? const LinearProgressIndicator()
                               : Container();

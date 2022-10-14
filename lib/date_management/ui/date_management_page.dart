@@ -29,7 +29,7 @@ class DateManagementPage extends StatelessWidget {
                   duration: const Duration(milliseconds: 200),
                   child: viewModel.isLoading
                       ? const LinearProgressIndicator()
-                      : Container()),
+                      : Container(),),
             ],
           ),
           _buildBody(viewModel, context),
@@ -59,7 +59,7 @@ class DateManagementPage extends StatelessWidget {
                         children: <Widget>[
                           _buildAllDatesDataTable(model!, context),
                         ],
-                      )),
+                      ),),
             ),
           ),
           Align(
@@ -133,7 +133,7 @@ class DateManagementPage extends StatelessWidget {
                   ],
                 ), onTap: () {
               showDateEntryDetailBottomSheet(context, dateEntry);
-            }),
+            },),
           ],
         ),
       );
@@ -161,7 +161,7 @@ class DateManagementPage extends StatelessWidget {
         "updateFailed",
       ],
       builder: (BuildContext context, DateManagementViewModel? model,
-              Set? properties) =>
+              Set? properties,) =>
           ErrorDisplay(
         show: model!.updateFailed,
       ),

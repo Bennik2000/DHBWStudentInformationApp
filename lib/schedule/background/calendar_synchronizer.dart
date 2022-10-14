@@ -13,7 +13,7 @@ class CalendarSynchronizer {
   final PreferencesProvider preferencesProvider;
 
   CalendarSynchronizer(this.scheduleProvider, this.scheduleSourceProvider,
-      this.preferencesProvider);
+      this.preferencesProvider,);
 
   void registerSynchronizationCallback() {
     scheduleProvider.addScheduleUpdatedCallback((schedule, start, end) async {
@@ -27,7 +27,7 @@ class CalendarSynchronizer {
               description: element.title,
               year: element.start.year.toString(),
               start: element.start,
-              end: element.end);
+              end: element.end,);
           listDateEntries.add(date);
         },
       );

@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 Future<void> main() async {
   var courseResultsPage = await File(Directory.current.absolute.path +
-          '/test/dualis/service/parsing/html_resources/course_results.html')
+          '/test/dualis/service/parsing/html_resources/course_results.html',)
       .readAsString();
 
   test('SemestersFromCourseResultPageExtract', () async {
@@ -21,11 +21,11 @@ Future<void> main() async {
 
     expect(semesters[0].semesterName, "SoSe yyyy");
     expect(semesters[0].semesterCourseResultsUrl,
-        "www.endpoint.com/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=COURSERESULTS&ARGUMENTS=-N123456789876543,-N000307,-N000000012345000");
+        "www.endpoint.com/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=COURSERESULTS&ARGUMENTS=-N123456789876543,-N000307,-N000000012345000",);
 
     expect(semesters[1].semesterName, "WiSe xx/yy");
     expect(semesters[1].semesterCourseResultsUrl,
-        "www.endpoint.com/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=COURSERESULTS&ARGUMENTS=-N123456789876543,-N000307,-N000000015048000");
+        "www.endpoint.com/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=COURSERESULTS&ARGUMENTS=-N123456789876543,-N000307,-N000000015048000",);
   });
 
   test('SemestersFromCourseResultPageExtract invalid html throws exception',

@@ -96,7 +96,7 @@ class DateEntryRepository {
         whereArgs: [
           databaseName,
           year,
-        ]);
+        ],);
   }
 
   List<DateEntry> _rowsToDateEntries(List<Map<String, dynamic>> rows) {

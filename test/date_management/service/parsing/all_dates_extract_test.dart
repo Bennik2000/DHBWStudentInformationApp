@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 Future<void> main() async {
   var allDatesPage = await File(Directory.current.absolute.path +
-          '/test/date_management/service/parsing/html_resources/all_dates.html')
+          '/test/date_management/service/parsing/html_resources/all_dates.html',)
       .readAsString();
 
   test('AllDatesExtract extract all dates', () async {

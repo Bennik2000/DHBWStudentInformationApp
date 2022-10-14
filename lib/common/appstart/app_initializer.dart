@@ -65,7 +65,7 @@ Future<void> initializeApp(bool isBackground) async {
   CalendarSynchronizer calendarSynchronizer = new CalendarSynchronizer(
       KiwiContainer().resolve<ScheduleProvider>(),
       KiwiContainer().resolve<ScheduleSourceProvider>(),
-      KiwiContainer().resolve<PreferencesProvider>());
+      KiwiContainer().resolve<PreferencesProvider>(),);
 
   calendarSynchronizer.registerSynchronizationCallback();
   calendarSynchronizer.scheduleSyncInAFewSeconds();

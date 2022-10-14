@@ -74,7 +74,7 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
           size.width,
           size.height,
         ),
-        overlayPaint);
+        overlayPaint,);
   }
 
   void drawPartialPastOverlay(Canvas canvas, Size size, Paint overlayPaint) {

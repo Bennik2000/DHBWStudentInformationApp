@@ -53,7 +53,7 @@ class DonateToDeveloperDialog {
                         ),
                       ),
                     ],
-                  )),
+                  ),),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                 child: _buildButtonBar(context),

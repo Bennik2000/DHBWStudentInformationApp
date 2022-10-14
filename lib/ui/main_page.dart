@@ -139,7 +139,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
       drawerEntries.add(DrawerNavigationEntry(
         entry.icon,
         entry.title(context),
-      ));
+      ),);
     }
 
     return drawerEntries;

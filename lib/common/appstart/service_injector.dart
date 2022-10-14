@@ -32,30 +32,30 @@ void injectServices(bool isBackground) {
   c.registerInstance(PreferencesProvider(
     PreferencesAccess(),
     SecureStorageAccess(),
-  ));
+  ),);
   c.registerInstance(DatabaseAccess());
   c.registerInstance(ScheduleEntryRepository(
     c.resolve(),
-  ));
+  ),);
   c.registerInstance(ScheduleFilterRepository(
     c.resolve(),
-  ));
+  ),);
   c.registerInstance(ScheduleQueryInformationRepository(
     c.resolve(),
-  ));
+  ),);
   c.registerInstance(ScheduleSourceProvider(
     c.resolve(),
     isBackground,
     c.resolve(),
     c.resolve(),
-  ));
+  ),);
   c.registerInstance(ScheduleProvider(
     c.resolve(),
     c.resolve(),
     c.resolve(),
     c.resolve(),
     c.resolve(),
-  ));
+  ),);
   c.registerInstance<DualisScraper>(
     FakeAccountDualisScraperDecorator(DualisScraper()),
   );
@@ -63,11 +63,11 @@ void injectServices(bool isBackground) {
     DualisServiceImpl(
       c.resolve(),
     ),
-  ));
+  ),);
   c.registerInstance(DateEntryProvider(
     DateManagementService(),
     DateEntryRepository(c.resolve()),
-  ));
+  ),);
   c.registerInstance(WidgetHelper());
   c.registerInstance(ListDateEntries30d(List<DateEntry>.empty(growable: true)));
 

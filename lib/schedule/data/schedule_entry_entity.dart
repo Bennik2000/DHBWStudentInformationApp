@@ -26,7 +26,7 @@ class ScheduleEntryEntity extends DatabaseEntity {
         professor: map["professor"],
         title: map["title"],
         room: map["room"],
-        type: ScheduleEntryType.values[map["type"]]);
+        type: ScheduleEntryType.values[map["type"]],);
   }
 
   @override

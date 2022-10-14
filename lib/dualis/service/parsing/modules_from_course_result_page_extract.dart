@@ -20,7 +20,7 @@ class ModulesFromCourseResultPageExtract {
   }
 
   List<DualisModule?> _extractModulesFromCourseResultPage(
-      String? body, String endpointUrl) {
+      String? body, String endpointUrl,) {
     var document = parse(body);
 
     var tableBodies = getElementByTagName(document, "tbody");

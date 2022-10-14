@@ -38,8 +38,8 @@ class ScheduleWidget extends StatelessWidget {
       child: LayoutBuilder(
           builder: (BuildContext context, BoxConstraints constraints) {
         return buildWithSize(
-            context, constraints.biggest.width, constraints.biggest.height);
-      }),
+            context, constraints.biggest.width, constraints.biggest.height,);
+      },),
     );
   }
 
@@ -190,7 +190,7 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   List<Widget> buildEntryWidgets(
-      double hourHeight, double minuteHeight, double width, int columns) {
+      double hourHeight, double minuteHeight, double width, int columns,) {
     if (schedule == null) return <Widget>[];
     if (schedule!.entries.isEmpty) return <Widget>[];
 
@@ -213,7 +213,7 @@ class ScheduleWidget extends StatelessWidget {
         minuteHeight,
         xPosition,
         columnSchedule.entries,
-      ));
+      ),);
 
       columnStartDate = columnEndDate;
       columnEndDate = tomorrow(columnEndDate);

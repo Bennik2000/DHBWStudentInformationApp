@@ -73,7 +73,7 @@ class DateEntryProvider {
   }
 
   List<DateEntry> _filterDates(
-      List<DateEntry> updatedEntries, DateSearchParameters parameters) {
+      List<DateEntry> updatedEntries, DateSearchParameters parameters,) {
     var filteredDateEntries = <DateEntry>[];
 
     var now = DateTime.now();

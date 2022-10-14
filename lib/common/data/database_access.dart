@@ -18,7 +18,7 @@ class DatabaseAccess {
     return await openDatabase(path,
         version: SqlScripts.databaseMigrationScripts.length,
         onCreate: _onCreate,
-        onUpgrade: _onUpgrade);
+        onUpgrade: _onUpgrade,);
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -51,7 +51,7 @@ class DatabaseAccess {
   }
 
   Future<List<Map<String, dynamic>>> rawQuery(
-      String sql, List<dynamic> parameters) async {
+      String sql, List<dynamic> parameters,) async {
     Database db = await _database;
     return await db.rawQuery(sql, parameters);
   }
@@ -65,7 +65,7 @@ class DatabaseAccess {
       String? having,
       String? orderBy,
       int? limit,
-      int? offset}) async {
+      int? offset,}) async {
     Database db = await _database;
 
     // TODO: [Leptopoda] is there a reason this is done? or at maybe use whereArgs.removeWhere()
@@ -90,7 +90,7 @@ class DatabaseAccess {
   Future<int?> queryRowCount(String table) async {
     Database db = await _database;
     return Sqflite.firstIntValue(
-        await db.rawQuery('SELECT COUNT(*) FROM $table'));
+        await db.rawQuery('SELECT COUNT(*) FROM $table'),);
   }
 
   Future<int?> queryAggregator(String query, List<dynamic> arguments) async {

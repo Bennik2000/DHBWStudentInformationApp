@@ -42,7 +42,7 @@ class _SettingsPageState extends State<SettingsPage> {
       KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
           as NextDayInformationNotification,
       KiwiContainer().resolve(),
-      KiwiContainer().resolve());
+      KiwiContainer().resolve(),);
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +147,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
                       title: Text(
-                          L.of(context).dialogTitleCalendarAccessNotGranted),
+                          L.of(context).dialogTitleCalendarAccessNotGranted,),
                       content:
                           Text(L.of(context).dialogCalendarAccessNotGranted),
                       actions: [
@@ -156,7 +156,7 @@ class _SettingsPageState extends State<SettingsPage> {
                           child: Text(L.of(context).dialogOk),
                         )
                       ],
-                    ));
+                    ),);
             return;
           }
           var isCalendarSyncEnabled = await KiwiContainer()
@@ -170,7 +170,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     isCalendarSyncWidget: true,
                     isCalendarSyncEnabled: isCalendarSyncEnabled,
                   ),
-              settings: RouteSettings(name: "settings")));
+              settings: RouteSettings(name: "settings"),),);
         },
       ),
       const Divider(),
@@ -187,7 +187,7 @@ class _SettingsPageState extends State<SettingsPage> {
             "notifyAboutNextDay",
           ],
           builder: (BuildContext context, SettingsViewModel? model,
-              Set? properties) {
+              Set? properties,) {
             return SwitchListTile(
               title: Text(L.of(context).settingsNotificationsNextDay),
               onChanged: model!.setNotifyAboutNextDay,
@@ -200,7 +200,7 @@ class _SettingsPageState extends State<SettingsPage> {
             "notifyAboutScheduleChanges",
           ],
           builder: (BuildContext context, SettingsViewModel? model,
-              Set? properties) {
+              Set? properties,) {
             return SwitchListTile(
               title: Text(L.of(context).settingsNotificationsScheduleChange),
               onChanged: model!.setNotifyAboutScheduleChanges,
@@ -232,7 +232,7 @@ class _SettingsPageState extends State<SettingsPage> {
               AppTheme.Dark: L.of(context).selectThemeDark,
               AppTheme.Light: L.of(context).selectThemeLight,
               AppTheme.System: L.of(context).selectThemeSystem,
-            }[model!.appTheme]!),
+            }[model!.appTheme]!,),
           );
         },
       ),

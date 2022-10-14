@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 Future<void> main() async {
   var icalFile = await File(Directory.current.absolute.path +
-          '/test/schedule/service/ical/file_resources/ical_test.ics')
+          '/test/schedule/service/ical/file_resources/ical_test.ics',)
       .readAsString();
 
   test('ical correctly read all entries', () async {

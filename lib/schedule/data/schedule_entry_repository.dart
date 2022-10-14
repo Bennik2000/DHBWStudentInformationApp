@@ -13,7 +13,7 @@ class ScheduleEntryRepository {
   }
 
   Future<Schedule> queryScheduleBetweenDates(
-      DateTime start, DateTime end) async {
+      DateTime start, DateTime end,) async {
     var rows = await _database.queryRows(
       ScheduleEntryEntity.tableName(),
       where: "end>? AND start<?",
@@ -107,7 +107,7 @@ class ScheduleEntryRepository {
   }
 
   Future<void> deleteScheduleEntriesBetween(
-      DateTime start, DateTime end) async {
+      DateTime start, DateTime end,) async {
     await _database.deleteWhere(
       ScheduleEntryEntity.tableName(),
       where: "start>=? AND end<=?",

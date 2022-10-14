@@ -82,24 +82,24 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
       chips.add(Chip(
         label: Text(L.of(context).dateManagementChipFutureAndPast),
         visualDensity: VisualDensity.compact,
-      ));
+      ),);
     } else if (widget.viewModel.showFutureDates) {
       chips.add(Chip(
         label: Text(L.of(context).dateManagementChipOnlyFuture),
         visualDensity: VisualDensity.compact,
-      ));
+      ),);
     } else if (widget.viewModel.showPassedDates) {
       chips.add(Chip(
         label: Text(L.of(context).dateManagementChipOnlyPassed),
         visualDensity: VisualDensity.compact,
-      ));
+      ),);
     }
 
     if (widget.viewModel.currentSelectedYear != null) {
       chips.add(Chip(
         label: Text(widget.viewModel.currentSelectedYear!),
         visualDensity: VisualDensity.compact,
-      ));
+      ),);
     }
 
     var database = widget.viewModel.currentDateDatabase?.displayName ?? "";
@@ -107,7 +107,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
       chips.add(Chip(
         label: Text(database),
         visualDensity: VisualDensity.compact,
-      ));
+      ),);
     }
 
     return Padding(
@@ -216,7 +216,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
       yearMenuItems.add(DropdownMenuItem(
         child: Text(year),
         value: year,
-      ));
+      ),);
     }
     return yearMenuItems;
   }
@@ -228,7 +228,7 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
       databaseMenuItems.add(DropdownMenuItem(
         child: Text(database.displayName),
         value: database,
-      ));
+      ),);
     }
     return databaseMenuItems;
   }

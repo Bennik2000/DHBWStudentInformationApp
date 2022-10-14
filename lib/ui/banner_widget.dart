@@ -9,7 +9,7 @@ class BannerWidget extends StatelessWidget {
       {Key? key,
       required this.message,
       required this.buttonText,
-      required this.onButtonTap})
+      required this.onButtonTap,})
       : super(key: key);
 
   @override

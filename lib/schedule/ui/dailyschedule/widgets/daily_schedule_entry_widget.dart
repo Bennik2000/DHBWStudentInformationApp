@@ -80,13 +80,13 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                             Text(
                               scheduleEntry.professor,
                               style: textStyleDailyScheduleEntryWidgetProfessor(
-                                  context),
+                                  context,),
                             ),
                             Text(
                               scheduleEntryTypeToReadableString(
-                                  context, scheduleEntry.type),
+                                  context, scheduleEntry.type,),
                               style: textStyleDailyScheduleEntryWidgetType(
-                                  context),
+                                  context,),
                             ),
                           ],
                         ),

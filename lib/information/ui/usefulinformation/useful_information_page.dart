@@ -27,7 +27,7 @@ class UsefulInformationPage extends StatelessWidget {
             title: Text(L.of(context).informationPageRoundcube),
             onTap: () {
               openLink(
-                  "https://lehre-webmail.dhbw-stuttgart.de/roundcubemail/");
+                  "https://lehre-webmail.dhbw-stuttgart.de/roundcubemail/",);
             },
           ),
           ListTile(
@@ -42,7 +42,7 @@ class UsefulInformationPage extends StatelessWidget {
             title: Text(L.of(context).informationPageLocation),
             onTap: () {
               openLink(
-                  "https://www.dhbw-stuttgart.de/themen/hochschule/standorte/");
+                  "https://www.dhbw-stuttgart.de/themen/hochschule/standorte/",);
             },
           ),
           ListTile(
@@ -50,7 +50,7 @@ class UsefulInformationPage extends StatelessWidget {
             title: Text(L.of(context).informationPageEduroam),
             onTap: () {
               openLink(
-                  "https://www.dhbw-stuttgart.de/themen/einrichtungen/itservice-center/informationen-fuer-studierende/wlan-vpn-zugang/");
+                  "https://www.dhbw-stuttgart.de/themen/einrichtungen/itservice-center/informationen-fuer-studierende/wlan-vpn-zugang/",);
             },
           ),
           ListTile(
@@ -65,7 +65,7 @@ class UsefulInformationPage extends StatelessWidget {
             title: Text(L.of(context).informationPageDHBWSports),
             onTap: () {
               openLink(
-                  "https://www.dhbw-stuttgart.de/themen/einrichtungen/hochschulsport/");
+                  "https://www.dhbw-stuttgart.de/themen/einrichtungen/hochschulsport/",);
             },
           ),
         ],

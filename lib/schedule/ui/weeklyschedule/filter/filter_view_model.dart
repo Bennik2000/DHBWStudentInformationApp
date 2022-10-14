@@ -11,7 +11,7 @@ class FilterViewModel extends BaseViewModel {
   List<ScheduleEntryFilterState> filterStates = [];
 
   FilterViewModel(this._scheduleEntryRepository, this._scheduleFilterRepository,
-      this._scheduleSource) {
+      this._scheduleSource,) {
     loadFilterStates();
   }
 

@@ -36,7 +36,7 @@ class _OnboardingPageState extends State<OnboardingPage>
         await _controller.animateTo(
             viewModel.stepIndex! / viewModel.onboardingSteps,
             curve: Curves.ease,
-            duration: const Duration(milliseconds: 300));
+            duration: const Duration(milliseconds: 300),);
       },
     );
 

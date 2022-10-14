@@ -54,7 +54,7 @@ class ExamsFromModuleDetailsExtract {
         ExamGrade.fromString(grade),
         trimAndEscapeString(currentTry),
         trimAndEscapeString(semester),
-      ));
+      ),);
     }
 
     return exams;

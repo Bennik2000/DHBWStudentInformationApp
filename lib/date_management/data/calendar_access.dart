@@ -63,7 +63,7 @@ class CalendarAccess {
   }
 
   Future _addOrUpdateEntry(
-      List<Event> existingEvents, DateEntry entry, Calendar calendar) async {
+      List<Event> existingEvents, DateEntry entry, Calendar calendar,) async {
     // Find the id in the existing events in order that the "update" part of
     // createOrUpdateEvent(...) works
     var id = _getIdOfExistingEvent(existingEvents, entry);
@@ -88,14 +88,14 @@ class CalendarAccess {
       allDay: isAllDay,
       start: tz.TZDateTime.from(start, tz.getLocation('Europe/Berlin')),
       end: tz.TZDateTime.from(end, tz.getLocation('Europe/Berlin')),
-    ));
+    ),);
   }
 
   String? _getIdOfExistingEvent(List<Event> existingEvents, DateEntry entry) {
     var existingEvent = existingEvents
         .where((element) => (element.title == entry.description &&
             (element.start?.toUtc().isAtSameMomentAs(entry.start.toUtc()) ??
-                false)))
+                false)),)
         .toList();
     String? id;
 
@@ -106,7 +106,7 @@ class CalendarAccess {
   }
 
   Future<List<Event>> _getExistingEventsFromCalendar(
-      List<DateEntry> dateEntries, Calendar calendar) async {
+      List<DateEntry> dateEntries, Calendar calendar,) async {
     var firstEntry = _findFirstEntry(dateEntries);
     var lastEntry = _findLastEntry(dateEntries);
 
@@ -115,7 +115,7 @@ class CalendarAccess {
         RetrieveEventsParams(
           startDate: firstEntry.start,
           endDate: lastEntry.end,
-        ));
+        ),);
 
     var existingEvents = <Event>[];
 

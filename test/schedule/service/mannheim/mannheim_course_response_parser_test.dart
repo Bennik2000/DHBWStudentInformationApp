@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 Future<void> main() async {
   var coursePage = await File(Directory.current.absolute.path +
-          '/test/schedule/service/mannheim/html_resources/mannheim_ical.html')
+          '/test/schedule/service/mannheim/html_resources/mannheim_ical.html',)
       .readAsString();
 
   test('Mannheim course parser parses correctly', () async {

@@ -194,7 +194,7 @@ class InAppPurchaseHelper {
 
     if (!await _preferencesProvider.getHasPurchasedSomething()) {
       print(
-          "Abort complete pending purchases, the user did not buy something in the past");
+          "Abort complete pending purchases, the user did not buy something in the past",);
       return;
     }
 

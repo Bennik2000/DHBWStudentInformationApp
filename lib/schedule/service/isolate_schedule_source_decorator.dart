@@ -19,7 +19,7 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
 
   @override
   Future<ScheduleQueryResult?> querySchedule(DateTime? from, DateTime? to,
-      [CancellationToken? cancellationToken]) async {
+      [CancellationToken? cancellationToken,]) async {
     await _initializeIsolate();
 
     // Use the cancellation token to send a cancel message.
@@ -69,7 +69,7 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
     // Use a broadcast stream. The normal ReceivePort closes after one subscription
     _isolateToMain = isolateToMain.asBroadcastStream();
     _isolate = await Isolate.spawn(
-        scheduleSourceIsolateEntryPoint, isolateToMain.sendPort);
+        scheduleSourceIsolateEntryPoint, isolateToMain.sendPort,);
     _sendPort = await _isolateToMain!.first as SendPort?;
   }
 

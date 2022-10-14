@@ -25,7 +25,7 @@ class CalendarExportViewModel extends BaseViewModel {
   bool get isExporting => _isExporting;
 
   CalendarExportViewModel(
-      this._entriesToExport, this.calendarAccess, this.preferencesProvider) {
+      this._entriesToExport, this.calendarAccess, this.preferencesProvider,) {
     loadCalendars();
   }
 

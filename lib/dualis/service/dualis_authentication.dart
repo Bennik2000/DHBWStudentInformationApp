@@ -197,7 +197,7 @@ class DualisAuthentication {
     var match = _tokenRegex.firstMatch(url);
     if (match != null) {
       return url.replaceRange(
-          match.start, match.end, "ARGUMENTS=-N$_authToken");
+          match.start, match.end, "ARGUMENTS=-N$_authToken",);
     }
 
     return url;
@@ -208,7 +208,7 @@ class DualisAuthentication {
   }
 
   Future<LoginResult> loginWithPreviousCredentials(
-      CancellationToken cancellationToken) async {
+      CancellationToken cancellationToken,) async {
     assert(_credentials != null);
     return await login(_credentials!, cancellationToken);
   }

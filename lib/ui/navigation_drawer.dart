@@ -37,7 +37,7 @@ class NavigationDrawer extends StatelessWidget {
           icon: entry.icon,
           text: entry.title,
           index: i,
-          isSelected: i == selectedIndex));
+          isSelected: i == selectedIndex,),);
 
       i++;
     }

@@ -6,7 +6,7 @@ import 'package:test/test.dart';
 
 Future<void> main() async {
   var moduleDetailsPage = await File(Directory.current.absolute.path +
-          '/test/dualis/service/parsing/html_resources/module_details.html')
+          '/test/dualis/service/parsing/html_resources/module_details.html',)
       .readAsString();
 
   test('ExamsFromModuleDetailsExtract', () async {

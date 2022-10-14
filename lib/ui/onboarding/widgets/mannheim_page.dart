@@ -53,7 +53,7 @@ class SelectMannheimCourseWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return PropertyChangeConsumer<OnboardingStepViewModel, String>(
       builder: (BuildContext context, OnboardingStepViewModel? model,
-          Set<Object>? _) {
+          Set<Object>? _,) {
         final viewModel = model as MannheimViewModel?;
 
         switch (viewModel?.loadingState) {
@@ -114,7 +114,7 @@ class SelectMannheimCourseWidget extends StatelessWidget {
   }
 
   Widget _buildLoadingError(
-      BuildContext context, MannheimViewModel? viewModel) {
+      BuildContext context, MannheimViewModel? viewModel,) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

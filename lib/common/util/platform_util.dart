@@ -25,7 +25,7 @@ class PlatformUtil {
   static Future<void> initializePortraitLandscapeMode() async {
     if (isPhone()) {
       await SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.portraitUp]);
+          [DeviceOrientation.portraitUp],);
     } else {
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,

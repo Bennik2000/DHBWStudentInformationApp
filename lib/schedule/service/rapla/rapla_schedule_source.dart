@@ -21,7 +21,7 @@ class RaplaScheduleSource extends ScheduleSource {
 
   @override
   Future<ScheduleQueryResult> querySchedule(DateTime? from, DateTime? to,
-      [CancellationToken? cancellationToken]) async {
+      [CancellationToken? cancellationToken,]) async {
     DateTime current = toDayOfWeek(from, DateTime.monday)!;
 
     if (cancellationToken == null) cancellationToken = CancellationToken();
@@ -141,7 +141,7 @@ class RaplaScheduleSource extends ScheduleSource {
   }
 
   Future<Response?> _makeRequest(
-      Uri uri, CancellationToken cancellationToken) async {
+      Uri uri, CancellationToken cancellationToken,) async {
     var requestCancellationToken = http.CancellationToken();
 
     try {
@@ -150,7 +150,7 @@ class RaplaScheduleSource extends ScheduleSource {
       });
 
       var response = await http.HttpClientHelper.get(uri,
-          cancelToken: requestCancellationToken);
+          cancelToken: requestCancellationToken,);
 
       if (response == null && !requestCancellationToken.isCanceled)
         throw ServiceRequestFailed("Http request failed!");

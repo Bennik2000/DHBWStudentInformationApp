@@ -59,7 +59,7 @@ class NextDayInformationNotification extends TaskCallback {
   }
 
   String? _getNotificationMessage(
-      int daysToNextEntry, ScheduleEntry nextScheduleEntry, DateFormat format) {
+      int daysToNextEntry, ScheduleEntry nextScheduleEntry, DateFormat format,) {
     switch (daysToNextEntry) {
       case 0:
         return interpolate(

@@ -99,7 +99,7 @@ class DualisScraper {
         "${_dualisUrls.monthlyScheduleUrl}01.${dateInMonth.month}.${dateInMonth.year}";
 
     var result = await _dualisAuthentication.authenticatedGet(
-        requestUrl, cancellationToken);
+        requestUrl, cancellationToken,);
 
     var schedule = MonthlyScheduleExtract().extractScheduleFromMonthly(result);
 

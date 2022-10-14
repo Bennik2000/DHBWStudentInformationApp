@@ -27,7 +27,7 @@ class _DualisLoginCredentialsPageState
   Widget build(BuildContext context) {
     return PropertyChangeConsumer<OnboardingStepViewModel, String>(
       builder: (BuildContext context, OnboardingStepViewModel? base,
-          Set<Object>? _) {
+          Set<Object>? _,) {
         final viewModel = base as DualisLoginViewModel?;
 
         final credentials = viewModel?.credentials;
@@ -44,7 +44,7 @@ class _DualisLoginCredentialsPageState
           onSubmitted: () async {
             await _testCredentials(viewModel);
           },
-        ));
+        ),);
         widgets.add(_buildTestCredentialsButton(viewModel));
 
         return Column(
@@ -96,7 +96,7 @@ class _DualisLoginCredentialsPageState
                           child: Text(L
                               .of(context)
                               .onboardingDualisTestButton
-                              .toUpperCase()),
+                              .toUpperCase(),),
                         ),
             ],
           ),

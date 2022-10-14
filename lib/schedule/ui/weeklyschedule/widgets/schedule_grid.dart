@@ -10,7 +10,7 @@ class ScheduleGrid extends CustomPaint {
   final Color gridLinesColor;
 
   ScheduleGrid(this.fromHour, this.toHour, this.timeLabelsWidth,
-      this.dateLabelsHeight, this.columns, this.gridLinesColor)
+      this.dateLabelsHeight, this.columns, this.gridLinesColor,)
       : super(
             painter: ScheduleGridCustomPaint(
           fromHour,
@@ -19,7 +19,7 @@ class ScheduleGrid extends CustomPaint {
           dateLabelsHeight,
           columns,
           gridLinesColor,
-        ));
+        ),);
 }
 
 class ScheduleGridCustomPaint extends CustomPainter {

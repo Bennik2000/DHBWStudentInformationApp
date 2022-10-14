@@ -14,7 +14,7 @@ class DualisScheduleSource extends ScheduleSource {
 
   @override
   Future<ScheduleQueryResult> querySchedule(DateTime? from, DateTime? to,
-      [CancellationToken? cancellationToken]) async {
+      [CancellationToken? cancellationToken,]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
 
     DateTime current = toStartOfMonth(from)!;
@@ -28,7 +28,7 @@ class DualisScheduleSource extends ScheduleSource {
     while (to!.isAfter(current) && !cancellationToken.isCancelled()) {
       try {
         var monthSchedule = await _dualisScraper.loadMonthlySchedule(
-            current, cancellationToken);
+            current, cancellationToken,);
 
         schedule.merge(monthSchedule);
       } on OperationCancelledException {

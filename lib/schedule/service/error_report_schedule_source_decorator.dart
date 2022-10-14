@@ -10,7 +10,7 @@ class ErrorReportScheduleSourceDecorator extends ScheduleSource {
 
   @override
   Future<ScheduleQueryResult?> querySchedule(DateTime? from, DateTime? to,
-      [CancellationToken? cancellationToken]) async {
+      [CancellationToken? cancellationToken,]) async {
     try {
       var schedule = await _scheduleSource.querySchedule(
         from,

@@ -28,7 +28,7 @@ void main() async {
 
   runApp(RootPage(
     rootViewModel: await loadRootViewModel(),
-  ));
+  ),);
 }
 
 ///

@@ -95,7 +95,7 @@ class SelectSourcePage extends StatelessWidget {
       SelectSourceViewModel? viewModel,
       BuildContext context,
       ScheduleSourceType type,
-      String title) {
+      String title,) {
     return RadioListTile(
       value: type, //model.useDualis,
       onChanged: viewModel?.setScheduleSourceType,

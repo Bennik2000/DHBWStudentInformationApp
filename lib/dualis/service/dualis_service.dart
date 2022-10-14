@@ -94,7 +94,7 @@ class DualisServiceImpl extends DualisService {
         module.credits,
         module.finalGrade,
         module.state,
-      ));
+      ),);
     }
     return modules;
   }

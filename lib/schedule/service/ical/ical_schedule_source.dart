@@ -46,7 +46,7 @@ class IcalScheduleSource extends ScheduleSource {
   }
 
   Future<Response?> _makeRequest(
-      String url, CancellationToken cancellationToken) async {
+      String url, CancellationToken cancellationToken,) async {
     url = url.replaceAll("webcal://", "https://");
 
     var requestCancellationToken = http.CancellationToken();

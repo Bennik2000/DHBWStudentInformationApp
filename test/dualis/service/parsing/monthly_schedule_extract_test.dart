@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 Future<void> main() async {
   var monthlySchedulePage = await File(Directory.current.absolute.path +
-          '/test/dualis/service/parsing/html_resources/monthly_schedule.html')
+          '/test/dualis/service/parsing/html_resources/monthly_schedule.html',)
       .readAsString();
 
   test('MonthlyScheduleExtract extract all appointments', () async {

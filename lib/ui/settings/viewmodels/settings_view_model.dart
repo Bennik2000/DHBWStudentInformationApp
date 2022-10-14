@@ -46,7 +46,7 @@ class SettingsViewModel extends BaseViewModel {
       this._preferencesProvider,
       this._nextDayInformationNotification,
       this._widgetHelper,
-      this._inAppPurchaseManager) {
+      this._inAppPurchaseManager,) {
     _loadPreferences();
 
     _inAppPurchaseManager.addPurchaseCallback(

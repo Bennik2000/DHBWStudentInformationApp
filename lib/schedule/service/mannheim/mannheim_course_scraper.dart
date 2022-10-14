@@ -28,7 +28,7 @@ class MannheimCourseScraper {
   }
 
   Future<Response> _makeRequest(
-      Uri uri, CancellationToken cancellationToken) async {
+      Uri uri, CancellationToken cancellationToken,) async {
     var requestCancellationToken = http.CancellationToken();
 
     try {
@@ -37,7 +37,7 @@ class MannheimCourseScraper {
       });
 
       var response = await http.HttpClientHelper.get(uri,
-          cancelToken: requestCancellationToken);
+          cancelToken: requestCancellationToken,);
 
       if (response == null && !requestCancellationToken.isCanceled)
         throw ServiceRequestFailed("Http request failed!");

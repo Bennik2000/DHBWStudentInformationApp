@@ -79,7 +79,7 @@ class ExamResultsPage extends StatelessWidget {
   }
 
   Widget buildModulesColumn(
-      BuildContext context, StudyGradesViewModel viewModel) {
+      BuildContext context, StudyGradesViewModel viewModel,) {
     return AnimatedSwitcher(
       layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
         List<Widget> children = previousChildren;
@@ -99,7 +99,7 @@ class ExamResultsPage extends StatelessWidget {
   }
 
   List<Widget> buildModulesDataTables(
-      BuildContext context, StudyGradesViewModel viewModel) {
+      BuildContext context, StudyGradesViewModel viewModel,) {
     var dataTables = <Widget>[];
 
     var isFirstModule = true;
@@ -111,8 +111,8 @@ class ExamResultsPage extends StatelessWidget {
         headingRowHeight: 65,
         rows: buildModuleDataRows(context, module),
         columns: buildModuleColumns(context, module,
-            displayGradeHeader: isFirstModule),
-      ));
+            displayGradeHeader: isFirstModule,),
+      ),);
       isFirstModule = false;
     }
     return dataTables;
@@ -139,12 +139,12 @@ class ExamResultsPage extends StatelessWidget {
                   textScaleFactor: exam.semester == "" ? 0 : 1,
                 ),
               ],
-            )),
+            ),),
             DataCell.empty,
             DataCell(Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 16, 0),
               child: _examGradeToWidget(context, exam.grade),
-            )),
+            ),),
           ],
         ),
       );
@@ -166,7 +166,7 @@ class ExamResultsPage extends StatelessWidget {
   }
 
   List<DataColumn> buildModuleColumns(BuildContext context, var module,
-      {var displayGradeHeader = false}) {
+      {var displayGradeHeader = false,}) {
     var displayWidth = MediaQuery.of(context).size.width;
 
     if (!PlatformUtil.isPortrait(context) && PlatformUtil.isTablet()) {
@@ -205,7 +205,7 @@ class ExamResultsPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 10, 16),
               child: Text(
-                  "${L.of(context).dualisExamResultsCreditsColumnHeader}:  ${module.credits}"),
+                  "${L.of(context).dualisExamResultsCreditsColumnHeader}:  ${module.credits}",),
             ),
           ),
         ),

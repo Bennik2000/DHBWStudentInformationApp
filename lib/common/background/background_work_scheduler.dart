@@ -23,7 +23,7 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
   ///
   @override
   Future<void> scheduleOneShotTaskIn(
-      Duration delay, String id, String name) async {
+      Duration delay, String id, String name,) async {
     print(
       "Scheduling one shot task: $id. With a delay of ${delay.inMinutes} minutes.",
     );

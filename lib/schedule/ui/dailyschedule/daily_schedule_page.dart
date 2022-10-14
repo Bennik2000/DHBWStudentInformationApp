@@ -35,9 +35,9 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
                 child: PropertyChangeConsumer<DailyScheduleViewModel, String>(
                   builder: (BuildContext context, DailyScheduleViewModel? model,
-                      Set? properties) {
+                      Set? properties,) {
                     var dateFormat = DateFormat.yMMMMEEEEd(
-                        L.of(context).locale.languageCode);
+                        L.of(context).locale.languageCode,);
                     return Text(
                       dateFormat.format(model!.currentDate!),
                       style: textStyleDailyScheduleCurrentDate(context),

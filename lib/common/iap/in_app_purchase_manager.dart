@@ -63,7 +63,7 @@ class InAppPurchaseManager {
 
   // TODO: [Leptopoda] better nullseafety
   void _purchaseCompletedCallback(
-      String? productId, PurchaseResultEnum result) {
+      String? productId, PurchaseResultEnum result,) {
     if (purchaseCallbacks.containsKey(productId)) {
       var callback = purchaseCallbacks[productId!];
 

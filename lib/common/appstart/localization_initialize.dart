@@ -26,7 +26,7 @@ class LocalizationInitialize {
     var localization = L(Locale(
       _languageCode ??
           (await _preferencesProvider?.getLastUsedLanguageCode() ?? "en"),
-    ));
+    ),);
     KiwiContainer().registerInstance(localization);
   }
 }

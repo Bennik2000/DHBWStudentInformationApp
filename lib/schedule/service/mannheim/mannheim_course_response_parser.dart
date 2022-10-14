@@ -24,7 +24,7 @@ class MannheimCourseResponseParser {
         "http://vorlesungsplan.dhbw-mannheim.de/ical.php?uid=$value",
         title,
         value,
-      ));
+      ),);
     }
 
     courses.sort((c1, c2) => c1.name.compareTo(c2.name));

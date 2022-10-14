@@ -33,7 +33,7 @@ class FakeAccountDualisScraperDecorator implements DualisScraper {
 
   @override
   Future<List<DualisModule>> loadAllModules(
-      [CancellationToken? cancellationToken]) {
+      [CancellationToken? cancellationToken,]) {
     return _currentDualisScraper.loadAllModules();
   }
 
@@ -72,7 +72,7 @@ class FakeAccountDualisScraperDecorator implements DualisScraper {
 
   @override
   Future<List<DualisSemester>> loadSemesters(
-      [CancellationToken? cancellationToken]) {
+      [CancellationToken? cancellationToken,]) {
     return _currentDualisScraper.loadSemesters(cancellationToken);
   }
 
@@ -99,7 +99,7 @@ class FakeAccountDualisScraperDecorator implements DualisScraper {
 
   @override
   Future<LoginResult> loginWithPreviousCredentials(
-      CancellationToken cancellationToken) {
+      CancellationToken cancellationToken,) {
     return _currentDualisScraper.loginWithPreviousCredentials(
       cancellationToken,
     );

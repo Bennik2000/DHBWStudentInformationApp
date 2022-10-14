@@ -62,7 +62,7 @@ class AllDatesExtract {
         year: parts[1].trim(),
         databaseName: databaseName,
         start: date,
-        end: date);
+        end: date,);
   }
 
   DateTime? _parseDateTime(String date, String time) {
