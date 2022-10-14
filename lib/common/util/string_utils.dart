@@ -1,19 +1,4 @@
-// TODO: [Leptopoda] deprecate as dart has it's own function (at least for the above)
-
-String concatStringList(List<String> list, String separator) {
-  var result = "";
-
-  for (final element in list) {
-    result += element + separator;
-  }
-
-  if (result != "") {
-    result = result.substring(0, result.length - separator.length);
-  }
-
-  return result;
-}
-
+// TODO: [Leptopoda] deprecate this as propper localization does already have interpolation
 String interpolate(String string, List<String?> params) {
   String result = string;
   for (int i = 0; i < params.length; i++) {

@@ -1,4 +1,3 @@
-import 'package:dhbwstudentapp/common/util/string_utils.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:html/dom.dart';
@@ -202,7 +201,10 @@ class RaplaParsingUtils {
       resourcesList.add(resource.innerHtml);
     }
 
-    return concatStringList(resourcesList, ", ");
+    final buffer = StringBuffer();
+    buffer.writeAll(resourcesList, ", ");
+
+    return buffer.toString();
   }
 
   static String readYearOrThrow(Document document) {
