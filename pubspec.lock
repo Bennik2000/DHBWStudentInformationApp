@@ -414,12 +414,12 @@ packages:
     source: hosted
     version: "3.0.1"
   lint:
-    dependency: transitive
+    dependency: "direct dev"
     description:
       name: lint
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.2"
+    version: "1.10.0"
   logging:
     dependency: transitive
     description:
