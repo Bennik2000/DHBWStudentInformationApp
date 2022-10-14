@@ -40,6 +40,7 @@ dependencies:
   kiwi: ^4.0.2
   launch_review: ^3.0.1
   mutex: ^3.0.0
+  path: ^1.8.0
   path_provider: ^2.0.9
   property_change_notifier: ^0.3.0
   provider: ^6.0.2
