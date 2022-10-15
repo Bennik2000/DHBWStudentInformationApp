@@ -1,11 +1,9 @@
 import 'package:dhbwstudentapp/assets.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/text_styles.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/widgets/current_time_indicator_widget.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/widgets/daily_schedule_entry_widget.dart';
 import 'package:dhbwstudentapp/schedule/ui/viewmodels/daily_schedule_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
@@ -22,6 +20,10 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
   @override
   Widget build(BuildContext context) {
     viewModel = Provider.of<DailyScheduleViewModel>(context);
+
+    final textTheme = Theme.of(context).textTheme;
+    final dailyScheduleEntryTitle =
+        textTheme.headline4?.copyWith(color: textTheme.headline5?.color);
 
     return PropertyChangeProvider<DailyScheduleViewModel, String>(
       value: viewModel,
@@ -44,7 +46,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                     );
                     return Text(
                       dateFormat.format(model!.currentDate!),
-                      style: textStyleDailyScheduleCurrentDate(context),
+                      style: dailyScheduleEntryTitle,
                     );
                   },
                 ),
@@ -64,7 +66,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                               L.of(context).dailyScheduleNoEntriesToday,
                               softWrap: true,
                               textAlign: TextAlign.center,
-                              style: textStyleDailyScheduleNoEntries(context),
+                              style: Theme.of(context).textTheme.headline5,
                             ),
                           ),
                           Expanded(child: Container()),

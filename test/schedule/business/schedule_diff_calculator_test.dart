@@ -42,7 +42,7 @@ void main() {
 
     final newEntry = ScheduleEntry(
       room: "Room3",
-      type: ScheduleEntryType.Class,
+      type: ScheduleEntryType.Lesson,
       title: "Project management",
       professor: "Sam",
       details: "ipsum",
@@ -161,7 +161,7 @@ Schedule generateSchedule() {
   final scheduleEntries = <ScheduleEntry>[
     ScheduleEntry(
       room: "Room1",
-      type: ScheduleEntryType.Class,
+      type: ScheduleEntryType.Lesson,
       title: "Chemistry",
       professor: "Mr. White",
       details: "We will make breaks",
@@ -170,7 +170,7 @@ Schedule generateSchedule() {
     ),
     ScheduleEntry(
       room: "Room2",
-      type: ScheduleEntryType.Class,
+      type: ScheduleEntryType.Lesson,
       title: "Computer Science",
       professor: "Mr. Turing",
       details: "Lorem",
@@ -179,7 +179,7 @@ Schedule generateSchedule() {
     ),
     ScheduleEntry(
       room: "Room3",
-      type: ScheduleEntryType.Class,
+      type: ScheduleEntryType.Lesson,
       title: "Physics",
       professor: "Mr. Hawking",
       details: "ipsum",
@@ -188,7 +188,7 @@ Schedule generateSchedule() {
     ),
     ScheduleEntry(
       room: "Room3",
-      type: ScheduleEntryType.Class,
+      type: ScheduleEntryType.Lesson,
       title: "Physics",
       professor: "Mr. Hawking",
       details: "ipsum",

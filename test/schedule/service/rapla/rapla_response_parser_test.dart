@@ -51,43 +51,43 @@ Future<void> main() async {
     expect(schedule.entries[0].title, "Netztechnik I");
     expect(schedule.entries[0].start, DateTime(2020, 09, 07, 09, 15));
     expect(schedule.entries[0].end, DateTime(2020, 09, 07, 11, 45));
-    expect(schedule.entries[0].type, ScheduleEntryType.Class);
+    expect(schedule.entries[0].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[0].professor, "Müller, Georg");
 
     expect(schedule.entries[1].title, "Semestereinführung");
     expect(schedule.entries[1].start, DateTime(2020, 09, 07, 12));
     expect(schedule.entries[1].end, DateTime(2020, 09, 07, 12, 30));
-    expect(schedule.entries[1].type, ScheduleEntryType.Class);
+    expect(schedule.entries[1].type, ScheduleEntryType.Lesson);
 
     expect(schedule.entries[2].title, "Messdatenerfassung");
     expect(schedule.entries[2].start, DateTime(2020, 09, 07, 13));
     expect(schedule.entries[2].end, DateTime(2020, 09, 07, 14, 30));
-    expect(schedule.entries[2].type, ScheduleEntryType.Class);
+    expect(schedule.entries[2].type, ScheduleEntryType.Lesson);
 
     expect(schedule.entries[3].title, "Formale Sprachen & Automaten");
     expect(schedule.entries[3].start, DateTime(2020, 09, 08, 08, 15));
     expect(schedule.entries[3].end, DateTime(2020, 09, 08, 11, 45));
-    expect(schedule.entries[3].type, ScheduleEntryType.Class);
+    expect(schedule.entries[3].type, ScheduleEntryType.Lesson);
 
     expect(schedule.entries[4].title, "Signale & Systeme I");
     expect(schedule.entries[4].start, DateTime(2020, 09, 08, 13));
     expect(schedule.entries[4].end, DateTime(2020, 09, 08, 15));
-    expect(schedule.entries[4].type, ScheduleEntryType.Class);
+    expect(schedule.entries[4].type, ScheduleEntryType.Lesson);
 
     expect(schedule.entries[5].title, "Angewandte Mathematik");
     expect(schedule.entries[5].start, DateTime(2020, 09, 09, 09));
     expect(schedule.entries[5].end, DateTime(2020, 09, 09, 11, 45));
-    expect(schedule.entries[5].type, ScheduleEntryType.Class);
+    expect(schedule.entries[5].type, ScheduleEntryType.Lesson);
 
     expect(schedule.entries[6].title, "SWE");
     expect(schedule.entries[6].start, DateTime(2020, 09, 10, 09, 15));
     expect(schedule.entries[6].end, DateTime(2020, 09, 10, 12));
-    expect(schedule.entries[6].type, ScheduleEntryType.Class);
+    expect(schedule.entries[6].type, ScheduleEntryType.Lesson);
 
     expect(schedule.entries[7].title, "Messdatenerfassung");
     expect(schedule.entries[7].start, DateTime(2020, 09, 10, 13));
     expect(schedule.entries[7].end, DateTime(2020, 09, 10, 14, 30));
-    expect(schedule.entries[7].type, ScheduleEntryType.Class);
+    expect(schedule.entries[7].type, ScheduleEntryType.Lesson);
   });
 
   test('Rapla correctly read all classes of monthly view', () async {
@@ -100,7 +100,7 @@ Future<void> main() async {
     expect(schedule.entries[0].title, "Mikrocontroller ONLINE");
     expect(schedule.entries[0].start, DateTime(2020, 10, 01, 13));
     expect(schedule.entries[0].end, DateTime(2020, 10, 01, 18));
-    expect(schedule.entries[0].type, ScheduleEntryType.Class);
+    expect(schedule.entries[0].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[0].professor, "Schmitt, Tobias");
   });
 
@@ -112,7 +112,7 @@ Future<void> main() async {
     expect(schedule.entries[0].title, "Modulprüfung T3_2000");
     expect(schedule.entries[0].start, DateTime(2021, 09, 22, 08));
     expect(schedule.entries[0].end, DateTime(2021, 09, 22, 15));
-    expect(schedule.entries[0].type, ScheduleEntryType.Class);
+    expect(schedule.entries[0].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[0].professor, "A");
     expect(
       schedule.entries[0].room,
@@ -127,7 +127,7 @@ Future<void> main() async {
     expect(schedule.entries[8].title, "Ausgewählte Themen der Informatik");
     expect(schedule.entries[8].start, DateTime(2021, 10, 06, 13, 45));
     expect(schedule.entries[8].end, DateTime(2021, 10, 06, 17));
-    expect(schedule.entries[8].type, ScheduleEntryType.Class);
+    expect(schedule.entries[8].type, ScheduleEntryType.Lesson);
 
     expect(schedule.entries[84].title, "Silvester");
     expect(schedule.entries[84].start, DateTime(2021, 12, 31, 08));
@@ -146,13 +146,13 @@ Future<void> main() async {
     expect(schedule.entries[0].title, "Verkehrswegebau und Straßenwesen");
     expect(schedule.entries[0].start, DateTime(2021, 12, 01, 08, 15));
     expect(schedule.entries[0].end, DateTime(2021, 12, 01, 12, 15));
-    expect(schedule.entries[0].type, ScheduleEntryType.Class);
+    expect(schedule.entries[0].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[0].professor, "Müller");
 
     expect(schedule.entries[3].title, "Marketing und Unternehmensstrategie");
     expect(schedule.entries[3].start, DateTime(2021, 12, 03, 13));
     expect(schedule.entries[3].end, DateTime(2021, 12, 03, 16, 15));
-    expect(schedule.entries[3].type, ScheduleEntryType.Class);
+    expect(schedule.entries[3].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[3].professor, "Mayer");
 
     expect(schedule.entries[11].title, "Stahlbetonbau");
@@ -189,7 +189,7 @@ Future<void> main() async {
     expect(schedule.entries[0].title, "Grundlagen der Handelsbetriebslehre");
     expect(schedule.entries[0].start, DateTime(2021, 11, 02, 09));
     expect(schedule.entries[0].end, DateTime(2021, 11, 02, 12, 15));
-    expect(schedule.entries[0].type, ScheduleEntryType.Class);
+    expect(schedule.entries[0].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[0].professor, "Fr, Ta");
     expect(
       schedule.entries[0].room,
@@ -202,7 +202,7 @@ Future<void> main() async {
     );
     expect(schedule.entries[1].start, DateTime(2021, 11, 02, 13, 45));
     expect(schedule.entries[1].end, DateTime(2021, 11, 02, 17));
-    expect(schedule.entries[1].type, ScheduleEntryType.Class);
+    expect(schedule.entries[1].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[1].professor, "Le, An");
     expect(
       schedule.entries[1].room,
@@ -212,7 +212,7 @@ Future<void> main() async {
     expect(schedule.entries[2].title, "Grundlagen des Bürgerlichen Rechts");
     expect(schedule.entries[2].start, DateTime(2021, 11, 03, 09));
     expect(schedule.entries[2].end, DateTime(2021, 11, 03, 11, 30));
-    expect(schedule.entries[2].type, ScheduleEntryType.Class);
+    expect(schedule.entries[2].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[2].professor, "Ei, An");
     expect(
       schedule.entries[2].room,
@@ -222,7 +222,7 @@ Future<void> main() async {
     expect(schedule.entries[3].title, "Technik der Finanzbuchführung I");
     expect(schedule.entries[3].start, DateTime(2021, 11, 03, 13));
     expect(schedule.entries[3].end, DateTime(2021, 11, 03, 16, 15));
-    expect(schedule.entries[3].type, ScheduleEntryType.Class);
+    expect(schedule.entries[3].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[3].professor, "Se, Ka");
     expect(
       schedule.entries[3].room,
@@ -235,7 +235,7 @@ Future<void> main() async {
     );
     expect(schedule.entries[4].start, DateTime(2021, 11, 04, 09));
     expect(schedule.entries[4].end, DateTime(2021, 11, 04, 12, 15));
-    expect(schedule.entries[4].type, ScheduleEntryType.Class);
+    expect(schedule.entries[4].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[4].professor, "He, Be");
     expect(
       schedule.entries[4].room,
@@ -245,7 +245,7 @@ Future<void> main() async {
     expect(schedule.entries[5].title, "Grundlagen der Handelsbetriebslehre");
     expect(schedule.entries[5].start, DateTime(2021, 11, 04, 12, 45));
     expect(schedule.entries[5].end, DateTime(2021, 11, 04, 16));
-    expect(schedule.entries[5].type, ScheduleEntryType.Class);
+    expect(schedule.entries[5].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[5].professor, "Fr, Ta");
     expect(
       schedule.entries[5].room,
@@ -255,7 +255,7 @@ Future<void> main() async {
     expect(schedule.entries[6].title, "Einführung in die Programmierung");
     expect(schedule.entries[6].start, DateTime(2021, 11, 05, 13));
     expect(schedule.entries[6].end, DateTime(2021, 11, 05, 16, 15));
-    expect(schedule.entries[6].type, ScheduleEntryType.Class);
+    expect(schedule.entries[6].type, ScheduleEntryType.Lesson);
     expect(schedule.entries[6].professor, "He, Ma");
     expect(
       schedule.entries[6].room,

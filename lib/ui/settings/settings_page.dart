@@ -2,7 +2,6 @@ import 'package:dhbwstudentapp/assets.dart';
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
-import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
@@ -242,9 +241,9 @@ class _SettingsPageState extends State<SettingsPage> {
             },
             subtitle: Text(
               {
-                AppTheme.Dark: L.of(context).selectThemeDark,
-                AppTheme.Light: L.of(context).selectThemeLight,
-                AppTheme.System: L.of(context).selectThemeSystem,
+                ThemeMode.dark: L.of(context).selectThemeDark,
+                ThemeMode.light: L.of(context).selectThemeLight,
+                ThemeMode.system: L.of(context).selectThemeSystem,
               }[model!.appTheme]!,
             ),
           );

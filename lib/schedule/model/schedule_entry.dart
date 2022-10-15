@@ -1,16 +1,36 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:dhbwstudentapp/common/data/epoch_date_time_converter.dart';
+import 'package:dhbwstudentapp/common/ui/schedule_entry_theme.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'schedule_entry.g.dart';
 
 enum ScheduleEntryType {
   Unknown,
-  Class,
+  Lesson,
   Online,
   PublicHoliday,
-  Exam,
+  Exam;
+
+  Color color(BuildContext context) {
+    final scheduleEntryTheme =
+        Theme.of(context).extension<ScheduleEntryTheme>()!;
+
+    switch (this) {
+      case ScheduleEntryType.PublicHoliday:
+        return scheduleEntryTheme.publicHoliday;
+      case ScheduleEntryType.Lesson:
+        return scheduleEntryTheme.lesson;
+      case ScheduleEntryType.Exam:
+        return scheduleEntryTheme.exam;
+      case ScheduleEntryType.Online:
+        return scheduleEntryTheme.online;
+      case ScheduleEntryType.Unknown:
+        return scheduleEntryTheme.unknown;
+    }
+  }
 }
 
 @CopyWith()

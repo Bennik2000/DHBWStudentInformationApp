@@ -1,5 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/ui/app_theme.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +30,9 @@ class DateDetailBottomSheet extends StatelessWidget {
                 child: Container(
                   height: 8,
                   width: 30,
-                  decoration: BoxDecoration(
-                    color: colorSeparator(),
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  decoration: const BoxDecoration(
+                    color: AppTheme.separator,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
                 ),
               ),

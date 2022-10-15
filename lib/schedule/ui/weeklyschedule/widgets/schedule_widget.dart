@@ -1,6 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
-import 'package:dhbwstudentapp/common/ui/text_styles.dart';
+import 'package:dhbwstudentapp/common/ui/schedule_theme.dart';
+import 'package:dhbwstudentapp/common/ui/text_theme.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
@@ -9,7 +9,6 @@ import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_entry
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_grid.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_past_overlay.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleWidget extends StatelessWidget {
@@ -46,6 +45,8 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   Widget buildWithSize(BuildContext context, double width, double height) {
+    final scheduleTheme = Theme.of(context).extension<ScheduleTheme>()!;
+
     const dayLabelsHeight = 40.0;
     const timeLabelsWidth = 50.0;
 
@@ -85,7 +86,7 @@ class ScheduleWidget extends StatelessWidget {
           timeLabelsWidth,
           dayLabelsHeight,
           days,
-          colorScheduleGridGridLines(context),
+          scheduleTheme.scheduleGridGridLines,
         ),
         Padding(
           padding:
@@ -103,7 +104,7 @@ class ScheduleWidget extends StatelessWidget {
           child: SchedulePastOverlay(
             displayStartHour,
             displayEndHour,
-            colorScheduleInPastOverlay(context),
+            scheduleTheme.scheduleInPastOverlay,
             displayStart,
             displayEnd,
             now,
@@ -162,6 +163,11 @@ class ScheduleWidget extends StatelessWidget {
 
     final loopEnd = toStartOfDay(tomorrow(displayEnd))!;
 
+    final textTheme = Theme.of(context).textTheme;
+    final customTextThme = Theme.of(context).extension<CustomTextTheme>();
+    final scheduleWidgetColumnTitleDay = textTheme.subtitle2
+        ?.merge(customTextThme?.scheduleWidgetColumnTitleDay);
+
     for (var columnDate = toStartOfDay(displayStart)!;
         columnDate.isBefore(loopEnd);
         columnDate = tomorrow(columnDate)!) {
@@ -179,7 +185,7 @@ class ScheduleWidget extends StatelessWidget {
               children: <Widget>[
                 Text(
                   dayFormatter.format(columnDate),
-                  style: textStyleScheduleWidgetColumnTitleDay(context),
+                  style: scheduleWidgetColumnTitleDay,
                 ),
                 Text(dateFormatter.format(columnDate)),
               ],

@@ -1,10 +1,10 @@
 import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/application_constants.dart';
-import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_access.dart';
 import 'package:dhbwstudentapp/common/data/preferences/secure_storage_access.dart';
 import 'package:dhbwstudentapp/date_management/data/calendar_access.dart';
 import 'package:dhbwstudentapp/dualis/model/credentials.dart';
+import 'package:flutter/material.dart';
 
 class PreferencesProvider {
   static const String AppThemeKey = "AppTheme";
@@ -35,18 +35,19 @@ class PreferencesProvider {
 
   PreferencesProvider(this._preferencesAccess, this._secureStorageAccess);
 
-  Future<AppTheme> appTheme() async {
+  Future<ThemeMode> appTheme() async {
     final theme = await _preferencesAccess.get<String>(AppThemeKey);
+    final themeName = theme?.toLowerCase();
 
-    return AppTheme.values.firstWhere(
-      (element) => element.name == theme,
+    return ThemeMode.values.firstWhere(
+      (element) => element.name == themeName,
       orElse: () {
-        return AppTheme.System;
+        return ThemeMode.system;
       },
     );
   }
 
-  Future<void> setAppTheme(AppTheme value) async {
+  Future<void> setAppTheme(ThemeMode value) async {
     await _preferencesAccess.set<String>(AppThemeKey, value.name);
   }
 

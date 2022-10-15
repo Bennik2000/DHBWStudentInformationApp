@@ -22,8 +22,8 @@ class RaplaParsingUtils {
   static const Map<String, ScheduleEntryType> entryTypeMapping = {
     "Feiertag": ScheduleEntryType.PublicHoliday,
     "Online-Format (ohne Raumbelegung)": ScheduleEntryType.Online,
-    "Vorlesung / Lehrbetrieb": ScheduleEntryType.Class,
-    "Lehrveranstaltung": ScheduleEntryType.Class,
+    "Vorlesung / Lehrbetrieb": ScheduleEntryType.Lesson,
+    "Lehrveranstaltung": ScheduleEntryType.Lesson,
     "Klausur / Prüfung": ScheduleEntryType.Exam,
     "Prüfung": ScheduleEntryType.Exam
   };

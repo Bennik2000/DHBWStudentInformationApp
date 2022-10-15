@@ -1,6 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/logging/analytics.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/ui/app_theme.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
 import 'package:dhbwstudentapp/ui/navigation/router.dart';
@@ -37,7 +37,9 @@ class _RootPageState extends State<RootPage> {
         builder:
             (BuildContext context, RootViewModel? model, Set? properties) =>
                 MaterialApp(
-          theme: ColorPalettes.buildTheme(model!.appTheme),
+          theme: AppTheme.lightThemeData,
+          darkTheme: AppTheme.darkThemeData,
+          themeMode: model?.appTheme,
           initialRoute:
               widget.rootViewModel.isOnboarding ? "onboarding" : "main",
           navigatorKey: NavigatorKey.rootKey,

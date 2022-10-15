@@ -1,7 +1,7 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/ui/app_theme.dart';
 import 'package:dhbwstudentapp/common/ui/schedule_entry_type_mappings.dart';
-import 'package:dhbwstudentapp/common/ui/text_styles.dart';
+import 'package:dhbwstudentapp/common/ui/text_theme.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +19,11 @@ class DailyScheduleEntryWidget extends StatelessWidget {
     final startTime = timeFormatter.format(scheduleEntry.start);
     final endTime = timeFormatter.format(scheduleEntry.end);
 
+    final textTheme = Theme.of(context).textTheme;
+    final customTextThme = Theme.of(context).extension<CustomTextTheme>()!;
+    final dailyScheduleEntryTitle =
+        textTheme.headline4?.copyWith(color: textTheme.headline6?.color);
+
     return IntrinsicHeight(
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,20 +36,19 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                 children: <Widget>[
                   Text(
                     startTime,
-                    style: textStyleDailyScheduleEntryWidgetTimeStart(context),
+                    style: textTheme.headline5
+                        ?.merge(customTextThme.dailyScheduleEntryTimeStart),
                   ),
                   Expanded(
-                    child: Padding(
+                    child: Container(
                       padding: const EdgeInsets.all(4),
-                      child: Container(
-                        width: 1,
-                        color: colorDailyScheduleTimeVerticalConnector(),
-                      ),
+                      width: 1,
+                      color: AppTheme.dailyScheduleTimeVerticalConnector,
                     ),
                   ),
                   Text(
                     endTime,
-                    style: textStyleDailyScheduleEntryWidgetTimeEnd(context),
+                    style: Theme.of(context).textTheme.subtitle2,
                   ),
                 ],
               ),
@@ -55,7 +59,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
             child: Card(
               margin: EdgeInsets.zero,
               elevation: 8,
-              color: scheduleEntryTypeToColor(context, scheduleEntry.type),
+              color: scheduleEntry.type.color(context),
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Column(
@@ -65,7 +69,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                       child: Text(
                         scheduleEntry.title,
-                        style: textStyleDailyScheduleEntryWidgetTitle(context),
+                        style: dailyScheduleEntryTitle,
                       ),
                     ),
                     Row(
@@ -75,18 +79,15 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               scheduleEntry.professor,
-                              style: textStyleDailyScheduleEntryWidgetProfessor(
-                                context,
-                              ),
+                              style: Theme.of(context).textTheme.subtitle2,
                             ),
                             Text(
                               scheduleEntryTypeToReadableString(
                                 context,
                                 scheduleEntry.type,
                               ),
-                              style: textStyleDailyScheduleEntryWidgetType(
-                                context,
-                              ),
+                              style: textTheme.bodyText2?.merge(
+                                  customTextThme.dailyScheduleEntryType,),
                             ),
                           ],
                         ),

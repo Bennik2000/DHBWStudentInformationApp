@@ -1,10 +1,9 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/ui/app_theme.dart';
 import 'package:dhbwstudentapp/common/ui/schedule_entry_type_mappings.dart';
-import 'package:dhbwstudentapp/common/ui/text_styles.dart';
+import 'package:dhbwstudentapp/common/ui/text_theme.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleEntryDetailBottomSheet extends StatelessWidget {
@@ -22,6 +21,11 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
     final typeString =
         scheduleEntryTypeToReadableString(context, scheduleEntry!.type);
 
+    final textTheme = Theme.of(context).textTheme;
+    final customTextThme = Theme.of(context).extension<CustomTextTheme>();
+    final scheduleEntryBottomPageType =
+        textTheme.bodyText1?.merge(customTextThme?.scheduleEntryBottomPageType);
+
     return SizedBox(
       height: 400,
       child: Padding(
@@ -35,9 +39,9 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 child: Container(
                   height: 8,
                   width: 30,
-                  decoration: BoxDecoration(
-                    color: colorSeparator(),
-                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  decoration: const BoxDecoration(
+                    color: AppTheme.separator,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
                   ),
                 ),
               ),
@@ -55,14 +59,11 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             L.of(context).scheduleEntryDetailFrom,
-                            style: textStyleScheduleEntryBottomPageTimeFromTo(
-                              context,
-                            ),
+                            style: Theme.of(context).textTheme.caption,
                           ),
                           Text(
                             timeStart,
-                            style:
-                                textStyleScheduleEntryBottomPageTime(context),
+                            style: Theme.of(context).textTheme.caption,
                           ),
                         ],
                       ),
@@ -72,14 +73,11 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             L.of(context).scheduleEntryDetailTo,
-                            style: textStyleScheduleEntryBottomPageTimeFromTo(
-                              context,
-                            ),
+                            style: Theme.of(context).textTheme.caption,
                           ),
                           Text(
                             timeEnd,
-                            style:
-                                textStyleScheduleEntryBottomPageTime(context),
+                            style: Theme.of(context).textTheme.headline5,
                           ),
                         ],
                       ),
@@ -91,7 +89,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                       child: Text(
                         scheduleEntry!.title,
                         softWrap: true,
-                        style: textStyleScheduleEntryBottomPageTitle(context),
+                        style: Theme.of(context).textTheme.subtitle2,
                       ),
                     ),
                   ),
@@ -110,7 +108,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                   ),
                   Text(
                     typeString,
-                    style: textStyleScheduleEntryBottomPageType(context),
+                    style: scheduleEntryBottomPageType,
                   ),
                 ],
               ),
@@ -128,7 +126,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                 child: Container(
-                  color: colorSeparator(),
+                  color: AppTheme.separator,
                   height: 1,
                 ),
               ),

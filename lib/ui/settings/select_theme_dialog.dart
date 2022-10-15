@@ -1,4 +1,3 @@
-import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:flutter/material.dart';
@@ -33,21 +32,21 @@ class SelectThemeDialog {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                RadioListTile<AppTheme>(
+                RadioListTile(
                   title: Text(L.of(context).selectThemeLight),
-                  value: AppTheme.Light,
+                  value: ThemeMode.light,
                   groupValue: _rootViewModel.appTheme,
                   onChanged: _rootViewModel.setAppTheme,
                 ),
-                RadioListTile<AppTheme>(
+                RadioListTile(
                   title: Text(L.of(context).selectThemeDark),
-                  value: AppTheme.Dark,
+                  value: ThemeMode.dark,
                   groupValue: _rootViewModel.appTheme,
                   onChanged: _rootViewModel.setAppTheme,
                 ),
-                RadioListTile<AppTheme>(
+                RadioListTile(
                   title: Text(L.of(context).selectThemeSystem),
-                  value: AppTheme.System,
+                  value: ThemeMode.system,
                   groupValue: _rootViewModel.appTheme,
                   onChanged: _rootViewModel.setAppTheme,
                 ),

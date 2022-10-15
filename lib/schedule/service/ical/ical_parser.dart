@@ -61,7 +61,7 @@ class IcalParser {
       end: _parseDate(properties["DTEND"]),
       room: properties["LOCATION"],
       title: properties["SUMMARY"],
-      type: ScheduleEntryType.Class,
+      type: ScheduleEntryType.Lesson,
       details: properties["DESCRIPTION"] ?? "",
       professor: "",
     );

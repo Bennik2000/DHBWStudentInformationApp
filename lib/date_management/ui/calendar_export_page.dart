@@ -1,7 +1,7 @@
 import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/ui/app_theme.dart';
 import 'package:dhbwstudentapp/date_management/data/calendar_access.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/calendar_export_view_model.dart';
@@ -121,7 +121,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: widget.isCalendarSyncEnabled
-                    ? ColorPalettes.main
+                    ? AppTheme.main
                     : Theme.of(context).disabledColor,
                 fontSize: 14,
               ),
