@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/assets.dart';
 import 'package:dhbwstudentapp/common/math/math.dart';
 import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
@@ -11,13 +12,13 @@ class OnboardingPageBackground extends StatelessWidget {
   final Animation<double> bottomBackground;
 
   final Map<Brightness, String> foreground = {
-    Brightness.light: "assets/onboarding_bottom_foreground.png",
-    Brightness.dark: "assets/onboarding_bottom_foreground_dark.png",
+    Brightness.light: Assets.assets_onboarding_bottom_foreground_png,
+    Brightness.dark: Assets.assets_onboarding_bottom_foreground_dark_png,
   };
 
   final Map<Brightness, String> background = {
-    Brightness.light: "assets/onboarding_bottom_background.png",
-    Brightness.dark: "assets/onboarding_bottom_background_dark.png",
+    Brightness.light: Assets.assets_onboarding_bottom_background_png,
+    Brightness.dark: Assets.assets_onboarding_bottom_background_dark_png,
   };
 
   OnboardingPageBackground({Key? key, required this.controller})

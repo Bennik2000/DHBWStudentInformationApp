@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/assets.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/text_styles.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/widgets/current_time_indicator_widget.dart';
@@ -73,7 +74,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                         padding: const EdgeInsets.fromLTRB(32, 64, 32, 32),
                         child: Opacity(
                           opacity: 0.9,
-                          child: Image.asset("assets/empty_state.png"),
+                          child: Image.asset(Assets.assets_empty_state_png),
                         ),
                       )
                     ],

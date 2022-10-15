@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/assets.dart';
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
@@ -95,7 +96,7 @@ class _SettingsPageState extends State<SettingsPage> {
           showAboutDialog(
             context: context,
             applicationIcon: Image.asset(
-              "assets/app_icon.png",
+              Assets.assets_app_icon_png,
               width: 75,
             ),
             applicationLegalese: L.of(context).applicationLegalese,
