@@ -131,3 +131,39 @@ extension $ScheduleEntryCopyWith on ScheduleEntry {
   // ignore: library_private_types_in_public_api
   _$ScheduleEntryCWProxy get copyWith => _$ScheduleEntryCWProxyImpl(this);
 }
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+ScheduleEntry _$ScheduleEntryFromJson(Map<String, dynamic> json) =>
+    ScheduleEntry(
+      id: json['id'] as int?,
+      start: _$JsonConverterFromJson<int, DateTime>(
+          json['start'], const EpochDateTimeConverter().fromJson),
+      end: _$JsonConverterFromJson<int, DateTime>(
+          json['end'], const EpochDateTimeConverter().fromJson),
+      title: json['title'] as String?,
+      details: json['details'] as String?,
+      professor: json['professor'] as String?,
+      room: json['room'] as String?,
+      type: ScheduleEntry._typeFromJson(json['type'] as int),
+    );
+
+Map<String, dynamic> _$ScheduleEntryToJson(ScheduleEntry instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'start': const EpochDateTimeConverter().toJson(instance.start),
+      'end': const EpochDateTimeConverter().toJson(instance.end),
+      'title': instance.title,
+      'details': instance.details,
+      'professor': instance.professor,
+      'room': instance.room,
+      'type': ScheduleEntry._typeToJson(instance.type),
+    };
+
+Value? _$JsonConverterFromJson<Json, Value>(
+  Object? json,
+  Value? Function(Json json) fromJson,
+) =>
+    json == null ? null : fromJson(json as Json);

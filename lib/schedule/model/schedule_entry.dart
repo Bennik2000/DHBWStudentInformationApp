@@ -1,5 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:dhbwstudentapp/common/data/epoch_date_time_converter.dart';
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'schedule_entry.g.dart';
 
@@ -12,14 +14,21 @@ enum ScheduleEntryType {
 }
 
 @CopyWith()
+@JsonSerializable()
 class ScheduleEntry extends Equatable {
   final int? id;
+  @EpochDateTimeConverter()
   final DateTime start;
+  @EpochDateTimeConverter()
   final DateTime end;
   final String title;
   final String details;
   final String professor;
   final String room;
+  @JsonKey(
+    toJson: _typeToJson,
+    fromJson: _typeFromJson,
+  )
   final ScheduleEntryType type;
 
   ScheduleEntry({
@@ -65,6 +74,17 @@ class ScheduleEntry extends Equatable {
 
     return changedProperties;
   }
+
+  factory ScheduleEntry.fromJson(Map<String, dynamic> json) =>
+      _$ScheduleEntryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ScheduleEntryToJson(this);
+
+  static const tableName = "ScheduleEntries";
+
+  static int _typeToJson(ScheduleEntryType value) => value.index;
+  static ScheduleEntryType _typeFromJson(int value) =>
+      ScheduleEntryType.values[value];
 
   @override
   List<Object?> get props =>

@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/data/database_access.dart';
-import 'package:dhbwstudentapp/schedule/data/schedule_entry_entity.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
@@ -17,7 +16,7 @@ class ScheduleEntryRepository {
     DateTime end,
   ) async {
     final rows = await _database.queryRows(
-      ScheduleEntryEntity.tableName(),
+      ScheduleEntry.tableName,
       where: "end>? AND start<?",
       whereArgs: [
         start.millisecondsSinceEpoch,
@@ -27,7 +26,7 @@ class ScheduleEntryRepository {
 
     final entries = <ScheduleEntry>[];
     for (final row in rows) {
-      entries.add(ScheduleEntryEntity.fromMap(row).asScheduleEntry());
+      entries.add(ScheduleEntry.fromJson(row));
     }
 
     return Schedule(entries: entries);
@@ -35,7 +34,7 @@ class ScheduleEntryRepository {
 
   Future<ScheduleEntry?> queryExistingScheduleEntry(ScheduleEntry entry) async {
     final rows = await _database.queryRows(
-      ScheduleEntryEntity.tableName(),
+      ScheduleEntry.tableName,
       where: "start=? AND end=? AND title=? AND details=? AND professor=?",
       whereArgs: [
         entry.start.millisecondsSinceEpoch,
@@ -48,12 +47,12 @@ class ScheduleEntryRepository {
 
     if (rows.isEmpty) return null;
 
-    return ScheduleEntryEntity.fromMap(rows[0]).asScheduleEntry();
+    return ScheduleEntry.fromJson(rows[0]);
   }
 
   Future<ScheduleEntry?> queryNextScheduleEntry(DateTime dateTime) async {
     final nextScheduleEntry = await _database.queryRows(
-      ScheduleEntryEntity.tableName(),
+      ScheduleEntry.tableName,
       where: "start>?",
       whereArgs: [dateTime.millisecondsSinceEpoch],
       limit: 1,
@@ -63,7 +62,7 @@ class ScheduleEntryRepository {
     final entriesList = nextScheduleEntry.toList();
 
     if (entriesList.length == 1) {
-      return ScheduleEntryEntity.fromMap(entriesList[0]).asScheduleEntry();
+      return ScheduleEntry.fromJson(entriesList[0]);
     }
 
     return null;
@@ -86,12 +85,12 @@ class ScheduleEntryRepository {
       return;
     }
 
-    final row = ScheduleEntryEntity.fromModel(entry).toMap();
+    final row = entry.toJson();
     if (entry.id == null) {
-      final id = await _database.insert(ScheduleEntryEntity.tableName(), row);
+      final id = await _database.insert(ScheduleEntry.tableName, row);
       entry = entry.copyWith.id(id);
     } else {
-      await _database.update(ScheduleEntryEntity.tableName(), row);
+      await _database.update(ScheduleEntry.tableName, row);
     }
   }
 
@@ -102,7 +101,7 @@ class ScheduleEntryRepository {
   }
 
   Future<void> deleteScheduleEntry(ScheduleEntry entry) async {
-    await _database.delete(ScheduleEntryEntity.tableName(), entry.id);
+    await _database.delete(ScheduleEntry.tableName, entry.id);
   }
 
   Future<void> deleteScheduleEntriesBetween(
@@ -110,7 +109,7 @@ class ScheduleEntryRepository {
     DateTime end,
   ) async {
     await _database.deleteWhere(
-      ScheduleEntryEntity.tableName(),
+      ScheduleEntry.tableName,
       where: "start>=? AND end<=?",
       whereArgs: [
         start.millisecondsSinceEpoch,
@@ -121,7 +120,7 @@ class ScheduleEntryRepository {
 
   Future<void> deleteAllScheduleEntries() async {
     await _database.deleteWhere(
-      ScheduleEntryEntity.tableName(),
+      ScheduleEntry.tableName,
       where: "1=1",
       whereArgs: [],
     );

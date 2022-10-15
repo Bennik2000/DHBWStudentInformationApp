@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/data/database_access.dart';
-import 'package:dhbwstudentapp/date_management/data/date_entry_entity.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 
 class DateEntryRepository {
@@ -12,7 +11,7 @@ class DateEntryRepository {
     String? year,
   ) async {
     final rows = await _database.queryRows(
-      DateEntryEntity.tableName(),
+      DateEntry.tableName,
       where: "databaseName=? AND year=?",
       whereArgs: [databaseName, year],
     );
@@ -27,7 +26,7 @@ class DateEntryRepository {
     DateTime end,
   ) async {
     final rows = await _database.queryRows(
-      DateEntryEntity.tableName(),
+      DateEntry.tableName,
       where: "date>=? AND date<=? AND databaseName=? AND year=?",
       whereArgs: [
         start.millisecondsSinceEpoch,
@@ -46,7 +45,7 @@ class DateEntryRepository {
     DateTime date,
   ) async {
     final rows = await _database.queryRows(
-      DateEntryEntity.tableName(),
+      DateEntry.tableName,
       where: "date>=? AND databaseName=? AND year=?",
       whereArgs: [
         date.millisecondsSinceEpoch,
@@ -64,7 +63,7 @@ class DateEntryRepository {
     DateTime date,
   ) async {
     final rows = await _database.queryRows(
-      DateEntryEntity.tableName(),
+      DateEntry.tableName,
       where: "date<=? AND databaseName=? AND year=?",
       whereArgs: [
         date.millisecondsSinceEpoch,
@@ -77,8 +76,8 @@ class DateEntryRepository {
   }
 
   Future saveDateEntry(DateEntry entry) async {
-    final row = DateEntryEntity.fromModel(entry).toMap();
-    await _database.insert(DateEntryEntity.tableName(), row);
+    final row = entry.toJson();
+    await _database.insert(DateEntry.tableName, row);
   }
 
   Future saveDateEntries(List<DateEntry> entries) async {
@@ -92,7 +91,7 @@ class DateEntryRepository {
     String? year,
   ) async {
     await _database.deleteWhere(
-      DateEntryEntity.tableName(),
+      DateEntry.tableName,
       where: "databaseName=? AND year=?",
       whereArgs: [
         databaseName,
@@ -106,7 +105,7 @@ class DateEntryRepository {
 
     for (final row in rows) {
       dateEntries.add(
-        DateEntryEntity.fromMap(row).asDateEntry(),
+        DateEntry.fromJson(row),
       );
     }
 

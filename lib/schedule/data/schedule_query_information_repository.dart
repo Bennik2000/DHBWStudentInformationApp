@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/data/database_access.dart';
-import 'package:dhbwstudentapp/schedule/data/schedule_query_information_entity.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_query_information.dart';
 
 class ScheduleQueryInformationRepository {
@@ -29,7 +28,7 @@ class ScheduleQueryInformationRepository {
     DateTime end,
   ) async {
     final rows = await _database.queryRows(
-      ScheduleQueryInformationEntity.tableName(),
+      ScheduleQueryInformation.tableName,
       where: "start<=? AND end>=?",
       whereArgs: [
         start.millisecondsSinceEpoch,
@@ -41,8 +40,7 @@ class ScheduleQueryInformationRepository {
 
     for (final row in rows) {
       scheduleQueryInformation.add(
-        ScheduleQueryInformationEntity.fromMap(row)
-            .asScheduleQueryInformation(),
+        ScheduleQueryInformation.fromJson(row),
       );
     }
 
@@ -53,7 +51,7 @@ class ScheduleQueryInformationRepository {
     ScheduleQueryInformation queryInformation,
   ) async {
     await _database.deleteWhere(
-      ScheduleQueryInformationEntity.tableName(),
+      ScheduleQueryInformation.tableName,
       where: "start=? AND end=?",
       whereArgs: [
         queryInformation.start.millisecondsSinceEpoch,
@@ -62,14 +60,14 @@ class ScheduleQueryInformationRepository {
     );
 
     await _database.insert(
-      ScheduleQueryInformationEntity.tableName(),
-      ScheduleQueryInformationEntity.fromModel(queryInformation).toMap(),
+      ScheduleQueryInformation.tableName,
+      queryInformation.toJson(),
     );
   }
 
   Future<void> deleteAllQueryInformation() async {
     await _database.deleteWhere(
-      ScheduleQueryInformationEntity.tableName(),
+      ScheduleQueryInformation.tableName,
       where: "1=1",
       whereArgs: [],
     );

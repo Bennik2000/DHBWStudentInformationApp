@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.4
   http_client_helper: ^2.0.2
   intl: ^0.17.0
+  json_annotation: ^4.7.0
   kiwi: ^4.0.2
   launch_review: ^3.0.1
   mutex: ^3.0.0
@@ -57,6 +58,7 @@ dev_dependencies:
   copy_with_extension_gen: ^4.0.0
   flutter_test:
     sdk: flutter
+  json_serializable: ^6.5.0
   lint: ^1.10.0
 
   test: any
