@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class SchedulePastOverlay extends CustomPaint {
-  final DateTime fromDate;
-  final DateTime toDate;
-  final DateTime now;
-  final int fromHour;
-  final int toHour;
+  final DateTime? fromDate;
+  final DateTime? toDate;
+  final DateTime? now;
+  final int? fromHour;
+  final int? toHour;
   final int columns;
   final Color overlayColor;
 
@@ -35,11 +35,11 @@ class SchedulePastOverlay extends CustomPaint {
 }
 
 class SchedulePastOverlayCustomPaint extends CustomPainter {
-  final DateTime fromDate;
-  final DateTime toDate;
-  final DateTime now;
-  final int fromHour;
-  final int toHour;
+  final DateTime? fromDate;
+  final DateTime? toDate;
+  final DateTime? now;
+  final int? fromHour;
+  final int? toHour;
   final int columns;
   final Color overlayColor;
 
@@ -59,9 +59,9 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
       ..color = overlayColor
       ..strokeWidth = 1;
 
-    if (now.isBefore(toDate) && now.isAfter(fromDate)) {
+    if (now!.isBefore(toDate!) && now!.isAfter(fromDate!)) {
       drawPartialPastOverlay(canvas, size, overlayPaint);
-    } else if (now.isAfter(toDate)) {
+    } else if (now!.isAfter(toDate!)) {
       drawCompletePastOverlay(canvas, size, overlayPaint);
     }
   }
@@ -78,7 +78,7 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
   }
 
   void drawPartialPastOverlay(Canvas canvas, Size size, Paint overlayPaint) {
-    var difference = now.difference(fromDate);
+    var difference = now!.difference(fromDate!);
     var differenceInDays = (difference.inHours / 24).floor();
     var dayWidth = size.width / columns;
 
@@ -93,9 +93,9 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
     );
 
     var leftoverMinutes =
-        difference.inMinutes - (differenceInDays * 24 * 60) - (60 * fromHour);
+        difference.inMinutes - (differenceInDays * 24 * 60) - (60 * fromHour!);
 
-    var displayedMinutes = (toHour - fromHour) * 60;
+    var displayedMinutes = (toHour! - fromHour!) * 60;
     var leftoverHeight = leftoverMinutes * (size.height / displayedMinutes);
 
     if (leftoverHeight > 0) {

@@ -4,7 +4,7 @@ import 'package:html/parser.dart';
 
 class UrlsFromMainPageExtract {
   void parseMainPage(
-    String body,
+    String? body,
     DualisUrls dualsUrls,
     String endpointUrl,
   ) {
@@ -17,7 +17,7 @@ class UrlsFromMainPageExtract {
   }
 
   void _parseMainPage(
-    String body,
+    String? body,
     DualisUrls dualisUrls,
     String endpointUrl,
   ) {
@@ -29,14 +29,14 @@ class UrlsFromMainPageExtract {
     var logoutElement = getElementById(document, "logoutButton");
 
     dualisUrls.courseResultUrl =
-        endpointUrl + courseResultsElement.attributes['href'];
+        endpointUrl + courseResultsElement.attributes['href']!;
 
     dualisUrls.studentResultsUrl =
-        endpointUrl + studentResultsElement.attributes['href'];
+        endpointUrl + studentResultsElement.attributes['href']!;
 
     dualisUrls.monthlyScheduleUrl =
-        endpointUrl + monthlyScheduleElement.attributes["href"];
+        endpointUrl + monthlyScheduleElement.attributes["href"]!;
 
-    dualisUrls.logoutUrl = endpointUrl + logoutElement.attributes['href'];
+    dualisUrls.logoutUrl = endpointUrl + logoutElement.attributes['href']!;
   }
 }

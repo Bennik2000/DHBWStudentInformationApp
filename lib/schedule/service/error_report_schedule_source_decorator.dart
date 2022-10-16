@@ -9,8 +9,8 @@ class ErrorReportScheduleSourceDecorator extends ScheduleSource {
   ErrorReportScheduleSourceDecorator(this._scheduleSource);
 
   @override
-  Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
-      [CancellationToken cancellationToken]) async {
+  Future<ScheduleQueryResult?> querySchedule(DateTime? from, DateTime? to,
+      [CancellationToken? cancellationToken]) async {
     try {
       var schedule = await _scheduleSource.querySchedule(
         from,

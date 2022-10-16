@@ -24,12 +24,13 @@ Future<String> _getiOSDatabasePathAndMigrate(
   // it must be saved in a group shared between the app module and the widget
   // module. "Migration" means that the database at the old path gets
   // copied to the new path
+  assert(Platform.isIOS);
 
-  var groupDirectory = await AppGroupDirectory.getAppGroupDirectory(
+  Directory? groupDirectory = await AppGroupDirectory.getAppGroupDirectory(
     'group.de.bennik2000.dhbwstudentapp',
   );
 
-  var newPath = join(groupDirectory.path, databaseName);
+  var newPath = join(groupDirectory!.path, databaseName);
 
   var migrateSuccess = await _migrateOldDatabase(oldPath, newPath);
 

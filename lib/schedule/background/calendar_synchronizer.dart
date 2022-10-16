@@ -35,7 +35,7 @@ class CalendarSynchronizer {
           listDateEntries;
 
       if (await preferencesProvider.isCalendarSyncEnabled()) {
-        Calendar selectedCalendar =
+        Calendar? selectedCalendar =
             await preferencesProvider.getSelectedCalendar();
         if (selectedCalendar == null) return;
         CalendarAccess().addOrUpdateDates(listDateEntries, selectedCalendar);
@@ -47,7 +47,6 @@ class CalendarSynchronizer {
     Future.delayed(Duration(seconds: 10), () {
       if (!scheduleSourceProvider.didSetupCorrectly()) return;
       scheduleProvider.getUpdatedSchedule(
-        
         DateTime.now(),
         DateTime.now().add(Duration(days: 30)),
         CancellationToken(),

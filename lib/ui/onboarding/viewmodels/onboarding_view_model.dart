@@ -28,11 +28,11 @@ class OnboardingViewModel extends BaseViewModel {
   final Map<String, int> stepsBackstack = {};
 
   int _stepIndex = 0;
-  int get stepIndex => _stepIndex;
+  int? get stepIndex => _stepIndex;
 
   String get currentStep => steps[_stepIndex];
 
-  bool get currentPageValid => pages[currentStep].viewModel().isValid;
+  bool get currentPageValid => pages[currentStep]!.viewModel().isValid;
   bool get isLastStep => _stepIndex >= steps.length - 1;
 
   get onboardingSteps => steps.length;
@@ -61,7 +61,7 @@ class OnboardingViewModel extends BaseViewModel {
 
     var lastPage = stepsBackstack.keys.last;
 
-    _stepIndex = stepsBackstack[lastPage];
+    _stepIndex = stepsBackstack[lastPage]!;
 
     stepsBackstack.remove(lastPage);
 
@@ -77,7 +77,7 @@ class OnboardingViewModel extends BaseViewModel {
       return;
     }
 
-    var nextDesiredStep = pages[currentStep].nextStep();
+    var nextDesiredStep = pages[currentStep]!.nextStep();
 
     stepsBackstack[currentStep] = _stepIndex;
 
@@ -96,10 +96,10 @@ class OnboardingViewModel extends BaseViewModel {
 
   Future<void> finishOnboarding() async {
     for (var step in stepsBackstack.keys) {
-      await pages[step].viewModel().save();
+      await pages[step]!.viewModel().save();
     }
 
-    _onboardingFinished?.call();
+    _onboardingFinished.call();
 
     await analytics.logTutorialComplete();
     await analytics.setUserProperty(name: "onboarding_finished", value: "true");

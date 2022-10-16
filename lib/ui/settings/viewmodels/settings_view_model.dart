@@ -34,20 +34,19 @@ class SettingsViewModel extends BaseViewModel {
 
   bool get isCalendarSyncEnabled => _isCalendarSyncEnabled;
 
-  PurchaseStateEnum _widgetPurchaseState;
+  PurchaseStateEnum? _widgetPurchaseState;
 
-  PurchaseStateEnum get widgetPurchaseState => _widgetPurchaseState;
+  PurchaseStateEnum? get widgetPurchaseState => _widgetPurchaseState;
 
-  bool _areWidgetsSupported = false;
+  bool? _areWidgetsSupported = false;
 
-  bool get areWidgetsSupported => _areWidgetsSupported;
+  bool? get areWidgetsSupported => _areWidgetsSupported;
 
   SettingsViewModel(
-    this._preferencesProvider,
-    this._nextDayInformationNotification,
-    this._widgetHelper,
-    this._inAppPurchaseManager
-  ) {
+      this._preferencesProvider,
+      this._nextDayInformationNotification,
+      this._widgetHelper,
+      this._inAppPurchaseManager) {
     _loadPreferences();
 
     _inAppPurchaseManager.addPurchaseCallback(
@@ -71,7 +70,7 @@ class SettingsViewModel extends BaseViewModel {
     );
   }
 
-  void _widgetPurchaseCallback(String id, PurchaseResultEnum result) {
+  void _widgetPurchaseCallback(String? id, PurchaseResultEnum result) {
     if (result == PurchaseResultEnum.Success) {
       _widgetPurchaseState = PurchaseStateEnum.Purchased;
     }

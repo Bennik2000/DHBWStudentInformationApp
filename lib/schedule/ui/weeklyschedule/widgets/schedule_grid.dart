@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class ScheduleGrid extends CustomPaint {
-  final int fromHour;
-  final int toHour;
+  final int? fromHour;
+  final int? toHour;
   final double timeLabelsWidth;
   final double dateLabelsHeight;
   final int columns;
@@ -23,8 +23,8 @@ class ScheduleGrid extends CustomPaint {
 }
 
 class ScheduleGridCustomPaint extends CustomPainter {
-  final int fromHour;
-  final int toHour;
+  final int? fromHour;
+  final int? toHour;
   final double timeLabelsWidth;
   final double dateLabelsHeight;
   final int columns;
@@ -45,7 +45,7 @@ class ScheduleGridCustomPaint extends CustomPainter {
       ..color = gridLineColor
       ..strokeWidth = 1;
 
-    var lines = toHour - fromHour;
+    var lines = toHour! - fromHour!;
 
     drawHorizontalLines(lines, size, canvas, secondaryPaint);
     drawVerticalLines(size, canvas, secondaryPaint);

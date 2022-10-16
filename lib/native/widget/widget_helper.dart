@@ -8,7 +8,7 @@ import 'package:dhbwstudentapp/native/widget/ios_widget_helper.dart';
 /// methods to enable/disable or update the widget
 ///
 class WidgetHelper {
-  static WidgetHelper _instance;
+  static WidgetHelper? _instance;
 
   WidgetHelper() {
     if (_instance != null) return;
@@ -27,14 +27,14 @@ class WidgetHelper {
   /// scheduled and will happen soon.
   ///
   Future<void> requestWidgetRefresh() {
-    return _instance.requestWidgetRefresh();
+    return _instance!.requestWidgetRefresh();
   }
 
   ///
   /// Checks if widgets are supported by the device
   ///
-  Future<bool> areWidgetsSupported() {
-    return _instance.areWidgetsSupported();
+  Future<bool?> areWidgetsSupported() {
+    return _instance!.areWidgetsSupported();
   }
 
   ///
@@ -42,7 +42,7 @@ class WidgetHelper {
   /// its full functionality.
   ///
   Future<void> enableWidget() {
-    return _instance.enableWidget();
+    return _instance!.enableWidget();
   }
 
   ///
@@ -50,7 +50,7 @@ class WidgetHelper {
   /// only provide placeholder content or limited functionality.
   ///
   Future<void> disableWidget() {
-    return _instance.disableWidget();
+    return _instance!.disableWidget();
   }
 }
 

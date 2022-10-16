@@ -8,8 +8,8 @@ class DateEntryRepository {
   DateEntryRepository(this._database);
 
   Future<List<DateEntry>> queryAllDateEntries(
-    String databaseName,
-    String year,
+    String? databaseName,
+    String? year,
   ) async {
     var rows = await _database.queryRows(
       DateEntryEntity.tableName(),
@@ -20,7 +20,7 @@ class DateEntryRepository {
     return _rowsToDateEntries(rows);
   }
 
-  Future<List<DateEntry>> queryDateEntriesBetween(
+  Future<List<DateEntry?>> queryDateEntriesBetween(
     String databaseName,
     String year,
     DateTime start,
@@ -41,8 +41,8 @@ class DateEntryRepository {
   }
 
   Future<List<DateEntry>> queryDateEntriesAfter(
-    String databaseName,
-    String year,
+    String? databaseName,
+    String? year,
     DateTime date,
   ) async {
     var rows = await _database.queryRows(
@@ -59,8 +59,8 @@ class DateEntryRepository {
   }
 
   Future<List<DateEntry>> queryDateEntriesBefore(
-    String databaseName,
-    String year,
+    String? databaseName,
+    String? year,
     DateTime date,
   ) async {
     var rows = await _database.queryRows(
@@ -88,8 +88,8 @@ class DateEntryRepository {
   }
 
   Future deleteAllDateEntries(
-    String databaseName,
-    String year,
+    String? databaseName,
+    String? year,
   ) async {
     await _database.deleteWhere(DateEntryEntity.tableName(),
         where: "databaseName=? AND year=?",

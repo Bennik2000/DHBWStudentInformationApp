@@ -20,7 +20,7 @@ class OnboardingPageBackground extends StatelessWidget {
     Brightness.dark: "assets/onboarding_bottom_background_dark.png",
   };
 
-  OnboardingPageBackground({Key key, this.controller})
+  OnboardingPageBackground({Key? key, required this.controller})
       : angleTopBackground = Tween<double>(
           begin: PlatformUtil.isPhone() ? -32 : -10,
           end: PlatformUtil.isPhone() ? -10 : -5,
@@ -75,7 +75,7 @@ class OnboardingPageBackground extends StatelessWidget {
         ),
         super(key: key);
 
-  Widget _buildAnimation(BuildContext context, Widget child) {
+  Widget _buildAnimation(BuildContext context, Widget? child) {
     return Stack(
       children: <Widget>[
         Transform.rotate(
@@ -111,7 +111,7 @@ class OnboardingPageBackground extends StatelessWidget {
                     child: Transform.scale(
                       scale: 1.5,
                       child: Image.asset(
-                        background[Theme.of(context).brightness],
+                        background[Theme.of(context).brightness]!,
                       ),
                     ),
                   ),
@@ -129,7 +129,7 @@ class OnboardingPageBackground extends StatelessWidget {
                     child: Transform.scale(
                       scale: 1.5,
                       child: Image.asset(
-                        foreground[Theme.of(context).brightness],
+                        foreground[Theme.of(context).brightness]!,
                       ),
                     ),
                   ),

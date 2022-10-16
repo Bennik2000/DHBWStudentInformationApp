@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class MannheimPage extends StatefulWidget {
+  const MannheimPage({Key? key}) : super(key: key);
+
   @override
   _MannheimPageState createState() => _MannheimPageState();
 }
@@ -50,20 +52,19 @@ class SelectMannheimCourseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PropertyChangeConsumer<OnboardingStepViewModel, String>(
-      builder:
-          (BuildContext context, OnboardingStepViewModel model, Set<Object> _) {
-        var viewModel = model as MannheimViewModel;
+      builder: (BuildContext context, OnboardingStepViewModel? model,
+          Set<Object>? _) {
+        final viewModel = model as MannheimViewModel?;
 
-        switch (viewModel.loadingState) {
+        switch (viewModel?.loadingState) {
           case LoadCoursesState.Loading:
             return _buildLoadingIndicator();
           case LoadCoursesState.Loaded:
-            return _buildCourseList(context, viewModel);
+            return _buildCourseList(context, viewModel!);
           case LoadCoursesState.Failed:
+          default:
             return _buildLoadingError(context, viewModel);
         }
-
-        return Container();
       },
     );
   }
@@ -89,7 +90,8 @@ class SelectMannheimCourseWidget extends StatelessWidget {
     int index,
     BuildContext context,
   ) {
-    var isSelected = viewModel.selectedCourse == viewModel.courses[index];
+    // TODO: [Leptopoda] why is nullsafety garanttueed here but checked above ¿?
+    var isSelected = viewModel.selectedCourse == viewModel.courses![index];
 
     return ListTile(
       trailing: isSelected
@@ -99,19 +101,20 @@ class SelectMannheimCourseWidget extends StatelessWidget {
             )
           : null,
       title: Text(
-        viewModel.courses[index].name,
+        viewModel.courses![index].name,
         style: isSelected
             ? TextStyle(
                 color: Theme.of(context).colorScheme.secondary,
               )
             : null,
       ),
-      subtitle: Text(viewModel.courses[index].title),
-      onTap: () => viewModel.setSelectedCourse(viewModel.courses[index]),
+      subtitle: Text(viewModel.courses![index].title),
+      onTap: () => viewModel.setSelectedCourse(viewModel.courses![index]),
     );
   }
 
-  Widget _buildLoadingError(BuildContext context, MannheimViewModel viewModel) {
+  Widget _buildLoadingError(
+      BuildContext context, MannheimViewModel? viewModel) {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -120,7 +123,7 @@ class SelectMannheimCourseWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16),
             child: MaterialButton(
-              onPressed: viewModel.loadCourses,
+              onPressed: viewModel?.loadCourses,
               child: Icon(Icons.refresh),
             ),
           ),

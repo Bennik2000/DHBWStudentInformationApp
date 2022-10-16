@@ -1,18 +1,17 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/information/ui/usefulinformation/useful_information_page.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:flutter/material.dart';
 
-class UsefulInformationNavigationEntry extends NavigationEntry {
+class UsefulInformationNavigationEntry extends NavigationEntry<BaseViewModel> {
   @override
   Widget build(BuildContext context) {
     return UsefulInformationPage();
   }
 
   @override
-  Widget icon(BuildContext context) {
-    return Icon(Icons.info_outline);
-  }
+  Icon icon = Icon(Icons.info_outline);
 
   @override
   String title(BuildContext context) {
@@ -21,4 +20,10 @@ class UsefulInformationNavigationEntry extends NavigationEntry {
 
   @override
   String get route => "usefulInformation";
+
+  @override
+  BaseViewModel initViewModel() => BaseViewModel();
+
+  @override
+  List<Widget> appBarActions(BuildContext context) => [];
 }

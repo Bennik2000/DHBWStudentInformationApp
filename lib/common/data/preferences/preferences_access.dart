@@ -17,32 +17,26 @@ class PreferencesAccess {
       case int:
         await prefs.setInt(key, value as int);
         return;
+      default:
+        throw InvalidValueTypeException(T);
     }
-
-    throw InvalidValueTypeException(T);
   }
 
-  Future<T> get<T>(String key) async {
+  Future<T?> get<T>(String key) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    T value;
 
     switch (T) {
       case bool:
-        value = prefs.getBool(key) as T;
-        break;
+        return prefs.getBool(key) as T?;
       case String:
-        value = prefs.getString(key) as T;
-        break;
+        return prefs.getString(key) as T?;
       case double:
-        value = prefs.getDouble(key) as T;
-        break;
+        return prefs.getDouble(key) as T?;
       case int:
-        value = prefs.getInt(key) as T;
-        break;
+        return prefs.getInt(key) as T?;
+      default:
+        return null;
     }
-
-    return value;
   }
 }
 

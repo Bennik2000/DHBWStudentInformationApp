@@ -7,8 +7,8 @@ import 'package:html/parser.dart';
 class ModulesFromCourseResultPageExtract {
   final RegExp _extractUrlRegex = RegExp('dl_popUp\\("(.+?)"');
 
-  List<DualisModule> extractModulesFromCourseResultPage(
-    String body,
+  List<DualisModule?> extractModulesFromCourseResultPage(
+    String? body,
     String endpointUrl,
   ) {
     try {
@@ -19,27 +19,27 @@ class ModulesFromCourseResultPageExtract {
     }
   }
 
-  List<DualisModule> _extractModulesFromCourseResultPage(
-      String body, String endpointUrl) {
+  List<DualisModule?> _extractModulesFromCourseResultPage(
+      String? body, String endpointUrl) {
     var document = parse(body);
 
     var tableBodies = getElementByTagName(document, "tbody");
     var rows = tableBodies.getElementsByTagName("tr");
 
-    var modulesOfSemester = <DualisModule>[];
+    var modulesOfSemester = <DualisModule?>[];
 
     for (var row in rows) {
       // Only rows with tds as child are modules
       if (row.children[0].localName != "td") continue;
 
-      DualisModule module = _extractModuleFromRow(row, endpointUrl);
+      DualisModule? module = _extractModuleFromRow(row, endpointUrl);
       modulesOfSemester.add(module);
     }
 
     return modulesOfSemester;
   }
 
-  DualisModule _extractModuleFromRow(
+  DualisModule? _extractModuleFromRow(
     Element row,
     String endpointUrl,
   ) {
@@ -49,13 +49,13 @@ class ModulesFromCourseResultPageExtract {
     var name = row.children[1].innerHtml;
     var grade = row.children[2].innerHtml;
     var credits = row.children[3].innerHtml;
-    var status = row.children[4].innerHtml;
+    String? status = row.children[4].innerHtml;
     var detailsButton = row.children[5];
     var url = _extractDetailsUrlFromButton(detailsButton, endpointUrl);
 
     status = trimAndEscapeString(status);
 
-    ExamState statusEnum;
+    ExamState? statusEnum;
 
     if (status == "bestanden") {
       statusEnum = ExamState.Passed;
@@ -76,7 +76,7 @@ class ModulesFromCourseResultPageExtract {
     return module;
   }
 
-  String _extractDetailsUrlFromButton(
+  String? _extractDetailsUrlFromButton(
     Element detailsButton,
     String endpointUrl,
   ) {

@@ -25,11 +25,11 @@ class Schedule {
     }
   }
 
-  Schedule trim(DateTime startDate, DateTime endDate) {
+  Schedule trim(DateTime? startDate, DateTime? endDate) {
     var newList = <ScheduleEntry>[];
 
     for (var entry in entries) {
-      if (startDate.isBefore(entry.end) && endDate.isAfter(entry.start)) {
+      if (startDate!.isBefore(entry.end) && endDate!.isAfter(entry.start)) {
         newList.add(entry);
       }
     }
@@ -40,28 +40,28 @@ class Schedule {
     return schedule;
   }
 
-  DateTime getStartDate() {
+  DateTime? getStartDate() {
     if (entries.isEmpty) return null;
 
-    var date = entries?.reduce((ScheduleEntry a, ScheduleEntry b) {
-      return a.start.isBefore(b.start) ? a : b;
-    })?.start;
+    var date = entries.reduce((ScheduleEntry? a, ScheduleEntry? b) {
+      return a!.start.isBefore(b!.start) ? a : b;
+    }).start;
 
     return date;
   }
 
-  DateTime getEndDate() {
+  DateTime? getEndDate() {
     if (entries.isEmpty) return null;
 
-    var date = entries?.reduce((ScheduleEntry a, ScheduleEntry b) {
-      return a.end.isAfter(b.end) ? a : b;
-    })?.end;
+    var date = entries.reduce((ScheduleEntry? a, ScheduleEntry? b) {
+      return a!.end.isAfter(b!.end) ? a : b;
+    }).end;
 
     return date;
   }
 
-  DateTime getStartTime() {
-    DateTime earliestTime;
+  DateTime? getStartTime() {
+    DateTime? earliestTime;
 
     for (var entry in entries) {
       var entryTime = DateTime(
@@ -83,8 +83,8 @@ class Schedule {
     return earliestTime;
   }
 
-  DateTime getEndTime() {
-    DateTime latestTime;
+  DateTime? getEndTime() {
+    DateTime? latestTime;
 
     for (var entry in entries) {
       var entryTime = DateTime(
@@ -106,7 +106,7 @@ class Schedule {
     return latestTime;
   }
 
-  Schedule copyWith({List<ScheduleEntry> entries}) {
+  Schedule copyWith({required List<ScheduleEntry> entries}) {
     var schedule = Schedule.fromList(entries);
 
     schedule.urls.addAll(urls);

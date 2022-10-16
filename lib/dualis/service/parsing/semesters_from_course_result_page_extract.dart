@@ -5,7 +5,7 @@ import 'package:html/parser.dart';
 
 class SemestersFromCourseResultPageExtract {
   List<DualisSemester> extractSemestersFromCourseResults(
-    String body,
+    String? body,
     String endpointUrl,
   ) {
     try {
@@ -17,7 +17,7 @@ class SemestersFromCourseResultPageExtract {
   }
 
   List<DualisSemester> _extractSemestersFromCourseResults(
-      String body, String endpointUrl) {
+      String? body, String endpointUrl) {
     var page = parse(body);
 
     var semesterSelector = page.getElementById("semester");
@@ -33,10 +33,10 @@ class SemestersFromCourseResultPageExtract {
       var id = option.attributes["value"];
       var name = option.innerHtml;
 
-      String detailsUrl;
+      String? detailsUrl;
 
       if (url != null) {
-        detailsUrl = url + id;
+        detailsUrl = url + id!;
       }
 
       semesters.add(DualisSemester(
@@ -49,11 +49,11 @@ class SemestersFromCourseResultPageExtract {
     return semesters;
   }
 
-  String _extractSemesterDetailUrlPart(
+  String? _extractSemesterDetailUrlPart(
     Element semesterSelector,
     String endpointUrl,
   ) {
-    var dropDownSemesterSelector = semesterSelector.attributes["onchange"];
+    var dropDownSemesterSelector = semesterSelector.attributes["onchange"]!;
 
     var regExp = RegExp("'([A-z0-9]*)'");
 

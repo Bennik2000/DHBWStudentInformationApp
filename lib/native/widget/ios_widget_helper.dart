@@ -32,7 +32,7 @@ class IOSWidgetHelper implements WidgetHelper {
   }
 
   @override
-  Future<bool> areWidgetsSupported() async {
+  Future<bool?> areWidgetsSupported() async {
     try {
       return await platform.invokeMethod('areWidgetsSupported');
     } on PlatformException catch (_) {

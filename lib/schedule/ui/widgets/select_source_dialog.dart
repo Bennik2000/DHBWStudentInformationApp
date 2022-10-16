@@ -13,7 +13,7 @@ class SelectSourceDialog {
   final PreferencesProvider _preferencesProvider;
   final ScheduleSourceProvider _scheduleSourceProvider;
 
-  ScheduleSourceType _currentScheduleSource;
+  ScheduleSourceType? _currentScheduleSource;
 
   SelectSourceDialog(this._preferencesProvider, this._scheduleSourceProvider);
 
@@ -41,31 +41,31 @@ class SelectSourceDialog {
         RadioListTile(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Rapla,
-          onChanged: (v) => sourceSelected(v, context),
+          onChanged: (dynamic v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeRapla),
         ),
         RadioListTile(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Dualis,
-          onChanged: (v) => sourceSelected(v, context),
+          onChanged: (dynamic v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeDualis),
         ),
         RadioListTile(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Mannheim,
-          onChanged: (v) => sourceSelected(v, context),
+          onChanged: (dynamic v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeMannheim),
         ),
         RadioListTile(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Ical,
-          onChanged: (v) => sourceSelected(v, context),
+          onChanged: (dynamic v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeIcal),
         ),
         RadioListTile(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.None,
-          onChanged: (v) => sourceSelected(v, context),
+          onChanged: (dynamic v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeNone),
         )
       ],
@@ -76,6 +76,7 @@ class SelectSourceDialog {
     ScheduleSourceType type,
     BuildContext context,
   ) async {
+    // TODO: [Leptopoda] only switch the type when the setup is completed.
     _preferencesProvider.setScheduleSourceType(type.index);
 
     Navigator.of(context).pop();

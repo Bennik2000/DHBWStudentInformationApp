@@ -9,13 +9,9 @@ class EnterDualisCredentialsDialog {
   final PreferencesProvider _preferencesProvider;
   final ScheduleSourceProvider _scheduleSourceProvider;
 
-  final TextEditingController _usernameEditingController =
-      TextEditingController();
-  final TextEditingController _passwordEditingController =
-      TextEditingController();
+  final _controller = CredentialsEditingController();
 
-  String username;
-  String password;
+  Credentials? _credentials;
 
   EnterDualisCredentialsDialog(
     this._preferencesProvider,
@@ -23,9 +19,7 @@ class EnterDualisCredentialsDialog {
   );
 
   Future show(BuildContext context) async {
-    var credentials = await _preferencesProvider.loadDualisCredentials();
-    username = credentials.username;
-    password = credentials.password;
+    _credentials = await _preferencesProvider.loadDualisCredentials();
 
     await showDialog(
       context: context,
@@ -34,11 +28,9 @@ class EnterDualisCredentialsDialog {
   }
 
   AlertDialog _buildDialog(BuildContext context) {
-    if (_usernameEditingController.text != username) {
-      _usernameEditingController.text = username;
-    }
-    if (_passwordEditingController.text != password) {
-      _passwordEditingController.text = password;
+    final credentials = _credentials;
+    if (credentials != null) {
+      _controller.credentials = credentials;
     }
 
     return AlertDialog(
@@ -55,8 +47,7 @@ class EnterDualisCredentialsDialog {
             ),
           ),
           LoginCredentialsWidget(
-            usernameEditingController: _usernameEditingController,
-            passwordEditingController: _passwordEditingController,
+            controller: _controller,
             onSubmitted: () async {},
           ),
         ],
@@ -70,11 +61,9 @@ class EnterDualisCredentialsDialog {
       TextButton(
         child: Text(L.of(context).dialogOk.toUpperCase()),
         onPressed: () async {
+          // TODO: [Leptopoda] validate credentials like [DualisLoginViewModel]
           await _preferencesProvider.storeDualisCredentials(
-            Credentials(
-              _usernameEditingController.text,
-              _passwordEditingController.text,
-            ),
+            _controller.credentials,
           );
           await _scheduleSourceProvider.setupForDualis();
 

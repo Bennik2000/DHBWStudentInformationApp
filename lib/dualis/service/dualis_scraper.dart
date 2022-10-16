@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_authentication.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
@@ -19,10 +20,10 @@ class DualisScraper {
   DualisUrls get _dualisUrls => _dualisAuthentication.dualisUrls;
 
   Future<List<DualisModule>> loadAllModules([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     var allModulesPageResponse = await _dualisAuthentication.authenticatedGet(
-      _dualisUrls.studentResultsUrl,
+      _dualisUrls.studentResultsUrl!,
       cancellationToken,
     );
 
@@ -31,7 +32,7 @@ class DualisScraper {
 
   Future<List<DualisExam>> loadModuleExams(
     String moduleDetailsUrl, [
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     var detailsResponse = await _dualisAuthentication.authenticatedGet(
       moduleDetailsUrl,
@@ -44,10 +45,10 @@ class DualisScraper {
   }
 
   Future<List<DualisSemester>> loadSemesters([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     var courseResultsResponse = await _dualisAuthentication.authenticatedGet(
-      _dualisUrls.courseResultUrl,
+      _dualisUrls.courseResultUrl!,
       cancellationToken,
     );
 
@@ -65,12 +66,12 @@ class DualisScraper {
     return semesters;
   }
 
-  Future<List<DualisModule>> loadSemesterModules(
-    String semesterName, [
-    CancellationToken cancellationToken,
+  Future<List<DualisModule?>> loadSemesterModules(
+    String? semesterName, [
+    CancellationToken? cancellationToken,
   ]) async {
     var coursePage = await _dualisAuthentication.authenticatedGet(
-      _dualisUrls.semesterCourseResultUrls[semesterName],
+      _dualisUrls.semesterCourseResultUrls[semesterName!]!,
       cancellationToken,
     );
 
@@ -79,10 +80,10 @@ class DualisScraper {
   }
 
   Future<StudyGrades> loadStudyGrades(
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ) async {
     var studentsResultsPage = await _dualisAuthentication.authenticatedGet(
-      _dualisUrls.studentResultsUrl,
+      _dualisUrls.studentResultsUrl!,
       cancellationToken,
     );
 
@@ -108,11 +109,10 @@ class DualisScraper {
   }
 
   Future<LoginResult> login(
-    String username,
-    String password,
-    CancellationToken cancellationToken,
+    Credentials credentials,
+    CancellationToken? cancellationToken,
   ) {
-    return _dualisAuthentication.login(username, password, cancellationToken);
+    return _dualisAuthentication.login(credentials, cancellationToken);
   }
 
   Future<LoginResult> loginWithPreviousCredentials(
@@ -122,7 +122,7 @@ class DualisScraper {
         .loginWithPreviousCredentials(cancellationToken);
   }
 
-  Future<void> logout(CancellationToken cancellationToken) {
+  Future<void> logout(CancellationToken? cancellationToken) {
     return _dualisAuthentication.logout(cancellationToken);
   }
 
@@ -130,7 +130,7 @@ class DualisScraper {
     return _dualisAuthentication.loginState == LoginResult.LoggedIn;
   }
 
-  void setLoginCredentials(String username, String password) {
-    _dualisAuthentication.setLoginCredentials(username, password);
+  void setLoginCredentials(Credentials credentials) {
+    _dualisAuthentication.setLoginCredentials(credentials);
   }
 }

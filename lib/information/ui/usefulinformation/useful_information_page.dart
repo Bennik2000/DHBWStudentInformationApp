@@ -26,7 +26,8 @@ class UsefulInformationPage extends StatelessWidget {
             leading: Icon(Icons.email),
             title: Text(L.of(context).informationPageRoundcube),
             onTap: () {
-              openLink("https://lehre-webmail.dhbw-stuttgart.de/roundcubemail/");
+              openLink(
+                  "https://lehre-webmail.dhbw-stuttgart.de/roundcubemail/");
             },
           ),
           ListTile(

@@ -38,14 +38,14 @@ class ExamResultsPage extends StatelessWidget {
                       ],
                       builder: (
                         BuildContext context,
-                        StudyGradesViewModel model,
-                        Set properties,
+                        StudyGradesViewModel? model,
+                        Set? properties,
                       ) =>
                           DropdownButton(
-                        onChanged: (value) => model.loadSemester(value),
-                        value: model.currentSemesterName,
-                        items: (model.allSemesterNames ?? [])
-                            .map(
+                        onChanged: model?.loadSemester,
+                        value: model?.currentSemesterName,
+                        items: model?.allSemesterNames
+                            ?.map(
                               (n) => DropdownMenuItem(
                                 child: Text(n),
                                 value: n,
@@ -62,10 +62,10 @@ class ExamResultsPage extends StatelessWidget {
               properties: const ["currentSemester"],
               builder: (
                 BuildContext context,
-                StudyGradesViewModel model,
-                Set properties,
+                StudyGradesViewModel? model,
+                Set? properties,
               ) =>
-                  model.currentSemester != null
+                  model!.currentSemester != null
                       ? buildModulesColumn(context, model)
                       : const Padding(
                           padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
@@ -81,7 +81,7 @@ class ExamResultsPage extends StatelessWidget {
   Widget buildModulesColumn(
       BuildContext context, StudyGradesViewModel viewModel) {
     return AnimatedSwitcher(
-      layoutBuilder: (Widget currentChild, List<Widget> previousChildren) {
+      layoutBuilder: (Widget? currentChild, List<Widget> previousChildren) {
         List<Widget> children = previousChildren;
         if (currentChild != null)
           children = children.toList()..add(currentChild);
@@ -103,7 +103,7 @@ class ExamResultsPage extends StatelessWidget {
     var dataTables = <Widget>[];
 
     var isFirstModule = true;
-    for (var module in viewModel.currentSemester.modules) {
+    for (var module in viewModel.currentSemester!.modules) {
       dataTables.add(DataTable(
         horizontalMargin: 24,
         columnSpacing: 0,
@@ -157,14 +157,12 @@ class ExamResultsPage extends StatelessWidget {
       case ExamGradeState.NotGraded:
         return Text("");
       case ExamGradeState.Graded:
-        return Text(grade.gradeValue);
+        return Text(grade.gradeValue!);
       case ExamGradeState.Passed:
         return Text(L.of(context).examPassed);
       case ExamGradeState.Failed:
         return Text(L.of(context).examNotPassed);
     }
-
-    return Text("");
   }
 
   List<DataColumn> buildModuleColumns(BuildContext context, var module,

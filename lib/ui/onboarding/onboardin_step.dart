@@ -17,7 +17,7 @@ abstract class OnboardingStep {
 
   OnboardingStepViewModel viewModel();
 
-  String nextStep();
+  String? nextStep();
 }
 
 class SelectSourceOnboardingStep extends OnboardingStep {
@@ -31,7 +31,7 @@ class SelectSourceOnboardingStep extends OnboardingStep {
   }
 
   @override
-  String nextStep() {
+  String? nextStep() {
     return _viewModel.nextStep();
   }
 
@@ -53,7 +53,7 @@ class DualisCredentialsOnboardingStep extends OnboardingStep {
   }
 
   @override
-  String nextStep() {
+  String? nextStep() {
     return null;
   }
 
@@ -108,7 +108,7 @@ class IcalOnboardingStep extends OnboardingStep {
 }
 
 class MannheimOnboardingStep extends OnboardingStep {
-  MannheimViewModel _viewModel;
+  MannheimViewModel? _viewModel;
 
   @override
   Widget buildContent(BuildContext context) {
@@ -122,12 +122,8 @@ class MannheimOnboardingStep extends OnboardingStep {
 
   @override
   OnboardingStepViewModel viewModel() {
-    if (_viewModel == null) {
-      _viewModel = MannheimViewModel(
-        KiwiContainer().resolve(),
-      );
-    }
-
-    return _viewModel;
+    return _viewModel ??= MannheimViewModel(
+      KiwiContainer().resolve(),
+    );
   }
 }

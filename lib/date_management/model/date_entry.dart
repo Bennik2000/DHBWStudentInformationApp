@@ -5,15 +5,20 @@ class DateEntry {
   final String databaseName;
   final DateTime start;
   final DateTime end;
-  final String room;
+  final String? room;
 
   DateEntry({
-    this.description,
-    this.year,
-    this.comment,
-    this.databaseName,
-    this.start,
-    this.end,
-    this.room
-  });
+    String? description,
+    String? year,
+    String? comment,
+    String? databaseName,
+    DateTime? start,
+    DateTime? end,
+    this.room,
+  })  : this.start = start ?? DateTime.fromMicrosecondsSinceEpoch(0),
+        this.end = end ?? DateTime.fromMicrosecondsSinceEpoch(0),
+        this.comment = comment ?? "",
+        this.description = description ?? "",
+        this.year = year ?? "",
+        this.databaseName = databaseName ?? "";
 }

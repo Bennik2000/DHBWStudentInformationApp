@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/text_styles.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/widgets/current_time_indicator_widget.dart';
 import 'package:dhbwstudentapp/schedule/ui/dailyschedule/widgets/daily_schedule_entry_widget.dart';
@@ -11,16 +10,17 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
 
 class DailySchedulePage extends StatefulWidget {
+  const DailySchedulePage({Key? key}) : super(key: key);
   @override
   _DailySchedulePageState createState() => _DailySchedulePageState();
 }
 
 class _DailySchedulePageState extends State<DailySchedulePage> {
-  DailyScheduleViewModel viewModel;
+  late DailyScheduleViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
-    viewModel = Provider.of<BaseViewModel>(context);
+    viewModel = Provider.of<DailyScheduleViewModel>(context);
 
     return PropertyChangeProvider<DailyScheduleViewModel, String>(
       value: viewModel,
@@ -34,18 +34,18 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
                 child: PropertyChangeConsumer<DailyScheduleViewModel, String>(
-                  builder: (BuildContext context, DailyScheduleViewModel model,
-                      Set properties) {
+                  builder: (BuildContext context, DailyScheduleViewModel? model,
+                      Set? properties) {
                     var dateFormat = DateFormat.yMMMMEEEEd(
                         L.of(context).locale.languageCode);
                     return Text(
-                      dateFormat.format(model.currentDate),
+                      dateFormat.format(model!.currentDate!),
                       style: textStyleDailyScheduleCurrentDate(context),
                     );
                   },
                 ),
               ),
-              (viewModel.daySchedule?.entries?.length ?? 0) == 0
+              viewModel.daySchedule.entries.isEmpty
                   ? Padding(
                       padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
                       child: Column(
@@ -93,7 +93,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
     var now = DateTime.now();
     var nowIndicatorInserted = false;
 
-    for (var entry in viewModel.daySchedule?.entries) {
+    for (var entry in viewModel.daySchedule.entries) {
       if (!nowIndicatorInserted && (entry.end.isAfter(now))) {
         entryWidgets.add(CurrentTimeIndicatorWidget());
         nowIndicatorInserted = true;

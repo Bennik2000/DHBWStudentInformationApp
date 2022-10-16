@@ -40,8 +40,8 @@ class NextDayInformationNotification extends TaskCallback {
     if (nextScheduleEntry == null) return;
 
     var format = DateFormat.Hm();
-    var daysToNextEntry = toStartOfDay(nextScheduleEntry.start)
-        .difference(toStartOfDay(now))
+    var daysToNextEntry = toStartOfDay(nextScheduleEntry.start)!
+        .difference(toStartOfDay(now)!)
         .inDays;
 
     if (daysToNextEntry > 1) return;
@@ -58,27 +58,30 @@ class NextDayInformationNotification extends TaskCallback {
     );
   }
 
-  String _getNotificationMessage(
+  String? _getNotificationMessage(
       int daysToNextEntry, ScheduleEntry nextScheduleEntry, DateFormat format) {
-    String message;
-    if (daysToNextEntry == 0) {
-      message = interpolate(
-        _localization.notificationNextClassNextClassAtMessage,
-        [
-          nextScheduleEntry.title,
-          format.format(nextScheduleEntry.start),
-        ],
-      );
-    } else if (daysToNextEntry == 1) {
-      message = interpolate(
-        _localization.notificationNextClassTomorrow,
-        [
-          nextScheduleEntry.title,
-          format.format(nextScheduleEntry.start),
-        ],
-      );
+    switch (daysToNextEntry) {
+      case 0:
+        return interpolate(
+          _localization.notificationNextClassNextClassAtMessage,
+          [
+            nextScheduleEntry.title,
+            format.format(nextScheduleEntry.start),
+          ],
+        );
+
+      case 1:
+        return interpolate(
+          _localization.notificationNextClassTomorrow,
+          [
+            nextScheduleEntry.title,
+            format.format(nextScheduleEntry.start),
+          ],
+        );
+
+      default:
+        return null;
     }
-    return message;
   }
 
   @override

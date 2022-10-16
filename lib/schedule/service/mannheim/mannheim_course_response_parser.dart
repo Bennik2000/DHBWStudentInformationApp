@@ -14,7 +14,7 @@ class MannheimCourseResponseParser {
     for (var e in options) {
       var label = e.attributes["label"] ?? "";
       var value = e.attributes["value"] ?? "";
-      var title = e.parent.attributes["label"] ?? "";
+      var title = e.parent!.attributes["label"] ?? "";
 
       if (label == "" || value == "") continue;
       if (label.trim() == "Kurs auswählen") continue;

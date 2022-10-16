@@ -18,11 +18,11 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   final ScheduleProvider scheduleProvider;
   final ScheduleSourceProvider scheduleSourceProvider;
 
-  DateTime currentDateStart;
-  DateTime currentDateEnd;
+  DateTime? currentDateStart;
+  DateTime? currentDateEnd;
 
-  DateTime clippedDateStart;
-  DateTime clippedDateEnd;
+  DateTime? clippedDateStart;
+  DateTime? clippedDateEnd;
 
   bool didUpdateScheduleIntoFuture = true;
 
@@ -33,24 +33,24 @@ class WeeklyScheduleViewModel extends BaseViewModel {
 
   bool get hasQueryErrors => _hasQueryErrors;
 
-  VoidCallback _queryFailedCallback;
+  VoidCallback? _queryFailedCallback;
 
   bool updateFailed = false;
 
   bool isUpdating = false;
-  Schedule weekSchedule;
+  Schedule? weekSchedule;
 
-  String scheduleUrl;
+  String? scheduleUrl;
 
   DateTime get now => DateTime.now();
 
-  Timer _errorResetTimer;
-  Timer _updateNowTimer;
+  Timer? _errorResetTimer;
+  Timer? _updateNowTimer;
 
   final CancelableMutex _updateMutex = CancelableMutex();
 
-  DateTime lastRequestedStart;
-  DateTime lastRequestedEnd;
+  DateTime? lastRequestedStart;
+  DateTime? lastRequestedEnd;
 
   WeeklyScheduleViewModel(
     this.scheduleProvider,
@@ -62,7 +62,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Future<void> _initViewModel() async {
     _setSchedule(
       null,
-      toDayOfWeek(DateTime.now(), DateTime.monday),
+      toDayOfWeek(DateTime.now(), DateTime.monday)!,
       toDayOfWeek(DateTime.now(), DateTime.friday),
     );
 
@@ -80,15 +80,15 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     if (setupSuccess) await updateSchedule(currentDateStart, currentDateEnd);
   }
 
-  void _setSchedule(Schedule schedule, DateTime start, DateTime end) {
+  void _setSchedule(Schedule? schedule, DateTime start, DateTime? end) {
     weekSchedule = schedule;
     didUpdateScheduleIntoFuture = currentDateStart?.isBefore(start) ?? true;
     currentDateStart = start;
     currentDateEnd = end;
 
     if (weekSchedule != null) {
-      var scheduleStart = weekSchedule.getStartDate();
-      var scheduleEnd = weekSchedule.getEndDate();
+      var scheduleStart = weekSchedule!.getStartDate();
+      var scheduleEnd = weekSchedule!.getEndDate();
 
       if (scheduleStart == null && scheduleEnd == null) {
         clippedDateStart = toDayOfWeek(start, DateTime.monday);
@@ -98,7 +98,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
         clippedDateEnd = toDayOfWeek(scheduleEnd, DateTime.friday);
       }
 
-      if (scheduleEnd?.isAfter(clippedDateEnd) ?? false)
+      if (scheduleEnd?.isAfter(clippedDateEnd!) ?? false)
         clippedDateEnd = scheduleEnd;
 
       displayStartHour = weekSchedule?.getStartTime()?.hour ?? 23;
@@ -136,7 +136,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     await updateSchedule(currentDateStart, currentDateEnd);
   }
 
-  Future updateSchedule(DateTime start, DateTime end) async {
+  Future updateSchedule(DateTime? start, DateTime? end) async {
     lastRequestedEnd = end;
     lastRequestedStart = start;
 
@@ -151,8 +151,9 @@ class WeeklyScheduleViewModel extends BaseViewModel {
       isUpdating = true;
       notifyListeners("isUpdating");
 
-      await _doUpdateSchedule(start, end);
-    } catch (_) {} finally {
+      await _doUpdateSchedule(start!, end!);
+    } catch (_) {
+    } finally {
       isUpdating = false;
       _updateMutex.release();
       notifyListeners("isUpdating");
@@ -162,7 +163,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   Future _doUpdateSchedule(DateTime start, DateTime end) async {
     print("Refreshing schedule...");
 
-    var cancellationToken = _updateMutex.token;
+    var cancellationToken = _updateMutex.token!;
 
     scheduleUrl = null;
 
@@ -178,7 +179,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     cancellationToken.throwIfCancelled();
 
     if (updatedSchedule?.schedule != null) {
-      var schedule = updatedSchedule.schedule;
+      var schedule = updatedSchedule!.schedule;
 
       _setSchedule(schedule, start, end);
 
@@ -202,7 +203,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
     print("Refreshing done");
   }
 
-  Future<ScheduleQueryResult> _readScheduleFromService(
+  Future<ScheduleQueryResult?> _readScheduleFromService(
     DateTime start,
     DateTime end,
     CancellationToken token,
@@ -213,14 +214,15 @@ class WeeklyScheduleViewModel extends BaseViewModel {
         end,
         token,
       );
-    } on OperationCancelledException {} on ScheduleQueryFailedException {}
+    } on OperationCancelledException {
+    } on ScheduleQueryFailedException {}
 
     return null;
   }
 
   void _cancelErrorInFuture() {
     if (_errorResetTimer != null) {
-      _errorResetTimer.cancel();
+      _errorResetTimer!.cancel();
     }
 
     _errorResetTimer = Timer(
@@ -233,7 +235,7 @@ class WeeklyScheduleViewModel extends BaseViewModel {
   }
 
   void ensureUpdateNowTimerRunning() {
-    if (_updateNowTimer == null || !_updateNowTimer.isActive) {
+    if (_updateNowTimer == null || !_updateNowTimer!.isActive) {
       _updateNowTimer = Timer.periodic(const Duration(minutes: 1), (_) {
         notifyListeners("now");
       });

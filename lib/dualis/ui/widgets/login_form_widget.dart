@@ -3,7 +3,7 @@ import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:flutter/material.dart';
 
 typedef OnLogin = Future<bool> Function(Credentials credentials);
-typedef OnLoadCredentials = Future<Credentials> Function();
+typedef OnLoadCredentials = Future<Credentials?> Function();
 typedef OnSaveCredentials = Future<void> Function(Credentials credentials);
 typedef OnClearCredentials = Future<void> Function();
 typedef GetDoSaveCredentials = Future<bool> Function();
@@ -19,77 +19,52 @@ class LoginForm extends StatefulWidget {
   final String loginFailedText;
 
   const LoginForm({
-    Key key,
-    this.onLogin,
-    this.title,
-    this.loginFailedText,
-    this.onLoadCredentials,
-    this.onSaveCredentials,
-    this.onClearCredentials,
-    this.getDoSaveCredentials,
+    Key? key,
+    required this.onLogin,
+    required this.title,
+    required this.loginFailedText,
+    required this.onLoadCredentials,
+    required this.onSaveCredentials,
+    required this.onClearCredentials,
+    required this.getDoSaveCredentials,
   }) : super(key: key);
 
   @override
-  _LoginFormState createState() => _LoginFormState(
-        onLogin,
-        title,
-        loginFailedText,
-        onLoadCredentials,
-        onSaveCredentials,
-        onClearCredentials,
-        getDoSaveCredentials,
-      );
+  _LoginFormState createState() => _LoginFormState();
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final OnLogin _onLogin;
-  final OnLoadCredentials _onLoadCredentials;
-  final OnSaveCredentials _onSaveCredentials;
-  final OnClearCredentials _onClearCredentials;
-  final GetDoSaveCredentials _getDoSaveCredentials;
-  final Widget _title;
-
-  final String _loginFailedText;
-
   bool _storeCredentials = false;
   bool _loginFailed = false;
   bool _isLoading = false;
 
-  final TextEditingController _usernameEditingController =
-      TextEditingController();
-  final TextEditingController _passwordEditingController =
-      TextEditingController();
-
-  _LoginFormState(
-    this._onLogin,
-    this._title,
-    this._loginFailedText,
-    this._onLoadCredentials,
-    this._onSaveCredentials,
-    this._onClearCredentials,
-    this._getDoSaveCredentials,
-  );
+  final CredentialsEditingController _controller =
+      CredentialsEditingController();
 
   @override
   void initState() {
     super.initState();
 
-    if (_onLoadCredentials != null && _getDoSaveCredentials != null) {
-      _getDoSaveCredentials().then((value) {
-        setState(() {
-          _storeCredentials = value;
-        });
+    widget.getDoSaveCredentials().then((value) {
+      setState(() {
+        _storeCredentials = value;
+      });
 
-        _onLoadCredentials().then((value) {
-          _usernameEditingController.text = value.username;
-          _passwordEditingController.text = value.password;
-
+      widget.onLoadCredentials().then((credentials) {
+        if (credentials != null) {
+          _controller.credentials = credentials;
           if (mounted) {
             setState(() {});
           }
-        });
+        }
       });
-    }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -98,14 +73,12 @@ class _LoginFormState extends State<LoginForm> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        _title != null
-            ? Padding(
-                padding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
-                child: _title,
-              )
-            : Container(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 0, 0, 24),
+          child: widget.title,
+        ),
         TextField(
-          controller: _usernameEditingController,
+          controller: _controller.username,
           decoration: InputDecoration(
             enabled: !_isLoading,
             hintText: L.of(context).loginUsername,
@@ -113,13 +86,13 @@ class _LoginFormState extends State<LoginForm> {
           ),
         ),
         TextField(
-          controller: _passwordEditingController,
+          controller: _controller.password,
           obscureText: true,
           decoration: InputDecoration(
             enabled: !_isLoading,
             hintText: L.of(context).loginPassword,
             icon: Icon(Icons.lock_outline),
-            errorText: _loginFailed ? _loginFailedText : null,
+            errorText: _loginFailed ? widget.loginFailedText : null,
           ),
         ),
         Padding(
@@ -130,7 +103,8 @@ class _LoginFormState extends State<LoginForm> {
             title: Text(
               L.of(context).dualisStoreCredentials,
             ),
-            onChanged: (bool value) {
+            onChanged: (bool? value) {
+              if (value == null) return;
               setState(() {
                 _storeCredentials = value;
               });
@@ -165,19 +139,16 @@ class _LoginFormState extends State<LoginForm> {
       _isLoading = true;
     });
 
-    if (!_storeCredentials && _onClearCredentials != null) {
-      await _onClearCredentials();
+    if (!_storeCredentials) {
+      await widget.onClearCredentials();
     }
 
-    var credentials = Credentials(
-      _usernameEditingController.text,
-      _passwordEditingController.text,
-    );
+    var credentials = _controller.credentials;
 
-    bool loginSuccess = await _onLogin(credentials);
+    bool loginSuccess = await widget.onLogin(credentials);
 
-    if (loginSuccess && _storeCredentials && _onSaveCredentials != null) {
-      await _onSaveCredentials(credentials);
+    if (loginSuccess && _storeCredentials) {
+      await widget.onSaveCredentials(credentials);
     }
 
     setState(() {

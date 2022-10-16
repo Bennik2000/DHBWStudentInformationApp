@@ -12,9 +12,11 @@ class SelectSourceViewModel extends OnboardingStepViewModel {
     setIsValid(true);
   }
 
-  void setScheduleSourceType(ScheduleSourceType type) {
+  void setScheduleSourceType(ScheduleSourceType? type) {
+    if (type == null) return;
+
     _scheduleSourceType = type;
-    setIsValid(_scheduleSourceType != null);
+    setIsValid(true);
 
     notifyListeners("scheduleSourceType");
   }
@@ -24,7 +26,7 @@ class SelectSourceViewModel extends OnboardingStepViewModel {
     await _preferencesProvider.setScheduleSourceType(scheduleSourceType.index);
   }
 
-  String nextStep() {
+  String? nextStep() {
     switch (_scheduleSourceType) {
       case ScheduleSourceType.Rapla:
         return "rapla";
@@ -36,8 +38,8 @@ class SelectSourceViewModel extends OnboardingStepViewModel {
         return "mannheim";
       case ScheduleSourceType.Ical:
         return "ical";
+      default:
+        return null;
     }
-
-    return null;
   }
 }

@@ -22,7 +22,7 @@ class InAppPurchaseManager {
   void _initialize() async {
     addPurchaseCallback(
       InAppPurchaseHelper.WidgetProductId,
-      (String productId, PurchaseResultEnum result) =>
+      (String? productId, PurchaseResultEnum result) =>
           _setWidgetEnabled(result == PurchaseResultEnum.Success),
     );
 
@@ -32,8 +32,8 @@ class InAppPurchaseManager {
     try {
       await _inAppPurchaseHelper.initialize();
       await _restorePurchases();
-    }
-    catch (ex) {
+    } catch (ex) {
+      // TODO: [Leptopoda] disable purchases or show error message in settings when initialization was not sucessfull (i.e. no play services)
       print("Failed to initialize in app purchase!");
     }
   }
@@ -61,19 +61,21 @@ class InAppPurchaseManager {
     await buyWidget();
   }
 
-  void _purchaseCompletedCallback(String productId, PurchaseResultEnum result) {
+  // TODO: [Leptopoda] better nullseafety
+  void _purchaseCompletedCallback(
+      String? productId, PurchaseResultEnum result) {
     if (purchaseCallbacks.containsKey(productId)) {
-      var callback = purchaseCallbacks[productId] ?? [];
+      var callback = purchaseCallbacks[productId!];
 
-      callback.forEach((element) {
+      callback?.forEach((element) {
         element(productId, result);
       });
     }
 
     if (purchaseCallbacks.containsKey("*")) {
-      var callback = purchaseCallbacks["*"] ?? [];
+      var callback = purchaseCallbacks["*"];
 
-      callback.forEach((element) {
+      callback?.forEach((element) {
         element(productId, result);
       });
     }
@@ -91,25 +93,21 @@ class InAppPurchaseManager {
   /// for all product ids, pass null or "*" as productId
   ///
   void addPurchaseCallback(
-    String productId,
+    String? productId,
     PurchaseCompletedCallback callback,
   ) {
     if (productId == null) {
       productId = "*";
     }
 
-    if (!purchaseCallbacks.containsKey(productId)) {
-      purchaseCallbacks[productId] = [];
-    }
-
-    purchaseCallbacks[productId].add(callback);
+    purchaseCallbacks[productId]?.add(callback);
   }
 
   ///
   /// Removes a callback which was registered using [addPurchaseCallback]
   ///
   void removePurchaseCallback(
-    String productId,
+    String? productId,
     PurchaseCompletedCallback callback,
   ) {
     if (productId == null) {

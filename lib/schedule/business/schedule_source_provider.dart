@@ -55,7 +55,7 @@ class ScheduleSourceProvider {
     };
 
     if (initializer.containsKey(scheduleSourceType)) {
-      scheduleSource = await initializer[scheduleSourceType]();
+      scheduleSource = await initializer[scheduleSourceType]!();
     }
 
     _currentScheduleSource = scheduleSource;
@@ -72,11 +72,7 @@ class ScheduleSourceProvider {
   Future<ScheduleSourceType> _getScheduleSourceType() async {
     var type = await _preferencesProvider.getScheduleSourceType();
 
-    var scheduleSourceType = type != null
-        ? ScheduleSourceType.values[type]
-        : ScheduleSourceType.None;
-
-    return scheduleSourceType;
+    return ScheduleSourceType.values[type];
   }
 
   Future<ScheduleSource> _dualisScheduleSource() async {
@@ -84,7 +80,7 @@ class ScheduleSourceProvider {
 
     var credentials = await _preferencesProvider.loadDualisCredentials();
 
-    if (credentials.allFieldsFilled()) {
+    if (credentials != null) {
       dualis.setLoginCredentials(credentials);
       return ErrorReportScheduleSourceDecorator(dualis);
     } else {
@@ -130,7 +126,9 @@ class ScheduleSourceProvider {
     return InvalidScheduleSource();
   }
 
-  Future<void> setupForRapla(String url) async {
+  Future<void> setupForRapla(String? url) async {
+    if (url == null) return;
+
     await _preferencesProvider.setRaplaUrl(url);
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Rapla.index);
@@ -157,7 +155,9 @@ class ScheduleSourceProvider {
     );
   }
 
-  Future<void> setupForIcal(String url) async {
+  Future<void> setupForIcal(String? url) async {
+    if (url == null) return;
+
     await _preferencesProvider.setIcalUrl(url);
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Ical.index);
@@ -171,8 +171,8 @@ class ScheduleSourceProvider {
     );
   }
 
-  Future<void> setupForMannheim(Course selectedCourse) async {
-    if(selectedCourse == null) return;
+  Future<void> setupForMannheim(Course? selectedCourse) async {
+    if (selectedCourse == null) return;
     await _preferencesProvider.setMannheimScheduleId(selectedCourse.scheduleId);
     await _preferencesProvider.setIcalUrl(selectedCourse.icalUrl);
     await _preferencesProvider
@@ -188,8 +188,7 @@ class ScheduleSourceProvider {
   }
 
   bool didSetupCorrectly() {
-    return _currentScheduleSource != null &&
-        !(_currentScheduleSource is InvalidScheduleSource);
+    return !(_currentScheduleSource is InvalidScheduleSource);
   }
 
   void addDidChangeScheduleSourceCallback(OnDidChangeScheduleSource callback) {

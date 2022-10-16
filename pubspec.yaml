@@ -14,7 +14,7 @@ description: An app for the DHBW Stuttgart
 version: 1.0.1+1
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -50,6 +50,7 @@ dependencies:
   flutter_widgetkit: ^1.0.3
   app_group_directory: ^2.0.0
   timezone: ^0.8.0
+  equatable: ^2.0.0
 
 dev_dependencies:
   flutter_test:

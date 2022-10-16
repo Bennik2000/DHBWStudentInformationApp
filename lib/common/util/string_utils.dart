@@ -1,7 +1,9 @@
+// TODO: [Leptopoda] deprecate as dart has it's own function (at least for the above)
+
 String concatStringList(List<String> list, String separator) {
   var result = "";
 
-  for (var element in list ?? []) {
+  for (var element in list) {
     result += element + separator;
   }
 
@@ -12,10 +14,10 @@ String concatStringList(List<String> list, String separator) {
   return result;
 }
 
-String interpolate(String string, List<String> params) {
+String interpolate(String string, List<String?> params) {
   String result = string;
   for (int i = 0; i < params.length; i++) {
-    result = result.replaceAll('%$i', params[i]);
+    result = result.replaceAll('%$i', params[i]!);
   }
 
   return result;

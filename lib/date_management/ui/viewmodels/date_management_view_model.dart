@@ -33,16 +33,16 @@ class DateManagementViewModel extends BaseViewModel {
 
   final CancelableMutex _updateMutex = CancelableMutex();
 
-  Timer _errorResetTimer;
+  Timer? _errorResetTimer;
 
-  List<String> _years;
+  List<String> _years = [];
   List<String> get years => _years;
 
-  String _currentSelectedYear;
-  String get currentSelectedYear => _currentSelectedYear;
+  String? _currentSelectedYear;
+  String? get currentSelectedYear => _currentSelectedYear;
 
-  List<DateEntry> _allDates;
-  List<DateEntry> get allDates => _allDates;
+  List<DateEntry>? _allDates;
+  List<DateEntry>? get allDates => _allDates;
 
   bool _showPassedDates = false;
   bool get showPassedDates => _showPassedDates;
@@ -53,8 +53,8 @@ class DateManagementViewModel extends BaseViewModel {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  DateDatabase _currentDateDatabase;
-  DateDatabase get currentDateDatabase => _currentDateDatabase;
+  DateDatabase? _currentDateDatabase;
+  DateDatabase? get currentDateDatabase => _currentDateDatabase;
 
   int _dateEntriesKeyIndex = 0;
   int get dateEntriesKeyIndex => _dateEntriesKeyIndex;
@@ -75,8 +75,6 @@ class DateManagementViewModel extends BaseViewModel {
   }
 
   void _buildYearsArray() {
-    _years = [];
-
     for (var i = 2017; i < DateTime.now().year + 3; i++) {
       _years.add(i.toString());
     }
@@ -90,7 +88,8 @@ class DateManagementViewModel extends BaseViewModel {
       notifyListeners("isLoading");
 
       await _doUpdateDates();
-    } catch (_) {} finally {
+    } catch (_) {
+    } finally {
       _isLoading = false;
       _updateMutex.release();
       notifyListeners("isLoading");
@@ -99,11 +98,11 @@ class DateManagementViewModel extends BaseViewModel {
 
   Future<void> _doUpdateDates() async {
     var cachedDateEntries = await _readCachedDateEntries();
-    _updateMutex.token.throwIfCancelled();
+    _updateMutex.token!.throwIfCancelled();
     _setAllDates(cachedDateEntries);
 
     var loadedDateEntries = await _readUpdatedDateEntries();
-    _updateMutex.token.throwIfCancelled();
+    _updateMutex.token!.throwIfCancelled();
 
     if (loadedDateEntries != null) {
       _setAllDates(loadedDateEntries);
@@ -117,23 +116,23 @@ class DateManagementViewModel extends BaseViewModel {
     notifyListeners("updateFailed");
   }
 
-  Future<List<DateEntry>> _readUpdatedDateEntries() async {
+  Future<List<DateEntry>?> _readUpdatedDateEntries() async {
     try {
       var loadedDateEntries = await _dateEntryProvider.getDateEntries(
         dateSearchParameters,
         _updateMutex.token,
       );
       return loadedDateEntries;
-    } on OperationCancelledException {} on ServiceRequestFailed {}
+    } on OperationCancelledException {
+    } on ServiceRequestFailed {}
 
     return null;
   }
 
   Future<List<DateEntry>> _readCachedDateEntries() async {
-    var cachedDateEntries = await _dateEntryProvider.getCachedDateEntries(
+    return _dateEntryProvider.getCachedDateEntries(
       dateSearchParameters,
     );
-    return cachedDateEntries;
   }
 
   void _setAllDates(List<DateEntry> dateEntries) {
@@ -143,24 +142,31 @@ class DateManagementViewModel extends BaseViewModel {
     notifyListeners("allDates");
   }
 
-  void setShowPassedDates(bool value) {
+  // TODO [Leptopoda]: use setters
+  void setShowPassedDates(bool? value) {
+    if (value == null) return;
+
     _showPassedDates = value;
     notifyListeners("showPassedDates");
   }
 
-  void setShowFutureDates(bool value) {
+  void setShowFutureDates(bool? value) {
+    if (value == null) return;
+
     _showFutureDates = value;
     notifyListeners("showFutureDates");
   }
 
-  void setCurrentDateDatabase(DateDatabase database) {
+  void setCurrentDateDatabase(DateDatabase? database) {
     _currentDateDatabase = database;
     notifyListeners("currentDateDatabase");
 
     _preferencesProvider.setLastViewedDateEntryDatabase(database?.id);
   }
 
-  void setCurrentSelectedYear(String year) {
+  void setCurrentSelectedYear(String? year) {
+    if (year == null) return;
+
     _currentSelectedYear = year;
     notifyListeners("currentSelectedYear");
 
@@ -183,19 +189,13 @@ class DateManagementViewModel extends BaseViewModel {
     }
 
     var year = await _preferencesProvider.getLastViewedDateEntryYear();
-    if (year != null) {
-      setCurrentSelectedYear(year);
-    } else {
-      setCurrentSelectedYear(years[0]);
-    }
+    setCurrentSelectedYear(year ?? years[0]);
 
     await updateDates();
   }
 
   void _cancelErrorInFuture() async {
-    if (_errorResetTimer != null) {
-      _errorResetTimer.cancel();
-    }
+    _errorResetTimer?.cancel();
 
     _errorResetTimer = Timer(
       const Duration(seconds: 5),

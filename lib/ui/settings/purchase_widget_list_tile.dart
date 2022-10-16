@@ -7,13 +7,15 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class PurchaseWidgetListTile extends StatefulWidget {
+  const PurchaseWidgetListTile({Key? key}) : super(key: key);
+
   @override
   _PurchaseWidgetListTileState createState() => _PurchaseWidgetListTileState();
 }
 
 class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
   final InAppPurchaseManager inAppPurchaseManager;
-  SettingsViewModel model;
+  late SettingsViewModel model;
 
   bool isPurchasing = false;
 
@@ -34,7 +36,7 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
     inAppPurchaseManager.removePurchaseCallback(null, purchaseCallback);
   }
 
-  void purchaseCallback(String productId, PurchaseResultEnum result) {
+  void purchaseCallback(String? productId, PurchaseResultEnum result) {
     if (!mounted) return;
 
     setState(() {
@@ -50,9 +52,10 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
         "didPurchaseWidget",
         "areWidgetsSupported",
       ],
-    ).value;
+    )!
+        .value;
 
-    if (!model.areWidgetsSupported ||
+    if (!model.areWidgetsSupported! ||
         model.widgetPurchaseState == PurchaseStateEnum.Unknown ||
         model.widgetPurchaseState == null) {
       return Container();
@@ -66,7 +69,7 @@ class _PurchaseWidgetListTileState extends State<PurchaseWidgetListTile> {
     );
   }
 
-  Widget _buildWidgetSubtitle() {
+  Widget? _buildWidgetSubtitle() {
     if (isPurchasing) {
       return Align(
         alignment: Alignment.centerLeft,

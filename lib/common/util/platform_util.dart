@@ -19,7 +19,7 @@ class PlatformUtil {
 
   static Brightness platformBrightness() {
     final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-    return data.platformBrightness ?? Brightness.light;
+    return data.platformBrightness;
   }
 
   static Future<void> initializePortraitLandscapeMode() async {

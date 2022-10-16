@@ -9,21 +9,21 @@ abstract class ScheduleSource {
   /// Returns a future which gives the updated schedule or throws an exception
   /// if an error happened or the operation was cancelled
   ///
-  Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
-      [CancellationToken cancellationToken]);
+  Future<ScheduleQueryResult?> querySchedule(DateTime? from, DateTime? to,
+      [CancellationToken? cancellationToken]);
 
   bool canQuery();
 }
 
 class ScheduleQueryFailedException implements Exception {
-  final dynamic innerException;
-  final StackTrace trace;
+  final Object innerException;
+  final StackTrace? trace;
 
   ScheduleQueryFailedException(this.innerException, [this.trace]);
 
   @override
   String toString() {
-    return (innerException?.toString() ?? "") + "\n" + trace?.toString();
+    return innerException.toString() + "\n" + (trace?.toString() ?? "");
   }
 }
 

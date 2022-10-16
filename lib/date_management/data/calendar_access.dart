@@ -5,8 +5,6 @@ import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:flutter/services.dart';
 import 'package:timezone/timezone.dart' as tz;
 
-
-
 enum CalendarPermission {
   PermissionGranted,
   PermissionDenied,
@@ -19,14 +17,13 @@ enum CalendarPermission {
 class CalendarAccess {
   final DeviceCalendarPlugin _deviceCalendarPlugin = DeviceCalendarPlugin();
 
-
   Future<CalendarPermission> requestCalendarPermission() async {
     try {
       var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
 
-      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
+      if (permissionsGranted.isSuccess && !permissionsGranted.data!) {
         permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
+        if (!permissionsGranted.isSuccess || !permissionsGranted.data!) {
           return CalendarPermission.PermissionDenied;
         }
       }
@@ -42,8 +39,8 @@ class CalendarAccess {
   Future<List<Calendar>> queryWriteableCalendars() async {
     final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
     var writeableCalendars = <Calendar>[];
-    for (var calendar in calendarsResult?.data ?? <Calendar>[]) {
-      if (!calendar.isReadOnly) {
+    for (var calendar in calendarsResult.data ?? []) {
+      if (!calendar.isReadOnly!) {
         writeableCalendars.add(calendar);
       }
     }
@@ -53,12 +50,12 @@ class CalendarAccess {
 
   Future<void> addOrUpdateDates(
     List<DateEntry> dateEntries,
-    Calendar calendar,
+    Calendar? calendar,
   ) async {
-    if ((dateEntries ?? []).isEmpty) return;
+    if (dateEntries.isEmpty) return;
 
     var existingEvents =
-        await _getExistingEventsFromCalendar(dateEntries, calendar);
+        await _getExistingEventsFromCalendar(dateEntries, calendar!);
 
     for (var entry in dateEntries) {
       await _addOrUpdateEntry(existingEvents, entry, calendar);
@@ -82,7 +79,6 @@ class CalendarAccess {
       end = entry.end;
     }
 
-
     return await _deviceCalendarPlugin.createOrUpdateEvent(Event(
       calendar.id,
       location: entry.room,
@@ -95,11 +91,13 @@ class CalendarAccess {
     ));
   }
 
-  String _getIdOfExistingEvent(List<Event> existingEvents, DateEntry entry) {
+  String? _getIdOfExistingEvent(List<Event> existingEvents, DateEntry entry) {
     var existingEvent = existingEvents
-        .where((element) => (element.title == entry.description && element.start.toUtc().isAtSameMomentAs(entry.start.toUtc())))
+        .where((element) => (element.title == entry.description &&
+            (element.start?.toUtc().isAtSameMomentAs(entry.start.toUtc()) ??
+                false)))
         .toList();
-    String id;
+    String? id;
 
     if (existingEvent.isNotEmpty) {
       id = existingEvent[0].eventId;
@@ -122,7 +120,7 @@ class CalendarAccess {
     var existingEvents = <Event>[];
 
     if (existingEventsResult.isSuccess) {
-      existingEvents = existingEventsResult.data.toList();
+      existingEvents = existingEventsResult.data!.toList();
     }
     return existingEvents;
   }
@@ -131,7 +129,7 @@ class CalendarAccess {
     var firstEntry = entries[0];
 
     for (var entry in entries) {
-      if (entry.end.isBefore(firstEntry?.end)) {
+      if (entry.end.isBefore(firstEntry.end)) {
         firstEntry = entry;
       }
     }
