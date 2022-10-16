@@ -60,7 +60,7 @@ class Session {
       _updateCookie(response!);
 
       return response;
-    // ignore: avoid_catching_errors
+      // ignore: avoid_catching_errors
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
     } catch (ex) {
@@ -118,7 +118,7 @@ class Session {
       _updateCookie(response!);
 
       return response;
-    // ignore: avoid_catching_errors
+      // ignore: avoid_catching_errors
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
     } catch (ex) {

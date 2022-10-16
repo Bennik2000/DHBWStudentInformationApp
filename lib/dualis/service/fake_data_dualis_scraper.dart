@@ -20,8 +20,9 @@ class FakeDataDualisScraper implements DualisScraper {
   }
 
   @override
-  Future<List<DualisModule>> loadAllModules(
-      [CancellationToken? cancellationToken,]) async {
+  Future<List<DualisModule>> loadAllModules([
+    CancellationToken? cancellationToken,
+  ]) async {
     await Future.delayed(const Duration(milliseconds: 200));
 
     return Future.value([
@@ -81,15 +82,17 @@ class FakeDataDualisScraper implements DualisScraper {
   }
 
   @override
-  Future<List<DualisSemester>> loadSemesters(
-      [CancellationToken? cancellationToken,]) async {
+  Future<List<DualisSemester>> loadSemesters([
+    CancellationToken? cancellationToken,
+  ]) async {
     await Future.delayed(const Duration(milliseconds: 200));
     return Future.value([DualisSemester("SoSe2020", "", [])]);
   }
 
   @override
   Future<StudyGrades> loadStudyGrades(
-      CancellationToken? cancellationToken,) async {
+    CancellationToken? cancellationToken,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 200));
     return Future.value(
       StudyGrades(
@@ -113,7 +116,8 @@ class FakeDataDualisScraper implements DualisScraper {
 
   @override
   Future<LoginResult> loginWithPreviousCredentials(
-      CancellationToken cancellationToken,) async {
+    CancellationToken cancellationToken,
+  ) async {
     await Future.delayed(const Duration(milliseconds: 200));
     _isLoggedIn = true;
     return Future.value(LoginResult.LoggedIn);

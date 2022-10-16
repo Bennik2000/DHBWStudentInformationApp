@@ -33,11 +33,15 @@ class NavigationDrawer extends StatelessWidget {
 
     int i = 0;
     for (final entry in entries) {
-      widgets.add(_createDrawerItem(context,
+      widgets.add(
+        _createDrawerItem(
+          context,
           icon: entry.icon,
           text: entry.title,
           index: i,
-          isSelected: i == selectedIndex,),);
+          isSelected: i == selectedIndex,
+        ),
+      );
 
       i++;
     }

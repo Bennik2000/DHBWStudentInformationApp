@@ -29,7 +29,7 @@ class _SchedulePageState extends State<SchedulePage> {
 
   @override
   Widget build(BuildContext context) {
-    ScheduleViewModel viewModel = Provider.of<ScheduleViewModel>(context);
+    final ScheduleViewModel viewModel = Provider.of<ScheduleViewModel>(context);
 
     if (!viewModel.didSetupProperly) {
       return ScheduleEmptyState();

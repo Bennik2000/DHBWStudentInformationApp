@@ -13,15 +13,17 @@ class ScheduleDiffCalculator {
     final addedEntries = <ScheduleEntry>[];
 
     for (final entry in oldEntries) {
-      if (!newEntries.any((ScheduleEntry element) =>
-          _areScheduleEntriesEqual(element, entry),)) {
+      if (!newEntries.any(
+        (ScheduleEntry element) => _areScheduleEntriesEqual(element, entry),
+      )) {
         removedEntries.add(entry);
       }
     }
 
     for (final entry in newEntries) {
-      if (!oldEntries.any((ScheduleEntry element) =>
-          _areScheduleEntriesEqual(element, entry),)) {
+      if (!oldEntries.any(
+        (ScheduleEntry element) => _areScheduleEntriesEqual(element, entry),
+      )) {
         addedEntries.add(entry);
       }
     }
@@ -86,10 +88,13 @@ class ScheduleDiffCalculator {
       }
 
       if (oldElementsWithName.length == 1 && newElementsWithName.length == 1) {
-        updatedEntries.add(UpdatedEntry(
-          newElementsWithName[0],
-          newElementsWithName[0].getDifferentProperties(oldElementsWithName[0]),
-        ),);
+        updatedEntries.add(
+          UpdatedEntry(
+            newElementsWithName[0],
+            newElementsWithName[0]
+                .getDifferentProperties(oldElementsWithName[0]),
+          ),
+        );
         continue;
       }
 
@@ -113,11 +118,12 @@ class ScheduleDiffCalculator {
   }
 
   void _matchMNChangedElements(
-      List<ScheduleEntry> oldElementsWithName,
-      List<ScheduleEntry> newElementsWithName,
-      List<UpdatedEntry> updatedEntries,
-      List<ScheduleEntry> oldEntries,
-      List<ScheduleEntry> newEntries,) {
+    List<ScheduleEntry> oldElementsWithName,
+    List<ScheduleEntry> newElementsWithName,
+    List<UpdatedEntry> updatedEntries,
+    List<ScheduleEntry> oldEntries,
+    List<ScheduleEntry> newEntries,
+  ) {
     if (oldElementsWithName.length == newElementsWithName.length) {
       for (final oldElement in oldElementsWithName) {
         final ScheduleEntry nearestElement =
@@ -144,7 +150,9 @@ class ScheduleDiffCalculator {
   }
 
   ScheduleEntry _findNearestElementByStart(
-      List<ScheduleEntry> elements, ScheduleEntry reference,) {
+    List<ScheduleEntry> elements,
+    ScheduleEntry reference,
+  ) {
     ScheduleEntry nearestElement = elements[0];
     Duration minimalDifference =
         reference.start.difference(nearestElement.start).abs();
@@ -166,10 +174,11 @@ class ScheduleDiff {
   final List<ScheduleEntry> removedEntries;
   final List<UpdatedEntry> updatedEntries;
 
-  ScheduleDiff(
-      {required this.addedEntries,
-      required this.removedEntries,
-      required this.updatedEntries,});
+  ScheduleDiff({
+    required this.addedEntries,
+    required this.removedEntries,
+    required this.updatedEntries,
+  });
 
   bool didSomethingChange() {
     return addedEntries.isNotEmpty ||

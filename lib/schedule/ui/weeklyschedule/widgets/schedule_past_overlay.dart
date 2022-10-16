@@ -68,13 +68,14 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
 
   void drawCompletePastOverlay(Canvas canvas, Size size, Paint overlayPaint) {
     canvas.drawRect(
-        Rect.fromLTRB(
-          0,
-          0,
-          size.width,
-          size.height,
-        ),
-        overlayPaint,);
+      Rect.fromLTRB(
+        0,
+        0,
+        size.width,
+        size.height,
+      ),
+      overlayPaint,
+    );
   }
 
   void drawPartialPastOverlay(Canvas canvas, Size size, Paint overlayPaint) {

@@ -96,38 +96,44 @@ class OnboardingPageBackground extends StatelessWidget {
             ),
           ),
         ),
-        if (PlatformUtil.isPhone()) Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: 90,
-                  width: double.infinity,
-                  child: Transform.translate(
-                    offset: Offset(bottomBackground.value, 20),
-                    child: Transform.scale(
-                      scale: 1.5,
-                      child: Image.asset(
-                        background[Theme.of(context).brightness]!,
-                      ),
-                    ),
+        if (PlatformUtil.isPhone())
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 90,
+              width: double.infinity,
+              child: Transform.translate(
+                offset: Offset(bottomBackground.value, 20),
+                child: Transform.scale(
+                  scale: 1.5,
+                  child: Image.asset(
+                    background[Theme.of(context).brightness]!,
                   ),
                 ),
-              ) else Container(),
-        if (PlatformUtil.isPhone()) Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: 90,
-                  width: double.infinity,
-                  child: Transform.translate(
-                    offset: Offset(bottomForeground.value, 20),
-                    child: Transform.scale(
-                      scale: 1.5,
-                      child: Image.asset(
-                        foreground[Theme.of(context).brightness]!,
-                      ),
-                    ),
+              ),
+            ),
+          )
+        else
+          Container(),
+        if (PlatformUtil.isPhone())
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 90,
+              width: double.infinity,
+              child: Transform.translate(
+                offset: Offset(bottomForeground.value, 20),
+                child: Transform.scale(
+                  scale: 1.5,
+                  child: Image.asset(
+                    foreground[Theme.of(context).brightness]!,
                   ),
                 ),
-              ) else Container(),
+              ),
+            ),
+          )
+        else
+          Container(),
       ],
     );
   }

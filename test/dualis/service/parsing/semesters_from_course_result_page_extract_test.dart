@@ -5,8 +5,9 @@ import 'package:dhbwstudentapp/dualis/service/parsing/semesters_from_course_resu
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  final courseResultsPage = await File('${Directory.current.absolute.path}/test/dualis/service/parsing/html_resources/course_results.html',)
-      .readAsString();
+  final courseResultsPage = await File(
+    '${Directory.current.absolute.path}/test/dualis/service/parsing/html_resources/course_results.html',
+  ).readAsString();
 
   test('SemestersFromCourseResultPageExtract', () async {
     final extract = SemestersFromCourseResultPageExtract();
@@ -19,12 +20,16 @@ Future<void> main() async {
     expect(semesters.length, 2);
 
     expect(semesters[0].semesterName, "SoSe yyyy");
-    expect(semesters[0].semesterCourseResultsUrl,
-        "www.endpoint.com/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=COURSERESULTS&ARGUMENTS=-N123456789876543,-N000307,-N000000012345000",);
+    expect(
+      semesters[0].semesterCourseResultsUrl,
+      "www.endpoint.com/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=COURSERESULTS&ARGUMENTS=-N123456789876543,-N000307,-N000000012345000",
+    );
 
     expect(semesters[1].semesterName, "WiSe xx/yy");
-    expect(semesters[1].semesterCourseResultsUrl,
-        "www.endpoint.com/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=COURSERESULTS&ARGUMENTS=-N123456789876543,-N000307,-N000000015048000",);
+    expect(
+      semesters[1].semesterCourseResultsUrl,
+      "www.endpoint.com/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=COURSERESULTS&ARGUMENTS=-N123456789876543,-N000307,-N000000015048000",
+    );
   });
 
   test('SemestersFromCourseResultPageExtract invalid html throws exception',

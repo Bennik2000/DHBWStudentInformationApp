@@ -50,8 +50,11 @@ class SelectMannheimCourseWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return PropertyChangeConsumer<OnboardingStepViewModel, String>(
-      builder: (BuildContext context, OnboardingStepViewModel? model,
-          Set<Object>? _,) {
+      builder: (
+        BuildContext context,
+        OnboardingStepViewModel? model,
+        Set<Object>? _,
+      ) {
         final viewModel = model as MannheimViewModel?;
 
         switch (viewModel?.loadingState) {

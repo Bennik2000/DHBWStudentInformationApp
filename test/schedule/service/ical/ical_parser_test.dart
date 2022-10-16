@@ -5,8 +5,9 @@ import 'package:dhbwstudentapp/schedule/service/ical/ical_parser.dart';
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  final icalFile = await File('${Directory.current.absolute.path}/test/schedule/service/ical/file_resources/ical_test.ics',)
-      .readAsString();
+  final icalFile = await File(
+    '${Directory.current.absolute.path}/test/schedule/service/ical/file_resources/ical_test.ics',
+  ).readAsString();
 
   test('ical correctly read all entries', () async {
     final parser = IcalParser();

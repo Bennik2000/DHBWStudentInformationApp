@@ -26,7 +26,8 @@ Future<String> _getiOSDatabasePathAndMigrate(
   // copied to the new path
   assert(Platform.isIOS);
 
-  final Directory? groupDirectory = await AppGroupDirectory.getAppGroupDirectory(
+  final Directory? groupDirectory =
+      await AppGroupDirectory.getAppGroupDirectory(
     'group.de.bennik2000.dhbwstudentapp',
   );
 

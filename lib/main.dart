@@ -25,9 +25,11 @@ void main() async {
 
   await PlatformUtil.initializePortraitLandscapeMode();
 
-  runApp(RootPage(
-    rootViewModel: await loadRootViewModel(),
-  ),);
+  runApp(
+    RootPage(
+      rootViewModel: await loadRootViewModel(),
+    ),
+  );
 }
 
 ///

@@ -25,7 +25,8 @@ class UrlsFromMainPageExtract {
 
     final courseResultsElement = getElementByClassName(document, "link000307");
     final studentResultsElement = getElementByClassName(document, "link000310");
-    final monthlyScheduleElement = getElementByClassName(document, "link000031");
+    final monthlyScheduleElement =
+        getElementByClassName(document, "link000031");
     final logoutElement = getElementById(document, "logoutButton");
 
     dualisUrls.courseResultUrl =

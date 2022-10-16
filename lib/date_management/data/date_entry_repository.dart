@@ -91,12 +91,14 @@ class DateEntryRepository {
     String? databaseName,
     String? year,
   ) async {
-    await _database.deleteWhere(DateEntryEntity.tableName(),
-        where: "databaseName=? AND year=?",
-        whereArgs: [
-          databaseName,
-          year,
-        ],);
+    await _database.deleteWhere(
+      DateEntryEntity.tableName(),
+      where: "databaseName=? AND year=?",
+      whereArgs: [
+        databaseName,
+        year,
+      ],
+    );
   }
 
   List<DateEntry> _rowsToDateEntries(List<Map<String, dynamic>> rows) {

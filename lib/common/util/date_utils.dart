@@ -7,9 +7,7 @@ DateTime? toStartOfDay(DateTime? dateTime) {
 }
 
 DateTime? toStartOfMonth(DateTime? dateTime) {
-  return dateTime == null
-      ? null
-      : DateTime(dateTime.year, dateTime.month);
+  return dateTime == null ? null : DateTime(dateTime.year, dateTime.month);
 }
 
 DateTime? tomorrow(DateTime? dateTime) {

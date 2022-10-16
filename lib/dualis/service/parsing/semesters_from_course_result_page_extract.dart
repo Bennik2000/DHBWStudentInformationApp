@@ -17,7 +17,9 @@ class SemestersFromCourseResultPageExtract {
   }
 
   List<DualisSemester> _extractSemestersFromCourseResults(
-      String? body, String endpointUrl,) {
+    String? body,
+    String endpointUrl,
+  ) {
     final page = parse(body);
 
     final semesterSelector = page.getElementById("semester");
@@ -40,11 +42,13 @@ class SemestersFromCourseResultPageExtract {
         detailsUrl = url + id!;
       }
 
-      semesters.add(DualisSemester(
-        name,
-        detailsUrl,
-        [],
-      ),);
+      semesters.add(
+        DualisSemester(
+          name,
+          detailsUrl,
+          [],
+        ),
+      );
     }
 
     return semesters;

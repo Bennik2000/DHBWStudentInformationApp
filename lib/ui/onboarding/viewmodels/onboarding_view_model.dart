@@ -45,9 +45,12 @@ class OnboardingViewModel extends BaseViewModel {
     this._onboardingFinished,
   ) {
     for (final page in pages.values) {
-      page.viewModel().addListener(() {
-        notifyListeners("currentPageValid");
-      }, ["isValid"],);
+      page.viewModel().addListener(
+        () {
+          notifyListeners("currentPageValid");
+        },
+        ["isValid"],
+      );
     }
 
     analytics.logTutorialBegin();

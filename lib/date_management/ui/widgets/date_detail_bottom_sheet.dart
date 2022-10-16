@@ -31,8 +31,9 @@ class DateDetailBottomSheet extends StatelessWidget {
                   height: 8,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: colorSeparator(),
-                      borderRadius: const BorderRadius.all(Radius.circular(4)),),
+                    color: colorSeparator(),
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  ),
                 ),
               ),
             ),
@@ -58,10 +59,13 @@ class DateDetailBottomSheet extends StatelessWidget {
                           softWrap: true,
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
-                        if (isAtMidnight(dateEntry!.start)) Container() else Text(
-                                time,
-                                softWrap: true,
-                              ),
+                        if (isAtMidnight(dateEntry!.start))
+                          Container()
+                        else
+                          Text(
+                            time,
+                            softWrap: true,
+                          ),
                       ],
                     ),
                   ),

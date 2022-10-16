@@ -8,7 +8,8 @@ class ScheduleFilter {
   ScheduleFilter(this._scheduleFilterRepository);
 
   Future<Schedule> filter(Schedule original) async {
-    final allHiddenNames = await _scheduleFilterRepository.queryAllHiddenNames();
+    final allHiddenNames =
+        await _scheduleFilterRepository.queryAllHiddenNames();
 
     final allEntries = <ScheduleEntry>[];
 

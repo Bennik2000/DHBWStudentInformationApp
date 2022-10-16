@@ -41,12 +41,15 @@ class _IcalUrlPageState extends State<IcalUrlPage> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
             child: PropertyChangeConsumer<OnboardingStepViewModel, String>(
-              builder: (BuildContext context, OnboardingStepViewModel? model,
-                  Set<Object>? _,) {
+              builder: (
+                BuildContext context,
+                OnboardingStepViewModel? model,
+                Set<Object>? _,
+              ) {
                 final viewModel = model as IcalUrlViewModel?;
 
                 if (viewModel?.url != null &&
-                    _urlTextController.text != viewModel!.url){
+                    _urlTextController.text != viewModel!.url) {
                   _urlTextController.text = viewModel.url!;
                 }
 

@@ -153,7 +153,7 @@ class DualisAuthentication {
     final loginResult = await login(_credentials!, cancellationToken);
 
     if (loginResult == LoginResult.LoggedIn) {
-      return  session.get(
+      return session.get(
         _fillUrlWithAuthToken(url),
         cancellationToken,
       );
@@ -197,7 +197,10 @@ class DualisAuthentication {
     final match = _tokenRegex.firstMatch(url);
     if (match != null) {
       return url.replaceRange(
-          match.start, match.end, "ARGUMENTS=-N$_authToken",);
+        match.start,
+        match.end,
+        "ARGUMENTS=-N$_authToken",
+      );
     }
 
     return url;
@@ -208,8 +211,9 @@ class DualisAuthentication {
   }
 
   Future<LoginResult> loginWithPreviousCredentials(
-      CancellationToken cancellationToken,) async {
+    CancellationToken cancellationToken,
+  ) async {
     assert(_credentials != null);
-    return  login(_credentials!, cancellationToken);
+    return login(_credentials!, cancellationToken);
   }
 }

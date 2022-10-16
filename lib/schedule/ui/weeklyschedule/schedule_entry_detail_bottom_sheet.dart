@@ -36,8 +36,9 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                   height: 8,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: colorSeparator(),
-                      borderRadius: const BorderRadius.all(Radius.circular(4)),),
+                    color: colorSeparator(),
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  ),
                 ),
               ),
             ),
@@ -55,7 +56,8 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                           Text(
                             L.of(context).scheduleEntryDetailFrom,
                             style: textStyleScheduleEntryBottomPageTimeFromTo(
-                                context,),
+                              context,
+                            ),
                           ),
                           Text(
                             timeStart,
@@ -113,18 +115,27 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            if (scheduleEntry!.room.isEmpty) Container() else Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    child: Text(scheduleEntry!.room.replaceAll(",", "\n")),
-                  ),
-            if (scheduleEntry!.details.isEmpty) Container() else Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-                    child: Container(
-                      color: colorSeparator(),
-                      height: 1,
-                    ),
-                  ),
-            if (scheduleEntry!.details.isEmpty) Container() else Text(scheduleEntry!.details),
+            if (scheduleEntry!.room.isEmpty)
+              Container()
+            else
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                child: Text(scheduleEntry!.room.replaceAll(",", "\n")),
+              ),
+            if (scheduleEntry!.details.isEmpty)
+              Container()
+            else
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                child: Container(
+                  color: colorSeparator(),
+                  height: 1,
+                ),
+              ),
+            if (scheduleEntry!.details.isEmpty)
+              Container()
+            else
+              Text(scheduleEntry!.details),
           ],
         ),
       ),

@@ -92,10 +92,12 @@ class ColorPalettes {
 
     return themeData.copyWith(
       snackBarTheme: themeData.snackBarTheme.copyWith(
-        backgroundColor: isDark ? const Color(0xff363635) : const Color(0xfffafafa),
+        backgroundColor:
+            isDark ? const Color(0xff363635) : const Color(0xfffafafa),
         contentTextStyle: themeData.textTheme.bodyText1!.copyWith(
-          color:
-              isDark ? const Color(0xffe4e4e4) : themeData.textTheme.bodyText1!.color,
+          color: isDark
+              ? const Color(0xffe4e4e4)
+              : themeData.textTheme.bodyText1!.color,
         ),
       ),
       textButtonTheme: TextButtonThemeData(

@@ -61,7 +61,9 @@ class PreferencesProvider {
   Future<void> setSelectedCalendar(Calendar? selectedCalendar) async {
     final selectedCalendarId = selectedCalendar?.id ?? "";
     await _preferencesAccess.set<String>(
-        'SelectedCalendarId', selectedCalendarId,);
+      'SelectedCalendarId',
+      selectedCalendarId,
+    );
   }
 
   Future<Calendar?> getSelectedCalendar() async {
@@ -166,7 +168,9 @@ class PreferencesProvider {
   Future<void> setLastViewedSemester(String? lastViewedSemester) async {
     if (lastViewedSemester == null) return;
     await _preferencesAccess.set<String>(
-        LastViewedSemester, lastViewedSemester,);
+      LastViewedSemester,
+      lastViewedSemester,
+    );
   }
 
   Future<String?> getLastViewedDateEntryDatabase() async {

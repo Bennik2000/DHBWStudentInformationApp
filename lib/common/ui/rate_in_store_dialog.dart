@@ -28,7 +28,7 @@ class RateInStoreDialog {
   Future<void> _showRateDialog(BuildContext context) async {
     await analytics.logEvent(name: "rateRequestShown");
 
-    return  showDialog<void>(
+    return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -89,7 +89,8 @@ class RateInStoreDialog {
     await analytics.logEvent(name: "rateLater");
 
     await _preferencesProvider.setNextRateInStoreLaunchCount(
-        RateInStoreLaunchAfter + _appLaunchCounter,);
+      RateInStoreLaunchAfter + _appLaunchCounter,
+    );
   }
 
   Future<void> _rateNow() async {

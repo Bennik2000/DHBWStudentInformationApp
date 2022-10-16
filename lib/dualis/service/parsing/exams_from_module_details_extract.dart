@@ -48,13 +48,15 @@ class ExamsFromModuleDetailsExtract {
       final name = tbdata[1].innerHtml;
       final grade = trimAndEscapeString(tbdata[3].innerHtml);
 
-      exams.add(DualisExam(
-        trimAndEscapeString(name),
-        trimAndEscapeString(currentModule),
-        ExamGrade.fromString(grade),
-        trimAndEscapeString(currentTry),
-        trimAndEscapeString(semester),
-      ),);
+      exams.add(
+        DualisExam(
+          trimAndEscapeString(name),
+          trimAndEscapeString(currentModule),
+          ExamGrade.fromString(grade),
+          trimAndEscapeString(currentTry),
+          trimAndEscapeString(semester),
+        ),
+      );
     }
 
     return exams;

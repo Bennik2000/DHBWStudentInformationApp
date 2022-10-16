@@ -4,8 +4,9 @@ import 'package:dhbwstudentapp/schedule/service/mannheim/mannheim_course_respons
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  final coursePage = await File('${Directory.current.absolute.path}/test/schedule/service/mannheim/html_resources/mannheim_ical.html',)
-      .readAsString();
+  final coursePage = await File(
+    '${Directory.current.absolute.path}/test/schedule/service/mannheim/html_resources/mannheim_ical.html',
+  ).readAsString();
 
   test('Mannheim course parser parses correctly', () async {
     final parser = MannheimCourseResponseParser();

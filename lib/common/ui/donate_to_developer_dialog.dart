@@ -28,7 +28,7 @@ class DonateToDeveloperDialog {
   }
 
   Future<void> _showDialog(BuildContext context) async {
-    return  showDialog<void>(
+    return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -41,19 +41,20 @@ class DonateToDeveloperDialog {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    children: [
-                      Text(L.of(context).donateDialogMessage),
-                      const Padding(
-                        padding: EdgeInsets.fromLTRB(0, 32, 0, 0),
-                        child: Icon(
-                          Icons.free_breakfast_outlined,
-                          size: 60,
-                        ),
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    Text(L.of(context).donateDialogMessage),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(0, 32, 0, 0),
+                      child: Icon(
+                        Icons.free_breakfast_outlined,
+                        size: 60,
                       ),
-                    ],
-                  ),),
+                    ),
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                 child: _buildButtonBar(context),

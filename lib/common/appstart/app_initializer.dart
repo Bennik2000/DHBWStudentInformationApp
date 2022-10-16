@@ -63,9 +63,10 @@ Future<void> initializeApp(bool isBackground) async {
 
   // Callback-Function for synchronizing the device calendar with the schedule, when schedule is updated
   final CalendarSynchronizer calendarSynchronizer = CalendarSynchronizer(
-      KiwiContainer().resolve<ScheduleProvider>(),
-      KiwiContainer().resolve<ScheduleSourceProvider>(),
-      KiwiContainer().resolve<PreferencesProvider>(),);
+    KiwiContainer().resolve<ScheduleProvider>(),
+    KiwiContainer().resolve<ScheduleSourceProvider>(),
+    KiwiContainer().resolve<PreferencesProvider>(),
+  );
 
   calendarSynchronizer.registerSynchronizationCallback();
   calendarSynchronizer.scheduleSyncInAFewSeconds();

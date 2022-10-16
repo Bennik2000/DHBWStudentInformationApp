@@ -26,10 +26,11 @@ class DateManagementPage extends StatelessWidget {
             children: <Widget>[
               const Divider(),
               AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: viewModel.isLoading
-                      ? const LinearProgressIndicator()
-                      : Container(),),
+                duration: const Duration(milliseconds: 200),
+                child: viewModel.isLoading
+                    ? const LinearProgressIndicator()
+                    : Container(),
+              ),
             ],
           ),
           _buildBody(viewModel, context),
@@ -50,15 +51,15 @@ class DateManagementPage extends StatelessWidget {
                 _,
               ) =>
                   AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
-                      child: Column(
-                        key:
-                            ValueKey(viewModel.dateSearchParameters.toString()),
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          _buildAllDatesDataTable(model!, context),
-                        ],
-                      ),),
+                duration: const Duration(milliseconds: 200),
+                child: Column(
+                  key: ValueKey(viewModel.dateSearchParameters.toString()),
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _buildAllDatesDataTable(model!, context),
+                  ],
+                ),
+              ),
             ),
           ),
           Align(
@@ -109,28 +110,33 @@ class DateManagementPage extends StatelessWidget {
               },
             ),
             DataCell(
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      DateFormat.yMd(L.of(context).locale.languageCode)
-                          .format(dateEntry.start),
-                      style: Theme.of(context).textTheme.bodyText1,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    DateFormat.yMd(L.of(context).locale.languageCode)
+                        .format(dateEntry.start),
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  // When the date entry has a time of 00:00 don't show it.
+                  // It means the date entry is for the whole day
+                  if (isAtMidnight(dateEntry.start))
+                    Container()
+                  else
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                      child: Text(
+                        DateFormat.Hm(L.of(context).locale.languageCode)
+                            .format(dateEntry.start),
+                      ),
                     ),
-                    // When the date entry has a time of 00:00 don't show it.
-                    // It means the date entry is for the whole day
-                    if (isAtMidnight(dateEntry.start)) Container() else Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                            child: Text(
-                              DateFormat.Hm(L.of(context).locale.languageCode)
-                                  .format(dateEntry.start),
-                            ),
-                          ),
-                  ],
-                ), onTap: () {
-              showDateEntryDetailBottomSheet(context, dateEntry);
-            },),
+                ],
+              ),
+              onTap: () {
+                showDateEntryDetailBottomSheet(context, dateEntry);
+              },
+            ),
           ],
         ),
       );
@@ -157,8 +163,11 @@ class DateManagementPage extends StatelessWidget {
       properties: const [
         "updateFailed",
       ],
-      builder: (BuildContext context, DateManagementViewModel? model,
-              Set? properties,) =>
+      builder: (
+        BuildContext context,
+        DateManagementViewModel? model,
+        Set? properties,
+      ) =>
           ErrorDisplay(
         show: model!.updateFailed,
       ),

@@ -8,6 +8,6 @@ class SecureStorageAccess {
   }
 
   Future<String?> get(String key) async {
-    return  _secureStorage.read(key: key);
+    return _secureStorage.read(key: key);
   }
 }

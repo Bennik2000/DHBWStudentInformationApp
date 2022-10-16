@@ -6,8 +6,7 @@ import 'package:flutter_widgetkit/flutter_widgetkit.dart';
 /// WidgetHelper which calls native code to control the widget on iOS
 ///
 class IOSWidgetHelper implements WidgetHelper {
-  static const platform =
-      MethodChannel('de.bennik2000.dhbwstudentapp/widget');
+  static const platform = MethodChannel('de.bennik2000.dhbwstudentapp/widget');
 
   @override
   Future<void> disableWidget() async {

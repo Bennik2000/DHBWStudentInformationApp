@@ -71,14 +71,15 @@ class ScheduleEntry {
   }
 
   // TODO: [Leptopoda] use buildrunner
-  ScheduleEntry copyWith(
-      {DateTime? start,
-      DateTime? end,
-      String? title,
-      String? details,
-      String? professor,
-      String? room,
-      ScheduleEntryType? type,}) {
+  ScheduleEntry copyWith({
+    DateTime? start,
+    DateTime? end,
+    String? title,
+    String? details,
+    String? professor,
+    String? room,
+    ScheduleEntryType? type,
+  }) {
     return ScheduleEntry(
       id: id,
       start: start ?? this.start,

@@ -5,12 +5,12 @@ class BannerWidget extends StatelessWidget {
   final String buttonText;
   final VoidCallback onButtonTap;
 
-  const BannerWidget(
-      {Key? key,
-      required this.message,
-      required this.buttonText,
-      required this.onButtonTap,})
-      : super(key: key);
+  const BannerWidget({
+    Key? key,
+    required this.message,
+    required this.buttonText,
+    required this.onButtonTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -35,10 +35,14 @@ class ScheduleWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-      return buildWithSize(
-          context, constraints.biggest.width, constraints.biggest.height,);
-    },);
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return buildWithSize(
+          context,
+          constraints.biggest.width,
+          constraints.biggest.height,
+        );
+      },
+    );
   }
 
   Widget buildWithSize(BuildContext context, double width, double height) {
@@ -84,7 +88,8 @@ class ScheduleWidget extends StatelessWidget {
           colorScheduleGridGridLines(context),
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
+          padding:
+              const EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
           child: Stack(
             children: entryWidgets,
           ),
@@ -93,7 +98,8 @@ class ScheduleWidget extends StatelessWidget {
           children: labelWidgets,
         ),
         Padding(
-          padding: const EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
+          padding:
+              const EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
           child: SchedulePastOverlay(
             displayStartHour,
             displayEndHour,
@@ -151,7 +157,8 @@ class ScheduleWidget extends StatelessWidget {
     var i = 0;
 
     final dayFormatter = DateFormat("E", L.of(context).locale.languageCode);
-    final dateFormatter = DateFormat("d. MMM", L.of(context).locale.languageCode);
+    final dateFormatter =
+        DateFormat("d. MMM", L.of(context).locale.languageCode);
 
     final loopEnd = toStartOfDay(tomorrow(displayEnd))!;
 
@@ -188,7 +195,11 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   List<Widget> buildEntryWidgets(
-      double hourHeight, double minuteHeight, double width, int columns,) {
+    double hourHeight,
+    double minuteHeight,
+    double width,
+    int columns,
+  ) {
     if (schedule == null) return <Widget>[];
     if (schedule!.entries.isEmpty) return <Widget>[];
 
@@ -205,13 +216,15 @@ class ScheduleWidget extends StatelessWidget {
 
       final columnSchedule = schedule!.trim(columnStartDate, columnEndDate);
 
-      entryWidgets.addAll(buildEntryWidgetsForColumn(
-        maxWidth,
-        hourHeight,
-        minuteHeight,
-        xPosition,
-        columnSchedule.entries,
-      ),);
+      entryWidgets.addAll(
+        buildEntryWidgetsForColumn(
+          maxWidth,
+          hourHeight,
+          minuteHeight,
+          xPosition,
+          columnSchedule.entries,
+        ),
+      );
 
       columnStartDate = columnEndDate;
       columnEndDate = tomorrow(columnEndDate);

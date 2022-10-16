@@ -42,10 +42,11 @@ class SettingsViewModel extends BaseViewModel {
   bool? get areWidgetsSupported => _areWidgetsSupported;
 
   SettingsViewModel(
-      this._preferencesProvider,
-      this._nextDayInformationNotification,
-      this._widgetHelper,
-      this._inAppPurchaseManager,) {
+    this._preferencesProvider,
+    this._nextDayInformationNotification,
+    this._widgetHelper,
+    this._inAppPurchaseManager,
+  ) {
     _loadPreferences();
 
     _inAppPurchaseManager.addPurchaseCallback(

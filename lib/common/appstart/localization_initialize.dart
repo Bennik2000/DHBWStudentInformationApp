@@ -23,10 +23,12 @@ class LocalizationInitialize {
   LocalizationInitialize.fromPreferences(this._preferencesProvider);
 
   Future<void> setupLocalizations() async {
-    final localization = L(Locale(
-      _languageCode ??
-          (await _preferencesProvider?.getLastUsedLanguageCode() ?? "en"),
-    ),);
+    final localization = L(
+      Locale(
+        _languageCode ??
+            (await _preferencesProvider?.getLastUsedLanguageCode() ?? "en"),
+      ),
+    );
     KiwiContainer().registerInstance(localization);
   }
 }

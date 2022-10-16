@@ -35,18 +35,18 @@ class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
       PropertyChangeProvider<ScheduleViewModel, String>(
         value: model,
         child: PropertyChangeConsumer(
-            properties: const ["didSetupProperly"],
-            builder:
-                (BuildContext _, ScheduleViewModel? __, Set<Object>? ___) =>
-                    model.didSetupProperly
-                        ? Container()
-                        : IconButton(
-                            icon: const Icon(Icons.help_outline),
-                            onPressed: () async {
-                              await ScheduleHelpDialog().show(context);
-                            },
-                            tooltip: L.of(context).helpButtonTooltip,
-                          ),),
+          properties: const ["didSetupProperly"],
+          builder: (BuildContext _, ScheduleViewModel? __, Set<Object>? ___) =>
+              model.didSetupProperly
+                  ? Container()
+                  : IconButton(
+                      icon: const Icon(Icons.help_outline),
+                      onPressed: () async {
+                        await ScheduleHelpDialog().show(context);
+                      },
+                      tooltip: L.of(context).helpButtonTooltip,
+                    ),
+        ),
       ),
       PropertyChangeProvider<ScheduleViewModel, String>(
         value: model,
@@ -57,9 +57,11 @@ class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
                   ? IconButton(
                       icon: const Icon(Icons.filter_alt),
                       onPressed: () async {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => ScheduleFilterPage(),
-                        ),);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => ScheduleFilterPage(),
+                          ),
+                        );
                       },
                     )
                   : Container(),

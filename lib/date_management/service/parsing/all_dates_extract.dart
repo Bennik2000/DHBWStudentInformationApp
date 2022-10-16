@@ -57,12 +57,13 @@ class AllDatesExtract {
     );
 
     return DateEntry(
-        comment: parts[4].trim(),
-        description: parts[0].trim(),
-        year: parts[1].trim(),
-        databaseName: databaseName,
-        start: date,
-        end: date,);
+      comment: parts[4].trim(),
+      description: parts[0].trim(),
+      year: parts[1].trim(),
+      databaseName: databaseName,
+      start: date,
+      end: date,
+    );
   }
 
   DateTime? _parseDateTime(String date, String time) {

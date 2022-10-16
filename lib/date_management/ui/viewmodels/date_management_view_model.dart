@@ -143,28 +143,28 @@ class DateManagementViewModel extends BaseViewModel {
     notifyListeners("allDates");
   }
 
-   set showPassedDates(bool? value) {
+  set showPassedDates(bool? value) {
     if (value == null) return;
 
     _showPassedDates = value;
     notifyListeners("showPassedDates");
   }
 
-   set showFutureDates(bool? value) {
+  set showFutureDates(bool? value) {
     if (value == null) return;
 
     _showFutureDates = value;
     notifyListeners("showFutureDates");
   }
 
-   set currentDateDatabase(DateDatabase? database) {
+  set currentDateDatabase(DateDatabase? database) {
     _currentDateDatabase = database;
     notifyListeners("currentDateDatabase");
 
     _preferencesProvider.setLastViewedDateEntryDatabase(database?.id);
   }
 
-   set currentSelectedYear(String? year) {
+  set currentSelectedYear(String? year) {
     if (year == null) return;
 
     _currentSelectedYear = year;

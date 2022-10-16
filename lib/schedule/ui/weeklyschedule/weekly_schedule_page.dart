@@ -39,7 +39,8 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
             Text(L.of(context).scheduleQueryFailedMessage),
             TextButton(
               child: Text(
-                  L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase(),),
+                L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase(),
+              ),
               onPressed: () {
                 launchUrl(Uri.parse(viewModel.scheduleUrl!));
               },
@@ -81,7 +82,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
     viewModel = Provider.of<WeeklyScheduleViewModel>(context);
     viewModel.ensureUpdateNowTimerRunning();
 
-    viewModel.queryFailedCallback =_showQueryFailedSnackBar;
+    viewModel.queryFailedCallback = _showQueryFailedSnackBar;
 
     return PropertyChangeProvider<WeeklyScheduleViewModel, String>(
       value: viewModel,
@@ -109,13 +110,18 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: PropertyChangeConsumer(
                           properties: const ["weekSchedule", "now"],
-                          builder: (BuildContext context,
-                              WeeklyScheduleViewModel? model, Set? _,) {
+                          builder: (
+                            BuildContext context,
+                            WeeklyScheduleViewModel? model,
+                            Set? _,
+                          ) {
                             return PageTransitionSwitcher(
                               reverse: !model!.didUpdateScheduleIntoFuture,
-                              transitionBuilder: (Widget child,
-                                      Animation<double> animation,
-                                      Animation<double> secondaryAnimation,) =>
+                              transitionBuilder: (
+                                Widget child,
+                                Animation<double> animation,
+                                Animation<double> secondaryAnimation,
+                              ) =>
                                   SharedAxisTransition(
                                 animation: animation,
                                 secondaryAnimation: secondaryAnimation,
@@ -145,8 +151,11 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                       ),
                       PropertyChangeConsumer(
                         properties: const ["isUpdating"],
-                        builder: (BuildContext context,
-                            WeeklyScheduleViewModel? model, Set? _,) {
+                        builder: (
+                          BuildContext context,
+                          WeeklyScheduleViewModel? model,
+                          Set? _,
+                        ) {
                           return model!.isUpdating
                               ? const LinearProgressIndicator()
                               : Container();

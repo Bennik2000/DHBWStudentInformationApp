@@ -9,17 +9,23 @@ class ScheduleGrid extends CustomPaint {
   final int columns;
   final Color gridLinesColor;
 
-  ScheduleGrid(this.fromHour, this.toHour, this.timeLabelsWidth,
-      this.dateLabelsHeight, this.columns, this.gridLinesColor,)
-      : super(
-            painter: ScheduleGridCustomPaint(
-          fromHour,
-          toHour,
-          timeLabelsWidth,
-          dateLabelsHeight,
-          columns,
-          gridLinesColor,
-        ),);
+  ScheduleGrid(
+    this.fromHour,
+    this.toHour,
+    this.timeLabelsWidth,
+    this.dateLabelsHeight,
+    this.columns,
+    this.gridLinesColor,
+  ) : super(
+          painter: ScheduleGridCustomPaint(
+            fromHour,
+            toHour,
+            timeLabelsWidth,
+            dateLabelsHeight,
+            columns,
+            gridLinesColor,
+          ),
+        );
 }
 
 class ScheduleGridCustomPaint extends CustomPainter {
@@ -58,7 +64,8 @@ class ScheduleGridCustomPaint extends CustomPainter {
     Paint secondaryPaint,
   ) {
     for (var i = 0; i < lines; i++) {
-      final y = ((size.height - dateLabelsHeight) / lines) * i + dateLabelsHeight;
+      final y =
+          ((size.height - dateLabelsHeight) / lines) * i + dateLabelsHeight;
 
       canvas.drawLine(Offset(0, y), Offset(size.width, y), secondaryPaint);
     }
@@ -66,7 +73,8 @@ class ScheduleGridCustomPaint extends CustomPainter {
 
   void drawVerticalLines(Size size, Canvas canvas, Paint secondaryPaint) {
     for (var i = 0; i < columns; i++) {
-      final x = ((size.width - timeLabelsWidth) / columns) * i + timeLabelsWidth;
+      final x =
+          ((size.width - timeLabelsWidth) / columns) * i + timeLabelsWidth;
 
       canvas.drawLine(Offset(x, 0), Offset(x, size.height), secondaryPaint);
     }

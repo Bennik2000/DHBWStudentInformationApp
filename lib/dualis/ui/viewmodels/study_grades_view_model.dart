@@ -93,7 +93,7 @@ class StudyGradesViewModel extends BaseViewModel {
   }
 
   Future<Credentials?> loadCredentials() async {
-    return  _preferencesProvider.loadDualisCredentials();
+    return _preferencesProvider.loadDualisCredentials();
   }
 
   Future<void> saveCredentials(Credentials credentials) async {
@@ -211,7 +211,8 @@ class StudyGradesViewModel extends BaseViewModel {
     if (_semesterNames == null) return;
     if (_semesterNames!.isEmpty) return;
 
-    final lastViewedSemester = await _preferencesProvider.getLastViewedSemester();
+    final lastViewedSemester =
+        await _preferencesProvider.getLastViewedSemester();
 
     if (_semesterNames!.contains(lastViewedSemester)) {
       loadSemester(lastViewedSemester);

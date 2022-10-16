@@ -136,10 +136,12 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
     final drawerEntries = <DrawerNavigationEntry>[];
 
     for (final entry in navigationEntries) {
-      drawerEntries.add(DrawerNavigationEntry(
-        entry.icon,
-        entry.title(context),
-      ),);
+      drawerEntries.add(
+        DrawerNavigationEntry(
+          entry.icon,
+          entry.title(context),
+        ),
+      );
     }
 
     return drawerEntries;

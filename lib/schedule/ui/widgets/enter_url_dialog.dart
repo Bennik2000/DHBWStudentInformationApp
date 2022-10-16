@@ -103,8 +103,11 @@ abstract class EnterUrlDialog {
       ListenableProvider.value(
         value: _hasUrlError,
         child: Consumer(
-          builder: (BuildContext context, ValueNotifier<bool> hasUrlError,
-                  Widget? child,) =>
+          builder: (
+            BuildContext context,
+            ValueNotifier<bool> hasUrlError,
+            Widget? child,
+          ) =>
               TextButton(
             onPressed: hasUrlError.value
                 ? null

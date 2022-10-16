@@ -34,9 +34,10 @@ class _OnboardingPageState extends State<OnboardingPage>
     viewModel.addListener(
       () async {
         await _controller.animateTo(
-            viewModel.stepIndex! / viewModel.onboardingSteps,
-            curve: Curves.ease,
-            duration: const Duration(milliseconds: 300),);
+          viewModel.stepIndex! / viewModel.onboardingSteps,
+          curve: Curves.ease,
+          duration: const Duration(milliseconds: 300),
+        );
       },
     );
 

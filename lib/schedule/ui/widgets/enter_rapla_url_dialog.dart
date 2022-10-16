@@ -21,7 +21,7 @@ class EnterRaplaUrlDialog extends EnterUrlDialog {
 
   @override
   Future<String> loadUrl() async {
-    return  _preferencesProvider.getRaplaUrl();
+    return _preferencesProvider.getRaplaUrl();
   }
 
   @override

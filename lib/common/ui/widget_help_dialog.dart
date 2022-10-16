@@ -24,7 +24,7 @@ class WidgetHelpDialog {
   }
 
   Future<void> _showDialog(BuildContext context) async {
-    return  showDialog<void>(
+    return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
@@ -37,8 +37,9 @@ class WidgetHelpDialog {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Text(L.of(context).widgetHelpDialogMessage),),
+                padding: const EdgeInsets.all(24),
+                child: Text(L.of(context).widgetHelpDialogMessage),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                 child: _buildButtonBar(context),

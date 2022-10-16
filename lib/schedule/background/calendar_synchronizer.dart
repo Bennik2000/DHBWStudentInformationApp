@@ -12,23 +12,28 @@ class CalendarSynchronizer {
   final ScheduleSourceProvider scheduleSourceProvider;
   final PreferencesProvider preferencesProvider;
 
-  CalendarSynchronizer(this.scheduleProvider, this.scheduleSourceProvider,
-      this.preferencesProvider,);
+  CalendarSynchronizer(
+    this.scheduleProvider,
+    this.scheduleSourceProvider,
+    this.preferencesProvider,
+  );
 
   void registerSynchronizationCallback() {
     scheduleProvider.addScheduleUpdatedCallback((schedule, start, end) async {
-      final List<DateEntry> listDateEntries = List<DateEntry>.empty(growable: true);
+      final List<DateEntry> listDateEntries =
+          List<DateEntry>.empty(growable: true);
       for (final element in schedule.entries) {
-          final DateEntry date = DateEntry(
-              room: element.room,
-              comment: element.details,
-              databaseName: 'DHBW',
-              description: element.title,
-              year: element.start.year.toString(),
-              start: element.start,
-              end: element.end,);
-          listDateEntries.add(date);
-        }
+        final DateEntry date = DateEntry(
+          room: element.room,
+          comment: element.details,
+          databaseName: 'DHBW',
+          description: element.title,
+          year: element.start.year.toString(),
+          start: element.start,
+          end: element.end,
+        );
+        listDateEntries.add(date);
+      }
       KiwiContainer().resolve<ListDateEntries30d>().listDateEntries =
           listDateEntries;
 

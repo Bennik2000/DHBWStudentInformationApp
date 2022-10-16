@@ -64,7 +64,8 @@ class CacheDualisServiceDecorator extends DualisService {
       return Future.value(_allSemesterNamesCached);
     }
 
-    final allSemesterNames = await _service.querySemesterNames(cancellationToken);
+    final allSemesterNames =
+        await _service.querySemesterNames(cancellationToken);
 
     _allSemesterNamesCached = allSemesterNames;
 

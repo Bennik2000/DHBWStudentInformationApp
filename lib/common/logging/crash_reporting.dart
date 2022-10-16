@@ -7,6 +7,7 @@ Future<void> reportException(dynamic ex, StackTrace? trace) async {
     await FirebaseCrashlytics.instance.recordError(ex, trace);
   } else {
     print(
-        "Did not report exception (not in release mode) to crashlytics: $ex with stack trace $trace",);
+      "Did not report exception (not in release mode) to crashlytics: $ex with stack trace $trace",
+    );
   }
 }

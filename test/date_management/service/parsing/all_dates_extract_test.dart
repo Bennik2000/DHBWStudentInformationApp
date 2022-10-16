@@ -4,8 +4,9 @@ import 'package:dhbwstudentapp/date_management/service/parsing/all_dates_extract
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  final allDatesPage = await File('${Directory.current.absolute.path}/test/date_management/service/parsing/html_resources/all_dates.html',)
-      .readAsString();
+  final allDatesPage = await File(
+    '${Directory.current.absolute.path}/test/date_management/service/parsing/html_resources/all_dates.html',
+  ).readAsString();
 
   test('AllDatesExtract extract all dates', () async {
     final extract = AllDatesExtract();
