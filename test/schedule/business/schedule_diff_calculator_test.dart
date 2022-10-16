@@ -50,7 +50,7 @@ void main() {
       end: DateTime(2020, 06, 09, 18),
     );
 
-    newSchedule.addEntry(newEntry);
+    newSchedule.entries.add(newEntry);
 
     final diff = calculator.calculateDiff(oldSchedule, newSchedule);
 
@@ -197,5 +197,5 @@ Schedule generateSchedule() {
     ),
   ];
 
-  return Schedule.fromList(scheduleEntries);
+  return Schedule(entries: scheduleEntries);
 }

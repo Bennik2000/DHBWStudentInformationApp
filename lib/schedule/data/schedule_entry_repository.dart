@@ -25,15 +25,12 @@ class ScheduleEntryRepository {
       ],
     );
 
-    final schedule = Schedule();
-
+    final entries = <ScheduleEntry>[];
     for (final row in rows) {
-      schedule.addEntry(
-        ScheduleEntryEntity.fromMap(row).asScheduleEntry(),
-      );
+      entries.add(ScheduleEntryEntity.fromMap(row).asScheduleEntry());
     }
 
-    return schedule;
+    return Schedule(entries: entries);
   }
 
   Future<ScheduleEntry?> queryExistingScheduleEntry(ScheduleEntry entry) async {
@@ -85,14 +82,14 @@ class ScheduleEntryRepository {
     final existingEntry = await queryExistingScheduleEntry(entry);
 
     if (existingEntry != null) {
-      entry.id = existingEntry.id;
+      entry = entry.copyWith.id(existingEntry.id);
       return;
     }
 
     final row = ScheduleEntryEntity.fromModel(entry).toMap();
     if (entry.id == null) {
       final id = await _database.insert(ScheduleEntryEntity.tableName(), row);
-      entry.id = id;
+      entry = entry.copyWith.id(id);
     } else {
       await _database.update(ScheduleEntryEntity.tableName(), row);
     }

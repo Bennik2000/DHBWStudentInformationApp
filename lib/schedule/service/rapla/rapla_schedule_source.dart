@@ -25,7 +25,7 @@ class RaplaScheduleSource extends ScheduleSource {
 
     cancellationToken ??= CancellationToken();
 
-    var schedule = Schedule();
+    var schedule = const Schedule();
     final allErrors = <ParseError>[];
 
     var didChangeMonth = false;

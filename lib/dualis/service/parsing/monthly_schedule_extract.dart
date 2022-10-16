@@ -32,7 +32,7 @@ class MonthlyScheduleExtract {
       (ScheduleEntry e1, ScheduleEntry e2) => e1.start.compareTo(e2.start),
     );
 
-    return Schedule.fromList(allEntries);
+    return Schedule(entries: allEntries);
   }
 
   ScheduleEntry _extractEntry(Element appointment) {

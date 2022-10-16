@@ -69,7 +69,7 @@ class RaplaWeekResponseParser {
     );
 
     return ScheduleQueryResult(
-      Schedule.fromList(allEntries),
+      Schedule(entries: allEntries),
       parseErrors,
     );
   }

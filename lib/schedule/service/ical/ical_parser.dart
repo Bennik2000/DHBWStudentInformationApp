@@ -39,7 +39,7 @@ class IcalParser {
     }
 
     return ScheduleQueryResult(
-      Schedule.fromList(entries),
+      Schedule(entries: entries),
       [],
     );
   }

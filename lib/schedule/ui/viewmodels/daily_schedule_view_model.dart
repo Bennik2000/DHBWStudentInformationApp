@@ -23,7 +23,7 @@ class DailyScheduleViewModel extends BaseViewModel {
     notifyListeners("daySchedule");
   }
 
-  Schedule get daySchedule => _daySchedule ??= Schedule();
+  Schedule get schedule => _daySchedule ??= const Schedule();
 
   Future loadScheduleForToday() async {
     final now = DateTime.now();

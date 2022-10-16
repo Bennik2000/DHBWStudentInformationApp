@@ -26,7 +26,7 @@ class RaplaResponseParser {
       );
     }
 
-    return ScheduleQueryResult(Schedule(), [
+    return ScheduleQueryResult(const Schedule(), [
       ParseError("Did not find a week_table and month_table class"),
     ]);
   }

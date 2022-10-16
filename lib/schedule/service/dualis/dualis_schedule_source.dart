@@ -24,7 +24,7 @@ class DualisScheduleSource extends ScheduleSource {
 
     DateTime current = toStartOfMonth(from)!;
 
-    var schedule = Schedule();
+    var schedule = const Schedule();
     final allErrors = <ParseError>[];
 
     if (!_dualisScraper.isLoggedIn()) {

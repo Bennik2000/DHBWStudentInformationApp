@@ -75,7 +75,7 @@ class RaplaParsingUtils {
   }
 
   static ScheduleEntry improveScheduleEntry(ScheduleEntry scheduleEntry) {
-    if (scheduleEntry.title == "") {
+    if (scheduleEntry.title.isEmpty) {
       throw ElementNotFoundParseException("title");
     }
 

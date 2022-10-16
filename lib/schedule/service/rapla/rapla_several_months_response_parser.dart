@@ -21,6 +21,6 @@ class RaplaSeveralMonthsResponseParser {
       allEntries.addAll(result.schedule.entries);
     }
 
-    return ScheduleQueryResult(Schedule.fromList(allEntries), parseErrors);
+    return ScheduleQueryResult(Schedule(entries: allEntries), parseErrors);
   }
 }

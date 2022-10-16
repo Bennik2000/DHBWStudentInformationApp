@@ -1,23 +1,24 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
+part 'schedule.g.dart';
+
+@CopyWith()
 class Schedule {
   final List<ScheduleEntry> entries;
-  final List<String> urls = [];
+  final List<String> urls;
 
-  Schedule() : entries = <ScheduleEntry>[];
-
-  Schedule.fromList(this.entries);
-
-  void addEntry(ScheduleEntry entry) {
-    entries.add(entry);
-  }
+  const Schedule({
+    this.entries = const <ScheduleEntry>[],
+    this.urls = const <String>[],
+  });
 
   void merge(Schedule schedule) {
     // TODO: Return new schedule instead of adding it to the list
     urls.addAll(schedule.urls);
 
     for (final newEntry in schedule.entries) {
-      if (entries.any((element) => element.equalsWithIdIgnored(newEntry))) {
+      if (entries.any((element) => element == newEntry)) {
         continue;
       }
 
@@ -25,6 +26,7 @@ class Schedule {
     }
   }
 
+  // TODO: [Leptopoda] improve nullability
   Schedule trim(DateTime? startDate, DateTime? endDate) {
     final newList = <ScheduleEntry>[];
 
@@ -34,8 +36,7 @@ class Schedule {
       }
     }
 
-    final schedule = Schedule.fromList(newList);
-    schedule.urls.addAll(urls);
+    final schedule = Schedule(entries: newList, urls: urls);
 
     return schedule;
   }
@@ -104,13 +105,5 @@ class Schedule {
     }
 
     return latestTime;
-  }
-
-  Schedule copyWith({required List<ScheduleEntry> entries}) {
-    final schedule = Schedule.fromList(entries);
-
-    schedule.urls.addAll(urls);
-
-    return schedule;
   }
 }

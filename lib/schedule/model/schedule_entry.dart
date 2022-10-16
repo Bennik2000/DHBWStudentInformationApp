@@ -1,3 +1,8 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:equatable/equatable.dart';
+
+part 'schedule_entry.g.dart';
+
 enum ScheduleEntryType {
   Unknown,
   Class,
@@ -6,8 +11,9 @@ enum ScheduleEntryType {
   Exam,
 }
 
-class ScheduleEntry {
-  int? id;
+@CopyWith()
+class ScheduleEntry extends Equatable {
+  final int? id;
   final DateTime start;
   final DateTime end;
   final String title;
@@ -31,16 +37,6 @@ class ScheduleEntry {
         professor = professor ?? "",
         room = room ?? "",
         title = title ?? "";
-
-  bool equalsWithIdIgnored(ScheduleEntry other) {
-    return start == other.start &&
-        end == other.end &&
-        title == other.title &&
-        details == other.details &&
-        professor == other.professor &&
-        room == other.room &&
-        type == other.type;
-  }
 
   List<String> getDifferentProperties(ScheduleEntry entry) {
     final changedProperties = <String>[];
@@ -70,25 +66,7 @@ class ScheduleEntry {
     return changedProperties;
   }
 
-  // TODO: [Leptopoda] use buildrunner
-  ScheduleEntry copyWith({
-    DateTime? start,
-    DateTime? end,
-    String? title,
-    String? details,
-    String? professor,
-    String? room,
-    ScheduleEntryType? type,
-  }) {
-    return ScheduleEntry(
-      id: id,
-      start: start ?? this.start,
-      end: end ?? this.end,
-      title: title ?? this.title,
-      details: details ?? this.details,
-      professor: professor ?? this.professor,
-      room: room ?? this.room,
-      type: type ?? this.type,
-    );
-  }
+  @override
+  List<Object?> get props =>
+      [start, end, title, details, professor, room, type];
 }

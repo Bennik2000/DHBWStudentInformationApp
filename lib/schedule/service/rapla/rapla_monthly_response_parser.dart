@@ -49,7 +49,7 @@ class RaplaMonthlyResponseParser {
       }
     }
 
-    return ScheduleQueryResult(Schedule.fromList(allEntries), parseErrors);
+    return ScheduleQueryResult(Schedule(entries: allEntries), parseErrors);
   }
 
   static int? _monthStringToDateTime(String monthAndYear) {
