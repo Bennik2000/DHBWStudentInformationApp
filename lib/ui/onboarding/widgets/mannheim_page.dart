@@ -4,14 +4,9 @@ import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_ba
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-class MannheimPage extends StatefulWidget {
-  const MannheimPage({Key? key}) : super(key: key);
+class MannheimPage extends StatelessWidget {
+  const MannheimPage({super.key});
 
-  @override
-  _MannheimPageState createState() => _MannheimPageState();
-}
-
-class _MannheimPageState extends State<MannheimPage> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -35,9 +30,9 @@ class _MannheimPageState extends State<MannheimPage> {
           style: Theme.of(context).textTheme.bodyText2,
           textAlign: TextAlign.center,
         ),
-        Expanded(
+        const Expanded(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
+            padding: EdgeInsets.fromLTRB(0, 32, 0, 0),
             child: SelectMannheimCourseWidget(),
           ),
         ),
@@ -47,6 +42,8 @@ class _MannheimPageState extends State<MannheimPage> {
 }
 
 class SelectMannheimCourseWidget extends StatelessWidget {
+  const SelectMannheimCourseWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     return PropertyChangeConsumer<OnboardingStepViewModel, String>(

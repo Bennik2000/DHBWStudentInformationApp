@@ -52,9 +52,9 @@ Future<void> initializeApp(bool isBackground) async {
   WidgetUpdateCallback(KiwiContainer().resolve())
       .registerCallback(KiwiContainer().resolve());
 
-  NotificationsInitialize().setupNotifications();
-  BackgroundInitialize().setupBackgroundScheduling();
-  NotificationScheduleChangedInitialize().setupNotification();
+  const NotificationsInitialize().setupNotifications();
+  const BackgroundInitialize().setupBackgroundScheduling();
+  const NotificationScheduleChangedInitialize().setupNotification();
 
   if (isBackground) {
     final setup = KiwiContainer().resolve<ScheduleSourceProvider>();

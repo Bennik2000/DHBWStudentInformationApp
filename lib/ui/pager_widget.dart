@@ -17,8 +17,7 @@ class PagerWidget extends StatefulWidget {
   final List<PageDefinition> pages;
   final String? pagesId;
 
-  const PagerWidget({Key? key, required this.pages, this.pagesId})
-      : super(key: key);
+  const PagerWidget({super.key, required this.pages, this.pagesId});
 
   @override
   _PagerWidgetState createState() => _PagerWidgetState();
@@ -28,6 +27,8 @@ class _PagerWidgetState extends State<PagerWidget> {
   final PreferencesProvider preferencesProvider = KiwiContainer().resolve();
 
   int _currentPage = 0;
+
+  _PagerWidgetState();
 
   @override
   void initState() {
@@ -108,7 +109,7 @@ class PageDefinition<T extends BaseViewModel> {
   final WidgetBuilder builder;
   final T? viewModel;
 
-  PageDefinition({
+  const PageDefinition({
     required this.icon,
     required this.text,
     required this.builder,

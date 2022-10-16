@@ -4,7 +4,7 @@ class Semester {
   final String? name;
   final List<Module> modules;
 
-  Semester(
+  const Semester(
     this.name,
     this.modules,
   );

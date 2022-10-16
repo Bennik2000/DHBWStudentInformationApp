@@ -4,7 +4,7 @@ import 'package:dhbwstudentapp/common/ui/text_theme.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  AppTheme._();
+  const AppTheme._();
 
   /// Light theme
   static final lightThemeData = ThemeData(

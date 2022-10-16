@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class ExamResultsPage extends StatelessWidget {
+  const ExamResultsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -63,8 +65,8 @@ class ExamResultsPage extends StatelessWidget {
                 StudyGradesViewModel? model,
                 Set? properties,
               ) =>
-                  model!.currentSemester != null
-                      ? buildModulesColumn(context, model)
+                  model?.currentSemester != null
+                      ? buildModulesColumn(context, model!)
                       : const Padding(
                           padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
                           child: Center(child: CircularProgressIndicator()),
@@ -105,23 +107,26 @@ class ExamResultsPage extends StatelessWidget {
   ) {
     final dataTables = <Widget>[];
 
-    var isFirstModule = true;
-    for (final module in viewModel.currentSemester!.modules) {
-      dataTables.add(
-        DataTable(
-          horizontalMargin: 24,
-          columnSpacing: 0,
-          dataRowHeight: 45,
-          headingRowHeight: 65,
-          rows: buildModuleDataRows(context, module),
-          columns: buildModuleColumns(
-            context,
-            module,
-            displayGradeHeader: isFirstModule,
+    final modules = viewModel.currentSemester?.modules;
+    if (modules != null) {
+      var isFirstModule = true;
+      for (final module in modules) {
+        dataTables.add(
+          DataTable(
+            horizontalMargin: 24,
+            columnSpacing: 0,
+            dataRowHeight: 45,
+            headingRowHeight: 65,
+            rows: buildModuleDataRows(context, module),
+            columns: buildModuleColumns(
+              context,
+              module,
+              displayGradeHeader: isFirstModule,
+            ),
           ),
-        ),
-      );
-      isFirstModule = false;
+        );
+        isFirstModule = false;
+      }
     }
     return dataTables;
   }

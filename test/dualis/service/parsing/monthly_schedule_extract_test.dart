@@ -9,7 +9,7 @@ Future<void> main() async {
   ).readAsString();
 
   test('MonthlyScheduleExtract extract all appointments', () async {
-    final extract = MonthlyScheduleExtract();
+    const extract = MonthlyScheduleExtract();
 
     final modules = extract.extractScheduleFromMonthly(monthlySchedulePage);
 

@@ -1,6 +1,8 @@
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 
 abstract class WorkSchedulerService {
+  const WorkSchedulerService();
+
   Future<void> scheduleOneShotTaskIn(Duration delay, String id, String name);
 
   Future<void> scheduleOneShotTaskAt(

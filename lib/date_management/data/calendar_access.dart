@@ -17,6 +17,8 @@ enum CalendarPermission {
 class CalendarAccess {
   final DeviceCalendarPlugin _deviceCalendarPlugin = DeviceCalendarPlugin();
 
+  CalendarAccess();
+
   Future<CalendarPermission> requestCalendarPermission() async {
     try {
       var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
@@ -134,12 +136,10 @@ class CalendarAccess {
       ),
     );
 
-    var existingEvents = <Event>[];
-
     if (existingEventsResult.isSuccess) {
-      existingEvents = existingEventsResult.data!.toList();
+      return existingEventsResult.data!.toList();
     }
-    return existingEvents;
+    return <Event>[];
   }
 
   DateEntry _findFirstEntry(List<DateEntry> entries) {

@@ -7,20 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class SelectMannheimCourseDialog {
-  final ScheduleSourceProvider _scheduleSourceProvider;
-
-  late MannheimViewModel _mannheimViewModel;
+  final MannheimViewModel _mannheimViewModel;
 
   SelectMannheimCourseDialog(
-    this._scheduleSourceProvider,
-  );
+    ScheduleSourceProvider scheduleSourceProvider,
+  ) : _mannheimViewModel = MannheimViewModel(scheduleSourceProvider);
 
   Future show(BuildContext context) async {
-    _mannheimViewModel = MannheimViewModel(_scheduleSourceProvider);
-
     await showDialog(
       context: context,
-      builder: (context) => _buildDialog(context),
+      builder: _buildDialog,
     );
   }
 
@@ -43,9 +39,9 @@ class SelectMannheimCourseDialog {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
-              Expanded(
+              const Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: SelectMannheimCourseWidget(),
                 ),
               ),

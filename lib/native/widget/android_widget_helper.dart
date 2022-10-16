@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 ///
 class AndroidWidgetHelper implements WidgetHelper {
   static const platform = MethodChannel('de.bennik2000.dhbwstudentapp/widget');
+  const AndroidWidgetHelper();
 
   @override
   Future<void> disableWidget() async {

@@ -9,8 +9,7 @@ import 'package:intl/intl.dart';
 class DailyScheduleEntryWidget extends StatelessWidget {
   final ScheduleEntry scheduleEntry;
 
-  const DailyScheduleEntryWidget({Key? key, required this.scheduleEntry})
-      : super(key: key);
+  const DailyScheduleEntryWidget({super.key, required this.scheduleEntry});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +86,8 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                                 scheduleEntry.type,
                               ),
                               style: textTheme.bodyText2?.merge(
-                                  customTextThme.dailyScheduleEntryType,),
+                                customTextThme.dailyScheduleEntryType,
+                              ),
                             ),
                           ],
                         ),

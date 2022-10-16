@@ -3,6 +3,8 @@ import 'package:dhbwstudentapp/schedule/service/mannheim/mannheim_course_scraper
 import 'package:html/parser.dart';
 
 class MannheimCourseResponseParser {
+  const MannheimCourseResponseParser();
+
   List<Course> parseCoursePage(String body) {
     final document = parse(body);
 

@@ -30,12 +30,12 @@ void injectServices(bool isBackground) {
 
   final KiwiContainer c = KiwiContainer();
   c.registerInstance(
-    PreferencesProvider(
+    const PreferencesProvider(
       PreferencesAccess(),
       SecureStorageAccess(),
     ),
   );
-  c.registerInstance(DatabaseAccess());
+  c.registerInstance(const DatabaseAccess());
   c.registerInstance(
     ScheduleEntryRepository(
       c.resolve(),
@@ -80,7 +80,7 @@ void injectServices(bool isBackground) {
   );
   c.registerInstance(
     DateEntryProvider(
-      DateManagementService(),
+      const DateManagementService(),
       DateEntryRepository(c.resolve()),
     ),
   );

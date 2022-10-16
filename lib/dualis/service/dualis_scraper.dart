@@ -29,7 +29,7 @@ class DualisScraper {
       cancellationToken,
     );
 
-    return AllModulesExtract().extractAllModules(allModulesPageResponse);
+    return const AllModulesExtract().extractAllModules(allModulesPageResponse);
   }
 
   Future<List<DualisExam>> loadModuleExams(
@@ -41,7 +41,7 @@ class DualisScraper {
       cancellationToken,
     );
 
-    return ExamsFromModuleDetailsExtract().extractExamsFromModuleDetails(
+    return const ExamsFromModuleDetailsExtract().extractExamsFromModuleDetails(
       detailsResponse,
     );
   }
@@ -54,7 +54,7 @@ class DualisScraper {
       cancellationToken,
     );
 
-    final semesters = SemestersFromCourseResultPageExtract()
+    final semesters = const SemestersFromCourseResultPageExtract()
         .extractSemestersFromCourseResults(
       courseResultsResponse,
       dualisEndpoint,
@@ -89,7 +89,7 @@ class DualisScraper {
       cancellationToken,
     );
 
-    return StudyGradesFromStudentResultsPageExtract()
+    return const StudyGradesFromStudentResultsPageExtract()
         .extractStudyGradesFromStudentsResultsPage(studentsResultsPage);
   }
 
@@ -106,7 +106,7 @@ class DualisScraper {
     );
 
     final schedule =
-        MonthlyScheduleExtract().extractScheduleFromMonthly(result);
+        const MonthlyScheduleExtract().extractScheduleFromMonthly(result);
 
     schedule.urls.add(dualisEndpoint);
 

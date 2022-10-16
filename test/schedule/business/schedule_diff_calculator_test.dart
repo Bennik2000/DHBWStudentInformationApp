@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 
 void main() {
   test('Diff detect identical schedules', () async {
-    final calculator = ScheduleDiffCalculator();
+    const calculator = ScheduleDiffCalculator();
 
     final oldSchedule = generateSchedule();
     final newSchedule = generateSchedule();
@@ -18,7 +18,7 @@ void main() {
   });
 
   test('Diff detect removed entry', () async {
-    final calculator = ScheduleDiffCalculator();
+    const calculator = ScheduleDiffCalculator();
 
     final oldSchedule = generateSchedule();
     final newSchedule = generateSchedule();
@@ -35,7 +35,7 @@ void main() {
   });
 
   test('Diff detect new entry', () async {
-    final calculator = ScheduleDiffCalculator();
+    const calculator = ScheduleDiffCalculator();
 
     final oldSchedule = generateSchedule();
     final newSchedule = generateSchedule();
@@ -61,7 +61,7 @@ void main() {
   });
 
   test('Diff detect changed entry (time)', () async {
-    final calculator = ScheduleDiffCalculator();
+    const calculator = ScheduleDiffCalculator();
 
     final oldSchedule = generateSchedule();
     final newSchedule = generateSchedule();
@@ -88,7 +88,7 @@ void main() {
   });
 
   test('Diff detect changed entry (start and room)', () async {
-    final calculator = ScheduleDiffCalculator();
+    const calculator = ScheduleDiffCalculator();
 
     final oldSchedule = generateSchedule();
     final newSchedule = generateSchedule();
@@ -116,7 +116,7 @@ void main() {
   });
 
   test('Diff detect two changed entries of same name (start)', () async {
-    final calculator = ScheduleDiffCalculator();
+    const calculator = ScheduleDiffCalculator();
 
     final oldSchedule = generateSchedule();
     final newSchedule = generateSchedule();

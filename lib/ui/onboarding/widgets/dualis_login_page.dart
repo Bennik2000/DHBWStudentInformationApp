@@ -11,17 +11,25 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 /// credentials.
 ///
 class DualisLoginCredentialsPage extends StatefulWidget {
-  const DualisLoginCredentialsPage({Key? key}) : super(key: key);
+  const DualisLoginCredentialsPage({super.key});
 
   @override
-  _DualisLoginCredentialsPageState createState() =>
+  State<DualisLoginCredentialsPage> createState() =>
       _DualisLoginCredentialsPageState();
 }
 
 class _DualisLoginCredentialsPageState
     extends State<DualisLoginCredentialsPage> {
-  final CredentialsEditingController _controller =
+  final CredentialsEditingController controller =
       CredentialsEditingController();
+
+  _DualisLoginCredentialsPageState();
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +44,7 @@ class _DualisLoginCredentialsPageState
         final credentials = viewModel?.credentials;
 
         if (credentials != null) {
-          _controller.credentials = credentials;
+          controller.credentials = credentials;
         }
 
         final widgets = <Widget>[];
@@ -44,7 +52,7 @@ class _DualisLoginCredentialsPageState
         widgets.addAll(_buildHeader());
         widgets.add(
           LoginCredentialsWidget(
-            controller: _controller,
+            controller: controller,
             onSubmitted: () async {
               await _testCredentials(viewModel);
             },
@@ -114,7 +122,7 @@ class _DualisLoginCredentialsPageState
   Future _testCredentials(DualisLoginViewModel? viewModel) async {
     if (viewModel == null) return;
 
-    await viewModel.testCredentials(_controller.credentials);
+    await viewModel.testCredentials(controller.credentials);
   }
 
   List<Widget> _buildHeader() {

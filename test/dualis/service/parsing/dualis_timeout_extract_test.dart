@@ -13,10 +13,13 @@ Future<void> main() async {
   ).readAsString();
 
   test('DualisTimeoutExtract detect timeout page', () async {
-    expect(TimeoutExtract().isTimeoutErrorPage(timeoutPage), isTrue);
+    expect(const TimeoutExtract().isTimeoutErrorPage(timeoutPage), isTrue);
   });
 
   test('DualisTimeoutExtract detect non timeout page', () async {
-    expect(TimeoutExtract().isTimeoutErrorPage(monthlySchedulePage), isFalse);
+    expect(
+      const TimeoutExtract().isTimeoutErrorPage(monthlySchedulePage),
+      isFalse,
+    );
   });
 }

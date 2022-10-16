@@ -8,6 +8,8 @@ import 'package:html/parser.dart' show parse;
 /// Parsing implementation which parses the response of the rapla schedule source.
 ///
 class RaplaResponseParser {
+  RaplaResponseParser();
+
   ScheduleQueryResult parseSchedule(String responseBody) {
     final document = parse(responseBody);
 

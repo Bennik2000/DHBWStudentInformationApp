@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 // TODO: Parse exception to common module
 
 class AllDatesExtract {
+  const AllDatesExtract();
+
   List<DateEntry> extractAllDates(String? body, String? databaseName) {
     if (body == null) return [];
     try {

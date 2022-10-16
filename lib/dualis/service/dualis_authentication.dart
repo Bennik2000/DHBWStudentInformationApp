@@ -15,6 +15,8 @@ import 'package:http/http.dart';
 /// with the username and password and then use the [authenticatedGet] method.
 ///
 class DualisAuthentication {
+  DualisAuthentication();
+
   final RegExp _tokenRegex = RegExp("ARGUMENTS=-N([0-9]{15})");
 
   Credentials? _credentials;
@@ -51,7 +53,7 @@ class DualisAuthentication {
 
     // TODO: Test for login failed page
 
-    final redirectUrl = LoginRedirectUrlExtract().getUrlFromHeader(
+    final redirectUrl = const LoginRedirectUrlExtract().getUrlFromHeader(
       loginResponse.headers['refresh'],
       dualisEndpoint,
     );
@@ -66,7 +68,7 @@ class DualisAuthentication {
       cancellationToken,
     );
 
-    dualisUrls.mainPageUrl = LoginRedirectUrlExtract().readRedirectUrl(
+    dualisUrls.mainPageUrl = const LoginRedirectUrlExtract().readRedirectUrl(
       redirectPage,
       dualisEndpoint,
     );
@@ -83,7 +85,7 @@ class DualisAuthentication {
       cancellationToken,
     );
 
-    UrlsFromMainPageExtract().parseMainPage(
+    const UrlsFromMainPageExtract().parseMainPage(
       mainPage,
       dualisUrls,
       dualisEndpoint,
@@ -145,8 +147,8 @@ class DualisAuthentication {
 
     cancellationToken?.throwIfCancelled();
 
-    if (!TimeoutExtract().isTimeoutErrorPage(result) &&
-        !AccessDeniedExtract().isAccessDeniedPage(result)) {
+    if (!const TimeoutExtract().isTimeoutErrorPage(result) &&
+        !const AccessDeniedExtract().isAccessDeniedPage(result)) {
       return result;
     }
 

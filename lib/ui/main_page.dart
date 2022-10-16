@@ -15,7 +15,7 @@ import 'package:provider/provider.dart';
 /// To navigate to a new route inside this widget use the [NavigatorKey.mainKey]
 ///
 class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+  const MainPage({super.key});
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -29,10 +29,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   NavigationEntry get currentEntry =>
       navigationEntries[_currentEntryIndex.value];
 
-  @override
-  void initState() {
-    super.initState();
-  }
+  _MainPageState();
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +172,9 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
 
   @override
   void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
-    updateNavigationDrawer(previousRoute!.settings.name);
+    if (previousRoute != null) {
+      updateNavigationDrawer(previousRoute.settings.name);
+    }
   }
 
   @override
@@ -185,6 +184,8 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
 
   @override
   void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
-    updateNavigationDrawer(newRoute!.settings.name);
+    if (newRoute != null) {
+      updateNavigationDrawer(newRoute.settings.name);
+    }
   }
 }

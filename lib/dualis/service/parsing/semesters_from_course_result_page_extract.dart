@@ -4,6 +4,8 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
 class SemestersFromCourseResultPageExtract {
+  const SemestersFromCourseResultPageExtract();
+
   List<DualisSemester> extractSemestersFromCourseResults(
     String? body,
     String endpointUrl,

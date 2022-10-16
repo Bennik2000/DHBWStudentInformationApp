@@ -7,6 +7,8 @@ import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
 
 abstract class DualisService {
+  const DualisService();
+
   Future<LoginResult> login(
     Credentials credentials, [
     CancellationToken? cancellationToken,
@@ -44,7 +46,7 @@ enum LoginResult {
 class DualisServiceImpl extends DualisService {
   final DualisScraper _dualisScraper;
 
-  DualisServiceImpl(this._dualisScraper);
+  const DualisServiceImpl(this._dualisScraper);
 
   @override
   Future<LoginResult> login(

@@ -4,7 +4,7 @@ import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 class DateEntryRepository {
   final DatabaseAccess _database;
 
-  DateEntryRepository(this._database);
+  const DateEntryRepository(this._database);
 
   Future<List<DateEntry>> queryAllDateEntries(
     String? databaseName,

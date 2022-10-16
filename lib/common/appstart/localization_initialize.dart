@@ -9,18 +9,20 @@ import 'package:kiwi/kiwi.dart';
 /// correct language
 ///
 class LocalizationInitialize {
-  PreferencesProvider? _preferencesProvider;
-  String? _languageCode;
+  final PreferencesProvider? _preferencesProvider;
+  final String? _languageCode;
 
   ///
   /// Initialize the localization using the provided language code
   ///
-  LocalizationInitialize.fromLanguageCode(this._languageCode);
+  const LocalizationInitialize.fromLanguageCode(this._languageCode)
+      : _preferencesProvider = null;
 
   ///
   /// Initialize the localization using the locale from the preferences provider
   ///
-  LocalizationInitialize.fromPreferences(this._preferencesProvider);
+  const LocalizationInitialize.fromPreferences(this._preferencesProvider)
+      : _languageCode = null;
 
   Future<void> setupLocalizations() async {
     final localization = L(

@@ -15,43 +15,40 @@ class ScheduleWidget extends StatelessWidget {
   final Schedule? schedule;
   final DateTime? displayStart;
   final DateTime? displayEnd;
-  final DateTime? now;
-  final int? displayStartHour;
-  final int? displayEndHour;
-  final ScheduleEntryTapCallback? onScheduleEntryTap;
+  final DateTime now;
+  final int displayStartHour;
+  final int displayEndHour;
+  final ScheduleEntryTapCallback onScheduleEntryTap;
 
   const ScheduleWidget({
-    Key? key,
-    this.schedule,
-    this.displayStart,
-    this.displayEnd,
-    this.onScheduleEntryTap,
-    this.now,
-    this.displayStartHour,
-    this.displayEndHour,
-  }) : super(key: key);
+    super.key,
+    required this.schedule,
+    required this.displayStart,
+    required this.displayEnd,
+    required this.onScheduleEntryTap,
+    required this.now,
+    required this.displayStartHour,
+    required this.displayEndHour,
+  });
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return buildWithSize(
-          context,
-          constraints.biggest.width,
-          constraints.biggest.height,
-        );
-      },
+      builder: buildWithSize,
     );
   }
 
-  Widget buildWithSize(BuildContext context, double width, double height) {
+  Widget buildWithSize(BuildContext context, BoxConstraints constraints) {
     final scheduleTheme = Theme.of(context).extension<ScheduleTheme>()!;
+
+    final height = constraints.biggest.height;
+    final width = constraints.biggest.width;
 
     const dayLabelsHeight = 40.0;
     const timeLabelsWidth = 50.0;
 
     final hourHeight =
-        (height - dayLabelsHeight) / (displayEndHour! - displayStartHour!);
+        (height - dayLabelsHeight) / (displayEndHour - displayStartHour);
     final minuteHeight = hourHeight / 60;
 
     final days = calculateDisplayedDays();
@@ -140,12 +137,12 @@ class ScheduleWidget extends StatelessWidget {
   ) {
     final labelWidgets = <Widget>[];
 
-    for (var i = displayStartHour!; i < displayEndHour!; i++) {
+    for (var i = displayStartHour; i < displayEndHour; i++) {
       final hourLabelText = "$i:00";
 
       labelWidgets.add(
         Positioned(
-          top: rowHeight * (i - displayStartHour!) + dayLabelHeight,
+          top: rowHeight * (i - displayStartHour) + dayLabelHeight,
           left: 0,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(4, 4, 4, 8),
@@ -249,15 +246,15 @@ class ScheduleWidget extends StatelessWidget {
     final entryWidgets = <Widget>[];
 
     final laidOutEntries =
-        ScheduleEntryAlignmentAlgorithm().layoutEntries(entries);
+        const ScheduleEntryAlignmentAlgorithm().layoutEntries(entries);
 
     for (final value in laidOutEntries) {
       final entry = value.entry;
 
-      final yStart = hourHeight * (entry.start.hour - displayStartHour!) +
+      final yStart = hourHeight * (entry.start.hour - displayStartHour) +
           minuteHeight * entry.start.minute;
 
-      final yEnd = hourHeight * (entry.end.hour - displayStartHour!) +
+      final yEnd = hourHeight * (entry.end.hour - displayStartHour) +
           minuteHeight * entry.end.minute;
 
       final entryLeft = maxWidth * value.leftColumn;

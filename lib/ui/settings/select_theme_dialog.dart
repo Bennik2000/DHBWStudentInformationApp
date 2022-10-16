@@ -9,7 +9,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 class SelectThemeDialog {
   final RootViewModel _rootViewModel;
 
-  SelectThemeDialog(this._rootViewModel);
+  const SelectThemeDialog(this._rootViewModel);
 
   Future show(BuildContext context) async {
     await showDialog(

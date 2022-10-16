@@ -5,10 +5,10 @@ class DotsIndicator extends StatelessWidget {
   final int currentStep;
 
   const DotsIndicator({
-    Key? key,
+    super.key,
     required this.numberSteps,
     required this.currentStep,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

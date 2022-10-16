@@ -5,7 +5,7 @@ import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 class ScheduleEntryRepository {
   final DatabaseAccess _database;
 
-  ScheduleEntryRepository(this._database);
+  const ScheduleEntryRepository(this._database);
 
   Future<Schedule> queryScheduleForDay(DateTime date) async {
     return queryScheduleBetweenDates(date, date.add(const Duration(days: 1)));

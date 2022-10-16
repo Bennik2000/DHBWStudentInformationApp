@@ -1,6 +1,8 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PreferencesAccess {
+  const PreferencesAccess();
+
   Future<void> set<T>(String key, T value) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -43,5 +45,5 @@ class PreferencesAccess {
 class InvalidValueTypeException implements Exception {
   final Type type;
 
-  InvalidValueTypeException(this.type);
+  const InvalidValueTypeException(this.type);
 }

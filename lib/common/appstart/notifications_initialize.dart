@@ -9,6 +9,8 @@ import 'package:kiwi/kiwi.dart';
 /// won't show the notification
 ///
 class NotificationsInitialize {
+  const NotificationsInitialize();
+
   Future<void> setupNotifications() async {
     if (Platform.isAndroid) {
       final notificationApi = NotificationApi();
@@ -17,7 +19,8 @@ class NotificationsInitialize {
 
       await notificationApi.initialize();
     } else {
-      KiwiContainer().registerInstance<NotificationApi>(VoidNotificationApi());
+      KiwiContainer()
+          .registerInstance<NotificationApi>(const VoidNotificationApi());
     }
   }
 }

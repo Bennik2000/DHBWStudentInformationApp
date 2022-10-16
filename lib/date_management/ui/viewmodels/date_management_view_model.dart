@@ -13,23 +13,26 @@ class DateManagementViewModel extends BaseViewModel {
   final PreferencesProvider _preferencesProvider;
 
   final List<DateDatabase> _allDateDatabases = [
-    DateDatabase("BWL-Bank", "Termine_BWL_Bank"),
-    DateDatabase("Immobilienwirtschaft", "Termine_BWL_Immo"),
-    DateDatabase(
+    const DateDatabase("BWL-Bank", "Termine_BWL_Bank"),
+    const DateDatabase("Immobilienwirtschaft", "Termine_BWL_Immo"),
+    const DateDatabase(
       "Dienstleistungsmanagement Consulting & Sales",
       "Termine_DLM_Consult",
     ),
-    DateDatabase("Dienstleistungsmanagement Logistik", "Termine_DLM_Logistik"),
-    DateDatabase("Campus Horb Informatik", "Termine_Horb_INF"),
-    DateDatabase("Campus Horb Maschinenbau", "Termine_Horb_MB"),
-    DateDatabase("International Business", "Termine_IB"),
-    DateDatabase("Informatik", "Termine_Informatik"),
-    DateDatabase("MUK (DLM - C&S, LogM, MUK)", "Termine_MUK"),
-    DateDatabase(
+    const DateDatabase(
+      "Dienstleistungsmanagement Logistik",
+      "Termine_DLM_Logistik",
+    ),
+    const DateDatabase("Campus Horb Informatik", "Termine_Horb_INF"),
+    const DateDatabase("Campus Horb Maschinenbau", "Termine_Horb_MB"),
+    const DateDatabase("International Business", "Termine_IB"),
+    const DateDatabase("Informatik", "Termine_Informatik"),
+    const DateDatabase("MUK (DLM - C&S, LogM, MUK)", "Termine_MUK"),
+    const DateDatabase(
       "SO_GuO (Abweichungen und Ergänzungen zum Vorlesungsplan)",
       "Termine_SO_GuO",
     ),
-    DateDatabase("Wirtschaftsingenieurwesen", "Termine_WIW"),
+    const DateDatabase("Wirtschaftsingenieurwesen", "Termine_WIW"),
   ];
   List<DateDatabase> get allDateDatabases => _allDateDatabases;
 

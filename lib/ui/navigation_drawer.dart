@@ -16,12 +16,12 @@ class NavigationDrawer extends StatelessWidget {
   final bool isInDrawer;
 
   const NavigationDrawer({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.onTap,
     required this.entries,
     this.isInDrawer = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -134,25 +134,23 @@ class NavigationDrawer extends StatelessWidget {
             child: Container(
               height: 56,
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 15, 0, 10),
-                child: Row(
-                  children: <Widget>[
-                    Icon(
-                      Icons.settings,
-                      color: Theme.of(context).disabledColor,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                      child: Text(
-                        L.of(context).settingsPageTitle,
-                        style: TextStyle(
-                          color: Theme.of(context).disabledColor,
-                        ),
+              padding: const EdgeInsets.fromLTRB(20, 15, 0, 10),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.settings,
+                    color: Theme.of(context).disabledColor,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                    child: Text(
+                      L.of(context).settingsPageTitle,
+                      style: TextStyle(
+                        color: Theme.of(context).disabledColor,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             onTap: () {
@@ -173,5 +171,5 @@ class DrawerNavigationEntry {
   final Icon icon;
   final String title;
 
-  DrawerNavigationEntry(this.icon, this.title);
+  const DrawerNavigationEntry(this.icon, this.title);
 }

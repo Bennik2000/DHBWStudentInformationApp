@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 class GradeStateIcon extends StatelessWidget {
   final ExamState? state;
 
-  const GradeStateIcon({
-    Key? key,
-    required this.state,
-  }) : super(key: key);
+  const GradeStateIcon({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {

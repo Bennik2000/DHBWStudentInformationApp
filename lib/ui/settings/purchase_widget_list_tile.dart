@@ -7,7 +7,7 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class PurchaseWidgetListTile extends StatefulWidget {
-  const PurchaseWidgetListTile({Key? key}) : super(key: key);
+  const PurchaseWidgetListTile({super.key});
 
   @override
   _PurchaseWidgetListTileState createState() => _PurchaseWidgetListTileState();

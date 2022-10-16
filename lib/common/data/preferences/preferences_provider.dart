@@ -33,7 +33,7 @@ class PreferencesProvider {
   final PreferencesAccess _preferencesAccess;
   final SecureStorageAccess _secureStorageAccess;
 
-  PreferencesProvider(this._preferencesAccess, this._secureStorageAccess);
+  const PreferencesProvider(this._preferencesAccess, this._secureStorageAccess);
 
   Future<ThemeMode> appTheme() async {
     final theme = await _preferencesAccess.get<String>(AppThemeKey);
@@ -267,8 +267,7 @@ class PreferencesProvider {
   }
 
   Future<void> setNextRateInStoreLaunchCount(int value) async {
-    return await _preferencesAccess.set<int>(
-        "NextRateInStoreLaunchCount", value);
+    return _preferencesAccess.set<int>("NextRateInStoreLaunchCount", value);
   }
 
   Future<bool> getDidShowDonateDialog() async {

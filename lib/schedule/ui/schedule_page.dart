@@ -11,7 +11,7 @@ import 'package:kiwi/kiwi.dart';
 import 'package:provider/provider.dart';
 
 class SchedulePage extends StatefulWidget {
-  const SchedulePage({Key? key}) : super(key: key);
+  const SchedulePage({super.key});
   @override
   _SchedulePageState createState() => _SchedulePageState();
 }
@@ -27,12 +27,14 @@ class _SchedulePageState extends State<SchedulePage> {
     KiwiContainer().resolve(),
   );
 
+  _SchedulePageState();
+
   @override
   Widget build(BuildContext context) {
     final ScheduleViewModel viewModel = Provider.of<ScheduleViewModel>(context);
 
     if (!viewModel.didSetupProperly) {
-      return ScheduleEmptyState();
+      return const ScheduleEmptyState();
     } else {
       return PagerWidget(
         pages: [

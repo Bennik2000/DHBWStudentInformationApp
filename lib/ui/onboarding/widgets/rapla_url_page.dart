@@ -4,18 +4,12 @@ import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dar
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-class RaplaUrlPage extends StatefulWidget {
-  const RaplaUrlPage({Key? key}) : super(key: key);
-
-  @override
-  _RaplaUrlPageState createState() => _RaplaUrlPageState();
-}
-
-class _RaplaUrlPageState extends State<RaplaUrlPage> {
-  final TextEditingController _urlTextController = TextEditingController();
+class RaplaUrlPage extends StatelessWidget {
+  const RaplaUrlPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController urlTextController = TextEditingController();
     return Column(
       children: <Widget>[
         Padding(
@@ -49,8 +43,8 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
                 final viewModel = model as RaplaUrlViewModel?;
 
                 if (viewModel?.raplaUrl != null &&
-                    _urlTextController.text != viewModel!.raplaUrl) {
-                  _urlTextController.text = viewModel.raplaUrl!;
+                    urlTextController.text != viewModel!.raplaUrl) {
+                  urlTextController.text = viewModel.raplaUrl!;
                 }
 
                 return Padding(
@@ -60,7 +54,7 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
                     children: <Widget>[
                       Expanded(
                         child: TextField(
-                          controller: _urlTextController,
+                          controller: urlTextController,
                           decoration: InputDecoration(
                             errorText: viewModel?.urlHasError == true
                                 ? L.of(context).onboardingRaplaUrlInvalid

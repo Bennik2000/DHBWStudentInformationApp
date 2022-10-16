@@ -8,7 +8,7 @@ class Module {
   final String? grade;
   final ExamState? state;
 
-  Module(
+  const Module(
     this.exams,
     this.id,
     this.name,

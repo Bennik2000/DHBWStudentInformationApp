@@ -5,6 +5,8 @@ import 'package:dhbwstudentapp/date_management/service/parsing/all_dates_extract
 import 'package:dhbwstudentapp/dualis/service/session.dart';
 
 class DateManagementService {
+  const DateManagementService();
+
   Future<List<DateEntry>> queryAllDates(
     DateSearchParameters parameters,
     CancellationToken? cancellationToken,
@@ -14,7 +16,7 @@ class DateManagementService {
       cancellationToken,
     );
 
-    final allDates = AllDatesExtract().extractAllDates(
+    final allDates = const AllDatesExtract().extractAllDates(
       queryResult,
       parameters.databaseName,
     );
@@ -28,7 +30,7 @@ class DateManagementService {
     url += "&sel_typ=pub";
     url += "&sel_jahrgang= ${parameters.year ?? "*"}";
     url += "&sel_bezeichnung=*";
-    url += "&selection=${parameters.includePast! ? "**" : "*"}";
+    url += "&selection=${parameters.includePast ? "**" : "*"}";
     url += "&permission=show";
     url += "&sessionid=";
     url += "&user=nobody";

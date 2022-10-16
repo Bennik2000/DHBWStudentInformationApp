@@ -9,7 +9,7 @@ import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 class WidgetUpdateCallback {
   final WidgetHelper _widgetHelper;
 
-  WidgetUpdateCallback(this._widgetHelper);
+  const WidgetUpdateCallback(this._widgetHelper);
 
   void registerCallback(ScheduleProvider provider) {
     provider.addScheduleUpdatedCallback(_callback);

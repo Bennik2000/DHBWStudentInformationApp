@@ -5,6 +5,8 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class ScheduleFilterPage extends StatelessWidget {
+  ScheduleFilterPage({super.key});
+
   final FilterViewModel _viewModel = FilterViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
@@ -79,6 +81,8 @@ class FilterStateRow extends StatefulWidget {
 
 class _FilterStateRowState extends State<FilterStateRow> {
   bool? isChecked = false;
+
+  _FilterStateRowState();
 
   @override
   void initState() {

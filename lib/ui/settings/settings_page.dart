@@ -30,7 +30,7 @@ import 'package:url_launcher/url_launcher.dart';
 /// of the app
 ///
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -45,15 +45,17 @@ class _SettingsPageState extends State<SettingsPage> {
     KiwiContainer().resolve(),
   );
 
+  _SettingsPageState();
+
   @override
   Widget build(BuildContext context) {
-    final widgets = <Widget>[];
-
-    widgets.addAll(buildScheduleSourceSettings(context));
-    widgets.addAll(buildDesignSettings(context));
-    widgets.addAll(buildNotificationSettings(context));
-    widgets.addAll(buildAboutSettings(context));
-    widgets.add(buildDisclaimer(context));
+    final widgets = <Widget>[
+      ...buildScheduleSourceSettings(),
+      ...buildDesignSettings(),
+      ...buildNotificationSettings(),
+      ...buildAboutSettings(),
+      buildDisclaimer(),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget buildDisclaimer(BuildContext context) {
+  Widget buildDisclaimer() {
     return Padding(
       padding: const EdgeInsets.all(32),
       child: Text(
@@ -84,7 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  List<Widget> buildAboutSettings(BuildContext context) {
+  List<Widget> buildAboutSettings() {
     return [
       TitleListTile(title: L.of(context).settingsAboutTitle),
       const PurchaseWidgetListTile(),
@@ -114,7 +116,7 @@ class _SettingsPageState extends State<SettingsPage> {
     ];
   }
 
-  List<Widget> buildScheduleSourceSettings(BuildContext context) {
+  List<Widget> buildScheduleSourceSettings() {
     return [
       TitleListTile(title: L.of(context).settingsScheduleSourceTitle),
       ListTile(
@@ -141,48 +143,13 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       ListTile(
         title: Text(L.of(context).settingsCalendarSync),
-        onTap: () async {
-          if (await CalendarAccess().requestCalendarPermission() ==
-              CalendarPermission.PermissionDenied) {
-            await showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: Text(
-                  L.of(context).dialogTitleCalendarAccessNotGranted,
-                ),
-                content: Text(L.of(context).dialogCalendarAccessNotGranted),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(L.of(context).dialogOk),
-                  )
-                ],
-              ),
-            );
-            return;
-          }
-          final isCalendarSyncEnabled = await KiwiContainer()
-              .resolve<PreferencesProvider>()
-              .isCalendarSyncEnabled();
-          final List<DateEntry> entriesToExport =
-              KiwiContainer().resolve<ListDateEntries30d>().listDateEntries;
-          await NavigatorKey.rootKey.currentState!.push(
-            MaterialPageRoute(
-              builder: (BuildContext context) => CalendarExportPage(
-                entriesToExport: entriesToExport,
-                isCalendarSyncWidget: true,
-                isCalendarSyncEnabled: isCalendarSyncEnabled,
-              ),
-              settings: const RouteSettings(name: "settings"),
-            ),
-          );
-        },
+        onTap: requestCalendarPermission,
       ),
       const Divider(),
     ];
   }
 
-  List<Widget> buildNotificationSettings(BuildContext context) {
+  List<Widget> buildNotificationSettings() {
     final WorkSchedulerService service = KiwiContainer().resolve();
     if (service.isSchedulingAvailable()) {
       return [
@@ -226,7 +193,7 @@ class _SettingsPageState extends State<SettingsPage> {
     }
   }
 
-  List<Widget> buildDesignSettings(BuildContext context) {
+  List<Widget> buildDesignSettings() {
     return [
       TitleListTile(title: L.of(context).settingsDesign),
       PropertyChangeConsumer(
@@ -251,6 +218,43 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       const Divider(),
     ];
+  }
+
+  Future<void> requestCalendarPermission() async {
+    final permission = await CalendarAccess().requestCalendarPermission();
+    if (permission == CalendarPermission.PermissionDenied) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          title: Text(
+            L.of(context).dialogTitleCalendarAccessNotGranted,
+          ),
+          content: Text(L.of(context).dialogCalendarAccessNotGranted),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text(L.of(context).dialogOk),
+            )
+          ],
+        ),
+      );
+      return;
+    }
+    final isCalendarSyncEnabled = await KiwiContainer()
+        .resolve<PreferencesProvider>()
+        .isCalendarSyncEnabled();
+    final List<DateEntry> entriesToExport =
+        KiwiContainer().resolve<ListDateEntries30d>().listDateEntries;
+    await NavigatorKey.rootKey.currentState!.push(
+      MaterialPageRoute(
+        builder: (BuildContext context) => CalendarExportPage(
+          entriesToExport: entriesToExport,
+          isCalendarSyncWidget: true,
+          isCalendarSyncEnabled: isCalendarSyncEnabled,
+        ),
+        settings: const RouteSettings(name: "settings"),
+      ),
+    );
   }
 
   @override

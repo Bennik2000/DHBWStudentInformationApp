@@ -8,7 +8,7 @@ class ScheduleChangedNotification {
   final NotificationApi notificationApi;
   final L _localization;
 
-  ScheduleChangedNotification(this.notificationApi, this._localization);
+  const ScheduleChangedNotification(this.notificationApi, this._localization);
 
   void showNotification(ScheduleDiff scheduleDiff) {
     showEntriesAddedNotifications(scheduleDiff);

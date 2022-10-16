@@ -4,7 +4,7 @@ class StudyGrades {
   final double? creditsTotal;
   final double? creditsGained;
 
-  StudyGrades(
+  const StudyGrades(
     this.gpaTotal,
     this.gpaMainModules,
     this.creditsTotal,

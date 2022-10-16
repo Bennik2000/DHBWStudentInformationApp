@@ -14,6 +14,8 @@ class DualisUrls {
   String? mainPageUrl;
   String? monthlyScheduleUrl;
 
+  DualisUrls();
+
   Map<String, String?> semesterCourseResultUrls = {};
 }
 
@@ -22,7 +24,7 @@ class DualisSemester {
   final String? semesterCourseResultsUrl;
   final List<DualisModule> modules;
 
-  DualisSemester(
+  const DualisSemester(
     this.semesterName,
     this.semesterCourseResultsUrl,
     this.modules,
@@ -37,7 +39,7 @@ class DualisModule {
   final String? detailsUrl;
   final ExamState? state;
 
-  DualisModule(
+  const DualisModule(
     this.id,
     this.name,
     this.finalGrade,
@@ -54,7 +56,7 @@ class DualisExam {
   final ExamGrade grade;
   final String? semester;
 
-  DualisExam(
+  const DualisExam(
     this.name,
     this.moduleName,
     this.grade,

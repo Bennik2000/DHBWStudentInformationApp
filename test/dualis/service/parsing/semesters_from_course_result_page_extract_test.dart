@@ -10,7 +10,7 @@ Future<void> main() async {
   ).readAsString();
 
   test('SemestersFromCourseResultPageExtract', () async {
-    final extract = SemestersFromCourseResultPageExtract();
+    const extract = SemestersFromCourseResultPageExtract();
 
     final semesters = extract.extractSemestersFromCourseResults(
       courseResultsPage,
@@ -34,7 +34,7 @@ Future<void> main() async {
 
   test('SemestersFromCourseResultPageExtract invalid html throws exception',
       () async {
-    final extract = SemestersFromCourseResultPageExtract();
+    const extract = SemestersFromCourseResultPageExtract();
 
     try {
       extract.extractSemestersFromCourseResults("Lorem ipsum", "");

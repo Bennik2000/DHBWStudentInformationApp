@@ -5,19 +5,20 @@ enum ExamGradeState {
   Failed,
 }
 
+// TODO: [leptopoda] implement into the enum
 class ExamGrade {
-  ExamGradeState state;
-  String? gradeValue;
+  final ExamGradeState state;
+  final String? gradeValue;
 
-  ExamGrade.failed()
+  const ExamGrade.failed()
       : state = ExamGradeState.Failed,
         gradeValue = "";
 
-  ExamGrade.notGraded()
+  const ExamGrade.notGraded()
       : state = ExamGradeState.NotGraded,
         gradeValue = "";
 
-  ExamGrade.passed()
+  const ExamGrade.passed()
       : state = ExamGradeState.Passed,
         gradeValue = "";
 
@@ -25,11 +26,11 @@ class ExamGrade {
 
   factory ExamGrade.fromString(String? grade) {
     if (grade == "noch nicht gesetzt" || grade == "") {
-      return ExamGrade.notGraded();
+      return const ExamGrade.notGraded();
     }
 
     if (grade == "b") {
-      return ExamGrade.passed();
+      return const ExamGrade.passed();
     }
 
     // TODO: Determine the value when a exam is in the "failed" state

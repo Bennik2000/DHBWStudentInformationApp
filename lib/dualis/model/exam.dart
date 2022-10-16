@@ -12,7 +12,7 @@ class Exam {
   final String? semester;
   final ExamState state;
 
-  Exam(
+  const Exam(
     this.name,
     this.grade,
     this.state,

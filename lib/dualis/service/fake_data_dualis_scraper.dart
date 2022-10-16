@@ -14,6 +14,8 @@ import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 class FakeDataDualisScraper implements DualisScraper {
   bool _isLoggedIn = false;
 
+  FakeDataDualisScraper();
+
   @override
   bool isLoggedIn() {
     return _isLoggedIn;
@@ -26,7 +28,7 @@ class FakeDataDualisScraper implements DualisScraper {
     await Future.delayed(const Duration(milliseconds: 200));
 
     return Future.value([
-      DualisModule(
+      const DualisModule(
         "Module1",
         "Informatik",
         "1.0",
@@ -70,7 +72,7 @@ class FakeDataDualisScraper implements DualisScraper {
   ]) async {
     await Future.delayed(const Duration(milliseconds: 200));
     return Future.value([
-      DualisModule(
+      const DualisModule(
         "Module1",
         "Informatik",
         "1.0",
@@ -86,7 +88,7 @@ class FakeDataDualisScraper implements DualisScraper {
     CancellationToken? cancellationToken,
   ]) async {
     await Future.delayed(const Duration(milliseconds: 200));
-    return Future.value([DualisSemester("SoSe2020", "", [])]);
+    return Future.value([const DualisSemester("SoSe2020", "", [])]);
   }
 
   @override
@@ -95,7 +97,7 @@ class FakeDataDualisScraper implements DualisScraper {
   ) async {
     await Future.delayed(const Duration(milliseconds: 200));
     return Future.value(
-      StudyGrades(
+      const StudyGrades(
         1.5,
         1.5,
         210,

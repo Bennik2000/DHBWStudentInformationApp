@@ -2,6 +2,8 @@ import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
 class ScheduleDiffCalculator {
+  const ScheduleDiffCalculator();
+
   ScheduleDiff calculateDiff(
     Schedule oldSchedule,
     Schedule newSchedule,
@@ -174,7 +176,7 @@ class ScheduleDiff {
   final List<ScheduleEntry> removedEntries;
   final List<UpdatedEntry> updatedEntries;
 
-  ScheduleDiff({
+  const ScheduleDiff({
     required this.addedEntries,
     required this.removedEntries,
     required this.updatedEntries,
@@ -191,5 +193,5 @@ class UpdatedEntry {
   final ScheduleEntry entry;
   final List<String> properties;
 
-  UpdatedEntry(this.entry, this.properties);
+  const UpdatedEntry(this.entry, this.properties);
 }

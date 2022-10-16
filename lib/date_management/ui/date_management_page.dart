@@ -11,6 +11,8 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
 
 class DateManagementPage extends StatelessWidget {
+  const DateManagementPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final DateManagementViewModel viewModel =
@@ -145,13 +147,11 @@ class DateManagementPage extends StatelessWidget {
     return dataRows;
   }
 
-  void showDateEntryDetailBottomSheet(BuildContext context, DateEntry? entry) {
+  void showDateEntryDetailBottomSheet(BuildContext context, DateEntry entry) {
     showModalBottomSheet(
       useRootNavigator: true,
       context: context,
-      builder: (context) => DateDetailBottomSheet(
-        dateEntry: entry,
-      ),
+      builder: (context) => DateDetailBottomSheet(dateEntry: entry),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
       ),

@@ -1,6 +1,8 @@
 import 'package:html/parser.dart';
 
 class LoginRedirectUrlExtract {
+  const LoginRedirectUrlExtract();
+
   String? readRedirectUrl(String? body, String redirectUrl) {
     final document = parse(body);
 

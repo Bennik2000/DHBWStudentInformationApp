@@ -9,7 +9,7 @@ Future<void> main() async {
   ).readAsString();
 
   test('Mannheim course parser parses correctly', () async {
-    final parser = MannheimCourseResponseParser();
+    const parser = MannheimCourseResponseParser();
 
     final courses = parser.parseCoursePage(coursePage);
 

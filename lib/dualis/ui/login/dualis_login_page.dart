@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class DualisLoginPage extends StatelessWidget {
+  const DualisLoginPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final StudyGradesViewModel viewModel =
+    final StudyGradesViewModel model =
         Provider.of<StudyGradesViewModel>(context);
-    return buildLoginPage(context, viewModel);
-  }
 
-  Widget buildLoginPage(BuildContext context, StudyGradesViewModel model) {
     return SingleChildScrollView(
       child: Column(
         mainAxisSize: MainAxisSize.min,

@@ -29,7 +29,7 @@ class ScheduleSourceProvider {
   final ScheduleEntryRepository _scheduleEntryRepository;
   final ScheduleQueryInformationRepository _scheduleQueryInformationRepository;
 
-  ScheduleSource _currentScheduleSource = InvalidScheduleSource();
+  ScheduleSource _currentScheduleSource = const InvalidScheduleSource();
 
   ScheduleSource get currentScheduleSource => _currentScheduleSource;
 
@@ -46,7 +46,7 @@ class ScheduleSourceProvider {
   Future<bool> setupScheduleSource() async {
     final scheduleSourceType = await _getScheduleSourceType();
 
-    ScheduleSource scheduleSource = InvalidScheduleSource();
+    ScheduleSource scheduleSource = const InvalidScheduleSource();
 
     final initializer = {
       ScheduleSourceType.Dualis: () async => _dualisScheduleSource(),
@@ -84,7 +84,7 @@ class ScheduleSourceProvider {
           DualisScheduleSource(KiwiContainer().resolve(), credentials);
       return ErrorReportScheduleSourceDecorator(dualis);
     } else {
-      return InvalidScheduleSource();
+      return const InvalidScheduleSource();
     }
   }
 
@@ -104,7 +104,7 @@ class ScheduleSourceProvider {
       return source;
     }
 
-    return InvalidScheduleSource();
+    return const InvalidScheduleSource();
   }
 
   Future<ScheduleSource> _icalScheduleSource() async {
@@ -123,7 +123,7 @@ class ScheduleSourceProvider {
       }
     }
 
-    return InvalidScheduleSource();
+    return const InvalidScheduleSource();
   }
 
   Future<void> setupForRapla(String? url) async {

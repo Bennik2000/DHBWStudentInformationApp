@@ -13,25 +13,15 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 /// This is the top level widget of the app. It handles navigation of the
 /// root navigator and rebuilds its child widgets on theme changes
 ///
-class RootPage extends StatefulWidget {
+class RootPage extends StatelessWidget {
   final RootViewModel rootViewModel;
 
-  const RootPage({Key? key, required this.rootViewModel}) : super(key: key);
-
-  @override
-  _RootPageState createState() => _RootPageState();
-}
-
-class _RootPageState extends State<RootPage> {
-  @override
-  void initState() {
-    super.initState();
-  }
+  const RootPage({super.key, required this.rootViewModel});
 
   @override
   Widget build(BuildContext context) {
     return PropertyChangeProvider<RootViewModel, String>(
-      value: widget.rootViewModel,
+      value: rootViewModel,
       child: PropertyChangeConsumer(
         properties: const ["appTheme", "isOnboarding"],
         builder:
@@ -40,8 +30,7 @@ class _RootPageState extends State<RootPage> {
           theme: AppTheme.lightThemeData,
           darkTheme: AppTheme.darkThemeData,
           themeMode: model?.appTheme,
-          initialRoute:
-              widget.rootViewModel.isOnboarding ? "onboarding" : "main",
+          initialRoute: rootViewModel.isOnboarding ? "onboarding" : "main",
           navigatorKey: NavigatorKey.rootKey,
           navigatorObservers: [rootNavigationObserver],
           localizationsDelegates: const [

@@ -11,17 +11,17 @@ class OnboardingPageBackground extends StatelessWidget {
   final Animation<double> bottomForeground;
   final Animation<double> bottomBackground;
 
-  final Map<Brightness, String> foreground = {
+  static const Map<Brightness, String> foreground = {
     Brightness.light: Assets.assets_onboarding_bottom_foreground_png,
     Brightness.dark: Assets.assets_onboarding_bottom_foreground_dark_png,
   };
 
-  final Map<Brightness, String> background = {
+  static const Map<Brightness, String> background = {
     Brightness.light: Assets.assets_onboarding_bottom_background_png,
     Brightness.dark: Assets.assets_onboarding_bottom_background_dark_png,
   };
 
-  OnboardingPageBackground({Key? key, required this.controller})
+  OnboardingPageBackground({super.key, required this.controller})
       : angleTopBackground = Tween<double>(
           begin: PlatformUtil.isPhone() ? -32 : -10,
           end: PlatformUtil.isPhone() ? -10 : -5,
@@ -69,8 +69,7 @@ class OnboardingPageBackground extends StatelessWidget {
               1,
             ),
           ),
-        ),
-        super(key: key);
+        );
 
   Widget _buildAnimation(BuildContext context, Widget? child) {
     return Stack(

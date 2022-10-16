@@ -2,49 +2,42 @@ import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:flutter/material.dart';
 
-class LoginCredentialsWidget extends StatefulWidget {
+class LoginCredentialsWidget extends StatelessWidget {
   final CredentialsEditingController controller;
   final VoidCallback onSubmitted;
 
   const LoginCredentialsWidget({
-    Key? key,
+    super.key,
     required this.controller,
     required this.onSubmitted,
-  }) : super(key: key);
-
-  @override
-  _LoginCredentialsWidgetState createState() => _LoginCredentialsWidgetState();
-}
-
-class _LoginCredentialsWidgetState extends State<LoginCredentialsWidget> {
-  final _focus = FocusNode();
+  });
 
   @override
   Widget build(BuildContext context) {
+    final focus = FocusNode();
+
     return Column(
       children: <Widget>[
         TextField(
-          controller: widget.controller.username,
+          controller: controller.username,
           decoration: InputDecoration(
             hintText: L.of(context).loginUsername,
             icon: const Icon(Icons.alternate_email),
           ),
           onSubmitted: (v) {
-            FocusScope.of(context).requestFocus(_focus);
+            FocusScope.of(context).requestFocus(focus);
           },
           textInputAction: TextInputAction.next,
         ),
         TextField(
-          controller: widget.controller.password,
+          controller: controller.password,
           obscureText: true,
           decoration: InputDecoration(
             hintText: L.of(context).loginPassword,
             icon: const Icon(Icons.lock_outline),
           ),
-          focusNode: _focus,
-          onSubmitted: (_) {
-            widget.onSubmitted();
-          },
+          focusNode: focus,
+          onSubmitted: (_) => onSubmitted(),
         ),
       ],
     );

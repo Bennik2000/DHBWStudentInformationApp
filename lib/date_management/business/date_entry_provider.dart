@@ -8,21 +8,21 @@ class DateEntryProvider {
   final DateManagementService _dateEntryService;
   final DateEntryRepository _dateEntryRepository;
 
-  DateEntryProvider(this._dateEntryService, this._dateEntryRepository);
+  const DateEntryProvider(this._dateEntryService, this._dateEntryRepository);
 
   Future<List<DateEntry>> getCachedDateEntries(
     DateSearchParameters parameters,
   ) async {
     List<DateEntry> cachedEntries = <DateEntry>[];
 
-    if (parameters.includeFuture! && parameters.includePast!) {
+    if (parameters.includeFuture && parameters.includePast) {
       cachedEntries = await _dateEntryRepository.queryAllDateEntries(
         parameters.databaseName,
         parameters.year,
       );
     } else {
       final now = DateTime.now();
-      if (parameters.includeFuture!) {
+      if (parameters.includeFuture) {
         final datesAfter = await _dateEntryRepository.queryDateEntriesAfter(
           parameters.databaseName,
           parameters.year,
@@ -31,7 +31,7 @@ class DateEntryProvider {
         cachedEntries.addAll(datesAfter);
       }
 
-      if (parameters.includePast!) {
+      if (parameters.includePast) {
         final datesBefore = await _dateEntryRepository.queryDateEntriesBefore(
           parameters.databaseName,
           parameters.year,
@@ -85,11 +85,11 @@ class DateEntryProvider {
         continue;
       }
 
-      if (dateEntry.start.isBefore(now) && !parameters.includePast!) {
+      if (dateEntry.start.isBefore(now) && !parameters.includePast) {
         continue;
       }
 
-      if (dateEntry.end.isAfter(now) && !parameters.includeFuture!) {
+      if (dateEntry.end.isAfter(now) && !parameters.includeFuture) {
         continue;
       }
 

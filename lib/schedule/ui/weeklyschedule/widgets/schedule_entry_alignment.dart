@@ -14,6 +14,8 @@ class ScheduleEntryAlignmentInformation {
 /// https://stackoverflow.com/questions/11311410/visualization-of-calendar-events-algorithm-to-layout-events-with-maximum-width
 ///
 class ScheduleEntryAlignmentAlgorithm {
+  const ScheduleEntryAlignmentAlgorithm();
+
   List<ScheduleEntryAlignmentInformation> layoutEntries(
     List<ScheduleEntry> entries,
   ) {

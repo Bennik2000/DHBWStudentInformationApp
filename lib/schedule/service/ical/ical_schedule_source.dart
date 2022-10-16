@@ -60,7 +60,7 @@ class IcalScheduleSource extends ScheduleSource {
       );
 
       if (response == null && !requestCancellationToken.isCanceled) {
-        throw ServiceRequestFailed("Http request failed!");
+        throw const ServiceRequestFailed("Http request failed!");
       }
 
       return response;

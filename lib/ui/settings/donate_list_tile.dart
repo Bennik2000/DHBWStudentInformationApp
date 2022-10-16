@@ -7,7 +7,7 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class DonateListTile extends StatefulWidget {
-  const DonateListTile({Key? key}) : super(key: key);
+  const DonateListTile({super.key});
 
   @override
   _DonateListTileState createState() => _DonateListTileState();

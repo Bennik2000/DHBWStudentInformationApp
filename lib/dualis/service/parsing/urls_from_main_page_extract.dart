@@ -3,6 +3,8 @@ import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:html/parser.dart';
 
 class UrlsFromMainPageExtract {
+  const UrlsFromMainPageExtract();
+
   void parseMainPage(
     String? body,
     DualisUrls dualsUrls,

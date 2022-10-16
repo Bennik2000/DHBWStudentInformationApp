@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class StudyOverviewPage extends StatelessWidget {
+  const StudyOverviewPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -40,7 +42,7 @@ class StudyOverviewPage extends StatelessWidget {
               StudyGradesViewModel? model,
               Set? properties,
             ) =>
-                model!.studyGrades != null
+                model?.studyGrades != null
                     ? Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
@@ -51,7 +53,7 @@ class StudyOverviewPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.baseline,
                               children: <Widget>[
                                 Text(
-                                  model.studyGrades!.gpaTotal.toString(),
+                                  model!.studyGrades!.gpaTotal.toString(),
                                   style: Theme.of(context).textTheme.headline3,
                                 ),
                                 Padding(
@@ -129,8 +131,8 @@ class StudyOverviewPage extends StatelessWidget {
               StudyGradesViewModel? model,
               Set? properties,
             ) =>
-                model!.allModules != null
-                    ? buildModulesDataTable(context, model)
+                model?.allModules != null
+                    ? buildModulesDataTable(context, model!)
                     : buildProgressIndicator(),
           ),
         ],

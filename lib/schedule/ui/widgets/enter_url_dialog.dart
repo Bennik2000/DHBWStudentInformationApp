@@ -18,7 +18,7 @@ abstract class EnterUrlDialog {
   Future show(BuildContext context) async {
     await showDialog(
       context: context,
-      builder: (context) => _buildDialog(context),
+      builder: _buildDialog,
     );
   }
 

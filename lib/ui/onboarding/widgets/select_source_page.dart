@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class SelectSourcePage extends StatelessWidget {
-  const SelectSourcePage({Key? key}) : super(key: key);
+  const SelectSourcePage({super.key});
 
   @override
   Widget build(BuildContext context) {

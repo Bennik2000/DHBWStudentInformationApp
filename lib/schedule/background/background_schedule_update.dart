@@ -10,7 +10,7 @@ class BackgroundScheduleUpdate extends TaskCallback {
   final ScheduleSourceProvider scheduleSource;
   final WorkSchedulerService scheduler;
 
-  BackgroundScheduleUpdate(
+  const BackgroundScheduleUpdate(
     this.scheduleProvider,
     this.scheduleSource,
     this.scheduler,

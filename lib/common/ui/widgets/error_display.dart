@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ErrorDisplay extends StatelessWidget {
   final bool show;
 
-  const ErrorDisplay({Key? key, required this.show}) : super(key: key);
+  const ErrorDisplay({super.key, required this.show});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,9 @@ class ErrorDisplay extends StatelessWidget {
                       child: Text(
                         L.of(context).noConnectionMessage,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
-                              color: AppTheme.noConnectionForeground,
-                            ),
+                        style: const TextStyle(
+                          color: AppTheme.noConnectionForeground,
+                        ),
                       ),
                     ),
                   ),

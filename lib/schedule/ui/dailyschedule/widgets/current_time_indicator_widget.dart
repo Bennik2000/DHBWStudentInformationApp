@@ -2,6 +2,8 @@ import 'package:dhbwstudentapp/common/ui/schedule_theme.dart';
 import 'package:flutter/material.dart';
 
 class CurrentTimeIndicatorWidget extends StatelessWidget {
+  const CurrentTimeIndicatorWidget({super.key});
+
   @override
   Widget build(BuildContext context) {
     final scheduleTheme = Theme.of(context).extension<ScheduleTheme>()!;

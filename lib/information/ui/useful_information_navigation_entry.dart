@@ -5,9 +5,11 @@ import 'package:dhbwstudentapp/ui/navigation/navigation_entry.dart';
 import 'package:flutter/material.dart';
 
 class UsefulInformationNavigationEntry extends NavigationEntry<BaseViewModel> {
+  UsefulInformationNavigationEntry();
+
   @override
   Widget build(BuildContext context) {
-    return UsefulInformationPage();
+    return const UsefulInformationPage();
   }
 
   @override

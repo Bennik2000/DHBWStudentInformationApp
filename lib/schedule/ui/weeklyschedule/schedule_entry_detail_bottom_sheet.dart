@@ -7,19 +7,21 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleEntryDetailBottomSheet extends StatelessWidget {
-  final ScheduleEntry? scheduleEntry;
+  final ScheduleEntry scheduleEntry;
 
-  const ScheduleEntryDetailBottomSheet({Key? key, this.scheduleEntry})
-      : super(key: key);
+  const ScheduleEntryDetailBottomSheet({
+    super.key,
+    required this.scheduleEntry,
+  });
 
   @override
   Widget build(BuildContext context) {
     final formatter = DateFormat.Hm(L.of(context).locale.languageCode);
-    final timeStart = formatter.format(scheduleEntry!.start);
-    final timeEnd = formatter.format(scheduleEntry!.end);
+    final timeStart = formatter.format(scheduleEntry.start);
+    final timeEnd = formatter.format(scheduleEntry.end);
 
     final typeString =
-        scheduleEntryTypeToReadableString(context, scheduleEntry!.type);
+        scheduleEntryTypeToReadableString(context, scheduleEntry.type);
 
     final textTheme = Theme.of(context).textTheme;
     final customTextThme = Theme.of(context).extension<CustomTextTheme>();
@@ -87,7 +89,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                       child: Text(
-                        scheduleEntry!.title,
+                        scheduleEntry.title,
                         softWrap: true,
                         style: Theme.of(context).textTheme.subtitle2,
                       ),
@@ -103,7 +105,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: Text(
-                      scheduleEntry!.professor,
+                      scheduleEntry.professor,
                     ),
                   ),
                   Text(
@@ -113,14 +115,14 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            if (scheduleEntry!.room.isEmpty)
+            if (scheduleEntry.room.isEmpty)
               Container()
             else
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                child: Text(scheduleEntry!.room.replaceAll(",", "\n")),
+                child: Text(scheduleEntry.room.replaceAll(",", "\n")),
               ),
-            if (scheduleEntry!.details.isEmpty)
+            if (scheduleEntry.details.isEmpty)
               Container()
             else
               Padding(
@@ -130,10 +132,10 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                   height: 1,
                 ),
               ),
-            if (scheduleEntry!.details.isEmpty)
+            if (scheduleEntry.details.isEmpty)
               Container()
             else
-              Text(scheduleEntry!.details),
+              Text(scheduleEntry.details),
           ],
         ),
       ),

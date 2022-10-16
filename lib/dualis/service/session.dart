@@ -13,7 +13,9 @@ import 'package:http_client_helper/http_client_helper.dart' as http;
 /// provided get and set methods.
 ///
 class Session {
-  Map<String, String> _cookies = {};
+  final Map<String, String> _cookies = {};
+
+  Session();
 
   ///
   /// Execute a GET request and return the result body as string
@@ -54,7 +56,7 @@ class Session {
       );
 
       if (response == null && !requestCancellationToken.isCanceled) {
-        throw ServiceRequestFailed("Http request failed!");
+        throw const ServiceRequestFailed("Http request failed!");
       }
 
       _updateCookie(response!);
@@ -112,7 +114,7 @@ class Session {
       );
 
       if (response == null && !requestCancellationToken.isCanceled) {
-        throw ServiceRequestFailed("Http request failed!");
+        throw const ServiceRequestFailed("Http request failed!");
       }
 
       _updateCookie(response!);

@@ -8,6 +8,8 @@ import 'package:kiwi/kiwi.dart';
 /// Initializes the notification for when the schedule changed
 ///
 class NotificationScheduleChangedInitialize {
+  const NotificationScheduleChangedInitialize();
+
   void setupNotification() {
     final provider = KiwiContainer().resolve<ScheduleProvider>();
 

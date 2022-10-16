@@ -9,7 +9,7 @@ Future<void> main() async {
   ).readAsString();
 
   test('AllDatesExtract extract all dates', () async {
-    final extract = AllDatesExtract();
+    const extract = AllDatesExtract();
 
     final dateEntries = extract.extractAllDates(allDatesPage, "");
 

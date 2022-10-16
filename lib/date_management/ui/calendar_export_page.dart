@@ -15,11 +15,11 @@ class CalendarExportPage extends StatefulWidget {
   final bool isCalendarSyncEnabled;
 
   const CalendarExportPage({
-    Key? key,
+    super.key,
     required this.entriesToExport,
     this.isCalendarSyncWidget = false,
     this.isCalendarSyncEnabled = false,
-  }) : super(key: key);
+  });
 
   @override
   _CalendarExportPageState createState() => _CalendarExportPageState();
@@ -27,6 +27,8 @@ class CalendarExportPage extends StatefulWidget {
 
 class _CalendarExportPageState extends State<CalendarExportPage> {
   late CalendarExportViewModel viewModel;
+
+  _CalendarExportPageState();
 
   @override
   void initState() {

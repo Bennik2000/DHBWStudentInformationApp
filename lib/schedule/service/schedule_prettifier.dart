@@ -2,6 +2,8 @@ import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
 class SchedulePrettifier {
+  SchedulePrettifier();
+
   final RegExp onlinePrefixRegExp =
       RegExp(r'\(?online\)?([ -]*)', caseSensitive: false);
   final RegExp onlineSuffixRegExp =

@@ -10,10 +10,12 @@ class Course {
   final String icalUrl;
   final String scheduleId;
 
-  Course(this.name, this.icalUrl, this.title, this.scheduleId);
+  const Course(this.name, this.icalUrl, this.title, this.scheduleId);
 }
 
 class MannheimCourseScraper {
+  const MannheimCourseScraper();
+
   Future<List<Course>> loadCourses([
     CancellationToken? cancellationToken,
   ]) async {
@@ -24,7 +26,8 @@ class MannheimCourseScraper {
       cancellationToken,
     );
 
-    return MannheimCourseResponseParser().parseCoursePage(coursesPage.body);
+    return const MannheimCourseResponseParser()
+        .parseCoursePage(coursesPage.body);
   }
 
   Future<Response> _makeRequest(
@@ -42,7 +45,7 @@ class MannheimCourseScraper {
       );
 
       if (response == null && !requestCancellationToken.isCanceled) {
-        throw ServiceRequestFailed("Http request failed!");
+        throw const ServiceRequestFailed("Http request failed!");
       }
 
       return response!;
@@ -51,7 +54,7 @@ class MannheimCourseScraper {
       throw OperationCancelledException();
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
-      throw ServiceRequestFailed("Http request failed!");
+      throw const ServiceRequestFailed("Http request failed!");
     } finally {
       cancellationToken.cancellationCallback = null;
     }

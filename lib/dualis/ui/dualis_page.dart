@@ -9,6 +9,8 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
 
 class DualisPage extends StatelessWidget {
+  const DualisPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     final StudyGradesViewModel viewModel =
@@ -17,7 +19,7 @@ class DualisPage extends StatelessWidget {
     Widget widget;
 
     if (viewModel.loginState != LoginState.LoggedIn) {
-      widget = DualisLoginPage();
+      widget = const DualisLoginPage();
     } else {
       widget = PropertyChangeProvider<StudyGradesViewModel, String>(
         value: viewModel,
@@ -27,12 +29,12 @@ class DualisPage extends StatelessWidget {
             PageDefinition(
               text: L.of(context).pageDualisOverview,
               icon: const Icon(Icons.dashboard),
-              builder: (BuildContext context) => StudyOverviewPage(),
+              builder: (BuildContext context) => const StudyOverviewPage(),
             ),
             PageDefinition(
               text: L.of(context).pageDualisExams,
               icon: const Icon(Icons.book),
-              builder: (BuildContext context) => ExamResultsPage(),
+              builder: (BuildContext context) => const ExamResultsPage(),
             ),
           ],
         ),

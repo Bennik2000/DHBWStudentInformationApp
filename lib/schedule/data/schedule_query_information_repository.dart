@@ -4,7 +4,7 @@ import 'package:dhbwstudentapp/schedule/model/schedule_query_information.dart';
 class ScheduleQueryInformationRepository {
   final DatabaseAccess _database;
 
-  ScheduleQueryInformationRepository(this._database);
+  const ScheduleQueryInformationRepository(this._database);
 
   Future<DateTime?> getOldestQueryTimeBetweenDates(
     DateTime start,

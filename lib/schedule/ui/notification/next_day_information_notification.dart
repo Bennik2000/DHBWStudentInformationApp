@@ -16,7 +16,7 @@ class NextDayInformationNotification extends TaskCallback {
   final WorkSchedulerService _scheduler;
   final L _localization;
 
-  NextDayInformationNotification(
+  const NextDayInformationNotification(
     this._notificationApi,
     this._scheduleEntryRepository,
     this._scheduler,

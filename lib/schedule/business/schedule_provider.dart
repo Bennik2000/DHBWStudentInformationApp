@@ -28,12 +28,11 @@ class ScheduleProvider {
   final PreferencesProvider _preferencesProvider;
   final ScheduleSourceProvider _scheduleSource;
   final ScheduleEntryRepository _scheduleEntryRepository;
-  final ScheduleFilterRepository _scheduleFilterRepository;
   final ScheduleQueryInformationRepository _scheduleQueryInformationRepository;
   final List<ScheduleUpdatedCallback> _scheduleUpdatedCallbacks =
       <ScheduleUpdatedCallback>[];
 
-  late ScheduleFilter _scheduleFilter;
+  final ScheduleFilter _scheduleFilter;
 
   final List<ScheduleEntryChangedCallback> _scheduleEntryChangedCallbacks =
       <ScheduleEntryChangedCallback>[];
@@ -43,10 +42,8 @@ class ScheduleProvider {
     this._scheduleEntryRepository,
     this._scheduleQueryInformationRepository,
     this._preferencesProvider,
-    this._scheduleFilterRepository,
-  ) {
-    _scheduleFilter = ScheduleFilter(_scheduleFilterRepository);
-  }
+    ScheduleFilterRepository scheduleFilterRepository,
+  ) : _scheduleFilter = ScheduleFilter(scheduleFilterRepository);
 
   Future<Schedule> getCachedSchedule(DateTime start, DateTime end) async {
     var cachedSchedule =
@@ -121,8 +118,8 @@ class ScheduleProvider {
     final oldSchedule =
         await _scheduleEntryRepository.queryScheduleBetweenDates(start, end);
 
-    final diff =
-        ScheduleDiffCalculator().calculateDiff(oldSchedule, updatedSchedule);
+    final diff = const ScheduleDiffCalculator()
+        .calculateDiff(oldSchedule, updatedSchedule);
 
     final cleanedDiff =
         await _cleanDiffFromNewlyQueriedEntries(start, end, diff);

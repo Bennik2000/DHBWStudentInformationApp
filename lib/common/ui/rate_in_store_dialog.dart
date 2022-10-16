@@ -13,7 +13,7 @@ class RateInStoreDialog {
   final PreferencesProvider _preferencesProvider;
   final int _appLaunchCounter;
 
-  RateInStoreDialog(this._preferencesProvider, this._appLaunchCounter);
+  const RateInStoreDialog(this._preferencesProvider, this._appLaunchCounter);
 
   Future<void> showIfNeeded(BuildContext context) async {
     if (!PlatformUtil.isAndroid()) return;

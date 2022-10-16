@@ -1,10 +1,10 @@
 class DateSearchParameters {
-  bool? includePast;
-  bool? includeFuture;
-  String? year;
-  String? databaseName;
+  final bool includePast;
+  final bool includeFuture;
+  final String? year;
+  final String? databaseName;
 
-  DateSearchParameters(
+  const DateSearchParameters(
     this.includePast,
     this.includeFuture,
     this.year,

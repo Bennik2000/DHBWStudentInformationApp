@@ -4,6 +4,8 @@ import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:html/parser.dart';
 
 class ExamsFromModuleDetailsExtract {
+  const ExamsFromModuleDetailsExtract();
+
   List<DualisExam> extractExamsFromModuleDetails(String? body) {
     try {
       return _extractExamsFromModuleDetails(body);

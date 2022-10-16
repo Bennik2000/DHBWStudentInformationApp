@@ -19,7 +19,7 @@ class LoginForm extends StatefulWidget {
   final String loginFailedText;
 
   const LoginForm({
-    Key? key,
+    super.key,
     required this.onLogin,
     required this.title,
     required this.loginFailedText,
@@ -27,7 +27,7 @@ class LoginForm extends StatefulWidget {
     required this.onSaveCredentials,
     required this.onClearCredentials,
     required this.getDoSaveCredentials,
-  }) : super(key: key);
+  });
 
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -40,6 +40,8 @@ class _LoginFormState extends State<LoginForm> {
 
   final CredentialsEditingController _controller =
       CredentialsEditingController();
+
+  _LoginFormState();
 
   @override
   void initState() {

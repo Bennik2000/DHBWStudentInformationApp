@@ -6,6 +6,8 @@ import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 
 class MonthlyScheduleExtract {
+  const MonthlyScheduleExtract();
+
   Schedule extractScheduleFromMonthly(String? body) {
     try {
       return _extractScheduleFromMonthly(body);
@@ -36,9 +38,9 @@ class MonthlyScheduleExtract {
   }
 
   ScheduleEntry _extractEntry(Element appointment) {
-    final date = appointment.parent!.parent!
-        .querySelector(".tbsubhead a")!
-        .attributes["title"];
+    final date = appointment.parent?.parent
+        ?.querySelector(".tbsubhead a")
+        ?.attributes["title"];
 
     final information = appointment.attributes["title"]!;
     final informationParts = information.split(" / ");

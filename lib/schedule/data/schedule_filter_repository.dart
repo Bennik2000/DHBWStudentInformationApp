@@ -3,7 +3,7 @@ import 'package:dhbwstudentapp/common/data/database_access.dart';
 class ScheduleFilterRepository {
   final DatabaseAccess _database;
 
-  ScheduleFilterRepository(this._database);
+  const ScheduleFilterRepository(this._database);
 
   Future<List<String?>> queryAllHiddenNames() async {
     final rows = await _database.queryRows("ScheduleEntryFilters");

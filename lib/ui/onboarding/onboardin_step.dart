@@ -13,6 +13,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:kiwi/kiwi.dart';
 
 abstract class OnboardingStep {
+  const OnboardingStep();
+
   Widget buildContent(BuildContext context);
 
   OnboardingStepViewModel viewModel();
@@ -21,6 +23,8 @@ abstract class OnboardingStep {
 }
 
 class SelectSourceOnboardingStep extends OnboardingStep {
+  SelectSourceOnboardingStep();
+
   final SelectSourceViewModel _viewModel = SelectSourceViewModel(
     KiwiContainer().resolve(),
   );
@@ -42,6 +46,8 @@ class SelectSourceOnboardingStep extends OnboardingStep {
 }
 
 class DualisCredentialsOnboardingStep extends OnboardingStep {
+  DualisCredentialsOnboardingStep();
+
   final DualisLoginViewModel _viewModel = DualisLoginViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
@@ -64,6 +70,8 @@ class DualisCredentialsOnboardingStep extends OnboardingStep {
 }
 
 class RaplaOnboardingStep extends OnboardingStep {
+  RaplaOnboardingStep();
+
   final RaplaUrlViewModel _viewModel = RaplaUrlViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
@@ -86,6 +94,8 @@ class RaplaOnboardingStep extends OnboardingStep {
 }
 
 class IcalOnboardingStep extends OnboardingStep {
+  IcalOnboardingStep();
+
   final IcalUrlViewModel _viewModel = IcalUrlViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
@@ -109,6 +119,7 @@ class IcalOnboardingStep extends OnboardingStep {
 
 class MannheimOnboardingStep extends OnboardingStep {
   MannheimViewModel? _viewModel;
+  MannheimOnboardingStep();
 
   @override
   Widget buildContent(BuildContext context) {

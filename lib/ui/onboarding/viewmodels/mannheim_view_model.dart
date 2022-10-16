@@ -31,7 +31,7 @@ class MannheimViewModel extends OnboardingStepViewModel {
 
     try {
       await Future.delayed(const Duration(seconds: 1));
-      _courses = await MannheimCourseScraper().loadCourses();
+      _courses = await const MannheimCourseScraper().loadCourses();
       _loadingState = LoadCoursesState.Loaded;
     } catch (ex) {
       _courses = null;

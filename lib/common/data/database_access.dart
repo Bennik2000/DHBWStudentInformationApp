@@ -3,6 +3,8 @@ import 'package:dhbwstudentapp/common/data/sql_scripts.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseAccess {
+  const DatabaseAccess();
+
   static const String _databaseName = "Database.db";
   static Database? _databaseInstance;
 

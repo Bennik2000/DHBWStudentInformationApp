@@ -11,7 +11,7 @@ Future<void> main() async {
   ).readAsString();
 
   test('UrlsFromMainPageExtract', () async {
-    final extract = UrlsFromMainPageExtract();
+    const extract = UrlsFromMainPageExtract();
 
     final mainPageUrls = DualisUrls();
 
@@ -33,7 +33,7 @@ Future<void> main() async {
   });
 
   test('UrlsFromMainPageExtract invalid html throws exception', () async {
-    final extract = UrlsFromMainPageExtract();
+    const extract = UrlsFromMainPageExtract();
 
     try {
       extract.parseMainPage("Lorem ipsum", DualisUrls(), "");

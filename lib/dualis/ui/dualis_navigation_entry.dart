@@ -9,6 +9,8 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class DualisNavigationEntry extends NavigationEntry<StudyGradesViewModel> {
+  DualisNavigationEntry();
+
   @override
   Icon icon = const Icon(Icons.data_usage);
 
@@ -27,7 +29,7 @@ class DualisNavigationEntry extends NavigationEntry<StudyGradesViewModel> {
 
   @override
   Widget build(BuildContext context) {
-    return DualisPage();
+    return const DualisPage();
   }
 
   @override
@@ -42,7 +44,7 @@ class DualisNavigationEntry extends NavigationEntry<StudyGradesViewModel> {
                       ? IconButton(
                           icon: const Icon(Icons.help_outline),
                           onPressed: () async {
-                            await DualisHelpDialog().show(context);
+                            await const DualisHelpDialog().show(context);
                           },
                           tooltip: L.of(context).helpButtonTooltip,
                         )

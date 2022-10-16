@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 class DateFilterOptions extends StatefulWidget {
   final DateManagementViewModel viewModel;
 
-  const DateFilterOptions({Key? key, required this.viewModel})
-      : super(key: key);
+  const DateFilterOptions({super.key, required this.viewModel});
 
   @override
   _DateFilterOptionsState createState() => _DateFilterOptionsState();
@@ -15,6 +14,8 @@ class DateFilterOptions extends StatefulWidget {
 
 class _DateFilterOptionsState extends State<DateFilterOptions> {
   bool _isExpanded = false;
+
+  _DateFilterOptionsState();
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +44,9 @@ class _DateFilterOptionsState extends State<DateFilterOptions> {
 
   Widget _buildCollapsed() {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isExpanded = true;
-        });
-      },
+      onTap: () => setState(() {
+        _isExpanded = true;
+      }),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: <Widget>[

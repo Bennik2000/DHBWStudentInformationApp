@@ -6,6 +6,8 @@ class CancelableMutex {
   CancellationToken? _token;
   CancellationToken? get token => _token;
 
+  CancelableMutex();
+
   void cancel() {
     _token?.cancel();
   }

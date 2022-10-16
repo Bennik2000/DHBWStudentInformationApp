@@ -4,18 +4,12 @@ import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_ba
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-class IcalUrlPage extends StatefulWidget {
-  const IcalUrlPage({Key? key}) : super(key: key);
-
-  @override
-  _IcalUrlPageState createState() => _IcalUrlPageState();
-}
-
-class _IcalUrlPageState extends State<IcalUrlPage> {
-  final TextEditingController _urlTextController = TextEditingController();
+class IcalUrlPage extends StatelessWidget {
+  const IcalUrlPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController urlTextController = TextEditingController();
     return Column(
       children: <Widget>[
         Padding(
@@ -49,8 +43,8 @@ class _IcalUrlPageState extends State<IcalUrlPage> {
                 final viewModel = model as IcalUrlViewModel?;
 
                 if (viewModel?.url != null &&
-                    _urlTextController.text != viewModel!.url) {
-                  _urlTextController.text = viewModel.url!;
+                    urlTextController.text != viewModel!.url) {
+                  urlTextController.text = viewModel.url!;
                 }
 
                 return Padding(
@@ -60,7 +54,7 @@ class _IcalUrlPageState extends State<IcalUrlPage> {
                     children: <Widget>[
                       Expanded(
                         child: TextField(
-                          controller: _urlTextController,
+                          controller: urlTextController,
                           decoration: InputDecoration(
                             errorText: (viewModel?.urlHasError == true)
                                 ? L.of(context).onboardingRaplaUrlInvalid

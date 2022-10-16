@@ -100,8 +100,8 @@ class InAppPurchaseHelper {
       final productIdPurchases =
           allPurchases?.where((element) => element.productId == id);
 
-      if (productIdPurchases?.isNotEmpty ?? false) {
-        return productIdPurchases!.any((element) => _isPurchased(element))
+      if (productIdPurchases != null && productIdPurchases.isNotEmpty) {
+        return productIdPurchases.any((element) => _isPurchased(element))
             ? PurchaseStateEnum.Purchased
             : PurchaseStateEnum.NotPurchased;
       }

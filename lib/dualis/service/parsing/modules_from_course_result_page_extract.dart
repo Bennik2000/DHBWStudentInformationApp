@@ -7,6 +7,8 @@ import 'package:html/parser.dart';
 class ModulesFromCourseResultPageExtract {
   final RegExp _extractUrlRegex = RegExp('dl_popUp\\("(.+?)"');
 
+  ModulesFromCourseResultPageExtract();
+
   List<DualisModule?> extractModulesFromCourseResultPage(
     String? body,
     String endpointUrl,

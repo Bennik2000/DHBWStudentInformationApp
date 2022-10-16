@@ -156,7 +156,7 @@ class RaplaScheduleSource extends ScheduleSource {
       );
 
       if (response == null && !requestCancellationToken.isCanceled) {
-        throw ServiceRequestFailed("Http request failed!");
+        throw const ServiceRequestFailed("Http request failed!");
       }
 
       return response;
@@ -217,6 +217,7 @@ enum FailureReason {
   ParseError,
 }
 
+// TODO: [Leptopoda] make enum
 class ScheduleOrFailure {
   final FailureReason reason;
   final Schedule? schedule;
@@ -225,16 +226,16 @@ class ScheduleOrFailure {
 
   bool get success => reason == FailureReason.Success;
 
-  ScheduleOrFailure.success(this.schedule)
+  const ScheduleOrFailure.success(this.schedule)
       : reason = FailureReason.Success,
         exception = null,
         trace = null;
 
-  ScheduleOrFailure.failParseError(this.exception, this.trace)
+  const ScheduleOrFailure.failParseError(this.exception, this.trace)
       : reason = FailureReason.ParseError,
         schedule = null;
 
-  ScheduleOrFailure.failRequestError(this.exception, this.trace)
+  const ScheduleOrFailure.failRequestError(this.exception, this.trace)
       : reason = FailureReason.RequestError,
         schedule = null;
 }

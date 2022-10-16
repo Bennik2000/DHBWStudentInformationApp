@@ -6,6 +6,8 @@ import 'package:dhbwstudentapp/schedule/model/schedule_query_result.dart';
 /// Parses an ICAL file extracts all schedule entries
 ///
 class IcalParser {
+  IcalParser();
+
   /// Matches a calendar entry. The first group contains the text between
   /// the BEGIN:VEVENT and END:VEVENT
   final String calendarEntryRegex = "BEGIN:VEVENT(.*?)END:VEVENT";

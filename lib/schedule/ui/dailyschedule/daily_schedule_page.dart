@@ -8,18 +8,12 @@ import 'package:intl/intl.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
 
-class DailySchedulePage extends StatefulWidget {
-  const DailySchedulePage({Key? key}) : super(key: key);
-  @override
-  _DailySchedulePageState createState() => _DailySchedulePageState();
-}
-
-class _DailySchedulePageState extends State<DailySchedulePage> {
-  late DailyScheduleViewModel viewModel;
+class DailySchedulePage extends StatelessWidget {
+  const DailySchedulePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    viewModel = Provider.of<DailyScheduleViewModel>(context);
+    final viewModel = Provider.of<DailyScheduleViewModel>(context);
 
     final textTheme = Theme.of(context).textTheme;
     final dailyScheduleEntryTitle =
@@ -84,7 +78,7 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
                 )
               else
                 Column(
-                  children: buildEntryWidgets(),
+                  children: buildEntryWidgets(viewModel),
                 )
             ],
           ),
@@ -93,14 +87,14 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
     );
   }
 
-  List<Widget> buildEntryWidgets() {
+  List<Widget> buildEntryWidgets(DailyScheduleViewModel viewModel) {
     final entryWidgets = <Widget>[];
     final now = DateTime.now();
     var nowIndicatorInserted = false;
 
     for (final entry in viewModel.schedule.entries) {
       if (!nowIndicatorInserted && (entry.end.isAfter(now))) {
-        entryWidgets.add(CurrentTimeIndicatorWidget());
+        entryWidgets.add(const CurrentTimeIndicatorWidget());
         nowIndicatorInserted = true;
       }
 
@@ -113,7 +107,9 @@ class _DailySchedulePageState extends State<DailySchedulePage> {
         ),
       );
     }
-    if (!nowIndicatorInserted) entryWidgets.add(CurrentTimeIndicatorWidget());
+    if (!nowIndicatorInserted) {
+      entryWidgets.add(const CurrentTimeIndicatorWidget());
+    }
     return entryWidgets;
   }
 }

@@ -48,7 +48,7 @@ class FilterViewModel extends BaseViewModel {
 
 class ScheduleEntryFilterState {
   bool? isDisplayed;
-  String? entryName;
+  final String? entryName;
 
   ScheduleEntryFilterState(this.isDisplayed, this.entryName);
 }

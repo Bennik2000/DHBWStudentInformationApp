@@ -5,6 +5,8 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
 class AllModulesExtract {
+  const AllModulesExtract();
+
   List<DualisModule> extractAllModules(String? body) {
     try {
       return _extractAllModules(body);

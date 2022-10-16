@@ -4,6 +4,8 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
 class StudyGradesFromStudentResultsPageExtract {
+  const StudyGradesFromStudentResultsPageExtract();
+
   StudyGrades extractStudyGradesFromStudentsResultsPage(String? body) {
     try {
       return _extractStudyGradesFromStudentsResultsPage(body);
@@ -51,9 +53,10 @@ class StudyGradesFromStudentResultsPageExtract {
     neededCredits = neededCredits.replaceAll(",", ".");
     gainedCredits = gainedCredits.replaceAll(",", ".");
 
-    final credits = _Credits();
-    credits.gainedCredits = double.tryParse(gainedCredits);
-    credits.totalCredits = double.tryParse(neededCredits);
+    final credits = _Credits(
+      double.tryParse(neededCredits),
+      double.tryParse(gainedCredits),
+    );
 
     return credits;
   }
@@ -73,20 +76,31 @@ class StudyGradesFromStudentResultsPageExtract {
       mainCoursesGpaRowCells[1].innerHtml,
     )!;
 
-    final _Gpa gpa = _Gpa();
-    gpa.totalGpa = double.tryParse(totalGpa.replaceAll(",", "."));
-    gpa.mainModulesGpa = double.tryParse(mainModulesGpa.replaceAll(",", "."));
+    final _Gpa gpa = _Gpa(
+      double.tryParse(totalGpa.replaceAll(",", ".")),
+      double.tryParse(mainModulesGpa.replaceAll(",", ".")),
+    );
 
     return gpa;
   }
 }
 
 class _Credits {
-  double? totalCredits;
-  double? gainedCredits;
+  final double? totalCredits;
+  final double? gainedCredits;
+
+  const _Credits(
+    this.totalCredits,
+    this.gainedCredits,
+  );
 }
 
 class _Gpa {
-  double? totalGpa;
-  double? mainModulesGpa;
+  final double? totalGpa;
+  final double? mainModulesGpa;
+
+  const _Gpa(
+    this.totalGpa,
+    this.mainModulesGpa,
+  );
 }

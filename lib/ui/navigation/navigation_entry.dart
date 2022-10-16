@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 abstract class NavigationEntry<T extends BaseViewModel> {
+  NavigationEntry();
+
   T? _viewModel;
 
   String get route;

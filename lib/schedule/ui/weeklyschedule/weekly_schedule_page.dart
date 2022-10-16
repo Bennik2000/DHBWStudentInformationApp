@@ -1,7 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
-import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:dhbwstudentapp/schedule/ui/viewmodels/weekly_schedule_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/schedule_entry_detail_bottom_sheet.dart';
@@ -12,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WeeklySchedulePage extends StatefulWidget {
-  const WeeklySchedulePage({Key? key}) : super(key: key);
+  const WeeklySchedulePage({super.key});
 
   @override
   _WeeklySchedulePageState createState() => _WeeklySchedulePageState();
@@ -20,7 +19,6 @@ class WeeklySchedulePage extends StatefulWidget {
 
 class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   late WeeklyScheduleViewModel viewModel;
-  Schedule? schedule;
 
   _WeeklySchedulePageState();
 
@@ -42,6 +40,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                 L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase(),
               ),
               onPressed: () {
+                // TDOD: [Leptopoda] this can throw a null error
                 launchUrl(Uri.parse(viewModel.scheduleUrl!));
               },
             )

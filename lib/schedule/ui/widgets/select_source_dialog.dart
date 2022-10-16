@@ -23,7 +23,7 @@ class SelectSourceDialog {
 
     await showDialog(
       context: context,
-      builder: (context) => _buildDialog(context),
+      builder: _buildDialog,
     );
   }
 

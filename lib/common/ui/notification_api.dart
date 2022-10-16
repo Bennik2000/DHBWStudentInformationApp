@@ -10,6 +10,8 @@ class NotificationApi {
   final FlutterLocalNotificationsPlugin _localNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  NotificationApi();
+
   ///
   /// Initialize the notifications. You can't show any notifications before you
   /// call this method
@@ -84,6 +86,8 @@ class NotificationApi {
 /// This class implements the methods of the NotificationApi with empty stubs
 ///
 class VoidNotificationApi implements NotificationApi {
+  const VoidNotificationApi();
+
   @override
   FlutterLocalNotificationsPlugin get _localNotificationsPlugin =>
       throw UnimplementedError();

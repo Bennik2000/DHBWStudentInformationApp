@@ -8,11 +8,11 @@ class OnboardingButtonBar extends StatelessWidget {
   final VoidCallback onPrevious;
 
   const OnboardingButtonBar({
-    Key? key,
+    super.key,
     required this.viewModel,
     required this.onNext,
     required this.onPrevious,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

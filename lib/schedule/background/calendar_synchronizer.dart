@@ -12,7 +12,7 @@ class CalendarSynchronizer {
   final ScheduleSourceProvider scheduleSourceProvider;
   final PreferencesProvider preferencesProvider;
 
-  CalendarSynchronizer(
+  const CalendarSynchronizer(
     this.scheduleProvider,
     this.scheduleSourceProvider,
     this.preferencesProvider,

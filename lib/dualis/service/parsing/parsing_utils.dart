@@ -45,10 +45,10 @@ Element getElementById(
 }
 
 class ParseException implements Exception {
-  Object? innerException;
-  StackTrace? trace;
+  final Object? innerException;
+  final StackTrace? trace;
 
-  ParseException.withInner(this.innerException, this.trace);
+  const ParseException.withInner(this.innerException, this.trace);
 
   @override
   String toString() {

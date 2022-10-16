@@ -9,6 +9,8 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
+  ScheduleNavigationEntry();
+
   @override
   Icon icon = const Icon(Icons.calendar_today);
 
@@ -42,7 +44,7 @@ class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
                   : IconButton(
                       icon: const Icon(Icons.help_outline),
                       onPressed: () async {
-                        await ScheduleHelpDialog().show(context);
+                        await const ScheduleHelpDialog().show(context);
                       },
                       tooltip: L.of(context).helpButtonTooltip,
                     ),

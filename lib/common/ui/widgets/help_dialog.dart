@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 /// Deriving classes only need to implement the title() and content() methods
 ///
 abstract class HelpDialog {
+  const HelpDialog();
+
   Future show(BuildContext context) async {
     await showDialog(
       context: context,

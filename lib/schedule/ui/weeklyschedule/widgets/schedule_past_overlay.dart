@@ -43,7 +43,7 @@ class SchedulePastOverlayCustomPaint extends CustomPainter {
   final int columns;
   final Color overlayColor;
 
-  SchedulePastOverlayCustomPaint(
+  const SchedulePastOverlayCustomPaint(
     this.fromDate,
     this.toDate,
     this.now,

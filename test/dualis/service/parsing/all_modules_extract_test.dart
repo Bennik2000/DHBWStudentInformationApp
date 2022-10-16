@@ -11,7 +11,7 @@ Future<void> main() async {
   ).readAsString();
 
   test('AllModulesExtract extract all modules', () async {
-    final extract = AllModulesExtract();
+    const extract = AllModulesExtract();
 
     final modules = extract.extractAllModules(studentResultsPage);
 
@@ -27,7 +27,7 @@ Future<void> main() async {
   });
 
   test('AllModulesExtract invalid html throws exception', () async {
-    final extract = AllModulesExtract();
+    const extract = AllModulesExtract();
 
     try {
       extract.extractAllModules("Lorem ipsum");

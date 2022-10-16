@@ -6,13 +6,13 @@ typedef ScheduleEntryTapCallback = Function(ScheduleEntry entry);
 
 class ScheduleEntryWidget extends StatelessWidget {
   final ScheduleEntry scheduleEntry;
-  final ScheduleEntryTapCallback? onScheduleEntryTap;
+  final ScheduleEntryTapCallback onScheduleEntryTap;
 
   const ScheduleEntryWidget({
-    Key? key,
+    super.key,
     required this.scheduleEntry,
-    this.onScheduleEntryTap,
-  }) : super(key: key);
+    required this.onScheduleEntryTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class ScheduleEntryWidget extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(1, 0, 1, 0),
       child: InkWell(
         onTap: () {
-          onScheduleEntryTap?.call(scheduleEntry);
+          onScheduleEntryTap.call(scheduleEntry);
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),

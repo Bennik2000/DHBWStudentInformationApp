@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 
 class ScheduleEmptyState extends StatelessWidget {
-  final Map<Brightness, String> image = {
+  const ScheduleEmptyState({super.key});
+
+  static const Map<Brightness, String> image = {
     Brightness.dark: Assets.assets_schedule_empty_state_dark_png,
     Brightness.light: Assets.assets_schedule_empty_state_png,
   };

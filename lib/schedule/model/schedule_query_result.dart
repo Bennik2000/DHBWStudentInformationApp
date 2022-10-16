@@ -6,7 +6,7 @@ class ScheduleQueryResult {
 
   bool get hasError => errors.isNotEmpty;
 
-  ScheduleQueryResult(this.schedule, this.errors);
+  const ScheduleQueryResult(this.schedule, this.errors);
 }
 
 class ParseError {

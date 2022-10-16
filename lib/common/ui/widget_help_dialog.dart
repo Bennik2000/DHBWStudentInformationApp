@@ -11,7 +11,7 @@ class WidgetHelpDialog {
   final PreferencesProvider _preferencesProvider;
   final int _appLaunchCounter;
 
-  WidgetHelpDialog(this._preferencesProvider, this._appLaunchCounter);
+  const WidgetHelpDialog(this._preferencesProvider, this._appLaunchCounter);
 
   Future<void> showIfNeeded(BuildContext context) async {
     if (!PlatformUtil.isAndroid()) return;
