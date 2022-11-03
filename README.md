@@ -6,7 +6,9 @@
 </p>
 
 
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
+This project is not maintained anymore as I am no longer a student at DHBW.
 
 
 
