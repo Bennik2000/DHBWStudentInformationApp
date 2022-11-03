@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/schedule_page.dart';
 import 'package:dhbwstudentapp/schedule/ui/viewmodels/schedule_view_model.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/filter/schedule_filter_page.dart';
@@ -9,23 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-class ScheduleNavigationEntry extends NavigationEntry {
-  ScheduleViewModel _viewModel;
+class ScheduleNavigationEntry extends NavigationEntry<ScheduleViewModel> {
+  @override
+  Icon icon = Icon(Icons.calendar_today);
 
   @override
-  Widget icon(BuildContext context) {
-    return Icon(Icons.calendar_today);
-  }
-
-  @override
-  BaseViewModel initViewModel() {
-    if (_viewModel != null) return _viewModel;
-
-    _viewModel = ScheduleViewModel(
+  ScheduleViewModel initViewModel() {
+    return ScheduleViewModel(
       KiwiContainer().resolve(),
     );
-
-    return _viewModel;
   }
 
   @override
@@ -40,29 +31,29 @@ class ScheduleNavigationEntry extends NavigationEntry {
 
   @override
   List<Widget> appBarActions(BuildContext context) {
-    initViewModel();
     return [
       PropertyChangeProvider<ScheduleViewModel, String>(
-        value: _viewModel,
+        value: model,
         child: PropertyChangeConsumer(
             properties: const ["didSetupProperly"],
-            builder: (BuildContext _, ScheduleViewModel __, Set<Object> ___) =>
-                _viewModel.didSetupProperly
-                    ? Container()
-                    : IconButton(
-                        icon: Icon(Icons.help_outline),
-                        onPressed: () async {
-                          await ScheduleHelpDialog().show(context);
-                        },
-                        tooltip: L.of(context).helpButtonTooltip,
-                      )),
+            builder:
+                (BuildContext _, ScheduleViewModel? __, Set<Object>? ___) =>
+                    model.didSetupProperly
+                        ? Container()
+                        : IconButton(
+                            icon: Icon(Icons.help_outline),
+                            onPressed: () async {
+                              await ScheduleHelpDialog().show(context);
+                            },
+                            tooltip: L.of(context).helpButtonTooltip,
+                          )),
       ),
       PropertyChangeProvider<ScheduleViewModel, String>(
-        value: _viewModel,
+        value: model,
         child: PropertyChangeConsumer(
           properties: const ["didSetupProperly"],
-          builder: (BuildContext _, ScheduleViewModel __, Set<Object> ___) =>
-              _viewModel.didSetupProperly
+          builder: (BuildContext _, ScheduleViewModel? __, Set<Object>? ___) =>
+              model.didSetupProperly
                   ? IconButton(
                       icon: Icon(Icons.filter_alt),
                       onPressed: () async {

@@ -2,22 +2,17 @@ import 'package:dhbwstudentapp/common/data/database_entity.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 
 class DateEntryEntity extends DatabaseEntity {
-  DateEntry _dateEntry;
+  // TODO: [Leptopoda] make non null
+  DateEntry? _dateEntry;
 
-  DateEntryEntity.fromModel(DateEntry dateEntry) {
-    _dateEntry = dateEntry;
-  }
+  DateEntryEntity.fromModel(DateEntry dateEntry) : _dateEntry = dateEntry;
 
   DateEntryEntity.fromMap(Map<String, dynamic> map) {
     fromMap(map);
   }
 
-  @override
   void fromMap(Map<String, dynamic> map) {
-    DateTime date;
-    if (map["date"] != null) {
-      date = DateTime.fromMillisecondsSinceEpoch(map["date"]);
-    }
+    var date = DateTime.fromMillisecondsSinceEpoch(map["date"]);
 
     _dateEntry = DateEntry(
       comment: map["comment"],
@@ -26,22 +21,24 @@ class DateEntryEntity extends DatabaseEntity {
       databaseName: map["databaseName"],
       start: date,
       end: date,
-      room: map["room"]
+      room: map["room"],
     );
   }
 
   @override
   Map<String, dynamic> toMap() {
+    assert(_dateEntry != null);
     return {
-      "date": _dateEntry.start?.millisecondsSinceEpoch ?? 0,
-      "comment": _dateEntry.comment ?? "",
-      "description": _dateEntry.description ?? "",
-      "year": _dateEntry.year ?? "",
-      "databaseName": _dateEntry.databaseName ?? ""
+      "date": _dateEntry!.start.millisecondsSinceEpoch,
+      "comment": _dateEntry!.comment,
+      "description": _dateEntry!.description,
+      "year": _dateEntry!.year,
+      "databaseName": _dateEntry!.databaseName,
     };
   }
 
-  DateEntry asDateEntry() => _dateEntry;
+  DateEntry asDateEntry() => _dateEntry!;
 
+  // TODO: [Leptopoda] make getter or even constant.
   static String tableName() => "DateEntries";
 }

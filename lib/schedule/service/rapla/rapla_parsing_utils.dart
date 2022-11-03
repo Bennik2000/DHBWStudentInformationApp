@@ -46,7 +46,7 @@ class RaplaParsingUtils {
     if (start == null || end == null)
       throw ElementNotFoundParseException("start and end date container");
 
-    ScheduleEntry scheduleEntry;
+    ScheduleEntry? scheduleEntry;
 
     // The important information is stored in a html element called tooltip.
     // Depending on the Rapla configuration the tooltip is available or not.
@@ -66,12 +66,12 @@ class RaplaParsingUtils {
   }
 
   static ScheduleEntry improveScheduleEntry(ScheduleEntry scheduleEntry) {
-    if (scheduleEntry.title == null) {
+    if (scheduleEntry.title == "") {
       throw ElementNotFoundParseException("title");
     }
 
     var professor = scheduleEntry.professor;
-    if (professor?.endsWith(",") ?? false) {
+    if (professor.endsWith(",")) {
       scheduleEntry = scheduleEntry.copyWith(
           professor: professor.substring(0, professor.length - 1));
     }
@@ -87,7 +87,7 @@ class RaplaParsingUtils {
   static ScheduleEntry extractScheduleFromTooltip(
       List<Element> tooltip,
       Element value,
-      ScheduleEntry scheduleEntry,
+      ScheduleEntry? scheduleEntry,
       DateTime start,
       DateTime end) {
     var infotable = tooltip[0].getElementsByClassName(INFOTABLE_CLASS);
@@ -120,7 +120,7 @@ class RaplaParsingUtils {
 
   static ScheduleEntry extractScheduleDetailsFromCell(
       List<Element> timeAndClassName,
-      ScheduleEntry scheduleEntry,
+      ScheduleEntry? scheduleEntry,
       DateTime start,
       DateTime end) {
     var descriptionHtml = timeAndClassName[0].innerHtml.substring(12);
@@ -156,12 +156,11 @@ class RaplaParsingUtils {
 
     var typeString = strongTag[0].innerHtml;
 
-    var type = ScheduleEntryType.Unknown;
     if (entryTypeMapping.containsKey(typeString)) {
-      type = entryTypeMapping[typeString];
+      return entryTypeMapping[typeString]!;
+    } else {
+      return ScheduleEntryType.Unknown;
     }
-
-    return type;
   }
 
   static Map<String, String> _parsePropertiesTable(Element infotable) {
@@ -175,7 +174,7 @@ class RaplaParsingUtils {
     return map;
   }
 
-  static DateTime _parseTime(String timeString, DateTime date) {
+  static DateTime? _parseTime(String timeString, DateTime date) {
     try {
       var time = DateFormat("HH:mm").parse(timeString.substring(0, 5));
       return DateTime(date.year, date.month, date.day, time.hour, time.minute);
@@ -200,7 +199,7 @@ class RaplaParsingUtils {
     // selected year in the date selector
     var comboBoxes = document.getElementsByTagName("select");
 
-    String year;
+    String? year;
     for (var box in comboBoxes) {
       if (box.attributes.containsKey("name") &&
           box.attributes["name"] == "year") {

@@ -8,14 +8,14 @@ class IcalUrlViewModel extends OnboardingStepViewModel {
   final PreferencesProvider preferencesProvider;
   final ScheduleSourceProvider scheduleSourceProvider;
 
-  String _url;
-  String get url => _url;
+  String? _url;
+  String? get url => _url;
 
   bool urlHasError = false;
 
   IcalUrlViewModel(this.preferencesProvider, this.scheduleSourceProvider);
 
-  void setUrl(String url) {
+  void setUrl(String? url) {
     _url = url;
 
     notifyListeners("url");
@@ -24,7 +24,7 @@ class IcalUrlViewModel extends OnboardingStepViewModel {
   }
 
   void _validateUrl() {
-    urlHasError = !IcalScheduleSource.isValidUrl(_url);
+    urlHasError = !IcalScheduleSource.isValidUrl(_url!);
 
     setIsValid(!urlHasError);
 
@@ -32,10 +32,10 @@ class IcalUrlViewModel extends OnboardingStepViewModel {
   }
 
   Future<void> pasteUrl() async {
-    ClipboardData data = await Clipboard.getData('text/plain');
+    ClipboardData? data = await Clipboard.getData('text/plain');
 
     if (data?.text != null) {
-      setUrl(data.text);
+      setUrl(data!.text);
     }
   }
 

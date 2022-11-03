@@ -5,19 +5,22 @@ import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:http/http.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
 
+// TODO: [Leptopoda] requestCancellationToken and Cancellation token cleanup
+// TODO: [Leptopoda] Pass Uri objects and not strings
+
 ///
 /// Handles cookies and provides a session. Execute your api calls with the
 /// provided get and set methods.
 ///
 class Session {
-  Map<String, String> cookies = {};
+  Map<String, String> _cookies = {};
 
   ///
   /// Execute a GET request and return the result body as string
   ///
-  Future<String> get(
+  Future<String?> get(
     String url, [
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     var response = await rawGet(url, cancellationToken);
 
@@ -32,9 +35,9 @@ class Session {
     }
   }
 
-  Future<Response> rawGet(
+  Future<Response?> rawGet(
     String url, [
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
 
@@ -50,13 +53,13 @@ class Session {
       var response = await http.HttpClientHelper.get(
         requestUri,
         cancelToken: requestCancellationToken,
-        headers: cookies,
+        headers: _cookies,
       );
 
       if (response == null && !requestCancellationToken.isCanceled)
         throw ServiceRequestFailed("Http request failed!");
 
-      _updateCookie(response);
+      _updateCookie(response!);
 
       return response;
     } on http.OperationCanceledError catch (_) {
@@ -73,10 +76,10 @@ class Session {
   ///
   /// Execute a POST request and return the result body as string
   ///
-  Future<String> post(
+  Future<String?> post(
     String url,
-    dynamic data, [
-    CancellationToken cancellationToken,
+    Map<String, String> data, [
+    CancellationToken? cancellationToken,
   ]) async {
     var response = await rawPost(url, data, cancellationToken);
 
@@ -91,10 +94,10 @@ class Session {
     }
   }
 
-  Future<Response> rawPost(
+  Future<Response?> rawPost(
     String url,
-    dynamic data, [
-    CancellationToken cancellationToken,
+    Map<String, String> data, [
+    CancellationToken? cancellationToken,
   ]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
     var requestCancellationToken = http.CancellationToken();
@@ -107,14 +110,14 @@ class Session {
       var response = await http.HttpClientHelper.post(
         Uri.parse(url),
         body: data,
-        headers: cookies,
+        headers: _cookies,
         cancelToken: requestCancellationToken,
       );
 
       if (response == null && !requestCancellationToken.isCanceled)
         throw ServiceRequestFailed("Http request failed!");
 
-      _updateCookie(response);
+      _updateCookie(response!);
 
       return response;
     } on http.OperationCanceledError catch (_) {
@@ -129,7 +132,7 @@ class Session {
   }
 
   void _updateCookie(Response response) {
-    String rawCookie = response.headers['set-cookie'];
+    String? rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
       int index = rawCookie.indexOf(';');
 
@@ -137,7 +140,7 @@ class Session {
 
       cookie = cookie.replaceAll(" ", "");
 
-      cookies['cookie'] = cookie;
+      _cookies['cookie'] = cookie;
     }
   }
 }

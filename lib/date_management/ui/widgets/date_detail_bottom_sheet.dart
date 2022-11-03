@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class DateDetailBottomSheet extends StatelessWidget {
-  final DateEntry dateEntry;
+  final DateEntry? dateEntry;
 
-  const DateDetailBottomSheet({Key key, this.dateEntry}) : super(key: key);
+  const DateDetailBottomSheet({Key? key, this.dateEntry}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var date = DateFormat.yMd(L.of(context).locale.languageCode)
-        .format(dateEntry.start);
+        .format(dateEntry!.start);
     var time = DateFormat.Hm(L.of(context).locale.languageCode)
-        .format(dateEntry.start);
+        .format(dateEntry!.start);
 
     return Container(
       height: 400,
@@ -46,7 +46,7 @@ class DateDetailBottomSheet extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: Text(
-                      dateEntry.description,
+                      dateEntry!.description,
                       style: Theme.of(context).textTheme.headline5,
                     ),
                   ),
@@ -60,7 +60,7 @@ class DateDetailBottomSheet extends StatelessWidget {
                           softWrap: true,
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
-                        isAtMidnight(dateEntry.start)
+                        isAtMidnight(dateEntry!.start)
                             ? Container()
                             : Text(
                                 time,
@@ -75,7 +75,7 @@ class DateDetailBottomSheet extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
               child: Text(
-                dateEntry.comment,
+                dateEntry!.comment,
               ),
             ),
           ],

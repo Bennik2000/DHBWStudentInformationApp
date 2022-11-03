@@ -20,7 +20,7 @@ enum PurchaseResultEnum {
 }
 
 typedef PurchaseCompletedCallback = Function(
-  String productId,
+  String? productId,
   PurchaseResultEnum result,
 );
 
@@ -33,10 +33,10 @@ class InAppPurchaseHelper {
 
   final PreferencesProvider _preferencesProvider;
 
-  StreamSubscription _purchaseUpdatedSubscription;
-  StreamSubscription _purchaseErrorSubscription;
+  StreamSubscription? _purchaseUpdatedSubscription;
+  StreamSubscription? _purchaseErrorSubscription;
 
-  PurchaseCompletedCallback _purchaseCallback;
+  PurchaseCompletedCallback? _purchaseCallback;
 
   InAppPurchaseHelper(this._preferencesProvider);
 
@@ -77,7 +77,7 @@ class InAppPurchaseHelper {
       return PurchaseResultEnum.Success;
     } on PlatformException catch (_) {
       if (_purchaseCallback != null) {
-        _purchaseCallback(id, PurchaseResultEnum.Error);
+        _purchaseCallback!(id, PurchaseResultEnum.Error);
       }
 
       return PurchaseResultEnum.Error;
@@ -95,25 +95,23 @@ class InAppPurchaseHelper {
       return PurchaseStateEnum.NotPurchased;
     }
 
-    var allPurchases = [];
-
     try {
-      allPurchases =
+      var allPurchases =
           await FlutterInappPurchase.instance.getAvailablePurchases();
+
+      var productIdPurchases =
+          allPurchases?.where((element) => element.productId == id);
+
+      if (productIdPurchases?.isNotEmpty ?? false) {
+        return productIdPurchases!.any((element) => _isPurchased(element))
+            ? PurchaseStateEnum.Purchased
+            : PurchaseStateEnum.NotPurchased;
+      }
+
+      return PurchaseStateEnum.NotPurchased;
     } on Exception catch (_) {
       return PurchaseStateEnum.Unknown;
     }
-
-    var productIdPurchases =
-        allPurchases.where((element) => element.productId == id);
-
-    if (productIdPurchases.isEmpty) {
-      return PurchaseStateEnum.NotPurchased;
-    }
-
-    return productIdPurchases.any((element) => _isPurchased(element))
-        ? PurchaseStateEnum.Purchased
-        : PurchaseStateEnum.NotPurchased;
   }
 
   ///
@@ -124,7 +122,9 @@ class InAppPurchaseHelper {
     _purchaseCallback = callback;
   }
 
-  Future<void> _completePurchase(PurchasedItem item) async {
+  Future<void> _completePurchase(PurchasedItem? item) async {
+    if (item == null) return;
+
     var purchaseResult = _purchaseResultFromItem(item);
 
     _purchaseCallback?.call(item.productId, purchaseResult);
@@ -152,48 +152,40 @@ class InAppPurchaseHelper {
   }
 
   PurchaseResultEnum _purchaseResultFromItem(PurchasedItem item) {
-    var purchaseResult = PurchaseResultEnum.Error;
-
     if (Platform.isAndroid) {
       switch (item.purchaseStateAndroid) {
         case PurchaseState.pending:
-          purchaseResult = PurchaseResultEnum.Pending;
-          break;
+          return PurchaseResultEnum.Pending;
+
         case PurchaseState.purchased:
-          purchaseResult = PurchaseResultEnum.Success;
-          break;
+          return PurchaseResultEnum.Success;
         case PurchaseState.unspecified:
-          purchaseResult = PurchaseResultEnum.Error;
-          break;
+        default:
+          return PurchaseResultEnum.Error;
       }
     } else if (Platform.isIOS) {
       switch (item.transactionStateIOS) {
         case TransactionState.purchasing:
-          purchaseResult = PurchaseResultEnum.Pending;
-          break;
+          return PurchaseResultEnum.Pending;
         case TransactionState.purchased:
-          purchaseResult = PurchaseResultEnum.Success;
-          break;
-        case TransactionState.failed:
-          purchaseResult = PurchaseResultEnum.Error;
-          break;
+          return PurchaseResultEnum.Success;
         case TransactionState.restored:
-          purchaseResult = PurchaseResultEnum.Success;
-          break;
+          return PurchaseResultEnum.Success;
         case TransactionState.deferred:
-          purchaseResult = PurchaseResultEnum.Pending;
-          break;
+          return PurchaseResultEnum.Pending;
+        case TransactionState.failed:
+        default:
+          return PurchaseResultEnum.Error;
       }
     }
-
-    return purchaseResult;
+    return PurchaseResultEnum.Error;
   }
 
   Future<bool> _hasFinishedTransaction(PurchasedItem item) async {
     if (item.isAcknowledgedAndroid ?? false) return true;
 
     return await _preferencesProvider
-            .get("purchase_${item.productId}_finished") ??
+            .get<bool>("purchase_${item.productId}_finished") ??
         false;
   }
 
@@ -206,7 +198,7 @@ class InAppPurchaseHelper {
       return;
     }
 
-    List<PurchasedItem> purchasedItems = [];
+    List<PurchasedItem>? purchasedItems;
 
     if (Platform.isAndroid) {
       purchasedItems =
@@ -216,20 +208,23 @@ class InAppPurchaseHelper {
           await FlutterInappPurchase.instance.getPendingTransactionsIOS();
     }
 
-    print("Found ${purchasedItems.length} pending purchases");
+    if (purchasedItems != null) {
+      print("Found ${purchasedItems.length} pending purchases");
 
-    purchasedItems.forEach(_completePurchase);
+      purchasedItems.forEach(_completePurchase);
+    }
   }
 
-  void _onPurchaseError(PurchaseResult event) {
+  void _onPurchaseError(PurchaseResult? event) {
     print("Failed to purchase:");
-    print(event.message);
-    print(event.debugMessage);
+    print(event?.message);
+    print(event?.debugMessage);
 
     _purchaseCallback?.call(null, PurchaseResultEnum.Error);
   }
 
-  bool _isConsumable(String id) {
+  // TODO: [Leptopdoa] remove this¿?
+  bool _isConsumable(String? id) {
     return false;
   }
 

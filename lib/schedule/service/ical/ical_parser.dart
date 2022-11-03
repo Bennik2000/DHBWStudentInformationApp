@@ -34,7 +34,7 @@ class IcalParser {
     List<ScheduleEntry> entries = [];
 
     for (var match in matches) {
-      var entry = _parseEntry(match.group(1));
+      var entry = _parseEntry(match.group(1)!);
       entries.add(entry);
     }
 
@@ -50,7 +50,7 @@ class IcalParser {
       unicode: true,
     ).allMatches(entryData);
 
-    Map<String, String> properties = {};
+    Map<String?, String?> properties = {};
 
     for (var property in allProperties) {
       properties[property.group(1)] = property.group(3);
@@ -67,23 +67,23 @@ class IcalParser {
     );
   }
 
-  DateTime _parseDate(String date) {
+  DateTime? _parseDate(String? date) {
+    if (date == null) return null;
+
     var match = RegExp(
       dateTimeRegex,
       unicode: true,
-    ).firstMatch(date ?? "");
+    ).firstMatch(date);
 
-    if (match == null) {
-      return null;
-    }
+    if (match == null) return null;
 
     return DateTime(
-      int.tryParse(match.group(1)),
-      int.tryParse(match.group(2)),
-      int.tryParse(match.group(3)),
-      int.tryParse(match.group(4)),
-      int.tryParse(match.group(5)),
-      int.tryParse(match.group(6)),
+      int.tryParse(match.group(1)!)!,
+      int.tryParse(match.group(2)!)!,
+      int.tryParse(match.group(3)!)!,
+      int.tryParse(match.group(4)!)!,
+      int.tryParse(match.group(5)!)!,
+      int.tryParse(match.group(6)!)!,
     );
   }
 }

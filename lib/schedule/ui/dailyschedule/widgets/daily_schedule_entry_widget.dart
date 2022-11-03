@@ -9,13 +9,11 @@ import 'package:intl/intl.dart';
 class DailyScheduleEntryWidget extends StatelessWidget {
   final ScheduleEntry scheduleEntry;
 
-  const DailyScheduleEntryWidget({Key key, this.scheduleEntry})
+  const DailyScheduleEntryWidget({Key? key, required this.scheduleEntry})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (scheduleEntry == null) return Container();
-
     var timeFormatter = DateFormat.Hm(L.of(context).locale.languageCode);
 
     var startTime = timeFormatter.format(scheduleEntry.start);
@@ -96,7 +94,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(32, 0, 0, 0),
                             child: Text(
-                              scheduleEntry.room ?? "",
+                              scheduleEntry.room,
                               softWrap: true,
                               textAlign: TextAlign.end,
                             ),

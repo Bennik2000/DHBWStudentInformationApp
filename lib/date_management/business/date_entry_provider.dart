@@ -13,16 +13,16 @@ class DateEntryProvider {
   Future<List<DateEntry>> getCachedDateEntries(
     DateSearchParameters parameters,
   ) async {
-    var cachedEntries = <DateEntry>[];
+    List<DateEntry> cachedEntries = <DateEntry>[];
 
-    if (parameters.includeFuture && parameters.includePast) {
+    if (parameters.includeFuture! && parameters.includePast!) {
       cachedEntries = await _dateEntryRepository.queryAllDateEntries(
         parameters.databaseName,
         parameters.year,
       );
     } else {
       var now = DateTime.now();
-      if (parameters.includeFuture) {
+      if (parameters.includeFuture!) {
         var datesAfter = await _dateEntryRepository.queryDateEntriesAfter(
           parameters.databaseName,
           parameters.year,
@@ -31,7 +31,7 @@ class DateEntryProvider {
         cachedEntries.addAll(datesAfter);
       }
 
-      if (parameters.includePast) {
+      if (parameters.includePast!) {
         var datesBefore = await _dateEntryRepository.queryDateEntriesBefore(
           parameters.databaseName,
           parameters.year,
@@ -41,8 +41,9 @@ class DateEntryProvider {
       }
     }
 
-    cachedEntries.sort((DateEntry a1, DateEntry a2) =>
-        a1?.start?.compareTo(a2?.start));
+    cachedEntries.sort(
+      (DateEntry a1, DateEntry a2) => a1.start.compareTo(a2.start),
+    );
 
     print("Read cached ${cachedEntries.length} date entries");
 
@@ -51,7 +52,7 @@ class DateEntryProvider {
 
   Future<List<DateEntry>> getDateEntries(
     DateSearchParameters parameters,
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ) async {
     var updatedEntries = await _dateEntryService.queryAllDates(
       parameters,
@@ -82,11 +83,11 @@ class DateEntryProvider {
         continue;
       }
 
-      if (dateEntry.start.isBefore(now) && !parameters.includePast) {
+      if (dateEntry.start.isBefore(now) && !parameters.includePast!) {
         continue;
       }
 
-      if (dateEntry.end.isAfter(now) && !parameters.includeFuture) {
+      if (dateEntry.end.isAfter(now) && !parameters.includeFuture!) {
         continue;
       }
 

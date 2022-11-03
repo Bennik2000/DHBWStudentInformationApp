@@ -18,7 +18,7 @@ final List<NavigationEntry> navigationEntries = [
 Route<dynamic> generateDrawerRoute(RouteSettings settings) {
   print("=== === === === === === Navigating to: ${settings.name}");
 
-  WidgetBuilder widget;
+  WidgetBuilder? widget;
 
   for (var route in navigationEntries) {
     if (route.route == settings.name) {
@@ -28,14 +28,14 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
   }
 
   if (widget == null) {
-    print("Failed to navigate to: " + settings.name);
+    print("Failed to navigate to: " + settings.name!);
     widget = (BuildContext context) => Container();
   }
 
   return PageRouteBuilder(
     settings: settings,
     transitionDuration: const Duration(milliseconds: 200),
-    pageBuilder: (context, animation, secondaryAnimation) => widget(context),
+    pageBuilder: (context, animation, secondaryAnimation) => widget!(context),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const offsetBegin = Offset(0.0, 0.005);
       final offsetEnd = Offset.zero;
@@ -76,7 +76,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       target = SettingsPage();
       break;
     default:
-      print("Failed to navigate to: " + settings.name);
+      print("Failed to navigate to: " + settings.name!);
       target = Container();
   }
 

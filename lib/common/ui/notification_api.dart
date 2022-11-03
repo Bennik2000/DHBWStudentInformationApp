@@ -20,6 +20,7 @@ class NotificationApi {
     );
 
     var initializationSettingsIOS = IOSInitializationSettings(
+      // TODO: [Leptopoda] the below always returns null so why register it?
       onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
 
@@ -37,7 +38,7 @@ class NotificationApi {
   ///
   /// Show a notification with the given title and message
   ///
-  Future showNotification(String title, String message, [int id]) async {
+  Future showNotification(String title, String? message, [int? id]) async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'Notifications',
       'Notifications',
@@ -72,10 +73,10 @@ class NotificationApi {
   }
 
   Future onDidReceiveLocalNotification(
-          int id, String title, String body, String payload) =>
+          int id, String? title, String? body, String? payload) =>
       Future.value();
 
-  Future selectNotification(String payload) => Future.value();
+  Future selectNotification(String? payload) => Future.value();
 }
 
 ///
@@ -83,7 +84,8 @@ class NotificationApi {
 ///
 class VoidNotificationApi implements NotificationApi {
   @override
-  FlutterLocalNotificationsPlugin get _localNotificationsPlugin => null;
+  FlutterLocalNotificationsPlugin get _localNotificationsPlugin =>
+      throw UnimplementedError();
 
   @override
   Future<void> initialize() {
@@ -92,17 +94,17 @@ class VoidNotificationApi implements NotificationApi {
 
   @override
   Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) {
+      int id, String? title, String? body, String? payload) {
     return Future.value();
   }
 
   @override
-  Future selectNotification(String payload) {
+  Future selectNotification(String? payload) {
     return Future.value();
   }
 
   @override
-  Future showNotification(String title, String message, [int id]) {
+  Future showNotification(String title, String? message, [int? id]) {
     return Future.value();
   }
 }

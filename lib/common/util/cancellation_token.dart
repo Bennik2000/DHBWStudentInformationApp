@@ -2,7 +2,7 @@ typedef CancellationCallback = void Function();
 
 class CancellationToken {
   bool _isCancelled = false;
-  CancellationCallback _callback;
+  CancellationCallback? _callback;
 
   bool isCancelled() {
     return _isCancelled;
@@ -17,10 +17,10 @@ class CancellationToken {
   void cancel() {
     _isCancelled = true;
 
-    if (_callback != null) _callback();
+    _callback?.call();
   }
 
-  void setCancellationCallback(CancellationCallback callback) {
+  void setCancellationCallback(CancellationCallback? callback) {
     _callback = callback;
   }
 }

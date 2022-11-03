@@ -34,7 +34,7 @@ class ScheduleEntryRepository {
     return schedule;
   }
 
-  Future<ScheduleEntry> queryExistingScheduleEntry(ScheduleEntry entry) async {
+  Future<ScheduleEntry?> queryExistingScheduleEntry(ScheduleEntry entry) async {
     var rows = await _database.queryRows(
       ScheduleEntryEntity.tableName(),
       where: "start=? AND end=? AND title=? AND details=? AND professor=?",
@@ -52,7 +52,7 @@ class ScheduleEntryRepository {
     return ScheduleEntryEntity.fromMap(rows[0]).asScheduleEntry();
   }
 
-  Future<ScheduleEntry> queryNextScheduleEntry(DateTime dateTime) async {
+  Future<ScheduleEntry?> queryNextScheduleEntry(DateTime dateTime) async {
     var nextScheduleEntry = await _database.queryRows(
       ScheduleEntryEntity.tableName(),
       where: "start>?",
@@ -70,18 +70,16 @@ class ScheduleEntryRepository {
     return null;
   }
 
-  Future<List<String>> queryAllNamesOfScheduleEntries() async {
+  Future<List<String?>> queryAllNamesOfScheduleEntries() async {
     var allNames = await _database.rawQuery(
       "SELECT DISTINCT title FROM  ScheduleEntries",
       [],
     );
 
-    return allNames.map((e) => e["title"] as String).toList();
+    return allNames.map((e) => e["title"] as String?).toList();
   }
 
   Future<void> saveScheduleEntry(ScheduleEntry entry) async {
-    var row = ScheduleEntryEntity.fromModel(entry).toMap();
-
     var existingEntry = await queryExistingScheduleEntry(entry);
 
     if (existingEntry != null) {
@@ -89,6 +87,7 @@ class ScheduleEntryRepository {
       return;
     }
 
+    var row = ScheduleEntryEntity.fromModel(entry).toMap();
     if (entry.id == null) {
       var id = await _database.insert(ScheduleEntryEntity.tableName(), row);
       entry.id = id;
@@ -98,7 +97,7 @@ class ScheduleEntryRepository {
   }
 
   Future<void> saveSchedule(Schedule schedule) async {
-    for (var entry in schedule.entries ?? []) {
+    for (var entry in schedule.entries) {
       saveScheduleEntry(entry);
     }
   }

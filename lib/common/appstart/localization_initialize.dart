@@ -9,8 +9,8 @@ import 'package:kiwi/kiwi.dart';
 /// correct language
 ///
 class LocalizationInitialize {
-  PreferencesProvider _preferencesProvider;
-  String _languageCode;
+  PreferencesProvider? _preferencesProvider;
+  String? _languageCode;
 
   ///
   /// Initialize the localization using the provided language code

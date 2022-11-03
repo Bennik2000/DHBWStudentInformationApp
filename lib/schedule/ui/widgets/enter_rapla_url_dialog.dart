@@ -15,7 +15,7 @@ class EnterRaplaUrlDialog extends EnterUrlDialog {
   EnterRaplaUrlDialog(this._preferencesProvider, this._scheduleSource);
 
   @override
-  Future saveUrl(String url) async {
+  Future saveUrl(String? url) async {
     await _scheduleSource.setupForRapla(url);
   }
 
@@ -25,8 +25,8 @@ class EnterRaplaUrlDialog extends EnterUrlDialog {
   }
 
   @override
-  bool isValidUrl(String url) {
-    return RaplaScheduleSource.isValidUrl(url);
+  bool isValidUrl(String? url) {
+    return RaplaScheduleSource.isValidUrl(url!);
   }
 
   @override

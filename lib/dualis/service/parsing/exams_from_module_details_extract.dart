@@ -4,7 +4,7 @@ import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:html/parser.dart';
 
 class ExamsFromModuleDetailsExtract {
-  List<DualisExam> extractExamsFromModuleDetails(String body) {
+  List<DualisExam> extractExamsFromModuleDetails(String? body) {
     try {
       return _extractExamsFromModuleDetails(body);
     } on ParseException catch (e, trace) {
@@ -13,14 +13,14 @@ class ExamsFromModuleDetailsExtract {
     }
   }
 
-  List<DualisExam> _extractExamsFromModuleDetails(String body) {
+  List<DualisExam> _extractExamsFromModuleDetails(String? body) {
     var document = parse(body);
 
     var tableExams = getElementByTagName(document, "tbody");
     var tableExamsRows = tableExams.getElementsByTagName("tr");
 
-    String currentTry;
-    String currentModule;
+    String? currentTry;
+    String? currentModule;
 
     var exams = <DualisExam>[];
 

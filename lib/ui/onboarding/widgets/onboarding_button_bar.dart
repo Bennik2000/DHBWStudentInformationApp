@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class OnboardingButtonBar extends StatelessWidget {
   final OnboardingViewModel viewModel;
-  final Function onNext;
-  final Function onPrevious;
+  final VoidCallback onNext;
+  final VoidCallback onPrevious;
 
   const OnboardingButtonBar({
-    Key key,
-    @required this.viewModel,
-    @required this.onNext,
-    @required this.onPrevious,
+    Key? key,
+    required this.viewModel,
+    required this.onNext,
+    required this.onPrevious,
   }) : super(key: key);
 
   @override

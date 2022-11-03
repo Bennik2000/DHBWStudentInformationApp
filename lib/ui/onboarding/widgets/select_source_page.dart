@@ -6,17 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class SelectSourcePage extends StatelessWidget {
-  const SelectSourcePage({Key key}) : super(key: key);
+  const SelectSourcePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return PropertyChangeConsumer<OnboardingStepViewModel, String>(
       builder: (
         BuildContext context,
-        OnboardingStepViewModel model,
-        Set<Object> _,
+        OnboardingStepViewModel? model,
+        Set<Object>? _,
       ) {
-        var viewModel = model as SelectSourceViewModel;
+        final viewModel = model as SelectSourceViewModel?;
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -92,15 +92,15 @@ class SelectSourcePage extends StatelessWidget {
   }
 
   RadioListTile<ScheduleSourceType> buildScheduleTypeRadio(
-      SelectSourceViewModel viewModel,
+      SelectSourceViewModel? viewModel,
       BuildContext context,
       ScheduleSourceType type,
       String title) {
     return RadioListTile(
       value: type, //model.useDualis,
-      onChanged: viewModel.setScheduleSourceType,
+      onChanged: viewModel?.setScheduleSourceType,
       title: Text(title),
-      groupValue: viewModel.scheduleSourceType,
+      groupValue: viewModel?.scheduleSourceType,
     );
   }
 }

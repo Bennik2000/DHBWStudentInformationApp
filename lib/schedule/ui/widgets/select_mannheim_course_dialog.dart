@@ -9,7 +9,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 class SelectMannheimCourseDialog {
   final ScheduleSourceProvider _scheduleSourceProvider;
 
-  MannheimViewModel _mannheimViewModel;
+  late MannheimViewModel _mannheimViewModel;
 
   SelectMannheimCourseDialog(
     this._scheduleSourceProvider,

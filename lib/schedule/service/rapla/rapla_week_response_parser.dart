@@ -63,7 +63,7 @@ class RaplaWeekResponseParser {
     }
 
     allEntries.sort(
-      (ScheduleEntry e1, ScheduleEntry e2) => e1?.start?.compareTo(e2?.start),
+      (ScheduleEntry e1, ScheduleEntry e2) => e1.start.compareTo(e2.start),
     );
 
     return ScheduleQueryResult(
@@ -100,7 +100,7 @@ class RaplaWeekResponseParser {
     // selected year in the date selector
     var comboBoxes = document.getElementsByTagName("select");
 
-    String year;
+    String? year;
     for (var box in comboBoxes) {
       if (box.attributes.containsKey("name") &&
           box.attributes["name"] == "year") {

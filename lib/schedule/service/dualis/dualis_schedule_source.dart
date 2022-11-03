@@ -13,11 +13,11 @@ class DualisScheduleSource extends ScheduleSource {
   DualisScheduleSource(this._dualisScraper);
 
   @override
-  Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
-      [CancellationToken cancellationToken]) async {
+  Future<ScheduleQueryResult> querySchedule(DateTime? from, DateTime? to,
+      [CancellationToken? cancellationToken]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
 
-    DateTime current = toStartOfMonth(from);
+    DateTime current = toStartOfMonth(from)!;
 
     var schedule = Schedule();
     var allErrors = <ParseError>[];
@@ -25,12 +25,12 @@ class DualisScheduleSource extends ScheduleSource {
     if (!_dualisScraper.isLoggedIn())
       await _dualisScraper.loginWithPreviousCredentials(cancellationToken);
 
-    while (to.isAfter(current) && !cancellationToken.isCancelled()) {
+    while (to!.isAfter(current) && !cancellationToken.isCancelled()) {
       try {
         var monthSchedule = await _dualisScraper.loadMonthlySchedule(
             current, cancellationToken);
 
-        if (monthSchedule != null) schedule.merge(monthSchedule);
+        schedule.merge(monthSchedule);
       } on OperationCancelledException {
         rethrow;
       } on ParseException catch (ex, trace) {
@@ -51,10 +51,7 @@ class DualisScheduleSource extends ScheduleSource {
   }
 
   Future<void> setLoginCredentials(Credentials credentials) async {
-    _dualisScraper.setLoginCredentials(
-      credentials.username,
-      credentials.password,
-    );
+    _dualisScraper.setLoginCredentials(credentials);
   }
 
   @override

@@ -13,13 +13,15 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WeeklySchedulePage extends StatefulWidget {
+  const WeeklySchedulePage({Key? key}) : super(key: key);
+
   @override
   _WeeklySchedulePageState createState() => _WeeklySchedulePageState();
 }
 
 class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
-  WeeklyScheduleViewModel viewModel;
-  Schedule schedule;
+  late WeeklyScheduleViewModel viewModel;
+  Schedule? schedule;
 
   _WeeklySchedulePageState();
 
@@ -29,7 +31,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   }
 
   void _showQueryFailedSnackBar() {
-    Scaffold.of(context).showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -40,7 +42,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
               child: Text(
                   L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase()),
               onPressed: () {
-                launchUrl(Uri.parse(viewModel.scheduleUrl));
+                launchUrl(Uri.parse(viewModel.scheduleUrl!));
               },
             )
           ],
@@ -51,15 +53,15 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   }
 
   void _previousWeek() async {
-    await viewModel?.previousWeek();
+    await viewModel.previousWeek();
   }
 
   void _nextWeek() async {
-    await viewModel?.nextWeek();
+    await viewModel.nextWeek();
   }
 
   void _goToToday() async {
-    await viewModel?.goToToday();
+    await viewModel.goToToday();
   }
 
   void _onScheduleEntryTap(BuildContext context, ScheduleEntry entry) {
@@ -77,7 +79,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
 
   @override
   Widget build(BuildContext context) {
-    viewModel = Provider.of<BaseViewModel>(context);
+    viewModel = Provider.of<WeeklyScheduleViewModel>(context);
     viewModel.ensureUpdateNowTimerRunning();
 
     viewModel.setQueryFailedCallback(_showQueryFailedSnackBar);
@@ -109,9 +111,9 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                         child: PropertyChangeConsumer(
                           properties: const ["weekSchedule", "now"],
                           builder: (BuildContext context,
-                              WeeklyScheduleViewModel model, Set properties) {
+                              WeeklyScheduleViewModel? model, Set? _) {
                             return PageTransitionSwitcher(
-                              reverse: !model.didUpdateScheduleIntoFuture,
+                              reverse: !model!.didUpdateScheduleIntoFuture,
                               duration: const Duration(milliseconds: 300),
                               transitionBuilder: (Widget child,
                                       Animation<double> animation,
@@ -125,7 +127,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                               ),
                               child: ScheduleWidget(
                                 key: ValueKey(
-                                  model.currentDateStart.toIso8601String(),
+                                  model.currentDateStart!.toIso8601String(),
                                 ),
                                 schedule: model.weekSchedule,
                                 displayStart: model.clippedDateStart ??
@@ -146,8 +148,8 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                       PropertyChangeConsumer(
                         properties: const ["isUpdating"],
                         builder: (BuildContext context,
-                            WeeklyScheduleViewModel model, Set properties) {
-                          return model.isUpdating
+                            WeeklyScheduleViewModel? model, Set? _) {
+                          return model!.isUpdating
                               ? const LinearProgressIndicator()
                               : Container();
                         },
@@ -189,10 +191,9 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
       properties: const [
         "updateFailed",
       ],
-      builder: (BuildContext context, WeeklyScheduleViewModel model,
-              Set properties) =>
+      builder: (BuildContext context, WeeklyScheduleViewModel? model, Set? _) =>
           ErrorDisplay(
-        show: model.updateFailed,
+        show: model!.updateFailed,
       ),
     );
   }

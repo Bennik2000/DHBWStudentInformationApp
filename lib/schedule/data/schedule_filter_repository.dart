@@ -5,14 +5,14 @@ class ScheduleFilterRepository {
 
   ScheduleFilterRepository(this._database);
 
-  Future<List<String>> queryAllHiddenNames() async {
+  Future<List<String?>> queryAllHiddenNames() async {
     var rows = await _database.queryRows("ScheduleEntryFilters");
 
-    var names = rows.map((e) => e['title'] as String).toList();
+    var names = rows.map((e) => e['title'] as String?).toList();
     return names;
   }
 
-  Future<void> saveAllHiddenNames(List<String> hiddenNames) async {
+  Future<void> saveAllHiddenNames(List<String?> hiddenNames) async {
     await _database.deleteWhere("ScheduleEntryFilters");
 
     for (var name in hiddenNames) {

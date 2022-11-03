@@ -6,7 +6,7 @@ import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 
 class MonthlyScheduleExtract {
-  Schedule extractScheduleFromMonthly(String body) {
+  Schedule extractScheduleFromMonthly(String? body) {
     try {
       return _extractScheduleFromMonthly(body);
     } catch (e, trace) {
@@ -15,7 +15,7 @@ class MonthlyScheduleExtract {
     }
   }
 
-  Schedule _extractScheduleFromMonthly(String body) {
+  Schedule _extractScheduleFromMonthly(String? body) {
     var document = parse(body);
 
     var appointments = document.getElementsByClassName("apmntLink");
@@ -29,18 +29,18 @@ class MonthlyScheduleExtract {
     }
 
     allEntries.sort(
-      (ScheduleEntry e1, ScheduleEntry e2) => e1?.start?.compareTo(e2?.start),
+      (ScheduleEntry e1, ScheduleEntry e2) => e1.start.compareTo(e2.start),
     );
 
     return Schedule.fromList(allEntries);
   }
 
   ScheduleEntry _extractEntry(Element appointment) {
-    var date = appointment.parent.parent
-        .querySelector(".tbsubhead a")
+    var date = appointment.parent!.parent!
+        .querySelector(".tbsubhead a")!
         .attributes["title"];
 
-    var information = appointment.attributes["title"];
+    var information = appointment.attributes["title"]!;
     var informationParts = information.split(" / ");
 
     var startAndEnd = informationParts[0].split(" - ");

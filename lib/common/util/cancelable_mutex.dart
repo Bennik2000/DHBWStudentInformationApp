@@ -3,8 +3,8 @@ import 'cancellation_token.dart';
 
 class CancelableMutex {
   final Mutex _mutex = Mutex();
-  CancellationToken _token;
-  CancellationToken get token => _token;
+  CancellationToken? _token;
+  CancellationToken? get token => _token;
 
   void cancel() {
     _token?.cancel();

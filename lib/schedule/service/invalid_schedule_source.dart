@@ -5,9 +5,9 @@ import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 class InvalidScheduleSource extends ScheduleSource {
   @override
   Future<ScheduleQueryResult> querySchedule(
-    DateTime from,
-    DateTime to, [
-    CancellationToken cancellationToken,
+    DateTime? from,
+    DateTime? to, [
+    CancellationToken? cancellationToken,
   ]) {
     throw StateError("Schedule source not properly configured");
   }

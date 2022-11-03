@@ -17,12 +17,12 @@ Future<void> main() async {
 
     expect(modules.length, 3);
 
-    expect(modules[1].id, "T3INF1001");
-    expect(modules[1].name, "Mathematik I");
-    expect(modules[1].state, null);
-    expect(modules[1].credits, "8,0");
-    expect(modules[1].finalGrade, "4,0");
-    expect(modules[1].detailsUrl,
+    expect(modules[1]!.id, "T3INF1001");
+    expect(modules[1]!.name, "Mathematik I");
+    expect(modules[1]!.state, null);
+    expect(modules[1]!.credits, "8,0");
+    expect(modules[1]!.finalGrade, "4,0");
+    expect(modules[1]!.detailsUrl,
         "www.endpoint.com/scripts/mgrqispi.dll?APPNAME=CampusNet&PRGNAME=RESULTDETAILS&ARGUMENTS=-N123456789876543,-N000307,-N121212121212121");
   });
 

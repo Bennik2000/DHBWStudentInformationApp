@@ -46,11 +46,11 @@ class ScheduleFilterPage extends StatelessWidget {
               child: PropertyChangeProvider<FilterViewModel, String>(
                 value: _viewModel,
                 child: PropertyChangeConsumer<FilterViewModel, String>(
-                    builder: (BuildContext _, FilterViewModel viewModel,
-                            Set<Object> ___) =>
+                    builder: (BuildContext _, FilterViewModel? viewModel,
+                            Set<Object>? ___) =>
                         ListView.builder(
                           shrinkWrap: true,
-                          itemCount: viewModel.filterStates.length,
+                          itemCount: viewModel!.filterStates.length,
                           itemBuilder: (context, index) =>
                               FilterStateRow(viewModel.filterStates[index]),
                         )),
@@ -74,7 +74,7 @@ class FilterStateRow extends StatefulWidget {
 }
 
 class _FilterStateRowState extends State<FilterStateRow> {
-  bool isChecked = false;
+  bool? isChecked = false;
 
   @override
   void initState() {
@@ -94,7 +94,7 @@ class _FilterStateRowState extends State<FilterStateRow> {
         });
       },
       controlAffinity: ListTileControlAffinity.leading,
-      title: Text(widget.filterState.entryName),
+      title: Text(widget.filterState.entryName!),
     );
   }
 }

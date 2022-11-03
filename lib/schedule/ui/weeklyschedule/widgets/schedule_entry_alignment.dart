@@ -3,8 +3,8 @@ import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 class ScheduleEntryAlignmentInformation {
   final ScheduleEntry entry;
 
-  double leftColumn;
-  double rightColumn;
+  late double leftColumn;
+  late double rightColumn;
 
   ScheduleEntryAlignmentInformation(this.entry);
 }
@@ -34,7 +34,7 @@ class ScheduleEntryAlignmentAlgorithm {
 
     List<List<ScheduleEntryAlignmentInformation>> columns = [[]];
 
-    DateTime lastEventEnd;
+    DateTime? lastEventEnd;
 
     for (var event in events) {
       if (!event.entry.start

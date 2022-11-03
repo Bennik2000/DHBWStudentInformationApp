@@ -9,14 +9,11 @@ class RaplaSeveralMonthsResponseParser {
     Document document,
     List<Element> monthTables,
   ) {
-
     var parseErrors = <ParseError>[];
     var allEntries = <ScheduleEntry>[];
 
-    for(var monthTable in monthTables) {
-      var result = RaplaMonthlyResponseParser.parseMonthlyTable(
-        monthTable
-      );
+    for (var monthTable in monthTables) {
+      var result = RaplaMonthlyResponseParser.parseMonthlyTable(monthTable);
 
       parseErrors.addAll(result.errors);
       allEntries.addAll(result.schedule.entries);

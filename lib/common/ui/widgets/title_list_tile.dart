@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class TitleListTile extends StatelessWidget {
   final String title;
 
-  const TitleListTile({Key key, this.title}) : super(key: key);
+  const TitleListTile({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -5,7 +5,8 @@ import 'package:intl/intl.dart';
 // TODO: Parse exception to common module
 
 class AllDatesExtract {
-  List<DateEntry> extractAllDates(String body, String databaseName) {
+  List<DateEntry> extractAllDates(String? body, String? databaseName) {
+    if (body == null) return [];
     try {
       return _extractAllDates(body, databaseName);
     } catch (e, trace) {
@@ -14,7 +15,7 @@ class AllDatesExtract {
     }
   }
 
-  List<DateEntry> _extractAllDates(String body, String databaseName) {
+  List<DateEntry> _extractAllDates(String body, String? databaseName) {
     body = body.replaceAll(new RegExp("<(br|BR)[ /]*>"), "\n");
     var document = parse(body);
 
@@ -24,7 +25,7 @@ class AllDatesExtract {
     var dateEntries = <DateEntry>[];
 
     for (var a in dateContainingElement.nodes.sublist(0)) {
-      var text = a.text;
+      var text = a.text!;
 
       var lines = text.split("\n");
 
@@ -38,12 +39,12 @@ class AllDatesExtract {
     }
 
     dateEntries
-        .sort((DateEntry e1, DateEntry e2) => e1.start?.compareTo(e2.start));
+        .sort((DateEntry e1, DateEntry e2) => e1.start.compareTo(e2.start));
 
     return dateEntries;
   }
 
-  DateEntry _parseDateEntryLine(String line, String databaseName) {
+  DateEntry? _parseDateEntryLine(String line, String? databaseName) {
     var parts = line.split(';');
 
     if (parts.length != 5) {
@@ -64,7 +65,7 @@ class AllDatesExtract {
         end: date);
   }
 
-  DateTime _parseDateTime(String date, String time) {
+  DateTime? _parseDateTime(String date, String time) {
     if (time == "24:00") {
       time = "00:00";
     }

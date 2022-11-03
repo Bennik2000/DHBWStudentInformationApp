@@ -30,6 +30,8 @@ import 'package:url_launcher/url_launcher.dart';
 /// of the app
 ///
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
@@ -128,10 +130,10 @@ class _SettingsPageState extends State<SettingsPage> {
           "prettifySchedule",
         ],
         builder:
-            (BuildContext context, SettingsViewModel model, Set properties) {
+            (BuildContext context, SettingsViewModel? model, Set? properties) {
           return SwitchListTile(
             title: Text(L.of(context).settingsPrettifySchedule),
-            onChanged: model.setPrettifySchedule,
+            onChanged: model!.setPrettifySchedule,
             value: model.prettifySchedule,
           );
         },
@@ -162,7 +164,7 @@ class _SettingsPageState extends State<SettingsPage> {
               .isCalendarSyncEnabled();
           List<DateEntry> entriesToExport =
               KiwiContainer().resolve<ListDateEntries30d>().listDateEntries;
-          await NavigatorKey.rootKey.currentState.push(MaterialPageRoute(
+          await NavigatorKey.rootKey.currentState!.push(MaterialPageRoute(
               builder: (BuildContext context) => CalendarExportPage(
                     entriesToExport: entriesToExport,
                     isCalendarSyncWidget: true,
@@ -177,18 +179,18 @@ class _SettingsPageState extends State<SettingsPage> {
 
   List<Widget> buildNotificationSettings(BuildContext context) {
     WorkSchedulerService service = KiwiContainer().resolve();
-    if (service?.isSchedulingAvailable() ?? false) {
+    if (service.isSchedulingAvailable()) {
       return [
         TitleListTile(title: L.of(context).settingsNotificationsTitle),
         PropertyChangeConsumer(
           properties: const [
             "notifyAboutNextDay",
           ],
-          builder:
-              (BuildContext context, SettingsViewModel model, Set properties) {
+          builder: (BuildContext context, SettingsViewModel? model,
+              Set? properties) {
             return SwitchListTile(
               title: Text(L.of(context).settingsNotificationsNextDay),
-              onChanged: model.setNotifyAboutNextDay,
+              onChanged: model!.setNotifyAboutNextDay,
               value: model.notifyAboutNextDay,
             );
           },
@@ -197,11 +199,11 @@ class _SettingsPageState extends State<SettingsPage> {
           properties: const [
             "notifyAboutScheduleChanges",
           ],
-          builder:
-              (BuildContext context, SettingsViewModel model, Set properties) {
+          builder: (BuildContext context, SettingsViewModel? model,
+              Set? properties) {
             return SwitchListTile(
               title: Text(L.of(context).settingsNotificationsScheduleChange),
-              onChanged: model.setNotifyAboutScheduleChanges,
+              onChanged: model!.setNotifyAboutScheduleChanges,
               value: model.notifyAboutScheduleChanges,
             );
           },
@@ -220,17 +222,17 @@ class _SettingsPageState extends State<SettingsPage> {
         properties: const [
           "appTheme",
         ],
-        builder: (BuildContext context, RootViewModel model, Set properties) {
+        builder: (BuildContext context, RootViewModel? model, Set? properties) {
           return ListTile(
             title: Text(L.of(context).settingsDarkMode),
             onTap: () async {
-              await SelectThemeDialog(model).show(context);
+              await SelectThemeDialog(model!).show(context);
             },
             subtitle: Text({
               AppTheme.Dark: L.of(context).selectThemeDark,
               AppTheme.Light: L.of(context).selectThemeLight,
               AppTheme.System: L.of(context).selectThemeSystem,
-            }[model.appTheme]),
+            }[model!.appTheme]!),
           );
         },
       ),

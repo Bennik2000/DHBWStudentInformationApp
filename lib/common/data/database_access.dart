@@ -4,15 +4,12 @@ import 'package:sqflite/sqflite.dart';
 
 class DatabaseAccess {
   static const String _databaseName = "Database.db";
-  static Database _databaseInstance;
+  static Database? _databaseInstance;
 
   static const String idColumnName = "id";
 
   Future<Database> get _database async {
-    if (_databaseInstance != null) return _databaseInstance;
-
-    _databaseInstance = await _initDatabase();
-    return _databaseInstance;
+    return _databaseInstance ??= await _initDatabase();
   }
 
   Future<Database> _initDatabase() async {
@@ -60,19 +57,20 @@ class DatabaseAccess {
   }
 
   Future<List<Map<String, dynamic>>> queryRows(String table,
-      {bool distinct,
-      List<String> columns,
-      String where,
-      List<dynamic> whereArgs,
-      String groupBy,
-      String having,
-      String orderBy,
-      int limit,
-      int offset}) async {
+      {bool? distinct,
+      List<String>? columns,
+      String? where,
+      List<dynamic>? whereArgs,
+      String? groupBy,
+      String? having,
+      String? orderBy,
+      int? limit,
+      int? offset}) async {
     Database db = await _database;
 
+    // TODO: [Leptopoda] is there a reason this is done? or at maybe use whereArgs.removeWhere()
     for (int i = 0; i < (whereArgs?.length ?? 0); i++) {
-      whereArgs[i] = whereArgs[i] ?? "";
+      whereArgs![i] = whereArgs[i] ?? "";
     }
 
     return await db.query(
@@ -89,33 +87,33 @@ class DatabaseAccess {
     );
   }
 
-  Future<int> queryRowCount(String table) async {
+  Future<int?> queryRowCount(String table) async {
     Database db = await _database;
     return Sqflite.firstIntValue(
         await db.rawQuery('SELECT COUNT(*) FROM $table'));
   }
 
-  Future<int> queryAggregator(String query, List<dynamic> arguments) async {
+  Future<int?> queryAggregator(String query, List<dynamic> arguments) async {
     Database db = await _database;
     return Sqflite.firstIntValue(await db.rawQuery(query, arguments));
   }
 
   Future<int> update(String table, Map<String, dynamic> row) async {
     Database db = await _database;
-    int id = row[idColumnName];
+    int? id = row[idColumnName];
     return await db
         .update(table, row, where: '$idColumnName = ?', whereArgs: [id]);
   }
 
-  Future<int> delete(String table, int id) async {
+  Future<int> delete(String table, int? id) async {
     Database db = await _database;
     return await db.delete(table, where: '$idColumnName = ?', whereArgs: [id]);
   }
 
   Future<int> deleteWhere(
     String table, {
-    String where,
-    List<dynamic> whereArgs,
+    String? where,
+    List<dynamic>? whereArgs,
   }) async {
     Database db = await _database;
     return await db.delete(

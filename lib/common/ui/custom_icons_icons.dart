@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/CustomIcons.ttf
 ///
-/// 
+///
 /// * Font Awesome 4, Copyright (C) 2016 by Dave Gandy
 ///         Author:    Dave Gandy
 ///         License:   SIL ()
@@ -23,7 +23,8 @@ class CustomIcons {
   CustomIcons._();
 
   static const _kFontFam = 'CustomIcons';
-  static const _kFontPkg = null;
+  static const dynamic _kFontPkg = null;
 
-  static const IconData logout = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData logout =
+      IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

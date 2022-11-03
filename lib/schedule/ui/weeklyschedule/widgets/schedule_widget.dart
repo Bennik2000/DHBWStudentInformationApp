@@ -13,16 +13,16 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleWidget extends StatelessWidget {
-  final Schedule schedule;
-  final DateTime displayStart;
-  final DateTime displayEnd;
-  final DateTime now;
-  final int displayStartHour;
-  final int displayEndHour;
-  final ScheduleEntryTapCallback onScheduleEntryTap;
+  final Schedule? schedule;
+  final DateTime? displayStart;
+  final DateTime? displayEnd;
+  final DateTime? now;
+  final int? displayStartHour;
+  final int? displayEndHour;
+  final ScheduleEntryTapCallback? onScheduleEntryTap;
 
   const ScheduleWidget({
-    Key key,
+    Key? key,
     this.schedule,
     this.displayStart,
     this.displayEnd,
@@ -48,7 +48,7 @@ class ScheduleWidget extends StatelessWidget {
     var timeLabelsWidth = 50.0;
 
     var hourHeight =
-        (height - dayLabelsHeight) / (displayEndHour - displayStartHour);
+        (height - dayLabelsHeight) / (displayEndHour! - displayStartHour!);
     var minuteHeight = hourHeight / 60;
 
     var days = calculateDisplayedDays();
@@ -112,7 +112,7 @@ class ScheduleWidget extends StatelessWidget {
 
   int calculateDisplayedDays() {
     var startEndDifference =
-        toStartOfDay(displayEnd)?.difference(toStartOfDay(displayStart));
+        toStartOfDay(displayEnd)?.difference(toStartOfDay(displayStart)!);
 
     var days = (startEndDifference?.inDays ?? 0) + 1;
 
@@ -135,12 +135,12 @@ class ScheduleWidget extends StatelessWidget {
   ) {
     var labelWidgets = <Widget>[];
 
-    for (var i = displayStartHour; i < displayEndHour; i++) {
+    for (var i = displayStartHour!; i < displayEndHour!; i++) {
       var hourLabelText = i.toString() + ":00";
 
       labelWidgets.add(
         Positioned(
-          top: rowHeight * (i - displayStartHour) + dayLabelHeight,
+          top: rowHeight * (i - displayStartHour!) + dayLabelHeight,
           left: 0,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(4, 4, 4, 8),
@@ -155,11 +155,11 @@ class ScheduleWidget extends StatelessWidget {
     var dayFormatter = DateFormat("E", L.of(context).locale.languageCode);
     var dateFormatter = DateFormat("d. MMM", L.of(context).locale.languageCode);
 
-    var loopEnd = toStartOfDay(tomorrow(displayEnd));
+    var loopEnd = toStartOfDay(tomorrow(displayEnd))!;
 
-    for (var columnDate = toStartOfDay(displayStart);
+    for (var columnDate = toStartOfDay(displayStart)!;
         columnDate.isBefore(loopEnd);
-        columnDate = tomorrow(columnDate)) {
+        columnDate = tomorrow(columnDate)!) {
       labelWidgets.add(
         Positioned(
           top: 0,
@@ -192,20 +192,20 @@ class ScheduleWidget extends StatelessWidget {
   List<Widget> buildEntryWidgets(
       double hourHeight, double minuteHeight, double width, int columns) {
     if (schedule == null) return <Widget>[];
-    if (schedule.entries.isEmpty) return <Widget>[];
+    if (schedule!.entries.isEmpty) return <Widget>[];
 
     var entryWidgets = <Widget>[];
 
     var columnWidth = width / columns;
 
-    DateTime columnStartDate = toStartOfDay(displayStart);
-    DateTime columnEndDate = tomorrow(columnStartDate);
+    DateTime? columnStartDate = toStartOfDay(displayStart);
+    DateTime? columnEndDate = tomorrow(columnStartDate);
 
     for (int i = 0; i < columns; i++) {
       var xPosition = columnWidth * i;
       var maxWidth = columnWidth;
 
-      var columnSchedule = schedule.trim(columnStartDate, columnEndDate);
+      var columnSchedule = schedule!.trim(columnStartDate, columnEndDate);
 
       entryWidgets.addAll(buildEntryWidgetsForColumn(
         maxWidth,
@@ -237,10 +237,10 @@ class ScheduleWidget extends StatelessWidget {
     for (var value in laidOutEntries) {
       var entry = value.entry;
 
-      var yStart = hourHeight * (entry.start.hour - displayStartHour) +
+      var yStart = hourHeight * (entry.start.hour - displayStartHour!) +
           minuteHeight * entry.start.minute;
 
-      var yEnd = hourHeight * (entry.end.hour - displayStartHour) +
+      var yEnd = hourHeight * (entry.end.hour - displayStartHour!) +
           minuteHeight * entry.end.minute;
 
       var entryLeft = maxWidth * value.leftColumn;

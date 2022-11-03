@@ -33,7 +33,7 @@ class ScheduleProvider {
   final List<ScheduleUpdatedCallback> _scheduleUpdatedCallbacks =
       <ScheduleUpdatedCallback>[];
 
-  ScheduleFilter _scheduleFilter;
+  late ScheduleFilter _scheduleFilter;
 
   final List<ScheduleEntryChangedCallback> _scheduleEntryChangedCallbacks =
       <ScheduleEntryChangedCallback>[];
@@ -73,7 +73,7 @@ class ScheduleProvider {
       var updatedSchedule = await _scheduleSource.currentScheduleSource
           .querySchedule(start, end, cancellationToken);
 
-      var schedule = updatedSchedule.schedule;
+      var schedule = updatedSchedule?.schedule;
 
       if (schedule == null) {
         print("No schedule returned!");
@@ -97,10 +97,10 @@ class ScheduleProvider {
       }
 
       for (var c in _scheduleUpdatedCallbacks) {
-        await c(schedule, start, end);
+        await c(schedule!, start, end);
       }
 
-      updatedSchedule = ScheduleQueryResult(schedule, updatedSchedule.errors);
+      updatedSchedule = ScheduleQueryResult(schedule!, updatedSchedule!.errors);
 
       return updatedSchedule;
     } on ScheduleQueryFailedException catch (e, trace) {
@@ -162,7 +162,7 @@ class ScheduleProvider {
 
     for (var addedEntry in diff.addedEntries) {
       if (queryInformation.any((i) =>
-          addedEntry.end.isAfter(i.start) &&
+          addedEntry.end.isAfter(i!.start) &&
           addedEntry.start.isBefore(i.end))) {
         cleanedAddedEntries.add(addedEntry);
       }

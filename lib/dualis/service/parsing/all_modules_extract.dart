@@ -5,7 +5,7 @@ import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 
 class AllModulesExtract {
-  List<DualisModule> extractAllModules(String body) {
+  List<DualisModule> extractAllModules(String? body) {
     try {
       return _extractAllModules(body);
     } catch (e, trace) {
@@ -14,7 +14,7 @@ class AllModulesExtract {
     }
   }
 
-  List<DualisModule> _extractAllModules(String body) {
+  List<DualisModule> _extractAllModules(String? body) {
     var document = parse(body);
 
     var modulesTable = getElementByTagName(document, "tbody");
@@ -49,7 +49,7 @@ class AllModulesExtract {
     var grade = cells[4].innerHtml;
     var state = cells[5].children[0].attributes["alt"];
 
-    ExamState stateEnum;
+    ExamState? stateEnum;
 
     if (state == "Bestanden") {
       stateEnum = ExamState.Passed;

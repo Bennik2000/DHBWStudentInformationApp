@@ -10,9 +10,9 @@ import 'package:http_client_helper/http_client_helper.dart' as http;
 
 class IcalScheduleSource extends ScheduleSource {
   final IcalParser _icalParser = IcalParser();
-  String _url;
+  String? _url;
 
-  void setIcalUrl(String url) {
+  void setIcalUrl(String? url) {
     _url = url;
   }
 
@@ -22,12 +22,12 @@ class IcalScheduleSource extends ScheduleSource {
   }
 
   @override
-  Future<ScheduleQueryResult> querySchedule(
-    DateTime from,
-    DateTime to, [
-    CancellationToken cancellationToken,
+  Future<ScheduleQueryResult?> querySchedule(
+    DateTime? from,
+    DateTime? to, [
+    CancellationToken? cancellationToken,
   ]) async {
-    var response = await _makeRequest(_url, cancellationToken);
+    var response = await _makeRequest(_url!, cancellationToken!);
     if (response == null) return null;
 
     try {
@@ -45,7 +45,7 @@ class IcalScheduleSource extends ScheduleSource {
     }
   }
 
-  Future<Response> _makeRequest(
+  Future<Response?> _makeRequest(
       String url, CancellationToken cancellationToken) async {
     url = url.replaceAll("webcal://", "https://");
 
@@ -76,8 +76,9 @@ class IcalScheduleSource extends ScheduleSource {
     return null;
   }
 
-  static bool isValidUrl(String url) {
+  static bool isValidUrl(String? url) {
     try {
+      if (url == null) return false;
       Uri.parse(url);
     } catch (e) {
       return false;

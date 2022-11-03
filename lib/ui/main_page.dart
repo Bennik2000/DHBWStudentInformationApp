@@ -15,6 +15,8 @@ import 'package:provider/provider.dart';
 /// To navigate to a new route inside this widget use the [NavigatorKey.mainKey]
 ///
 class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
   @override
   _MainPageState createState() => _MainPageState();
 }
@@ -46,7 +48,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
     return ChangeNotifierProvider.value(
       value: _currentEntryIndex,
       child: Consumer<ValueNotifier<int>>(
-        builder: (BuildContext context, value, Widget child) {
+        builder: (BuildContext context, value, Widget? child) {
           Widget content;
 
           if (PlatformUtil.isPhone() || PlatformUtil.isPortrait(context)) {
@@ -64,11 +66,11 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   Widget buildPhoneLayout(BuildContext context, Navigator navigator) {
     return WillPopScope(
       onWillPop: () async {
-        var canPop = NavigatorKey.mainKey.currentState.canPop();
+        var canPop = NavigatorKey.mainKey.currentState!.canPop();
 
         if (!canPop) return true;
 
-        NavigatorKey.mainKey.currentState.pop();
+        NavigatorKey.mainKey.currentState!.pop();
 
         return false;
       },
@@ -135,7 +137,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
 
     for (var entry in navigationEntries) {
       drawerEntries.add(DrawerNavigationEntry(
-        entry.icon(context),
+        entry.icon,
         entry.title(context),
       ));
     }
@@ -146,7 +148,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   void _onNavigationTapped(int index) {
     _currentEntryIndex.value = index;
 
-    NavigatorKey.mainKey.currentState
+    NavigatorKey.mainKey.currentState!
         .pushNamedAndRemoveUntil(currentEntry.route, (route) {
       return route.settings.name == navigationEntries[0].route;
     });
@@ -160,7 +162,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
     }
   }
 
-  void updateNavigationDrawer(String routeName) {
+  void updateNavigationDrawer(String? routeName) {
     for (int i = 0; i < navigationEntries.length; i++) {
       if (navigationEntries[i].route == routeName) {
         _currentEntryIndex.value = i;
@@ -170,17 +172,17 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
   }
 
   @override
-  void didPop(Route<dynamic> route, Route<dynamic> previousRoute) {
-    updateNavigationDrawer(previousRoute.settings.name);
+  void didPop(Route<dynamic> route, Route<dynamic>? previousRoute) {
+    updateNavigationDrawer(previousRoute!.settings.name);
   }
 
   @override
-  void didPush(Route<dynamic> route, Route<dynamic> previousRoute) {
+  void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {
     updateNavigationDrawer(route.settings.name);
   }
 
   @override
-  void didReplace({Route<dynamic> newRoute, Route<dynamic> oldRoute}) {
-    updateNavigationDrawer(newRoute.settings.name);
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
+    updateNavigationDrawer(newRoute!.settings.name);
   }
 }

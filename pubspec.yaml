@@ -14,7 +14,7 @@ description: An app for the DHBW Stuttgart
 version: 1.0.1+1
 
 environment:
-  sdk: ">=2.10.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -35,7 +35,7 @@ dependencies:
   url_launcher: ^6.1.0
   kiwi: ^4.0.2
   flutter_local_notifications: ^9.4.1 # BREAKING CHANGES HERE!
-  workmanager: ^0.4.1
+  workmanager: ^0.5.0
   universal_html: ^2.0.8
   firebase_core: ^1.15.0
   firebase_analytics: ^9.1.6
@@ -48,8 +48,9 @@ dependencies:
   device_calendar: ^4.2.0
   flutter_inapp_purchase: ^5.1.2
   flutter_widgetkit: ^1.0.3
-  ios_app_group: ^1.0.0
+  app_group_directory: ^2.0.0
   timezone: ^0.8.0
+  equatable: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -57,13 +58,11 @@ dev_dependencies:
 
   test: any
 
-
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -81,6 +80,6 @@ flutter:
     - assets/schedule_empty_state_dark.png
 
   fonts:
-    - family:  CustomIcons
+    - family: CustomIcons
       fonts:
         - asset: fonts/CustomIcons.ttf

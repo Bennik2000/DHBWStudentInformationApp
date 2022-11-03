@@ -68,7 +68,7 @@ Color colorNoConnectionForeground() => Colors.white;
 class ColorPalettes {
   ColorPalettes._();
 
-  static ThemeData buildTheme(AppTheme theme) {
+  static ThemeData buildTheme(AppTheme? theme) {
     if (theme == AppTheme.System) {
       theme = PlatformUtil.platformBrightness() == Brightness.light
           ? AppTheme.Light
@@ -93,14 +93,14 @@ class ColorPalettes {
     return themeData.copyWith(
       snackBarTheme: themeData.snackBarTheme.copyWith(
         backgroundColor: isDark ? Color(0xff363635) : Color(0xfffafafa),
-        contentTextStyle: themeData.textTheme.bodyText1.copyWith(
+        contentTextStyle: themeData.textTheme.bodyText1!.copyWith(
           color:
-              isDark ? Color(0xffe4e4e4) : themeData.textTheme.bodyText1.color,
+              isDark ? Color(0xffe4e4e4) : themeData.textTheme.bodyText1!.color,
         ),
       ),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          primary: ColorPalettes.main,
+          foregroundColor: ColorPalettes.main,
           padding: EdgeInsets.symmetric(horizontal: 16.0),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(Radius.circular(4.0)),

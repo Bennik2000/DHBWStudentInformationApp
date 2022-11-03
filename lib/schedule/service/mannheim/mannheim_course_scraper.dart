@@ -15,7 +15,7 @@ class Course {
 
 class MannheimCourseScraper {
   Future<List<Course>> loadCourses([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     if (cancellationToken == null) cancellationToken = CancellationToken();
 
@@ -42,15 +42,14 @@ class MannheimCourseScraper {
       if (response == null && !requestCancellationToken.isCanceled)
         throw ServiceRequestFailed("Http request failed!");
 
-      return response;
+      return response!;
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
+      throw ServiceRequestFailed("Http request failed!");
     } finally {
       cancellationToken.setCancellationCallback(null);
     }
-
-    return null;
   }
 }

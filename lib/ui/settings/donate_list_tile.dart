@@ -7,6 +7,8 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class DonateListTile extends StatefulWidget {
+  const DonateListTile({Key? key}) : super(key: key);
+
   @override
   _DonateListTileState createState() => _DonateListTileState();
 }
@@ -14,7 +16,7 @@ class DonateListTile extends StatefulWidget {
 class _DonateListTileState extends State<DonateListTile> {
   final InAppPurchaseManager inAppPurchaseManager;
 
-  SettingsViewModel model;
+  late SettingsViewModel model;
 
   bool isPurchasing = false;
 
@@ -34,7 +36,7 @@ class _DonateListTileState extends State<DonateListTile> {
     inAppPurchaseManager.removePurchaseCallback(null, purchaseCallback);
   }
 
-  void purchaseCallback(String productId, PurchaseResultEnum result) {
+  void purchaseCallback(String? productId, PurchaseResultEnum result) {
     if (!mounted) return;
 
     setState(() {
@@ -49,7 +51,8 @@ class _DonateListTileState extends State<DonateListTile> {
       properties: const [
         "didPurchaseWidget",
       ],
-    ).value;
+    )!
+        .value;
 
     if (model.widgetPurchaseState == null) {
       return Padding(
@@ -91,8 +94,8 @@ class _DonateListTileState extends State<DonateListTile> {
   }
 
   void _purchaseClicked() async {
-    if (isPurchasing || model.widgetPurchaseState == PurchaseStateEnum.Purchased)
-      return;
+    if (isPurchasing ||
+        model.widgetPurchaseState == PurchaseStateEnum.Purchased) return;
 
     setState(() {
       isPurchasing = true;

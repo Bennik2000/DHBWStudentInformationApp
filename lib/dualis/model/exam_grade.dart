@@ -7,7 +7,7 @@ enum ExamGradeState {
 
 class ExamGrade {
   ExamGradeState state;
-  String gradeValue;
+  String? gradeValue;
 
   ExamGrade.failed()
       : state = ExamGradeState.Failed,
@@ -23,7 +23,7 @@ class ExamGrade {
 
   ExamGrade.graded(this.gradeValue) : state = ExamGradeState.Graded;
 
-  static ExamGrade fromString(String grade) {
+  static ExamGrade fromString(String? grade) {
     if (grade == "noch nicht gesetzt" || grade == "") {
       return ExamGrade.notGraded();
     }

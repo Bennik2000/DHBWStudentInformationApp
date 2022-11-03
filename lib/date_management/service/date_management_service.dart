@@ -7,7 +7,7 @@ import 'package:dhbwstudentapp/dualis/service/session.dart';
 class DateManagementService {
   Future<List<DateEntry>> queryAllDates(
     DateSearchParameters parameters,
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ) async {
     var queryResult = await Session().get(
       _buildRequestUrl(parameters),
@@ -28,7 +28,7 @@ class DateManagementService {
     url += "&sel_typ=pub";
     url += "&sel_jahrgang= ${parameters.year ?? "*"}";
     url += "&sel_bezeichnung=*";
-    url += "&selection=${parameters.includePast ? "**" : "*"}";
+    url += "&selection=${parameters.includePast! ? "**" : "*"}";
     url += "&permission=show";
     url += "&sessionid=";
     url += "&user=nobody";
