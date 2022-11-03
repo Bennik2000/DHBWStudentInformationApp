@@ -5,21 +5,24 @@ import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 import 'package:http/http.dart';
 import 'package:http_client_helper/http_client_helper.dart' as http;
 
+// TODO: [Leptopoda] requestCancellationToken and Cancellation token cleanup
+// TODO: [Leptopoda] Pass Uri objects and not strings
+
 ///
 /// Handles cookies and provides a session. Execute your api calls with the
 /// provided get and set methods.
 ///
 class Session {
-  Map<String, String> cookies = {};
+  Map<String, String> _cookies = {};
 
   ///
   /// Execute a GET request and return the result body as string
   ///
-  Future<String> get(
+  Future<String?> get(
     String url, [
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
-    var response = await rawGet(url, cancellationToken);
+    final response = await rawGet(url, cancellationToken);
 
     if (response == null) {
       return null;
@@ -32,39 +35,38 @@ class Session {
     }
   }
 
-  Future<Response> rawGet(
+  Future<Response?> rawGet(
     String url, [
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
-    if (cancellationToken == null) cancellationToken = CancellationToken();
-
-    var requestCancellationToken = http.CancellationToken();
+    final requestCancellationToken = http.CancellationToken();
+    cancellationToken ??= CancellationToken();
 
     try {
-      cancellationToken.setCancellationCallback(() {
-        requestCancellationToken.cancel();
-      });
+      cancellationToken.cancellationCallback = requestCancellationToken.cancel;
 
-      var requestUri = Uri.parse(url);
+      final requestUri = Uri.parse(url);
 
-      var response = await http.HttpClientHelper.get(
+      final response = await http.HttpClientHelper.get(
         requestUri,
         cancelToken: requestCancellationToken,
-        headers: cookies,
+        headers: _cookies,
       );
 
-      if (response == null && !requestCancellationToken.isCanceled)
+      if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
+      }
 
-      _updateCookie(response);
+      _updateCookie(response!);
 
       return response;
+      // ignore: avoid_catching_errors
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
     } finally {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
     }
 
     return null;
@@ -73,12 +75,12 @@ class Session {
   ///
   /// Execute a POST request and return the result body as string
   ///
-  Future<String> post(
+  Future<String?> post(
     String url,
-    dynamic data, [
-    CancellationToken cancellationToken,
+    Map<String, String> data, [
+    CancellationToken? cancellationToken,
   ]) async {
-    var response = await rawPost(url, data, cancellationToken);
+    final response = await rawPost(url, data, cancellationToken);
 
     if (response == null) {
       return null;
@@ -91,53 +93,53 @@ class Session {
     }
   }
 
-  Future<Response> rawPost(
+  Future<Response?> rawPost(
     String url,
-    dynamic data, [
-    CancellationToken cancellationToken,
+    Map<String, String> data, [
+    CancellationToken? cancellationToken,
   ]) async {
-    if (cancellationToken == null) cancellationToken = CancellationToken();
-    var requestCancellationToken = http.CancellationToken();
+    cancellationToken ??= CancellationToken();
+    final requestCancellationToken = http.CancellationToken();
 
     try {
-      cancellationToken.setCancellationCallback(() {
-        requestCancellationToken.cancel();
-      });
+      cancellationToken.cancellationCallback = requestCancellationToken.cancel;
 
-      var response = await http.HttpClientHelper.post(
+      final response = await http.HttpClientHelper.post(
         Uri.parse(url),
         body: data,
-        headers: cookies,
+        headers: _cookies,
         cancelToken: requestCancellationToken,
       );
 
-      if (response == null && !requestCancellationToken.isCanceled)
+      if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
+      }
 
-      _updateCookie(response);
+      _updateCookie(response!);
 
       return response;
+      // ignore: avoid_catching_errors
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
     } finally {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
     }
 
     return null;
   }
 
   void _updateCookie(Response response) {
-    String rawCookie = response.headers['set-cookie'];
+    final String? rawCookie = response.headers['set-cookie'];
     if (rawCookie != null) {
-      int index = rawCookie.indexOf(';');
+      final int index = rawCookie.indexOf(';');
 
       var cookie = (index == -1) ? rawCookie : rawCookie.substring(0, index);
 
       cookie = cookie.replaceAll(" ", "");
 
-      cookies['cookie'] = cookie;
+      _cookies['cookie'] = cookie;
     }
   }
 }

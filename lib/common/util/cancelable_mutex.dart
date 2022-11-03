@@ -1,17 +1,17 @@
+import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:mutex/mutex.dart';
-import 'cancellation_token.dart';
 
 class CancelableMutex {
   final Mutex _mutex = Mutex();
-  CancellationToken _token;
-  CancellationToken get token => _token;
+  CancellationToken? _token;
+  CancellationToken? get token => _token;
 
   void cancel() {
     _token?.cancel();
   }
 
   Future acquireAndCancelOther() async {
-    if (!(token?.isCancelled() ?? false)) {
+    if (!(token?.isCancelled ?? false)) {
       token?.cancel();
     }
 

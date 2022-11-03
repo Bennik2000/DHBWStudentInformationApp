@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/model/module.dart';
 import 'package:dhbwstudentapp/dualis/model/semester.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
@@ -10,31 +11,30 @@ import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 class CacheDualisServiceDecorator extends DualisService {
   final DualisService _service;
 
-  List<Module> _allModulesCached;
-  List<String> _allSemesterNamesCached;
-  Map<String, Semester> _semestersCached = {};
-  StudyGrades _studyGradesCached;
+  List<Module>? _allModulesCached;
+  List<String>? _allSemesterNamesCached;
+  Map<String?, Semester> _semestersCached = {};
+  StudyGrades? _studyGradesCached;
 
   CacheDualisServiceDecorator(this._service);
 
   @override
   Future<LoginResult> login(
-    String username,
-    String password, [
-    CancellationToken cancellationToken,
+    Credentials credentials, [
+    CancellationToken? cancellationToken,
   ]) {
-    return _service.login(username, password, cancellationToken);
+    return _service.login(credentials, cancellationToken);
   }
 
   @override
   Future<List<Module>> queryAllModules([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     if (_allModulesCached != null) {
       return Future.value(_allModulesCached);
     }
 
-    var allModules = await _service.queryAllModules(cancellationToken);
+    final allModules = await _service.queryAllModules(cancellationToken);
 
     _allModulesCached = allModules;
 
@@ -43,13 +43,13 @@ class CacheDualisServiceDecorator extends DualisService {
 
   @override
   Future<Semester> querySemester(
-    String name, [
-    CancellationToken cancellationToken,
+    String? name, [
+    CancellationToken? cancellationToken,
   ]) async {
     if (_semestersCached.containsKey(name)) {
       return Future.value(_semestersCached[name]);
     }
-    var semester = await _service.querySemester(name, cancellationToken);
+    final semester = await _service.querySemester(name, cancellationToken);
 
     _semestersCached[name] = semester;
 
@@ -58,13 +58,14 @@ class CacheDualisServiceDecorator extends DualisService {
 
   @override
   Future<List<String>> querySemesterNames([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     if (_allSemesterNamesCached != null) {
       return Future.value(_allSemesterNamesCached);
     }
 
-    var allSemesterNames = await _service.querySemesterNames(cancellationToken);
+    final allSemesterNames =
+        await _service.querySemesterNames(cancellationToken);
 
     _allSemesterNamesCached = allSemesterNames;
 
@@ -73,13 +74,13 @@ class CacheDualisServiceDecorator extends DualisService {
 
   @override
   Future<StudyGrades> queryStudyGrades([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     if (_studyGradesCached != null) {
       return Future.value(_studyGradesCached);
     }
 
-    var studyGrades = await _service.queryStudyGrades(cancellationToken);
+    final studyGrades = await _service.queryStudyGrades(cancellationToken);
 
     _studyGradesCached = studyGrades;
 
@@ -95,7 +96,7 @@ class CacheDualisServiceDecorator extends DualisService {
 
   @override
   Future<void> logout([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     await _service.logout(cancellationToken);
     clearCache();

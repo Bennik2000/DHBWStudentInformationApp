@@ -4,7 +4,7 @@ import 'package:html/parser.dart';
 
 class UrlsFromMainPageExtract {
   void parseMainPage(
-    String body,
+    String? body,
     DualisUrls dualsUrls,
     String endpointUrl,
   ) {
@@ -17,26 +17,27 @@ class UrlsFromMainPageExtract {
   }
 
   void _parseMainPage(
-    String body,
+    String? body,
     DualisUrls dualisUrls,
     String endpointUrl,
   ) {
-    var document = parse(body);
+    final document = parse(body);
 
-    var courseResultsElement = getElementByClassName(document, "link000307");
-    var studentResultsElement = getElementByClassName(document, "link000310");
-    var monthlyScheduleElement = getElementByClassName(document, "link000031");
-    var logoutElement = getElementById(document, "logoutButton");
+    final courseResultsElement = getElementByClassName(document, "link000307");
+    final studentResultsElement = getElementByClassName(document, "link000310");
+    final monthlyScheduleElement =
+        getElementByClassName(document, "link000031");
+    final logoutElement = getElementById(document, "logoutButton");
 
     dualisUrls.courseResultUrl =
-        endpointUrl + courseResultsElement.attributes['href'];
+        endpointUrl + courseResultsElement.attributes['href']!;
 
     dualisUrls.studentResultsUrl =
-        endpointUrl + studentResultsElement.attributes['href'];
+        endpointUrl + studentResultsElement.attributes['href']!;
 
     dualisUrls.monthlyScheduleUrl =
-        endpointUrl + monthlyScheduleElement.attributes["href"];
+        endpointUrl + monthlyScheduleElement.attributes["href"]!;
 
-    dualisUrls.logoutUrl = endpointUrl + logoutElement.attributes['href'];
+    dualisUrls.logoutUrl = endpointUrl + logoutElement.attributes['href']!;
   }
 }

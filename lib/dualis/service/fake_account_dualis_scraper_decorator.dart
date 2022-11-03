@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
@@ -14,13 +15,12 @@ import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 /// area of the app.
 ///
 class FakeAccountDualisScraperDecorator implements DualisScraper {
-  final fakeUsername = "fakeAccount@domain.de";
-  final fakePassword = "Passw0rd";
+  static const _credentials = Credentials("fakeAccount@domain.de", "Passw0rd");
 
   final DualisScraper _fakeDualisScraper = FakeDataDualisScraper();
   final DualisScraper _originalDualisScraper;
 
-  DualisScraper _currentDualisScraper;
+  late DualisScraper _currentDualisScraper;
 
   FakeAccountDualisScraperDecorator(
     this._originalDualisScraper,
@@ -32,15 +32,16 @@ class FakeAccountDualisScraperDecorator implements DualisScraper {
   }
 
   @override
-  Future<List<DualisModule>> loadAllModules(
-      [CancellationToken cancellationToken]) {
+  Future<List<DualisModule>> loadAllModules([
+    CancellationToken? cancellationToken,
+  ]) {
     return _currentDualisScraper.loadAllModules();
   }
 
   @override
   Future<List<DualisExam>> loadModuleExams(
     String moduleDetailsUrl, [
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) {
     return _currentDualisScraper.loadModuleExams(
       moduleDetailsUrl,
@@ -60,9 +61,9 @@ class FakeAccountDualisScraperDecorator implements DualisScraper {
   }
 
   @override
-  Future<List<DualisModule>> loadSemesterModules(
-    String semesterName, [
-    CancellationToken cancellationToken,
+  Future<List<DualisModule?>> loadSemesterModules(
+    String? semesterName, [
+    CancellationToken? cancellationToken,
   ]) {
     return _currentDualisScraper.loadSemesterModules(
       semesterName,
@@ -71,60 +72,57 @@ class FakeAccountDualisScraperDecorator implements DualisScraper {
   }
 
   @override
-  Future<List<DualisSemester>> loadSemesters(
-      [CancellationToken cancellationToken]) {
+  Future<List<DualisSemester>> loadSemesters([
+    CancellationToken? cancellationToken,
+  ]) {
     return _currentDualisScraper.loadSemesters(cancellationToken);
   }
 
   @override
-  Future<StudyGrades> loadStudyGrades(CancellationToken cancellationToken) {
+  Future<StudyGrades> loadStudyGrades(CancellationToken? cancellationToken) {
     return _currentDualisScraper.loadStudyGrades(cancellationToken);
   }
 
   @override
   Future<LoginResult> login(
-    String username,
-    String password,
-    CancellationToken cancellationToken,
+    Credentials credentials,
+    CancellationToken? cancellationToken,
   ) {
-    if (username == fakeUsername && password == fakePassword) {
+    if (credentials == _credentials) {
       _currentDualisScraper = _fakeDualisScraper;
     } else {
       _currentDualisScraper = _originalDualisScraper;
     }
     return _currentDualisScraper.login(
-      username,
-      password,
+      credentials,
       cancellationToken,
     );
   }
 
   @override
   Future<LoginResult> loginWithPreviousCredentials(
-      CancellationToken cancellationToken) {
+    CancellationToken cancellationToken,
+  ) {
     return _currentDualisScraper.loginWithPreviousCredentials(
       cancellationToken,
     );
   }
 
   @override
-  Future<void> logout(CancellationToken cancellationToken) {
+  Future<void> logout(CancellationToken? cancellationToken) {
     return _currentDualisScraper.logout(
       cancellationToken,
     );
   }
 
   @override
-  void setLoginCredentials(String username, String password) {
-    if (username == fakeUsername && password == fakePassword) {
+  set loginCredentials(Credentials credentials) {
+    if (credentials == _credentials) {
       _currentDualisScraper = _fakeDualisScraper;
     } else {
       _currentDualisScraper = _originalDualisScraper;
     }
 
-    return _currentDualisScraper.setLoginCredentials(
-      username,
-      password,
-    );
+    _currentDualisScraper.loginCredentials = credentials;
   }
 }

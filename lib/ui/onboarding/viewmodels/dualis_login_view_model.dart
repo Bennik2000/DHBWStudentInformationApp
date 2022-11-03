@@ -7,8 +7,7 @@ class DualisLoginViewModel extends OnboardingStepViewModel {
   final PreferencesProvider preferencesProvider;
   final DualisService dualisService;
 
-  String username;
-  String password;
+  Credentials? credentials;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -16,27 +15,28 @@ class DualisLoginViewModel extends OnboardingStepViewModel {
   bool _loginSuccess = false;
   bool get loginSuccess => _loginSuccess;
 
-  bool _passwordOrUsernameWrong = false;
-  bool get passwordOrUsernameWrong => _passwordOrUsernameWrong;
-
   DualisLoginViewModel(this.preferencesProvider, this.dualisService);
 
-  Future<void> testCredentials(String username, String password) async {
-    this.username = username;
-    this.password = password;
+  @override
+  set isValid(bool value) {
+    if (credentials == null) {
+      super.isValid = false;
+    } else {
+      super.isValid = value;
+    }
+  }
 
+  Future<void> testCredentials(Credentials credentials) async {
     try {
       _isLoading = true;
 
       notifyListeners("isLoading");
 
       _loginSuccess =
-          await dualisService.login(username, password) == LoginResult.LoggedIn;
-      _passwordOrUsernameWrong = !_loginSuccess;
-      setIsValid(_loginSuccess);
+          await dualisService.login(credentials) == LoginResult.LoggedIn;
+      isValid = _loginSuccess;
     } catch (ex) {
-      setIsValid(false);
-      _passwordOrUsernameWrong = true;
+      isValid = false;
     } finally {
       _isLoading = false;
     }
@@ -46,13 +46,12 @@ class DualisLoginViewModel extends OnboardingStepViewModel {
 
   @override
   Future<void> save() async {
+    if (!isValid) return;
+
     await preferencesProvider.setStoreDualisCredentials(true);
 
     // To improve the onboarding experience we do not await this call because
     // it may take a few seconds
-    preferencesProvider.storeDualisCredentials(Credentials(
-      username,
-      password,
-    ));
+    preferencesProvider.storeDualisCredentials(credentials!);
   }
 }

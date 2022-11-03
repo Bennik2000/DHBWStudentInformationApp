@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class ErrorDisplay extends StatelessWidget {
   final bool show;
 
-  const ErrorDisplay({Key key, this.show}) : super(key: key);
+  const ErrorDisplay({Key? key, required this.show}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,10 @@ class ErrorDisplay extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
           child: show
               ? Padding(
-                  padding: const EdgeInsets.all(0),
+                  padding: EdgeInsets.zero,
                   child: Container(
                     width: double.infinity,
                     color: colorNoConnectionBackground(),
@@ -24,7 +25,7 @@ class ErrorDisplay extends StatelessWidget {
                       child: Text(
                         L.of(context).noConnectionMessage,
                         textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.subtitle2.copyWith(
+                        style: Theme.of(context).textTheme.subtitle2!.copyWith(
                               color: colorNoConnectionForeground(),
                             ),
                       ),
@@ -34,7 +35,6 @@ class ErrorDisplay extends StatelessWidget {
               : Container(
                   width: double.infinity,
                 ),
-          duration: const Duration(milliseconds: 300),
         ),
       ],
     );

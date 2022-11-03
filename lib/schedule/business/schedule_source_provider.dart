@@ -33,7 +33,8 @@ class ScheduleSourceProvider {
 
   ScheduleSource get currentScheduleSource => _currentScheduleSource;
 
-  List<OnDidChangeScheduleSource> _onDidChangeScheduleSourceCallbacks = [];
+  final List<OnDidChangeScheduleSource> _onDidChangeScheduleSourceCallbacks =
+      [];
 
   ScheduleSourceProvider(
     this._preferencesProvider,
@@ -43,49 +44,44 @@ class ScheduleSourceProvider {
   );
 
   Future<bool> setupScheduleSource() async {
-    var scheduleSourceType = await _getScheduleSourceType();
+    final scheduleSourceType = await _getScheduleSourceType();
 
     ScheduleSource scheduleSource = InvalidScheduleSource();
 
     final initializer = {
-      ScheduleSourceType.Dualis: () async => await _dualisScheduleSource(),
-      ScheduleSourceType.Rapla: () async => await _raplaScheduleSource(),
-      ScheduleSourceType.Ical: () async => await _icalScheduleSource(),
-      ScheduleSourceType.Mannheim: () async => await _icalScheduleSource(),
+      ScheduleSourceType.Dualis: () async => _dualisScheduleSource(),
+      ScheduleSourceType.Rapla: () async => _raplaScheduleSource(),
+      ScheduleSourceType.Ical: () async => _icalScheduleSource(),
+      ScheduleSourceType.Mannheim: () async => _icalScheduleSource(),
     };
 
     if (initializer.containsKey(scheduleSourceType)) {
-      scheduleSource = await initializer[scheduleSourceType]();
+      scheduleSource = await initializer[scheduleSourceType]!();
     }
 
     _currentScheduleSource = scheduleSource;
 
-    var success = didSetupCorrectly();
+    final success = didSetupCorrectly();
 
-    _onDidChangeScheduleSourceCallbacks.forEach((element) {
+    for (final element in _onDidChangeScheduleSourceCallbacks) {
       element(scheduleSource, success);
-    });
+    }
 
     return success;
   }
 
   Future<ScheduleSourceType> _getScheduleSourceType() async {
-    var type = await _preferencesProvider.getScheduleSourceType();
+    final type = await _preferencesProvider.getScheduleSourceType();
 
-    var scheduleSourceType = type != null
-        ? ScheduleSourceType.values[type]
-        : ScheduleSourceType.None;
-
-    return scheduleSourceType;
+    return ScheduleSourceType.values[type];
   }
 
   Future<ScheduleSource> _dualisScheduleSource() async {
-    var dualis = DualisScheduleSource(KiwiContainer().resolve());
+    final credentials = await _preferencesProvider.loadDualisCredentials();
 
-    var credentials = await _preferencesProvider.loadDualisCredentials();
-
-    if (credentials.allFieldsFilled()) {
-      dualis.setLoginCredentials(credentials);
+    if (credentials != null) {
+      final dualis =
+          DualisScheduleSource(KiwiContainer().resolve(), credentials);
       return ErrorReportScheduleSourceDecorator(dualis);
     } else {
       return InvalidScheduleSource();
@@ -93,13 +89,12 @@ class ScheduleSourceProvider {
   }
 
   Future<ScheduleSource> _raplaScheduleSource() async {
-    var raplaUrl = await _preferencesProvider.getRaplaUrl();
+    final raplaUrl = await _preferencesProvider.getRaplaUrl();
 
-    var rapla = RaplaScheduleSource();
-    var urlValid = RaplaScheduleSource.isValidUrl(raplaUrl);
+    final urlValid = RaplaScheduleSource.isValidUrl(raplaUrl);
 
     if (urlValid) {
-      rapla.setEndpointUrl(raplaUrl);
+      final rapla = RaplaScheduleSource(raplaUrl: raplaUrl);
 
       ScheduleSource source = ErrorReportScheduleSourceDecorator(rapla);
 
@@ -113,24 +108,27 @@ class ScheduleSourceProvider {
   }
 
   Future<ScheduleSource> _icalScheduleSource() async {
-    var url = await _preferencesProvider.getIcalUrl();
+    final url = await _preferencesProvider.getIcalUrl();
 
-    var ical = IcalScheduleSource();
-    ical.setIcalUrl(url);
+    if (url != null) {
+      final ical = IcalScheduleSource(url);
 
-    if (ical.canQuery()) {
-      ScheduleSource source = ErrorReportScheduleSourceDecorator(ical);
+      if (ical.canQuery()) {
+        ScheduleSource source = ErrorReportScheduleSourceDecorator(ical);
 
-      if (!_appRunningInBackground) {
-        source = IsolateScheduleSourceDecorator(source);
+        if (!_appRunningInBackground) {
+          source = IsolateScheduleSourceDecorator(source);
+        }
+        return source;
       }
-      return source;
     }
 
     return InvalidScheduleSource();
   }
 
-  Future<void> setupForRapla(String url) async {
+  Future<void> setupForRapla(String? url) async {
+    if (url == null) return;
+
     await _preferencesProvider.setRaplaUrl(url);
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Rapla.index);
@@ -157,7 +155,9 @@ class ScheduleSourceProvider {
     );
   }
 
-  Future<void> setupForIcal(String url) async {
+  Future<void> setupForIcal(String? url) async {
+    if (url == null) return;
+
     await _preferencesProvider.setIcalUrl(url);
     await _preferencesProvider
         .setScheduleSourceType(ScheduleSourceType.Ical.index);
@@ -171,8 +171,8 @@ class ScheduleSourceProvider {
     );
   }
 
-  Future<void> setupForMannheim(Course selectedCourse) async {
-    if(selectedCourse == null) return;
+  Future<void> setupForMannheim(Course? selectedCourse) async {
+    if (selectedCourse == null) return;
     await _preferencesProvider.setMannheimScheduleId(selectedCourse.scheduleId);
     await _preferencesProvider.setIcalUrl(selectedCourse.icalUrl);
     await _preferencesProvider
@@ -188,8 +188,7 @@ class ScheduleSourceProvider {
   }
 
   bool didSetupCorrectly() {
-    return _currentScheduleSource != null &&
-        !(_currentScheduleSource is InvalidScheduleSource);
+    return _currentScheduleSource is! InvalidScheduleSource;
   }
 
   void addDidChangeScheduleSourceCallback(OnDidChangeScheduleSource callback) {
@@ -197,16 +196,16 @@ class ScheduleSourceProvider {
   }
 
   Future<void> _clearEntryCache() async {
-    var scheduleEntries = _scheduleEntryRepository.deleteAllScheduleEntries();
-    var queryInformation =
+    final scheduleEntries = _scheduleEntryRepository.deleteAllScheduleEntries();
+    final queryInformation =
         _scheduleQueryInformationRepository.deleteAllQueryInformation();
 
     await Future.wait([scheduleEntries, queryInformation]);
   }
 
   void fireScheduleSourceChanged() {
-    _onDidChangeScheduleSourceCallbacks.forEach((element) {
+    for (final element in _onDidChangeScheduleSourceCallbacks) {
       element(currentScheduleSource, true);
-    });
+    }
   }
 }

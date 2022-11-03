@@ -10,27 +10,35 @@ import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 class DualisScheduleSource extends ScheduleSource {
   final DualisScraper _dualisScraper;
 
-  DualisScheduleSource(this._dualisScraper);
+  DualisScheduleSource(this._dualisScraper, Credentials credentials) {
+    _dualisScraper.loginCredentials = credentials;
+  }
 
   @override
-  Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
-      [CancellationToken cancellationToken]) async {
-    if (cancellationToken == null) cancellationToken = CancellationToken();
+  Future<ScheduleQueryResult> querySchedule(
+    DateTime? from,
+    DateTime? to, [
+    CancellationToken? cancellationToken,
+  ]) async {
+    cancellationToken ??= CancellationToken();
 
-    DateTime current = toStartOfMonth(from);
+    DateTime current = toStartOfMonth(from)!;
 
     var schedule = Schedule();
-    var allErrors = <ParseError>[];
+    final allErrors = <ParseError>[];
 
-    if (!_dualisScraper.isLoggedIn())
+    if (!_dualisScraper.isLoggedIn()) {
       await _dualisScraper.loginWithPreviousCredentials(cancellationToken);
+    }
 
-    while (to.isAfter(current) && !cancellationToken.isCancelled()) {
+    while (to!.isAfter(current) && !cancellationToken.isCancelled) {
       try {
-        var monthSchedule = await _dualisScraper.loadMonthlySchedule(
-            current, cancellationToken);
+        final monthSchedule = await _dualisScraper.loadMonthlySchedule(
+          current,
+          cancellationToken,
+        );
 
-        if (monthSchedule != null) schedule.merge(monthSchedule);
+        schedule.merge(monthSchedule);
       } on OperationCancelledException {
         rethrow;
       } on ParseException catch (ex, trace) {
@@ -43,18 +51,11 @@ class DualisScheduleSource extends ScheduleSource {
       current = toNextMonth(current);
     }
 
-    if (cancellationToken.isCancelled()) throw OperationCancelledException();
+    cancellationToken.throwIfCancelled();
 
     schedule = schedule.trim(from, to);
 
     return ScheduleQueryResult(schedule, allErrors);
-  }
-
-  Future<void> setLoginCredentials(Credentials credentials) async {
-    _dualisScraper.setLoginCredentials(
-      credentials.username,
-      credentials.password,
-    );
   }
 
   @override

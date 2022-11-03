@@ -25,26 +25,26 @@ class StudyGradesViewModel extends BaseViewModel {
   LoginState _loginState = LoginState.LoggedOut;
   LoginState get loginState => _loginState;
 
-  StudyGrades _studyGrades;
-  StudyGrades get studyGrades => _studyGrades;
+  StudyGrades? _studyGrades;
+  StudyGrades? get studyGrades => _studyGrades;
   final CancelableMutex _studyGradesCancellationToken = CancelableMutex();
 
-  List<Module> _allModules;
-  List<Module> get allModules => _allModules;
+  List<Module>? _allModules;
+  List<Module>? get allModules => _allModules;
   final CancelableMutex _allModulesCancellationToken = CancelableMutex();
 
-  List<String> _semesterNames;
-  List<String> get allSemesterNames => _semesterNames;
+  List<String>? _semesterNames;
+  List<String>? get allSemesterNames => _semesterNames;
   final CancelableMutex _semesterNamesCancellationToken = CancelableMutex();
 
-  Semester _currentSemester;
-  Semester get currentSemester => _currentSemester;
+  Semester? _currentSemester;
+  Semester? get currentSemester => _currentSemester;
   final CancelableMutex _currentSemesterCancellationToken = CancelableMutex();
 
-  String _currentSemesterName;
-  String get currentSemesterName => _currentSemesterName;
+  String? _currentSemesterName;
+  String? get currentSemesterName => _currentSemesterName;
 
-  String _currentLoadingSemesterName;
+  String? _currentLoadingSemesterName;
 
   StudyGradesViewModel(this._preferencesProvider, this._dualisService);
 
@@ -54,10 +54,7 @@ class StudyGradesViewModel extends BaseViewModel {
     bool success;
 
     try {
-      var result = await _dualisService.login(
-        credentials.username,
-        credentials.password,
-      );
+      final result = await _dualisService.login(credentials);
 
       success = result == LoginResult.LoggedIn;
     } on OperationCancelledException catch (_) {
@@ -95,8 +92,8 @@ class StudyGradesViewModel extends BaseViewModel {
     await _preferencesProvider.clearDualisCredentials();
   }
 
-  Future<Credentials> loadCredentials() async {
-    return await _preferencesProvider.loadDualisCredentials();
+  Future<Credentials?> loadCredentials() async {
+    return _preferencesProvider.loadDualisCredentials();
   }
 
   Future<void> saveCredentials(Credentials credentials) async {
@@ -109,7 +106,7 @@ class StudyGradesViewModel extends BaseViewModel {
   }
 
   Future<void> loadStudyGrades() async {
-    if (_studyGrades != null) return Future.value();
+    if (_studyGrades != null) return;
 
     print("Loading study grades...");
 
@@ -130,7 +127,7 @@ class StudyGradesViewModel extends BaseViewModel {
   }
 
   Future<void> loadAllModules() async {
-    if (_allModules != null) return Future.value();
+    if (_allModules != null) return;
 
     print("Loading all modules...");
 
@@ -151,9 +148,10 @@ class StudyGradesViewModel extends BaseViewModel {
     notifyListeners("allModules");
   }
 
-  Future<void> loadSemester(String semesterName) async {
-    if (_currentSemester != null && _currentSemesterName == semesterName)
+  Future<void> loadSemester(String? semesterName) async {
+    if (_currentSemester != null && _currentSemesterName == semesterName) {
       return Future.value();
+    }
 
     if (_currentLoadingSemesterName == semesterName) return Future.value();
 
@@ -186,7 +184,7 @@ class StudyGradesViewModel extends BaseViewModel {
   }
 
   Future<void> loadSemesterNames() async {
-    if (_semesterNames != null) return Future.value();
+    if (_semesterNames != null) return;
 
     print("Loading semester names...");
 
@@ -211,14 +209,15 @@ class StudyGradesViewModel extends BaseViewModel {
 
   Future _loadInitialSemester() async {
     if (_semesterNames == null) return;
-    if (_semesterNames.isEmpty) return;
+    if (_semesterNames!.isEmpty) return;
 
-    var lastViewedSemester = await _preferencesProvider.getLastViewedSemester();
+    final lastViewedSemester =
+        await _preferencesProvider.getLastViewedSemester();
 
-    if (_semesterNames.contains(lastViewedSemester)) {
+    if (_semesterNames!.contains(lastViewedSemester)) {
       loadSemester(lastViewedSemester);
     } else {
-      loadSemester(_semesterNames.first);
+      loadSemester(_semesterNames!.first);
     }
   }
 

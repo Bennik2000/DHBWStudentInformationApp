@@ -4,12 +4,15 @@ class DotsIndicator extends StatelessWidget {
   final int numberSteps;
   final int currentStep;
 
-  const DotsIndicator({Key key, this.numberSteps, this.currentStep})
-      : super(key: key);
+  const DotsIndicator({
+    Key? key,
+    required this.numberSteps,
+    required this.currentStep,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var dots = <Widget>[];
+    final dots = <Widget>[];
 
     for (int i = 0; i < numberSteps; i++) {
       dots.add(

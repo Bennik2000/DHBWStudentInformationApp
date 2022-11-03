@@ -32,21 +32,21 @@ class NextDayInformationNotification extends TaskCallback {
       return;
     }
 
-    var now = DateTime.now();
+    final now = DateTime.now();
 
-    var nextScheduleEntry =
+    final nextScheduleEntry =
         await _scheduleEntryRepository.queryNextScheduleEntry(now);
 
     if (nextScheduleEntry == null) return;
 
-    var format = DateFormat.Hm();
-    var daysToNextEntry = toStartOfDay(nextScheduleEntry.start)
-        .difference(toStartOfDay(now))
+    final format = DateFormat.Hm();
+    final daysToNextEntry = toStartOfDay(nextScheduleEntry.start)!
+        .difference(toStartOfDay(now)!)
         .inDays;
 
     if (daysToNextEntry > 1) return;
 
-    var message = _getNotificationMessage(
+    final message = _getNotificationMessage(
       daysToNextEntry,
       nextScheduleEntry,
       format,
@@ -58,44 +58,50 @@ class NextDayInformationNotification extends TaskCallback {
     );
   }
 
-  String _getNotificationMessage(
-      int daysToNextEntry, ScheduleEntry nextScheduleEntry, DateFormat format) {
-    String message;
-    if (daysToNextEntry == 0) {
-      message = interpolate(
-        _localization.notificationNextClassNextClassAtMessage,
-        [
-          nextScheduleEntry.title,
-          format.format(nextScheduleEntry.start),
-        ],
-      );
-    } else if (daysToNextEntry == 1) {
-      message = interpolate(
-        _localization.notificationNextClassTomorrow,
-        [
-          nextScheduleEntry.title,
-          format.format(nextScheduleEntry.start),
-        ],
-      );
+  String? _getNotificationMessage(
+    int daysToNextEntry,
+    ScheduleEntry nextScheduleEntry,
+    DateFormat format,
+  ) {
+    switch (daysToNextEntry) {
+      case 0:
+        return interpolate(
+          _localization.notificationNextClassNextClassAtMessage,
+          [
+            nextScheduleEntry.title,
+            format.format(nextScheduleEntry.start),
+          ],
+        );
+
+      case 1:
+        return interpolate(
+          _localization.notificationNextClassTomorrow,
+          [
+            nextScheduleEntry.title,
+            format.format(nextScheduleEntry.start),
+          ],
+        );
+
+      default:
+        return null;
     }
-    return message;
   }
 
   @override
   Future<void> schedule() async {
-    var nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
+    final nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
     await _scheduler.scheduleOneShotTaskAt(
       nextSchedule,
-      "NextDayInformationNotification" + DateFormat.yMd().format(nextSchedule),
+      "NextDayInformationNotification${DateFormat.yMd().format(nextSchedule)}",
       "NextDayInformationNotification",
     );
   }
 
   @override
   Future<void> cancel() async {
-    var nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
+    final nextSchedule = toTimeOfDayInFuture(DateTime.now(), 20, 00);
     await _scheduler.cancelTask(
-      "NextDayInformationNotification" + DateFormat.yMd().format(nextSchedule),
+      "NextDayInformationNotification${DateFormat.yMd().format(nextSchedule)}",
     );
   }
 

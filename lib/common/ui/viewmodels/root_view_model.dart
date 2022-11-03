@@ -5,25 +5,24 @@ import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 class RootViewModel extends BaseViewModel {
   final PreferencesProvider _preferencesProvider;
 
-  AppTheme _appTheme;
+  late AppTheme _appTheme;
   AppTheme get appTheme => _appTheme;
 
-  bool _isOnboarding;
+  late bool _isOnboarding;
   bool get isOnboarding => _isOnboarding;
 
   RootViewModel(this._preferencesProvider);
 
   Future<void> loadFromPreferences() async {
-    var darkMode = await _preferencesProvider.appTheme();
-
-    _appTheme = darkMode;
+    _appTheme = await _preferencesProvider.appTheme();
     _isOnboarding = await _preferencesProvider.isFirstStart();
 
     notifyListeners("appTheme");
     notifyListeners("isOnboarding");
   }
 
-  Future<void> setAppTheme(AppTheme value) async {
+  Future<void> setAppTheme(AppTheme? value) async {
+    if (value == null) return;
     await _preferencesProvider.setAppTheme(value);
     _appTheme = value;
     notifyListeners("appTheme");

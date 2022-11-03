@@ -5,14 +5,14 @@ import 'package:dhbwstudentapp/dualis/service/parsing/study_grades_from_student_
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  var studentResultsPage = await File(Directory.current.absolute.path +
-          '/test/dualis/service/parsing/html_resources/student_results.html')
-      .readAsString();
+  final studentResultsPage = await File(
+    '${Directory.current.absolute.path}/test/dualis/service/parsing/html_resources/student_results.html',
+  ).readAsString();
 
   test('StudyGradesFromStudentResultsPageExtract', () async {
-    var extract = StudyGradesFromStudentResultsPageExtract();
+    final extract = StudyGradesFromStudentResultsPageExtract();
 
-    var studyGrades =
+    final studyGrades =
         extract.extractStudyGradesFromStudentsResultsPage(studentResultsPage);
 
     expect(studyGrades.creditsGained, 13);
@@ -24,7 +24,7 @@ Future<void> main() async {
 
   test('StudyGradesFromStudentResultsPageExtract invalid html throws exception',
       () async {
-    var extract = StudyGradesFromStudentResultsPageExtract();
+    final extract = StudyGradesFromStudentResultsPageExtract();
 
     try {
       extract.extractStudyGradesFromStudentsResultsPage("Lorem ipsum");

@@ -13,33 +13,33 @@ class InAppPurchaseManager {
   final Map<String, List<PurchaseCompletedCallback>> purchaseCallbacks = {};
 
   InAppPurchaseManager(
-    PreferencesProvider _preferencesProvider,
+    PreferencesProvider preferencesProvider,
     this._widgetHelper,
-  ) : _inAppPurchaseHelper = InAppPurchaseHelper(_preferencesProvider) {
+  ) : _inAppPurchaseHelper = InAppPurchaseHelper(preferencesProvider) {
     _initialize();
   }
 
-  void _initialize() async {
+  Future<void> _initialize() async {
     addPurchaseCallback(
       InAppPurchaseHelper.WidgetProductId,
-      (String productId, PurchaseResultEnum result) =>
+      (String? productId, PurchaseResultEnum result) =>
           _setWidgetEnabled(result == PurchaseResultEnum.Success),
     );
 
-    _inAppPurchaseHelper
-        .setPurchaseCompleteCallback(_purchaseCompletedCallback);
+    _inAppPurchaseHelper.purchaseCompleteCallback = _purchaseCompletedCallback;
 
     try {
       await _inAppPurchaseHelper.initialize();
       await _restorePurchases();
-    }
-    catch (ex) {
+    } catch (ex) {
+      // TODO: [Leptopoda] disable purchases or show error message in settings when initialization was not sucessfull (i.e. no play services)
       print("Failed to initialize in app purchase!");
     }
   }
 
   Future<void> _restorePurchases() async {
-    var didPurchaseWidget = await didBuyWidget() == PurchaseStateEnum.Purchased;
+    final didPurchaseWidget =
+        await didBuyWidget() == PurchaseStateEnum.Purchased;
     await _setWidgetEnabled(didPurchaseWidget);
   }
 
@@ -61,27 +61,31 @@ class InAppPurchaseManager {
     await buyWidget();
   }
 
-  void _purchaseCompletedCallback(String productId, PurchaseResultEnum result) {
+  // TODO: [Leptopoda] better nullseafety
+  void _purchaseCompletedCallback(
+    String? productId,
+    PurchaseResultEnum result,
+  ) {
     if (purchaseCallbacks.containsKey(productId)) {
-      var callback = purchaseCallbacks[productId] ?? [];
+      final callback = purchaseCallbacks[productId!];
 
-      callback.forEach((element) {
+      callback?.forEach((element) {
         element(productId, result);
       });
     }
 
     if (purchaseCallbacks.containsKey("*")) {
-      var callback = purchaseCallbacks["*"] ?? [];
+      final callback = purchaseCallbacks["*"];
 
-      callback.forEach((element) {
+      callback?.forEach((element) {
         element(productId, result);
       });
     }
 
-    for (var pair in purchaseCallbacks.entries) {
-      pair.value.forEach((element) {
+    for (final pair in purchaseCallbacks.entries) {
+      for (final element in pair.value) {
         element(null, result);
-      });
+      }
     }
   }
 
@@ -91,30 +95,22 @@ class InAppPurchaseManager {
   /// for all product ids, pass null or "*" as productId
   ///
   void addPurchaseCallback(
-    String productId,
+    String? productId,
     PurchaseCompletedCallback callback,
   ) {
-    if (productId == null) {
-      productId = "*";
-    }
+    productId ??= "*";
 
-    if (!purchaseCallbacks.containsKey(productId)) {
-      purchaseCallbacks[productId] = [];
-    }
-
-    purchaseCallbacks[productId].add(callback);
+    purchaseCallbacks[productId]?.add(callback);
   }
 
   ///
   /// Removes a callback which was registered using [addPurchaseCallback]
   ///
   void removePurchaseCallback(
-    String productId,
+    String? productId,
     PurchaseCompletedCallback callback,
   ) {
-    if (productId == null) {
-      productId = "*";
-    }
+    productId ??= "*";
 
     purchaseCallbacks[productId]?.remove(callback);
   }

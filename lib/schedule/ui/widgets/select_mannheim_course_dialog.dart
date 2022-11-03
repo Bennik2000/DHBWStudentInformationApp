@@ -9,7 +9,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 class SelectMannheimCourseDialog {
   final ScheduleSourceProvider _scheduleSourceProvider;
 
-  MannheimViewModel _mannheimViewModel;
+  late MannheimViewModel _mannheimViewModel;
 
   SelectMannheimCourseDialog(
     this._scheduleSourceProvider,
@@ -27,14 +27,13 @@ class SelectMannheimCourseDialog {
   AlertDialog _buildDialog(BuildContext context) {
     return AlertDialog(
       title: Text(L.of(context).onboardingMannheimTitle),
-      contentPadding: EdgeInsets.all(0),
+      contentPadding: EdgeInsets.zero,
       content: PropertyChangeProvider<OnboardingStepViewModel, String>(
         value: _mannheimViewModel,
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
-            mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Padding(

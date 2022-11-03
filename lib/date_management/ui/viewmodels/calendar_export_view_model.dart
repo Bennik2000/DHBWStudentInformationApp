@@ -11,25 +11,29 @@ class CalendarExportViewModel extends BaseViewModel {
   final PreferencesProvider preferencesProvider;
   final List<DateEntry> _entriesToExport;
 
-  OnPermissionDenied _onPermissionDenied;
+  OnPermissionDenied? _onPermissionDenied;
 
-  List<Calendar> _calendars;
-  List<Calendar> get calendars => _calendars ?? [];
+  List<Calendar>? _calendars;
+  List<Calendar> get calendars => _calendars ??= [];
 
-  Calendar _selectedCalendar;
-  Calendar get selectedCalendar => _selectedCalendar;
+  Calendar? _selectedCalendar;
+  Calendar? get selectedCalendar => _selectedCalendar;
 
   bool get canExport => _selectedCalendar != null;
 
   bool _isExporting = false;
   bool get isExporting => _isExporting;
 
-  CalendarExportViewModel(this._entriesToExport, this.calendarAccess, this.preferencesProvider) {
+  CalendarExportViewModel(
+    this._entriesToExport,
+    this.calendarAccess,
+    this.preferencesProvider,
+  ) {
     loadCalendars();
   }
 
   Future<void> loadCalendars() async {
-    var access = await calendarAccess.requestCalendarPermission();
+    final access = await calendarAccess.requestCalendarPermission();
 
     if (access == CalendarPermission.PermissionDenied) {
       _onPermissionDenied?.call();
@@ -41,14 +45,14 @@ class CalendarExportViewModel extends BaseViewModel {
     notifyListeners("_calendars");
   }
 
-  void loadSelectedCalendar() async{
+  Future<void> loadSelectedCalendar() async {
     _selectedCalendar = await preferencesProvider.getSelectedCalendar();
     notifyListeners("selectedCalendar");
   }
 
-  void resetSelectedCalendar() async{
+  Future<void> resetSelectedCalendar() async {
     await preferencesProvider.setSelectedCalendar(null);
-    this.loadCalendars();
+    loadCalendars();
   }
 
   void toggleSelection(Calendar calendar) {
@@ -77,7 +81,7 @@ class CalendarExportViewModel extends BaseViewModel {
     }
   }
 
-  void setOnPermissionDeniedCallback(OnPermissionDenied function) {
+  set onPermissionDeniedCallback(OnPermissionDenied function) {
     _onPermissionDenied = function;
   }
 }

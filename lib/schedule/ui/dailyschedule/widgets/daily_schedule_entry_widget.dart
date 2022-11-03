@@ -9,22 +9,18 @@ import 'package:intl/intl.dart';
 class DailyScheduleEntryWidget extends StatelessWidget {
   final ScheduleEntry scheduleEntry;
 
-  const DailyScheduleEntryWidget({Key key, this.scheduleEntry})
+  const DailyScheduleEntryWidget({Key? key, required this.scheduleEntry})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    if (scheduleEntry == null) return Container();
+    final timeFormatter = DateFormat.Hm(L.of(context).locale.languageCode);
 
-    var timeFormatter = DateFormat.Hm(L.of(context).locale.languageCode);
-
-    var startTime = timeFormatter.format(scheduleEntry.start);
-    var endTime = timeFormatter.format(scheduleEntry.end);
+    final startTime = timeFormatter.format(scheduleEntry.start);
+    final endTime = timeFormatter.format(scheduleEntry.end);
 
     return IntrinsicHeight(
       child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
@@ -32,7 +28,6 @@ class DailyScheduleEntryWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     startTime,
@@ -58,13 +53,12 @@ class DailyScheduleEntryWidget extends StatelessWidget {
           Expanded(
             flex: 7,
             child: Card(
-              margin: const EdgeInsets.all(0),
+              margin: EdgeInsets.zero,
               elevation: 8,
               color: scheduleEntryTypeToColor(context, scheduleEntry.type),
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
@@ -82,13 +76,17 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                             Text(
                               scheduleEntry.professor,
                               style: textStyleDailyScheduleEntryWidgetProfessor(
-                                  context),
+                                context,
+                              ),
                             ),
                             Text(
                               scheduleEntryTypeToReadableString(
-                                  context, scheduleEntry.type),
+                                context,
+                                scheduleEntry.type,
+                              ),
                               style: textStyleDailyScheduleEntryWidgetType(
-                                  context),
+                                context,
+                              ),
                             ),
                           ],
                         ),
@@ -96,7 +94,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(32, 0, 0, 0),
                             child: Text(
-                              scheduleEntry.room ?? "",
+                              scheduleEntry.room,
                               softWrap: true,
                               textAlign: TextAlign.end,
                             ),

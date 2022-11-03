@@ -8,8 +8,8 @@ class RaplaUrlViewModel extends OnboardingStepViewModel {
   final PreferencesProvider preferencesProvider;
   final ScheduleSourceProvider scheduleSourceProvider;
 
-  String _raplaUrl;
-  String get raplaUrl => _raplaUrl;
+  String? _raplaUrl;
+  String? get raplaUrl => _raplaUrl;
 
   bool urlHasError = false;
 
@@ -18,7 +18,7 @@ class RaplaUrlViewModel extends OnboardingStepViewModel {
     this.scheduleSourceProvider,
   );
 
-  void setRaplaUrl(String url) {
+  void setRaplaUrl(String? url) {
     _raplaUrl = url;
 
     notifyListeners("raplaUrl");
@@ -27,18 +27,18 @@ class RaplaUrlViewModel extends OnboardingStepViewModel {
   }
 
   void _validateUrl() {
-    urlHasError = !RaplaScheduleSource.isValidUrl(_raplaUrl);
+    urlHasError = !RaplaScheduleSource.isValidUrl(_raplaUrl!);
 
-    setIsValid(!urlHasError);
+    isValid = !urlHasError;
 
     notifyListeners("urlHasError");
   }
 
   Future<void> pasteUrl() async {
-    ClipboardData data = await Clipboard.getData('text/plain');
+    final ClipboardData? data = await Clipboard.getData('text/plain');
 
     if (data?.text != null) {
-      setRaplaUrl(data.text);
+      setRaplaUrl(data!.text);
     }
   }
 

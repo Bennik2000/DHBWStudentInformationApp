@@ -2,7 +2,7 @@ import 'package:dhbwstudentapp/common/data/database_entity.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_query_information.dart';
 
 class ScheduleQueryInformationEntity extends DatabaseEntity {
-  ScheduleQueryInformation _scheduleQueryInformation;
+  ScheduleQueryInformation? _scheduleQueryInformation;
 
   ScheduleQueryInformationEntity.fromModel(
     ScheduleQueryInformation scheduleQueryInformation,
@@ -16,19 +16,20 @@ class ScheduleQueryInformationEntity extends DatabaseEntity {
 
   @override
   void fromMap(Map<String, dynamic> map) {
-    DateTime startDate;
+    DateTime? startDate;
     if (map["start"] != null) {
-      startDate = DateTime.fromMillisecondsSinceEpoch(map["start"]);
+      startDate = DateTime.fromMillisecondsSinceEpoch(map["start"] as int);
     }
 
-    DateTime endDate;
+    DateTime? endDate;
     if (map["end"] != null) {
-      endDate = DateTime.fromMillisecondsSinceEpoch(map["end"]);
+      endDate = DateTime.fromMillisecondsSinceEpoch(map["end"] as int);
     }
 
-    DateTime queryTimeDate;
-    if (map["end"] != null) {
-      queryTimeDate = DateTime.fromMillisecondsSinceEpoch(map["queryTime"]);
+    DateTime? queryTimeDate;
+    if (map["queryTime"] != null) {
+      queryTimeDate =
+          DateTime.fromMillisecondsSinceEpoch(map["queryTime"] as int);
     }
 
     _scheduleQueryInformation =
@@ -38,13 +39,13 @@ class ScheduleQueryInformationEntity extends DatabaseEntity {
   @override
   Map<String, dynamic> toMap() {
     return {
-      "start": _scheduleQueryInformation.start?.millisecondsSinceEpoch ?? 0,
-      "end": _scheduleQueryInformation.end?.millisecondsSinceEpoch ?? 0,
-      "queryTime": _scheduleQueryInformation.queryTime?.millisecondsSinceEpoch,
+      "start": _scheduleQueryInformation!.start.millisecondsSinceEpoch,
+      "end": _scheduleQueryInformation!.end.millisecondsSinceEpoch,
+      "queryTime": _scheduleQueryInformation!.queryTime?.millisecondsSinceEpoch,
     };
   }
 
-  ScheduleQueryInformation asScheduleQueryInformation() =>
+  ScheduleQueryInformation? asScheduleQueryInformation() =>
       _scheduleQueryInformation;
 
   static String tableName() => "ScheduleQueryInformation";

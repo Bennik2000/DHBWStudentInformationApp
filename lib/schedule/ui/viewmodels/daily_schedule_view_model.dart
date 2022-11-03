@@ -8,9 +8,9 @@ class DailyScheduleViewModel extends BaseViewModel {
 
   final ScheduleProvider scheduleProvider;
 
-  DateTime currentDate;
+  DateTime? currentDate;
 
-  Schedule daySchedule;
+  Schedule? _daySchedule;
 
   DailyScheduleViewModel(this.scheduleProvider) {
     scheduleProvider.addScheduleUpdatedCallback(_scheduleUpdatedCallback);
@@ -18,13 +18,15 @@ class DailyScheduleViewModel extends BaseViewModel {
     loadScheduleForToday();
   }
 
-  Future setSchedule(Schedule schedule) async {
-    daySchedule = schedule;
+  set schedule(Schedule schedule) {
+    _daySchedule = schedule;
     notifyListeners("daySchedule");
   }
 
+  Schedule get daySchedule => _daySchedule ??= Schedule();
+
   Future loadScheduleForToday() async {
-    var now = DateTime.now();
+    final now = DateTime.now();
     currentDate = toStartOfDay(now);
 
     await updateSchedule();
@@ -35,30 +37,24 @@ class DailyScheduleViewModel extends BaseViewModel {
   }
 
   Future _updateScheduleFromCache() async {
-    setSchedule(
-      await scheduleProvider.getCachedSchedule(
-        currentDate,
-        tomorrow(currentDate),
-      ),
+    schedule = await scheduleProvider.getCachedSchedule(
+      currentDate!,
+      tomorrow(currentDate)!,
     );
   }
 
   Future<void> _scheduleUpdatedCallback(
     Schedule schedule,
-    DateTime start,
-    DateTime end,
+    DateTime? start,
+    DateTime? end,
   ) async {
-    if (schedule == null) return;
-
     start = toStartOfDay(start);
     end = toStartOfDay(tomorrow(end));
 
-    if (!(start.isAfter(currentDate) || end.isBefore(currentDate))) {
-      setSchedule(
-        schedule.trim(
-          toStartOfDay(currentDate),
-          toStartOfDay(tomorrow(currentDate)),
-        ),
+    if (!(start!.isAfter(currentDate!) || end!.isBefore(currentDate!))) {
+      schedule = schedule.trim(
+        toStartOfDay(currentDate),
+        toStartOfDay(tomorrow(currentDate)),
       );
     }
   }

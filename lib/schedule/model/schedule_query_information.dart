@@ -1,7 +1,12 @@
 class ScheduleQueryInformation {
   final DateTime start;
   final DateTime end;
-  final DateTime queryTime;
+  final DateTime? queryTime;
 
-  ScheduleQueryInformation(this.start, this.end, this.queryTime);
+  ScheduleQueryInformation(
+    DateTime? start,
+    DateTime? end,
+    this.queryTime,
+  )   : start = start ?? DateTime.fromMillisecondsSinceEpoch(0),
+        end = end ?? DateTime.fromMillisecondsSinceEpoch(0);
 }

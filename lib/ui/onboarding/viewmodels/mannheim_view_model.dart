@@ -14,14 +14,14 @@ class MannheimViewModel extends OnboardingStepViewModel {
   LoadCoursesState _loadingState = LoadCoursesState.Loading;
   LoadCoursesState get loadingState => _loadingState;
 
-  Course _selectedCourse;
-  Course get selectedCourse => _selectedCourse;
+  Course? _selectedCourse;
+  Course? get selectedCourse => _selectedCourse;
 
-  List<Course> _courses;
-  List<Course> get courses => _courses;
+  List<Course>? _courses;
+  List<Course>? get courses => _courses;
 
   MannheimViewModel(this._scheduleSourceProvider) {
-    setIsValid(false);
+    isValid = false;
     loadCourses();
   }
 
@@ -30,7 +30,7 @@ class MannheimViewModel extends OnboardingStepViewModel {
     notifyListeners("loadingState");
 
     try {
-      await Future.delayed(Duration(seconds: 1));
+      await Future.delayed(const Duration(seconds: 1));
       _courses = await MannheimCourseScraper().loadCourses();
       _loadingState = LoadCoursesState.Loaded;
     } catch (ex) {
@@ -49,7 +49,7 @@ class MannheimViewModel extends OnboardingStepViewModel {
       _selectedCourse = course;
     }
 
-    setIsValid(_selectedCourse != null);
+    isValid = _selectedCourse != null;
   }
 
   @override

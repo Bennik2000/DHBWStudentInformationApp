@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 
 class OnboardingButtonBar extends StatelessWidget {
   final OnboardingViewModel viewModel;
-  final Function onNext;
-  final Function onPrevious;
+  final VoidCallback onNext;
+  final VoidCallback onPrevious;
 
   const OnboardingButtonBar({
-    Key key,
-    @required this.viewModel,
-    @required this.onNext,
-    @required this.onPrevious,
+    Key? key,
+    required this.viewModel,
+    required this.onNext,
+    required this.onPrevious,
   }) : super(key: key);
 
   @override
@@ -19,7 +19,6 @@ class OnboardingButtonBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           _buildPreviousButton(context),
@@ -30,7 +29,7 @@ class OnboardingButtonBar extends StatelessWidget {
   }
 
   Widget _buildPreviousButton(BuildContext context) {
-    bool isFirstPage = viewModel.stepIndex == 0;
+    final bool isFirstPage = viewModel.stepIndex == 0;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 100),
@@ -38,7 +37,7 @@ class OnboardingButtonBar extends StatelessWidget {
           ? Container()
           : TextButton.icon(
               onPressed: onPrevious,
-              icon: Icon(Icons.navigate_before),
+              icon: const Icon(Icons.navigate_before),
               label: Text(L.of(context).onboardingBackButton.toUpperCase()),
             ),
     );
@@ -61,8 +60,8 @@ class OnboardingButtonBar extends StatelessWidget {
         key: ValueKey(buttonText),
         onPressed: onNext,
         icon: viewModel.isLastStep
-            ? Icon(Icons.arrow_forward)
-            : Icon(Icons.navigate_next),
+            ? const Icon(Icons.arrow_forward)
+            : const Icon(Icons.navigate_next),
         label: Text(buttonText.toUpperCase()),
       ),
     );

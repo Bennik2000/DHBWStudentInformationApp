@@ -5,7 +5,7 @@ import 'package:html/parser.dart';
 
 class SemestersFromCourseResultPageExtract {
   List<DualisSemester> extractSemestersFromCourseResults(
-    String body,
+    String? body,
     String endpointUrl,
   ) {
     try {
@@ -17,56 +17,61 @@ class SemestersFromCourseResultPageExtract {
   }
 
   List<DualisSemester> _extractSemestersFromCourseResults(
-      String body, String endpointUrl) {
-    var page = parse(body);
+    String? body,
+    String endpointUrl,
+  ) {
+    final page = parse(body);
 
-    var semesterSelector = page.getElementById("semester");
+    final semesterSelector = page.getElementById("semester");
 
-    if (semesterSelector == null)
+    if (semesterSelector == null) {
       throw ElementNotFoundParseException("semester selector container");
+    }
 
-    var url = _extractSemesterDetailUrlPart(semesterSelector, endpointUrl);
+    final url = _extractSemesterDetailUrlPart(semesterSelector, endpointUrl);
 
-    var semesters = <DualisSemester>[];
+    final semesters = <DualisSemester>[];
 
-    for (var option in semesterSelector.getElementsByTagName("option")) {
-      var id = option.attributes["value"];
-      var name = option.innerHtml;
+    for (final option in semesterSelector.getElementsByTagName("option")) {
+      final id = option.attributes["value"];
+      final name = option.innerHtml;
 
-      String detailsUrl;
+      String? detailsUrl;
 
       if (url != null) {
-        detailsUrl = url + id;
+        detailsUrl = url + id!;
       }
 
-      semesters.add(DualisSemester(
-        name,
-        detailsUrl,
-        [],
-      ));
+      semesters.add(
+        DualisSemester(
+          name,
+          detailsUrl,
+          [],
+        ),
+      );
     }
 
     return semesters;
   }
 
-  String _extractSemesterDetailUrlPart(
+  String? _extractSemesterDetailUrlPart(
     Element semesterSelector,
     String endpointUrl,
   ) {
-    var dropDownSemesterSelector = semesterSelector.attributes["onchange"];
+    final dropDownSemesterSelector = semesterSelector.attributes["onchange"]!;
 
-    var regExp = RegExp("'([A-z0-9]*)'");
+    final regExp = RegExp("'([A-z0-9]*)'");
 
-    var matches = regExp.allMatches(dropDownSemesterSelector).toList();
+    final matches = regExp.allMatches(dropDownSemesterSelector).toList();
 
     if (matches.length != 4) return null;
 
-    var applicationName = matches[0].group(1);
-    var programName = matches[1].group(1);
-    var sessionNo = matches[2].group(1);
-    var menuId = matches[3].group(1);
+    final applicationName = matches[0].group(1);
+    final programName = matches[1].group(1);
+    final sessionNo = matches[2].group(1);
+    final menuId = matches[3].group(1);
 
-    var url = endpointUrl + "/scripts/mgrqispi.dll";
+    var url = "$endpointUrl/scripts/mgrqispi.dll";
     url += "?APPNAME=$applicationName";
     url += "&PRGNAME=$programName";
     url += "&ARGUMENTS=-N$sessionNo,-N$menuId,-N";

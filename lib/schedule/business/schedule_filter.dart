@@ -8,11 +8,12 @@ class ScheduleFilter {
   ScheduleFilter(this._scheduleFilterRepository);
 
   Future<Schedule> filter(Schedule original) async {
-    var allHiddenNames = await _scheduleFilterRepository.queryAllHiddenNames();
+    final allHiddenNames =
+        await _scheduleFilterRepository.queryAllHiddenNames();
 
-    var allEntries = <ScheduleEntry>[];
+    final allEntries = <ScheduleEntry>[];
 
-    for (var entry in original.entries) {
+    for (final entry in original.entries) {
       if (allHiddenNames.contains(entry.title)) {
         continue;
       }

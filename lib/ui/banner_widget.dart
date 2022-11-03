@@ -5,12 +5,16 @@ class BannerWidget extends StatelessWidget {
   final String buttonText;
   final VoidCallback onButtonTap;
 
-  const BannerWidget({Key key, this.message, this.buttonText, this.onButtonTap})
-      : super(key: key);
+  const BannerWidget({
+    Key? key,
+    required this.message,
+    required this.buttonText,
+    required this.onButtonTap,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: Theme.of(context).scaffoldBackgroundColor,
         boxShadow: [
@@ -27,23 +31,19 @@ class BannerWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Text(
-              message,
+            Text(message),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
+                  child: TextButton(
+                    onPressed: onButtonTap,
+                    child: Text(buttonText),
+                  ),
+                ),
+              ],
             ),
-            buttonText != null
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 12, 0, 0),
-                        child: TextButton(
-                          child: Text(buttonText),
-                          onPressed: onButtonTap,
-                        ),
-                      ),
-                    ],
-                  )
-                : Container(),
           ],
         ),
       ),

@@ -13,34 +13,36 @@ class RaplaScheduleSource extends ScheduleSource {
 
   String raplaUrl;
 
-  RaplaScheduleSource({this.raplaUrl});
-
-  void setEndpointUrl(String url) {
-    raplaUrl = url;
-  }
+  RaplaScheduleSource({required this.raplaUrl});
 
   @override
-  Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
-      [CancellationToken cancellationToken]) async {
-    DateTime current = toDayOfWeek(from, DateTime.monday);
+  Future<ScheduleQueryResult> querySchedule(
+    DateTime? from,
+    DateTime? to, [
+    CancellationToken? cancellationToken,
+  ]) async {
+    DateTime current = toDayOfWeek(from, DateTime.monday)!;
 
-    if (cancellationToken == null) cancellationToken = CancellationToken();
+    cancellationToken ??= CancellationToken();
 
     var schedule = Schedule();
-    var allErrors = <ParseError>[];
+    final allErrors = <ParseError>[];
 
     var didChangeMonth = false;
 
-    while ((to.isAfter(current) && !cancellationToken.isCancelled()) ||
+    while ((to!.isAfter(current) && !cancellationToken.isCancelled) ||
         didChangeMonth) {
       try {
-        var weekSchedule = await _fetchRaplaSource(current, cancellationToken);
+        final weekSchedule =
+            await _fetchRaplaSource(current, cancellationToken);
 
-        if (weekSchedule.schedule != null) {
-          schedule.merge(weekSchedule.schedule);
+        if (weekSchedule?.schedule != null) {
+          schedule.merge(weekSchedule!.schedule);
         }
 
-        allErrors.addAll(weekSchedule.errors ?? []);
+        if (weekSchedule != null) {
+          allErrors.addAll(weekSchedule.errors);
+        }
       } on OperationCancelledException {
         rethrow;
       } on ParseException catch (ex, trace) {
@@ -49,9 +51,9 @@ class RaplaScheduleSource extends ScheduleSource {
         throw ScheduleQueryFailedException(e, trace);
       }
 
-      var currentMonth = current.month;
-      current = toNextWeek(current);
-      var nextMonth = current.month;
+      final currentMonth = current.month;
+      current = toNextWeek(current)!;
+      final nextMonth = current.month;
 
       // Some rapla instances only return the dates in the current month.
       // If the month changes in the middle of a week only half the week is
@@ -60,28 +62,26 @@ class RaplaScheduleSource extends ScheduleSource {
       didChangeMonth = currentMonth != nextMonth;
     }
 
-    if (cancellationToken.isCancelled()) throw OperationCancelledException();
+    cancellationToken.throwIfCancelled();
 
     schedule = schedule.trim(from, to);
 
     return ScheduleQueryResult(schedule, allErrors);
   }
 
-  Future<ScheduleQueryResult> _fetchRaplaSource(
+  Future<ScheduleQueryResult?> _fetchRaplaSource(
     DateTime date,
     CancellationToken cancellationToken,
   ) async {
-    var requestUri = _buildRequestUri(date);
+    final requestUri = _buildRequestUri(date);
 
-    var response = await _makeRequest(requestUri, cancellationToken);
+    final response = await _makeRequest(requestUri, cancellationToken);
     if (response == null) return null;
 
     try {
-      var schedule = responseParser.parseSchedule(response.body);
+      final schedule = responseParser.parseSchedule(response.body);
 
-      if (schedule?.schedule?.urls != null) {
-        schedule.schedule.urls.add(requestUri.toString());
-      }
+      schedule.schedule.urls.add(requestUri.toString());
 
       return schedule;
     } on ParseException catch (_) {
@@ -104,17 +104,18 @@ class RaplaScheduleSource extends ScheduleSource {
       raplaUrl = "http://$raplaUrl";
     }
 
-    var uri = Uri.parse(raplaUrl);
+    final uri = Uri.parse(raplaUrl);
 
-    bool hasKeyParameter = uri.queryParameters.containsKey("key");
-    bool hasUserParameter = uri.queryParameters.containsKey("user");
-    bool hasFileParameter = uri.queryParameters.containsKey("file");
-    bool hasPageParameter = uri.queryParameters.containsKey("page");
+    final bool hasKeyParameter = uri.queryParameters.containsKey("key");
+    final bool hasUserParameter = uri.queryParameters.containsKey("user");
+    final bool hasFileParameter = uri.queryParameters.containsKey("file");
+    final bool hasPageParameter = uri.queryParameters.containsKey("page");
 
-    bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
-    bool hasSalt = uri.queryParameters.containsKey("salt");
+    final bool hasAllocatableId =
+        uri.queryParameters.containsKey("allocatable_id");
+    final bool hasSalt = uri.queryParameters.containsKey("salt");
 
-    Map<String, String> parameters = {};
+    final Map<String, String?> parameters = {};
 
     if (hasKeyParameter) {
       parameters["key"] = uri.queryParameters["key"];
@@ -140,28 +141,32 @@ class RaplaScheduleSource extends ScheduleSource {
     }
   }
 
-  Future<Response> _makeRequest(
-      Uri uri, CancellationToken cancellationToken) async {
-    var requestCancellationToken = http.CancellationToken();
+  Future<Response?> _makeRequest(
+    Uri uri,
+    CancellationToken cancellationToken,
+  ) async {
+    final requestCancellationToken = http.CancellationToken();
 
     try {
-      cancellationToken.setCancellationCallback(() {
-        requestCancellationToken.cancel();
-      });
+      cancellationToken.cancellationCallback = requestCancellationToken.cancel;
 
-      var response = await http.HttpClientHelper.get(uri,
-          cancelToken: requestCancellationToken);
+      final response = await http.HttpClientHelper.get(
+        uri,
+        cancelToken: requestCancellationToken,
+      );
 
-      if (response == null && !requestCancellationToken.isCanceled)
+      if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
+      }
 
       return response;
+      // ignore: avoid_catching_errors
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
     } finally {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
     }
 
     return null;
@@ -181,26 +186,25 @@ class RaplaScheduleSource extends ScheduleSource {
       return false;
     }
 
-    if (uri != null) {
-      bool hasKeyParameter = uri.queryParameters.containsKey("key");
-      bool hasUserParameter = uri.queryParameters.containsKey("user");
-      bool hasFileParameter = uri.queryParameters.containsKey("file");
-      bool hasPageParameter = uri.queryParameters.containsKey("page");
+    final bool hasKeyParameter = uri.queryParameters.containsKey("key");
+    final bool hasUserParameter = uri.queryParameters.containsKey("user");
+    final bool hasFileParameter = uri.queryParameters.containsKey("file");
+    final bool hasPageParameter = uri.queryParameters.containsKey("page");
 
-      bool hasAllocatableId = uri.queryParameters.containsKey("allocatable_id");
-      bool hasSalt = uri.queryParameters.containsKey("salt");
+    final bool hasAllocatableId =
+        uri.queryParameters.containsKey("allocatable_id");
+    final bool hasSalt = uri.queryParameters.containsKey("salt");
 
-      if (hasUserParameter && hasFileParameter && hasPageParameter) {
-        return true;
-      }
+    if (hasUserParameter && hasFileParameter && hasPageParameter) {
+      return true;
+    }
 
-      if (hasSalt && hasAllocatableId && hasKeyParameter) {
-        return true;
-      }
+    if (hasSalt && hasAllocatableId && hasKeyParameter) {
+      return true;
+    }
 
-      if (hasKeyParameter) {
-        return true;
-      }
+    if (hasKeyParameter) {
+      return true;
     }
 
     return false;
@@ -215,9 +219,9 @@ enum FailureReason {
 
 class ScheduleOrFailure {
   final FailureReason reason;
-  final Schedule schedule;
-  final Object exception;
-  final StackTrace trace;
+  final Schedule? schedule;
+  final Object? exception;
+  final StackTrace? trace;
 
   bool get success => reason == FailureReason.Success;
 

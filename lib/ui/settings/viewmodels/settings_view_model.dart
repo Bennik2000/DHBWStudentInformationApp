@@ -2,12 +2,11 @@ import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_helper.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/native/widget/widget_helper.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:kiwi/kiwi.dart';
-
-import '../../../common/util/cancellation_token.dart';
-import '../../../schedule/business/schedule_provider.dart';
 
 ///
 /// The view model for the settings page.
@@ -34,19 +33,19 @@ class SettingsViewModel extends BaseViewModel {
 
   bool get isCalendarSyncEnabled => _isCalendarSyncEnabled;
 
-  PurchaseStateEnum _widgetPurchaseState;
+  PurchaseStateEnum? _widgetPurchaseState;
 
-  PurchaseStateEnum get widgetPurchaseState => _widgetPurchaseState;
+  PurchaseStateEnum? get widgetPurchaseState => _widgetPurchaseState;
 
-  bool _areWidgetsSupported = false;
+  bool? _areWidgetsSupported = false;
 
-  bool get areWidgetsSupported => _areWidgetsSupported;
+  bool? get areWidgetsSupported => _areWidgetsSupported;
 
   SettingsViewModel(
     this._preferencesProvider,
     this._nextDayInformationNotification,
     this._widgetHelper,
-    this._inAppPurchaseManager
+    this._inAppPurchaseManager,
   ) {
     _loadPreferences();
 
@@ -63,15 +62,15 @@ class SettingsViewModel extends BaseViewModel {
 
     await _preferencesProvider.setIsCalendarSyncEnabled(value);
 
-    var scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
+    final scheduleProvider = KiwiContainer().resolve<ScheduleProvider>();
     scheduleProvider.getUpdatedSchedule(
       DateTime.now(),
-      DateTime.now().add(Duration(days: 30)),
+      DateTime.now().add(const Duration(days: 30)),
       CancellationToken(),
     );
   }
 
-  void _widgetPurchaseCallback(String id, PurchaseResultEnum result) {
+  void _widgetPurchaseCallback(String? id, PurchaseResultEnum result) {
     if (result == PurchaseResultEnum.Success) {
       _widgetPurchaseState = PurchaseStateEnum.Purchased;
     }
@@ -101,10 +100,11 @@ class SettingsViewModel extends BaseViewModel {
 
     await _preferencesProvider.setNotifyAboutNextDay(value);
 
-    if (value)
+    if (value) {
       await _nextDayInformationNotification.schedule();
-    else
+    } else {
       await _nextDayInformationNotification.cancel();
+    }
   }
 
   Future<void> _loadPreferences() async {
@@ -136,6 +136,7 @@ class SettingsViewModel extends BaseViewModel {
     await _inAppPurchaseManager.donate();
   }
 
+  @override
   void dispose() {
     super.dispose();
 

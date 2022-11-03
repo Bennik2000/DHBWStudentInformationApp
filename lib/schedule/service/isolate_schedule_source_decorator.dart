@@ -11,40 +11,43 @@ import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 class IsolateScheduleSourceDecorator extends ScheduleSource {
   final ScheduleSource _scheduleSource;
 
-  Stream _isolateToMain;
-  Isolate _isolate;
-  SendPort _sendPort;
+  Stream? _isolateToMain;
+  Isolate? _isolate;
+  SendPort? _sendPort;
 
   IsolateScheduleSourceDecorator(this._scheduleSource);
 
   @override
-  Future<ScheduleQueryResult> querySchedule(DateTime from, DateTime to,
-      [CancellationToken cancellationToken]) async {
+  Future<ScheduleQueryResult?> querySchedule(
+    DateTime? from,
+    DateTime? to, [
+    CancellationToken? cancellationToken,
+  ]) async {
     await _initializeIsolate();
 
     // Use the cancellation token to send a cancel message.
     // The isolate then uses a new instance to cancel the request
-    cancellationToken.setCancellationCallback(() {
-      _sendPort.send({"type": "cancel"});
-    });
+    cancellationToken!.cancellationCallback =
+        () => _sendPort!.send({"type": "cancel"});
 
-    _sendPort.send({
+    _sendPort!.send({
       "type": "execute",
       "source": _scheduleSource,
       "from": from,
       "to": to,
     });
 
-    final completer = Completer<ScheduleQueryResult>();
+    final completer = Completer<ScheduleQueryResult?>();
 
-    ScheduleQueryFailedException potentialException;
+    ScheduleQueryFailedException? potentialException;
 
-    final subscription = _isolateToMain.listen((result) {
-      cancellationToken.setCancellationCallback(null);
+    final subscription = _isolateToMain!.listen((result) {
+      cancellationToken.cancellationCallback = null;
 
-      if (result != null && !(result is ScheduleQueryResult)) {
+      // TODO: [Leptopoda] validate changes
+      if (result == null || result is! ScheduleQueryResult) {
         potentialException = ScheduleQueryFailedException(result);
-        completer.complete(null);
+        completer.complete();
       } else {
         completer.complete(result);
       }
@@ -55,7 +58,7 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
     subscription.cancel();
 
     if (potentialException != null) {
-      throw potentialException;
+      throw potentialException!;
     }
 
     return result;
@@ -64,13 +67,15 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
   Future<void> _initializeIsolate() async {
     if (_isolate != null && _isolateToMain != null && _sendPort != null) return;
 
-    var isolateToMain = ReceivePort();
+    final isolateToMain = ReceivePort();
 
     // Use a broadcast stream. The normal ReceivePort closes after one subscription
     _isolateToMain = isolateToMain.asBroadcastStream();
     _isolate = await Isolate.spawn(
-        scheduleSourceIsolateEntryPoint, isolateToMain.sendPort);
-    _sendPort = await _isolateToMain.first;
+      _scheduleSourceIsolateEntryPoint,
+      isolateToMain.sendPort,
+    );
+    _sendPort = await _isolateToMain!.first as SendPort?;
   }
 
   @override
@@ -79,34 +84,35 @@ class IsolateScheduleSourceDecorator extends ScheduleSource {
   }
 }
 
-void scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
+Future<void> _scheduleSourceIsolateEntryPoint(SendPort sendPort) async {
   // Using the given send port, send back a send port for two way communication
-  var port = ReceivePort();
+  final port = ReceivePort();
   sendPort.send(port.sendPort);
 
-  CancellationToken token;
+  CancellationToken? token;
 
-  await for (var message in port) {
+  await for (final message in port) {
+    message as Map<String, dynamic>;
     if (message["type"] == "execute") {
       token = CancellationToken();
-      executeQueryScheduleMessage(message, sendPort, token);
+      _executeQueryScheduleMessage(message, sendPort, token);
     } else if (message["type"] == "cancel") {
       token?.cancel();
     }
   }
 }
 
-Future<void> executeQueryScheduleMessage(
+Future<void> _executeQueryScheduleMessage(
   Map<String, dynamic> map,
   SendPort sendPort,
-  CancellationToken token,
+  CancellationToken? token,
 ) async {
   try {
-    ScheduleSource source = map["source"];
-    DateTime from = map["from"];
-    DateTime to = map["to"];
+    final ScheduleSource source = map["source"] as ScheduleSource;
+    final DateTime? from = map["from"] as DateTime?;
+    final DateTime? to = map["to"] as DateTime?;
 
-    var result = await source.querySchedule(from, to, token);
+    final result = await source.querySchedule(from, to, token);
 
     sendPort.send(result);
   } on OperationCancelledException catch (_) {

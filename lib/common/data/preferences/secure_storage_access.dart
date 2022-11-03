@@ -7,7 +7,7 @@ class SecureStorageAccess {
     await _secureStorage.write(key: key, value: value);
   }
 
-  Future<String> get(String key) async {
-    return await _secureStorage.read(key: key);
+  Future<String?> get(String key) async {
+    return _secureStorage.read(key: key);
   }
 }

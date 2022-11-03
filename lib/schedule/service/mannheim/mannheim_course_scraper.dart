@@ -15,11 +15,11 @@ class Course {
 
 class MannheimCourseScraper {
   Future<List<Course>> loadCourses([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
-    if (cancellationToken == null) cancellationToken = CancellationToken();
+    cancellationToken ??= CancellationToken();
 
-    var coursesPage = await _makeRequest(
+    final coursesPage = await _makeRequest(
       Uri.parse("https://vorlesungsplan.dhbw-mannheim.de/ical.php"),
       cancellationToken,
     );
@@ -28,29 +28,32 @@ class MannheimCourseScraper {
   }
 
   Future<Response> _makeRequest(
-      Uri uri, CancellationToken cancellationToken) async {
-    var requestCancellationToken = http.CancellationToken();
+    Uri uri,
+    CancellationToken cancellationToken,
+  ) async {
+    final requestCancellationToken = http.CancellationToken();
 
     try {
-      cancellationToken.setCancellationCallback(() {
-        requestCancellationToken.cancel();
-      });
+      cancellationToken.cancellationCallback = requestCancellationToken.cancel;
 
-      var response = await http.HttpClientHelper.get(uri,
-          cancelToken: requestCancellationToken);
+      final response = await http.HttpClientHelper.get(
+        uri,
+        cancelToken: requestCancellationToken,
+      );
 
-      if (response == null && !requestCancellationToken.isCanceled)
+      if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
+      }
 
-      return response;
+      return response!;
+      // ignore: avoid_catching_errors
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
+      throw ServiceRequestFailed("Http request failed!");
     } finally {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
     }
-
-    return null;
   }
 }

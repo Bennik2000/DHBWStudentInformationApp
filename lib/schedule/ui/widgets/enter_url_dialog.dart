@@ -49,16 +49,17 @@ abstract class EnterUrlDialog {
                     builder: (
                       BuildContext context,
                       ValueNotifier<String> url,
-                      Widget child,
+                      Widget? child,
                     ) {
-                      if (_urlTextController.text != url.value)
+                      if (_urlTextController.text != url.value) {
                         _urlTextController.text = url.value;
+                      }
 
                       return Consumer(
                         builder: (
                           BuildContext context,
                           ValueNotifier<bool> hasUrlError,
-                          Widget child,
+                          Widget? child,
                         ) =>
                             TextField(
                           controller: _urlTextController,
@@ -81,7 +82,7 @@ abstract class EnterUrlDialog {
                   await _pasteUrl();
                 },
                 tooltip: L.of(context).onboardingRaplaUrlPaste,
-                icon: Icon(Icons.content_paste),
+                icon: const Icon(Icons.content_paste),
               ),
             ],
           ),
@@ -102,10 +103,12 @@ abstract class EnterUrlDialog {
       ListenableProvider.value(
         value: _hasUrlError,
         child: Consumer(
-          builder: (BuildContext context, ValueNotifier<bool> hasUrlError,
-                  Widget child) =>
+          builder: (
+            BuildContext context,
+            ValueNotifier<bool> hasUrlError,
+            Widget? child,
+          ) =>
               TextButton(
-            child: Text(L.of(context).dialogOk.toUpperCase()),
             onPressed: hasUrlError.value
                 ? null
                 : () async {
@@ -113,6 +116,7 @@ abstract class EnterUrlDialog {
 
                     await saveUrl(_url.value);
                   },
+            child: Text(L.of(context).dialogOk.toUpperCase()),
           ),
         ),
       ),
@@ -120,15 +124,15 @@ abstract class EnterUrlDialog {
   }
 
   Future _pasteUrl() async {
-    ClipboardData data = await Clipboard.getData('text/plain');
+    final ClipboardData? data = await Clipboard.getData('text/plain');
 
     if (data?.text != null) {
-      _setUrl(data.text);
+      _setUrl(data!.text!);
     }
   }
 
   Future _loadUrl() async {
-    _url.value = await loadUrl();
+    _url.value = await loadUrl() ?? "";
   }
 
   void _setUrl(String url) {
@@ -140,9 +144,9 @@ abstract class EnterUrlDialog {
     _hasUrlError.value = !isValidUrl(_url.value);
   }
 
-  bool isValidUrl(String url);
-  Future saveUrl(String url);
-  Future<String> loadUrl();
+  bool isValidUrl(String? url);
+  Future saveUrl(String? url);
+  Future<String?> loadUrl();
 
   String title(BuildContext context);
   String message(BuildContext context);

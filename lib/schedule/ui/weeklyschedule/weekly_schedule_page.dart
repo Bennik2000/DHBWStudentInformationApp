@@ -1,6 +1,5 @@
 import 'package:animations/animations.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
@@ -13,13 +12,15 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class WeeklySchedulePage extends StatefulWidget {
+  const WeeklySchedulePage({Key? key}) : super(key: key);
+
   @override
   _WeeklySchedulePageState createState() => _WeeklySchedulePageState();
 }
 
 class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
-  WeeklyScheduleViewModel viewModel;
-  Schedule schedule;
+  late WeeklyScheduleViewModel viewModel;
+  Schedule? schedule;
 
   _WeeklySchedulePageState();
 
@@ -29,7 +30,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   }
 
   void _showQueryFailedSnackBar() {
-    Scaffold.of(context).showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -38,28 +39,29 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
             Text(L.of(context).scheduleQueryFailedMessage),
             TextButton(
               child: Text(
-                  L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase()),
+                L.of(context).scheduleQueryFailedOpenInBrowser.toUpperCase(),
+              ),
               onPressed: () {
-                launchUrl(Uri.parse(viewModel.scheduleUrl));
+                launchUrl(Uri.parse(viewModel.scheduleUrl!));
               },
             )
           ],
         ),
-        duration: Duration(seconds: 15),
+        duration: const Duration(seconds: 15),
       ),
     );
   }
 
-  void _previousWeek() async {
-    await viewModel?.previousWeek();
+  Future<void> _previousWeek() async {
+    await viewModel.previousWeek();
   }
 
-  void _nextWeek() async {
-    await viewModel?.nextWeek();
+  Future<void> _nextWeek() async {
+    await viewModel.nextWeek();
   }
 
-  void _goToToday() async {
-    await viewModel?.goToToday();
+  Future<void> _goToToday() async {
+    await viewModel.goToToday();
   }
 
   void _onScheduleEntryTap(BuildContext context, ScheduleEntry entry) {
@@ -77,10 +79,10 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
 
   @override
   Widget build(BuildContext context) {
-    viewModel = Provider.of<BaseViewModel>(context);
+    viewModel = Provider.of<WeeklyScheduleViewModel>(context);
     viewModel.ensureUpdateNowTimerRunning();
 
-    viewModel.setQueryFailedCallback(_showQueryFailedSnackBar);
+    viewModel.queryFailedCallback = _showQueryFailedSnackBar;
 
     return PropertyChangeProvider<WeeklyScheduleViewModel, String>(
       value: viewModel,
@@ -108,24 +110,28 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                         padding: const EdgeInsets.all(8.0),
                         child: PropertyChangeConsumer(
                           properties: const ["weekSchedule", "now"],
-                          builder: (BuildContext context,
-                              WeeklyScheduleViewModel model, Set properties) {
+                          builder: (
+                            BuildContext context,
+                            WeeklyScheduleViewModel? model,
+                            Set? _,
+                          ) {
                             return PageTransitionSwitcher(
-                              reverse: !model.didUpdateScheduleIntoFuture,
-                              duration: const Duration(milliseconds: 300),
-                              transitionBuilder: (Widget child,
-                                      Animation<double> animation,
-                                      Animation<double> secondaryAnimation) =>
+                              reverse: !model!.didUpdateScheduleIntoFuture,
+                              transitionBuilder: (
+                                Widget child,
+                                Animation<double> animation,
+                                Animation<double> secondaryAnimation,
+                              ) =>
                                   SharedAxisTransition(
-                                child: child,
                                 animation: animation,
                                 secondaryAnimation: secondaryAnimation,
                                 transitionType:
                                     SharedAxisTransitionType.horizontal,
+                                child: child,
                               ),
                               child: ScheduleWidget(
                                 key: ValueKey(
-                                  model.currentDateStart.toIso8601String(),
+                                  model.currentDateStart!.toIso8601String(),
                                 ),
                                 schedule: model.weekSchedule,
                                 displayStart: model.clippedDateStart ??
@@ -145,9 +151,12 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
                       ),
                       PropertyChangeConsumer(
                         properties: const ["isUpdating"],
-                        builder: (BuildContext context,
-                            WeeklyScheduleViewModel model, Set properties) {
-                          return model.isUpdating
+                        builder: (
+                          BuildContext context,
+                          WeeklyScheduleViewModel? model,
+                          Set? _,
+                        ) {
+                          return model!.isUpdating
                               ? const LinearProgressIndicator()
                               : Container();
                         },
@@ -169,15 +178,15 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         IconButton(
-          icon: Icon(Icons.chevron_left),
+          icon: const Icon(Icons.chevron_left),
           onPressed: _previousWeek,
         ),
         IconButton(
-          icon: Icon(Icons.today),
+          icon: const Icon(Icons.today),
           onPressed: _goToToday,
         ),
         IconButton(
-          icon: Icon(Icons.chevron_right),
+          icon: const Icon(Icons.chevron_right),
           onPressed: _nextWeek,
         ),
       ],
@@ -189,10 +198,9 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
       properties: const [
         "updateFailed",
       ],
-      builder: (BuildContext context, WeeklyScheduleViewModel model,
-              Set properties) =>
+      builder: (BuildContext context, WeeklyScheduleViewModel? model, Set? _) =>
           ErrorDisplay(
-        show: model.updateFailed,
+        show: model!.updateFailed,
       ),
     );
   }

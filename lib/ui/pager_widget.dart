@@ -15,23 +15,19 @@ import 'package:provider/provider.dart';
 ///
 class PagerWidget extends StatefulWidget {
   final List<PageDefinition> pages;
-  final String pagesId;
+  final String? pagesId;
 
-  const PagerWidget({Key key, @required this.pages, this.pagesId})
+  const PagerWidget({Key? key, required this.pages, this.pagesId})
       : super(key: key);
 
   @override
-  _PagerWidgetState createState() => _PagerWidgetState(pages, pagesId);
+  _PagerWidgetState createState() => _PagerWidgetState();
 }
 
 class _PagerWidgetState extends State<PagerWidget> {
   final PreferencesProvider preferencesProvider = KiwiContainer().resolve();
 
-  final String pagesId;
-  final List<PageDefinition> pages;
   int _currentPage = 0;
-
-  _PagerWidgetState(this.pages, this.pagesId);
 
   @override
   void initState() {
@@ -49,37 +45,23 @@ class _PagerWidgetState extends State<PagerWidget> {
           key: ValueKey(_currentPage),
           children: <Widget>[
             Expanded(
-              child: _wrapWithChangeNotifierProvider(
-                pages[_currentPage].builder(context),
-                pages[_currentPage].viewModel,
-              ),
+              child: widget.pages[_currentPage].widget(context),
             ),
           ],
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentPage,
-        onTap: (int index) async {
-          await setActivePage(index);
-        },
+        onTap: setActivePage,
         items: buildBottomNavigationBarItems(),
       ),
     );
   }
 
-  Widget _wrapWithChangeNotifierProvider(Widget child, BaseViewModel value) {
-    if (value == null) return child;
-
-    return ChangeNotifierProvider.value(
-      child: child,
-      value: value,
-    );
-  }
-
   List<BottomNavigationBarItem> buildBottomNavigationBarItems() {
-    var bottomNavigationBarItems = <BottomNavigationBarItem>[];
+    final bottomNavigationBarItems = <BottomNavigationBarItem>[];
 
-    for (var page in pages) {
+    for (final page in widget.pages) {
       bottomNavigationBarItems.add(
         BottomNavigationBarItem(
           icon: page.icon,
@@ -91,7 +73,7 @@ class _PagerWidgetState extends State<PagerWidget> {
   }
 
   Future<void> setActivePage(int page) async {
-    if (page < 0 || page >= pages.length) {
+    if (page < 0 || page >= widget.pages.length) {
       return;
     }
 
@@ -99,20 +81,20 @@ class _PagerWidgetState extends State<PagerWidget> {
       _currentPage = page;
     });
 
-    if (pagesId == null) return;
-    await preferencesProvider.set("${pagesId}_active_page", page);
+    if (widget.pagesId == null) return;
+    await preferencesProvider.set("${widget.pagesId}_active_page", page);
   }
 
   Future<void> loadActivePage() async {
-    if (pagesId == null) return;
+    if (widget.pagesId == null) return;
 
-    var selectedPage = await preferencesProvider.get<int>(
-      "${pagesId}_active_page",
+    final selectedPage = await preferencesProvider.get<int>(
+      "${widget.pagesId}_active_page",
     );
 
     if (selectedPage == null) return;
 
-    if (selectedPage > 0 && selectedPage < pages.length) {
+    if (selectedPage > 0 && selectedPage < widget.pages.length) {
       setState(() {
         _currentPage = selectedPage;
       });
@@ -120,16 +102,26 @@ class _PagerWidgetState extends State<PagerWidget> {
   }
 }
 
-class PageDefinition {
+class PageDefinition<T extends BaseViewModel> {
   final Widget icon;
   final String text;
   final WidgetBuilder builder;
-  final BaseViewModel viewModel;
+  final T? viewModel;
 
   PageDefinition({
-    @required this.icon,
-    @required this.text,
-    @required this.builder,
+    required this.icon,
+    required this.text,
+    required this.builder,
     this.viewModel,
   });
+
+  /// Wraps the Widget with a [ChangeNotifierProvider] if [viewModel] is specified.
+  Widget widget(BuildContext context) {
+    if (viewModel == null) return builder(context);
+
+    return ChangeNotifierProvider.value(
+      value: viewModel,
+      child: builder(context),
+    );
+  }
 }

@@ -23,7 +23,10 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
   ///
   @override
   Future<void> scheduleOneShotTaskIn(
-      Duration delay, String id, String name) async {
+    Duration delay,
+    String id,
+    String name,
+  ) async {
     print(
       "Scheduling one shot task: $id. With a delay of ${delay.inMinutes} minutes.",
     );
@@ -103,13 +106,16 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
   ///
   /// Entry point for when a background task is executed
   ///
-  static Future<bool> backgroundTaskMain(taskId, inputData) async {
+  static Future<bool> backgroundTaskMain(
+    String taskId,
+    Map<String, dynamic>? inputData,
+  ) async {
     try {
       print("Background task started: $taskId with data: $inputData");
 
       await initializeApp(true);
 
-      WorkSchedulerService scheduler = KiwiContainer().resolve();
+      final WorkSchedulerService scheduler = KiwiContainer().resolve();
 
       await scheduler.executeTask(taskId);
     } catch (e, trace) {
@@ -129,7 +135,6 @@ class BackgroundWorkScheduler extends WorkSchedulerService {
 
     await workmanager.initialize(
       callbackDispatcher,
-      isInDebugMode: false,
     );
   }
 

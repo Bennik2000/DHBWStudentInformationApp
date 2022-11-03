@@ -28,14 +28,14 @@ class RateInStoreDialog {
   Future<void> _showRateDialog(BuildContext context) async {
     await analytics.logEvent(name: "rateRequestShown");
 
-    return await showDialog<void>(
+    return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          buttonPadding: const EdgeInsets.all(0),
-          actionsPadding: const EdgeInsets.all(0),
-          contentPadding: const EdgeInsets.all(0),
+          buttonPadding: EdgeInsets.zero,
+          actionsPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
           title: Text(L.of(context).rateDialogTitle),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -89,7 +89,8 @@ class RateInStoreDialog {
     await analytics.logEvent(name: "rateLater");
 
     await _preferencesProvider.setNextRateInStoreLaunchCount(
-        RateInStoreLaunchAfter + _appLaunchCounter);
+      RateInStoreLaunchAfter + _appLaunchCounter,
+    );
   }
 
   Future<void> _rateNow() async {
