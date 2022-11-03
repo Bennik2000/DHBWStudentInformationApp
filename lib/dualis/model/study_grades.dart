@@ -1,10 +1,10 @@
 class StudyGrades {
-  final double gpaTotal;
-  final double gpaMainModules;
-  final double creditsTotal;
-  final double creditsGained;
+  final double? gpaTotal;
+  final double? gpaMainModules;
+  final double? creditsTotal;
+  final double? creditsGained;
 
-  StudyGrades(
+  const StudyGrades(
     this.gpaTotal,
     this.gpaMainModules,
     this.creditsTotal,

@@ -7,34 +7,29 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class SelectMannheimCourseDialog {
-  final ScheduleSourceProvider _scheduleSourceProvider;
-
-  MannheimViewModel _mannheimViewModel;
+  final MannheimViewModel _mannheimViewModel;
 
   SelectMannheimCourseDialog(
-    this._scheduleSourceProvider,
-  );
+    ScheduleSourceProvider scheduleSourceProvider,
+  ) : _mannheimViewModel = MannheimViewModel(scheduleSourceProvider);
 
   Future show(BuildContext context) async {
-    _mannheimViewModel = MannheimViewModel(_scheduleSourceProvider);
-
     await showDialog(
       context: context,
-      builder: (context) => _buildDialog(context),
+      builder: _buildDialog,
     );
   }
 
   AlertDialog _buildDialog(BuildContext context) {
     return AlertDialog(
       title: Text(L.of(context).onboardingMannheimTitle),
-      contentPadding: EdgeInsets.all(0),
+      contentPadding: EdgeInsets.zero,
       content: PropertyChangeProvider<OnboardingStepViewModel, String>(
         value: _mannheimViewModel,
-        child: Container(
+        child: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
-            mainAxisSize: MainAxisSize.max,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               Padding(
@@ -44,9 +39,9 @@ class SelectMannheimCourseDialog {
                   style: Theme.of(context).textTheme.bodyText2,
                 ),
               ),
-              Expanded(
+              const Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                  padding: EdgeInsets.fromLTRB(8, 0, 8, 0),
                   child: SelectMannheimCourseWidget(),
                 ),
               ),

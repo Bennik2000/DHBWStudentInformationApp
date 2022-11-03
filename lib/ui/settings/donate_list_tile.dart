@@ -7,6 +7,8 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class DonateListTile extends StatefulWidget {
+  const DonateListTile({super.key});
+
   @override
   _DonateListTileState createState() => _DonateListTileState();
 }
@@ -14,7 +16,7 @@ class DonateListTile extends StatefulWidget {
 class _DonateListTileState extends State<DonateListTile> {
   final InAppPurchaseManager inAppPurchaseManager;
 
-  SettingsViewModel model;
+  late SettingsViewModel model;
 
   bool isPurchasing = false;
 
@@ -34,7 +36,7 @@ class _DonateListTileState extends State<DonateListTile> {
     inAppPurchaseManager.removePurchaseCallback(null, purchaseCallback);
   }
 
-  void purchaseCallback(String productId, PurchaseResultEnum result) {
+  void purchaseCallback(String? productId, PurchaseResultEnum result) {
     if (!mounted) return;
 
     setState(() {
@@ -49,18 +51,19 @@ class _DonateListTileState extends State<DonateListTile> {
       properties: const [
         "didPurchaseWidget",
       ],
-    ).value;
+    )!
+        .value;
 
     if (model.widgetPurchaseState == null) {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
+      return const Padding(
+        padding: EdgeInsets.all(8.0),
         child: Center(
           child: SizedBox(
+            width: 16,
+            height: 16,
             child: CircularProgressIndicator(
               strokeWidth: 2,
             ),
-            width: 16,
-            height: 16,
           ),
         ),
       );
@@ -68,21 +71,21 @@ class _DonateListTileState extends State<DonateListTile> {
       return ListTile(
         title: Text(L.of(context).donateButtonTitle),
         subtitle: isPurchasing
-            ? Align(
+            ? const Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0),
                   child: SizedBox(
+                    width: 16,
+                    height: 16,
                     child: CircularProgressIndicator(
                       strokeWidth: 2,
                     ),
-                    width: 16,
-                    height: 16,
                   ),
                 ),
               )
             : Text(L.of(context).donateButtonSubtitle),
-        trailing: Icon(Icons.free_breakfast),
+        trailing: const Icon(Icons.free_breakfast),
         onTap: _purchaseClicked,
       );
     }
@@ -90,9 +93,9 @@ class _DonateListTileState extends State<DonateListTile> {
     return Container();
   }
 
-  void _purchaseClicked() async {
-    if (isPurchasing || model.widgetPurchaseState == PurchaseStateEnum.Purchased)
-      return;
+  Future<void> _purchaseClicked() async {
+    if (isPurchasing ||
+        model.widgetPurchaseState == PurchaseStateEnum.Purchased) return;
 
     setState(() {
       isPurchasing = true;

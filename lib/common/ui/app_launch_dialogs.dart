@@ -11,7 +11,7 @@ import 'package:flutter/material.dart';
 class AppLaunchDialog {
   final PreferencesProvider _preferencesProvider;
 
-  AppLaunchDialog(this._preferencesProvider);
+  const AppLaunchDialog(this._preferencesProvider);
 
   Future<void> showAppLaunchDialogs(BuildContext context) async {
     final appLaunchCounter = await _preferencesProvider.getAppLaunchCounter();

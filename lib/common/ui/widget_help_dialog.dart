@@ -11,7 +11,7 @@ class WidgetHelpDialog {
   final PreferencesProvider _preferencesProvider;
   final int _appLaunchCounter;
 
-  WidgetHelpDialog(this._preferencesProvider, this._appLaunchCounter);
+  const WidgetHelpDialog(this._preferencesProvider, this._appLaunchCounter);
 
   Future<void> showIfNeeded(BuildContext context) async {
     if (!PlatformUtil.isAndroid()) return;
@@ -24,21 +24,22 @@ class WidgetHelpDialog {
   }
 
   Future<void> _showDialog(BuildContext context) async {
-    return await showDialog<void>(
+    return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          buttonPadding: const EdgeInsets.all(0),
-          actionsPadding: const EdgeInsets.all(0),
-          contentPadding: const EdgeInsets.all(0),
+          buttonPadding: EdgeInsets.zero,
+          actionsPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
           title: Text(L.of(context).widgetHelpDialogTitle),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Text(L.of(context).widgetHelpDialogMessage)),
+                padding: const EdgeInsets.all(24),
+                child: Text(L.of(context).widgetHelpDialogMessage),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                 child: _buildButtonBar(context),

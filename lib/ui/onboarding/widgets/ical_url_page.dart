@@ -4,18 +4,13 @@ import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_ba
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-class IcalUrlPage extends StatefulWidget {
-  @override
-  _IcalUrlPageState createState() => _IcalUrlPageState();
-}
-
-class _IcalUrlPageState extends State<IcalUrlPage> {
-  final TextEditingController _urlTextController = TextEditingController();
+class IcalUrlPage extends StatelessWidget {
+  const IcalUrlPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController urlTextController = TextEditingController();
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
@@ -40,12 +35,17 @@ class _IcalUrlPageState extends State<IcalUrlPage> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
             child: PropertyChangeConsumer<OnboardingStepViewModel, String>(
-              builder: (BuildContext context, OnboardingStepViewModel model,
-                  Set<Object> _) {
-                var viewModel = model as IcalUrlViewModel;
+              builder: (
+                BuildContext context,
+                OnboardingStepViewModel? model,
+                Set<Object>? _,
+              ) {
+                final viewModel = model as IcalUrlViewModel?;
 
-                if (_urlTextController.text != viewModel.url)
-                  _urlTextController.text = viewModel.url;
+                if (viewModel?.url != null &&
+                    urlTextController.text != viewModel!.url) {
+                  urlTextController.text = viewModel.url!;
+                }
 
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
@@ -54,23 +54,21 @@ class _IcalUrlPageState extends State<IcalUrlPage> {
                     children: <Widget>[
                       Expanded(
                         child: TextField(
-                          controller: _urlTextController,
+                          controller: urlTextController,
                           decoration: InputDecoration(
-                            errorText: (viewModel.urlHasError ?? false)
+                            errorText: (viewModel?.urlHasError == true)
                                 ? L.of(context).onboardingRaplaUrlInvalid
                                 : null,
                             hintText: L.of(context).onboardingIcalUrlHint,
                           ),
-                          onChanged: (value) {
-                            viewModel.setUrl(value);
-                          },
+                          onChanged: (v) => viewModel?.url = v,
                         ),
                       ),
                       TextButton.icon(
                         onPressed: () async {
-                          await viewModel.pasteUrl();
+                          await viewModel?.pasteUrl();
                         },
-                        icon: Icon(Icons.content_paste),
+                        icon: const Icon(Icons.content_paste),
                         label: Text(
                           L.of(context).onboardingRaplaUrlPaste.toUpperCase(),
                         ),

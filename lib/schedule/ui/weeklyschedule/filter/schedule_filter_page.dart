@@ -5,6 +5,8 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class ScheduleFilterPage extends StatelessWidget {
+  ScheduleFilterPage({super.key});
+
   final FilterViewModel _viewModel = FilterViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
@@ -46,14 +48,18 @@ class ScheduleFilterPage extends StatelessWidget {
               child: PropertyChangeProvider<FilterViewModel, String>(
                 value: _viewModel,
                 child: PropertyChangeConsumer<FilterViewModel, String>(
-                    builder: (BuildContext _, FilterViewModel viewModel,
-                            Set<Object> ___) =>
-                        ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: viewModel.filterStates.length,
-                          itemBuilder: (context, index) =>
-                              FilterStateRow(viewModel.filterStates[index]),
-                        )),
+                  builder: (
+                    BuildContext _,
+                    FilterViewModel? viewModel,
+                    Set<Object>? ___,
+                  ) =>
+                      ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: viewModel!.filterStates.length,
+                    itemBuilder: (context, index) =>
+                        FilterStateRow(viewModel.filterStates[index]),
+                  ),
+                ),
               ),
             )
           ],
@@ -74,7 +80,9 @@ class FilterStateRow extends StatefulWidget {
 }
 
 class _FilterStateRowState extends State<FilterStateRow> {
-  bool isChecked = false;
+  bool? isChecked = false;
+
+  _FilterStateRowState();
 
   @override
   void initState() {
@@ -94,7 +102,7 @@ class _FilterStateRowState extends State<FilterStateRow> {
         });
       },
       controlAffinity: ListTileControlAffinity.leading,
-      title: Text(widget.filterState.entryName),
+      title: Text(widget.filterState.entryName!),
     );
   }
 }

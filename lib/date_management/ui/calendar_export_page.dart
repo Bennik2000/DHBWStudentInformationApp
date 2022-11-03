@@ -1,7 +1,7 @@
 import 'package:device_calendar/device_calendar.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/ui/app_theme.dart';
 import 'package:dhbwstudentapp/date_management/data/calendar_access.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/calendar_export_view_model.dart';
@@ -14,36 +14,32 @@ class CalendarExportPage extends StatefulWidget {
   final bool isCalendarSyncWidget;
   final bool isCalendarSyncEnabled;
 
-  const CalendarExportPage(
-      {Key key,
-      this.entriesToExport,
-      this.isCalendarSyncWidget = false,
-      this.isCalendarSyncEnabled = false})
-      : super(key: key);
+  const CalendarExportPage({
+    super.key,
+    required this.entriesToExport,
+    this.isCalendarSyncWidget = false,
+    this.isCalendarSyncEnabled = false,
+  });
 
   @override
-  _CalendarExportPageState createState() => _CalendarExportPageState(
-      entriesToExport, isCalendarSyncWidget, isCalendarSyncEnabled);
+  _CalendarExportPageState createState() => _CalendarExportPageState();
 }
 
 class _CalendarExportPageState extends State<CalendarExportPage> {
-  final List<DateEntry> entriesToExport;
-  final bool isCalendarSyncWidget;
-  final bool isCalendarSyncEnabled;
-  CalendarExportViewModel viewModel;
+  late CalendarExportViewModel viewModel;
 
-  _CalendarExportPageState(this.entriesToExport, this.isCalendarSyncWidget,
-      this.isCalendarSyncEnabled);
+  _CalendarExportPageState();
 
   @override
   void initState() {
     super.initState();
 
-    viewModel = CalendarExportViewModel(entriesToExport, CalendarAccess(),
-        KiwiContainer().resolve<PreferencesProvider>());
-    viewModel.setOnPermissionDeniedCallback(() {
-      Navigator.of(context).pop();
-    });
+    viewModel = CalendarExportViewModel(
+      widget.entriesToExport,
+      CalendarAccess(),
+      KiwiContainer().resolve<PreferencesProvider>(),
+    );
+    viewModel.onPermissionDeniedCallback = Navigator.of(context).pop;
     viewModel.loadSelectedCalendar();
   }
 
@@ -57,9 +53,11 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
           actionsIconTheme: Theme.of(context).iconTheme,
           elevation: 0,
           iconTheme: Theme.of(context).iconTheme,
-          title: Text(this.isCalendarSyncWidget
-              ? L.of(context).calendarSyncPageTitle
-              : L.of(context).dateManagementExportToCalendar),
+          title: Text(
+            widget.isCalendarSyncWidget
+                ? L.of(context).calendarSyncPageTitle
+                : L.of(context).dateManagementExportToCalendar,
+          ),
           toolbarTextStyle: Theme.of(context).textTheme.bodyText2,
           titleTextStyle: Theme.of(context).textTheme.headline6,
         ),
@@ -69,9 +67,11 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
               padding: const EdgeInsets.all(24),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text(this.isCalendarSyncWidget
-                    ? L.of(context).calendarSyncPageSubtitle
-                    : L.of(context).dateManagementExportToCalendarDescription),
+                child: Text(
+                  widget.isCalendarSyncWidget
+                      ? L.of(context).calendarSyncPageSubtitle
+                      : L.of(context).dateManagementExportToCalendarDescription,
+                ),
               ),
             ),
             _buildCalendarList(),
@@ -89,12 +89,13 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
   Widget _buildCalendarList() {
     return Expanded(
       child: PropertyChangeConsumer<CalendarExportViewModel, String>(
-        builder: (BuildContext context, CalendarExportViewModel viewModel, _) =>
-            ListView.builder(
-          itemCount: viewModel.calendars.length,
+        builder:
+            (BuildContext context, CalendarExportViewModel? viewModel, _) =>
+                ListView.builder(
+          itemCount: viewModel!.calendars.length,
           itemBuilder: (BuildContext context, int index) {
-            var isSelected = viewModel.selectedCalendar?.id ==
-                viewModel.calendars[index]?.id;
+            final isSelected =
+                viewModel.selectedCalendar?.id == viewModel.calendars[index].id;
 
             return _buildCalendarListEntry(
               viewModel.calendars[index],
@@ -109,33 +110,31 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
   Widget _buildStopCalendarSyncBtn() {
     // Dont display the "Synchronisation beenden" button,
     //if synchronization is not enabled or if it is not the right page
-    if (!this.isCalendarSyncWidget) return SizedBox();
+    if (!widget.isCalendarSyncWidget) return const SizedBox();
 
     return PropertyChangeProvider<CalendarExportViewModel, String>(
       value: viewModel,
       child: Column(
         children: [
-          Container(
-            decoration: this.isCalendarSyncEnabled ? null : null,
-            child: ListTile(
-              enabled: this.isCalendarSyncEnabled ? true : false,
-              title: Text(
-                L.of(context).calendarSyncPageEndSync.toUpperCase(),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: this.isCalendarSyncEnabled
-                        ? ColorPalettes.main
-                        : Theme.of(context).disabledColor,
-                    fontSize: 14),
+          ListTile(
+            enabled: widget.isCalendarSyncEnabled,
+            title: Text(
+              L.of(context).calendarSyncPageEndSync.toUpperCase(),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: widget.isCalendarSyncEnabled
+                    ? AppTheme.main
+                    : Theme.of(context).disabledColor,
+                fontSize: 14,
               ),
-              onTap: () async {
-                KiwiContainer()
-                    .resolve<PreferencesProvider>()
-                    .setIsCalendarSyncEnabled(false);
-                viewModel.resetSelectedCalendar();
-                Navigator.of(context).pop();
-              },
             ),
+            onTap: () async {
+              KiwiContainer()
+                  .resolve<PreferencesProvider>()
+                  .setIsCalendarSyncEnabled(false);
+              viewModel.resetSelectedCalendar();
+              Navigator.of(context).pop();
+            },
           ),
           const Divider(
             height: 1,
@@ -156,21 +155,20 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(32, 16, 32, 16),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
               width: 24,
               height: 24,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: isSelected ? Color(calendar.color) : Colors.transparent,
+                color: isSelected ? Color(calendar.color!) : Colors.transparent,
                 border: Border.all(
-                  color: Color(calendar.color),
+                  color: Color(calendar.color!),
                   width: 4,
                 ),
               ),
               child: isSelected
-                  ? Center(
+                  ? const Center(
                       child: Icon(
                         Icons.check,
                         size: 16,
@@ -181,7 +179,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-              child: Text(calendar.name),
+              child: Text(calendar.name!),
             ),
           ],
         ),
@@ -191,20 +189,22 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
 
   Widget _buildExportButton() {
     return PropertyChangeConsumer<CalendarExportViewModel, String>(
-      builder: (BuildContext context, CalendarExportViewModel viewModel, _) =>
-          viewModel.isExporting
+      builder: (BuildContext context, CalendarExportViewModel? viewModel, _) =>
+          viewModel!.isExporting
               ? const Padding(
                   padding: EdgeInsets.fromLTRB(8, 8, 8, 15),
                   child: SizedBox(
-                      height: 32,
-                      width: 32,
-                      child: CircularProgressIndicator()),
+                    height: 32,
+                    width: 32,
+                    child: CircularProgressIndicator(),
+                  ),
                 )
-              : Container(
+              : DecoratedBox(
                   decoration: !viewModel.canExport
-                      ? new BoxDecoration(
-                          color: Theme.of(context).colorScheme.background)
-                      : new BoxDecoration(
+                      ? BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
+                        )
+                      : BoxDecoration(
                           color: Theme.of(context).colorScheme.primary,
                         ),
                   child: Padding(
@@ -214,7 +214,7 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                         borderRadius: BorderRadius.all(Radius.circular(4.0)),
                       ),
                       title: Text(
-                        this.isCalendarSyncWidget
+                        widget.isCalendarSyncWidget
                             ? L
                                 .of(context)
                                 .calendarSyncPageBeginSync
@@ -224,18 +224,19 @@ class _CalendarExportPageState extends State<CalendarExportPage> {
                                 .dateManagementExportToCalendarConfirm
                                 .toUpperCase(),
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14,
                           color: Colors.white,
                         ),
                       ),
                       onTap: viewModel.canExport
                           ? () async {
-                              if (this.isCalendarSyncWidget) {
-                                var preferencesProvider = KiwiContainer()
+                              if (widget.isCalendarSyncWidget) {
+                                final preferencesProvider = KiwiContainer()
                                     .resolve<PreferencesProvider>();
                                 preferencesProvider.setSelectedCalendar(
-                                    viewModel.selectedCalendar);
+                                  viewModel.selectedCalendar,
+                                );
                                 preferencesProvider
                                     .setIsCalendarSyncEnabled(true);
                               }

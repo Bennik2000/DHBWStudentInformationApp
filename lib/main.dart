@@ -1,15 +1,14 @@
 import 'dart:io';
 
-import 'package:dhbwstudentapp/ui/root_page.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:dhbwstudentapp/common/appstart/app_initializer.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
-import 'package:kiwi/kiwi.dart';
+import 'package:dhbwstudentapp/common/util/platform_util.dart';
+import 'package:dhbwstudentapp/ui/root_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
-
-import 'common/util/platform_util.dart';
+import 'package:kiwi/kiwi.dart';
 
 ///
 /// Main entry point for the app
@@ -26,9 +25,11 @@ void main() async {
 
   await PlatformUtil.initializePortraitLandscapeMode();
 
-  runApp(RootPage(
-    rootViewModel: await loadRootViewModel(),
-  ));
+  runApp(
+    RootPage(
+      rootViewModel: await loadRootViewModel(),
+    ),
+  );
 }
 
 ///
@@ -38,12 +39,12 @@ void main() async {
 /// used language
 ///
 Future<void> saveLastStartLanguage() async {
-  PreferencesProvider preferencesProvider = KiwiContainer().resolve();
+  final PreferencesProvider preferencesProvider = KiwiContainer().resolve();
   await preferencesProvider.setLastUsedLanguageCode(Platform.localeName);
 }
 
 Future<RootViewModel> loadRootViewModel() async {
-  var rootViewModel = RootViewModel(
+  final rootViewModel = RootViewModel(
     KiwiContainer().resolve(),
   );
 

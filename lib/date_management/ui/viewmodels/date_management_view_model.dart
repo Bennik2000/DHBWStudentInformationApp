@@ -3,46 +3,51 @@ import 'dart:async';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/util/cancelable_mutex.dart';
-import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
 import 'package:dhbwstudentapp/date_management/business/date_entry_provider.dart';
 import 'package:dhbwstudentapp/date_management/model/date_database.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:dhbwstudentapp/date_management/model/date_search_parameters.dart';
-import 'package:dhbwstudentapp/schedule/service/schedule_source.dart';
 
 class DateManagementViewModel extends BaseViewModel {
   final DateEntryProvider _dateEntryProvider;
   final PreferencesProvider _preferencesProvider;
 
   final List<DateDatabase> _allDateDatabases = [
-    DateDatabase("BWL-Bank", "Termine_BWL_Bank"),
-    DateDatabase("Immobilienwirtschaft", "Termine_BWL_Immo"),
-    DateDatabase(
-        "Dienstleistungsmanagement Consulting & Sales", "Termine_DLM_Consult"),
-    DateDatabase("Dienstleistungsmanagement Logistik", "Termine_DLM_Logistik"),
-    DateDatabase("Campus Horb Informatik", "Termine_Horb_INF"),
-    DateDatabase("Campus Horb Maschinenbau", "Termine_Horb_MB"),
-    DateDatabase("International Business", "Termine_IB"),
-    DateDatabase("Informatik", "Termine_Informatik"),
-    DateDatabase("MUK (DLM - C&S, LogM, MUK)", "Termine_MUK"),
-    DateDatabase("SO_GuO (Abweichungen und Ergänzungen zum Vorlesungsplan)",
-        "Termine_SO_GuO"),
-    DateDatabase("Wirtschaftsingenieurwesen", "Termine_WIW"),
+    const DateDatabase("BWL-Bank", "Termine_BWL_Bank"),
+    const DateDatabase("Immobilienwirtschaft", "Termine_BWL_Immo"),
+    const DateDatabase(
+      "Dienstleistungsmanagement Consulting & Sales",
+      "Termine_DLM_Consult",
+    ),
+    const DateDatabase(
+      "Dienstleistungsmanagement Logistik",
+      "Termine_DLM_Logistik",
+    ),
+    const DateDatabase("Campus Horb Informatik", "Termine_Horb_INF"),
+    const DateDatabase("Campus Horb Maschinenbau", "Termine_Horb_MB"),
+    const DateDatabase("International Business", "Termine_IB"),
+    const DateDatabase("Informatik", "Termine_Informatik"),
+    const DateDatabase("MUK (DLM - C&S, LogM, MUK)", "Termine_MUK"),
+    const DateDatabase(
+      "SO_GuO (Abweichungen und Ergänzungen zum Vorlesungsplan)",
+      "Termine_SO_GuO",
+    ),
+    const DateDatabase("Wirtschaftsingenieurwesen", "Termine_WIW"),
   ];
   List<DateDatabase> get allDateDatabases => _allDateDatabases;
 
   final CancelableMutex _updateMutex = CancelableMutex();
 
-  Timer _errorResetTimer;
+  Timer? _errorResetTimer;
 
-  List<String> _years;
+  final List<String> _years = [];
   List<String> get years => _years;
 
-  String _currentSelectedYear;
-  String get currentSelectedYear => _currentSelectedYear;
+  String? _currentSelectedYear;
+  String? get currentSelectedYear => _currentSelectedYear;
 
-  List<DateEntry> _allDates;
-  List<DateEntry> get allDates => _allDates;
+  List<DateEntry>? _allDates;
+  List<DateEntry>? get allDates => _allDates;
 
   bool _showPassedDates = false;
   bool get showPassedDates => _showPassedDates;
@@ -53,8 +58,8 @@ class DateManagementViewModel extends BaseViewModel {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  DateDatabase _currentDateDatabase;
-  DateDatabase get currentDateDatabase => _currentDateDatabase;
+  DateDatabase? _currentDateDatabase;
+  DateDatabase? get currentDateDatabase => _currentDateDatabase;
 
   int _dateEntriesKeyIndex = 0;
   int get dateEntriesKeyIndex => _dateEntriesKeyIndex;
@@ -75,8 +80,6 @@ class DateManagementViewModel extends BaseViewModel {
   }
 
   void _buildYearsArray() {
-    _years = [];
-
     for (var i = 2017; i < DateTime.now().year + 3; i++) {
       _years.add(i.toString());
     }
@@ -90,7 +93,8 @@ class DateManagementViewModel extends BaseViewModel {
       notifyListeners("isLoading");
 
       await _doUpdateDates();
-    } catch (_) {} finally {
+    } catch (_) {
+    } finally {
       _isLoading = false;
       _updateMutex.release();
       notifyListeners("isLoading");
@@ -98,12 +102,12 @@ class DateManagementViewModel extends BaseViewModel {
   }
 
   Future<void> _doUpdateDates() async {
-    var cachedDateEntries = await _readCachedDateEntries();
-    _updateMutex.token.throwIfCancelled();
+    final cachedDateEntries = await _readCachedDateEntries();
+    _updateMutex.token?.throwIfCancelled();
     _setAllDates(cachedDateEntries);
 
-    var loadedDateEntries = await _readUpdatedDateEntries();
-    _updateMutex.token.throwIfCancelled();
+    final loadedDateEntries = await _readUpdatedDateEntries();
+    _updateMutex.token?.throwIfCancelled();
 
     if (loadedDateEntries != null) {
       _setAllDates(loadedDateEntries);
@@ -117,23 +121,22 @@ class DateManagementViewModel extends BaseViewModel {
     notifyListeners("updateFailed");
   }
 
-  Future<List<DateEntry>> _readUpdatedDateEntries() async {
+  Future<List<DateEntry>?> _readUpdatedDateEntries() async {
     try {
-      var loadedDateEntries = await _dateEntryProvider.getDateEntries(
+      final loadedDateEntries = await _dateEntryProvider.getDateEntries(
         dateSearchParameters,
         _updateMutex.token,
       );
       return loadedDateEntries;
-    } on OperationCancelledException {} on ServiceRequestFailed {}
-
-    return null;
+    } catch (_) {
+      return null;
+    }
   }
 
   Future<List<DateEntry>> _readCachedDateEntries() async {
-    var cachedDateEntries = await _dateEntryProvider.getCachedDateEntries(
+    return _dateEntryProvider.getCachedDateEntries(
       dateSearchParameters,
     );
-    return cachedDateEntries;
   }
 
   void _setAllDates(List<DateEntry> dateEntries) {
@@ -143,59 +146,60 @@ class DateManagementViewModel extends BaseViewModel {
     notifyListeners("allDates");
   }
 
-  void setShowPassedDates(bool value) {
+  set showPassedDates(bool? value) {
+    if (value == null) return;
+
     _showPassedDates = value;
     notifyListeners("showPassedDates");
   }
 
-  void setShowFutureDates(bool value) {
+  set showFutureDates(bool? value) {
+    if (value == null) return;
+
     _showFutureDates = value;
     notifyListeners("showFutureDates");
   }
 
-  void setCurrentDateDatabase(DateDatabase database) {
+  set currentDateDatabase(DateDatabase? database) {
     _currentDateDatabase = database;
     notifyListeners("currentDateDatabase");
 
     _preferencesProvider.setLastViewedDateEntryDatabase(database?.id);
   }
 
-  void setCurrentSelectedYear(String year) {
+  set currentSelectedYear(String? year) {
+    if (year == null) return;
+
     _currentSelectedYear = year;
     notifyListeners("currentSelectedYear");
 
     _preferencesProvider.setLastViewedDateEntryYear(year);
   }
 
-  void _loadDefaultSelection() async {
-    var database = await _preferencesProvider.getLastViewedDateEntryDatabase();
+  Future<void> _loadDefaultSelection() async {
+    final database =
+        await _preferencesProvider.getLastViewedDateEntryDatabase();
 
     bool didSetDatabase = false;
-    for (var db in allDateDatabases) {
+    for (final db in allDateDatabases) {
       if (db.id == database) {
-        setCurrentDateDatabase(db);
+        currentDateDatabase = db;
         didSetDatabase = true;
       }
     }
 
     if (!didSetDatabase) {
-      setCurrentDateDatabase(allDateDatabases[0]);
+      currentDateDatabase = allDateDatabases[0];
     }
 
-    var year = await _preferencesProvider.getLastViewedDateEntryYear();
-    if (year != null) {
-      setCurrentSelectedYear(year);
-    } else {
-      setCurrentSelectedYear(years[0]);
-    }
+    final year = await _preferencesProvider.getLastViewedDateEntryYear();
+    currentSelectedYear = year ?? years[0];
 
     await updateDates();
   }
 
-  void _cancelErrorInFuture() async {
-    if (_errorResetTimer != null) {
-      _errorResetTimer.cancel();
-    }
+  Future<void> _cancelErrorInFuture() async {
+    _errorResetTimer?.cancel();
 
     _errorResetTimer = Timer(
       const Duration(seconds: 5),

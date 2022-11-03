@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/assets.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
 import 'package:dhbwstudentapp/ui/banner_widget.dart';
@@ -5,9 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 
 class ScheduleEmptyState extends StatelessWidget {
-  final Map<Brightness, String> image = {
-    Brightness.dark: "assets/schedule_empty_state_dark.png",
-    Brightness.light: "assets/schedule_empty_state.png",
+  const ScheduleEmptyState({super.key});
+
+  static const Map<Brightness, String> image = {
+    Brightness.dark: Assets.assets_schedule_empty_state_dark_png,
+    Brightness.light: Assets.assets_schedule_empty_state_png,
   };
 
   @override
@@ -32,7 +35,7 @@ class ScheduleEmptyState extends StatelessWidget {
           child: ClipRRect(
             child: Padding(
               padding: const EdgeInsets.all(32),
-              child: Image.asset(image[Theme.of(context).brightness]),
+              child: Image.asset(image[Theme.of(context).brightness]!),
             ),
           ),
         )

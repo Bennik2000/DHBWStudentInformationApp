@@ -28,52 +28,53 @@ class ScheduleProvider {
   final PreferencesProvider _preferencesProvider;
   final ScheduleSourceProvider _scheduleSource;
   final ScheduleEntryRepository _scheduleEntryRepository;
-  final ScheduleFilterRepository _scheduleFilterRepository;
   final ScheduleQueryInformationRepository _scheduleQueryInformationRepository;
   final List<ScheduleUpdatedCallback> _scheduleUpdatedCallbacks =
       <ScheduleUpdatedCallback>[];
 
-  ScheduleFilter _scheduleFilter;
+  final ScheduleFilter _scheduleFilter;
 
   final List<ScheduleEntryChangedCallback> _scheduleEntryChangedCallbacks =
       <ScheduleEntryChangedCallback>[];
 
   ScheduleProvider(
-      this._scheduleSource,
-      this._scheduleEntryRepository,
-      this._scheduleQueryInformationRepository,
-      this._preferencesProvider,
-      this._scheduleFilterRepository) {
-    _scheduleFilter = ScheduleFilter(_scheduleFilterRepository);
-  }
+    this._scheduleSource,
+    this._scheduleEntryRepository,
+    this._scheduleQueryInformationRepository,
+    this._preferencesProvider,
+    ScheduleFilterRepository scheduleFilterRepository,
+  ) : _scheduleFilter = ScheduleFilter(scheduleFilterRepository);
 
   Future<Schedule> getCachedSchedule(DateTime start, DateTime end) async {
     var cachedSchedule =
         await _scheduleEntryRepository.queryScheduleBetweenDates(start, end);
 
     print(
-        "Read chached schedule with ${cachedSchedule.entries.length.toString()} entries");
+      "Read chached schedule with ${cachedSchedule.entries.length.toString()} entries",
+    );
 
     cachedSchedule = await _scheduleFilter.filter(cachedSchedule);
 
     print(
-        "Filtered cached schedule has ${cachedSchedule.entries.length} entries");
+      "Filtered cached schedule has ${cachedSchedule.entries.length} entries",
+    );
 
     return cachedSchedule;
   }
 
-  Future<ScheduleQueryResult> getUpdatedSchedule(
+  Future<ScheduleQueryResult?> getUpdatedSchedule(
     DateTime start,
     DateTime end,
     CancellationToken cancellationToken,
   ) async {
     print(
-        "Fetching schedule for ${DateFormat.yMd().format(start)} - ${DateFormat.yMd().format(end)}");
+      "Fetching schedule for ${DateFormat.yMd().format(start)} - ${DateFormat.yMd().format(end)}",
+    );
     try {
-      var updatedSchedule = await _scheduleSource.currentScheduleSource
+      final updatedSchedule = await _scheduleSource.currentScheduleSource
           .querySchedule(start, end, cancellationToken);
 
-      var schedule = updatedSchedule.schedule;
+      var schedule = updatedSchedule?.schedule;
 
       if (schedule == null) {
         print("No schedule returned!");
@@ -96,18 +97,16 @@ class ScheduleProvider {
         print("Filtered schedule has ${schedule.entries.length} entries");
       }
 
-      for (var c in _scheduleUpdatedCallbacks) {
-        await c(schedule, start, end);
+      for (final c in _scheduleUpdatedCallbacks) {
+        await c(schedule!, start, end);
       }
 
-      updatedSchedule = ScheduleQueryResult(schedule, updatedSchedule.errors);
-
-      return updatedSchedule;
+      return ScheduleQueryResult(schedule!, updatedSchedule!.errors);
     } on ScheduleQueryFailedException catch (e, trace) {
       print("Failed to fetch schedule!");
       print(e.innerException.toString());
       print(trace);
-      rethrow;
+      return null;
     }
   }
 
@@ -116,16 +115,17 @@ class ScheduleProvider {
     DateTime end,
     Schedule updatedSchedule,
   ) async {
-    var oldSchedule =
+    final oldSchedule =
         await _scheduleEntryRepository.queryScheduleBetweenDates(start, end);
 
-    var diff =
-        ScheduleDiffCalculator().calculateDiff(oldSchedule, updatedSchedule);
+    final diff = const ScheduleDiffCalculator()
+        .calculateDiff(oldSchedule, updatedSchedule);
 
-    var cleanedDiff = await _cleanDiffFromNewlyQueriedEntries(start, end, diff);
+    final cleanedDiff =
+        await _cleanDiffFromNewlyQueriedEntries(start, end, diff);
 
     if (cleanedDiff.didSomethingChange()) {
-      for (var c in _scheduleEntryChangedCallbacks) {
+      for (final c in _scheduleEntryChangedCallbacks) {
         await c(cleanedDiff);
       }
     }
@@ -136,8 +136,9 @@ class ScheduleProvider {
   }
 
   void removeScheduleUpdatedCallback(ScheduleUpdatedCallback callback) {
-    if (_scheduleUpdatedCallbacks.contains(callback))
+    if (_scheduleUpdatedCallbacks.contains(callback)) {
       _scheduleUpdatedCallbacks.remove(callback);
+    }
   }
 
   void addScheduleEntryChangedCallback(ScheduleEntryChangedCallback callback) {
@@ -145,9 +146,11 @@ class ScheduleProvider {
   }
 
   void removeScheduleEntryChangedCallback(
-      ScheduleEntryChangedCallback callback) {
-    if (_scheduleUpdatedCallbacks.contains(callback))
+    ScheduleEntryChangedCallback callback,
+  ) {
+    if (_scheduleUpdatedCallbacks.contains(callback)) {
       _scheduleEntryChangedCallbacks.remove(callback);
+    }
   }
 
   Future<ScheduleDiff> _cleanDiffFromNewlyQueriedEntries(
@@ -155,15 +158,17 @@ class ScheduleProvider {
     DateTime end,
     ScheduleDiff diff,
   ) async {
-    var queryInformation = await _scheduleQueryInformationRepository
+    final queryInformation = await _scheduleQueryInformationRepository
         .getQueryInformationBetweenDates(start, end);
 
-    var cleanedAddedEntries = <ScheduleEntry>[];
+    final cleanedAddedEntries = <ScheduleEntry>[];
 
-    for (var addedEntry in diff.addedEntries) {
-      if (queryInformation.any((i) =>
-          addedEntry.end.isAfter(i.start) &&
-          addedEntry.start.isBefore(i.end))) {
+    for (final addedEntry in diff.addedEntries) {
+      if (queryInformation.any(
+        (i) =>
+            addedEntry.end.isAfter(i!.start) &&
+            addedEntry.start.isBefore(i.end),
+      )) {
         cleanedAddedEntries.add(addedEntry);
       }
     }

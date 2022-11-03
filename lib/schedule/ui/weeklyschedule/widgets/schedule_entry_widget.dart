@@ -1,5 +1,4 @@
-import 'package:dhbwstudentapp/common/ui/schedule_entry_type_mappings.dart';
-import 'package:dhbwstudentapp/common/ui/text_styles.dart';
+import 'package:dhbwstudentapp/common/ui/text_theme.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:flutter/material.dart';
 
@@ -10,14 +9,22 @@ class ScheduleEntryWidget extends StatelessWidget {
   final ScheduleEntryTapCallback onScheduleEntryTap;
 
   const ScheduleEntryWidget({
-    Key key,
-    this.scheduleEntry,
-    this.onScheduleEntryTap,
-  }) : super(key: key);
+    super.key,
+    required this.scheduleEntry,
+    required this.onScheduleEntryTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    Color color = scheduleEntryTypeToColor(context, scheduleEntry.type);
+    final Color color = scheduleEntry.type.color(context);
+
+    Theme.of(context).textTheme.bodyText1!.copyWith();
+
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final customTextThme = theme.extension<CustomTextTheme>()!;
+    final textStyle =
+        textTheme.headline1?.merge(customTextThme.scheduleEntryWidgetTitle);
 
     return Card(
       color: color,
@@ -25,7 +32,7 @@ class ScheduleEntryWidget extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(1, 0, 1, 0),
       child: InkWell(
         onTap: () {
-          if (onScheduleEntryTap != null) onScheduleEntryTap(scheduleEntry);
+          onScheduleEntryTap.call(scheduleEntry);
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
@@ -34,7 +41,7 @@ class ScheduleEntryWidget extends StatelessWidget {
             softWrap: true,
             overflow: TextOverflow.clip,
             textAlign: TextAlign.left,
-            style: textStyleScheduleEntryWidgetTitle(context),
+            style: textStyle,
           ),
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/ui/app_theme.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
 import 'package:flutter/material.dart';
@@ -8,21 +8,20 @@ import 'package:intl/intl.dart';
 class DateDetailBottomSheet extends StatelessWidget {
   final DateEntry dateEntry;
 
-  const DateDetailBottomSheet({Key key, this.dateEntry}) : super(key: key);
+  const DateDetailBottomSheet({super.key, required this.dateEntry});
 
   @override
   Widget build(BuildContext context) {
-    var date = DateFormat.yMd(L.of(context).locale.languageCode)
+    final date = DateFormat.yMd(L.of(context).locale.languageCode)
         .format(dateEntry.start);
-    var time = DateFormat.Hm(L.of(context).locale.languageCode)
+    final time = DateFormat.Hm(L.of(context).locale.languageCode)
         .format(dateEntry.start);
 
-    return Container(
+    return SizedBox(
       height: 400,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
@@ -31,10 +30,10 @@ class DateDetailBottomSheet extends StatelessWidget {
                 child: Container(
                   height: 8,
                   width: 30,
-                  decoration: BoxDecoration(
-                      color: colorSeparator(),
-                      borderRadius: const BorderRadius.all(Radius.circular(4))),
-                  child: null,
+                  decoration: const BoxDecoration(
+                    color: AppTheme.separator,
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                  ),
                 ),
               ),
             ),
@@ -60,12 +59,13 @@ class DateDetailBottomSheet extends StatelessWidget {
                           softWrap: true,
                           style: Theme.of(context).textTheme.subtitle2,
                         ),
-                        isAtMidnight(dateEntry.start)
-                            ? Container()
-                            : Text(
-                                time,
-                                softWrap: true,
-                              ),
+                        if (isAtMidnight(dateEntry.start))
+                          Container()
+                        else
+                          Text(
+                            time,
+                            softWrap: true,
+                          ),
                       ],
                     ),
                   ),
@@ -74,9 +74,7 @@ class DateDetailBottomSheet extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-              child: Text(
-                dateEntry.comment,
-              ),
+              child: Text(dateEntry.comment),
             ),
           ],
         ),

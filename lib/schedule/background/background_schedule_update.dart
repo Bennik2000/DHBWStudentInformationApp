@@ -10,7 +10,7 @@ class BackgroundScheduleUpdate extends TaskCallback {
   final ScheduleSourceProvider scheduleSource;
   final WorkSchedulerService scheduler;
 
-  BackgroundScheduleUpdate(
+  const BackgroundScheduleUpdate(
     this.scheduleProvider,
     this.scheduleSource,
     this.scheduler,
@@ -22,10 +22,10 @@ class BackgroundScheduleUpdate extends TaskCallback {
       return;
     }
 
-    var today = toDayOfWeek(toStartOfDay(DateTime.now()), DateTime.monday);
-    var end = addDays(today, 7 * 3);
+    final today = toDayOfWeek(toStartOfDay(DateTime.now()), DateTime.monday)!;
+    final end = addDays(today, 7 * 3)!;
 
-    var cancellationToken = CancellationToken();
+    final cancellationToken = CancellationToken();
 
     await scheduleProvider.getUpdatedSchedule(
       today,

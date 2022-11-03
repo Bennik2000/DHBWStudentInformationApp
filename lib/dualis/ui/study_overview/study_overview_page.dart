@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class StudyOverviewPage extends StatelessWidget {
+  const StudyOverviewPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: double.infinity,
       child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             buildGpaCredits(context),
@@ -39,12 +39,11 @@ class StudyOverviewPage extends StatelessWidget {
             properties: const ["studyGrades"],
             builder: (
               BuildContext context,
-              StudyGradesViewModel model,
-              Set properties,
+              StudyGradesViewModel? model,
+              Set? properties,
             ) =>
-                model.studyGrades != null
+                model?.studyGrades != null
                     ? Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: <Widget>[
                           Padding(
@@ -54,7 +53,7 @@ class StudyOverviewPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.baseline,
                               children: <Widget>[
                                 Text(
-                                  model.studyGrades.gpaTotal.toString(),
+                                  model!.studyGrades!.gpaTotal.toString(),
                                   style: Theme.of(context).textTheme.headline3,
                                 ),
                                 Padding(
@@ -72,7 +71,7 @@ class StudyOverviewPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             children: <Widget>[
                               Text(
-                                model.studyGrades.gpaMainModules.toString(),
+                                model.studyGrades!.gpaMainModules.toString(),
                                 style: Theme.of(context).textTheme.headline3,
                               ),
                               Padding(
@@ -90,7 +89,7 @@ class StudyOverviewPage extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.baseline,
                               children: <Widget>[
                                 Text(
-                                  "${model.studyGrades.creditsGained} / ${model.studyGrades.creditsTotal}",
+                                  "${model.studyGrades!.creditsGained} / ${model.studyGrades!.creditsTotal}",
                                   style: Theme.of(context).textTheme.headline3,
                                 ),
                                 Padding(
@@ -129,11 +128,11 @@ class StudyOverviewPage extends StatelessWidget {
             properties: const ["allModules"],
             builder: (
               BuildContext context,
-              StudyGradesViewModel model,
-              Set properties,
+              StudyGradesViewModel? model,
+              Set? properties,
             ) =>
-                model.allModules != null
-                    ? buildModulesDataTable(context, model)
+                model?.allModules != null
+                    ? buildModulesDataTable(context, model!)
                     : buildProgressIndicator(),
           ),
         ],
@@ -152,15 +151,15 @@ class StudyOverviewPage extends StatelessWidget {
     BuildContext context,
     StudyGradesViewModel model,
   ) {
-    var dataRows = <DataRow>[];
+    final dataRows = <DataRow>[];
 
-    for (var module in model.allModules) {
+    for (final module in model.allModules!) {
       dataRows.add(
         DataRow(
           cells: <DataCell>[
-            DataCell(Text(module.name)),
-            DataCell(Text(module.credits)),
-            DataCell(Text(module.grade)),
+            DataCell(Text(module.name!)),
+            DataCell(Text(module.credits!)),
+            DataCell(Text(module.grade!)),
             DataCell(GradeStateIcon(state: module.state)),
           ],
         ),
@@ -179,7 +178,6 @@ class StudyOverviewPage extends StatelessWidget {
     return <DataColumn>[
       DataColumn(
         label: Text(L.of(context).dualisOverviewModuleColumnHeader),
-        numeric: false,
       ),
       DataColumn(
         label: Text(L.of(context).dualisOverviewCreditsColumnHeader),

@@ -1,29 +1,28 @@
-import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
+import 'package:flutter/material.dart';
 
 class RootViewModel extends BaseViewModel {
   final PreferencesProvider _preferencesProvider;
 
-  AppTheme _appTheme;
-  AppTheme get appTheme => _appTheme;
+  late ThemeMode _appTheme;
+  ThemeMode get appTheme => _appTheme;
 
-  bool _isOnboarding;
+  late bool _isOnboarding;
   bool get isOnboarding => _isOnboarding;
 
   RootViewModel(this._preferencesProvider);
 
   Future<void> loadFromPreferences() async {
-    var darkMode = await _preferencesProvider.appTheme();
-
-    _appTheme = darkMode;
+    _appTheme = await _preferencesProvider.appTheme();
     _isOnboarding = await _preferencesProvider.isFirstStart();
 
     notifyListeners("appTheme");
     notifyListeners("isOnboarding");
   }
 
-  Future<void> setAppTheme(AppTheme value) async {
+  Future<void> setAppTheme(ThemeMode? value) async {
+    if (value == null) return;
     await _preferencesProvider.setAppTheme(value);
     _appTheme = value;
     notifyListeners("appTheme");

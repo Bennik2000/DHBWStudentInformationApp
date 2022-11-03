@@ -8,11 +8,13 @@ import 'package:html/parser.dart' show parse;
 /// Parsing implementation which parses the response of the rapla schedule source.
 ///
 class RaplaResponseParser {
-  ScheduleQueryResult parseSchedule(String responseBody) {
-    var document = parse(responseBody);
+  RaplaResponseParser();
 
-    var weekTable = document.getElementsByClassName("week_table");
-    var monthTable = document.getElementsByClassName("month_table");
+  ScheduleQueryResult parseSchedule(String responseBody) {
+    final document = parse(responseBody);
+
+    final weekTable = document.getElementsByClassName("week_table");
+    final monthTable = document.getElementsByClassName("month_table");
 
     if (weekTable.isNotEmpty) {
       return RaplaWeekResponseParser.parseWeeklyTable(
@@ -26,8 +28,8 @@ class RaplaResponseParser {
       );
     }
 
-    return ScheduleQueryResult(Schedule(), [
-      ParseError("Did not find a week_table and month_table class", null),
+    return ScheduleQueryResult(const Schedule(), [
+      ParseError("Did not find a week_table and month_table class"),
     ]);
   }
 }

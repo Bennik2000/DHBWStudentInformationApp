@@ -1,7 +1,7 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
+import 'package:dhbwstudentapp/common/ui/app_theme.dart';
 import 'package:dhbwstudentapp/common/ui/schedule_entry_type_mappings.dart';
-import 'package:dhbwstudentapp/common/ui/text_styles.dart';
+import 'package:dhbwstudentapp/common/ui/text_theme.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -9,22 +9,22 @@ import 'package:intl/intl.dart';
 class DailyScheduleEntryWidget extends StatelessWidget {
   final ScheduleEntry scheduleEntry;
 
-  const DailyScheduleEntryWidget({Key key, this.scheduleEntry})
-      : super(key: key);
+  const DailyScheduleEntryWidget({super.key, required this.scheduleEntry});
 
   @override
   Widget build(BuildContext context) {
-    if (scheduleEntry == null) return Container();
+    final timeFormatter = DateFormat.Hm(L.of(context).locale.languageCode);
 
-    var timeFormatter = DateFormat.Hm(L.of(context).locale.languageCode);
+    final startTime = timeFormatter.format(scheduleEntry.start);
+    final endTime = timeFormatter.format(scheduleEntry.end);
 
-    var startTime = timeFormatter.format(scheduleEntry.start);
-    var endTime = timeFormatter.format(scheduleEntry.end);
+    final textTheme = Theme.of(context).textTheme;
+    final customTextThme = Theme.of(context).extension<CustomTextTheme>()!;
+    final dailyScheduleEntryTitle =
+        textTheme.headline4?.copyWith(color: textTheme.headline6?.color);
 
     return IntrinsicHeight(
       child: Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Expanded(
@@ -32,24 +32,22 @@ class DailyScheduleEntryWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(0, 8, 8, 8),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     startTime,
-                    style: textStyleDailyScheduleEntryWidgetTimeStart(context),
+                    style: textTheme.headline5
+                        ?.merge(customTextThme.dailyScheduleEntryTimeStart),
                   ),
                   Expanded(
-                    child: Padding(
+                    child: Container(
                       padding: const EdgeInsets.all(4),
-                      child: Container(
-                        width: 1,
-                        color: colorDailyScheduleTimeVerticalConnector(),
-                      ),
+                      width: 1,
+                      color: AppTheme.dailyScheduleTimeVerticalConnector,
                     ),
                   ),
                   Text(
                     endTime,
-                    style: textStyleDailyScheduleEntryWidgetTimeEnd(context),
+                    style: Theme.of(context).textTheme.subtitle2,
                   ),
                 ],
               ),
@@ -58,20 +56,19 @@ class DailyScheduleEntryWidget extends StatelessWidget {
           Expanded(
             flex: 7,
             child: Card(
-              margin: const EdgeInsets.all(0),
+              margin: EdgeInsets.zero,
               elevation: 8,
-              color: scheduleEntryTypeToColor(context, scheduleEntry.type),
+              color: scheduleEntry.type.color(context),
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 0, 0, 8),
                       child: Text(
                         scheduleEntry.title,
-                        style: textStyleDailyScheduleEntryWidgetTitle(context),
+                        style: dailyScheduleEntryTitle,
                       ),
                     ),
                     Row(
@@ -81,14 +78,16 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                           children: <Widget>[
                             Text(
                               scheduleEntry.professor,
-                              style: textStyleDailyScheduleEntryWidgetProfessor(
-                                  context),
+                              style: Theme.of(context).textTheme.subtitle2,
                             ),
                             Text(
                               scheduleEntryTypeToReadableString(
-                                  context, scheduleEntry.type),
-                              style: textStyleDailyScheduleEntryWidgetType(
-                                  context),
+                                context,
+                                scheduleEntry.type,
+                              ),
+                              style: textTheme.bodyText2?.merge(
+                                customTextThme.dailyScheduleEntryType,
+                              ),
                             ),
                           ],
                         ),
@@ -96,7 +95,7 @@ class DailyScheduleEntryWidget extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.fromLTRB(32, 0, 0, 0),
                             child: Text(
-                              scheduleEntry.room ?? "",
+                              scheduleEntry.room,
                               softWrap: true,
                               textAlign: TextAlign.end,
                             ),

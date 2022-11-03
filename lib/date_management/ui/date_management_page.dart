@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/widgets/error_display.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/date_management/model/date_entry.dart';
@@ -12,9 +11,12 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 import 'package:provider/provider.dart';
 
 class DateManagementPage extends StatelessWidget {
+  const DateManagementPage({super.key});
+
   @override
   Widget build(BuildContext context) {
-    DateManagementViewModel viewModel = Provider.of<BaseViewModel>(context);
+    final DateManagementViewModel viewModel =
+        Provider.of<DateManagementViewModel>(context);
 
     return PropertyChangeProvider<DateManagementViewModel, Object>(
       value: viewModel,
@@ -26,10 +28,11 @@ class DateManagementPage extends StatelessWidget {
             children: <Widget>[
               const Divider(),
               AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 200),
-                  child: viewModel.isLoading
-                      ? const LinearProgressIndicator()
-                      : Container()),
+                duration: const Duration(milliseconds: 200),
+                child: viewModel.isLoading
+                    ? const LinearProgressIndicator()
+                    : Container(),
+              ),
             ],
           ),
           _buildBody(viewModel, context),
@@ -43,28 +46,27 @@ class DateManagementPage extends StatelessWidget {
       child: Stack(
         children: <Widget>[
           SingleChildScrollView(
-            scrollDirection: Axis.vertical,
             child: PropertyChangeConsumer(
               builder: (
                 BuildContext context,
-                DateManagementViewModel model,
+                DateManagementViewModel? model,
                 _,
               ) =>
                   AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 200),
-                      child: Column(
-                        key: ValueKey(
-                            viewModel?.dateSearchParameters?.toString() ?? ""),
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          _buildAllDatesDataTable(model, context),
-                        ],
-                      )),
+                duration: const Duration(milliseconds: 200),
+                child: Column(
+                  key: ValueKey(viewModel.dateSearchParameters.toString()),
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    _buildAllDatesDataTable(model!, context),
+                  ],
+                ),
+              ),
             ),
           ),
           Align(
-            child: buildErrorDisplay(context),
             alignment: Alignment.bottomCenter,
+            child: buildErrorDisplay(context),
           ),
         ],
       ),
@@ -93,43 +95,50 @@ class DateManagementPage extends StatelessWidget {
     DateManagementViewModel model,
     BuildContext context,
   ) {
-    var dataRows = <DataRow>[];
-    for (DateEntry dateEntry in model?.allDates ?? []) {
+    final dataRows = <DataRow>[];
+    for (final DateEntry dateEntry in model.allDates ?? []) {
       dataRows.add(
         DataRow(
           cells: <DataCell>[
             DataCell(
-                Text(dateEntry.description,
-                    style: dateEntry.end.isBefore(DateTime.now())
-                        ? TextStyle(decoration: TextDecoration.lineThrough)
-                        : null), onTap: () {
-              showDateEntryDetailBottomSheet(context, dateEntry);
-            }),
+              Text(
+                dateEntry.description,
+                style: dateEntry.end.isBefore(DateTime.now())
+                    ? const TextStyle(decoration: TextDecoration.lineThrough)
+                    : null,
+              ),
+              onTap: () {
+                showDateEntryDetailBottomSheet(context, dateEntry);
+              },
+            ),
             DataCell(
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      DateFormat.yMd(L.of(context).locale.languageCode)
-                          .format(dateEntry.start),
-                      style: Theme.of(context).textTheme.bodyText1,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    DateFormat.yMd(L.of(context).locale.languageCode)
+                        .format(dateEntry.start),
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                  // When the date entry has a time of 00:00 don't show it.
+                  // It means the date entry is for the whole day
+                  if (isAtMidnight(dateEntry.start))
+                    Container()
+                  else
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
+                      child: Text(
+                        DateFormat.Hm(L.of(context).locale.languageCode)
+                            .format(dateEntry.start),
+                      ),
                     ),
-                    // When the date entry has a time of 00:00 don't show it.
-                    // It means the date entry is for the whole day
-                    isAtMidnight(dateEntry.start)
-                        ? Container()
-                        : Padding(
-                            padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-                            child: Text(
-                              DateFormat.Hm(L.of(context).locale.languageCode)
-                                  .format(dateEntry.start),
-                            ),
-                          ),
-                  ],
-                ), onTap: () {
-              showDateEntryDetailBottomSheet(context, dateEntry);
-            }),
+                ],
+              ),
+              onTap: () {
+                showDateEntryDetailBottomSheet(context, dateEntry);
+              },
+            ),
           ],
         ),
       );
@@ -142,9 +151,7 @@ class DateManagementPage extends StatelessWidget {
     showModalBottomSheet(
       useRootNavigator: true,
       context: context,
-      builder: (context) => DateDetailBottomSheet(
-        dateEntry: entry,
-      ),
+      builder: (context) => DateDetailBottomSheet(dateEntry: entry),
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(12.0)),
       ),
@@ -156,10 +163,13 @@ class DateManagementPage extends StatelessWidget {
       properties: const [
         "updateFailed",
       ],
-      builder: (BuildContext context, DateManagementViewModel model,
-              Set properties) =>
+      builder: (
+        BuildContext context,
+        DateManagementViewModel? model,
+        Set? properties,
+      ) =>
           ErrorDisplay(
-        show: model.updateFailed,
+        show: model!.updateFailed,
       ),
     );
   }

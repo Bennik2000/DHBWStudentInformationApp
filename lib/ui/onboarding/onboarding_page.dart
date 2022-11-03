@@ -1,5 +1,4 @@
 import 'package:animations/animations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
@@ -10,7 +9,7 @@ import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
 class OnboardingPage extends StatefulWidget {
-  const OnboardingPage({Key key}) : super(key: key);
+  const OnboardingPage({super.key});
 
   @override
   _OnboardingPageState createState() => _OnboardingPageState();
@@ -18,8 +17,8 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage>
     with TickerProviderStateMixin {
-  AnimationController _controller;
-  OnboardingViewModel viewModel;
+  late AnimationController _controller;
+  late OnboardingViewModel viewModel;
 
   _OnboardingPageState();
 
@@ -35,9 +34,10 @@ class _OnboardingPageState extends State<OnboardingPage>
     viewModel.addListener(
       () async {
         await _controller.animateTo(
-            viewModel.stepIndex / viewModel.onboardingSteps,
-            curve: Curves.ease,
-            duration: const Duration(milliseconds: 300));
+          viewModel.stepIndex! / viewModel.onboardingSteps,
+          curve: Curves.ease,
+          duration: const Duration(milliseconds: 300),
+        );
       },
     );
 
@@ -71,16 +71,14 @@ class _OnboardingPageState extends State<OnboardingPage>
       behavior: HitTestBehavior.translucent,
       child: Center(
         child: Container(
-          constraints: BoxConstraints(maxWidth: 500),
+          constraints: const BoxConstraints(maxWidth: 500),
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 120, 0, 90),
             child: PropertyChangeConsumer<OnboardingViewModel, String>(
-              builder: (BuildContext context, BaseViewModel model, _) {
+              builder: (BuildContext context, OnboardingViewModel? model, _) {
                 return Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    Expanded(child: _buildActiveOnboardingPage(model)),
+                    Expanded(child: _buildActiveOnboardingPage(model!)),
                     OnboardingButtonBar(
                       onPrevious: () {
                         _navigateBack(context);
@@ -101,36 +99,33 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   Widget _buildActiveOnboardingPage(OnboardingViewModel model) {
-    var currentStep = model.pages[model.currentStep];
-    var contentWidget = currentStep.buildContent(context);
+    final currentStep = model.pages[model.currentStep]!;
+    final contentWidget = currentStep.buildContent(context);
 
     Widget body = Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: contentWidget,
     );
 
-    if (currentStep != null) {
-      body = PropertyChangeProvider<OnboardingStepViewModel, String>(
-        key: ValueKey(model.currentStep),
-        value: currentStep.viewModel(),
-        child: body,
-      );
-    }
+    body = PropertyChangeProvider<OnboardingStepViewModel, String>(
+      key: ValueKey(model.currentStep),
+      value: currentStep.viewModel(),
+      child: body,
+    );
 
     return IntrinsicHeight(
       child: PageTransitionSwitcher(
         reverse: !model.didStepForward,
-        duration: const Duration(milliseconds: 300),
         transitionBuilder: (
           Widget child,
           Animation<double> animation,
           Animation<double> secondaryAnimation,
         ) =>
             SharedAxisTransition(
-          child: child,
           animation: animation,
           secondaryAnimation: secondaryAnimation,
           transitionType: SharedAxisTransitionType.horizontal,
+          child: child,
         ),
         child: body,
       ),
@@ -146,7 +141,8 @@ class _OnboardingPageState extends State<OnboardingPage>
   }
 
   void _onboardingFinished() {
-    var rootViewModel = PropertyChangeProvider.of<RootViewModel, String>(context).value;
+    final rootViewModel =
+        PropertyChangeProvider.of<RootViewModel, String>(context)!.value;
     rootViewModel.setIsOnboarding(false);
 
     Navigator.of(context).pushReplacementNamed("main");

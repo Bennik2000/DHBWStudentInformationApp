@@ -18,9 +18,9 @@ final List<NavigationEntry> navigationEntries = [
 Route<dynamic> generateDrawerRoute(RouteSettings settings) {
   print("=== === === === === === Navigating to: ${settings.name}");
 
-  WidgetBuilder widget;
+  WidgetBuilder? widget;
 
-  for (var route in navigationEntries) {
+  for (final route in navigationEntries) {
     if (route.route == settings.name) {
       widget = route.buildRoute;
       break;
@@ -28,17 +28,17 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
   }
 
   if (widget == null) {
-    print("Failed to navigate to: " + settings.name);
+    print("Failed to navigate to: ${settings.name!}");
     widget = (BuildContext context) => Container();
   }
 
   return PageRouteBuilder(
     settings: settings,
     transitionDuration: const Duration(milliseconds: 200),
-    pageBuilder: (context, animation, secondaryAnimation) => widget(context),
+    pageBuilder: (context, animation, secondaryAnimation) => widget!(context),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const offsetBegin = Offset(0.0, 0.005);
-      final offsetEnd = Offset.zero;
+      const offsetEnd = Offset.zero;
       final offsetTween = Tween(begin: offsetBegin, end: offsetEnd)
           .chain(CurveTween(curve: Curves.fastOutSlowIn));
 
@@ -51,9 +51,9 @@ Route<dynamic> generateDrawerRoute(RouteSettings settings) {
         position: animation.drive(offsetTween),
         child: FadeTransition(
           opacity: animation.drive(opacityTween),
-          child: Container(
-            child: child,
+          child: ColoredBox(
             color: Theme.of(context).scaffoldBackgroundColor,
+            child: child,
           ),
         ),
       );
@@ -70,13 +70,13 @@ Route<dynamic> generateRoute(RouteSettings settings) {
       target = const OnboardingPage();
       break;
     case "main":
-      target = MainPage();
+      target = const MainPage();
       break;
     case "settings":
-      target = SettingsPage();
+      target = const SettingsPage();
       break;
     default:
-      print("Failed to navigate to: " + settings.name);
+      print("Failed to navigate to: ${settings.name!}");
       target = Container();
   }
 

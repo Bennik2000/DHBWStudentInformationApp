@@ -16,36 +16,39 @@ class NavigationDrawer extends StatelessWidget {
   final bool isInDrawer;
 
   const NavigationDrawer({
-    Key key,
-    this.selectedIndex,
-    this.onTap,
-    this.entries,
+    super.key,
+    required this.selectedIndex,
+    required this.onTap,
+    required this.entries,
     this.isInDrawer = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    var widgets = <Widget>[];
+    final widgets = <Widget>[];
 
     if (isInDrawer) {
       widgets.add(_createHeader(context));
     }
 
     int i = 0;
-    for (var entry in entries) {
-      widgets.add(_createDrawerItem(context,
+    for (final entry in entries) {
+      widgets.add(
+        _createDrawerItem(
+          context,
           icon: entry.icon,
           text: entry.title,
           index: i,
-          isSelected: i == selectedIndex));
+          isSelected: i == selectedIndex,
+        ),
+      );
 
       i++;
     }
 
     widgets.add(_createSettingsItem(context));
 
-    var widget = Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+    final widget = Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: widgets,
     );
@@ -81,10 +84,10 @@ class NavigationDrawer extends StatelessWidget {
 
   Widget _createDrawerItem(
     BuildContext context, {
-    Widget icon,
-    String text,
-    bool isSelected,
-    int index,
+    required Widget icon,
+    required String text,
+    required bool isSelected,
+    required int index,
   }) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 8),
@@ -95,12 +98,11 @@ class NavigationDrawer extends StatelessWidget {
           borderRadius: BorderRadius.circular(8),
         ),
         child: InkWell(
-          child: Container(
+          child: SizedBox(
             height: 48,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   icon,
                   Padding(
@@ -132,26 +134,23 @@ class NavigationDrawer extends StatelessWidget {
             child: Container(
               height: 56,
               margin: const EdgeInsets.fromLTRB(0, 0, 0, 20),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 15, 0, 10),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Icon(
-                      Icons.settings,
-                      color: Theme.of(context).disabledColor,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                      child: Text(
-                        L.of(context).settingsPageTitle,
-                        style: TextStyle(
-                          color: Theme.of(context).disabledColor,
-                        ),
+              padding: const EdgeInsets.fromLTRB(20, 15, 0, 10),
+              child: Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.settings,
+                    color: Theme.of(context).disabledColor,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
+                    child: Text(
+                      L.of(context).settingsPageTitle,
+                      style: TextStyle(
+                        color: Theme.of(context).disabledColor,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             onTap: () {
@@ -169,8 +168,8 @@ class NavigationDrawer extends StatelessWidget {
 }
 
 class DrawerNavigationEntry {
-  final Widget icon;
+  final Icon icon;
   final String title;
 
-  DrawerNavigationEntry(this.icon, this.title);
+  const DrawerNavigationEntry(this.icon, this.title);
 }

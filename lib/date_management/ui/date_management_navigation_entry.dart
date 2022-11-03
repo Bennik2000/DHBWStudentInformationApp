@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/date_management/ui/calendar_export_page.dart';
 import 'package:dhbwstudentapp/date_management/ui/date_management_page.dart';
 import 'package:dhbwstudentapp/date_management/ui/viewmodels/date_management_view_model.dart';
@@ -10,13 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-class DateManagementNavigationEntry extends NavigationEntry {
-  DateManagementViewModel _viewModel;
+class DateManagementNavigationEntry
+    extends NavigationEntry<DateManagementViewModel> {
+  DateManagementNavigationEntry();
 
   @override
-  Widget icon(BuildContext context) {
-    return Icon(Icons.date_range);
-  }
+  Icon icon = const Icon(Icons.date_range);
 
   @override
   String title(BuildContext context) {
@@ -24,40 +22,37 @@ class DateManagementNavigationEntry extends NavigationEntry {
   }
 
   @override
-  BaseViewModel initViewModel() {
-    if (_viewModel == null) {
-      _viewModel = DateManagementViewModel(
-        KiwiContainer().resolve(),
-        KiwiContainer().resolve(),
-      );
-    }
-
-    return _viewModel;
+  DateManagementViewModel initViewModel() {
+    return DateManagementViewModel(
+      KiwiContainer().resolve(),
+      KiwiContainer().resolve(),
+    );
   }
 
   @override
   List<Widget> appBarActions(BuildContext context) {
-    initViewModel();
     return [
       IconButton(
-        icon: Icon(Icons.help_outline),
+        icon: const Icon(Icons.help_outline),
         onPressed: () async {
-          await DateManagementHelpDialog().show(context);
+          await const DateManagementHelpDialog().show(context);
         },
         tooltip: L.of(context).helpButtonTooltip,
       ),
       PropertyChangeProvider<DateManagementViewModel, Object>(
-        value: _viewModel,
+        value: model,
         child: PropertyChangeConsumer(
-          builder:
-              (BuildContext context, DateManagementViewModel viewModel, _) =>
-                  PopupMenuButton<String>(
+          builder: (BuildContext context, DateManagementViewModel? _, __) =>
+              PopupMenuButton<String>(
             onSelected: (i) async {
-              await NavigatorKey.rootKey.currentState.push(MaterialPageRoute(
+              await NavigatorKey.rootKey.currentState?.push(
+                MaterialPageRoute(
                   builder: (BuildContext context) => CalendarExportPage(
-                        entriesToExport: viewModel.allDates,
-                      ),
-                  settings: RouteSettings(name: "settings")));
+                    entriesToExport: model.allDates!,
+                  ),
+                  settings: const RouteSettings(name: "settings"),
+                ),
+              );
             },
             itemBuilder: (BuildContext context) {
               return [
@@ -75,7 +70,7 @@ class DateManagementNavigationEntry extends NavigationEntry {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: DateManagementPage());
+    return const Scaffold(body: DateManagementPage());
   }
 
   @override

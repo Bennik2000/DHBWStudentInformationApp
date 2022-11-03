@@ -2,12 +2,9 @@ import 'package:dhbwstudentapp/dualis/model/exam.dart';
 import 'package:flutter/material.dart';
 
 class GradeStateIcon extends StatelessWidget {
-  final ExamState state;
+  final ExamState? state;
 
-  const GradeStateIcon({
-    Key key,
-    this.state,
-  }) : super(key: key);
+  const GradeStateIcon({super.key, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +14,8 @@ class GradeStateIcon extends StatelessWidget {
       case ExamState.Failed:
         return const Icon(Icons.close, color: Colors.red);
       case ExamState.Pending:
+      default:
         return Container();
     }
-
-    return Container();
   }
 }

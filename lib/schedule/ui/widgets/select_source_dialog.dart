@@ -13,17 +13,17 @@ class SelectSourceDialog {
   final PreferencesProvider _preferencesProvider;
   final ScheduleSourceProvider _scheduleSourceProvider;
 
-  ScheduleSourceType _currentScheduleSource;
+  ScheduleSourceType? _currentScheduleSource;
 
   SelectSourceDialog(this._preferencesProvider, this._scheduleSourceProvider);
 
   Future show(BuildContext context) async {
-    var type = await _preferencesProvider.getScheduleSourceType();
+    final type = await _preferencesProvider.getScheduleSourceType();
     _currentScheduleSource = ScheduleSourceType.values[type];
 
     await showDialog(
       context: context,
-      builder: (context) => _buildDialog(context),
+      builder: _buildDialog,
     );
   }
 
@@ -38,31 +38,31 @@ class SelectSourceDialog {
             style: Theme.of(context).textTheme.bodyText2,
           ),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Rapla,
           onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeRapla),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Dualis,
           onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeDualis),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Mannheim,
           onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeMannheim),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.Ical,
           onChanged: (v) => sourceSelected(v, context),
           title: Text(L.of(context).scheduleSourceTypeIcal),
         ),
-        RadioListTile(
+        RadioListTile<ScheduleSourceType>(
           groupValue: _currentScheduleSource,
           value: ScheduleSourceType.None,
           onChanged: (v) => sourceSelected(v, context),
@@ -73,9 +73,11 @@ class SelectSourceDialog {
   }
 
   Future<void> sourceSelected(
-    ScheduleSourceType type,
+    ScheduleSourceType? type,
     BuildContext context,
   ) async {
+    if (type == null) return;
+    // TODO: [Leptopoda] only switch the type when the setup is completed.
     _preferencesProvider.setScheduleSourceType(type.index);
 
     Navigator.of(context).pop();

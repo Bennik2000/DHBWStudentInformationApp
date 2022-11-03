@@ -1,8 +1,8 @@
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/dualis_login_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/ical_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/mannheim_view_model.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/select_source_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/dualis_login_page.dart';
 import 'package:dhbwstudentapp/ui/onboarding/widgets/ical_url_page.dart';
@@ -13,25 +13,29 @@ import 'package:flutter/cupertino.dart';
 import 'package:kiwi/kiwi.dart';
 
 abstract class OnboardingStep {
+  const OnboardingStep();
+
   Widget buildContent(BuildContext context);
 
   OnboardingStepViewModel viewModel();
 
-  String nextStep();
+  String? nextStep();
 }
 
 class SelectSourceOnboardingStep extends OnboardingStep {
+  SelectSourceOnboardingStep();
+
   final SelectSourceViewModel _viewModel = SelectSourceViewModel(
     KiwiContainer().resolve(),
   );
 
   @override
   Widget buildContent(BuildContext context) {
-    return SelectSourcePage();
+    return const SelectSourcePage();
   }
 
   @override
-  String nextStep() {
+  String? nextStep() {
     return _viewModel.nextStep();
   }
 
@@ -42,6 +46,8 @@ class SelectSourceOnboardingStep extends OnboardingStep {
 }
 
 class DualisCredentialsOnboardingStep extends OnboardingStep {
+  DualisCredentialsOnboardingStep();
+
   final DualisLoginViewModel _viewModel = DualisLoginViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
@@ -49,11 +55,11 @@ class DualisCredentialsOnboardingStep extends OnboardingStep {
 
   @override
   Widget buildContent(BuildContext context) {
-    return DualisLoginCredentialsPage();
+    return const DualisLoginCredentialsPage();
   }
 
   @override
-  String nextStep() {
+  String? nextStep() {
     return null;
   }
 
@@ -64,14 +70,16 @@ class DualisCredentialsOnboardingStep extends OnboardingStep {
 }
 
 class RaplaOnboardingStep extends OnboardingStep {
-  RaplaUrlViewModel _viewModel = RaplaUrlViewModel(
+  RaplaOnboardingStep();
+
+  final RaplaUrlViewModel _viewModel = RaplaUrlViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
   );
 
   @override
   Widget buildContent(BuildContext context) {
-    return RaplaUrlPage();
+    return const RaplaUrlPage();
   }
 
   @override
@@ -86,14 +94,16 @@ class RaplaOnboardingStep extends OnboardingStep {
 }
 
 class IcalOnboardingStep extends OnboardingStep {
-  IcalUrlViewModel _viewModel = IcalUrlViewModel(
+  IcalOnboardingStep();
+
+  final IcalUrlViewModel _viewModel = IcalUrlViewModel(
     KiwiContainer().resolve(),
     KiwiContainer().resolve(),
   );
 
   @override
   Widget buildContent(BuildContext context) {
-    return IcalUrlPage();
+    return const IcalUrlPage();
   }
 
   @override
@@ -108,11 +118,12 @@ class IcalOnboardingStep extends OnboardingStep {
 }
 
 class MannheimOnboardingStep extends OnboardingStep {
-  MannheimViewModel _viewModel;
+  MannheimViewModel? _viewModel;
+  MannheimOnboardingStep();
 
   @override
   Widget buildContent(BuildContext context) {
-    return MannheimPage();
+    return const MannheimPage();
   }
 
   @override
@@ -122,12 +133,8 @@ class MannheimOnboardingStep extends OnboardingStep {
 
   @override
   OnboardingStepViewModel viewModel() {
-    if (_viewModel == null) {
-      _viewModel = MannheimViewModel(
-        KiwiContainer().resolve(),
-      );
-    }
-
-    return _viewModel;
+    return _viewModel ??= MannheimViewModel(
+      KiwiContainer().resolve(),
+    );
   }
 }

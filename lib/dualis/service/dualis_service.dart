@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/model/exam.dart';
 import 'package:dhbwstudentapp/dualis/model/module.dart';
 import 'package:dhbwstudentapp/dualis/model/semester.dart';
@@ -6,31 +7,32 @@ import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_scraper.dart';
 
 abstract class DualisService {
+  const DualisService();
+
   Future<LoginResult> login(
-    String username,
-    String password, [
-    CancellationToken cancellationToken,
+    Credentials credentials, [
+    CancellationToken? cancellationToken,
   ]);
 
   Future<StudyGrades> queryStudyGrades([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]);
 
   Future<List<String>> querySemesterNames([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]);
 
   Future<List<Module>> queryAllModules([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]);
 
   Future<Semester> querySemester(
-    String name, [
-    CancellationToken cancellationToken,
+    String? name, [
+    CancellationToken? cancellationToken,
   ]);
 
   Future<void> logout([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]);
 }
 
@@ -44,37 +46,35 @@ enum LoginResult {
 class DualisServiceImpl extends DualisService {
   final DualisScraper _dualisScraper;
 
-  DualisServiceImpl(this._dualisScraper);
+  const DualisServiceImpl(this._dualisScraper);
 
   @override
   Future<LoginResult> login(
-    String username,
-    String password, [
-    CancellationToken cancellationToken,
+    Credentials credentials, [
+    CancellationToken? cancellationToken,
   ]) async {
-    return await _dualisScraper.login(
-      username,
-      password,
+    return _dualisScraper.login(
+      credentials,
       cancellationToken,
     );
   }
 
   @override
   Future<StudyGrades> queryStudyGrades([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
-    return await _dualisScraper.loadStudyGrades(cancellationToken);
+    return _dualisScraper.loadStudyGrades(cancellationToken);
   }
 
   @override
   Future<List<String>> querySemesterNames([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
-    var semesters = await _dualisScraper.loadSemesters(cancellationToken);
+    final semesters = await _dualisScraper.loadSemesters(cancellationToken);
 
-    var names = <String>[];
+    final names = <String>[];
 
-    for (var semester in semesters) {
+    for (final semester in semesters) {
       names.add(semester.semesterName);
     }
 
@@ -83,43 +83,46 @@ class DualisServiceImpl extends DualisService {
 
   @override
   Future<List<Module>> queryAllModules([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
-    var dualisModules = await _dualisScraper.loadAllModules(cancellationToken);
+    final dualisModules =
+        await _dualisScraper.loadAllModules(cancellationToken);
 
-    var modules = <Module>[];
-    for (var module in dualisModules) {
-      modules.add(Module(
-        <Exam>[],
-        module.id,
-        module.name,
-        module.credits,
-        module.finalGrade,
-        module.state,
-      ));
+    final modules = <Module>[];
+    for (final module in dualisModules) {
+      modules.add(
+        Module(
+          <Exam>[],
+          module.id,
+          module.name,
+          module.credits,
+          module.finalGrade,
+          module.state,
+        ),
+      );
     }
     return modules;
   }
 
   @override
   Future<Semester> querySemester(
-    String name, [
-    CancellationToken cancellationToken,
+    String? name, [
+    CancellationToken? cancellationToken,
   ]) async {
-    var semesterModules = await _dualisScraper.loadSemesterModules(
+    final semesterModules = await _dualisScraper.loadSemesterModules(
       name,
       cancellationToken,
     );
 
-    var modules = <Module>[];
+    final modules = <Module>[];
 
-    for (var dualisModule in semesterModules) {
-      var moduleExams = await _dualisScraper.loadModuleExams(
-        dualisModule.detailsUrl,
+    for (final dualisModule in semesterModules) {
+      final moduleExams = await _dualisScraper.loadModuleExams(
+        dualisModule!.detailsUrl!,
         cancellationToken,
       );
 
-      var module = Module(
+      final module = Module(
         moduleExams
             .map(
               (exam) => Exam(
@@ -145,7 +148,7 @@ class DualisServiceImpl extends DualisService {
 
   @override
   Future<void> logout([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
     await _dualisScraper.logout(cancellationToken);
   }

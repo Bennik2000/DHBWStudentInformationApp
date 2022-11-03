@@ -5,13 +5,13 @@ import 'package:dhbwstudentapp/common/appstart/localization_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notification_schedule_changed_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/notifications_initialize.dart';
 import 'package:dhbwstudentapp/common/appstart/service_injector.dart';
+import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:dhbwstudentapp/common/iap/in_app_purchase_manager.dart';
 import 'package:dhbwstudentapp/native/widget/widget_update_callback.dart';
 import 'package:dhbwstudentapp/schedule/background/calendar_synchronizer.dart';
+import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
 import 'package:dhbwstudentapp/schedule/business/schedule_source_provider.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:dhbwstudentapp/schedule/business/schedule_provider.dart';
-import 'package:dhbwstudentapp/common/data/preferences/preferences_provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 
 bool isInitialized = false;
@@ -52,20 +52,21 @@ Future<void> initializeApp(bool isBackground) async {
   WidgetUpdateCallback(KiwiContainer().resolve())
       .registerCallback(KiwiContainer().resolve());
 
-  NotificationsInitialize().setupNotifications();
-  BackgroundInitialize().setupBackgroundScheduling();
-  NotificationScheduleChangedInitialize().setupNotification();
+  const NotificationsInitialize().setupNotifications();
+  const BackgroundInitialize().setupBackgroundScheduling();
+  const NotificationScheduleChangedInitialize().setupNotification();
 
   if (isBackground) {
-    var setup = KiwiContainer().resolve<ScheduleSourceProvider>();
+    final setup = KiwiContainer().resolve<ScheduleSourceProvider>();
     setup.setupScheduleSource();
   }
 
   // Callback-Function for synchronizing the device calendar with the schedule, when schedule is updated
-  CalendarSynchronizer calendarSynchronizer = new CalendarSynchronizer(
-      KiwiContainer().resolve<ScheduleProvider>(),
-      KiwiContainer().resolve<ScheduleSourceProvider>(),
-      KiwiContainer().resolve<PreferencesProvider>());
+  final CalendarSynchronizer calendarSynchronizer = CalendarSynchronizer(
+    KiwiContainer().resolve<ScheduleProvider>(),
+    KiwiContainer().resolve<ScheduleSourceProvider>(),
+    KiwiContainer().resolve<PreferencesProvider>(),
+  );
 
   calendarSynchronizer.registerSynchronizationCallback();
   calendarSynchronizer.scheduleSyncInAFewSeconds();

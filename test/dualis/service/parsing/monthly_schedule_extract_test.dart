@@ -4,18 +4,18 @@ import 'package:dhbwstudentapp/dualis/service/parsing/monthly_schedule_extract.d
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  var monthlySchedulePage = await File(Directory.current.absolute.path +
-          '/test/dualis/service/parsing/html_resources/monthly_schedule.html')
-      .readAsString();
+  final monthlySchedulePage = await File(
+    '${Directory.current.absolute.path}/test/dualis/service/parsing/html_resources/monthly_schedule.html',
+  ).readAsString();
 
   test('MonthlyScheduleExtract extract all appointments', () async {
-    var extract = MonthlyScheduleExtract();
+    const extract = MonthlyScheduleExtract();
 
-    var modules = extract.extractScheduleFromMonthly(monthlySchedulePage);
+    final modules = extract.extractScheduleFromMonthly(monthlySchedulePage);
 
     expect(modules.entries.length, 7);
 
-    var entryTitles = [
+    final entryTitles = [
       "HOR-TMB20xxKE1 - 3. Sem. Antriebstechnik",
       "HOR-TMB20xxKE1/KE2 -  3. Sem. Konstruktion III",
       "HOR-TMB20xxKE1/KE2  3 . Sem. Thermodynamik Grundlagen 1",
@@ -25,11 +25,11 @@ Future<void> main() async {
       "HOR-TMB20xxKE1 3. Sem. Managementsysteme -Projektmanagement",
     ];
 
-    var startAndEndTime = [
-      [DateTime(2020, 09, 08, 08, 00), DateTime(2020, 09, 08, 12, 15)],
+    final startAndEndTime = [
+      [DateTime(2020, 09, 08, 08), DateTime(2020, 09, 08, 12, 15)],
       [DateTime(2020, 09, 10, 08, 30), DateTime(2020, 09, 10, 12, 45)],
       [DateTime(2020, 09, 10, 13, 30), DateTime(2020, 09, 10, 16, 45)],
-      [DateTime(2020, 09, 14, 09, 00), DateTime(2020, 09, 14, 11, 30)],
+      [DateTime(2020, 09, 14, 09), DateTime(2020, 09, 14, 11, 30)],
       [DateTime(2020, 09, 18, 08, 15), DateTime(2020, 09, 18, 11, 15)],
       [DateTime(2020, 09, 21, 08, 30), DateTime(2020, 09, 21, 11, 45)],
       [DateTime(2020, 09, 21, 13, 30), DateTime(2020, 09, 21, 16, 45)],

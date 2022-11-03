@@ -5,16 +5,18 @@ import 'package:dhbwstudentapp/date_management/service/parsing/all_dates_extract
 import 'package:dhbwstudentapp/dualis/service/session.dart';
 
 class DateManagementService {
+  const DateManagementService();
+
   Future<List<DateEntry>> queryAllDates(
     DateSearchParameters parameters,
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ) async {
-    var queryResult = await Session().get(
+    final queryResult = await Session().get(
       _buildRequestUrl(parameters),
       cancellationToken,
     );
 
-    var allDates = AllDatesExtract().extractAllDates(
+    final allDates = const AllDatesExtract().extractAllDates(
       queryResult,
       parameters.databaseName,
     );

@@ -1,6 +1,6 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/colors.dart';
-import 'package:dhbwstudentapp/common/ui/text_styles.dart';
+import 'package:dhbwstudentapp/common/ui/schedule_theme.dart';
+import 'package:dhbwstudentapp/common/ui/text_theme.dart';
 import 'package:dhbwstudentapp/common/util/date_utils.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
@@ -9,51 +9,51 @@ import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_entry
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_grid.dart';
 import 'package:dhbwstudentapp/schedule/ui/weeklyschedule/widgets/schedule_past_overlay.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleWidget extends StatelessWidget {
-  final Schedule schedule;
-  final DateTime displayStart;
-  final DateTime displayEnd;
+  final Schedule? schedule;
+  final DateTime? displayStart;
+  final DateTime? displayEnd;
   final DateTime now;
   final int displayStartHour;
   final int displayEndHour;
   final ScheduleEntryTapCallback onScheduleEntryTap;
 
   const ScheduleWidget({
-    Key key,
-    this.schedule,
-    this.displayStart,
-    this.displayEnd,
-    this.onScheduleEntryTap,
-    this.now,
-    this.displayStartHour,
-    this.displayEndHour,
-  }) : super(key: key);
+    super.key,
+    required this.schedule,
+    required this.displayStart,
+    required this.displayEnd,
+    required this.onScheduleEntryTap,
+    required this.now,
+    required this.displayStartHour,
+    required this.displayEndHour,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-        return buildWithSize(
-            context, constraints.biggest.width, constraints.biggest.height);
-      }),
+    return LayoutBuilder(
+      builder: buildWithSize,
     );
   }
 
-  Widget buildWithSize(BuildContext context, double width, double height) {
-    var dayLabelsHeight = 40.0;
-    var timeLabelsWidth = 50.0;
+  Widget buildWithSize(BuildContext context, BoxConstraints constraints) {
+    final scheduleTheme = Theme.of(context).extension<ScheduleTheme>()!;
 
-    var hourHeight =
+    final height = constraints.biggest.height;
+    final width = constraints.biggest.width;
+
+    const dayLabelsHeight = 40.0;
+    const timeLabelsWidth = 50.0;
+
+    final hourHeight =
         (height - dayLabelsHeight) / (displayEndHour - displayStartHour);
-    var minuteHeight = hourHeight / 60;
+    final minuteHeight = hourHeight / 60;
 
-    var days = calculateDisplayedDays();
+    final days = calculateDisplayedDays();
 
-    var labelWidgets = buildLabelWidgets(
+    final labelWidgets = buildLabelWidgets(
       context,
       hourHeight,
       (width - timeLabelsWidth) / days,
@@ -83,10 +83,11 @@ class ScheduleWidget extends StatelessWidget {
           timeLabelsWidth,
           dayLabelsHeight,
           days,
-          colorScheduleGridGridLines(context),
+          scheduleTheme.scheduleGridGridLines,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
+          padding:
+              const EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
           child: Stack(
             children: entryWidgets,
           ),
@@ -95,11 +96,12 @@ class ScheduleWidget extends StatelessWidget {
           children: labelWidgets,
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
+          padding:
+              const EdgeInsets.fromLTRB(timeLabelsWidth, dayLabelsHeight, 0, 0),
           child: SchedulePastOverlay(
             displayStartHour,
             displayEndHour,
-            colorScheduleInPastOverlay(context),
+            scheduleTheme.scheduleInPastOverlay,
             displayStart,
             displayEnd,
             now,
@@ -111,8 +113,8 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   int calculateDisplayedDays() {
-    var startEndDifference =
-        toStartOfDay(displayEnd)?.difference(toStartOfDay(displayStart));
+    final startEndDifference =
+        toStartOfDay(displayEnd)?.difference(toStartOfDay(displayStart)!);
 
     var days = (startEndDifference?.inDays ?? 0) + 1;
 
@@ -133,10 +135,10 @@ class ScheduleWidget extends StatelessWidget {
     double hourHeight,
     double minuteHeight,
   ) {
-    var labelWidgets = <Widget>[];
+    final labelWidgets = <Widget>[];
 
     for (var i = displayStartHour; i < displayEndHour; i++) {
-      var hourLabelText = i.toString() + ":00";
+      final hourLabelText = "$i:00";
 
       labelWidgets.add(
         Positioned(
@@ -152,14 +154,20 @@ class ScheduleWidget extends StatelessWidget {
 
     var i = 0;
 
-    var dayFormatter = DateFormat("E", L.of(context).locale.languageCode);
-    var dateFormatter = DateFormat("d. MMM", L.of(context).locale.languageCode);
+    final dayFormatter = DateFormat("E", L.of(context).locale.languageCode);
+    final dateFormatter =
+        DateFormat("d. MMM", L.of(context).locale.languageCode);
 
-    var loopEnd = toStartOfDay(tomorrow(displayEnd));
+    final loopEnd = toStartOfDay(tomorrow(displayEnd))!;
 
-    for (var columnDate = toStartOfDay(displayStart);
+    final textTheme = Theme.of(context).textTheme;
+    final customTextThme = Theme.of(context).extension<CustomTextTheme>();
+    final scheduleWidgetColumnTitleDay = textTheme.subtitle2
+        ?.merge(customTextThme?.scheduleWidgetColumnTitleDay);
+
+    for (var columnDate = toStartOfDay(displayStart)!;
         columnDate.isBefore(loopEnd);
-        columnDate = tomorrow(columnDate)) {
+        columnDate = tomorrow(columnDate)!) {
       labelWidgets.add(
         Positioned(
           top: 0,
@@ -174,7 +182,7 @@ class ScheduleWidget extends StatelessWidget {
               children: <Widget>[
                 Text(
                   dayFormatter.format(columnDate),
-                  style: textStyleScheduleWidgetColumnTitleDay(context),
+                  style: scheduleWidgetColumnTitleDay,
                 ),
                 Text(dateFormatter.format(columnDate)),
               ],
@@ -190,30 +198,36 @@ class ScheduleWidget extends StatelessWidget {
   }
 
   List<Widget> buildEntryWidgets(
-      double hourHeight, double minuteHeight, double width, int columns) {
+    double hourHeight,
+    double minuteHeight,
+    double width,
+    int columns,
+  ) {
     if (schedule == null) return <Widget>[];
-    if (schedule.entries.isEmpty) return <Widget>[];
+    if (schedule!.entries.isEmpty) return <Widget>[];
 
-    var entryWidgets = <Widget>[];
+    final entryWidgets = <Widget>[];
 
-    var columnWidth = width / columns;
+    final columnWidth = width / columns;
 
-    DateTime columnStartDate = toStartOfDay(displayStart);
-    DateTime columnEndDate = tomorrow(columnStartDate);
+    DateTime? columnStartDate = toStartOfDay(displayStart);
+    DateTime? columnEndDate = tomorrow(columnStartDate);
 
     for (int i = 0; i < columns; i++) {
-      var xPosition = columnWidth * i;
-      var maxWidth = columnWidth;
+      final xPosition = columnWidth * i;
+      final maxWidth = columnWidth;
 
-      var columnSchedule = schedule.trim(columnStartDate, columnEndDate);
+      final columnSchedule = schedule!.trim(columnStartDate, columnEndDate);
 
-      entryWidgets.addAll(buildEntryWidgetsForColumn(
-        maxWidth,
-        hourHeight,
-        minuteHeight,
-        xPosition,
-        columnSchedule.entries,
-      ));
+      entryWidgets.addAll(
+        buildEntryWidgetsForColumn(
+          maxWidth,
+          hourHeight,
+          minuteHeight,
+          xPosition,
+          columnSchedule.entries,
+        ),
+      );
 
       columnStartDate = columnEndDate;
       columnEndDate = tomorrow(columnEndDate);
@@ -229,24 +243,24 @@ class ScheduleWidget extends StatelessWidget {
     double xPosition,
     List<ScheduleEntry> entries,
   ) {
-    var entryWidgets = <Widget>[];
+    final entryWidgets = <Widget>[];
 
-    var laidOutEntries =
-        ScheduleEntryAlignmentAlgorithm().layoutEntries(entries);
+    final laidOutEntries =
+        const ScheduleEntryAlignmentAlgorithm().layoutEntries(entries);
 
-    for (var value in laidOutEntries) {
-      var entry = value.entry;
+    for (final value in laidOutEntries) {
+      final entry = value.entry;
 
-      var yStart = hourHeight * (entry.start.hour - displayStartHour) +
+      final yStart = hourHeight * (entry.start.hour - displayStartHour) +
           minuteHeight * entry.start.minute;
 
-      var yEnd = hourHeight * (entry.end.hour - displayStartHour) +
+      final yEnd = hourHeight * (entry.end.hour - displayStartHour) +
           minuteHeight * entry.end.minute;
 
-      var entryLeft = maxWidth * value.leftColumn;
-      var entryWidth = maxWidth * (value.rightColumn - value.leftColumn);
+      final entryLeft = maxWidth * value.leftColumn;
+      final entryWidth = maxWidth * (value.rightColumn - value.leftColumn);
 
-      var widget = Positioned(
+      final widget = Positioned(
         top: yStart,
         left: entryLeft + xPosition,
         height: yEnd - yStart,

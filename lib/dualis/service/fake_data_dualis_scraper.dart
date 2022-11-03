@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/model/exam.dart';
 import 'package:dhbwstudentapp/dualis/model/exam_grade.dart';
 import 'package:dhbwstudentapp/dualis/model/study_grades.dart';
@@ -13,18 +14,21 @@ import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 class FakeDataDualisScraper implements DualisScraper {
   bool _isLoggedIn = false;
 
+  FakeDataDualisScraper();
+
   @override
   bool isLoggedIn() {
     return _isLoggedIn;
   }
 
   @override
-  Future<List<DualisModule>> loadAllModules(
-      [CancellationToken cancellationToken]) async {
-    await Future.delayed(Duration(milliseconds: 200));
+  Future<List<DualisModule>> loadAllModules([
+    CancellationToken? cancellationToken,
+  ]) async {
+    await Future.delayed(const Duration(milliseconds: 200));
 
     return Future.value([
-      DualisModule(
+      const DualisModule(
         "Module1",
         "Informatik",
         "1.0",
@@ -38,9 +42,9 @@ class FakeDataDualisScraper implements DualisScraper {
   @override
   Future<List<DualisExam>> loadModuleExams(
     String moduleDetailsUrl, [
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
-    await Future.delayed(Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 200));
     return Future.value([
       DualisExam(
         "Klausur",
@@ -57,18 +61,18 @@ class FakeDataDualisScraper implements DualisScraper {
     DateTime dateInMonth,
     CancellationToken cancellationToken,
   ) async {
-    await Future.delayed(Duration(milliseconds: 200));
-    return Future.value(Schedule.fromList([]));
+    await Future.delayed(const Duration(milliseconds: 200));
+    return Future.value(const Schedule());
   }
 
   @override
   Future<List<DualisModule>> loadSemesterModules(
-    String semesterName, [
-    CancellationToken cancellationToken,
+    String? semesterName, [
+    CancellationToken? cancellationToken,
   ]) async {
-    await Future.delayed(Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 200));
     return Future.value([
-      DualisModule(
+      const DualisModule(
         "Module1",
         "Informatik",
         "1.0",
@@ -80,18 +84,20 @@ class FakeDataDualisScraper implements DualisScraper {
   }
 
   @override
-  Future<List<DualisSemester>> loadSemesters(
-      [CancellationToken cancellationToken]) async {
-    await Future.delayed(Duration(milliseconds: 200));
-    return Future.value([DualisSemester("SoSe2020", "", [])]);
+  Future<List<DualisSemester>> loadSemesters([
+    CancellationToken? cancellationToken,
+  ]) async {
+    await Future.delayed(const Duration(milliseconds: 200));
+    return Future.value([const DualisSemester("SoSe2020", "", [])]);
   }
 
   @override
   Future<StudyGrades> loadStudyGrades(
-      CancellationToken cancellationToken) async {
-    await Future.delayed(Duration(milliseconds: 200));
+    CancellationToken? cancellationToken,
+  ) async {
+    await Future.delayed(const Duration(milliseconds: 200));
     return Future.value(
-      StudyGrades(
+      const StudyGrades(
         1.5,
         1.5,
         210,
@@ -102,31 +108,31 @@ class FakeDataDualisScraper implements DualisScraper {
 
   @override
   Future<LoginResult> login(
-    String username,
-    String password,
-    CancellationToken cancellationToken,
+    Credentials credentials,
+    CancellationToken? cancellationToken,
   ) async {
-    await Future.delayed(Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 200));
     _isLoggedIn = true;
     return Future.value(LoginResult.LoggedIn);
   }
 
   @override
   Future<LoginResult> loginWithPreviousCredentials(
-      CancellationToken cancellationToken) async {
-    await Future.delayed(Duration(milliseconds: 200));
+    CancellationToken cancellationToken,
+  ) async {
+    await Future.delayed(const Duration(milliseconds: 200));
     _isLoggedIn = true;
     return Future.value(LoginResult.LoggedIn);
   }
 
   @override
-  Future<void> logout(CancellationToken cancellationToken) async {
-    await Future.delayed(Duration(milliseconds: 200));
+  Future<void> logout(CancellationToken? cancellationToken) async {
+    await Future.delayed(const Duration(milliseconds: 200));
     _isLoggedIn = false;
   }
 
   @override
-  void setLoginCredentials(String username, String password) {
+  set loginCredentials(Credentials? credentials) {
     // TODO: implement setLoginCredentials
   }
 }

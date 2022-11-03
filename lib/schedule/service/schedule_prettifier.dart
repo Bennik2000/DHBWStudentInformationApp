@@ -2,13 +2,17 @@ import 'package:dhbwstudentapp/schedule/model/schedule.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_entry.dart';
 
 class SchedulePrettifier {
-  final RegExp onlinePrefixRegExp = RegExp(r'\(?online\)?([ -]*)', caseSensitive: false);
-  final RegExp onlineSuffixRegExp = RegExp(r'([ -]*)\(?online\)?', caseSensitive: false);
+  SchedulePrettifier();
+
+  final RegExp onlinePrefixRegExp =
+      RegExp(r'\(?online\)?([ -]*)', caseSensitive: false);
+  final RegExp onlineSuffixRegExp =
+      RegExp(r'([ -]*)\(?online\)?', caseSensitive: false);
 
   Schedule prettifySchedule(Schedule schedule) {
-    var allEntries = <ScheduleEntry>[];
+    final allEntries = <ScheduleEntry>[];
 
-    for (var entry in schedule.entries) {
+    for (final entry in schedule.entries) {
       allEntries.add(prettifyScheduleEntry(entry));
     }
 
@@ -35,26 +39,24 @@ class SchedulePrettifier {
       return entry;
     }
 
-    var type = ScheduleEntryType.Online;
+    const type = ScheduleEntryType.Online;
 
     return entry.copyWith(title: newTitle, type: type);
   }
 
   ScheduleEntry _removeCourseFromTitle(ScheduleEntry entry) {
-    var title = entry.title ?? "";
-    var details = entry.details ?? "";
+    var title = entry.title;
+    var details = entry.details;
 
-    var titleRegex =
-    RegExp("[A-Z]{3,}-?[A-Z]+[0-9]*[A-Z]*[0-9]*[\/]?[A-Z]*[0-9]*[ ]*-?");
-    var match = titleRegex.firstMatch(entry.title);
+    final titleRegex =
+        RegExp("[A-Z]{3,}-?[A-Z]+[0-9]*[A-Z]*[0-9]*[/]?[A-Z]*[0-9]*[ ]*-?");
+    final match = titleRegex.firstMatch(entry.title);
 
     if (match != null && match.start == 0) {
-      details = title.substring(0, match.end) + " - $details";
+      details = "${title.substring(0, match.end)} - $details";
       title = title.substring(match.end).trim();
     } else {
-      var first = title
-          .split(" ")
-          .first;
+      final first = title.split(" ").first;
 
       // Prettify titles: T3MB9025 Fluidmechanik -> Fluidmechanik
 
@@ -62,14 +64,12 @@ class SchedulePrettifier {
       // or less than 2 charcters long
       if (!(first == first.toUpperCase() && first.length >= 3)) return entry;
 
-      var numberCount = first
-          .split(new RegExp("[0-9]"))
-          .length;
+      final numberCount = first.split(RegExp("[0-9]")).length;
 
       // If there are less thant two numbers in the title, do not prettify it
       if (numberCount < 2) return entry;
 
-      details = title.substring(0, first.length) + " - $details";
+      details = "${title.substring(0, first.length)} - $details";
       title = title.substring(first.length).trim();
     }
 

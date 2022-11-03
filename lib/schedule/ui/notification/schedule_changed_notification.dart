@@ -8,7 +8,7 @@ class ScheduleChangedNotification {
   final NotificationApi notificationApi;
   final L _localization;
 
-  ScheduleChangedNotification(this.notificationApi, this._localization);
+  const ScheduleChangedNotification(this.notificationApi, this._localization);
 
   void showNotification(ScheduleDiff scheduleDiff) {
     showEntriesAddedNotifications(scheduleDiff);
@@ -21,8 +21,8 @@ class ScheduleChangedNotification {
       return;
     }
 
-    for (var entry in scheduleDiff.updatedEntries) {
-      var message = interpolate(
+    for (final entry in scheduleDiff.updatedEntries) {
+      final message = interpolate(
         _localization.notificationScheduleChangedClass,
         [
           entry.entry.title,
@@ -42,8 +42,8 @@ class ScheduleChangedNotification {
       return;
     }
 
-    for (var entry in scheduleDiff.removedEntries) {
-      var message = interpolate(
+    for (final entry in scheduleDiff.removedEntries) {
+      final message = interpolate(
         _localization.notificationScheduleChangedRemovedClass,
         [
           entry.title,
@@ -64,8 +64,8 @@ class ScheduleChangedNotification {
       return;
     }
 
-    for (var entry in scheduleDiff.addedEntries) {
-      var message = interpolate(
+    for (final entry in scheduleDiff.addedEntries) {
+      final message = interpolate(
         _localization.notificationScheduleChangedNewClass,
         [
           entry.title,

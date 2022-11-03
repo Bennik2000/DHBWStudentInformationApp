@@ -6,10 +6,10 @@ import 'package:flutter/widgets.dart';
 
 class L {
   final Locale locale;
-  String _language;
+  late String _language;
 
   L(this.locale) {
-    _language = locale?.languageCode?.substring(0, 2);
+    _language = locale.languageCode.substring(0, 2);
 
     if (!_localizedValues.containsKey(_language)) {
       _language = "en";
@@ -84,7 +84,8 @@ class L {
 
   String get calendarSyncPageEndSync => _getValue("calendarSyncPageEndSync");
 
-  String get calendarSyncPageBeginSync => _getValue("calendarSyncPageBeginSync");
+  String get calendarSyncPageBeginSync =>
+      _getValue("calendarSyncPageBeginSync");
 
   String get notificationScheduleChangedNewClass =>
       _getValue("notificationScheduleChangedNewClass");
@@ -283,9 +284,11 @@ class L {
 
   String get dialogSetRaplaUrlTitle => _getValue("dialogSetRaplaUrlTitle");
 
-  String get dialogCalendarAccessNotGranted => _getValue("dialogCalendarAccessNotGranted");
+  String get dialogCalendarAccessNotGranted =>
+      _getValue("dialogCalendarAccessNotGranted");
 
-  String get dialogTitleCalendarAccessNotGranted => _getValue("dialogTitleCalendarAccessNotGranted");
+  String get dialogTitleCalendarAccessNotGranted =>
+      _getValue("dialogTitleCalendarAccessNotGranted");
 
   String get scheduleEmptyStateSetUrl => _getValue("scheduleEmptyStateSetUrl");
 
@@ -403,7 +406,7 @@ class L {
   String get filterTitle => _getValue("filterTitle");
 
   static L of(BuildContext context) {
-    return Localizations.of<L>(context, L);
+    return Localizations.of<L>(context, L)!;
   }
 
   static final Map<String, Map<String, String>> _localizedValues = {
@@ -412,7 +415,7 @@ class L {
   };
 
   String _getValue(String key) {
-    return _localizedValues[_language][key] ?? "";
+    return _localizedValues[_language]![key] ?? "";
   }
 
   String getValue(String key) => _getValue(key);

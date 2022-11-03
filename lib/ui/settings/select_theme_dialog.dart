@@ -1,4 +1,3 @@
-import 'package:dhbwstudentapp/common/data/preferences/app_theme_enum.dart';
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
 import 'package:dhbwstudentapp/common/ui/viewmodels/root_view_model.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 class SelectThemeDialog {
   final RootViewModel _rootViewModel;
 
-  SelectThemeDialog(this._rootViewModel);
+  const SelectThemeDialog(this._rootViewModel);
 
   Future show(BuildContext context) async {
     await showDialog(
@@ -28,27 +27,28 @@ class SelectThemeDialog {
           properties: const [
             "appTheme",
           ],
-          builder: (BuildContext context, RootViewModel model, Set properties) {
+          builder:
+              (BuildContext context, RootViewModel? model, Set? properties) {
             return Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 RadioListTile(
                   title: Text(L.of(context).selectThemeLight),
-                  value: AppTheme.Light,
+                  value: ThemeMode.light,
                   groupValue: _rootViewModel.appTheme,
-                  onChanged: (v) => _rootViewModel.setAppTheme(v),
+                  onChanged: _rootViewModel.setAppTheme,
                 ),
                 RadioListTile(
                   title: Text(L.of(context).selectThemeDark),
-                  value: AppTheme.Dark,
+                  value: ThemeMode.dark,
                   groupValue: _rootViewModel.appTheme,
-                  onChanged: (v) => _rootViewModel.setAppTheme(v),
+                  onChanged: _rootViewModel.setAppTheme,
                 ),
                 RadioListTile(
                   title: Text(L.of(context).selectThemeSystem),
-                  value: AppTheme.System,
+                  value: ThemeMode.system,
                   groupValue: _rootViewModel.appTheme,
-                  onChanged: (v) => _rootViewModel.setAppTheme(v),
+                  onChanged: _rootViewModel.setAppTheme,
                 ),
               ],
             );

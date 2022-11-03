@@ -1,6 +1,9 @@
+// ignore_for_file: leading_newlines_in_multiline_strings
+
 import 'dart:core';
 
 class SqlScripts {
+  const SqlScripts();
   static final databaseMigrationScripts = [
     // Version 1 - init database
     [

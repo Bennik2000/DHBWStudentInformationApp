@@ -1,21 +1,16 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
+import 'package:dhbwstudentapp/ui/onboarding/viewmodels/rapla_url_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:property_change_notifier/property_change_notifier.dart';
 
-class RaplaUrlPage extends StatefulWidget {
-  @override
-  _RaplaUrlPageState createState() => _RaplaUrlPageState();
-}
-
-class _RaplaUrlPageState extends State<RaplaUrlPage> {
-  final TextEditingController _urlTextController = TextEditingController();
+class RaplaUrlPage extends StatelessWidget {
+  const RaplaUrlPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController urlTextController = TextEditingController();
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.fromLTRB(32, 0, 32, 0),
@@ -40,12 +35,17 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
           child: Padding(
             padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
             child: PropertyChangeConsumer<OnboardingStepViewModel, String>(
-              builder: (BuildContext context, OnboardingStepViewModel model,
-                  Set<Object> _) {
-                var viewModel = model as RaplaUrlViewModel;
+              builder: (
+                BuildContext context,
+                OnboardingStepViewModel? model,
+                Set<Object>? _,
+              ) {
+                final viewModel = model as RaplaUrlViewModel?;
 
-                if (_urlTextController.text != viewModel.raplaUrl)
-                  _urlTextController.text = viewModel.raplaUrl;
+                if (viewModel?.raplaUrl != null &&
+                    urlTextController.text != viewModel!.raplaUrl) {
+                  urlTextController.text = viewModel.raplaUrl!;
+                }
 
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
@@ -54,23 +54,21 @@ class _RaplaUrlPageState extends State<RaplaUrlPage> {
                     children: <Widget>[
                       Expanded(
                         child: TextField(
-                          controller: _urlTextController,
+                          controller: urlTextController,
                           decoration: InputDecoration(
-                            errorText: (viewModel.urlHasError ?? false)
+                            errorText: viewModel?.urlHasError == true
                                 ? L.of(context).onboardingRaplaUrlInvalid
                                 : null,
                             hintText: L.of(context).onboardingRaplaUrlHint,
                           ),
-                          onChanged: (value) {
-                            viewModel.setRaplaUrl(value);
-                          },
+                          onChanged: viewModel?.setRaplaUrl,
                         ),
                       ),
                       TextButton.icon(
                         onPressed: () async {
-                          await viewModel.pasteUrl();
+                          await viewModel?.pasteUrl();
                         },
-                        icon: Icon(Icons.content_paste),
+                        icon: const Icon(Icons.content_paste),
                         label: Text(
                           L.of(context).onboardingRaplaUrlPaste.toUpperCase(),
                         ),

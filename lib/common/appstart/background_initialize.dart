@@ -12,6 +12,8 @@ import 'package:kiwi/kiwi.dart';
 /// Note: More or less reliable background scheduling only works on android
 ///
 class BackgroundInitialize {
+  const BackgroundInitialize();
+
   Future<void> setupBackgroundScheduling() async {
     WorkSchedulerService scheduler;
     if (Platform.isAndroid) {
@@ -22,7 +24,7 @@ class BackgroundInitialize {
 
     KiwiContainer().registerInstance<WorkSchedulerService>(scheduler);
 
-    var tasks = [
+    final tasks = [
       BackgroundScheduleUpdate(
         KiwiContainer().resolve(),
         KiwiContainer().resolve(),
@@ -37,7 +39,7 @@ class BackgroundInitialize {
       ),
     ];
 
-    for (var task in tasks) {
+    for (final task in tasks) {
       scheduler.registerTask(task);
 
       KiwiContainer().registerInstance(
