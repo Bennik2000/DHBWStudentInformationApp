@@ -10,30 +10,33 @@ class FilterViewModel extends BaseViewModel {
 
   List<ScheduleEntryFilterState> filterStates = [];
 
-  FilterViewModel(this._scheduleEntryRepository, this._scheduleFilterRepository,
-      this._scheduleSource) {
+  FilterViewModel(
+    this._scheduleEntryRepository,
+    this._scheduleFilterRepository,
+    this._scheduleSource,
+  ) {
     loadFilterStates();
   }
 
-  void loadFilterStates() async {
-    var allNames =
+  Future<void> loadFilterStates() async {
+    final allNames =
         await _scheduleEntryRepository.queryAllNamesOfScheduleEntries();
 
-    var filteredNames = await _scheduleFilterRepository.queryAllHiddenNames();
+    final filteredNames = await _scheduleFilterRepository.queryAllHiddenNames();
 
-    allNames.sort((s1, s2) => s1.compareTo(s2));
+    allNames.sort((s1, s2) => s1!.compareTo(s2!));
 
     filterStates = allNames.map((e) {
-      var isFiltered = filteredNames.contains(e);
+      final isFiltered = filteredNames.contains(e);
       return ScheduleEntryFilterState(!isFiltered, e);
     }).toList();
 
     notifyListeners();
   }
 
-  void applyFilter() async {
-    var allFilteredNames = filterStates
-        .where((element) => !element.isDisplayed)
+  Future<void> applyFilter() async {
+    final allFilteredNames = filterStates
+        .where((element) => !element.isDisplayed!)
         .map((e) => e.entryName)
         .toList();
 
@@ -44,8 +47,8 @@ class FilterViewModel extends BaseViewModel {
 }
 
 class ScheduleEntryFilterState {
-  bool isDisplayed;
-  String entryName;
+  bool? isDisplayed;
+  String? entryName;
 
   ScheduleEntryFilterState(this.isDisplayed, this.entryName);
 }

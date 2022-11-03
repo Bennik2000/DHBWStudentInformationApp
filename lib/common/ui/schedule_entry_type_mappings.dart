@@ -25,14 +25,14 @@ final Map<ScheduleEntryType, TextDelegate> scheduleEntryTypeTextMapping = {
 
 Color scheduleEntryTypeToColor(
   BuildContext context,
-  ScheduleEntryType type,
+  ScheduleEntryType? type,
 ) {
-  return scheduleEntryTypeColorMapping[type](context);
+  return scheduleEntryTypeColorMapping[type!]!(context);
 }
 
 String scheduleEntryTypeToReadableString(
   BuildContext context,
-  ScheduleEntryType type,
+  ScheduleEntryType? type,
 ) {
-  return scheduleEntryTypeTextMapping[type](context);
+  return scheduleEntryTypeTextMapping[type!]!(context);
 }

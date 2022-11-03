@@ -16,17 +16,13 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 class RootPage extends StatefulWidget {
   final RootViewModel rootViewModel;
 
-  const RootPage({Key key, this.rootViewModel}) : super(key: key);
+  const RootPage({Key? key, required this.rootViewModel}) : super(key: key);
 
   @override
-  _RootPageState createState() => _RootPageState(rootViewModel);
+  _RootPageState createState() => _RootPageState();
 }
 
 class _RootPageState extends State<RootPage> {
-  final RootViewModel rootViewModel;
-
-  _RootPageState(this.rootViewModel);
-
   @override
   void initState() {
     super.initState();
@@ -35,16 +31,19 @@ class _RootPageState extends State<RootPage> {
   @override
   Widget build(BuildContext context) {
     return PropertyChangeProvider<RootViewModel, String>(
+      value: widget.rootViewModel,
       child: PropertyChangeConsumer(
         properties: const ["appTheme", "isOnboarding"],
-        builder: (BuildContext context, RootViewModel model, Set properties) =>
-            MaterialApp(
-          theme: ColorPalettes.buildTheme(model.appTheme),
-          initialRoute: rootViewModel.isOnboarding ? "onboarding" : "main",
+        builder:
+            (BuildContext context, RootViewModel? model, Set? properties) =>
+                MaterialApp(
+          theme: ColorPalettes.buildTheme(model!.appTheme),
+          initialRoute:
+              widget.rootViewModel.isOnboarding ? "onboarding" : "main",
           navigatorKey: NavigatorKey.rootKey,
           navigatorObservers: [rootNavigationObserver],
-          localizationsDelegates: [
-            const LocalizationDelegate(),
+          localizationsDelegates: const [
+            LocalizationDelegate(),
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,
             GlobalCupertinoLocalizations.delegate,
@@ -57,7 +56,6 @@ class _RootPageState extends State<RootPage> {
           onGenerateRoute: generateRoute,
         ),
       ),
-      value: rootViewModel,
     );
   }
 }

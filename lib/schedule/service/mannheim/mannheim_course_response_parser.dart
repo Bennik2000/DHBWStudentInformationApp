@@ -4,27 +4,29 @@ import 'package:html/parser.dart';
 
 class MannheimCourseResponseParser {
   List<Course> parseCoursePage(String body) {
-    var document = parse(body);
+    final document = parse(body);
 
-    var selectElement = getElementById(document, "class_select");
-    var options = selectElement.getElementsByTagName("option");
+    final selectElement = getElementById(document, "class_select");
+    final options = selectElement.getElementsByTagName("option");
 
-    var courses = <Course>[];
+    final courses = <Course>[];
 
-    for (var e in options) {
-      var label = e.attributes["label"] ?? "";
-      var value = e.attributes["value"] ?? "";
-      var title = e.parent.attributes["label"] ?? "";
+    for (final e in options) {
+      final label = e.attributes["label"] ?? "";
+      final value = e.attributes["value"] ?? "";
+      final title = e.parent!.attributes["label"] ?? "";
 
       if (label == "" || value == "") continue;
       if (label.trim() == "Kurs auswählen") continue;
 
-      courses.add(Course(
-        label,
-        "http://vorlesungsplan.dhbw-mannheim.de/ical.php?uid=$value",
-        title,
-        value,
-      ));
+      courses.add(
+        Course(
+          label,
+          "http://vorlesungsplan.dhbw-mannheim.de/ical.php?uid=$value",
+          title,
+          value,
+        ),
+      );
     }
 
     courses.sort((c1, c2) => c1.name.compareTo(c2.name));

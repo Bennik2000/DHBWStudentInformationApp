@@ -8,26 +8,25 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleEntryDetailBottomSheet extends StatelessWidget {
-  final ScheduleEntry scheduleEntry;
+  final ScheduleEntry? scheduleEntry;
 
-  const ScheduleEntryDetailBottomSheet({Key key, this.scheduleEntry})
+  const ScheduleEntryDetailBottomSheet({Key? key, this.scheduleEntry})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var formatter = DateFormat.Hm(L.of(context).locale.languageCode);
-    var timeStart = formatter.format(scheduleEntry.start);
-    var timeEnd = formatter.format(scheduleEntry.end);
+    final formatter = DateFormat.Hm(L.of(context).locale.languageCode);
+    final timeStart = formatter.format(scheduleEntry!.start);
+    final timeEnd = formatter.format(scheduleEntry!.end);
 
-    var typeString =
-        scheduleEntryTypeToReadableString(context, scheduleEntry.type);
+    final typeString =
+        scheduleEntryTypeToReadableString(context, scheduleEntry!.type);
 
-    return Container(
+    return SizedBox(
       height: 400,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
@@ -37,16 +36,15 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                   height: 8,
                   width: 30,
                   decoration: BoxDecoration(
-                      color: colorSeparator(),
-                      borderRadius: const BorderRadius.all(Radius.circular(4))),
-                  child: null,
+                    color: colorSeparator(),
+                    borderRadius: const BorderRadius.all(Radius.circular(4)),
+                  ),
                 ),
               ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 16.0),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -58,7 +56,8 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                           Text(
                             L.of(context).scheduleEntryDetailFrom,
                             style: textStyleScheduleEntryBottomPageTimeFromTo(
-                                context),
+                              context,
+                            ),
                           ),
                           Text(
                             timeStart,
@@ -90,7 +89,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
                       child: Text(
-                        scheduleEntry.title ?? "",
+                        scheduleEntry!.title,
                         softWrap: true,
                         style: textStyleScheduleEntryBottomPageTitle(context),
                       ),
@@ -106,7 +105,7 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 children: <Widget>[
                   Expanded(
                     child: Text(
-                      scheduleEntry.professor ?? "",
+                      scheduleEntry!.professor,
                     ),
                   ),
                   Text(
@@ -116,24 +115,27 @@ class ScheduleEntryDetailBottomSheet extends StatelessWidget {
                 ],
               ),
             ),
-            scheduleEntry.room?.isEmpty ?? true
-                ? Container()
-                : Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-                    child: Text(scheduleEntry.room.replaceAll(",", "\n")),
-                  ),
-            scheduleEntry.details?.isEmpty ?? true
-                ? Container()
-                : Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-                    child: Container(
-                      color: colorSeparator(),
-                      height: 1,
-                    ),
-                  ),
-            scheduleEntry.details?.isEmpty ?? true
-                ? Container()
-                : Text(scheduleEntry.details),
+            if (scheduleEntry!.room.isEmpty)
+              Container()
+            else
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+                child: Text(scheduleEntry!.room.replaceAll(",", "\n")),
+              ),
+            if (scheduleEntry!.details.isEmpty)
+              Container()
+            else
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                child: Container(
+                  color: colorSeparator(),
+                  height: 1,
+                ),
+              ),
+            if (scheduleEntry!.details.isEmpty)
+              Container()
+            else
+              Text(scheduleEntry!.details),
           ],
         ),
       ),

@@ -3,8 +3,8 @@ import 'package:test/test.dart';
 
 void main() {
   test('String interpolation', () async {
-    var format = "%0 %1!";
-    var result = interpolate(format, ["Hello", "world"]);
+    const format = "%0 %1!";
+    final result = interpolate(format, ["Hello", "world"]);
 
     expect(result, "Hello world!");
   });

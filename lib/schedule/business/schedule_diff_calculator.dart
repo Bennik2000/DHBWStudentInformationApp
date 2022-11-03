@@ -6,27 +6,29 @@ class ScheduleDiffCalculator {
     Schedule oldSchedule,
     Schedule newSchedule,
   ) {
-    var oldEntries = List<ScheduleEntry>.from(oldSchedule.entries);
-    var newEntries = List<ScheduleEntry>.from(newSchedule.entries);
+    final oldEntries = List<ScheduleEntry>.from(oldSchedule.entries);
+    final newEntries = List<ScheduleEntry>.from(newSchedule.entries);
 
-    var removedEntries = <ScheduleEntry>[];
-    var addedEntries = <ScheduleEntry>[];
+    final removedEntries = <ScheduleEntry>[];
+    final addedEntries = <ScheduleEntry>[];
 
-    for (var entry in oldEntries) {
-      if (!newEntries.any((ScheduleEntry element) =>
-          _areScheduleEntriesEqual(element, entry))) {
+    for (final entry in oldEntries) {
+      if (!newEntries.any(
+        (ScheduleEntry element) => _areScheduleEntriesEqual(element, entry),
+      )) {
         removedEntries.add(entry);
       }
     }
 
-    for (var entry in newEntries) {
-      if (!oldEntries.any((ScheduleEntry element) =>
-          _areScheduleEntriesEqual(element, entry))) {
+    for (final entry in newEntries) {
+      if (!oldEntries.any(
+        (ScheduleEntry element) => _areScheduleEntriesEqual(element, entry),
+      )) {
         addedEntries.add(entry);
       }
     }
 
-    var scheduleDiff =
+    final scheduleDiff =
         _tryConnectNewAndOldEntries(addedEntries, removedEntries);
 
     return scheduleDiff;
@@ -39,32 +41,32 @@ class ScheduleDiffCalculator {
     return entry1.start.isAtSameMomentAs(entry2.start) &&
         entry1.end.isAtSameMomentAs(entry2.end) &&
         entry1.type == entry2.type &&
-        (entry1.room ?? "") == (entry2.room ?? "") &&
-        (entry1.details ?? "") == (entry2.details ?? "") &&
-        (entry1.title ?? "") == (entry2.title ?? "") &&
-        (entry1.professor ?? "") == (entry2.professor ?? "");
+        entry1.room == entry2.room &&
+        entry1.details == entry2.details &&
+        entry1.title == entry2.title &&
+        entry1.professor == entry2.professor;
   }
 
   ScheduleDiff _tryConnectNewAndOldEntries(
     List<ScheduleEntry> addedEntries,
     List<ScheduleEntry> removedEntries,
   ) {
-    var allDistinctTitles = <String>[];
+    var allDistinctTitles = <String?>[];
 
     allDistinctTitles.addAll(addedEntries.map((ScheduleEntry e) => e.title));
     allDistinctTitles.addAll(removedEntries.map((ScheduleEntry e) => e.title));
     allDistinctTitles = allDistinctTitles.toSet().toList();
 
-    var updatedEntries = <UpdatedEntry>[];
-    var newEntries = <ScheduleEntry>[];
-    var oldEntries = <ScheduleEntry>[];
+    final updatedEntries = <UpdatedEntry>[];
+    final newEntries = <ScheduleEntry>[];
+    final oldEntries = <ScheduleEntry>[];
 
-    for (var intersectingTitle in allDistinctTitles) {
-      var oldElementsWithName = removedEntries
+    for (final intersectingTitle in allDistinctTitles) {
+      final oldElementsWithName = removedEntries
           .where((ScheduleEntry e) => e.title == intersectingTitle)
           .toList();
 
-      var newElementsWithName = addedEntries
+      final newElementsWithName = addedEntries
           .where((ScheduleEntry e) => e.title == intersectingTitle)
           .toList();
 
@@ -86,10 +88,13 @@ class ScheduleDiffCalculator {
       }
 
       if (oldElementsWithName.length == 1 && newElementsWithName.length == 1) {
-        updatedEntries.add(UpdatedEntry(
-          newElementsWithName[0],
-          newElementsWithName[0].getDifferentProperties(oldElementsWithName[0]),
-        ));
+        updatedEntries.add(
+          UpdatedEntry(
+            newElementsWithName[0],
+            newElementsWithName[0]
+                .getDifferentProperties(oldElementsWithName[0]),
+          ),
+        );
         continue;
       }
 
@@ -113,14 +118,15 @@ class ScheduleDiffCalculator {
   }
 
   void _matchMNChangedElements(
-      List<ScheduleEntry> oldElementsWithName,
-      List<ScheduleEntry> newElementsWithName,
-      List<UpdatedEntry> updatedEntries,
-      List<ScheduleEntry> oldEntries,
-      List<ScheduleEntry> newEntries) {
+    List<ScheduleEntry> oldElementsWithName,
+    List<ScheduleEntry> newElementsWithName,
+    List<UpdatedEntry> updatedEntries,
+    List<ScheduleEntry> oldEntries,
+    List<ScheduleEntry> newEntries,
+  ) {
     if (oldElementsWithName.length == newElementsWithName.length) {
-      for (var oldElement in oldElementsWithName) {
-        ScheduleEntry nearestElement =
+      for (final oldElement in oldElementsWithName) {
+        final ScheduleEntry nearestElement =
             _findNearestElementByStart(newElementsWithName, oldElement);
 
         newElementsWithName.remove(nearestElement);
@@ -133,24 +139,26 @@ class ScheduleDiffCalculator {
         );
       }
     } else {
-      for (var oldElement in oldElementsWithName) {
+      for (final oldElement in oldElementsWithName) {
         oldEntries.add(oldElement);
       }
 
-      for (var newElement in newElementsWithName) {
+      for (final newElement in newElementsWithName) {
         newEntries.add(newElement);
       }
     }
   }
 
   ScheduleEntry _findNearestElementByStart(
-      List<ScheduleEntry> elements, ScheduleEntry reference) {
+    List<ScheduleEntry> elements,
+    ScheduleEntry reference,
+  ) {
     ScheduleEntry nearestElement = elements[0];
     Duration minimalDifference =
         reference.start.difference(nearestElement.start).abs();
 
-    for (var newElement in elements) {
-      var difference = reference.start.difference(newElement.start).abs();
+    for (final newElement in elements) {
+      final difference = reference.start.difference(newElement.start).abs();
 
       if (difference < minimalDifference) {
         nearestElement = newElement;
@@ -166,7 +174,11 @@ class ScheduleDiff {
   final List<ScheduleEntry> removedEntries;
   final List<UpdatedEntry> updatedEntries;
 
-  ScheduleDiff({this.addedEntries, this.removedEntries, this.updatedEntries});
+  ScheduleDiff({
+    required this.addedEntries,
+    required this.removedEntries,
+    required this.updatedEntries,
+  });
 
   bool didSomethingChange() {
     return addedEntries.isNotEmpty ||

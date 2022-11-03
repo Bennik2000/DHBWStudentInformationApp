@@ -7,9 +7,9 @@ enum ExamState {
 }
 
 class Exam {
-  final String name;
+  final String? name;
   final ExamGrade grade;
-  final String semester;
+  final String? semester;
   final ExamState state;
 
   Exam(

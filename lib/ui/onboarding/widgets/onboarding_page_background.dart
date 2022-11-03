@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/assets.dart';
 import 'package:dhbwstudentapp/common/math/math.dart';
 import 'package:dhbwstudentapp/common/ui/colors.dart';
 import 'package:dhbwstudentapp/common/util/platform_util.dart';
@@ -11,16 +12,16 @@ class OnboardingPageBackground extends StatelessWidget {
   final Animation<double> bottomBackground;
 
   final Map<Brightness, String> foreground = {
-    Brightness.light: "assets/onboarding_bottom_foreground.png",
-    Brightness.dark: "assets/onboarding_bottom_foreground_dark.png",
+    Brightness.light: Assets.assets_onboarding_bottom_foreground_png,
+    Brightness.dark: Assets.assets_onboarding_bottom_foreground_dark_png,
   };
 
   final Map<Brightness, String> background = {
-    Brightness.light: "assets/onboarding_bottom_background.png",
-    Brightness.dark: "assets/onboarding_bottom_background_dark.png",
+    Brightness.light: Assets.assets_onboarding_bottom_background_png,
+    Brightness.dark: Assets.assets_onboarding_bottom_background_dark_png,
   };
 
-  OnboardingPageBackground({Key key, this.controller})
+  OnboardingPageBackground({Key? key, required this.controller})
       : angleTopBackground = Tween<double>(
           begin: PlatformUtil.isPhone() ? -32 : -10,
           end: PlatformUtil.isPhone() ? -10 : -5,
@@ -30,7 +31,6 @@ class OnboardingPageBackground extends StatelessWidget {
             curve: const Interval(
               0.0,
               1,
-              curve: Curves.linear,
             ),
           ),
         ),
@@ -43,7 +43,6 @@ class OnboardingPageBackground extends StatelessWidget {
             curve: const Interval(
               0.0,
               1,
-              curve: Curves.linear,
             ),
           ),
         ),
@@ -56,7 +55,6 @@ class OnboardingPageBackground extends StatelessWidget {
             curve: const Interval(
               0.0,
               1,
-              curve: Curves.linear,
             ),
           ),
         ),
@@ -69,73 +67,74 @@ class OnboardingPageBackground extends StatelessWidget {
             curve: const Interval(
               0.0,
               1,
-              curve: Curves.linear,
             ),
           ),
         ),
         super(key: key);
 
-  Widget _buildAnimation(BuildContext context, Widget child) {
+  Widget _buildAnimation(BuildContext context, Widget? child) {
     return Stack(
       children: <Widget>[
         Transform.rotate(
+          angle: toRadian(angleTopForeground.value),
           child: Transform.translate(
+            offset: const Offset(20, -450),
             child: Container(
               width: 15000,
               height: 500,
               color: colorOnboardingDecorationForeground(context),
             ),
-            offset: const Offset(20, -450),
           ),
-          angle: toRadian(angleTopForeground.value),
         ),
         Transform.rotate(
+          angle: toRadian(angleTopBackground.value),
           child: Transform.translate(
+            offset: const Offset(20, -480),
             child: Container(
               width: 1500,
               height: 500,
               color: colorOnboardingDecorationBackground(context),
             ),
-            offset: const Offset(20, -480),
           ),
-          angle: toRadian(angleTopBackground.value),
         ),
-        PlatformUtil.isPhone()
-            ? Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: 90,
-                  width: double.infinity,
-                  child: Transform.translate(
-                    offset: Offset(bottomBackground.value, 20),
-                    child: Transform.scale(
-                      scale: 1.5,
-                      child: Image.asset(
-                        background[Theme.of(context).brightness],
-                      ),
-                    ),
+        if (PlatformUtil.isPhone())
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 90,
+              width: double.infinity,
+              child: Transform.translate(
+                offset: Offset(bottomBackground.value, 20),
+                child: Transform.scale(
+                  scale: 1.5,
+                  child: Image.asset(
+                    background[Theme.of(context).brightness]!,
                   ),
                 ),
-              )
-            : Container(),
-        PlatformUtil.isPhone()
-            ? Align(
-                alignment: Alignment.bottomCenter,
-                child: SizedBox(
-                  height: 90,
-                  width: double.infinity,
-                  child: Transform.translate(
-                    offset: Offset(bottomForeground.value, 20),
-                    child: Transform.scale(
-                      scale: 1.5,
-                      child: Image.asset(
-                        foreground[Theme.of(context).brightness],
-                      ),
-                    ),
+              ),
+            ),
+          )
+        else
+          Container(),
+        if (PlatformUtil.isPhone())
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: SizedBox(
+              height: 90,
+              width: double.infinity,
+              child: Transform.translate(
+                offset: Offset(bottomForeground.value, 20),
+                child: Transform.scale(
+                  scale: 1.5,
+                  child: Image.asset(
+                    foreground[Theme.of(context).brightness]!,
                   ),
                 ),
-              )
-            : Container(),
+              ),
+            ),
+          )
+        else
+          Container(),
       ],
     );
   }

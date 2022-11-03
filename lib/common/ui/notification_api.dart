@@ -15,15 +15,16 @@ class NotificationApi {
   /// call this method
   ///
   Future<void> initialize() async {
-    var initializationSettingsAndroid = const AndroidInitializationSettings(
+    const initializationSettingsAndroid = AndroidInitializationSettings(
       'outline_event_note_24',
     );
 
-    var initializationSettingsIOS = IOSInitializationSettings(
+    final initializationSettingsIOS = IOSInitializationSettings(
+      // TODO: [Leptopoda] the below always returns null so why register it?
       onDidReceiveLocalNotification: onDidReceiveLocalNotification,
     );
 
-    var initializationSettings = InitializationSettings(
+    final initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
     );
@@ -37,26 +38,23 @@ class NotificationApi {
   ///
   /// Show a notification with the given title and message
   ///
-  Future showNotification(String title, String message, [int id]) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+  Future showNotification(String title, String? message, [int? id]) async {
+    const androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'Notifications',
       'Notifications',
       channelDescription: 'This is the main notification channel',
       icon: 'outline_event_note_24',
-      channelAction: AndroidNotificationChannelAction.createIfNotExists,
-      autoCancel: true,
       channelShowBadge: false,
       color: Colors.red,
       enableLights: true,
-      enableVibration: true,
       importance: Importance.high,
       priority: Priority.high,
       ticker: 'ticker',
     );
 
-    var iOSPlatformChannelSpecifics = const IOSNotificationDetails();
+    const iOSPlatformChannelSpecifics = IOSNotificationDetails();
 
-    var platformChannelSpecifics = NotificationDetails(
+    const platformChannelSpecifics = NotificationDetails(
       android: androidPlatformChannelSpecifics,
       iOS: iOSPlatformChannelSpecifics,
     );
@@ -72,10 +70,14 @@ class NotificationApi {
   }
 
   Future onDidReceiveLocalNotification(
-          int id, String title, String body, String payload) =>
+    int id,
+    String? title,
+    String? body,
+    String? payload,
+  ) =>
       Future.value();
 
-  Future selectNotification(String payload) => Future.value();
+  Future selectNotification(String? payload) => Future.value();
 }
 
 ///
@@ -83,7 +85,8 @@ class NotificationApi {
 ///
 class VoidNotificationApi implements NotificationApi {
   @override
-  FlutterLocalNotificationsPlugin get _localNotificationsPlugin => null;
+  FlutterLocalNotificationsPlugin get _localNotificationsPlugin =>
+      throw UnimplementedError();
 
   @override
   Future<void> initialize() {
@@ -92,17 +95,21 @@ class VoidNotificationApi implements NotificationApi {
 
   @override
   Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) {
+    int id,
+    String? title,
+    String? body,
+    String? payload,
+  ) {
     return Future.value();
   }
 
   @override
-  Future selectNotification(String payload) {
+  Future selectNotification(String? payload) {
     return Future.value();
   }
 
   @override
-  Future showNotification(String title, String message, [int id]) {
+  Future showNotification(String title, String? message, [int? id]) {
     return Future.value();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/util/cancellation_token.dart';
+import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_service.dart';
 import 'package:dhbwstudentapp/dualis/service/dualis_website_model.dart';
 import 'package:dhbwstudentapp/dualis/service/parsing/access_denied_extract.dart';
@@ -16,36 +17,28 @@ import 'package:http/http.dart';
 class DualisAuthentication {
   final RegExp _tokenRegex = RegExp("ARGUMENTS=-N([0-9]{15})");
 
-  String _username;
-  String _password;
+  Credentials? _credentials;
 
-  DualisUrls _dualisUrls;
-  DualisUrls get dualisUrls => _dualisUrls;
+  // TODO: [Leptopoda] make singletons :)
 
-  String _authToken;
-  Session _session;
+  DualisUrls? _dualisUrls;
+  DualisUrls get dualisUrls => _dualisUrls ??= DualisUrls();
 
-  LoginResult _loginState = LoginResult.LoggedOut;
-  LoginResult get loginState => _loginState;
+  String? _authToken;
+  Session? _session;
+  Session get session => _session ??= Session();
+
+  LoginResult? _loginState;
+  LoginResult get loginState => _loginState ??= LoginResult.LoggedOut;
 
   Future<LoginResult> login(
-    String username,
-    String password,
-    CancellationToken cancellationToken,
+    Credentials credentials,
+    CancellationToken? cancellationToken,
   ) async {
-    username = username ?? this._username;
-    password = password ?? this._password;
+    _credentials = credentials;
 
-    _dualisUrls = dualisUrls ?? DualisUrls();
-
-    this._username = username;
-    this._password = password;
-
-    _session = Session();
-
-    var loginResponse = await _makeLoginRequest(
-      username,
-      password,
+    final loginResponse = await _makeLoginRequest(
+      credentials,
       cancellationToken,
     );
 
@@ -58,7 +51,7 @@ class DualisAuthentication {
 
     // TODO: Test for login failed page
 
-    var redirectUrl = LoginRedirectUrlExtract().getUrlFromHeader(
+    final redirectUrl = LoginRedirectUrlExtract().getUrlFromHeader(
       loginResponse.headers['refresh'],
       dualisEndpoint,
     );
@@ -68,7 +61,7 @@ class DualisAuthentication {
       return loginState;
     }
 
-    var redirectPage = await _session.get(
+    final redirectPage = await session.get(
       redirectUrl,
       cancellationToken,
     );
@@ -83,10 +76,10 @@ class DualisAuthentication {
       return loginState;
     }
 
-    _updateAccessToken(dualisUrls.mainPageUrl);
+    _updateAccessToken(dualisUrls.mainPageUrl!);
 
-    var mainPage = await _session.get(
-      dualisUrls.mainPageUrl,
+    final mainPage = await session.get(
+      dualisUrls.mainPageUrl!,
       cancellationToken,
     );
 
@@ -100,16 +93,15 @@ class DualisAuthentication {
     return loginState;
   }
 
-  Future<Response> _makeLoginRequest(
-    String user,
-    String password, [
-    CancellationToken cancellationToken,
+  Future<Response?> _makeLoginRequest(
+    Credentials credentials, [
+    CancellationToken? cancellationToken,
   ]) async {
-    var loginUrl = dualisEndpoint + "/scripts/mgrqispi.dll";
+    const loginUrl = "$dualisEndpoint/scripts/mgrqispi.dll";
 
-    var data = {
-      "usrname": user,
-      "pass": password,
+    final data = {
+      "usrname": credentials.username,
+      "pass": credentials.password,
       "APPNAME": "CampusNet",
       "PRGNAME": "LOGINCHECK",
       "ARGUMENTS": "clino,usrname,pass,menuno,menu_type,browser,platform",
@@ -121,7 +113,7 @@ class DualisAuthentication {
     };
 
     try {
-      var loginResponse = await _session.rawPost(
+      final loginResponse = await session.rawPost(
         loginUrl,
         data,
         cancellationToken,
@@ -138,14 +130,18 @@ class DualisAuthentication {
   /// This method handles the authentication cookie and token. If the session
   /// timed out, it will renew the session by logging in again
   ///
-  Future<String> authenticatedGet(
+  Future<String?> authenticatedGet(
     String url,
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ) async {
-    var result = await _session.get(
+    assert(_credentials != null);
+
+    final result = await session.get(
       _fillUrlWithAuthToken(url),
       cancellationToken,
     );
+
+    if (result == null) return null;
 
     cancellationToken?.throwIfCancelled();
 
@@ -154,10 +150,10 @@ class DualisAuthentication {
       return result;
     }
 
-    var loginResult = await login(_username, _password, cancellationToken);
+    final loginResult = await login(_credentials!, cancellationToken);
 
     if (loginResult == LoginResult.LoggedIn) {
-      return await _session.get(
+      return session.get(
         _fillUrlWithAuthToken(url),
         cancellationToken,
       );
@@ -167,9 +163,9 @@ class DualisAuthentication {
   }
 
   Future<void> logout([
-    CancellationToken cancellationToken,
+    CancellationToken? cancellationToken,
   ]) async {
-    var logoutRequest = _session.get(dualisUrls.logoutUrl, cancellationToken);
+    final logoutRequest = session.get(dualisUrls.logoutUrl, cancellationToken);
 
     _session = null;
     _dualisUrls = null;
@@ -184,11 +180,11 @@ class DualisAuthentication {
   /// wrapped in a [fillUrlWithAuthToken()] call
   ///
   void _updateAccessToken(String urlWithNewToken) {
-    var tokenMatch = _tokenRegex.firstMatch(urlWithNewToken);
+    final tokenMatch = _tokenRegex.firstMatch(urlWithNewToken);
 
-    if (tokenMatch == null) return;
-
-    _authToken = tokenMatch.group(1);
+    if (tokenMatch != null) {
+      _authToken = tokenMatch.group(1);
+    }
   }
 
   ///
@@ -198,22 +194,26 @@ class DualisAuthentication {
   /// updated api token
   ///
   String _fillUrlWithAuthToken(String url) {
-    var match = _tokenRegex.firstMatch(url);
+    final match = _tokenRegex.firstMatch(url);
     if (match != null) {
       return url.replaceRange(
-          match.start, match.end, "ARGUMENTS=-N$_authToken");
+        match.start,
+        match.end,
+        "ARGUMENTS=-N$_authToken",
+      );
     }
 
     return url;
   }
 
-  void setLoginCredentials(String username, String password) {
-    _username = username;
-    _password = password;
+  set loginCredentials(Credentials credentials) {
+    _credentials = credentials;
   }
 
   Future<LoginResult> loginWithPreviousCredentials(
-      CancellationToken cancellationToken) async {
-    return await login(_username, _password, cancellationToken);
+    CancellationToken cancellationToken,
+  ) async {
+    assert(_credentials != null);
+    return login(_credentials!, cancellationToken);
   }
 }

@@ -8,18 +8,18 @@ const String dualisEndpoint = "https://dualis.dhbw.de";
 /// access token contained within the urls.
 ///
 class DualisUrls {
-  String courseResultUrl;
-  String studentResultsUrl;
-  String logoutUrl;
-  String mainPageUrl;
-  String monthlyScheduleUrl;
+  String? courseResultUrl;
+  String? studentResultsUrl;
+  late String logoutUrl;
+  String? mainPageUrl;
+  String? monthlyScheduleUrl;
 
-  Map<String, String> semesterCourseResultUrls = {};
+  Map<String, String?> semesterCourseResultUrls = {};
 }
 
 class DualisSemester {
   final String semesterName;
-  final String semesterCourseResultsUrl;
+  final String? semesterCourseResultsUrl;
   final List<DualisModule> modules;
 
   DualisSemester(
@@ -30,12 +30,12 @@ class DualisSemester {
 }
 
 class DualisModule {
-  final String id;
-  final String name;
-  final String finalGrade;
-  final String credits;
-  final String detailsUrl;
-  final ExamState state;
+  final String? id;
+  final String? name;
+  final String? finalGrade;
+  final String? credits;
+  final String? detailsUrl;
+  final ExamState? state;
 
   DualisModule(
     this.id,
@@ -48,11 +48,11 @@ class DualisModule {
 }
 
 class DualisExam {
-  final String tryNr;
-  final String moduleName;
-  final String name;
+  final String? tryNr;
+  final String? moduleName;
+  final String? name;
   final ExamGrade grade;
-  final String semester;
+  final String? semester;
 
   DualisExam(
     this.name,

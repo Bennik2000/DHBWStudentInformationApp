@@ -1,4 +1,5 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
+import 'package:dhbwstudentapp/dualis/model/credentials.dart';
 import 'package:dhbwstudentapp/ui/login_credentials_widget.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/dualis_login_view_model.dart';
 import 'package:dhbwstudentapp/ui/onboarding/viewmodels/onboarding_view_model_base.dart';
@@ -10,6 +11,8 @@ import 'package:property_change_notifier/property_change_notifier.dart';
 /// credentials.
 ///
 class DualisLoginCredentialsPage extends StatefulWidget {
+  const DualisLoginCredentialsPage({Key? key}) : super(key: key);
+
   @override
   _DualisLoginCredentialsPageState createState() =>
       _DualisLoginCredentialsPageState();
@@ -17,39 +20,39 @@ class DualisLoginCredentialsPage extends StatefulWidget {
 
 class _DualisLoginCredentialsPageState
     extends State<DualisLoginCredentialsPage> {
-  final TextEditingController _usernameEditingController =
-      TextEditingController();
-  final TextEditingController _passwordEditingController =
-      TextEditingController();
+  final CredentialsEditingController _controller =
+      CredentialsEditingController();
 
   @override
   Widget build(BuildContext context) {
     return PropertyChangeConsumer<OnboardingStepViewModel, String>(
-      builder:
-          (BuildContext context, OnboardingStepViewModel base, Set<Object> _) {
-        var viewModel = base as DualisLoginViewModel;
+      builder: (
+        BuildContext context,
+        OnboardingStepViewModel? base,
+        Set<Object>? _,
+      ) {
+        final viewModel = base as DualisLoginViewModel?;
 
-        if (_usernameEditingController.text != viewModel.username) {
-          _usernameEditingController.text = viewModel.username;
-        }
-        if (_passwordEditingController.text != viewModel.password) {
-          _passwordEditingController.text = viewModel.password;
+        final credentials = viewModel?.credentials;
+
+        if (credentials != null) {
+          _controller.credentials = credentials;
         }
 
-        var widgets = <Widget>[];
+        final widgets = <Widget>[];
 
         widgets.addAll(_buildHeader());
-        widgets.add(LoginCredentialsWidget(
-          usernameEditingController: _usernameEditingController,
-          passwordEditingController: _passwordEditingController,
-          onSubmitted: () async {
-            await _testCredentials(viewModel);
-          },
-        ));
+        widgets.add(
+          LoginCredentialsWidget(
+            controller: _controller,
+            onSubmitted: () async {
+              await _testCredentials(viewModel);
+            },
+          ),
+        );
         widgets.add(_buildTestCredentialsButton(viewModel));
 
         return Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.end,
           children: widgets,
         );
@@ -57,7 +60,7 @@ class _DualisLoginCredentialsPageState
     );
   }
 
-  Widget _buildTestCredentialsButton(DualisLoginViewModel viewModel) {
+  Widget _buildTestCredentialsButton(DualisLoginViewModel? viewModel) {
     return Expanded(
       child: SizedBox(
         height: 64,
@@ -66,10 +69,9 @@ class _DualisLoginCredentialsPageState
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: viewModel.passwordOrUsernameWrong
+                child: viewModel?.isValid == false
                     ? Text(
                         L.of(context).onboardingDualisWrongCredentials,
                         textAlign: TextAlign.start,
@@ -77,28 +79,31 @@ class _DualisLoginCredentialsPageState
                       )
                     : Container(),
               ),
-              viewModel.isLoading
-                  ? const SizedBox(
-                      width: 16,
-                      height: 16,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 1,
-                      ),
-                    )
-                  : viewModel.loginSuccess
-                      ? const Icon(
-                          Icons.check,
-                          color: Colors.green,
-                        )
-                      : TextButton(
-                          onPressed: () async {
-                            await _testCredentials(viewModel);
-                          },
-                          child: Text(L
+              if (viewModel?.isLoading ?? false)
+                const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 1,
+                  ),
+                )
+              else
+                viewModel?.loginSuccess ?? false
+                    ? const Icon(
+                        Icons.check,
+                        color: Colors.green,
+                      )
+                    : TextButton(
+                        onPressed: () async {
+                          await _testCredentials(viewModel);
+                        },
+                        child: Text(
+                          L
                               .of(context)
                               .onboardingDualisTestButton
-                              .toUpperCase()),
+                              .toUpperCase(),
                         ),
+                      ),
             ],
           ),
         ),
@@ -106,11 +111,10 @@ class _DualisLoginCredentialsPageState
     );
   }
 
-  Future _testCredentials(DualisLoginViewModel viewModel) async {
-    await viewModel.testCredentials(
-      _usernameEditingController.text,
-      _passwordEditingController.text,
-    );
+  Future _testCredentials(DualisLoginViewModel? viewModel) async {
+    if (viewModel == null) return;
+
+    await viewModel.testCredentials(_controller.credentials);
   }
 
   List<Widget> _buildHeader() {

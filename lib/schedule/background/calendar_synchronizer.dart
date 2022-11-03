@@ -12,30 +12,33 @@ class CalendarSynchronizer {
   final ScheduleSourceProvider scheduleSourceProvider;
   final PreferencesProvider preferencesProvider;
 
-  CalendarSynchronizer(this.scheduleProvider, this.scheduleSourceProvider,
-      this.preferencesProvider);
+  CalendarSynchronizer(
+    this.scheduleProvider,
+    this.scheduleSourceProvider,
+    this.preferencesProvider,
+  );
 
   void registerSynchronizationCallback() {
     scheduleProvider.addScheduleUpdatedCallback((schedule, start, end) async {
-      List<DateEntry> listDateEntries = List<DateEntry>.empty(growable: true);
-      schedule.entries.forEach(
-        (element) {
-          DateEntry date = DateEntry(
-              room: element.room,
-              comment: element.details,
-              databaseName: 'DHBW',
-              description: element.title,
-              year: element.start.year.toString(),
-              start: element.start,
-              end: element.end);
-          listDateEntries.add(date);
-        },
-      );
+      final List<DateEntry> listDateEntries =
+          List<DateEntry>.empty(growable: true);
+      for (final element in schedule.entries) {
+        final DateEntry date = DateEntry(
+          room: element.room,
+          comment: element.details,
+          databaseName: 'DHBW',
+          description: element.title,
+          year: element.start.year.toString(),
+          start: element.start,
+          end: element.end,
+        );
+        listDateEntries.add(date);
+      }
       KiwiContainer().resolve<ListDateEntries30d>().listDateEntries =
           listDateEntries;
 
       if (await preferencesProvider.isCalendarSyncEnabled()) {
-        Calendar selectedCalendar =
+        final Calendar? selectedCalendar =
             await preferencesProvider.getSelectedCalendar();
         if (selectedCalendar == null) return;
         CalendarAccess().addOrUpdateDates(listDateEntries, selectedCalendar);
@@ -44,12 +47,11 @@ class CalendarSynchronizer {
   }
 
   void scheduleSyncInAFewSeconds() {
-    Future.delayed(Duration(seconds: 10), () {
+    Future.delayed(const Duration(seconds: 10), () {
       if (!scheduleSourceProvider.didSetupCorrectly()) return;
       scheduleProvider.getUpdatedSchedule(
-        
         DateTime.now(),
-        DateTime.now().add(Duration(days: 30)),
+        DateTime.now().add(const Duration(days: 30)),
         CancellationToken(),
       );
     });

@@ -10,11 +10,9 @@ import 'package:http_client_helper/http_client_helper.dart' as http;
 
 class IcalScheduleSource extends ScheduleSource {
   final IcalParser _icalParser = IcalParser();
-  String _url;
+  final String _url;
 
-  void setIcalUrl(String url) {
-    _url = url;
-  }
+  IcalScheduleSource(this._url);
 
   @override
   bool canQuery() {
@@ -22,17 +20,17 @@ class IcalScheduleSource extends ScheduleSource {
   }
 
   @override
-  Future<ScheduleQueryResult> querySchedule(
-    DateTime from,
-    DateTime to, [
-    CancellationToken cancellationToken,
+  Future<ScheduleQueryResult?> querySchedule(
+    DateTime? from,
+    DateTime? to, [
+    CancellationToken? cancellationToken,
   ]) async {
-    var response = await _makeRequest(_url, cancellationToken);
+    final response = await _makeRequest(_url, cancellationToken!);
     if (response == null) return null;
 
     try {
-      var body = utf8.decode(response.bodyBytes);
-      var schedule = _icalParser.parseIcal(body);
+      final body = utf8.decode(response.bodyBytes);
+      final schedule = _icalParser.parseIcal(body);
 
       return ScheduleQueryResult(
         schedule.schedule.trim(from, to),
@@ -45,39 +43,42 @@ class IcalScheduleSource extends ScheduleSource {
     }
   }
 
-  Future<Response> _makeRequest(
-      String url, CancellationToken cancellationToken) async {
+  Future<Response?> _makeRequest(
+    String url,
+    CancellationToken cancellationToken,
+  ) async {
     url = url.replaceAll("webcal://", "https://");
 
-    var requestCancellationToken = http.CancellationToken();
+    final requestCancellationToken = http.CancellationToken();
 
     try {
-      cancellationToken.setCancellationCallback(() {
-        requestCancellationToken.cancel();
-      });
+      cancellationToken.cancellationCallback = requestCancellationToken.cancel;
 
-      var response = await http.HttpClientHelper.get(
+      final response = await http.HttpClientHelper.get(
         Uri.parse(url),
         cancelToken: requestCancellationToken,
       );
 
-      if (response == null && !requestCancellationToken.isCanceled)
+      if (response == null && !requestCancellationToken.isCanceled) {
         throw ServiceRequestFailed("Http request failed!");
+      }
 
       return response;
+      // ignore: avoid_catching_errors
     } on http.OperationCanceledError catch (_) {
       throw OperationCancelledException();
     } catch (ex) {
       if (!requestCancellationToken.isCanceled) rethrow;
     } finally {
-      cancellationToken.setCancellationCallback(null);
+      cancellationToken.cancellationCallback = null;
     }
 
     return null;
   }
 
-  static bool isValidUrl(String url) {
+  static bool isValidUrl(String? url) {
     try {
+      if (url == null) return false;
       Uri.parse(url);
     } catch (e) {
       return false;

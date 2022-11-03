@@ -7,17 +7,17 @@ typedef ScheduleEntryTapCallback = Function(ScheduleEntry entry);
 
 class ScheduleEntryWidget extends StatelessWidget {
   final ScheduleEntry scheduleEntry;
-  final ScheduleEntryTapCallback onScheduleEntryTap;
+  final ScheduleEntryTapCallback? onScheduleEntryTap;
 
   const ScheduleEntryWidget({
-    Key key,
-    this.scheduleEntry,
+    Key? key,
+    required this.scheduleEntry,
     this.onScheduleEntryTap,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    Color color = scheduleEntryTypeToColor(context, scheduleEntry.type);
+    final Color color = scheduleEntryTypeToColor(context, scheduleEntry.type);
 
     return Card(
       color: color,
@@ -25,7 +25,7 @@ class ScheduleEntryWidget extends StatelessWidget {
       margin: const EdgeInsets.fromLTRB(1, 0, 1, 0),
       child: InkWell(
         onTap: () {
-          if (onScheduleEntryTap != null) onScheduleEntryTap(scheduleEntry);
+          onScheduleEntryTap?.call(scheduleEntry);
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),

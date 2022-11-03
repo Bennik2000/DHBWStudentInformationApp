@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
 class PlatformUtil {
+  const PlatformUtil();
+
   static bool isPhone() {
     final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
     return data.size.shortestSide < 600;
@@ -19,13 +21,14 @@ class PlatformUtil {
 
   static Brightness platformBrightness() {
     final data = MediaQueryData.fromWindow(WidgetsBinding.instance.window);
-    return data.platformBrightness ?? Brightness.light;
+    return data.platformBrightness;
   }
 
   static Future<void> initializePortraitLandscapeMode() async {
     if (isPhone()) {
       await SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.portraitUp]);
+        [DeviceOrientation.portraitUp],
+      );
     } else {
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,

@@ -1,3 +1,4 @@
+import 'package:dhbwstudentapp/assets.dart';
 import 'package:dhbwstudentapp/common/application_constants.dart';
 import 'package:dhbwstudentapp/common/background/task_callback.dart';
 import 'package:dhbwstudentapp/common/background/work_scheduler_service.dart';
@@ -13,9 +14,9 @@ import 'package:dhbwstudentapp/schedule/background/calendar_synchronizer.dart';
 import 'package:dhbwstudentapp/schedule/ui/notification/next_day_information_notification.dart';
 import 'package:dhbwstudentapp/schedule/ui/widgets/select_source_dialog.dart';
 import 'package:dhbwstudentapp/ui/navigation/navigator_key.dart';
-import 'package:dhbwstudentapp/ui/settings/select_theme_dialog.dart';
 import 'package:dhbwstudentapp/ui/settings/donate_list_tile.dart';
 import 'package:dhbwstudentapp/ui/settings/purchase_widget_list_tile.dart';
+import 'package:dhbwstudentapp/ui/settings/select_theme_dialog.dart';
 import 'package:dhbwstudentapp/ui/settings/viewmodels/settings_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kiwi/kiwi.dart';
@@ -30,21 +31,24 @@ import 'package:url_launcher/url_launcher.dart';
 /// of the app
 ///
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage> {
   final SettingsViewModel settingsViewModel = SettingsViewModel(
-      KiwiContainer().resolve(),
-      KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
-          as NextDayInformationNotification,
-      KiwiContainer().resolve(),
-      KiwiContainer().resolve());
+    KiwiContainer().resolve(),
+    KiwiContainer().resolve<TaskCallback>(NextDayInformationNotification.name)
+        as NextDayInformationNotification,
+    KiwiContainer().resolve(),
+    KiwiContainer().resolve(),
+  );
 
   @override
   Widget build(BuildContext context) {
-    var widgets = <Widget>[];
+    final widgets = <Widget>[];
 
     widgets.addAll(buildScheduleSourceSettings(context));
     widgets.addAll(buildDesignSettings(context));
@@ -84,15 +88,15 @@ class _SettingsPageState extends State<SettingsPage> {
   List<Widget> buildAboutSettings(BuildContext context) {
     return [
       TitleListTile(title: L.of(context).settingsAboutTitle),
-      PurchaseWidgetListTile(),
-      DonateListTile(),
+      const PurchaseWidgetListTile(),
+      const DonateListTile(),
       ListTile(
         title: Text(L.of(context).settingsAbout),
         onTap: () {
           showAboutDialog(
             context: context,
             applicationIcon: Image.asset(
-              "assets/app_icon.png",
+              Assets.assets_app_icon_png,
               width: 75,
             ),
             applicationLegalese: L.of(context).applicationLegalese,
@@ -128,10 +132,10 @@ class _SettingsPageState extends State<SettingsPage> {
           "prettifySchedule",
         ],
         builder:
-            (BuildContext context, SettingsViewModel model, Set properties) {
+            (BuildContext context, SettingsViewModel? model, Set? properties) {
           return SwitchListTile(
             title: Text(L.of(context).settingsPrettifySchedule),
-            onChanged: model.setPrettifySchedule,
+            onChanged: model!.setPrettifySchedule,
             value: model.prettifySchedule,
           );
         },
@@ -142,33 +146,37 @@ class _SettingsPageState extends State<SettingsPage> {
           if (await CalendarAccess().requestCalendarPermission() ==
               CalendarPermission.PermissionDenied) {
             await showDialog(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                      title: Text(
-                          L.of(context).dialogTitleCalendarAccessNotGranted),
-                      content:
-                          Text(L.of(context).dialogCalendarAccessNotGranted),
-                      actions: [
-                        TextButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: Text(L.of(context).dialogOk),
-                        )
-                      ],
-                    ));
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: Text(
+                  L.of(context).dialogTitleCalendarAccessNotGranted,
+                ),
+                content: Text(L.of(context).dialogCalendarAccessNotGranted),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: Text(L.of(context).dialogOk),
+                  )
+                ],
+              ),
+            );
             return;
           }
-          var isCalendarSyncEnabled = await KiwiContainer()
+          final isCalendarSyncEnabled = await KiwiContainer()
               .resolve<PreferencesProvider>()
               .isCalendarSyncEnabled();
-          List<DateEntry> entriesToExport =
+          final List<DateEntry> entriesToExport =
               KiwiContainer().resolve<ListDateEntries30d>().listDateEntries;
-          await NavigatorKey.rootKey.currentState.push(MaterialPageRoute(
+          await NavigatorKey.rootKey.currentState!.push(
+            MaterialPageRoute(
               builder: (BuildContext context) => CalendarExportPage(
-                    entriesToExport: entriesToExport,
-                    isCalendarSyncWidget: true,
-                    isCalendarSyncEnabled: isCalendarSyncEnabled,
-                  ),
-              settings: RouteSettings(name: "settings")));
+                entriesToExport: entriesToExport,
+                isCalendarSyncWidget: true,
+                isCalendarSyncEnabled: isCalendarSyncEnabled,
+              ),
+              settings: const RouteSettings(name: "settings"),
+            ),
+          );
         },
       ),
       const Divider(),
@@ -176,19 +184,22 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   List<Widget> buildNotificationSettings(BuildContext context) {
-    WorkSchedulerService service = KiwiContainer().resolve();
-    if (service?.isSchedulingAvailable() ?? false) {
+    final WorkSchedulerService service = KiwiContainer().resolve();
+    if (service.isSchedulingAvailable()) {
       return [
         TitleListTile(title: L.of(context).settingsNotificationsTitle),
         PropertyChangeConsumer(
           properties: const [
             "notifyAboutNextDay",
           ],
-          builder:
-              (BuildContext context, SettingsViewModel model, Set properties) {
+          builder: (
+            BuildContext context,
+            SettingsViewModel? model,
+            Set? properties,
+          ) {
             return SwitchListTile(
               title: Text(L.of(context).settingsNotificationsNextDay),
-              onChanged: model.setNotifyAboutNextDay,
+              onChanged: model!.setNotifyAboutNextDay,
               value: model.notifyAboutNextDay,
             );
           },
@@ -197,11 +208,14 @@ class _SettingsPageState extends State<SettingsPage> {
           properties: const [
             "notifyAboutScheduleChanges",
           ],
-          builder:
-              (BuildContext context, SettingsViewModel model, Set properties) {
+          builder: (
+            BuildContext context,
+            SettingsViewModel? model,
+            Set? properties,
+          ) {
             return SwitchListTile(
               title: Text(L.of(context).settingsNotificationsScheduleChange),
-              onChanged: model.setNotifyAboutScheduleChanges,
+              onChanged: model!.setNotifyAboutScheduleChanges,
               value: model.notifyAboutScheduleChanges,
             );
           },
@@ -220,17 +234,19 @@ class _SettingsPageState extends State<SettingsPage> {
         properties: const [
           "appTheme",
         ],
-        builder: (BuildContext context, RootViewModel model, Set properties) {
+        builder: (BuildContext context, RootViewModel? model, Set? properties) {
           return ListTile(
             title: Text(L.of(context).settingsDarkMode),
             onTap: () async {
-              await SelectThemeDialog(model).show(context);
+              await SelectThemeDialog(model!).show(context);
             },
-            subtitle: Text({
-              AppTheme.Dark: L.of(context).selectThemeDark,
-              AppTheme.Light: L.of(context).selectThemeLight,
-              AppTheme.System: L.of(context).selectThemeSystem,
-            }[model.appTheme]),
+            subtitle: Text(
+              {
+                AppTheme.Dark: L.of(context).selectThemeDark,
+                AppTheme.Light: L.of(context).selectThemeLight,
+                AppTheme.System: L.of(context).selectThemeSystem,
+              }[model!.appTheme]!,
+            ),
           );
         },
       ),

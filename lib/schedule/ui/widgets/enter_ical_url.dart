@@ -12,17 +12,17 @@ class EnterIcalDialog extends EnterUrlDialog {
   EnterIcalDialog(this._preferencesProvider, this._scheduleSource);
 
   @override
-  Future<String> loadUrl() {
+  Future<String?> loadUrl() {
     return _preferencesProvider.getIcalUrl();
   }
 
   @override
-  Future saveUrl(String url) async {
+  Future saveUrl(String? url) async {
     await _scheduleSource.setupForIcal(url);
   }
 
   @override
-  bool isValidUrl(String url) {
+  bool isValidUrl(String? url) {
     return IcalScheduleSource.isValidUrl(url);
   }
 

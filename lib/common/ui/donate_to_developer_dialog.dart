@@ -11,12 +11,12 @@ import 'package:kiwi/kiwi.dart';
 /// developer
 ///
 class DonateToDeveloperDialog {
-  PreferencesProvider _preferencesProvider;
-  int _appLaunchCounter;
+  final PreferencesProvider _preferencesProvider;
+  final int _appLaunchCounter;
 
   DonateToDeveloperDialog(this._preferencesProvider, this._appLaunchCounter);
 
-  void showIfNeeded(BuildContext context) async {
+  Future<void> showIfNeeded(BuildContext context) async {
     if (await _preferencesProvider.getDidShowDonateDialog()) return;
 
     if (_appLaunchCounter >= DonateLaunchAfter) {
@@ -28,32 +28,33 @@ class DonateToDeveloperDialog {
   }
 
   Future<void> _showDialog(BuildContext context) async {
-    return await showDialog<void>(
+    return showDialog<void>(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
         return AlertDialog(
-          buttonPadding: const EdgeInsets.all(0),
-          actionsPadding: const EdgeInsets.all(0),
-          contentPadding: const EdgeInsets.all(0),
+          buttonPadding: EdgeInsets.zero,
+          actionsPadding: EdgeInsets.zero,
+          contentPadding: EdgeInsets.zero,
           title: Text(L.of(context).donateDialogTitle),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    children: [
-                      Text(L.of(context).donateDialogMessage),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 32, 0, 0),
-                        child: Icon(
-                          Icons.free_breakfast_outlined,
-                          size: 60,
-                        ),
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    Text(L.of(context).donateDialogMessage),
+                    const Padding(
+                      padding: EdgeInsets.fromLTRB(0, 32, 0, 0),
+                      child: Icon(
+                        Icons.free_breakfast_outlined,
+                        size: 60,
                       ),
-                    ],
-                  )),
+                    ),
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
                 child: _buildButtonBar(context),

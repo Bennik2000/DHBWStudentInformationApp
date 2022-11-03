@@ -28,14 +28,14 @@ class OnboardingViewModel extends BaseViewModel {
   final Map<String, int> stepsBackstack = {};
 
   int _stepIndex = 0;
-  int get stepIndex => _stepIndex;
+  int? get stepIndex => _stepIndex;
 
   String get currentStep => steps[_stepIndex];
 
-  bool get currentPageValid => pages[currentStep].viewModel().isValid;
+  bool get currentPageValid => pages[currentStep]!.viewModel().isValid;
   bool get isLastStep => _stepIndex >= steps.length - 1;
 
-  get onboardingSteps => steps.length;
+  int get onboardingSteps => steps.length;
 
   bool _didStepForward = true;
   bool get didStepForward => _didStepForward;
@@ -44,10 +44,13 @@ class OnboardingViewModel extends BaseViewModel {
     this.preferencesProvider,
     this._onboardingFinished,
   ) {
-    for (var page in pages.values) {
-      page.viewModel().addListener(() {
-        notifyListeners("currentPageValid");
-      }, ["isValid"]);
+    for (final page in pages.values) {
+      page.viewModel().addListener(
+        () {
+          notifyListeners("currentPageValid");
+        },
+        ["isValid"],
+      );
     }
 
     analytics.logTutorialBegin();
@@ -55,13 +58,13 @@ class OnboardingViewModel extends BaseViewModel {
   }
 
   void previousPage() {
-    if (stepsBackstack.length == 0) {
+    if (stepsBackstack.isEmpty) {
       return;
     }
 
-    var lastPage = stepsBackstack.keys.last;
+    final lastPage = stepsBackstack.keys.last;
 
-    _stepIndex = stepsBackstack[lastPage];
+    _stepIndex = stepsBackstack[lastPage]!;
 
     stepsBackstack.remove(lastPage);
 
@@ -77,13 +80,11 @@ class OnboardingViewModel extends BaseViewModel {
       return;
     }
 
-    var nextDesiredStep = pages[currentStep].nextStep();
+    var nextDesiredStep = pages[currentStep]!.nextStep();
 
     stepsBackstack[currentStep] = _stepIndex;
 
-    if (nextDesiredStep == null) {
-      nextDesiredStep = steps[_stepIndex + 1];
-    }
+    nextDesiredStep ??= steps[_stepIndex + 1];
 
     while (nextDesiredStep != currentStep) {
       _stepIndex++;
@@ -95,11 +96,11 @@ class OnboardingViewModel extends BaseViewModel {
   }
 
   Future<void> finishOnboarding() async {
-    for (var step in stepsBackstack.keys) {
-      await pages[step].viewModel().save();
+    for (final step in stepsBackstack.keys) {
+      await pages[step]!.viewModel().save();
     }
 
-    _onboardingFinished?.call();
+    _onboardingFinished.call();
 
     await analytics.logTutorialComplete();
     await analytics.setUserProperty(name: "onboarding_finished", value: "true");

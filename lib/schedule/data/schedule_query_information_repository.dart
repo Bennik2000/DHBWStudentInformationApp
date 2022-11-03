@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/data/database_access.dart';
-import 'package:dhbwstudentapp/schedule/data/schedule_query_information_entity.dart';
 import 'package:dhbwstudentapp/schedule/model/schedule_query_information.dart';
 
 class ScheduleQueryInformationRepository {
@@ -7,9 +6,11 @@ class ScheduleQueryInformationRepository {
 
   ScheduleQueryInformationRepository(this._database);
 
-  Future<DateTime> getOldestQueryTimeBetweenDates(
-      DateTime start, DateTime end) async {
-    var oldestQueryTimeDate = await _database.queryAggregator(
+  Future<DateTime?> getOldestQueryTimeBetweenDates(
+    DateTime start,
+    DateTime end,
+  ) async {
+    final oldestQueryTimeDate = await _database.queryAggregator(
       "SELECT MIN(queryTime) FROM ScheduleQueryInformation WHERE start<=? AND end>=?",
       [
         start.millisecondsSinceEpoch,
@@ -17,13 +18,17 @@ class ScheduleQueryInformationRepository {
       ],
     );
 
+    if (oldestQueryTimeDate == null) return null;
+
     return DateTime.fromMillisecondsSinceEpoch(oldestQueryTimeDate);
   }
 
-  Future<List<ScheduleQueryInformation>> getQueryInformationBetweenDates(
-      DateTime start, DateTime end) async {
-    var rows = await _database.queryRows(
-      ScheduleQueryInformationEntity.tableName(),
+  Future<List<ScheduleQueryInformation?>> getQueryInformationBetweenDates(
+    DateTime start,
+    DateTime end,
+  ) async {
+    final rows = await _database.queryRows(
+      ScheduleQueryInformation.tableName,
       where: "start<=? AND end>=?",
       whereArgs: [
         start.millisecondsSinceEpoch,
@@ -31,12 +36,11 @@ class ScheduleQueryInformationRepository {
       ],
     );
 
-    var scheduleQueryInformation = <ScheduleQueryInformation>[];
+    final scheduleQueryInformation = <ScheduleQueryInformation?>[];
 
-    for (var row in rows) {
+    for (final row in rows) {
       scheduleQueryInformation.add(
-        ScheduleQueryInformationEntity.fromMap(row)
-            .asScheduleQueryInformation(),
+        ScheduleQueryInformation.fromJson(row),
       );
     }
 
@@ -44,9 +48,10 @@ class ScheduleQueryInformationRepository {
   }
 
   Future<void> saveScheduleQueryInformation(
-      ScheduleQueryInformation queryInformation) async {
+    ScheduleQueryInformation queryInformation,
+  ) async {
     await _database.deleteWhere(
-      ScheduleQueryInformationEntity.tableName(),
+      ScheduleQueryInformation.tableName,
       where: "start=? AND end=?",
       whereArgs: [
         queryInformation.start.millisecondsSinceEpoch,
@@ -55,14 +60,14 @@ class ScheduleQueryInformationRepository {
     );
 
     await _database.insert(
-      ScheduleQueryInformationEntity.tableName(),
-      ScheduleQueryInformationEntity.fromModel(queryInformation).toMap(),
+      ScheduleQueryInformation.tableName,
+      queryInformation.toJson(),
     );
   }
 
   Future<void> deleteAllQueryInformation() async {
     await _database.deleteWhere(
-      ScheduleQueryInformationEntity.tableName(),
+      ScheduleQueryInformation.tableName,
       where: "1=1",
       whereArgs: [],
     );

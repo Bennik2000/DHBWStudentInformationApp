@@ -5,7 +5,8 @@ import 'package:intl/intl.dart';
 // TODO: Parse exception to common module
 
 class AllDatesExtract {
-  List<DateEntry> extractAllDates(String body, String databaseName) {
+  List<DateEntry> extractAllDates(String? body, String? databaseName) {
+    if (body == null) return [];
     try {
       return _extractAllDates(body, databaseName);
     } catch (e, trace) {
@@ -14,22 +15,22 @@ class AllDatesExtract {
     }
   }
 
-  List<DateEntry> _extractAllDates(String body, String databaseName) {
-    body = body.replaceAll(new RegExp("<(br|BR)[ /]*>"), "\n");
-    var document = parse(body);
+  List<DateEntry> _extractAllDates(String body, String? databaseName) {
+    body = body.replaceAll(RegExp("<(br|BR)[ /]*>"), "\n");
+    final document = parse(body);
 
     // The dates are located in the first <p> element of the page
-    var dateContainingElement = document.getElementsByTagName("p")[0];
+    final dateContainingElement = document.getElementsByTagName("p")[0];
 
-    var dateEntries = <DateEntry>[];
+    final dateEntries = <DateEntry>[];
 
-    for (var a in dateContainingElement.nodes.sublist(0)) {
-      var text = a.text;
+    for (final a in dateContainingElement.nodes.sublist(0)) {
+      final text = a.text!;
 
-      var lines = text.split("\n");
+      final lines = text.split("\n");
 
-      for (var line in lines) {
-        var dateEntry = _parseDateEntryLine(line, databaseName);
+      for (final line in lines) {
+        final dateEntry = _parseDateEntryLine(line, databaseName);
 
         if (dateEntry != null) {
           dateEntries.add(dateEntry);
@@ -38,41 +39,42 @@ class AllDatesExtract {
     }
 
     dateEntries
-        .sort((DateEntry e1, DateEntry e2) => e1.start?.compareTo(e2.start));
+        .sort((DateEntry e1, DateEntry e2) => e1.start.compareTo(e2.start));
 
     return dateEntries;
   }
 
-  DateEntry _parseDateEntryLine(String line, String databaseName) {
-    var parts = line.split(';');
+  DateEntry? _parseDateEntryLine(String line, String? databaseName) {
+    final parts = line.split(';');
 
     if (parts.length != 5) {
       return null;
     }
 
-    var date = _parseDateTime(
+    final date = _parseDateTime(
       parts[2].trim(),
       parts[3].trim(),
     );
 
     return DateEntry(
-        comment: parts[4].trim(),
-        description: parts[0].trim(),
-        year: parts[1].trim(),
-        databaseName: databaseName,
-        start: date,
-        end: date);
+      comment: parts[4].trim(),
+      description: parts[0].trim(),
+      year: parts[1].trim(),
+      databaseName: databaseName,
+      start: date,
+      end: date,
+    );
   }
 
-  DateTime _parseDateTime(String date, String time) {
+  DateTime? _parseDateTime(String date, String time) {
     if (time == "24:00") {
       time = "00:00";
     }
 
-    var dateAndTimeString = date + " " + time;
+    final dateAndTimeString = "$date $time";
 
     try {
-      var date = DateFormat("dd.MM.yyyy hh:mm").parse(dateAndTimeString);
+      final date = DateFormat("dd.MM.yyyy hh:mm").parse(dateAndTimeString);
       return date;
     } on FormatException catch (_) {
       return null;

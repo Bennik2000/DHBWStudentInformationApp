@@ -6,14 +6,14 @@ import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:test/test.dart';
 
 Future<void> main() async {
-  var studentResultsPage = await File(Directory.current.absolute.path +
-          '/test/dualis/service/parsing/html_resources/student_results.html')
-      .readAsString();
+  final studentResultsPage = await File(
+    '${Directory.current.absolute.path}/test/dualis/service/parsing/html_resources/student_results.html',
+  ).readAsString();
 
   test('AllModulesExtract extract all modules', () async {
-    var extract = AllModulesExtract();
+    final extract = AllModulesExtract();
 
-    var modules = extract.extractAllModules(studentResultsPage);
+    final modules = extract.extractAllModules(studentResultsPage);
 
     expect(modules.length, 6);
 
@@ -27,7 +27,7 @@ Future<void> main() async {
   });
 
   test('AllModulesExtract invalid html throws exception', () async {
-    var extract = AllModulesExtract();
+    final extract = AllModulesExtract();
 
     try {
       extract.extractAllModules("Lorem ipsum");

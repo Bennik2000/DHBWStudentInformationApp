@@ -4,7 +4,7 @@ import 'package:dhbwstudentapp/dualis/service/parsing/parsing_utils.dart';
 import 'package:html/parser.dart';
 
 class ExamsFromModuleDetailsExtract {
-  List<DualisExam> extractExamsFromModuleDetails(String body) {
+  List<DualisExam> extractExamsFromModuleDetails(String? body) {
     try {
       return _extractExamsFromModuleDetails(body);
     } on ParseException catch (e, trace) {
@@ -13,27 +13,27 @@ class ExamsFromModuleDetailsExtract {
     }
   }
 
-  List<DualisExam> _extractExamsFromModuleDetails(String body) {
-    var document = parse(body);
+  List<DualisExam> _extractExamsFromModuleDetails(String? body) {
+    final document = parse(body);
 
-    var tableExams = getElementByTagName(document, "tbody");
-    var tableExamsRows = tableExams.getElementsByTagName("tr");
+    final tableExams = getElementByTagName(document, "tbody");
+    final tableExamsRows = tableExams.getElementsByTagName("tr");
 
-    String currentTry;
-    String currentModule;
+    String? currentTry;
+    String? currentModule;
 
-    var exams = <DualisExam>[];
+    final exams = <DualisExam>[];
 
-    for (var row in tableExamsRows) {
+    for (final row in tableExamsRows) {
       // Save the try for all following exams
-      var level01s = row.getElementsByClassName("level01");
+      final level01s = row.getElementsByClassName("level01");
       if (level01s.isNotEmpty) {
         currentTry = level01s[0].innerHtml;
         continue;
       }
 
       // Save the module for all following exams
-      var level02s = row.getElementsByClassName("level02");
+      final level02s = row.getElementsByClassName("level02");
       if (level02s.isNotEmpty) {
         currentModule = level02s[0].innerHtml;
         continue;
@@ -41,20 +41,22 @@ class ExamsFromModuleDetailsExtract {
 
       // All exam rows contain cells with the tbdata class.
       // If there are none continue with the next row
-      var tbdata = row.getElementsByClassName("tbdata");
+      final tbdata = row.getElementsByClassName("tbdata");
       if (tbdata.length < 4) continue;
 
-      var semester = tbdata[0].innerHtml;
-      var name = tbdata[1].innerHtml;
-      var grade = trimAndEscapeString(tbdata[3].innerHtml);
+      final semester = tbdata[0].innerHtml;
+      final name = tbdata[1].innerHtml;
+      final grade = trimAndEscapeString(tbdata[3].innerHtml);
 
-      exams.add(DualisExam(
-        trimAndEscapeString(name),
-        trimAndEscapeString(currentModule),
-        ExamGrade.fromString(grade),
-        trimAndEscapeString(currentTry),
-        trimAndEscapeString(semester),
-      ));
+      exams.add(
+        DualisExam(
+          trimAndEscapeString(name),
+          trimAndEscapeString(currentModule),
+          ExamGrade.fromString(grade),
+          trimAndEscapeString(currentTry),
+          trimAndEscapeString(semester),
+        ),
+      );
     }
 
     return exams;

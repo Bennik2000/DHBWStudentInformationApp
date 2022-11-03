@@ -1,5 +1,4 @@
 import 'package:dhbwstudentapp/common/i18n/localizations.dart';
-import 'package:dhbwstudentapp/common/ui/viewmodels/base_view_model.dart';
 import 'package:dhbwstudentapp/dualis/ui/exam_results_page/exam_results_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/login/dualis_login_page.dart';
 import 'package:dhbwstudentapp/dualis/ui/study_overview/study_overview_page.dart';
@@ -12,7 +11,8 @@ import 'package:provider/provider.dart';
 class DualisPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    StudyGradesViewModel viewModel = Provider.of<BaseViewModel>(context);
+    final StudyGradesViewModel viewModel =
+        Provider.of<StudyGradesViewModel>(context);
 
     Widget widget;
 
@@ -26,12 +26,12 @@ class DualisPage extends StatelessWidget {
           pages: <PageDefinition>[
             PageDefinition(
               text: L.of(context).pageDualisOverview,
-              icon: Icon(Icons.dashboard),
+              icon: const Icon(Icons.dashboard),
               builder: (BuildContext context) => StudyOverviewPage(),
             ),
             PageDefinition(
               text: L.of(context).pageDualisExams,
-              icon: Icon(Icons.book),
+              icon: const Icon(Icons.book),
               builder: (BuildContext context) => ExamResultsPage(),
             ),
           ],
