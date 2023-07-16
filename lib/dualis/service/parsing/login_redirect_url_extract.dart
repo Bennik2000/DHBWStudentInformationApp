@@ -4,29 +4,15 @@ class LoginRedirectUrlExtract {
   String readRedirectUrl(String body, String redirectUrl) {
     var document = parse(body);
 
-    var metaTags = document.getElementsByTagName("meta");
+    var links = document.getElementsByTagName("a");
+    for (var link in links) {
+      if (!link.text.contains("Startseite")) continue;
 
-    String redirectContent;
+      if (!link.attributes.containsKey("href")) continue;
 
-    for (var metaTag in metaTags) {
-      if (!metaTag.attributes.containsKey("http-equiv")) continue;
-
-      var httpEquiv = metaTag.attributes["http-equiv"];
-
-      if (httpEquiv != "refresh") continue;
-      if (!metaTag.attributes.containsKey("content")) continue;
-
-      redirectContent = metaTag.attributes["content"];
-      break;
+      return redirectUrl + link.attributes["href"];
     }
 
-    return getUrlFromHeader(redirectContent, redirectUrl);
-  }
-
-  String getUrlFromHeader(String refreshHeader, String endpointUrl) {
-    if (refreshHeader == null || !refreshHeader.contains("URL=")) return null;
-
-    var refreshHeaderUrlIndex = refreshHeader.indexOf("URL=") + "URL=".length;
-    return endpointUrl + refreshHeader.substring(refreshHeaderUrlIndex);
+    return null;
   }
 }
