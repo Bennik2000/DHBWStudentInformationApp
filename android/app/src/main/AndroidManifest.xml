@@ -21,7 +21,9 @@
         android:icon="@mipmap/ic_launcher"
         android:label="DHBW Studenten App"
         tools:replace="android:label">
-        <receiver android:name=".widget.now.ScheduleNowWidget">
+        <receiver
+			android:name=".widget.now.ScheduleNowWidget"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -30,7 +32,9 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/schedule_now_widget_info" />
         </receiver>
-        <receiver android:name=".widget.today.ScheduleTodayWidget">
+        <receiver 
+			android:name=".widget.today.ScheduleTodayWidget"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -53,6 +57,7 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
+            android:exported="true"
             android:theme="@style/LaunchTheme"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
