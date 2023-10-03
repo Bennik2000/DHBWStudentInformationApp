@@ -36,17 +36,17 @@ dependencies:
   kiwi: ^4.0.2
   flutter_local_notifications: ^9.4.1 # BREAKING CHANGES HERE!
   workmanager: ^0.4.1
-  universal_html: ^2.0.8
-  firebase_core: ^1.15.0
-  firebase_analytics: ^9.1.6
-  firebase_crashlytics: ^2.6.3 # BREAKING CHANGES: iOS Min Plaform has to be updated
+  universal_html: ^2.2.2
+  firebase_core: ^2.16.0
+  firebase_analytics: ^10.5.0
+  firebase_crashlytics: ^3.3.6 # BREAKING CHANGES: iOS Min Plaform has to be updated
   launch_review: ^3.0.1
   flutter_secure_storage: ^5.0.2
   animations: ^2.0.2
   flutter_native_splash: ^2.1.6
   mutex: ^3.0.0
   device_calendar: ^4.2.0
-  flutter_inapp_purchase: ^5.1.2
+  flutter_inapp_purchase: ^5.4.2
   flutter_widgetkit: ^1.0.3
   ios_app_group: ^1.0.0
   timezone: ^0.8.0

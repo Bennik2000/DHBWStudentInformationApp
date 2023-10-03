@@ -9,13 +9,13 @@ typedef NavigationItemOnTap = Function(int index);
 ///
 /// If the [isInDrawer] variable is true, it shows a header
 ///
-class NavigationDrawer extends StatelessWidget {
+class MyNavigationDrawer extends StatelessWidget {
   final int selectedIndex;
   final NavigationItemOnTap onTap;
   final List<DrawerNavigationEntry> entries;
   final bool isInDrawer;
 
-  const NavigationDrawer({
+  const MyNavigationDrawer({
     Key key,
     this.selectedIndex,
     this.onTap,

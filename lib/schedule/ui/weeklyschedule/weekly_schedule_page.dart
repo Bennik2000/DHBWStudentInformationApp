@@ -29,7 +29,7 @@ class _WeeklySchedulePageState extends State<WeeklySchedulePage> {
   }
 
   void _showQueryFailedSnackBar() {
-    Scaffold.of(context).showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.end,

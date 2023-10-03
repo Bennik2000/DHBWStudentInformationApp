@@ -84,7 +84,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
           titleTextStyle: Theme.of(context).textTheme.headline6,
         ),
         body: navigator,
-        drawer: NavigationDrawer(
+        drawer: MyNavigationDrawer(
           selectedIndex: _currentEntryIndex.value,
           onTap: _onNavigationTapped,
           entries: _buildDrawerEntries(),
@@ -110,7 +110,7 @@ class _MainPageState extends State<MainPage> with NavigatorObserver {
           SizedBox(
             height: double.infinity,
             width: 250,
-            child: NavigationDrawer(
+            child: MyNavigationDrawer(
               selectedIndex: _currentEntryIndex.value,
               onTap: _onNavigationTapped,
               entries: _buildDrawerEntries(),

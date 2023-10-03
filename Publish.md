@@ -50,6 +50,9 @@
 
 ## iOS
 
+Used flutter version: `3.3.10`
+Used Xcode version: `Xcode 14.3`
+
 - Open a terminal and execute `flutter clean ios` then execute `flutter build ios`
 - Open the Runner project in Xcode
 - In the menu go to `Product` -> `Scheme` and select "Runner"
